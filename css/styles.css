@@ -41,7 +41,7 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 21, 230, 230;
+  --bs-primary-rgb: 21, 129, 230;
   --bs-secondary-rgb: 108, 117, 125;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
@@ -49,7 +49,7 @@
   --bs-danger-rgb: 220, 53, 69;
   --bs-light-rgb: 248, 249, 250;
   --bs-dark-rgb: 33, 37, 41;
-  --bs-white-rgb: 255, 255, 255;
+  --bs-white-rgb: 178, 214, 247;
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 33, 37, 41;
   --bs-body-bg-rgb: 255, 255, 255;
@@ -240,6 +240,7 @@ a {
   color: #aaf2f2;
   text-decoration: underline;
 }
+
 a:hover {
   color: #974a2d;
 }
@@ -494,6 +495,11 @@ progress {
   font-weight: 300;
 }
 
+.font1 {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
 .display-1 {
   font-size: calc(1.625rem + 4.5vw);
   font-weight: 300;
@@ -602,6 +608,11 @@ progress {
 
 .img-fluid {
   max-width: 100%;
+  height: auto;
+}
+
+.img-smaller{
+  max-width: 30%;
   height: auto;
 }
 
