@@ -611,6 +611,15 @@ progress {
   height: auto;
 }
 
+.img-medium {
+  max-width: 70%;
+  height: auto;
+}
+.img-40 {
+  max-width: 40%;
+  height: auto;
+}
+
 .img-smaller{
   max-width: 30%;
   height: auto;
