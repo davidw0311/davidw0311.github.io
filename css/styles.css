@@ -451,12 +451,22 @@ course_button{
 }
 
 .apsc_button {
-  background-color: rgb(158, 95, 12);
+  background-color: rgb(136, 66, 25);
   color: rgb(245, 239, 239);
-  border: 2px solid rgb(158, 95, 12);
+  border: 2px solid rgb(136, 66, 25);
 }
 
 .apsc_button:hover {
+  background-color: #8a0909;
+  color: rgb(2, 2, 2);
+}
+.proj_button {
+  background-color: rgb(231, 156, 57);
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(231, 156, 57);
+}
+
+.proj_button:hover {
   background-color: #ffffff;
   color: rgb(2, 2, 2);
 }
