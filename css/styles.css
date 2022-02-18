@@ -340,8 +340,9 @@ label {
 }
 
 button {
-  border-radius: 0;
+  border-radius: 0; 
 }
+
 
 button:focus:not(:focus-visible) {
   outline: 0;
@@ -389,6 +390,96 @@ button:not(:disabled),
 [type=reset]:not(:disabled),
 [type=submit]:not(:disabled) {
   cursor: pointer;
+}
+
+course_button{
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.elec_button {
+  background-color: rgb(243, 203, 118); 
+  color: black; 
+  border: 2px solid rgb(243, 203, 118);
+}
+
+.elec_button:hover {
+  background-color: #ffffff;
+  color: rgb(2, 2, 2);
+}
+
+.mech_button {
+  background-color: rgb(82, 72, 72); 
+  color: rgb(231, 224, 224); 
+  border: 2px solid rgb(82, 72, 72);
+}
+
+.mech_button:hover {
+  background-color: #fafbfc;
+  color: rgb(2, 2, 2);
+}
+
+.math_button {
+  background-color: rgb(144, 207, 177); 
+  color: black; 
+  border: 2px solid rgb(144, 207, 177);
+}
+
+.math_button:hover {
+  background-color: #ffffff;
+  color: rgb(2, 2, 2);
+}
+
+.phys_button {
+  background-color: rgb(126, 182, 204);
+  color: black;
+  border: 2px solid rgb(126, 182, 204);
+}
+
+.phys_button:hover {
+  background-color: #ffffff;
+  color: rgb(2, 2, 2);
+}
+
+.apsc_button {
+  background-color: rgb(158, 95, 12);
+  color: rgb(245, 239, 239);
+  border: 2px solid rgb(158, 95, 12);
+}
+
+.apsc_button:hover {
+  background-color: #ffffff;
+  color: rgb(2, 2, 2);
+}
+
+.cpen_button {
+  background-color: rgb(75, 22, 219);
+  color: rgb(252, 250, 250);
+  border: 2px solid rgb(75, 22, 219);
+}
+
+.cpen_button:hover {
+  background-color: #ffffff;
+  color: rgb(2, 2, 2);
+}
+.arts_button {
+  background-color: rgb(216, 152, 200);
+  color: black;
+  border: 2px solid rgb(216, 152, 200);
+}
+
+.arts_button:hover {
+  background-color: #ffffff;
+  color: rgb(2, 2, 2);
 }
 
 ::-moz-focus-inner {
