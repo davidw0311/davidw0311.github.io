@@ -131,7 +131,11 @@ h3{
   outline-color: #d48a6e;
 }
 
-
+@media (max-width: 576px){
+  .title-text{
+    margin-top: 5.5rem;
+  }
+}
 @media (min-width: 768px) {
   .social-buttons{
     padding-bottom: 3rem;
