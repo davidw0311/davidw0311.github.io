@@ -1,518 +1,728 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>David Wang</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none">David Wang</span>
-                <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile2.jpg" alt="..." /></span>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+
+    <!-- get bruno ace font -->
+    <link href="http://fonts.cdnfonts.com/css/bruno-ace" rel="stylesheet">
+
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/74358a5679.js" crossorigin="anonymous"></script>
+
+    <title>David Y Wang</title>
+    <link rel="icon" href="assets/favicon.ico">
+    
+    <link rel="stylesheet" href="css/styles.css">
+    
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark rounded-0 fixed-top" id="sideNav">
+        <a class="navbar-brand" href="#page-top">
+            <span class="d-block d-md-none ">
+                David Wang
+            </span>
+            <span class="d-none d-md-block"><img class="round-img" src="assets/img/profile2.jpg" alt="..." /></span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- https://codepen.io/dsyncerek/pen/zzqpEx -->
+        <div class="social-buttons">
+            <a href="mailto:davidw0311@gmail.com" class="social-button social-button--mail" aria-label="Email">
+            <i class="fa fa-envelope"></i>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experiences">Experiences</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#projects">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Interests</a></li>
-                    <!-- <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li> -->
-                </ul>
+            <a href="https://www.linkedin.com/in/david-wang-92a540171/" target="_blank" class="social-button social-button--linkedin" aria-label="LinkedIn" >
+            <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://github.com/davidw0311" target="_blank" class="social-button social-button--github" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.facebook.com/davidw0311" target="_blank" class="social-button social-button--facebook" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://www.instagram.com/davidw0311/" target="_blank" class="social-button social-button--instagram" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.youtube.com/channel/UCVouawTi9fKjt0ppEdDBw_Q" target="_blank" class="social-button social-button--youtube" aria-label="Youtube">
+            <i class="fab fa-youtube"></i>
+            </a>
+            <a href="#" class="social-button social-button--wechat" aria-label="wechat">
+            <i class="fab fa-weixin"></i>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#experiences">Experiences</a></li>
+                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+                <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
+                <li class="nav-item"><a class="nav-link" href="#interests">Interests</a></li>
+            </ul>
+        </div>
+    </nav> 
+
+
+    <section id="about">
+        <div class="intro-div">
+            <img class="fill-img" src="assets/mountain2/foggy_mountain.svg" alt="mountain">
+        </div>
+        <div>
+            <h1>David Yuchen Wang</h1>
+            <h2>5th Year Engineering Physics Student at UBC</h2>
+        </div>
+        <div class="social-buttons">
+            <a href="assets/files/David_Wang_Resume.pdf" target="_blank" class="resume-button social-button--resume" aria-label="resume">
+                <div>
+                    <i class="fa-solid fa-file-lines"></i>
+                    <p>Resumé</p> 
+                </div>
+                
+            </a>
+        </div>
+        
+        <div class="about-blurb">
+            <h3>A passionate engineering student stiving to make a small impact on the world.</h3>
+        </div>
+        
+    </section>
+  
+    <!-- Experiences-->
+    <section id="experiences">
+        <div>
+            <h1 class="experience-title">Experiences</h1>
+           
+           
+        </div>
+
+        <!-- https://www.bootdey.com/snippets/view/dark-timeline -->
+        <div class="container">
+            <div class="timeline">
+                    <div class="timeline-row">
+                        <div class="timeline-time">
+                            May 2022 - Sept 2022
+                            <div>
+                                <span class="badge">Python</span>
+                                <span class="badge">AWS</span>
+                                <span class="badge">Unsupervised Learning</span>
+                                <span class="badge">Pytorch</span>
+                                <span class="badge">Figma</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-content">
+                            <i class="icon-code"></i>
+                            <h4>Machine Learning Engineer</h4>
+                            <p>
+                                Yakoa.io
+                            </p>
+                            <ul>
+                                <li>worked with self-supervised learning models for NFT Fraud-detection</li>
+                                <li>researched and developed image segmentation and object detection methods</li>
+                                <li>Implemented frameworks in AWS</li>
+                                <li>Figma design for website</li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                    <div class="timeline-row">
+                        <div class="timeline-time">
+                            May 2021 - Dec 2021
+                            <div class="">
+                                <span class="badge badge-pill">PyTorch</span>
+                                <span class="badge badge-pill">Weight and Biases</span>
+                                <span class="badge badge-pill">Reinforcement Learning</span>
+                                <span class="badge badge-pill">Accelerator Physics</span>
+                                <span class="badge badge-pill">Policy Gradient Methods</span>
+                                <span class="badge badge-pill">Research</span>
+                                <span class="badge badge-pill">Python</span>
+                                <span class="badge badge-pill">Bash</span>
+                            </div>
+                            <img class="cropped-img" src="assets/img/triumf/photo2.jpg" alt="..." />
+                            <img class="cropped-img" src="assets/img/triumf/photo3.jpg" alt="..." />
+                        </div>
+                        <div class="timeline-content">
+                            <i class="icon-code"></i>
+                            <h4>Junior Machine Learning Engineer</h4>
+                            <p>
+                                TRIUMF
+                            </p>
+                            <p>
+                                My time at the TRIUMF facility helped me grow my skills in software and AI. My project contributed to the foundations of the the first AI-driven interface for tuning the particle accelerators at TRIUMF. Diving deep into state-of-the art policy gradient methods, I helped develop a Python architecuture for training agents and interfacing with the beamline.
+                                I also wrote and published a paper on this work, titled
+                                Accelerator Tuning with Deep Reinforcement Learning
+                                which can be found at the Workshop for Machine Learning and the Physical Sciences at of the 2021 NeurIPS Conference.
+                                My poster presentation at the Advisory Commitee on TRIUMF (ACOT) 2021
+                            </p>
+                            <ul>
+                                <li>Established the first AI-driven interface for
+                                    accelerator tuning at TRIUMF.
+                                </li>
+                                <li>Investigated state-of-the-art policy gradient
+                                    reinforcement learning methods in PyTorch.</li>
+                                <li>Developed software architectures and GUIs
+                                    using Python to train and deploy RL agent.</li>
+                                <li>
+                                    Collaborated with operators to integrate the
+                                    agent with real-world accelerator controls.
+                                </li>    
+                                <li>
+                                    Wrote paper “Accelerator Tuning with Deep
+                                    Reinforcement Learning” for NeurIPS 2021
+                                </li>
+                            </ul>
+                    
+                        </div>
+                    </div>
+            
+                    <div class="timeline-row">
+                        <div class="timeline-time">
+                            Jan 2020 - May 2020
+                            <div class="">
+                                <span class="badge badge-pill">PyTorch</span>
+                                <span class="badge badge-pill">Tensorflow</span>
+                                <span class="badge badge-pill">Scikit Learn</span>
+                                <span class="badge badge-pill">Deep Learning</span>
+                                <span class="badge badge-pill">Oject Detection</span>
+                                <span class="badge badge-pill">Docker</span>
+                                <span class="badge badge-pill">Conda</span>
+                                <span class="badge badge-pill">Bash</span>
+                            </div>
+                        </div>
+                        <div class="timeline-content">
+                            <i class="icon-turned_in_not"></i>
+                            <h4>AI Research Intern</h4>
+                            <p>Huawei</p>
+                            <p>As an intern at Huawei, I worked with the Vancouver Big Data Lab on reserach into some of the state-of-the-art methods for deep learning. I helped preprocess large data-sets such as ImageNet and CIFAR100 with custom Python and Bash scripts for use in object detection and classification research. I had a chance to explore various frameworks using TensorFlow and PyTorch and helped the team incorporate multi-GPU training compatibility for many Huawei training architectures. I also worked on configuring custom environments on the cloud using Docker which allowed the research team an improved access to GPU resources for model training.</p>
+                            
+                        </div>
+                    </div>
+            
+                    <div class="timeline-row">
+                        <div class="timeline-time">
+                            Sept 2021 - Dec 2021
+                        </div>
+                        <div class="timeline-content">
+                            <i class="icon-directions"></i>
+                            <h4>Teaching Assistant</h4>
+                            <p>UBC ENPH 353</p>
+                        </div>
+                    </div>
+                    <div class="timeline-row">
+                        <div class="timeline-time">
+                            Sept 2021 - Dec 2021
+                        </div>
+                        <div class="timeline-content">
+                            <i class="icon-directions"></i>
+                            <h4>Teaching Assistant</h4>
+                            <p>UBC PHYS 159</p>
+                        </div>
+                    </div>
+                    <div class="timeline-row">
+                        <div class="timeline-time">
+                            Sept 2021 - Dec 2021
+                            <div class="">
+                                <span class="badge badge-pill">Altium Designer</span>
+                                <span class="badge badge-pill">STM Microcontroller</span>
+                                <span class="badge badge-pill">Circuit Design</span>
+                            </div>
+                            <span ><img class="card-img" src="assets/img/formula_e.JPG" alt="..." /></span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>Electrical Subteam Member</h4>
+                            <p>UBC Formula Electric Design Team</p>
+                            <p>Designed a Reflow Oven and designed PCB boards for the Brake Light Module for the competition vehicle.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </nav>
-        <!-- Page Content-->
-        <div class="container-fluid p-0">
-            <!-- About-->
-            <section class="resume-section" id="about">
-                <div class="resume-section-content">
-                    <h1 class="mb-0">
-                        David
-                        <span class="text-primary">Wang</span>
+    </section>
 
-                    </h1>
-                    <div class="subheading mb-5">
-                         
-                        <a href="mailto:davidw0311@gmail.com">davidw0311@gmail.com</a>
+    <!-- Projects -->
+    <section id="projects">
+        <h1 class="section-title">Projects</h1>
+        <div class="container">
+            <div class="row">
+
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#agroBot"><img src="assets/img/agrobot/sim_navigation.gif" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">Robot Navigation using OpenCV
                     </div>
-                    <p class="font1 mb-5">4th Year Engineering Physics Student at the University of British Columbia</p>
-                    <div class="social-icons" style="position:relative; left:70px">
-                        <a class="social-icon" href="https://www.linkedin.com/in/david-wang-92a540171/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a class="social-icon" href="https://github.com/davidw0311" target="_blank"><i class="fab fa-github"></i></a>
-                        <!-- <a class="social-icon" href="https://www.facebook.com/davidw0311" target="_blank"><i class="fab fa-facebook-f"></i></a> -->
-                        
-                    
-                    </div>
-                    
-                    
-                    <br>
-                    <br>
-                    A passionate engineering student stiving to make a small impact on the world.
-         
-                   
-                    <div style="position: relative; left: 100px; top: 70px;">
-                        <p class="font1 mb-5"> <a style="text-decoration:none" href="assets/files/David_Wang_Resume.pdf" target="_blank"> <i class="fas fa-file"></i> My Resume</a></p>
+                    <div class="profile-description">Computer vision techniques for autonomous agricultural robot navigation</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge">OpenCV</span>
+                                <span class="badge">PID Control</span>
+                                <span class="badge">Computer Vision</span>
+                            </div></div>
                     </div>
                 </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Experiences-->
-            <section class="resume-section" id="experiences">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Experiences</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Junior Machine Learning Engineer</h3>
-                            <span>
-                            
-                                <div class="subheading mb-3" style="position:relative">
-                                    <img style="padding-right:10px" class="img-icon" src="assets/img/triumf/logo.JPG" alt="..." />
-                                    <a href="https://www.triumf.ca/" target="_blank">
-                                        <!-- <img style="padding-right:10px" class="img-icon" src="assets/img/triumf/logo.JPG" alt="..." /> -->
-                                        TRIUMF
-                                    </a>
-                                </div>
-                            </span>
-                            
-                            
-                            <span><img class="img-smaller" src="assets/img/triumf/photo2.jpg" alt="..." /></span>
-                            <span><img class="img-40" src="assets/img/triumf/photo1.jpg" alt="..." /></span>
+            </div>
+        </div>
 
-                            <p>
-                            My time at the TRIUMF facility helped me grow my skills in software and AI. My project contributed to
-                            the foundations of the the first AI-driven interface for tuning the particle accelerators at TRIUMF. Diving deep into
-                            state-of-the art policy gradient methods, I helped develop a Python architecuture for training agents and 
-                            interfacing with the beamline. 
-                            <br>
-                            <br>I also wrote and published a paper on this work,
-                            titled 
-                            <div style="position: relative; left: 70px;">
-                                <p class="font1 mb-5"> <a style="text-decoration:none" href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank"> <i class="fas fa-file"></i> Accelerator Tuning with Deep Reinforcement Learning</a></p>
-                            </div>
-                        
-                            which can be found at the 
-                            <a href="https://ml4physicalsciences.github.io/2021/" target="_blank">Workshop for Machine Learning and the Physical Sciences </a> 
-                            at of the 2021 NeurIPS Conference.
-                            </p>
-                            <br>My poster presentation at the Advisory Commitee on TRIUMF (ACOT) 2021:
-                            <span class="d-none d-lg-block"><img class="img-popout" src="assets/img/triumf_acot_poster.jpg" alt="..." /></span>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">May 2021 - Dec 2021</span></div>
-                        
+        
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#recyclingRobot"><img src="assets/img/recycling_robot/recycling_robot.jpg" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">Recycling Robot
                     </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">AI Research Intern</h3>
-                            <div class="subheading mb-3" style="position:relative">
-                                <img style="padding-right:10px" class="img-icon" src="assets/img/huawei_logo.JPG" alt="..." />
-                                <a href="https://www.huawei.com/ca/" target="_blank">
-                                <!-- <img style="padding-right:10px" class="img-icon" src="assets/img/huawei_logo.JPG" alt="..." /> -->
-                                Huawei
-                                </a>
-                            </div>
-                            <p>
-                                As an intern at Huawei, I worked with the Vancouver Big Data Lab on reserach into some of the state-of-the-art 
-                                methods for deep learning. I helped preprocess large data-sets such as ImageNet and CIFAR100 with 
-                                custom Python and Bash scripts for use in object detection and classification research.
-                                I had a chance to explore various frameworks using TensorFlow and PyTorch 
-                                and helped the team incorporate multi-GPU training compatibility for many Huawei training architectures.
-                                I also worked on configuring custom environments on the cloud using Docker 
-                                which allowed the research team an improved access to GPU resources for model training.
-
-                            </p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">January 2020 - April 2020</span></div>
+                    <div class="profile-description">Autonomous can-recycling robot, built from scratch!</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge">OnShape</span>
+                                <span class="badge">Soldering</span>
+                            </div></div>
                     </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Teaching Assistant</h3>
-                            <div class="subheading mb-3"><a href="https://www.ubc.ca/about/" target="_blank">The University of British Columbia</a></div>
-                            <p>For <a href="https://projectlab.engphys.ubc.ca/enph-353/" target="_blank">ENPH 353</a> and PHYS 159</p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">2020-2021</span></div>
-                    </div>
-                    
                 </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Projects -->
-            <section class="resume-section" id="projects">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Projects</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">UBC AgroBot Design Team</h3>
-                            <!-- <span class="d-none d-lg-block"><img src="assets/img/agrobot_nav.gif"/></span> -->
-                            <p><br>Designing an AI-powered robot for sustainable agriculture with
-                                <a href="https://ubcagrobot.com/" target="_blank">UBC AgroBot</a>
-                                <br> Currently the Navigation subteam lead
-                            </p>
-                            Led the developments on some of our algorithms:
-                            </br>
-                            </br>
-                            <h3 class="font1">Using the Hough Transform</h3>
-                            <span class="d-none d-lg-block"><img src="assets/img/agrobot/hough.gif"/></span>
-                        </br>
-                        <h3 class="font1">Using large contour detection</h3>
-                        <span class="d-none d-lg-block"><img src="assets/img/agrobot/center_row.gif"/></span>    
-                        </br>
-                            <h3 class="font1">Segmenting the image and using contour detection</h3>
-                            <span class="d-none d-lg-block"><img src="assets/img/agrobot/mini_contour.gif"/></span>
-                            
-                            </br>
-                            <h3 class="font1">Building a simulation using Gazebo and ROS to test our navigation algorithms using PID control</h3>
-                            <span class="d-none d-lg-block"><img src="assets/img/agrobot/sim_navigation.gif"/></span>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">September 2019 - Present</span></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#selfDriving"><img src="assets/img/enph353.png" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">Self Driving AI Robot</div>
+                    <div class="profile-description">AI controlled robot simulation to recognize license plates and drive autonomously</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge">Keras</span>
+                                <span class="badge">Python</span>
+                                <span class="badge">ROS</span>
+                                <span class="badge">Gazebo</span>
+                            </div></div>
                     </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Recycling Robot - UBC ENPH 253 Project Course</h3>
-                            <span><img class="img-smaller" src="assets/img/recycling_robot/recycling_robot.jpg" alt="..." /></span>
-                            <span><img class="img-smaller" src="assets/img/recycling_robot/hbridge.jpg" alt="..." /></span>
-                            <span><img class="img-smaller" src="assets/img/recycling_robot/circuit.jpg" alt="..." /></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#acousticLevitator"><img src="assets/img/acoustic_levitator/acoustic_levitator.gif" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">Acoustic Levitator</div>
+                    <div class="profile-description">Levitating objects using the physics of sound!</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge">Arduino</span>
+                                <span class="badge">Electrical Design</span>
+                            </div></div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#computerVision"><img src="assets/img/cpsc425/gaussian_pyramid.JPG" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">CPSC 425 - Computer Vision</div>
+                    <div class="profile-description">Exploration of various computer vision techniques</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge">Computer Vision</span>
+                            </div></div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#siftApp"><img src="assets/img/sift.jpeg" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">SFIT App</div>
+                    <div class="profile-description">Shift Invariant Feature Transform</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge badge-pill">Computer Vision</span>
+                            </div></div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="profile-card-4 text-center" data-bs-toggle="modal" data-bs-target="#brailleIfy"><img src="assets/img/braille.jpeg" class="card-img img-responsive">
+                <div class="profile-content">
+                    <div class="profile-name">Braille-ify</div>
+                    <div class="profile-description">Hackathon Project!</div>
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <div class="profile-overview">
+                                <span class="badge badge-pill">Java</span>
+                            </div></div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button trigger modal -->
+    
+        <!-- Modals -->
+        <div class="modal fade" id="agroBot" tabindex="-1" aria-labelledby="agroBot" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">UBC AgroBot Design Team</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <h2>Led the design on some of our algorithms for autonomous navigation</h2>
+                        <h3 class="blurb-heading">Using the Hough Transform</h3>
+                        <span><img class="card-img" src="assets/img/agrobot/hough.gif"/></span>
+       
+
+                        <h3 class="blurb-heading">Using large contour detection</h3>
+                        <span><img class="card-img" src="assets/img/agrobot/center_row.gif"/></span>    
+                        <br>
+
+                        <h3 class="blurb-heading">Segmenting the image and using contour detection</h3>
+                        <span><img class="card-img" src="assets/img/agrobot/mini_contour.gif"/></span>
+                        <br>
+
+                        <h3 class="blurb-heading">Building a simulation using Gazebo and ROS to test our navigation algorithms using PID control</h3>
+                        <span><img class="card-img" src="assets/img/agrobot/sim_navigation.gif"/></span>
+                        <br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="recyclingRobot" tabindex="-1" aria-labelledby="recyclingRobot" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ENPH 253 - Automomous Recylcing Robot</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="mb-0">Recycling Robot - UBC ENPH 253 Project Course</h3>
+                    <span><img class="card-img" src="assets/img/recycling_robot/recycling_robot.jpg" alt="..." /></span>
+                    <span><img class="card-img" src="assets/img/recycling_robot/hbridge.jpg" alt="..." /></span>
+                    <span><img class="card-img" src="assets/img/recycling_robot/circuit.jpg" alt="..." /></span>
                             <p><br>For this project, we built an automomous robot fully from scratch! See the full project  
                                 <a href="https://recursiveturtles.wixsite.com/enph253-2020" target="_blank">here</a>
                                 </p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">May - August 2020</span></div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">AI self driving & license plate detection and classification - ENPH 353</h3>
-                            <div class="mb-3">For this project, I used computer vision and machine learning techniques to detect license plates
-                                and operate a simulated robot through ROS. I performed custom data collection and training of nerual networks in order to classify license plate characters. 
-                                <span class="d-none d-lg-block"><img class="img-fluid" src="assets/img/enph353.png" alt="..." /></span>    
-                            </br>
-                                Take a look at our <a href=https://docs.google.com/document/d/1QVqXuDTbI3OiAzU9WDMTmdpriMGGDtpiNZgvA06i05M/edit?usp=sharing" target="_blank">report</a>, or view the project <a href="https://github.com/davidw0311/ai_self_driving_controller" target="_blank">codebase</a>
-                                </div>
-                       
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">September - December 2020</span></div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">UBC Formula Electric Design Team</h3>
-                            <div class="mb-3">Member of the Electrical Subteam. Designed a Reflow Oven and designed PCB boards for the Brake Light Module for the competition vehicle.</div>
-                            <span class="d-none d-lg-block"><img class="img-fluid" src="assets/img/formula_e.JPG" alt="..." /></span>
-                           
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">September 2018 - December 2019</span></div>
-                    </div>
-
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Acoustic Levitator</h3>
-                            <div class="mb-3">I was amazed by the physics behind acoustic levitation, and decided to give it a try and construct my own acoustic levitator.
-
-                            </br>
-                            Following the tutorials <a href="https://www.instructables.com/Acoustic-Levitator/" target="_blank">here</a>, I 3D printed, soldered, and assembled this acoustic levitation device, using rings of transducers.
-                            It was a fun and very interesting project, with some very cool results at the end!    
-                        </div>
-                            <span ><img class="img-40" src="assets/img/acoustic_levitator/acoustic_levitator1.jpg" alt="..." /></span>
-                            <span ><img class="img-40" src="assets/img/acoustic_levitator/circuit.jpg" alt="..." /></span>
-                            <span class="d-none d-lg-block"><img class="img-smaller" src="assets/img/acoustic_levitator/acoustic_levitator.gif" alt="..." /></span>
-                           
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Summer 2020</span></div>
-                    </div>
-
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">SIFT App</h3>
-                            <div class="mb-3">I learned about the SIFT algorithm and built an app to detect features and homography from an image in my ENPH 353 class.
- 
-                        </div>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/sift_gif.gif" alt="..." /></span>
-                    </br> Check out this project on my GitHub!
-                        </div>
-                        
-                        <div class="flex-shrink-0"><span class="text-primary">Fall 2020</span></div>
-                    </div>
-
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">CPSC 425 - Computer Vision</h3>
-                            <div class="mb-3">
-                            Taking this very interesting class at UBC helped me learn useful skills in computer vision.
-                            Here are some of the projects that I worked on in this class:  
-                            </br>Visit my GitHub to learn more about these projects!
-                        </div>
-                            <h3 class="font1">Image Blending</h3>
-                            
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/catdog.JPG" alt="..." /></span>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/image_blending.JPG" alt="..." /></span>
-                    </br>
-                            <h3 class="font1">Feature Detection using Gaussian Pyramids</h3>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/feature_pyramid.JPG" alt="..." /></span>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/face_detection.JPG" alt="..." /></span>
-                    </br>
-                            <h3 class="font1">Composing Images with Laplacian Pyramids</h3>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/laplacian_pyramid.JPG" alt="..." /></span>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/gaussian_pyramid.JPG" alt="..." /></span>
-                            <span class="d-none d-lg-block"><img class="img-medium" src="assets/img/cpsc425/image_composing.JPG" alt="..." /></span>
-                            
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">Fall 2022</span></div>
-                    </div>
-
-                    
-                   
                 </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Education-->
-            <section class="resume-section" id="education">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Education</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">University of British Columbia</h3>
-                            <div class="subheading mb-3">Bachelor of Applied Science - Engineering Physics</div>
-                            <p>Cummulative Average 86%</p>
-                        </div>
-                        <div class="flex-shrink-0"><span class="text-primary">September 2018 - May 2023 (expected)</span></div>  
-                    </div>
-                <div class="flex-grow-1">
-                    <div class="subheading mb-2">My Courses</div>
-                    
-                    Spring 2022<br>
-                    <course_button class="course_button proj_button">ENPH 459 <br> Engineering Physics Project II</course_button>
-                    <course_button class="course_button cpen_button">CPSC 425 <br> Introduction to Computer Vision</course_button>
-                    <course_button class="course_button math_button">MATH 318 <br> Probability and Physical Applications</course_button>
-                    <course_button class="course_button math_button">MATH 400 <br> Applied Partial Differential Equations</course_button>
-                    <course_button class="course_button mech_button">MECH 466 <br> Automatic Control</course_button>
-                    <course_button class="course_button phys_button">PHYS 401 <br> Electromagnetic Theory</course_button>
-                    
-                    
-                    <br><br>Summer 2021<br>
-                    <course_button class="course_button apsc_button">CIVL 250 <br> Engineering and Sustainable Development</course_button>
-
-                    <br><br>Spring 2021<br>
-                    <course_button class="course_button apsc_button">APSC 278 <br> Engineering Materials</course_button>
-                    <course_button class="course_button apsc_button">ASPC 279 <br> Engineering Materials Laboratory</course_button>
-                    <course_button class="course_button cpen_button">CPEN 312 <br> Digital Systems and Microcomputers</course_button>
-                    <course_button class="course_button math_button">MATH 305 <br> Applied Complex Analysis</course_button>
-                    <course_button class="course_button mech_button">MECH 280 <br> Introduction to Fluid Mechanics</course_button>
-                    <course_button class="course_button phys_button">PHYS 304 <br> Introduction to Quantum Mechanics</course_button>
-                    <course_button class="course_button phys_button">PHYS 350 <br> Applications of Classical Mechanics</course_button>
-            
-                    <br><br> Fall 2020<br>
-                    <course_button class="course_button arts_button">COMR 457 <br> Fundamentals of Financial Accounting</course_button>
-                    <course_button class="course_button arts_button">COMR 473 <br> Business Finance</course_button>
-                    <course_button class="course_button elec_button">ELEC 221 <br> Signals and Systems</course_button>
-                    <course_button class="course_button proj_button">ENPH 353 <br> Engineering Physics Project I</course_button>
-                    <course_button class="course_button math_button">MATH 307 <br> Applied Linear Algebra</course_button>
-                    <course_button class="course_button mech_button">MECH 325 <br> Mechanical Design I</course_button>
-                    <course_button class="course_button mech_button">MECH 360 <br> Mechanics of Materials</course_button>
-                    <course_button class="course_button phys_button">PHYS 301 <br> Electricity and Magnetism</course_button>
-
-                    <br><br>Summer 2020<br>
-                    <course_button class="course_button phys_button">PHYS 250 <br> Introduction to Modern Physics</course_button>
-                    <course_button class="course_button math_button">MATH 257 <br> Partial Differential Equations</course_button>
-                    <course_button class="course_button mech_button">ENPH 270 <br> Mechanics II</course_button>
-                    <course_button class="course_button phys_button">ENPH 257 <br> Heat and Thermodynamics</course_button>
-                    <course_button class="course_button proj_button">ENPH 253 <br> Engineering Physics Project Lab</course_button>
-                    
-                    <br><br>Summer 2019<br>
-                    <course_button class="course_button arts_button">ECON 102 <br> Principles of Macroeconomics</course_button>
-                    <course_button class="course_button math_button">MATH 123 <br> Logic and Foundations</course_button>
-
-                    <br><br>Fall 2019<br>
-                    <course_button class="course_button cpen_button">CPEN 221 <br> Software Construction I</course_button>
-                    <course_button class="course_button elec_button">ELEC 204 <br> Linear Circuits</course_button>
-                    <course_button class="course_button phys_button">ENPH 259 <br> Experimental Techniques</course_button>
-                    <course_button class="course_button math_button">MATH 217 <br> Multivariable and Vector Calculus</course_button>
-                    <course_button class="course_button math_button">MATH 255 <br> Ordinary Differential Equations</course_button>
-                    <course_button class="course_button mech_button">MECH 260 <br> Introduction to Mechanics of Materials</course_button>
-
-                    <br><br>Spring 2019<br>
-                    <course_button class="course_button phys_button">PHYS 170 <br> Mechanics I</course_button>
-                    <course_button class="course_button phys_button">PHYS 159 <br> Introductory Physics Laboratory for Engineers</course_button>
-                    <course_button class="course_button phys_button">PHYS 158 <br> Introductory Physics for Engineers II</course_button>
-                    <course_button class="course_button math_button">MATH 152 <br> Linear Systems</course_button>
-                    <course_button class="course_button math_button">MATH 101 <br> Integral Calculus with Applications to Physical Sciences and Engineering</course_button>
-                    <course_button class="course_button apsc_button">ASPC 101 <br> Introduction to Engineering II</course_button>
-                    
-                    <br><br>Fall 2018<br>
-                    <course_button class="course_button phys_button">PHYS 157 <br> introductory Physics for Engineers I</course_button>
-                    <course_button class="course_button math_button">MATH 100 <br> Differential Calculus with Applications to Physical Sciences and Engineering</course_button>
-                    <course_button class="course_button arts_button">ENGL 112 <br> Studies in Composition</course_button>
-                    <course_button class="course_button arts_button">ECON 101 <br> Principles of Microeconomics</course_button>
-                    <course_button class="course_button phys_button">CHEM 154 <br> Chemistry for Engineering</course_button>
-                    <course_button class="course_button cpen_button">ASPC 160 <br> Introduction to Computation in Engineering Design</course_button>
-                    <course_button class="course_button apsc_button">ASPC 100 <br> Introduction to Engineering I</course_button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
-                <br><br>
-                    
-                <div class="d-flex flex-column flex-md-row justify-content-between">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-0">Dover Bay Secondary</h3>
-                        <div class="subheading mb-3">Grades 8-12</div>
-                        <p>Cummulative Average 98%</p>
-                    </div>
-                    <div class="flex-shrink-0"><span class="text-primary">September 2013 - May 2018</span></div>
                 </div>
             </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Skills-->
-            <section class="resume-section" id="skills">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Skills</h2>
-                    <div class="subheading mb-3">Programming Languages & Tools</div>
-                    <ul class="list-inline dev-icons">
-                        <li class="list-inline-item"><i class="fab fa-python"></i> Python</li>
-                        <li class="list-inline-item"><i class="fab fa-java"></i> Java</li>
-                        <li class="list-inline-item"><i></i>C/C++</li>
-                        <li class="list-inline-item"><i></i>MATLAB</li>
-
-                        <!-- <li class="list-inline-item"><i class="fab fa-cuttlefish"></i></li> -->
-                    </ul>
-                    <br>
-                    <div class="subheading mb-3">Modeling and Design</div>
-                    <ul class="fa-ul mb-0">
-
-                        <li class="list-inline-item"><i></i> Altium </li>
-                        <li class="list-inline-item"><i></i> Solidworks </li>
-                        <li class="list-inline-item"><i></i> Blender </li>
-                        <!-- <li class="list-inline-item"><i class="fab fa-cuttlefish"></i></li> -->
-                    </ul>
-                    <br>
-                    <div class="subheading mb-3">Skills</div>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Git version control
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Linux operating systems 
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Pytorch
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Tensorflow
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            OpenCV
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Scikit-Learn
-                        </li>
-                    </ul>
-                    <br>
-
-                    <div class="subheading mb-3">Certifications</div>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-certificate"></i></span>
-                            <a href="https://courses.edx.org/certificates/559845177f5e43c2aff85b72db80eb82" target="_blank">IBM Course - Deep Learning with Python and PyTorch</a>
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-certificate"></i></span>
-                            <a href="https://www.udemy.com/certificate/UC-c6589def-9a51-44c9-9c04-1d640682bc36/" target="_blank">Reinforcement Learning Beginner to Master Course (Udemy)</a>
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-certificate"></i></span>
-                            <a href="https://www.udemy.com/certificate/UC-c38c1a94-09b5-4e7e-a9da-eb99188564fb/" target="_blank">Reinforcement Learning with Pytorch (Udemy)</a>
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-certificate"></i></span>
-                            <a href="https://www.udemy.com/certificate/UC-c38c1a94-09b5-4e7e-a9da-eb99188564fb/" target="_blank">Modern Reinforcement Learning: Actor-Critic Algorithms (Udemy)</a>
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-certificate"></i></span>
-                            <a href="assets/files/SMS Course Certificate - David Wang.pdf" target="_blank">UBC 40-hour machine shop course</a>
-                        </li>
-                    </ul>
-                    </ul>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Interests-->
-            <section class="resume-section" id="interests">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Interests</h2>
-                    <div class="subheading mb-3">Backpacking and Hiking</div>
-                    <p>I love nature and enjoy exploring the outdoors. Some of my notable excursions include completing the West Coast Trail over a course of 6 days in 2018, and the Juan De Fuca Trail many times.</p>
-                    <br>
-                    <div class="subheading mb-3">Music</div>
-                    <p class="mb-0">I have played piano for over 14 years, and was 
-                        lead pianist for the Dover Bay Musical theatre orchestra from 2015-2018</p>
-                    <p class="mb-0"><br>Listen to my songs 
-                        
-                        <a style="text-decoration:none" href="https://www.youtube.com/channel/UCVouawTi9fKjt0ppEdDBw_Q"> <font size="+3"><i class='fab fa-youtube'></i> here</font></a>
-                        
-                        <br>
-                        <br>
-                        
-                    </p>
-                    
-                    <div class="subheading mb-3">Martial Arts</div>
-                    <p class="mb-0">Black belt in Pak Mei Kung Fu</p><br>
-
-                    <div class="subheading mb-3">Photography</div>
-                    <p class="mb-0">Some of my photos</p><br>
-                    <span ><img  class="img-smaller" src="assets/img/photography/bird.jpg" alt="..." /></span>
-                    <span ><img class="img-smaller" src="assets/img/photography/lightning.jpg" alt="..." /></span>
-                    <span ><img class="img-smaller" src="assets/img/photography/moon.jpg" alt="..." /></span>
-                    <span ><img class="img-smaller" src="assets/img/photography/night.jpg" alt="..." /></span>
-                    <span ><img class="img-smaller" src="assets/img/photography/northernlights.jpg" alt="..." /></span>
-                    <span ><img class="img-smaller" src="assets/img/photography/ocean.jpg" alt="..." /></span>
-                    
-                    <br>
-                    <br>
-                    <div class="subheading mb-3">Cooking</div>
-                    <p class="mb-0">Currently practicing some of my cooking skills :)</p><br>
-
-
-                    
-
-                        
-                </div>
-            </section>
-            <hr class="m-0" />
-            <!-- Awards-->
-            <!-- <section class="resume-section" id="awards">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Awards & Certifications</h2>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            UBC Presidential Scholarship Recipient
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            2017 In Our Own Voice Teen Writing Competition, 2nd place
-                        </li>
-                        
-                    </ul>
-                </div>
-            </section> -->
         </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-    </body>
+        <div class="modal fade" id="selfDriving" tabindex="-1" aria-labelledby="selfDriving" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">ENPH 353 - Self Driving Robot</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 class="mb-0">AI self driving & license plate detection and classification - ENPH 353</h3>
+                    <div class="mb-3">For this project, I used computer vision and machine learning techniques to detect license plates
+                        and operate a simulated robot through ROS. I performed custom data collection and training of nerual networks in order to classify license plate characters. 
+                        <img class="card-img" src="assets/img/enph353.png" />
+
+                        Take a look at our <a href=https://docs.google.com/document/d/1QVqXuDTbI3OiAzU9WDMTmdpriMGGDtpiNZgvA06i05M/edit?usp=sharing" target="_blank">report</a>, or view the project <a href="https://github.com/davidw0311/ai_self_driving_controller" target="_blank">codebase</a>
+                        </div>    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="acousticLevitator" tabindex="-1" aria-labelledby="acousticLevitator" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Acoustic Levitator</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <h3 class="mb-0">Acoustic Levitator</h3>
+                    <div class="mb-3">I was amazed by the physics behind acoustic levitation, and decided to give it a try and construct my own acoustic levitator.
+
+                    <p>Following the tutorials <a href="https://www.instructables.com/Acoustic-Levitator/" target="_blank">here</a>, I 3D printed, soldered, and assembled this acoustic levitation device, using rings of transducers.
+                    It was a fun and very interesting project, with some very cool results at the end!    
+                    </p>
+                    <span ><img class="card-img" src="assets/img/acoustic_levitator/acoustic_levitator1.jpg" alt="..." /></span>
+                    <span ><img class="card-img" src="assets/img/acoustic_levitator/circuit.jpg" alt="..." /></span>
+                    <span ><img class="card-img" src="assets/img/acoustic_levitator/acoustic_levitator.gif" alt="..." /></span>
+                       
+                    </div>  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="computerVision" tabindex="-1" aria-labelledby="computerVision" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Computer Vision Projects</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Taking this very interesting class at UBC helped me learn useful skills in computer vision.
+                        Here are some of the projects that I worked on in this class:  
+                    </p>
+                   
+                    <h3 class="blurb-heading">Image Blending</h3>
+                    
+                    <span><img class="card-img" src="assets/img/cpsc425/catdog.JPG" alt="..." /></span>
+                    <span><img class="card-img" src="assets/img/cpsc425/image_blending.JPG" alt="..." /></span>
+            
+                    <h3 class="blurb-heading">Feature Detection using Gaussian Pyramids</h3>
+                    <span ><img class="card-img" src="assets/img/cpsc425/feature_pyramid.JPG" alt="..." /></span>
+                    <span ><img class="card-img" src="assets/img/cpsc425/face_detection.JPG" alt="..." /></span>
+            
+                    <h3 class="blurb-heading">Composing Images with Laplacian Pyramids</h3>
+                    <span><img class="card-img" src="assets/img/cpsc425/laplacian_pyramid.JPG" alt="..." /></span>
+                    <span><img class="card-img" src="assets/img/cpsc425/gaussian_pyramid.JPG" alt="..." /></span>
+                    <span><img class="card-img" src="assets/img/cpsc425/image_composing.JPG" alt="..." /></span>
+                    Visit my GitHub to learn more about these projects!   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="siftApp" tabindex="-1" aria-labelledby="siftApp" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3 >SIFT App</h3>
+                    <p>I learned about the SIFT algorithm and built an app to detect features and homography from an image in my ENPH 353 class.</p>
+                    <span><img class="card-img" src="assets/img/sift_gif.gif" alt="..." /></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="brailleIfy" tabindex="-1" aria-labelledby="brailleIfy" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Braille-ify</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                Barille-ify is a device that translates electronic web pages to Braille, aimed towards increasing accessibility for the visually impaired.
+                </p>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        
+    </div>
+</div>
+    </section>
+
+    <section id="education">
+        <h1 class="section-title">Education</h1>
+
+        <div class = "education-text">
+            <h3 class = "education-text">The University of British Columbia</h3>
+            <h3 class="smaller">Bachelor of Applied Science - Engineering Physics</h3>
+            <h3 class = "smaller">Cummulative Average 86%</h3>
+        </div>
+        
+           
+        </div>
+        
+
+        <h3>Fall 2022</h3> 
+        <button class="course_button cpen_button">CPSC 340 <br> Machine Learning and Data Mining</button>
+        <button class="course_button phys_button">PHYS 410 <br> Computational Physics</button>
+        <button class="course_button proj_button">ENPH 479 <br> Engineering Physics Project III - Capstone 2</button>
+        <button class="course_button phys_button">ENPH 352 <br> Laboratory Techniques in Physics</button>
+        <button class="course_button elec_button">ELEC 401 <br> Analog CMOS Integrated Circuit Design</button>
+        <button class="course_button apsc_button">APSC 450 <br> Professional Engineering Practice</button>
+        <hr>
+
+        <h3>Summer 2022</h3> 
+        <button class="course_button apsc_button">ELEC 480 <br> Economic Analysis of Engineering Projects</button>
+        <hr>
+
+        <h3>Spring 2022</h3> 
+        <button class="course_button proj_button">ENPH 459 <br> Engineering Physics Project II - Capstone 1</button>
+        <button class="course_button cpen_button">CPSC 425 <br> Introduction to Computer Vision</button>
+        <button class="course_button math_button">MATH 318 <br> Probability and Physical Applications</button>
+        <button class="course_button math_button">MATH 400 <br> Applied Partial Differential Equations</button>
+        <button class="course_button mech_button">MECH 466 <br> Automatic Control</button>
+        <button class="course_button phys_button">PHYS 401 <br> Electromagnetic Theory</button>
+        <hr>
+        
+        <h3>Summer 2021</h3>
+        <button class="course_button apsc_button">CIVL 250 <br> Engineering and Sustainable Development</button>
+        <hr>
+
+        <h3>Spring 2021<h3>
+        <button class="course_button apsc_button">APSC 278 <br> Engineering Materials</button>
+        <button class="course_button apsc_button">ASPC 279 <br> Engineering Materials Laboratory</button>
+        <button class="course_button cpen_button">CPEN 312 <br> Digital Systems and Microcomputers</button>
+        <button class="course_button math_button">MATH 305 <br> Applied Complex Analysis</button>
+        <button class="course_button mech_button">MECH 280 <br> Introduction to Fluid Mechanics</button>
+        <button class="course_button phys_button">PHYS 304 <br> Introduction to Quantum Mechanics</button>
+        <button class="course_button phys_button">PHYS 350 <br> Applications of Classical Mechanics</button>
+        <hr>
+
+        <h3>Fall 2020</h3>
+        <button class="course_button arts_button">COMR 457 <br> Fundamentals of Financial Accounting</button>
+        <button class="course_button arts_button">COMR 473 <br> Business Finance</button>
+        <button class="course_button elec_button">ELEC 221 <br> Signals and Systems</button>
+        <button class="course_button proj_button">ENPH 353 <br> Engineering Physics Project I</button>
+        <button class="course_button math_button">MATH 307 <br> Applied Linear Algebra</button>
+        <button class="course_button mech_button">MECH 325 <br> Mechanical Design I</button>
+        <button class="course_button mech_button">MECH 360 <br> Mechanics of Materials</button>
+        <button class="course_button phys_button">PHYS 301 <br> Electricity and Magnetism</button>
+        <hr>
+
+        <h3>Summer 2020</h3>
+        <button class="course_button phys_button">PHYS 250 <br> Introduction to Modern Physics</button>
+        <button class="course_button math_button">MATH 257 <br> Partial Differential Equations</button>
+        <button class="course_button mech_button">ENPH 270 <br> Mechanics II</button>
+        <button class="course_button phys_button">ENPH 257 <br> Heat and Thermodynamics</button>
+        <button class="course_button proj_button">ENPH 253 <br> Engineering Physics Project Lab</button>
+        <hr>
+
+        <h3>Summer 2019</h3>
+        <button class="course_button arts_button">ECON 102 <br> Principles of Macroeconomics</button>
+        <button class="course_button math_button">MATH 123 <br> Logic and Foundations</button>
+        <hr>
+
+        <h3>Fall 2019</h3>
+        <button class="course_button cpen_button">CPEN 221 <br> Software Construction I</button>
+        <button class="course_button elec_button">ELEC 204 <br> Linear Circuits</button>
+        <button class="course_button phys_button">ENPH 259 <br> Experimental Techniques</button>
+        <button class="course_button math_button">MATH 217 <br> Multivariable and Vector Calculus</button>
+        <button class="course_button math_button">MATH 255 <br> Ordinary Differential Equations</button>
+        <button class="course_button mech_button">MECH 260 <br> Introduction to Mechanics of Materials</button>
+        <hr>
+
+        <h3>Spring 2019</h3>
+        <button class="course_button phys_button">PHYS 170 <br> Mechanics I</button>
+        <button class="course_button phys_button">PHYS 159 <br> Introductory Physics Laboratory for Engineers</button>
+        <button class="course_button phys_button">PHYS 158 <br> Introductory Physics for Engineers II</button>
+        <button class="course_button math_button">MATH 152 <br> Linear Systems</button>
+        <button class="course_button math_button">MATH 101 <br> Integral Calculus with Applications to Physical Sciences and Engineering</button>
+        <button class="course_button apsc_button">ASPC 101 <br> Introduction to Engineering II</button>
+        
+        <hr>
+        <h3>Fall 2018</h3>
+        <button class="course_button phys_button">PHYS 157 <br> Introductory Physics for Engineers I</button>
+        <button class="course_button math_button">MATH 100 <br> Differential Calculus with Applications to Physical Sciences and Engineering</button>
+        <button class="course_button arts_button">ENGL 112 <br> Studies in Composition</button>
+        <button class="course_button arts_button">ECON 101 <br> Principles of Microeconomics</button>
+        <button class="course_button phys_button">CHEM 154 <br> Chemistry for Engineering</button>
+        <button class="course_button cpen_button">ASPC 160 <br> Introduction to Computation in Engineering Design</button>
+        <button class="course_button apsc_button">ASPC 100 <br> Introduction to Engineering I</button>
+        </div>
+    </section>
+    <section id="publications">
+        <div>
+            <h1 class="section-title">Publications</h1>
+            <h2><a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank">Accelerator Tuning With Deep Reinforcement Learning</a>
+            </h2>
+            <h3>My poster presentation at the Advisory Commitee on TRIUMF (ACOT) 2021:</h2> 
+            <img style="padding: 10px;" src="assets/img/triumf_acot_poster.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+    </section>
+    <section id="interests">
+        <div>
+            <h1 class="section-title">My Interests</h1>
+            <h2>Backpacking</h2>
+
+            <!-- Slideshow container -->
+
+  
+            <h2>Photography</h2>
+
+            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active" data-bs-interval="5000">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Evening seagulls at Rathtrevor Beach</h5>
+                      </div>
+                    <img src="assets/img/photography/bird.jpg" class="gallery-img" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="5000">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Lightning stikes on Vancouver Island</h5>
+                      </div>
+                    <img src="assets/img/photography/lightning.jpg" class="gallery-img" alt="...">
+                  </div>
+                  <div class="carousel-item" data-bs-interval="5000">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Aurora Borealis at Yellowknife NWT</h5>
+                      </div>
+                    <img src="assets/img/photography/northernlights.jpg" class="gallery-img" alt="...">
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+
+            <h2>Music</h2>
+
+            <a class="course-button" href="https://www.youtube.com/channel/UCVouawTi9fKjt0ppEdDBw_Q" target="_blank"> <i class="fab fa-youtube"></i>  My YouTube Channel</a>
+
+            
+        </div>
+    </section>
+    
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/scripts.js"></script>
+ 
+
+
+</body>
+
 </html>
