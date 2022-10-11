@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/styles.css">
     
 </head>
-
+<div id="wrapper">
 <body>
 
     <nav class="navbar navbar-expand-md navbar-dark rounded-0 fixed-top" id="sideNav">
@@ -60,16 +60,14 @@
             </a>
         </div>
 
-        
-
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show"><a class="nav-link" href="#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
                 <li class="nav-item"><a class="nav-link" href="#experiences">Experiences</a></li>
                 <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
                 <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-                <li class="nav-item"><a class="nav-link" href="#publications">Publications</a></li>
                 <li class="nav-item"><a class="nav-link" href="#interests">Interests</a></li>
             </ul>
         </div>
@@ -99,7 +97,7 @@
             <img class="fill-img" src="assets/mountain2/foggy_mountain.svg" alt="mountain">
         </div>
         <div>
-            <h1 class="title-text">David Yuchen Wang</h1>
+            <h1 class="section-title title-text">David Yuchen Wang</h1>
             <h2>5th Year Engineering Physics Student at UBC</h2>
         </div>
         <div class="social-buttons">
@@ -118,10 +116,21 @@
         
     </section>
   
+    <!-- Publications -->
+    <section id="publications">
+        <div>
+            <h1 class="section-title">Publications</h1>
+            <h2><a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank">Accelerator Tuning With Deep Reinforcement Learning</a>
+            </h2>
+            <h3>My poster presentation at the Advisory Commitee on TRIUMF (ACOT) 2021:</h3> 
+            <img style="padding: 10px;" src="assets/img/triumf_acot_poster.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+    </section>
+
     <!-- Experiences-->
     <section id="experiences">
         <div>
-            <h1 class="experience-title">Experiences</h1>
+            <h1 class="section-title">Experiences</h1>
            
            
         </div>
@@ -268,6 +277,7 @@
                 </div>
             </div>
     </section>
+
 
     <!-- Projects -->
     <section id="projects">
@@ -616,7 +626,7 @@
         <button class="course_button apsc_button">CIVL 250 <br> Engineering and Sustainable Development</button>
         <hr>
 
-        <h3>Spring 2021<h3>
+        <h3>Spring 2021</h3>
         <button class="course_button apsc_button">APSC 278 <br> Engineering Materials</button>
         <button class="course_button apsc_button">ASPC 279 <br> Engineering Materials Laboratory</button>
         <button class="course_button cpen_button">CPEN 312 <br> Digital Systems and Microcomputers</button>
@@ -678,15 +688,6 @@
         <button class="course_button apsc_button">ASPC 100 <br> Introduction to Engineering I</button>
         </div>
     </section>
-    <section id="publications">
-        <div>
-            <h1 class="section-title">Publications</h1>
-            <h2><a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank">Accelerator Tuning With Deep Reinforcement Learning</a>
-            </h2>
-            <h3>My poster presentation at the Advisory Commitee on TRIUMF (ACOT) 2021:</h2> 
-            <img style="padding: 10px;" src="assets/img/triumf_acot_poster.jpg" class="img-fluid" alt="Responsive image">
-        </div>
-    </section>
     <section id="interests">
         <div>
             <h1 class="section-title">My Interests</h1>
@@ -741,9 +742,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="js/scripts.js"></script>
- 
 
 
 </body>
+</div>
+
 
 </html>
