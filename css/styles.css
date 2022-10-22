@@ -73,6 +73,9 @@
 .small-div{
   margin: 5rem;
 }
+.pad-div{
+  padding-bottom: 2rem;
+}
 .youtube-btn {
   padding: 10px 20px;
   font-size: 20px;
