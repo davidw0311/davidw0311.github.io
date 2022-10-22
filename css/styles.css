@@ -36,6 +36,11 @@
   overflow: hidden;
   
 }
+.contained-img{
+  max-width: 100%; 
+  object-fit: contain;
+  overflow: hidden;
+}
 .card-img{
   width: 350px; 
   height: 300px; 
@@ -53,6 +58,15 @@
 .intro-div{
   position: absolute;
   z-index: -1;
+}
+.resume-button-div{
+  padding-top: 3rem;
+}
+.blurb-div{
+  padding: 2rem;
+}
+.small-div{
+  margin: 5rem;
 }
 .youtube-btn {
   padding: 10px 20px;
@@ -86,6 +100,9 @@ h2{
 }
 h3{
   font-size: 1.5rem;
+}
+.title-text{
+  font-size: 4rem;
 }
 .email-text{
   color: black;
@@ -133,6 +150,7 @@ h3{
 
 .section-title{
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 @media only screen and (max-width: 768px) {
   .section-title {
@@ -1179,7 +1197,7 @@ body {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 12px;
+  font-size: 16px;
   transition-duration: 0.4s;
   cursor: pointer;
 }
@@ -1218,7 +1236,7 @@ body {
 }
 
 .phys_button {
-  background-color: rgb(129, 201, 230);
+  background-color: rgb(148, 225, 230);
   color: black;
   border: 2px solid rgb(126, 182, 204);
 }
