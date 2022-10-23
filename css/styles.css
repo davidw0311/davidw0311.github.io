@@ -25,7 +25,12 @@
 .gallery-img{
   height: 70vh;
   width: 90vw;
-  object-fit: contain;
+  object-fit: cover;
+}
+
+.carousel-inner {
+  width: 80%;
+  margin: auto;
 }
 
 .cropped-img {
