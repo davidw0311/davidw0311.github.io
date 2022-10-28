@@ -426,7 +426,7 @@ h3{
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  text-align: center;
+  text-align: left;
 }
 .timeline-row .timeline-content:after {
   content: "";
