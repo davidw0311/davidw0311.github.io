@@ -384,6 +384,7 @@ h3{
   padding: 2rem;
   margin: 0 auto 1rem auto;
   overflow: hidden;
+  font-size: 1.2rem;
 }
 .timeline:after {
   content: "";
@@ -401,6 +402,12 @@ h3{
   position: relative;
   margin-bottom: 30px;
 }
+.highlight{
+  color:rgb(196, 205, 111);
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+}
 .timeline-row .timeline-time {
   position: absolute;
   right: 50%;
@@ -408,7 +415,7 @@ h3{
   text-align: right;
   margin-right: 20px;
   color: #121824;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .timeline-row .timeline-time small {
   display: block;
