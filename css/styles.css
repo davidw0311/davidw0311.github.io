@@ -57,6 +57,12 @@
   object-fit: cover;
   overflow: hidden;
 }
+.card-img-fit{
+  width: 350px; 
+  height: 300px; 
+  object-fit: contain;
+  overflow: hidden;
+}
 .modal-img{
   width: 90vh; 
   height: 60vw; 
@@ -802,6 +808,10 @@ body {
     position: relative;
     margin: 10px auto;
     cursor: pointer;
+}
+.profile-card-dark {
+  background: rgb(73,120,175);
+background: linear-gradient(90deg, rgba(73,120,175,1) 9%, rgba(21,9,121,1) 47%, rgba(0,212,255,1) 100%);
 }
 
 .profile-card-4 img {
