@@ -7,16 +7,20 @@
 // Scripts
 // 
 
-const myModal = document.getElementById('myModal')
-const myInput = document.getElementById('myInput')
+// const myModal = document.getElementById('myModal')
+// const myInput = document.getElementById('myInput')
+// document.addEventListener('DOMContentLoaded', function() {
+//     var element = document.getElementById('myModal');
+//     if (element) {
+//     element.addEventListener('shown.bs.modal', () => {
+//         myInput.focus()
+//       })
+//   });
 
-myModal.addEventListener('shown.bs.modal', () => {
-  myInput.focus()
-})
 
 const navLinks = document.querySelectorAll('.nav-item')
 const menuToggle = document.getElementById('navbarSupportedContent')
-const bsCollapse = new bootstrap.Collapse(menuToggle, {toggle:false})
+// const bsCollapse = new bootstrap.Collapse(menuToggle, {toggle:false})
 navLinks.forEach((l) => {l.addEventListener('click', () => { bsCollapse.toggle() })
 })
 // let slideIndex = 0;
