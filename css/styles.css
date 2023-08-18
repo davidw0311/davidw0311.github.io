@@ -20,7 +20,7 @@
 .fill-img{
   width: 100vw;
   /* height: 100vh; */
-  object-fit: contain;
+  /* object-fit: contain; */
 }
 .gallery-img{
   height: 70vh;
@@ -160,6 +160,7 @@ h3{
 
 #sideNav {
   background-color: rgba(52, 119, 206, 1);
+  overflow-y: scroll;
 }
 #sideNav .navbar-brand{
   margin: 1rem;
