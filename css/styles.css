@@ -17,11 +17,25 @@
   height: auto;
 }
 
+
+
 .fill-img{
-  /* width: 100vw; */
-  height: 100vh;
-  /* object-fit: contain; */
-}
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
+  }
+ 
+  @media only screen and (max-width: 1600px) {
+      .fill-img{
+          width: 100vw;
+          height: 100vh;
+          object-fit: cover;
+          object-position: center;
+      }
+  }
+
+
 .gallery-img{
   height: 70vh;
   width: 90vw;
@@ -82,6 +96,10 @@
   margin-bottom: 2rem;
   padding: 2rem;
 }
+.image-heading{
+    padding: 2rem;
+    margin-top: 2rem;
+}
 
 .full-page-div{
   height: 100vh;
@@ -108,7 +126,6 @@
 }
 
 body{
-  padding-top: 70px;
   background: linear-gradient(179.58deg, #ABCDD6 0.36%, rgba(171, 205, 214, 0.916889) 18.14%, rgba(69, 153, 189, 0.78) 63.63%, rgba(56, 153, 194, 0.46) 99.19%);;
   font-family: 'Electrolize', sans-serif;
   font-size: 1.5rem;
@@ -1220,6 +1237,57 @@ background: linear-gradient(90deg, rgba(73,120,175,1) 9%, rgba(21,9,121,1) 47%, 
 
 .profile-card-10:hover img {
     transform: scale(1.1);
+}
+
+.profile-card-11 {
+    border-radius: 10px;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    margin: 10px auto;
+    cursor: pointer;
+    padding: 30px 15px;
+    background-color: #FFF;
+    transition: all 0.25s linear;
+}
+
+.profile-card-11 img {
+    height: 240px;
+    width: 240px;
+    border-radius: 10%;
+    margin: 10px auto;
+}
+
+.profile-card-11 .profile-name {
+    font-size: 15px;
+    color: #3249b9;
+    font-weight: 600;
+}
+
+.profile-card-11 .profile-designation {
+    font-size: 13px;
+    color: #777;
+}
+
+.profile-card-11 .profile-description {
+    padding: 10px;
+    font-size: 13px;
+    color: #777;
+    margin: 15px 0px;
+    background-color: #F1F2F3;
+    border-radius: 30px;
+}
+
+.profile-card-11 a {
+    padding: 10px 15px;
+    background-color: #3249b9;
+    color: #FFF;
+    font-size: 11px;
+    border-radius: 25px;
+}
+
+.profile-card-11:hover {
+    transform: scale(1.05, 1.05);
 }
 
 
