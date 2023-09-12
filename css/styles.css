@@ -4,6 +4,9 @@
 
 }
 
+section{
+    margin-bottom: 2rem;
+}
 /* Images */
 .round-img{
   border-radius: 100%;
@@ -165,10 +168,10 @@ h3{
   font-size: 1.5rem;
   margin-left: 2rem;
 }
-#about{
+/* #about{
   /* padding-top: 3rem; */
-  padding-bottom: 10rem;
-}
+  /* padding-bottom: 10rem; */
+} */
 .about-blurb{
   margin-left: 3rem;
   margin-right: 3rem;

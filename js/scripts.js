@@ -16,6 +16,8 @@
 // Scripts
 // 
 
+
+
 window.addEventListener('DOMContentLoaded', event => {
 
     // Activate Bootstrap scrollspy on the main nav element
@@ -40,8 +42,20 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+    
+
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    var links = document.querySelectorAll('.lazy-load');
+    links.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var url = this.dataset.href;
+            window.open(url, '_blank');
+        });
+    });
+});
 
 // const myModal = document.getElementById('myModal')
 // const myInput = document.getElementById('myInput')
