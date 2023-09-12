@@ -87,7 +87,12 @@ section{
   overflow: hidden;
 }
 
-
+.publication-div{
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center; 
+    justify-content: center;
+}
 .intro-div{
   position: absolute;
   z-index: -1;
@@ -168,10 +173,7 @@ h3{
   font-size: 1.5rem;
   margin-left: 2rem;
 }
-/* #about{
-  /* padding-top: 3rem; */
-  /* padding-bottom: 10rem; */
-} */
+
 .about-blurb{
   margin-left: 3rem;
   margin-right: 3rem;
@@ -199,54 +201,7 @@ h3{
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
-@media only screen and (max-width: 768px) {
-  .section-title {
-    padding-top: 6.5rem;
-  }
-}
-@media only screen and (max-width: 588px) {
-  .section-title {
-    padding-top: 10.5rem;
-  }
-}
 
-@media (min-width: 768px) {
-  .social-buttons{
-    padding-bottom: 3rem;
-  }
-
-  body{
-    padding-left:15rem;
-  }
-  #sideNav {
-    padding-left: 0;
-    padding-right: 0;
-    text-align: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    width: 15rem;
-    height: 100vh;
-  }
-  #sideNav .navbar-brand {
-    display: flex;
-    margin: auto;
-    padding: auto;
-  }
-  #sideNav .navbar-collapse {
-    display: flex;
-    align-items: flex-start;
-    flex-grow: 0;
-    width: 100%;
-    margin-bottom: auto;
-  }
-  #sideNav .navbar-collapse .navbar-nav {
-    flex-direction: column;
-    width: 100%;
-  }
-}
 
 .social-buttons {
   display: flex;
@@ -354,6 +309,95 @@ h3{
 
 }
 
+/* less than or equal to 768px */
+@media only screen and (max-width: 768px) {
+    .section-title {
+    padding-top: 6.5rem;
+    }
+    .publication-div{
+    margin: 0 1 rem;
+    }
+    .social-button {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        width: 24px;
+        height: 24px;
+        text-decoration: none;
+        border-radius: 100%;
+        background: rgb(213, 209, 209);
+        text-align: center;
+    }
+    .social-button i {
+        font-size: 10px;
+    }
+    
+    .social-button svg {
+        height: 40%;
+        width: 40%;
+    }
+    
+}
+/* less than or equal to 588px */
+/* @media only screen and (max-width: 588px) {
+    .social-button i {
+        font-size: 8px;
+        }
+        
+    .social-button svg {
+        height: 20%;
+        width: 20%;
+    }
+    .section-title {
+        padding-top: 10.5rem;
+    }
+    .publication-div{
+        margin-left: 0
+    }
+
+} */
+
+/* greater than or equal to 768px */
+@media (min-width: 768px) {
+  .social-buttons{
+    padding-bottom: 1rem;
+    gap: 4px;
+  }
+
+  body{
+    padding-left:15rem;
+  }
+  #sideNav {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 15rem;
+    height: 100vh;
+  }
+  #sideNav .navbar-brand {
+    display: flex;
+    margin: auto;
+    padding: auto;
+  }
+  #sideNav .navbar-collapse {
+    display: flex;
+    align-items: flex-start;
+    flex-grow: 0;
+    width: 100%;
+    margin-bottom: auto;
+  }
+  #sideNav .navbar-collapse .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+}
 
 .resume-button {
   position: relative;

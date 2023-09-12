@@ -25,6 +25,7 @@
     <link rel="icon" href="assets/favicon.ico">
     
     <link rel="stylesheet" href="css/styles.css">
+    <script defer src="js/scripts.js"></script>
     
 </head>
 <div id="wrapper">
@@ -1015,7 +1016,7 @@
         <div>
             
             <h1 class="section-title">Publications</h1>
-            <div style="display: flex; align-items: center; margin-left: 10rem; ">
+            <div class="publication-div">
                 <div class="social-buttons" style="margin-right: 3rem">
                     <a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank" class="resume-button social-button--resume" aria-label="resume">
                         <div>
@@ -1038,14 +1039,17 @@
                 </div>
                 
             </div>
-            <div class="blurb-div" style="margin: 0 10rem 0; font-size: 1.5rem">
-                During my time as a junior machine learning engineer at TRIUMF, I wrote and published this paper at the NeurIPS 2021 Workshop for Machine Learning and the Physical Sciences. 
+            <div class="publication-div" >
+                <p style="margin: 2rem">
+                    During my time as a junior machine learning engineer at TRIUMF, I wrote and published this paper at the NeurIPS 2021 Workshop for Machine Learning and the Physical Sciences. 
                 I also presented my poster at the Advisory Commitee on TRIUMF (ACOT) 2021
+                </p>
+                
             </div>
             
             
-            <div style="display: flex; justify-content: center;">
-                <div style="display: flex; margin: 2rem">
+            <div class="publication-div">
+                <div style="display: flex; margin: 1rem">
                     <h2 >Listen to my talk </h2>
                     <a href="https://slideslive.com/38971739" target="_blank" style="text-decoration: none; margin-left: 1rem">
                         <div class="social-button"> 
@@ -1053,7 +1057,7 @@
                         </div>
                     </a> 
                 </div>
-                <div style="display: flex; margin: 2rem">
+                <div style="display: flex; margin: 1rem">
                     <h2 >View my poster </h2>
                     <a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125_poster.png" target="_blank" style="text-decoration: none; margin-left: 1rem">
                         <div class="social-button"> 
@@ -1247,7 +1251,8 @@
                                     <span class="badge badge-pill">STM Microcontroller</span>
                                     <span class="badge badge-pill">Circuit Design</span>
                                 </div>
-                                <span ><img class="contained-img" style="max-width:80%; margin-top: 1rem" src="assets/img/formula_e.JPG" alt="..." /></span>
+                                <span ><img class="contained-img" style="max-width:80%; margin-top: 1rem" src="assets/img/formula_e.JPG" alt="..." />
+                                </span>
                             </div>
                             <div class="timeline-content">
                                 <h4>Electrical Subteam Member</h4>
@@ -1262,28 +1267,34 @@
     <section id="education">
         <h1 class="section-title">Education</h1>
 
-        <div class = "education-text">
-            <h3 class = "education-text">The National University of Singapore
-                <br>August 2023 - December 2024
-            </h3>
-            <h3 class="smaller">Master of Computing</h3>
-            <h3 class="smaller">Specialization in Artificial Intelligence</h3>
-
-
-        </div>
-
-        <div class = "education-text">
-            <h3 class = "education-text">The University of British Columbia
-                <br>September 2018 - May 2023
-            </h3>
-            <h3 class="smaller">Bachelor of Applied Science - Engineering Physics</h3>
-            <h3 class="smaller">Minor in Commerce</h3>
-            <h3 class = "smaller">Cummulative Average 86%</h3>
-            
+        <div class="publication-div">
+            <img class="contained-img" style="max-width:5vw; margin-top: 1rem" src="assets/img/school_logo/NUS_logo.png" alt="..." />
+    
+            <div class = "education-text">
+                <h3 class = "education-text">The National University of Singapore
+                    <br>August 2023 - December 2024
+                </h3>
+                <h3 class="smaller">Master of Computing</h3>
+                <h3 class="smaller">Specialization in Artificial Intelligence</h3>
+    
+    
+            </div>
         </div>
         
-           
+        <div class="publication-div">
+            <img class="contained-img" style="max-width:5vw; margin-top: 1rem" src="assets/img/school_logo/UBC_logo.png" alt="..." />
+            <div class = "education-text">
+                <h3 class = "education-text">The University of British Columbia
+                    <br>September 2018 - May 2023
+                </h3>
+                <h3 class="smaller">Bachelor of Applied Science - Engineering Physics</h3>
+                <h3 class="smaller">Minor in Commerce</h3>
+                <h3 class = "smaller">Cummulative Average 86%</h3>
+                
+            </div>
         </div>
+        
+        
         
         <h3>Spring 2023</h3> 
         <button class="course_button phys_button">PHYS 403 <br> Statistical Mechanics</button>
@@ -1438,7 +1449,7 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="js/scripts.js"></script>
+
 
 
 </body>
