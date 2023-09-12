@@ -17,6 +17,13 @@
 // 
 
 
+window.onload = function() {
+    if (window.location.hash) {
+      var id = window.location.hash.slice(1); // Remove the '#' from the hash
+      var element = document.getElementById(id);
+      if (element) element.scrollIntoView();
+    }
+  };
 
 window.addEventListener('DOMContentLoaded', event => {
 
