@@ -45,16 +45,37 @@ section{
     }
 }
 
+.photo-gallery {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    bottom: 0;
+}
 
-.gallery-img{
-  height: 70vh;
-  width: 90vw;
-  object-fit: cover;
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    max-width: 70%;
+    /* max-height: 40%; */
+    object-fit: contain; /* Maintain aspect ratio and show the whole image */
+  }
+
+.carousel-item.active {
+    background-color: transparent;
 }
 
 .carousel-inner {
   width: 80%;
   margin: auto;
+  /* display: flex; */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+  background-color: transparent;
+}
+.carousel-caption {
+    bottom: 5%; /* Adjust this value as needed */
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .cropped-img {
