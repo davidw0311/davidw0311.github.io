@@ -73,7 +73,7 @@ section{
   background-color: transparent;
 }
 .carousel-caption {
-    bottom: 5%; /* Adjust this value as needed */
+    bottom: 0%; /* Adjust this value as needed */
     margin-bottom: 0;
     padding-bottom: 0;
 }
