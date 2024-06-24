@@ -1373,13 +1373,23 @@ background: linear-gradient(90deg, rgba(73,120,175,1) 9%, rgba(21,9,121,1) 47%, 
   background-color: #4CAF50; /* Green */
   color: white;
   margin: 8px;
-  padding: 16px 16px;
+  padding: 12px 12px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 12px;
   transition-duration: 0.4s;
   cursor: pointer;
+}
+
+.ai_button {
+  background-color: rgb(69, 59, 95); 
+  color: rgb(255, 255, 255); 
+  border: 2px solid rgb(69, 59, 95);
+}
+.ai_button:hover {
+  background-color: #8c85e0;
+  color: rgb(2, 2, 2);
 }
 
 .elec_button {
@@ -1387,7 +1397,6 @@ background: linear-gradient(90deg, rgba(73,120,175,1) 9%, rgba(21,9,121,1) 47%, 
   color: black; 
   border: 2px solid rgb(243, 203, 118);
 }
-
 .elec_button:hover {
   background-color: #ffffff;
   color: rgb(2, 2, 2);
@@ -1420,7 +1429,6 @@ background: linear-gradient(90deg, rgba(73,120,175,1) 9%, rgba(21,9,121,1) 47%, 
   color: black;
   border: 2px solid rgb(126, 182, 204);
 }
-
 .phys_button:hover {
   background-color: #ffffff;
   color: rgb(2, 2, 2);
