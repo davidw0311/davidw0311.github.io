@@ -41,4 +41,4 @@ Project media belongs under `public/assets/`. Preserve original documents and ph
 
 ## Deployment
 
-Pushes to `main` run the GitHub Pages workflow in `.github/workflows/deploy.yml`. In the repository settings, Pages must use **GitHub Actions** as its source.
+Pushes to `main` run the GitHub Pages workflow in `.github/workflows/deploy.yml`. The build also synchronizes the static export to the repository root so the site remains deployable when Pages is configured to publish from the `main` branch.
