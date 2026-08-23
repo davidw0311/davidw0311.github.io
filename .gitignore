@@ -1,2 +1,6 @@
-*aider*
+node_modules/
+.next/
+out/
 .DS_Store
+npm-debug.log*
+*.tsbuildinfo
