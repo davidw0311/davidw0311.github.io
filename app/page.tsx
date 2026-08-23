@@ -18,6 +18,7 @@ import { Atmosphere } from "@/components/Atmosphere";
 import { InitialLanding } from "@/components/InitialLanding";
 import { Navigation } from "@/components/Navigation";
 import { Reveal } from "@/components/Reveal";
+import { ViewportPositionKeeper } from "@/components/ViewportPositionKeeper";
 import { education, experiences, photos, socialLinks } from "@/data/portfolio";
 import { projects } from "@/data/projects";
 import styles from "./page.module.css";
@@ -29,11 +30,12 @@ export default function Home() {
     <>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <InitialLanding />
+      <ViewportPositionKeeper />
       <Atmosphere />
       <Navigation />
 
       <main id="main-content" className={styles.page}>
-        <section id="space" className={styles.space} aria-labelledby="space-title">
+        <section id="space" className={styles.space} aria-labelledby="space-title" data-viewport-anchor>
           <div className={styles.starField} aria-hidden="true" />
           <div className={styles.spaceOrbit} aria-hidden="true" />
           <Reveal className={styles.spaceContent}>
@@ -50,7 +52,7 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <section id="about" className={styles.hero} aria-labelledby="hero-title">
+        <section id="about" className={styles.hero} aria-labelledby="hero-title" data-viewport-anchor>
           <Image
             className={styles.heroMountain}
             src="/assets/mountain2/foggy_mountain.svg"
@@ -90,13 +92,13 @@ export default function Home() {
           </div>
         </section>
 
-        <div className={styles.surface} aria-hidden="true">
+        <div className={styles.surface} aria-hidden="true" data-viewport-anchor>
           <div className={styles.surfaceImage} aria-hidden="true">
             <Image src="/assets/generated/ocean-descent.png" alt="" fill sizes="100vw" />
           </div>
         </div>
 
-        <section id="projects" className={`${styles.section} ${styles.projects}`} aria-labelledby="projects-title">
+        <section id="projects" className={`${styles.section} ${styles.projects}`} aria-labelledby="projects-title" data-viewport-anchor>
           <Reveal className={styles.sectionHeading}>
             <h2 id="projects-title">Selected projects</h2>
             <p>Research, machines, and software built to leave the diagram and work in the real world.</p>
@@ -104,7 +106,7 @@ export default function Home() {
 
           <div className={styles.featuredGrid}>
             {featuredProjects.map((project, index) => (
-              <Reveal key={project.slug} className={styles.projectReveal} delay={Math.min(index * 0.04, 0.16)}>
+              <Reveal key={project.slug} className={styles.projectReveal} delay={Math.min(index * 0.04, 0.16)} viewportAnchor>
                 <Link className={styles.projectCard} href={`/projects/${project.slug}/`}>
                   <div className={styles.projectImage}>
                     <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 767px) 100vw, 50vw" />
@@ -120,7 +122,7 @@ export default function Home() {
             ))}
           </div>
 
-          <Reveal className={styles.projectIndex}>
+          <Reveal className={styles.projectIndex} viewportAnchor>
             <h3>Project archive</h3>
             <div className={styles.projectIndexGrid}>
               {projects.filter((project) => !project.featured).map((project) => (
@@ -134,8 +136,8 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <section id="publications" className={`${styles.section} ${styles.publication}`} aria-labelledby="publication-title">
-          <Reveal className={styles.publicationVisual}>
+        <section id="publications" className={`${styles.section} ${styles.publication}`} aria-labelledby="publication-title" data-viewport-anchor>
+          <Reveal className={styles.publicationVisual} viewportAnchor>
             <Image
               src="/assets/img/triumf_acot_poster.jpg"
               alt="Poster presentation for accelerator tuning with deep reinforcement learning"
@@ -143,7 +145,7 @@ export default function Home() {
               sizes="(max-width: 767px) 100vw, 45vw"
             />
           </Reveal>
-          <Reveal className={styles.publicationCopy} delay={0.1}>
+          <Reveal className={styles.publicationCopy} delay={0.1} viewportAnchor>
             <p className={styles.eyebrow}>NeurIPS 2021</p>
             <h2 id="publication-title">Accelerator Tuning With Deep Reinforcement Learning</h2>
             <p>
@@ -157,7 +159,7 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <section id="experiences" className={`${styles.section} ${styles.experience}`} aria-labelledby="experience-title">
+        <section id="experiences" className={`${styles.section} ${styles.experience}`} aria-labelledby="experience-title" data-viewport-anchor>
           <Reveal className={styles.sectionHeading}>
             <h2 id="experience-title">Experience under pressure</h2>
             <p>From accelerator control rooms to crop fields, I work where software meets complex physical systems.</p>
@@ -178,14 +180,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="education" className={`${styles.section} ${styles.education}`} aria-labelledby="education-title">
+        <section id="education" className={`${styles.section} ${styles.education}`} aria-labelledby="education-title" data-viewport-anchor>
           <Reveal className={styles.sectionHeading}>
             <h2 id="education-title">Built from first principles</h2>
             <p>A foundation spanning artificial intelligence, computation, physics, electronics, mechanics, and commerce.</p>
           </Reveal>
           <div className={styles.educationGrid}>
             {education.map((school, index) => (
-              <Reveal key={school.school} className={styles.school} delay={index * 0.08}>
+              <Reveal key={school.school} className={styles.school} delay={index * 0.08} viewportAnchor>
                 <div className={styles.schoolHeader}>
                   <Image src={school.logo} alt={school.logoAlt} width={160} height={100} />
                   <div>
@@ -213,14 +215,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="interests" className={`${styles.section} ${styles.interests}`} aria-labelledby="interests-title">
+        <section id="interests" className={`${styles.section} ${styles.interests}`} aria-labelledby="interests-title" data-viewport-anchor>
           <Reveal className={styles.sectionHeading}>
             <h2 id="interests-title">Looking beyond the work</h2>
             <p>Photography keeps me attentive to light, scale, weather, and the quiet geometry of the natural world.</p>
           </Reveal>
           <div className={styles.photoGrid}>
             {photos.map((photo, index) => (
-              <Reveal key={photo.src} className={styles.photoReveal} delay={Math.min(index * 0.025, 0.15)}>
+              <Reveal key={photo.src} className={styles.photoReveal} delay={Math.min(index * 0.025, 0.15)} viewportAnchor>
                 <a className={styles.photo} href={photo.src} target="_blank" rel="noopener noreferrer">
                   <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 767px) 100vw, 33vw" />
                   <span>{photo.title}</span>
@@ -235,8 +237,8 @@ export default function Home() {
           </Reveal>
         </section>
 
-        <footer className={styles.footer}>
-          <Reveal className={styles.footerInner}>
+        <footer className={styles.footer} data-viewport-anchor>
+          <Reveal className={styles.footerInner} viewportAnchor>
             <h2>Let&apos;s build something that matters.</h2>
             <a className={styles.primaryButton} href={socialLinks.email}><EnvelopeSimple size={19} weight="bold" /> Get in touch</a>
             <div className={styles.socials} aria-label="Social links">
@@ -260,7 +262,7 @@ export default function Home() {
 
 function ExperienceItem({ experience, open = false }: { experience: (typeof experiences)[number]; open?: boolean }) {
   return (
-    <details className={styles.experienceItem} open={open}>
+    <details className={styles.experienceItem} open={open} data-viewport-anchor>
       <summary>
         <span>{experience.period}</span>
         <strong>{experience.role}</strong>

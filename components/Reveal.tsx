@@ -7,14 +7,16 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   delay?: number;
+  viewportAnchor?: boolean;
 };
 
-export function Reveal({ children, className, delay = 0 }: RevealProps) {
+export function Reveal({ children, className, delay = 0, viewportAnchor = false }: RevealProps) {
   const reduceMotion = useReducedMotion();
 
   return (
     <motion.div
       className={className}
+      data-viewport-anchor={viewportAnchor ? "" : undefined}
       initial={reduceMotion ? false : { opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.18 }}
