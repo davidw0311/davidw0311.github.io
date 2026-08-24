@@ -1,4 +1,5 @@
 .page {
+  --scene-bridge: var(--ocean-1);
   position: relative;
   z-index: var(--layer-content);
   overflow: clip;
@@ -14,19 +15,41 @@
 
 .space {
   position: relative;
+  isolation: isolate;
   display: grid;
   place-items: center;
   padding: 100px 24px 48px;
   overflow: hidden;
   background:
+    linear-gradient(to bottom, transparent 54%, rgb(10 82 104 / 0.18) 73%, var(--scene-bridge) 96%, var(--scene-bridge) 100%),
     radial-gradient(circle at 50% 115%, rgb(39 104 127 / 0.34), transparent 35%),
     radial-gradient(circle at 75% 20%, rgb(42 76 103 / 0.23), transparent 28%),
     var(--space);
 }
 
+.space::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 0;
+  height: 34vh;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(10 82 104 / 0.16) 30%,
+    rgb(10 82 104 / 0.62) 72%,
+    var(--scene-bridge) 94%,
+    var(--scene-bridge) 100%
+  );
+}
+
 .starField {
   position: absolute;
   inset: 0;
+  z-index: 0;
   opacity: 0.72;
   background-image:
     radial-gradient(circle, rgb(231 248 247 / 0.9) 0 1px, transparent 1.4px),
@@ -38,6 +61,7 @@
 
 .spaceOrbit {
   position: absolute;
+  z-index: 0;
   width: min(76vw, 920px);
   aspect-ratio: 1;
   border: 1px solid rgb(208 240 240 / 0.1);
@@ -187,7 +211,34 @@
   isolation: isolate;
   overflow: hidden;
   color: var(--ink);
-  background: #b9d8dd;
+  background: linear-gradient(
+    to bottom,
+    var(--scene-bridge) 0%,
+    #7fadb7 12%,
+    #b9d8dd 24%,
+    #b9d8dd 76%,
+    #75a9b4 90%,
+    var(--scene-bridge) 100%
+  );
+}
+
+.hero::before {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 27vh;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--scene-bridge) 0%,
+    var(--scene-bridge) 6%,
+    rgb(10 82 104 / 0.86) 20%,
+    rgb(10 82 104 / 0.34) 60%,
+    transparent 100%
+  );
 }
 
 .hero::after {
@@ -196,9 +247,17 @@
   bottom: -1px;
   left: 0;
   z-index: 2;
-  height: 18vh;
+  height: 27vh;
   content: "";
-  background: linear-gradient(to bottom, transparent, rgb(10 82 104 / 0.82) 88%, var(--ocean-1));
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(10 82 104 / 0.34) 40%,
+    rgb(10 82 104 / 0.86) 82%,
+    var(--scene-bridge) 94%,
+    var(--scene-bridge) 100%
+  );
 }
 
 .heroMountain {
@@ -328,17 +387,38 @@
 
 .surface {
   position: relative;
+  isolation: isolate;
   display: grid;
   align-items: center;
   min-height: 120dvh;
   padding: 120px max(24px, 8vw);
   overflow: hidden;
-  background: var(--ocean-1);
+  background: linear-gradient(to bottom, var(--scene-bridge), var(--ocean-1) 18%, var(--ocean-1));
+}
+
+.surface::before {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 30vh;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    var(--scene-bridge) 0%,
+    var(--scene-bridge) 6%,
+    rgb(10 82 104 / 0.8) 22%,
+    rgb(10 82 104 / 0.34) 58%,
+    transparent 100%
+  );
 }
 
 .surface::after {
   position: absolute;
   inset: 0;
+  z-index: 1;
   content: "";
   background: linear-gradient(to bottom, rgb(10 82 104 / 0.12), rgb(3 33 53 / 0.64) 78%, var(--ocean-3));
 }
@@ -346,7 +426,35 @@
 .surfaceImage {
   position: absolute;
   inset: 0;
+  z-index: 0;
   opacity: 0.7;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.18) 10%, rgb(0 0 0 / 0.72) 23%, rgb(0 0 0) 34%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgb(0 0 0 / 0.18) 10%, rgb(0 0 0 / 0.72) 23%, rgb(0 0 0) 34%);
+}
+
+@keyframes scene-boundary-fade {
+  from { opacity: 0.88; }
+  to { opacity: 1; }
+}
+
+@keyframes submerged-image-fade {
+  from { opacity: 0.62; }
+  to { opacity: 0.72; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .space::after,
+  .hero::before {
+    animation: scene-boundary-fade 6.5s ease-in-out infinite alternate;
+  }
+
+  .hero::before {
+    animation-delay: -3.25s;
+  }
+
+  .surfaceImage {
+    animation: submerged-image-fade 8s ease-in-out infinite alternate;
+  }
 }
 
 .surfaceImage img {
