@@ -18,13 +18,37 @@
   background: rgb(6 22 33 / 0.94);
 }
 
-.focusControls {
+.headerControls {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.viewControls,
+.focusControls,
+.tableTabs {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
+.viewControls {
+  width: fit-content;
+  padding: 3px;
+  border: 1px solid rgb(221 244 240 / 0.16);
+  border-radius: 999px;
+  background: rgb(221 244 240 / 0.04);
+}
+
+.focusControls {
+  padding-left: 3px;
+}
+
+.viewControls button,
 .focusControls button,
+.tableTabs button,
+.selectionActions button,
+.customScope button,
 .actionGrid button,
 .nextButton {
   min-height: 44px;
@@ -36,6 +60,7 @@
   transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
+.viewControls button,
 .focusControls button {
   padding: 8px 13px;
   border-radius: 999px;
@@ -43,11 +68,39 @@
   font-size: 0.72rem;
 }
 
+.viewControls button {
+  min-height: 36px;
+  border-color: transparent;
+}
+
+.viewControls button:hover,
+.viewControls .activeView {
+  color: #eef8f6;
+  background: rgb(221 244 240 / 0.12);
+}
+
 .focusControls button:hover,
 .focusControls .activeFocus {
   border-color: #79e4c5;
   color: #06251f;
   background: #79e4c5;
+}
+
+.tableTabs button {
+  min-height: 34px;
+  padding: 6px 11px;
+  border-color: transparent;
+  border-radius: 8px;
+  color: #a9c0c0;
+  background: transparent;
+  font-size: 0.7rem;
+}
+
+.tableTabs button:hover,
+.tableTabs .activeTable {
+  border-color: rgb(121 228 197 / 0.36);
+  color: #79e4c5;
+  background: rgb(121 228 197 / 0.08);
 }
 
 .scoreboard {
@@ -75,6 +128,90 @@
   color: #ecf7f5;
   font-size: 0.95rem;
   font-weight: 800;
+}
+
+.selectionActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+
+.selectionActions > span {
+  margin-right: 4px;
+  color: #a9c0c0;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
+.selectionActions > span strong {
+  color: #edf7f5;
+  font-size: 0.95rem;
+}
+
+.selectionActions button,
+.customScope button {
+  min-height: 38px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+}
+
+.selectionActions button:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.clearSelection,
+.customScope button {
+  background: transparent;
+}
+
+.practiceSelection {
+  border-color: #79e4c5 !important;
+  color: #06251f !important;
+  background: #79e4c5;
+}
+
+.customScope {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 18px;
+  border-bottom: 1px solid rgb(223 245 241 / 0.14);
+  color: #aac1c0;
+  background: rgb(121 228 197 / 0.055);
+  font-size: 0.78rem;
+}
+
+.customScope span strong {
+  margin-right: 6px;
+  color: #79e4c5;
+}
+
+.customScope div {
+  display: flex;
+  gap: 7px;
+}
+
+.customScope button {
+  min-height: 34px;
+}
+
+.viewControls button:focus-visible,
+.focusControls button:focus-visible,
+.tableTabs button:focus-visible,
+.selectionActions button:focus-visible,
+.customScope button:focus-visible,
+.actionGrid button:focus-visible,
+.nextButton:focus-visible,
+.columnSelector:focus-visible,
+.rowSelector:focus-visible,
+.strategyCell:focus-visible {
+  outline: 2px solid #79e4c5;
+  outline-offset: 2px;
 }
 
 .gameGrid {
@@ -342,6 +479,204 @@
   transform: translateY(-1px);
 }
 
+.strategyWorkspace {
+  min-height: 660px;
+  padding: clamp(24px, 4vw, 46px);
+  background:
+    radial-gradient(circle at 90% 5%, rgb(121 228 197 / 0.07), transparent 28%),
+    #071925;
+}
+
+.strategyIntro {
+  max-width: 620px;
+  margin-bottom: 24px;
+}
+
+.strategyIntro h2 {
+  margin: 0;
+  color: #edf7f5;
+  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+  letter-spacing: -0.03em;
+}
+
+.strategyIntro p {
+  margin: 8px 0 0;
+  color: #9fb7b7;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.tableScroll {
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px;
+  border: 1px solid rgb(223 245 241 / 0.14);
+  border-radius: 14px;
+  background: rgb(3 16 25 / 0.72);
+  scrollbar-color: rgb(121 228 197 / 0.5) rgb(221 244 240 / 0.06);
+  scrollbar-width: thin;
+}
+
+.tableScroll:focus-visible {
+  outline: 2px solid #79e4c5;
+  outline-offset: 3px;
+}
+
+.strategyTable {
+  width: 100%;
+  min-width: 790px;
+  border-collapse: separate;
+  border-spacing: 5px;
+  table-layout: fixed;
+}
+
+.strategyTable th,
+.strategyTable td {
+  height: 48px;
+  padding: 0;
+}
+
+.strategyTable thead th:first-child,
+.strategyTable tbody th {
+  width: 92px;
+}
+
+.strategyTable tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: #071925;
+}
+
+.cornerHeading {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  padding-left: 10px !important;
+  color: #9eb6b6;
+  background: #071925;
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.columnSelector,
+.rowSelector,
+.strategyCell {
+  width: 100%;
+  height: 100%;
+  min-height: 44px;
+  border: 1px solid rgb(223 245 241 / 0.13);
+  border-radius: 9px;
+  color: #dbe9e8;
+  background: rgb(221 244 240 / 0.045);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.columnSelector,
+.rowSelector {
+  display: grid;
+  place-content: center;
+  gap: 2px;
+}
+
+.columnSelector span,
+.rowSelector span {
+  color: #829d9e;
+  font-size: 0.52rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.columnSelector strong,
+.rowSelector strong {
+  color: #edf7f5;
+  font-size: 0.92rem;
+}
+
+.strategyCell {
+  font-size: 0.84rem;
+  font-weight: 850;
+}
+
+.strategyCell[data-code="D"],
+.strategyCell[data-code="Ds"],
+.strategyCell[data-code="P"] {
+  color: #a9e5d3;
+  background: rgb(121 228 197 / 0.07);
+}
+
+.strategyCell[data-code="R"] {
+  color: #f3b3aa;
+  background: rgb(232 133 128 / 0.07);
+}
+
+.columnSelector:hover,
+.rowSelector:hover,
+.strategyCell:hover {
+  border-color: #79e4c5;
+  color: #79e4c5;
+  transform: translateY(-1px);
+}
+
+.tableSelectionActive,
+.strategyCell.tableSelectionActive {
+  border-color: #79e4c5;
+  color: #06251f;
+  background: #79e4c5;
+}
+
+.tableSelectionActive span,
+.tableSelectionActive strong {
+  color: #06251f;
+}
+
+.tableSelectionPartial {
+  border-color: rgb(121 228 197 / 0.72);
+  background: linear-gradient(135deg, rgb(121 228 197 / 0.2), rgb(121 228 197 / 0.04));
+}
+
+.strategyLegend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 20px;
+  margin-top: 20px;
+}
+
+.strategyLegend div {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+}
+
+.strategyLegend strong {
+  color: #79e4c5;
+  font-size: 0.75rem;
+}
+
+.strategyLegend span {
+  color: #91aaab;
+  font-size: 0.69rem;
+  line-height: 1.35;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 @media (max-width: 900px) {
   .trainerHeader {
     grid-template-columns: 1fr;
@@ -364,6 +699,10 @@
     border-top: 1px solid rgb(223 245 241 / 0.14);
     border-left: 0;
   }
+
+  .selectionActions {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 600px) {
@@ -375,6 +714,16 @@
     padding: 14px;
   }
 
+  .viewControls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .viewControls button {
+    width: 100%;
+  }
+
   .focusControls {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -382,6 +731,36 @@
 
   .focusControls button {
     width: 100%;
+  }
+
+  .tableTabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .selectionActions {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .selectionActions > span {
+    grid-column: 1 / -1;
+  }
+
+  .selectionActions button {
+    width: 100%;
+  }
+
+  .customScope {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px 14px;
+  }
+
+  .customScope div {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .scoreboard {
@@ -419,10 +798,45 @@
     min-height: 470px;
     padding: 26px 18px;
   }
+
+  .strategyWorkspace {
+    min-height: 580px;
+    padding: 24px 12px;
+  }
+
+  .strategyIntro {
+    padding: 0 4px;
+  }
+
+  .tableScroll {
+    padding: 7px;
+  }
+
+  .strategyTable {
+    min-width: 730px;
+    border-spacing: 4px;
+  }
+
+  .strategyTable th,
+  .strategyTable td {
+    height: 46px;
+  }
+
+  .strategyLegend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 4px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .focusControls button,
+  .viewControls button,
+  .tableTabs button,
+  .selectionActions button,
+  .customScope button,
+  .columnSelector,
+  .rowSelector,
+  .strategyCell,
   .actionGrid button,
   .nextButton {
     transition: none;

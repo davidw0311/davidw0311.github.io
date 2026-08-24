@@ -2,10 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   buildTrainingScenarios,
+  dealerUpcards,
   explainScenario,
   hardStrategy,
   pairStrategy,
   resolveStrategyAction,
+  scenariosForSelection,
   softStrategy,
   trainingScenarios,
 } from "../data/blackjackStrategy.ts";
@@ -104,4 +106,16 @@ test("provides a plain-language explanation for every decision", () => {
     assert.ok(explanation.length >= 45, scenario.id);
     assert.doesNotMatch(explanation, /[—–]/, scenario.id);
   }
+});
+
+test("returns exact row, column, and cell practice pools", () => {
+  const hardRow = scenariosForSelection({ kind: "hard", handLabel: "12" });
+  const softColumn = scenariosForSelection({ kind: "soft", dealerUpcard: "A" });
+  const pairCell = scenariosForSelection({ kind: "pair", handLabel: "8,8", dealerUpcard: "10" });
+
+  assert.equal(hardRow.length, 10);
+  assert.deepEqual(hardRow.map((scenario) => scenario.dealerUpcard), dealerUpcards);
+  assert.equal(softColumn.length, 8);
+  assert.ok(softColumn.every((scenario) => scenario.dealerUpcard === "A"));
+  assert.deepEqual(pairCell.map((scenario) => scenario.id), ["pair-8-8-vs-10"]);
 });

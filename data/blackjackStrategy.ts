@@ -171,6 +171,24 @@ export function buildTrainingScenarios(): TrainingScenario[] {
 
 export const trainingScenarios = buildTrainingScenarios();
 
+export type StrategySelection = {
+  kind: HandKind;
+  handLabel?: string;
+  dealerUpcard?: DealerUpcard;
+};
+
+export function scenariosForSelection({
+  kind,
+  handLabel,
+  dealerUpcard,
+}: StrategySelection): TrainingScenario[] {
+  return trainingScenarios.filter((scenario) => (
+    scenario.kind === kind
+    && (handLabel === undefined || scenario.handLabel === handLabel)
+    && (dealerUpcard === undefined || scenario.dealerUpcard === dealerUpcard)
+  ));
+}
+
 export function explainScenario(scenario: TrainingScenario): string {
   const dealer = scenario.dealerUpcard === "A" ? "Ace" : scenario.dealerUpcard;
 

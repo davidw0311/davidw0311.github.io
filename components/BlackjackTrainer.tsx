@@ -9,17 +9,21 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
 import {
   actionLabels,
+  dealerUpcards,
   explainScenario,
+  scenariosForSelection,
   strategyCodeMeaning,
   trainingScenarios,
   type BlackjackAction,
   type CardRank,
   type HandKind,
+  type StrategyCode,
   type TrainingScenario,
 } from "@/data/blackjackStrategy";
 import styles from "./BlackjackTrainer.module.css";
 
-type TrainingFocus = "all" | HandKind;
+type TrainingFocus = "all" | HandKind | "custom";
+type TrainerView = "practice" | "table";
 type Suit = "clubs" | "diamonds" | "hearts" | "spades";
 
 const actions: BlackjackAction[] = ["hit", "stand", "double", "split", "surrender"];
@@ -30,11 +34,24 @@ const suitGlyphs: Record<Suit, string> = {
   hearts: "♥︎",
   spades: "♠︎",
 };
-const focusLabels: Record<TrainingFocus, string> = {
+const focusLabels: Record<Exclude<TrainingFocus, "custom">, string> = {
   all: "All hands",
   hard: "Hard",
   soft: "Soft",
   pair: "Pairs",
+};
+const tableLabels: Record<HandKind, string> = {
+  hard: "Hard totals",
+  soft: "Soft totals",
+  pair: "Pairs",
+};
+const strategyCodeLabels: Record<StrategyCode, string> = {
+  H: "Hit",
+  S: "Stand",
+  D: "Double, otherwise hit",
+  Ds: "Double, otherwise stand",
+  P: "Split",
+  R: "Surrender, otherwise hit",
 };
 
 const initialScenario = trainingScenarios.find((scenario) => scenario.id === "hard-16-vs-10") ?? trainingScenarios[0];
@@ -67,6 +84,24 @@ function formatHandHeading(scenario: TrainingScenario) {
   return rank === "A" ? "Pair of Aces" : `Pair of ${rank}s`;
 }
 
+function formatTableRowLabel(scenario: TrainingScenario) {
+  if (scenario.kind === "hard") return String(scenario.total);
+  return scenario.handLabel;
+}
+
+function formatTableRowName(scenario: TrainingScenario) {
+  if (scenario.kind === "hard") return `Hard ${scenario.total}`;
+  if (scenario.kind === "soft") return `Soft ${scenario.handLabel}`;
+  return scenario.playerRanks[0] === "A" ? "Pair of Aces" : `Pair of ${scenario.playerRanks[0]}s`;
+}
+
+function selectionState(selectedIds: Set<string>, scenarios: TrainingScenario[]) {
+  const selectedCount = scenarios.filter((scenario) => selectedIds.has(scenario.id)).length;
+  if (selectedCount === 0) return "none";
+  if (selectedCount === scenarios.length) return "all";
+  return "some";
+}
+
 function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label: string }) {
   const isRed = suit === "diamonds" || suit === "hearts";
   const suitName = suit.slice(0, -1);
@@ -88,7 +123,11 @@ function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label:
 
 export function BlackjackTrainer() {
   const reduceMotion = useReducedMotion();
+  const [view, setView] = useState<TrainerView>("practice");
   const [focus, setFocus] = useState<TrainingFocus>("all");
+  const [tableKind, setTableKind] = useState<HandKind>("hard");
+  const [selectedScenarioIds, setSelectedScenarioIds] = useState<Set<string>>(() => new Set());
+  const [activePracticeIds, setActivePracticeIds] = useState<Set<string> | null>(null);
   const [scenario, setScenario] = useState<TrainingScenario>(initialScenario);
   const [selectedAction, setSelectedAction] = useState<BlackjackAction | null>(null);
   const [dealNumber, setDealNumber] = useState(0);
@@ -99,11 +138,23 @@ export function BlackjackTrainer() {
   const isCorrect = selectedAction === scenario.correctAction;
   const accuracy = answered === 0 ? 0 : Math.round((correct / answered) * 100);
   const explanation = useMemo(() => explainScenario(scenario), [scenario]);
+  const activePracticeScenarios = useMemo(() => {
+    if (!activePracticeIds) return [];
+    return trainingScenarios.filter((candidate) => activePracticeIds.has(candidate.id));
+  }, [activePracticeIds]);
+  const tableScenarios = useMemo(() => scenariosForSelection({ kind: tableKind }), [tableKind]);
+  const tableRows = useMemo(() => {
+    const rows = new Map<string, TrainingScenario[]>();
+    for (const candidate of tableScenarios) {
+      const row = rows.get(candidate.handLabel) ?? [];
+      row.push(candidate);
+      rows.set(candidate.handLabel, row);
+    }
+    return [...rows.values()];
+  }, [tableScenarios]);
 
-  const deal = (nextFocus: TrainingFocus = focus) => {
-    const candidates = nextFocus === "all"
-      ? trainingScenarios
-      : trainingScenarios.filter((candidate) => candidate.kind === nextFocus);
+  const dealFrom = (candidates: TrainingScenario[]) => {
+    if (candidates.length === 0) return;
     let index = randomScenarioIndex(candidates.length);
     if (candidates.length > 1 && candidates[index].id === scenario.id) {
       index = (index + 1) % candidates.length;
@@ -114,9 +165,47 @@ export function BlackjackTrainer() {
     setDealNumber((value) => value + 1);
   };
 
-  const changeFocus = (nextFocus: TrainingFocus) => {
+  const deal = (nextFocus: TrainingFocus = focus) => {
+    const candidates = nextFocus === "all"
+      ? trainingScenarios
+      : nextFocus === "custom"
+        ? activePracticeScenarios
+        : trainingScenarios.filter((candidate) => candidate.kind === nextFocus);
+    dealFrom(candidates);
+  };
+
+  const changeFocus = (nextFocus: Exclude<TrainingFocus, "custom">) => {
+    setActivePracticeIds(null);
     setFocus(nextFocus);
     deal(nextFocus);
+  };
+
+  const toggleSelection = (candidates: TrainingScenario[]) => {
+    setSelectedScenarioIds((current) => {
+      const next = new Set(current);
+      const remove = candidates.every((candidate) => next.has(candidate.id));
+      for (const candidate of candidates) {
+        if (remove) next.delete(candidate.id);
+        else next.add(candidate.id);
+      }
+      return next;
+    });
+  };
+
+  const startSelectedPractice = () => {
+    const candidates = trainingScenarios.filter((candidate) => selectedScenarioIds.has(candidate.id));
+    if (candidates.length === 0) return;
+    setActivePracticeIds(new Set(selectedScenarioIds));
+    setFocus("custom");
+    setView("practice");
+    dealFrom(candidates);
+  };
+
+  const clearCustomPractice = () => {
+    setSelectedScenarioIds(new Set());
+    setActivePracticeIds(null);
+    setFocus("all");
+    dealFrom(trainingScenarios);
   };
 
   const chooseAction = (action: BlackjackAction) => {
@@ -135,29 +224,100 @@ export function BlackjackTrainer() {
   return (
     <section className={styles.trainer} aria-label="Blackjack basic strategy trainer">
       <div className={styles.trainerHeader}>
-        <div className={styles.focusControls} aria-label="Choose a hand category">
-          {(Object.keys(focusLabels) as TrainingFocus[]).map((option) => (
+        <div className={styles.headerControls}>
+          <div className={styles.viewControls} aria-label="Choose trainer view">
             <button
               type="button"
-              key={option}
-              className={focus === option ? styles.activeFocus : ""}
-              aria-pressed={focus === option}
-              onClick={() => changeFocus(option)}
+              className={view === "practice" ? styles.activeView : ""}
+              aria-pressed={view === "practice"}
+              onClick={() => setView("practice")}
             >
-              {focusLabels[option]}
+              Practice
             </button>
-          ))}
+            <button
+              type="button"
+              className={view === "table" ? styles.activeView : ""}
+              aria-pressed={view === "table"}
+              onClick={() => setView("table")}
+            >
+              Strategy tables
+            </button>
+          </div>
+
+          {view === "practice" ? (
+            <div className={styles.focusControls} aria-label="Choose a hand category">
+              {(Object.keys(focusLabels) as Exclude<TrainingFocus, "custom">[]).map((option) => (
+                <button
+                  type="button"
+                  key={option}
+                  className={focus === option ? styles.activeFocus : ""}
+                  aria-pressed={focus === option}
+                  onClick={() => changeFocus(option)}
+                >
+                  {focusLabels[option]}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.tableTabs} aria-label="Choose a strategy table">
+              {(Object.keys(tableLabels) as HandKind[]).map((kind) => (
+                <button
+                  type="button"
+                  key={kind}
+                  className={tableKind === kind ? styles.activeTable : ""}
+                  aria-pressed={tableKind === kind}
+                  onClick={() => setTableKind(kind)}
+                >
+                  {tableLabels[kind]}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        <dl className={styles.scoreboard} aria-label="Training statistics">
-          <div><dt>Hands</dt><dd>{answered}</dd></div>
-          <div><dt>Correct</dt><dd>{correct}</dd></div>
-          <div><dt>Streak</dt><dd>{streak}</dd></div>
-          <div><dt>Accuracy</dt><dd>{accuracy}%</dd></div>
-        </dl>
+        {view === "practice" ? (
+          <dl className={styles.scoreboard} aria-label="Training statistics">
+            <div><dt>Hands</dt><dd>{answered}</dd></div>
+            <div><dt>Correct</dt><dd>{correct}</dd></div>
+            <div><dt>Streak</dt><dd>{streak}</dd></div>
+            <div><dt>Accuracy</dt><dd>{accuracy}%</dd></div>
+          </dl>
+        ) : (
+          <div className={styles.selectionActions} aria-live="polite">
+            <span><strong>{selectedScenarioIds.size}</strong> {selectedScenarioIds.size === 1 ? "hand" : "hands"} selected</span>
+            <button
+              type="button"
+              className={styles.clearSelection}
+              disabled={selectedScenarioIds.size === 0}
+              onClick={clearCustomPractice}
+            >
+              Clear
+            </button>
+            <button
+              type="button"
+              className={styles.practiceSelection}
+              disabled={selectedScenarioIds.size === 0}
+              onClick={startSelectedPractice}
+            >
+              Practice selection
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className={styles.gameGrid}>
+      {view === "practice" ? (
+        <>
+          {focus === "custom" && (
+            <div className={styles.customScope} role="status">
+              <span><strong>Selected practice</strong> {activePracticeScenarios.length} {activePracticeScenarios.length === 1 ? "hand" : "hands"}</span>
+              <div>
+                <button type="button" onClick={() => setView("table")}>Edit selection</button>
+                <button type="button" onClick={clearCustomPractice}>Use all hands</button>
+              </div>
+            </div>
+          )}
+
+          <div className={styles.gameGrid}>
         <div className={styles.tableSurface}>
           <div className={styles.tableRule} aria-hidden="true" />
           <div className={styles.dealerZone}>
@@ -267,8 +427,96 @@ export function BlackjackTrainer() {
               </motion.div>
             )}
           </AnimatePresence>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className={styles.strategyWorkspace}>
+          <div className={styles.strategyIntro}>
+            <h2>Select what you want to practice</h2>
+            <p>Select multiple player rows, dealer columns, or individual cells. Every selection joins the same practice set.</p>
+          </div>
+
+          <div className={styles.tableScroll} tabIndex={0} aria-label={`${tableLabels[tableKind]} strategy table, horizontally scrollable`}>
+            <table className={styles.strategyTable}>
+              <caption className={styles.srOnly}>{tableLabels[tableKind]} basic strategy</caption>
+              <thead>
+                <tr>
+                  <th scope="col" className={styles.cornerHeading}>Your hand</th>
+                  {dealerUpcards.map((upcard) => {
+                    const columnScenarios = scenariosForSelection({ kind: tableKind, dealerUpcard: upcard });
+                    const state = selectionState(selectedScenarioIds, columnScenarios);
+                    return (
+                      <th scope="col" key={upcard}>
+                        <button
+                          type="button"
+                          className={`${styles.columnSelector} ${state === "all" ? styles.tableSelectionActive : ""} ${state === "some" ? styles.tableSelectionPartial : ""}`}
+                          aria-label={`Select dealer ${upcard} column in ${tableLabels[tableKind]}`}
+                          aria-pressed={state === "some" ? "mixed" : state === "all"}
+                          onClick={() => toggleSelection(columnScenarios)}
+                        >
+                          <span>Dealer</span>
+                          <strong>{upcard}</strong>
+                        </button>
+                      </th>
+                    );
+                  })}
+                </tr>
+              </thead>
+              <tbody>
+                {tableRows.map((row) => {
+                  const rowScenario = row[0];
+                  const rowState = selectionState(selectedScenarioIds, row);
+                  const rowName = formatTableRowName(rowScenario);
+                  return (
+                    <tr key={rowScenario.handLabel}>
+                      <th scope="row">
+                        <button
+                          type="button"
+                          className={`${styles.rowSelector} ${rowState === "all" ? styles.tableSelectionActive : ""} ${rowState === "some" ? styles.tableSelectionPartial : ""}`}
+                          aria-label={`Select ${rowName} row`}
+                          aria-pressed={rowState === "some" ? "mixed" : rowState === "all"}
+                          onClick={() => toggleSelection(row)}
+                        >
+                          <span>{rowScenario.kind === "hard" ? "Hard" : rowScenario.kind === "soft" ? "Soft" : "Pair"}</span>
+                          <strong>{formatTableRowLabel(rowScenario)}</strong>
+                        </button>
+                      </th>
+                      {row.map((cell) => {
+                        const selected = selectedScenarioIds.has(cell.id);
+                        return (
+                          <td key={cell.id}>
+                            <button
+                              type="button"
+                              className={`${styles.strategyCell} ${selected ? styles.tableSelectionActive : ""}`}
+                              data-code={cell.strategyCode}
+                              aria-label={`${rowName} against dealer ${cell.dealerUpcard}: ${strategyCodeLabels[cell.strategyCode]}`}
+                              aria-pressed={selected}
+                              title={strategyCodeLabels[cell.strategyCode]}
+                              onClick={() => toggleSelection([cell])}
+                            >
+                              {cell.strategyCode}
+                            </button>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+
+          <div className={styles.strategyLegend} aria-label="Strategy table legend">
+            {(Object.keys(strategyCodeLabels) as StrategyCode[]).map((code) => (
+              <div key={code}>
+                <strong>{code}</strong>
+                <span>{strategyCodeLabels[code]}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
