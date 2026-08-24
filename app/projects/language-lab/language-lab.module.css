@@ -1,0 +1,238 @@
+.page {
+  min-height: 100dvh;
+  color: #eef8f5;
+  background:
+    radial-gradient(circle at 12% 7%, rgb(27 105 96 / 0.22), transparent 24%),
+    radial-gradient(circle at 87% 20%, rgb(121 228 197 / 0.08), transparent 25%),
+    #050d13;
+}
+
+.page::before {
+  position: fixed;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.28;
+  background-image:
+    radial-gradient(circle, rgb(224 245 241 / 0.5) 0 1px, transparent 1.3px),
+    radial-gradient(circle, rgb(121 228 197 / 0.28) 0 1px, transparent 1.3px);
+  background-position: 36px 70px, 170px 210px;
+  background-size: 300px 340px, 470px 510px;
+  mask-image: linear-gradient(to bottom, #000, transparent 58%);
+}
+
+.nav,
+.stage,
+.prototypeNote,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(calc(100% - 40px), 1240px);
+  min-height: 70px;
+  margin: 0 auto;
+}
+
+.nav a,
+.footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav a:last-child {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.stage {
+  width: min(calc(100% - 40px), 1240px);
+  margin: 0 auto;
+  padding: clamp(34px, 5vw, 62px) 0 clamp(88px, 10vw, 130px);
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  margin-bottom: clamp(30px, 4vw, 48px);
+}
+
+.introIcon {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  margin-top: 5px;
+  border: 1px solid rgb(121 228 197 / 0.35);
+  border-radius: 16px;
+  color: #79e4c5;
+  background: rgb(121 228 197 / 0.08);
+}
+
+.intro p {
+  margin: 0 0 8px;
+  color: #79e4c5;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.intro h1,
+.prototypeNote h2 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+.intro h1 {
+  font-size: clamp(2.6rem, 6.5vw, 5.8rem);
+}
+
+.intro strong {
+  display: block;
+  max-width: 640px;
+  margin-top: 14px;
+  color: #b8cfcc;
+  font-size: clamp(0.96rem, 1.5vw, 1.14rem);
+  font-weight: 520;
+}
+
+.prototypeNote {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(40px, 9vw, 120px);
+  width: min(calc(100% - 48px), 1050px);
+  margin: 0 auto;
+  padding: clamp(92px, 13vw, 160px) 0;
+}
+
+.prototypeNote h2 {
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+}
+
+.prototypeNote > div {
+  align-self: center;
+}
+
+.prototypeNote p {
+  margin: 0 0 18px;
+  color: #b1c8c5;
+  line-height: 1.75;
+}
+
+.prototypeNote p:last-child {
+  color: #83a19f;
+  font-size: 0.87rem;
+}
+
+.footer {
+  display: grid;
+  place-items: center;
+  min-height: 30dvh;
+  padding: 70px 24px;
+  border-top: 1px solid rgb(219 242 238 / 0.1);
+  background: rgb(2 9 14 / 0.48);
+}
+
+.footer a {
+  padding: 10px 17px;
+  border: 1px solid rgb(219 242 238 / 0.2);
+  border-radius: 999px;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.footer a:hover {
+  border-color: #79e4c5;
+  color: #79e4c5;
+  transform: translateY(-1px);
+}
+
+@media (prefers-color-scheme: light) {
+  .page {
+    color: #102c31;
+    background:
+      radial-gradient(circle at 12% 7%, rgb(44 168 134 / 0.12), transparent 24%),
+      #eef6f3;
+  }
+
+  .nav,
+  .intro strong,
+  .prototypeNote p {
+    color: #395b5d;
+  }
+
+  .intro p,
+  .introIcon,
+  .footer a:hover {
+    color: #167f65;
+  }
+
+  .introIcon {
+    border-color: rgb(22 127 101 / 0.35);
+    background: rgb(22 127 101 / 0.07);
+  }
+
+  .prototypeNote p:last-child {
+    color: #5d797a;
+  }
+
+  .footer {
+    border-color: rgb(18 62 64 / 0.12);
+    background: rgb(226 240 236 / 0.62);
+  }
+
+  .footer a {
+    border-color: rgb(18 62 64 / 0.24);
+  }
+}
+
+@media (max-width: 767px) {
+  .nav,
+  .stage {
+    width: calc(100% - 28px);
+  }
+
+  .stage {
+    padding-top: 28px;
+  }
+
+  .intro {
+    grid-template-columns: 1fr;
+  }
+
+  .introIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .intro h1 {
+    font-size: clamp(2.4rem, 12vw, 3.5rem);
+  }
+
+  .prototypeNote {
+    grid-template-columns: 1fr;
+    width: calc(100% - 32px);
+    gap: 28px;
+    padding-block: 90px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer a {
+    transition: none;
+  }
+}

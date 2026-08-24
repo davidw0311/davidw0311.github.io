@@ -1,0 +1,1136 @@
+.app {
+  --lab-bg: #07141b;
+  --lab-surface: #0d2029;
+  --lab-surface-strong: #132a34;
+  --lab-surface-soft: #10242d;
+  --lab-ink: #eef8f5;
+  --lab-muted: #a9c2c0;
+  --lab-faint: #789693;
+  --lab-line: rgb(213 239 234 / 0.14);
+  --lab-line-strong: rgb(213 239 234 / 0.25);
+  --lab-accent: #79e4c5;
+  --lab-accent-ink: #06251e;
+  --lab-danger: #ff9d97;
+  --lab-warning: #f0cc79;
+  min-height: 760px;
+  overflow: hidden;
+  color: var(--lab-ink);
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 74% 2%, rgb(121 228 197 / 0.1), transparent 28%),
+    var(--lab-bg);
+  box-shadow: 0 42px 120px rgb(0 8 13 / 0.4);
+}
+
+.app button,
+.app select,
+.app summary,
+.app input {
+  accent-color: var(--lab-accent);
+}
+
+.app button,
+.app select,
+.app summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app button:focus-visible,
+.app select:focus-visible,
+.app summary:focus-visible,
+.app input:focus-visible {
+  outline: 3px solid var(--lab-accent);
+  outline-offset: 3px;
+}
+
+.appHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 72px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--lab-line);
+  background: rgb(9 26 34 / 0.84);
+}
+
+.brandBlock,
+.headerStats,
+.brandBlock > div,
+.brandBlock > div span,
+.lessonTopline > div:first-child,
+.libraryHeading > div,
+.libraryHeading > div p,
+.practiceLanguage,
+.speakingIntro > div,
+.speakingIntro > div p,
+.result span,
+.phrasePanel > div:first-child {
+  min-width: 0;
+}
+
+.brandBlock {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: var(--lab-accent-ink);
+  background: var(--lab-accent);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transform: rotate(-4deg);
+}
+
+.brandBlock > div {
+  display: grid;
+  line-height: 1.15;
+}
+
+.brandBlock strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.brandBlock > div span {
+  color: var(--lab-faint);
+  font-size: 0.67rem;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.headerStats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerStats span,
+.localBadge {
+  padding: 6px 10px;
+  border: 1px solid var(--lab-line);
+  border-radius: 999px;
+  color: var(--lab-muted);
+  background: rgb(212 240 235 / 0.04);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.appGrid {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.34fr) minmax(0, 1fr);
+  min-height: 688px;
+}
+
+.library {
+  padding: 27px 18px;
+  border-right: 1px solid var(--lab-line);
+  background: rgb(7 19 26 / 0.68);
+}
+
+.libraryHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.libraryHeading h2 {
+  margin: 0;
+  font-size: 1.08rem;
+  letter-spacing: -0.025em;
+}
+
+.libraryHeading p {
+  margin: 4px 0 0;
+  color: var(--lab-faint);
+  font-size: 0.72rem;
+}
+
+.localBadge {
+  color: var(--lab-accent);
+}
+
+.contentList {
+  display: grid;
+  gap: 8px;
+}
+
+.contentList > button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  min-height: 82px;
+  padding: 13px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  color: var(--lab-muted);
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.contentList > button:hover,
+.contentList > button.activeContent {
+  border-color: var(--lab-line-strong);
+  color: var(--lab-ink);
+  background: var(--lab-surface);
+}
+
+.contentList > button:active {
+  transform: scale(0.985);
+}
+
+.contentList > button.activeContent svg {
+  color: var(--lab-accent);
+}
+
+.contentList > button > span {
+  display: grid;
+  min-width: 0;
+}
+
+.contentList strong {
+  overflow: hidden;
+  color: inherit;
+  font-size: 0.81rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contentList small {
+  color: var(--lab-faint);
+  font-size: 0.67rem;
+}
+
+.contentList em {
+  color: var(--lab-accent);
+  font-size: 0.69rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.practiceLanguage {
+  display: grid;
+  gap: 7px;
+  margin-top: 28px;
+  padding-top: 23px;
+  border-top: 1px solid var(--lab-line);
+}
+
+.practiceLanguage label,
+.speakingIntro label > span {
+  color: var(--lab-muted);
+  font-size: 0.7rem;
+  font-weight: 780;
+}
+
+.practiceLanguage select,
+.speakingIntro select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 34px 8px 11px;
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 12px;
+  color: var(--lab-ink);
+  background: var(--lab-surface);
+  cursor: pointer;
+}
+
+.practiceLanguage p {
+  display: flex;
+  gap: 7px;
+  margin: 2px 0 0;
+  color: var(--lab-warning);
+  font-size: 0.67rem;
+  line-height: 1.45;
+}
+
+.practiceLanguage p svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.displaySettings {
+  margin-top: 14px;
+  border: 1px solid var(--lab-line);
+  border-radius: 14px;
+  background: rgb(211 239 235 / 0.025);
+}
+
+.displaySettings summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 9px 11px;
+  color: var(--lab-muted);
+  font-size: 0.72rem;
+  font-weight: 780;
+  cursor: pointer;
+  list-style: none;
+}
+
+.displaySettings summary::-webkit-details-marker {
+  display: none;
+}
+
+.settingsBody {
+  display: grid;
+  gap: 4px;
+  padding: 0 9px 9px;
+}
+
+.languageSetting,
+.romanizationToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 40px;
+  padding: 5px 4px;
+  color: var(--lab-muted);
+  font-size: 0.72rem;
+}
+
+.languageSetting label,
+.romanizationToggle {
+  cursor: pointer;
+}
+
+.languageSetting label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.languageSetting input,
+.romanizationToggle input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+}
+
+.orderButtons {
+  display: flex;
+  gap: 3px;
+}
+
+.orderButtons button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--lab-line);
+  border-radius: 9px;
+  color: var(--lab-muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.orderButtons button:disabled {
+  opacity: 0.26;
+  cursor: default;
+}
+
+.romanizationToggle {
+  justify-content: flex-start;
+  padding-top: 10px;
+  border-top: 1px solid var(--lab-line);
+}
+
+.romanizationToggle span {
+  margin-left: 8px;
+}
+
+.lesson {
+  min-width: 0;
+  padding: clamp(24px, 4.2vw, 56px);
+}
+
+.lessonTopline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 850px;
+  margin: 0 auto 34px;
+}
+
+.lessonTopline > div:first-child > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--lab-accent);
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lessonTopline h2 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.72rem, 3.4vw, 2.65rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.unitCount {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 8px;
+  min-width: 105px;
+  text-align: right;
+}
+
+.unitCount strong {
+  font-size: 0.82rem;
+}
+
+.progressSegments {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.progressSegments i {
+  width: 22px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--lab-line-strong);
+}
+
+.progressSegments .currentSegment {
+  background: var(--lab-muted);
+}
+
+.progressSegments .completeSegment {
+  background: var(--lab-accent);
+}
+
+.lessonBody,
+.finishState {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.numberPrompt {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 18px 24px;
+  overflow: hidden;
+  border: 1px solid rgb(121 228 197 / 0.28);
+  border-radius: 16px;
+  background:
+    linear-gradient(115deg, rgb(121 228 197 / 0.11), transparent 55%),
+    var(--lab-surface);
+}
+
+.numberPrompt span {
+  color: var(--lab-muted);
+  font-size: 0.76rem;
+  font-weight: 750;
+}
+
+.numberPrompt strong {
+  color: var(--lab-accent);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(3.2rem, 7vw, 6rem);
+  font-weight: 500;
+  line-height: 0.9;
+}
+
+.reader {
+  overflow: hidden;
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 16px;
+  background: var(--lab-surface);
+}
+
+.reader article {
+  position: relative;
+  padding: 22px 24px 24px;
+}
+
+.reader article + article {
+  border-top: 1px solid var(--lab-line);
+}
+
+.reader article.practiceBlock {
+  background: linear-gradient(90deg, rgb(121 228 197 / 0.075), transparent 48%);
+}
+
+.reader article.practiceBlock::before {
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  content: "";
+  background: var(--lab-accent);
+}
+
+.reader article header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 10px;
+}
+
+.reader article header > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.reader article header span {
+  color: var(--lab-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.reader article header small {
+  color: var(--lab-faint);
+  font-size: 0.64rem;
+}
+
+.reader article header button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--lab-line);
+  border-radius: 12px;
+  color: var(--lab-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.reader article header button:hover,
+.reader article header button:focus-visible {
+  border-color: rgb(121 228 197 / 0.52);
+  color: var(--lab-accent);
+  background: rgb(121 228 197 / 0.08);
+}
+
+.reader article header button:active {
+  transform: scale(0.96);
+}
+
+.sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.16em 0.2em;
+  margin: 0;
+  color: var(--lab-ink);
+  font-size: clamp(1.22rem, 2.5vw, 1.8rem);
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+}
+
+.sentence button {
+  padding: 0.05em 0.14em;
+  border: 0;
+  border-radius: 7px;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.sentence button:hover,
+.sentence button.activePhrase {
+  color: var(--lab-accent-ink);
+  background: var(--lab-accent);
+}
+
+.romanization {
+  margin: 7px 0 0;
+  color: var(--lab-faint);
+  font-size: 0.8rem;
+}
+
+.phrasePanel {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.55fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 16px 18px;
+  overflow: hidden;
+  border: 1px solid rgb(121 228 197 / 0.28);
+  border-radius: 16px;
+  background: var(--lab-surface-strong);
+}
+
+.phrasePanel > div:first-child {
+  display: grid;
+}
+
+.phrasePanel > div:first-child span {
+  color: var(--lab-faint);
+  font-size: 0.64rem;
+  font-weight: 750;
+}
+
+.phrasePanel > div:first-child strong {
+  overflow: hidden;
+  color: var(--lab-ink);
+  font-size: 1.1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.phraseActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.phraseActions button,
+.audioActions button,
+.speechFooter button,
+.unitNavigation button,
+.finishState button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 999px;
+  color: var(--lab-muted);
+  background: transparent;
+  font-size: 0.7rem;
+  font-weight: 780;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.phraseActions button:hover,
+.audioActions button:hover,
+.speechFooter button:hover,
+.unitNavigation button:hover:not(:disabled),
+.finishState button:hover {
+  border-color: var(--lab-accent);
+  color: var(--lab-accent);
+  background: rgb(121 228 197 / 0.07);
+}
+
+.phraseActions button:active,
+.audioActions button:active,
+.speechFooter button:active,
+.unitNavigation button:active:not(:disabled),
+.finishState button:active {
+  transform: scale(0.98);
+}
+
+.phraseActions button[aria-pressed="true"] {
+  border-color: rgb(121 228 197 / 0.48);
+  color: var(--lab-accent);
+}
+
+.phrasePanel > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--lab-line);
+  color: var(--lab-ink);
+  font-size: 0.86rem;
+}
+
+.speakingPanel {
+  margin-top: 12px;
+  padding: 22px 24px;
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 16px;
+  background: var(--lab-surface-soft);
+}
+
+.speakingIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 136px;
+  gap: 24px;
+  align-items: start;
+}
+
+.speakingIntro h2 {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.speakingIntro p {
+  margin: 4px 0 0;
+  color: var(--lab-muted);
+  font-size: 0.78rem;
+}
+
+.speakingIntro label {
+  display: grid;
+  gap: 5px;
+}
+
+.speakingIntro select {
+  min-height: 38px;
+  padding-block: 6px;
+  font-size: 0.72rem;
+}
+
+.audioActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.audioActions button {
+  min-height: 40px;
+}
+
+.speechActionRow {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) auto;
+  gap: 12px;
+  margin-top: 13px;
+}
+
+.speakButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 12px 22px;
+  border: 1px solid var(--lab-accent);
+  border-radius: 14px;
+  color: var(--lab-accent-ink);
+  background: var(--lab-accent);
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: 0 14px 32px rgb(5 75 60 / 0.2);
+  transition: background-color 160ms ease, transform 160ms ease, opacity 160ms ease;
+}
+
+.speakButton:hover:not(:disabled) {
+  background: #97eed5;
+  transform: translateY(-1px);
+}
+
+.speakButton:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.speakButton:disabled {
+  cursor: wait;
+  opacity: 0.82;
+}
+
+.speakButtonRecording {
+  color: #32110f;
+  border-color: var(--lab-danger);
+  background: var(--lab-danger);
+}
+
+.recordingMark {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.spinner {
+  animation: spin 800ms linear infinite;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 112px;
+  min-height: 58px;
+  padding: 8px 14px;
+  border: 1px solid var(--lab-line);
+  border-radius: 14px;
+  color: var(--lab-muted);
+  background: rgb(212 239 235 / 0.035);
+}
+
+.result > svg {
+  color: var(--lab-accent);
+}
+
+.result > svg[data-icon="x-circle"] {
+  color: var(--lab-danger);
+}
+
+.result span {
+  display: grid;
+  line-height: 1.05;
+}
+
+.result strong {
+  color: var(--lab-ink);
+  font-size: 1rem;
+}
+
+.result small {
+  color: var(--lab-faint);
+  font-size: 0.58rem;
+  white-space: nowrap;
+}
+
+.transcript {
+  margin: 13px 0 0;
+  color: var(--lab-muted);
+  font-size: 0.73rem;
+}
+
+.transcript q {
+  color: var(--lab-ink);
+}
+
+.speechFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 16px;
+  padding-top: 15px;
+  border-top: 1px solid var(--lab-line);
+}
+
+.speechFooter p {
+  margin: 0;
+  color: var(--lab-faint);
+  font-size: 0.65rem;
+}
+
+.speechFooter > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.speechFooter button {
+  min-height: 36px;
+  padding: 6px 11px;
+}
+
+.unitNavigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.unitNavigation button {
+  min-width: 112px;
+}
+
+.unitNavigation button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.unitNavigation .continueButton {
+  min-width: 156px;
+  color: var(--lab-accent-ink);
+  border-color: var(--lab-accent);
+  background: var(--lab-accent);
+}
+
+.unitNavigation .continueButton:hover:not(:disabled) {
+  color: var(--lab-accent-ink);
+  background: #97eed5;
+}
+
+.finishState {
+  display: grid;
+  place-items: center;
+  min-height: 540px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.finishState > svg {
+  color: var(--lab-accent);
+}
+
+.finishState h2 {
+  margin: 18px 0 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+.finishState p {
+  max-width: 490px;
+  margin: 12px auto 0;
+  color: var(--lab-muted);
+}
+
+.finishState > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.finishState button:last-child {
+  color: var(--lab-accent-ink);
+  border-color: var(--lab-accent);
+  background: var(--lab-accent);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-color-scheme: light) {
+  .app {
+    --lab-bg: #edf5f2;
+    --lab-surface: #f8fbfa;
+    --lab-surface-strong: #e3f1ed;
+    --lab-surface-soft: #f2f8f6;
+    --lab-ink: #102c31;
+    --lab-muted: #49686a;
+    --lab-faint: #667f80;
+    --lab-line: rgb(18 62 64 / 0.12);
+    --lab-line-strong: rgb(18 62 64 / 0.22);
+    --lab-accent: #2ca886;
+    --lab-accent-ink: #f2fffb;
+    --lab-danger: #b9423b;
+    --lab-warning: #7f5d09;
+    box-shadow: 0 42px 120px rgb(21 68 62 / 0.13);
+  }
+
+  .appHeader {
+    background: rgb(242 249 247 / 0.92);
+  }
+
+  .library {
+    background: rgb(235 245 242 / 0.78);
+  }
+
+  .speakButton:hover:not(:disabled),
+  .unitNavigation .continueButton:hover:not(:disabled) {
+    background: #238c70;
+  }
+}
+
+@media (max-width: 960px) {
+  .appGrid {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .libraryHeading {
+    display: grid;
+  }
+
+  .localBadge {
+    width: fit-content;
+  }
+
+  .lesson {
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .app {
+    min-height: auto;
+    border-radius: 14px;
+  }
+
+  .appHeader {
+    min-height: 64px;
+    padding-inline: 13px;
+  }
+
+  .headerStats span:last-child {
+    display: none;
+  }
+
+  .appGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .library {
+    min-width: 0;
+    padding: 20px 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--lab-line);
+  }
+
+  .libraryHeading {
+    display: flex;
+    margin-bottom: 14px;
+  }
+
+  .contentList {
+    display: flex;
+    gap: 8px;
+    padding-bottom: 5px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .contentList > button {
+    flex: 0 0 min(82vw, 290px);
+    scroll-snap-align: start;
+  }
+
+  .practiceLanguage {
+    margin-top: 18px;
+    padding-top: 16px;
+  }
+
+  .lesson {
+    padding: 26px 14px 34px;
+  }
+
+  .lessonTopline {
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+
+  .unitCount {
+    min-width: 84px;
+  }
+
+  .progressSegments i {
+    width: 15px;
+  }
+
+  .reader article,
+  .speakingPanel {
+    padding: 18px 16px;
+  }
+
+  .reader article header > div {
+    display: grid;
+    gap: 0;
+  }
+
+  .phrasePanel,
+  .speakingIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .phraseActions {
+    justify-content: flex-start;
+  }
+
+  .speakingIntro {
+    gap: 14px;
+  }
+
+  .speakingIntro label {
+    width: min(100%, 180px);
+  }
+
+  .speechActionRow {
+    grid-template-columns: minmax(0, 1fr) 96px;
+  }
+
+  .speakButton {
+    padding-inline: 14px;
+  }
+
+  .result {
+    min-width: 0;
+    padding-inline: 9px;
+  }
+
+  .speechFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .speechFooter > div {
+    justify-content: flex-start;
+  }
+
+  .unitNavigation button {
+    min-width: 0;
+    padding-inline: 12px;
+  }
+}
+
+@media (max-width: 430px) {
+  .localBadge,
+  .brandBlock > div span {
+    display: none;
+  }
+
+  .lessonTopline h2 {
+    max-width: 230px;
+  }
+
+  .numberPrompt {
+    padding: 16px 18px;
+  }
+
+  .sentence {
+    font-size: 1.18rem;
+  }
+
+  .audioActions button,
+  .phraseActions button {
+    flex: 1 1 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contentList > button,
+  .reader article header button,
+  .sentence button,
+  .phraseActions button,
+  .audioActions button,
+  .speechFooter button,
+  .unitNavigation button,
+  .finishState button,
+  .speakButton {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}

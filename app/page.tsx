@@ -1,7 +1,6 @@
 import {
   ArrowUpRight,
   Binoculars,
-  Broadcast,
   CardsThree,
   EnvelopeSimple,
   FacebookLogo,
@@ -10,6 +9,7 @@ import {
   InstagramLogo,
   LinkedinLogo,
   Planet,
+  Translate,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
@@ -42,12 +42,15 @@ export default function Home() {
             <p className={styles.eyebrow}>Beyond the horizon</p>
             <h2 id="space-title">Future missions begin here.</h2>
             <p>A reserved launch deck for experiments and project worlds still taking shape.</p>
-            <div className={styles.missionIcons} aria-label="Future project placeholders">
+            <div className={styles.missionIcons} aria-label="Interactive projects and future project placeholders">
               <Link href="/projects/blackjack-trainer/">
                 <CardsThree size={34} weight="thin" />
                 <span>Blackjack trainer</span>
               </Link>
-              <div><Broadcast size={34} weight="thin" /><span>Orbital research</span></div>
+              <Link href="/projects/language-lab/">
+                <Translate size={34} weight="thin" />
+                <span>Language lab</span>
+              </Link>
               <div><Planet size={34} weight="thin" /><span>New worlds</span></div>
               <div><Binoculars size={34} weight="thin" /><span>Deep observation</span></div>
             </div>
