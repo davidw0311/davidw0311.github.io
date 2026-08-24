@@ -1,12 +1,17 @@
 import assert from "node:assert/strict";
+import { statSync } from "node:fs";
+import path from "node:path";
 import test from "node:test";
 import {
   contentItems,
+  ensureLearningLanguages,
   languageIds,
   normalizeSpeech,
+  preferredSupportLanguage,
   scoreTranscript,
   unitProgressKey,
 } from "../data/languageLearning.ts";
+import { phraseAudioPath, sentenceAudioPath } from "../lib/languageAudio.ts";
 
 test("ships two short stories and a counting drill", () => {
   assert.equal(contentItems.filter((item) => item.type === "story").length, 2);
@@ -45,6 +50,43 @@ test("normalizes punctuation and scores close transcripts", () => {
 test("separates local progress by content, unit, and language", () => {
   assert.equal(unitProgressKey("story-a", "unit-1", "ja"), "story-a:unit-1:ja");
   assert.notEqual(unitProgressKey("story-a", "unit-1", "ja"), unitProgressKey("story-a", "unit-1", "zh"));
+});
+
+test("supports English practice with a different help language", () => {
+  assert.equal(preferredSupportLanguage("en", "en"), "ja");
+  assert.equal(preferredSupportLanguage("en", "es"), "es");
+  assert.equal(preferredSupportLanguage("ja", "ja"), "en");
+  assert.deepEqual(ensureLearningLanguages(["zh"], "en", "es"), ["en", "es", "zh"]);
+});
+
+test("uses stable paths for Azure neural lesson audio", () => {
+  assert.equal(
+    sentenceAudioPath("market-morning", "market-hello", "en", "slow"),
+    "/audio/language-lab/v1/market-morning/market-hello/en/sentence-slow.mp3",
+  );
+  assert.equal(
+    phraseAudioPath("market-morning", "market-hello", "ja", "market-hello-ja-1"),
+    "/audio/language-lab/v1/market-morning/market-hello/ja/phrases/market-hello-ja-1.mp3",
+  );
+});
+
+test("includes Azure neural audio for every sentence speed and phrase", () => {
+  const audioPaths: string[] = [];
+  for (const content of contentItems) {
+    for (const unit of content.units) {
+      for (const languageId of languageIds) {
+        audioPaths.push(sentenceAudioPath(content.slug, unit.id, languageId));
+        audioPaths.push(sentenceAudioPath(content.slug, unit.id, languageId, "slow"));
+        for (const phrase of unit.localizations[languageId].segments) {
+          audioPaths.push(phraseAudioPath(content.slug, unit.id, languageId, phrase.id));
+        }
+      }
+    }
+  }
+  assert.equal(audioPaths.length, 167);
+  for (const audioPath of audioPaths) {
+    assert.ok(statSync(path.join(process.cwd(), "public", audioPath)).size > 500, audioPath);
+  }
 });
 
 test("keeps visible sample copy free of decorative long dashes", () => {

@@ -228,10 +228,15 @@
 
 .practiceLanguage {
   display: grid;
-  gap: 7px;
+  gap: 13px;
   margin-top: 28px;
   padding-top: 23px;
   border-top: 1px solid var(--lab-line);
+}
+
+.languageChoice {
+  display: grid;
+  gap: 7px;
 }
 
 .practiceLanguage label,
@@ -532,7 +537,8 @@
 }
 
 .reader article header button:hover,
-.reader article header button:focus-visible {
+.reader article header button:focus-visible,
+.reader article header button[aria-pressed="true"] {
   border-color: rgb(121 228 197 / 0.52);
   color: var(--lab-accent);
   background: rgb(121 228 197 / 0.08);
@@ -661,12 +667,20 @@
 }
 
 .phrasePanel > p {
+  display: grid;
+  gap: 4px;
   grid-column: 1 / -1;
   margin: 0;
   padding-top: 12px;
   border-top: 1px solid var(--lab-line);
   color: var(--lab-ink);
   font-size: 0.86rem;
+}
+
+.phrasePanel > p small {
+  color: var(--lab-faint);
+  font-size: 0.62rem;
+  font-weight: 760;
 }
 
 .speakingPanel {
@@ -716,6 +730,20 @@
 
 .audioActions button {
   min-height: 40px;
+}
+
+.audioActions button[aria-pressed="true"] {
+  border-color: rgb(121 228 197 / 0.55);
+  color: var(--lab-accent);
+  background: rgb(121 228 197 / 0.08);
+}
+
+.voiceSource {
+  align-self: center;
+  margin-left: 3px;
+  color: var(--lab-faint);
+  font-size: 0.64rem;
+  font-weight: 720;
 }
 
 .speechActionRow {

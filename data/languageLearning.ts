@@ -49,6 +49,8 @@ export type LocalProgress = {
   xp: number;
   completed: Record<string, CompletionStatus>;
   savedPhraseIds: string[];
+  practiceLanguageId: LanguageId;
+  supportLanguageId: LanguageId;
   displayLanguageIds: LanguageId[];
   showRomanization: boolean;
 };
@@ -294,9 +296,29 @@ export const defaultLocalProgress: LocalProgress = {
   xp: 0,
   completed: {},
   savedPhraseIds: [],
+  practiceLanguageId: "ja",
+  supportLanguageId: "en",
   displayLanguageIds: ["ja", "en"],
   showRomanization: true,
 };
+
+export function preferredSupportLanguage(
+  practiceLanguageId: LanguageId,
+  currentSupportLanguageId?: LanguageId,
+): LanguageId {
+  if (currentSupportLanguageId && currentSupportLanguageId !== practiceLanguageId) {
+    return currentSupportLanguageId;
+  }
+  return practiceLanguageId === "en" ? "ja" : "en";
+}
+
+export function ensureLearningLanguages(
+  displayLanguageIds: LanguageId[],
+  practiceLanguageId: LanguageId,
+  supportLanguageId: LanguageId,
+) {
+  return Array.from(new Set([practiceLanguageId, supportLanguageId, ...displayLanguageIds]));
+}
 
 export function normalizeSpeech(value: string) {
   return value

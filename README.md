@@ -33,6 +33,16 @@ npm run build
 
 The production export is written to `out/`.
 
+## Language Lab audio
+
+The Language Lab keeps its MVP lesson catalog and 167 Azure neural voice clips in the static site. It includes normal and slow sentence readings plus each tappable phrase in English, Japanese, Mandarin, and Spanish. The clips can be regenerated with the existing Azure Speech resource without exposing its key to the browser:
+
+```bash
+AZURE_SPEECH_KEY=... AZURE_SPEECH_REGION=southeastasia npm run generate:language-audio -- --force
+```
+
+Learner recordings still go through the small Azure Function described in `api/README.md`; generated example audio does not require a function call at playback time.
+
 ## Adding a project
 
 Add a typed entry to `data/projects.ts`. The homepage archive and a static `/projects/[slug]/` detail page are generated from the same data, so no route or modal markup needs to be duplicated.

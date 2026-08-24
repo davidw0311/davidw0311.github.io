@@ -34,7 +34,7 @@ export default function LanguageLabPage() {
       <section className={styles.prototypeNote} aria-labelledby="prototype-note-title">
         <h2 id="prototype-note-title">What this version proves</h2>
         <div>
-          <p>The reader, phrase interactions, audio playback, speech gate, local progress, and content model all run without a database.</p>
+          <p>The reader, phrase interactions, Azure neural examples, speech gate, local progress, and content model all run without a database.</p>
           <p>Short recordings are scored by Azure Speech through a small serverless function. This app stores neither the audio nor the returned assessment.</p>
         </div>
       </section>
