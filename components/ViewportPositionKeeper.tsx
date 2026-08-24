@@ -73,36 +73,57 @@ export function ViewportPositionKeeper() {
     let rotationOrigin: RotationOrigin | null = null;
     let rotationPending = false;
     let stableScrollTop = window.scrollY;
-    let captureBlockedUntil = 0;
-    let captureTimer: number | undefined;
-    let restoreTimer: number | undefined;
+    let userScrollActive = false;
+    let correctionDeadline = 0;
+    let correctionTimer: number | undefined;
+    let userIdleTimer: number | undefined;
     let captureFrame = 0;
     let restoreFrame = 0;
 
     const capture = () => {
-      if (rotationPending || performance.now() < captureBlockedUntil) return;
+      if (rotationPending) return;
 
       stableScrollTop = window.scrollY;
       anchor = findCenterAnchor();
     };
 
+    const finishUserScroll = () => {
+      if (!userScrollActive) return;
+
+      window.clearTimeout(userIdleTimer);
+      userScrollActive = false;
+      capture();
+    };
+
+    const scheduleUserIdle = () => {
+      window.clearTimeout(userIdleTimer);
+      userIdleTimer = window.setTimeout(finishUserScroll, 320);
+    };
+
     const scheduleCapture = () => {
       if (
-        rotationPending
+        !userScrollActive
+        || rotationPending
         || viewportOrientation() !== orientation
-        || performance.now() < captureBlockedUntil
       ) return;
 
-      window.clearTimeout(captureTimer);
-      captureTimer = window.setTimeout(capture, 80);
+      window.cancelAnimationFrame(captureFrame);
+      captureFrame = window.requestAnimationFrame(capture);
     };
 
     const trackScrollPosition = () => {
-      if (rotationPending || viewportOrientation() !== orientation) return;
+      // Safari changes scrollY while rotating, before all orientation and resize
+      // events have fired. Only genuine user-driven scrolling may replace the
+      // stable position used as the rotation origin.
+      if (
+        !userScrollActive
+        || rotationPending
+        || viewportOrientation() !== orientation
+      ) return;
 
       stableScrollTop = window.scrollY;
-      window.cancelAnimationFrame(captureFrame);
-      captureFrame = window.requestAnimationFrame(capture);
+      scheduleCapture();
+      scheduleUserIdle();
     };
 
     const alignAnchor = (targetAnchor: CenterAnchor) => {
@@ -115,49 +136,59 @@ export function ViewportPositionKeeper() {
       window.scrollTo({ top: Math.max(0, nextScrollTop), behavior: "auto" });
     };
 
-    const restore = () => {
-      window.clearTimeout(restoreTimer);
-      restoreTimer = undefined;
-
+    const restoreCurrentTarget = () => {
       const origin = rotationOrigin;
       const returningToOrigin = origin?.orientation === orientation;
       const targetAnchor = returningToOrigin ? origin.anchor : anchor;
 
-      if (!returningToOrigin && !targetAnchor?.element.isConnected) {
-        rotationPending = false;
-        capture();
-        return;
-      }
+      if (!returningToOrigin && !targetAnchor?.element.isConnected) return;
 
       const root = document.documentElement;
       const previousBehavior = root.style.scrollBehavior;
       root.style.scrollBehavior = "auto";
 
+      if (returningToOrigin) {
+        window.scrollTo({ top: origin.scrollTop, behavior: "auto" });
+      } else if (targetAnchor) {
+        alignAnchor(targetAnchor);
+      }
+
+      root.style.scrollBehavior = previousBehavior;
+    };
+
+    const finishRotation = () => {
+      const origin = rotationOrigin;
+      const returningToOrigin = origin?.orientation === orientation;
+
+      window.cancelAnimationFrame(restoreFrame);
       restoreFrame = window.requestAnimationFrame(() => {
-        if (returningToOrigin) {
-          window.scrollTo({ top: origin.scrollTop, behavior: "auto" });
-        } else if (targetAnchor) {
-          alignAnchor(targetAnchor);
-        }
-
+        restoreCurrentTarget();
         restoreFrame = window.requestAnimationFrame(() => {
-          if (returningToOrigin) {
-            window.scrollTo({ top: origin.scrollTop, behavior: "auto" });
-          } else if (targetAnchor) {
-            alignAnchor(targetAnchor);
-          }
-
-          root.style.scrollBehavior = previousBehavior;
+          restoreCurrentTarget();
           rotationPending = false;
           stableScrollTop = window.scrollY;
-          captureBlockedUntil = performance.now() + 600;
 
           if (returningToOrigin) {
             anchor = origin.anchor;
             rotationOrigin = null;
+          } else {
+            anchor = findCenterAnchor();
           }
         });
       });
+    };
+
+    const correctThroughSafariSettling = () => {
+      correctionTimer = undefined;
+      if (!rotationPending) return;
+
+      restoreCurrentTarget();
+
+      if (performance.now() < correctionDeadline) {
+        correctionTimer = window.setTimeout(correctThroughSafariSettling, 120);
+      } else {
+        finishRotation();
+      }
     };
 
     const scheduleRestore = (nextOrientation: ViewportOrientation) => {
@@ -174,11 +205,12 @@ export function ViewportPositionKeeper() {
         }
 
         orientation = nextOrientation;
+        correctionDeadline = performance.now() + 1200;
       }
 
       rotationPending = true;
-      window.clearTimeout(restoreTimer);
-      restoreTimer = window.setTimeout(restore, 180);
+      window.clearTimeout(correctionTimer);
+      correctionTimer = window.setTimeout(correctThroughSafariSettling, 120);
     };
 
     const handleResize = () => {
@@ -189,8 +221,15 @@ export function ViewportPositionKeeper() {
       scheduleRestore(viewportOrientation());
     };
 
-    const resetRotationCycle = () => {
-      if (!rotationPending) rotationOrigin = null;
+    const beginUserScroll = () => {
+      window.clearTimeout(correctionTimer);
+      window.cancelAnimationFrame(restoreFrame);
+      rotationPending = false;
+      rotationOrigin = null;
+      userScrollActive = true;
+      orientation = viewportOrientation();
+      capture();
+      scheduleUserIdle();
     };
 
     const initialFrame = window.requestAnimationFrame(() => {
@@ -204,36 +243,36 @@ export function ViewportPositionKeeper() {
     const viewportObserver = new ResizeObserver(handleResize);
     viewportObserver.observe(document.documentElement);
 
-    document.addEventListener("scrollend", scheduleCapture, { passive: true });
-    document.addEventListener("pointerdown", resetRotationCycle, { passive: true });
-    document.addEventListener("pointerup", scheduleCapture, { passive: true });
-    document.addEventListener("touchstart", resetRotationCycle, { passive: true });
-    document.addEventListener("touchend", scheduleCapture, { passive: true });
-    document.addEventListener("wheel", resetRotationCycle, { passive: true });
-    document.addEventListener("keydown", resetRotationCycle);
-    document.addEventListener("keyup", scheduleCapture);
+    document.addEventListener("scrollend", finishUserScroll, { passive: true });
+    document.addEventListener("pointerdown", beginUserScroll, { passive: true });
+    document.addEventListener("pointerup", scheduleUserIdle, { passive: true });
+    document.addEventListener("touchstart", beginUserScroll, { passive: true });
+    document.addEventListener("touchend", scheduleUserIdle, { passive: true });
+    document.addEventListener("wheel", beginUserScroll, { passive: true });
+    document.addEventListener("keydown", beginUserScroll);
+    document.addEventListener("keyup", scheduleUserIdle);
     window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("orientationchange", handleOrientationChange, { passive: true });
     window.visualViewport?.addEventListener("resize", handleResize, { passive: true });
     window.screen.orientation?.addEventListener("change", handleOrientationChange);
 
     return () => {
-      window.clearTimeout(captureTimer);
-      window.clearTimeout(restoreTimer);
+      window.clearTimeout(correctionTimer);
+      window.clearTimeout(userIdleTimer);
       stopTrackingScroll();
       anchorObserver.disconnect();
       viewportObserver.disconnect();
       window.cancelAnimationFrame(captureFrame);
       window.cancelAnimationFrame(initialFrame);
       window.cancelAnimationFrame(restoreFrame);
-      document.removeEventListener("scrollend", scheduleCapture);
-      document.removeEventListener("pointerdown", resetRotationCycle);
-      document.removeEventListener("pointerup", scheduleCapture);
-      document.removeEventListener("touchstart", resetRotationCycle);
-      document.removeEventListener("touchend", scheduleCapture);
-      document.removeEventListener("wheel", resetRotationCycle);
-      document.removeEventListener("keydown", resetRotationCycle);
-      document.removeEventListener("keyup", scheduleCapture);
+      document.removeEventListener("scrollend", finishUserScroll);
+      document.removeEventListener("pointerdown", beginUserScroll);
+      document.removeEventListener("pointerup", scheduleUserIdle);
+      document.removeEventListener("touchstart", beginUserScroll);
+      document.removeEventListener("touchend", scheduleUserIdle);
+      document.removeEventListener("wheel", beginUserScroll);
+      document.removeEventListener("keydown", beginUserScroll);
+      document.removeEventListener("keyup", scheduleUserIdle);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
       window.visualViewport?.removeEventListener("resize", handleResize);
