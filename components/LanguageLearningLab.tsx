@@ -24,13 +24,13 @@ import {
   defaultLocalProgress,
   languageIds,
   languages,
-  scoreTranscript,
   unitProgressKey,
   type CompletionStatus,
   type LanguageId,
   type LocalProgress,
   type PhraseSegment,
 } from "@/data/languageLearning";
+import { blobToBase64, startAudioRecording, type AudioRecording } from "@/lib/browserAudioRecorder";
 import styles from "./LanguageLearningLab.module.css";
 
 type SpeechState =
@@ -43,38 +43,16 @@ type SpeechState =
   | "error";
 type Strictness = "relaxed" | "normal" | "strict";
 
-type SpeechRecognitionResultEvent = Event & {
-  results: ArrayLike<{ 0: { transcript: string } }>;
+type AssessmentResult = {
+  passed: boolean;
+  score: number;
+  transcript?: string;
+  message?: string;
 };
-
-type SpeechRecognitionErrorEvent = Event & {
-  error: string;
-};
-
-type BrowserSpeechRecognition = {
-  lang: string;
-  continuous: boolean;
-  interimResults: boolean;
-  maxAlternatives: number;
-  onstart: (() => void) | null;
-  onresult: ((event: SpeechRecognitionResultEvent) => void) | null;
-  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
-  onend: (() => void) | null;
-  start: () => void;
-  abort: () => void;
-};
-
-type BrowserSpeechRecognitionConstructor = new () => BrowserSpeechRecognition;
-
-declare global {
-  interface Window {
-    SpeechRecognition?: BrowserSpeechRecognitionConstructor;
-    webkitSpeechRecognition?: BrowserSpeechRecognitionConstructor;
-  }
-}
 
 const storageKey = "dyw-language-lab-progress-v1";
-const thresholds: Record<Strictness, number> = { relaxed: 62, normal: 74, strict: 86 };
+const pronunciationApiUrl = process.env.NEXT_PUBLIC_PRONUNCIATION_API_URL?.trim();
+const maximumRecordingMs = 12_000;
 
 function isLanguageId(value: unknown): value is LanguageId {
   return typeof value === "string" && languageIds.includes(value as LanguageId);
@@ -117,8 +95,8 @@ export function LanguageLearningLab() {
   const [activePhrase, setActivePhrase] = useState<{ languageId: LanguageId; phrase: PhraseSegment } | null>(null);
   const [translationRevealed, setTranslationRevealed] = useState(false);
   const [lessonFinished, setLessonFinished] = useState(false);
-  const recognitionRef = useRef<BrowserSpeechRecognition | null>(null);
-  const evaluationTimerRef = useRef<number | null>(null);
+  const recordingRef = useRef<AudioRecording | null>(null);
+  const recordingTimerRef = useRef<number | null>(null);
 
   const content = contentItems[contentIndex];
   const currentUnit = content.units[unitIndex];
@@ -150,16 +128,16 @@ export function LanguageLearningLab() {
   }, [progress, ready]);
 
   useEffect(() => () => {
-    recognitionRef.current?.abort();
-    if (evaluationTimerRef.current !== null) window.clearTimeout(evaluationTimerRef.current);
+    void recordingRef.current?.cancel();
+    if (recordingTimerRef.current !== null) window.clearTimeout(recordingTimerRef.current);
     window.speechSynthesis?.cancel();
   }, []);
 
   const resetAttempt = useCallback((message = "Listen once, then say the sentence aloud.") => {
-    recognitionRef.current?.abort();
-    recognitionRef.current = null;
-    if (evaluationTimerRef.current !== null) window.clearTimeout(evaluationTimerRef.current);
-    evaluationTimerRef.current = null;
+    void recordingRef.current?.cancel();
+    recordingRef.current = null;
+    if (recordingTimerRef.current !== null) window.clearTimeout(recordingTimerRef.current);
+    recordingTimerRef.current = null;
     setSpeechState("idle");
     setAttempts(0);
     setScore(null);
@@ -214,76 +192,75 @@ export function LanguageLearningLab() {
     window.speechSynthesis.speak(utterance);
   };
 
-  const finishEvaluation = (recognizedText: string) => {
-    const nextScore = scoreTranscript(practiceLocalization.text, recognizedText);
-    const passed = nextScore >= thresholds[strictness];
-    setTranscript(recognizedText);
-    setScore(nextScore);
+  const finishEvaluation = (result: AssessmentResult) => {
+    setTranscript(result.transcript ?? "");
+    setScore(Math.round(result.score));
     setAttempts((value) => value + 1);
-    setSpeechState(passed ? "passed" : "failed");
-    if (passed) {
-      setFeedback("Nice work. The next sentence is unlocked.");
+    setSpeechState(result.passed ? "passed" : "failed");
+    if (result.passed) {
+      setFeedback(result.message ?? "Nice work. The next sentence is unlocked.");
       setCompletion("passed", 10);
     } else {
-      setFeedback("Try again after listening to the sentence slowly.");
+      setFeedback(result.message ?? "Try again after listening to the sentence slowly.");
     }
   };
 
-  const startSpeaking = () => {
-    const SpeechRecognition = window.SpeechRecognition ?? window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
+  const evaluateRecording = async (recording: AudioRecording) => {
+    if (recordingTimerRef.current !== null) window.clearTimeout(recordingTimerRef.current);
+    recordingTimerRef.current = null;
+    recordingRef.current = null;
+    setSpeechState("evaluating");
+    setFeedback("Sending this short recording for pronunciation assessment.");
+
+    try {
+      const audio = await recording.stop();
+      if (audio.size < 1_600) throw new Error("no-audio");
+
+      const response = await fetch(pronunciationApiUrl!, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          audioBase64: await blobToBase64(audio),
+          locale: languages[practiceLanguageId].locale,
+          referenceText: practiceLocalization.text,
+          strictness,
+        }),
+      });
+      const result = await response.json().catch(() => null) as (AssessmentResult & { error?: string }) | null;
+
+      if (!response.ok || !result || typeof result.score !== "number") {
+        throw new Error(result?.error ?? `assessment-${response.status}`);
+      }
+      finishEvaluation(result);
+    } catch (error) {
       setSpeechState("error");
-      setFeedback("Live speech recognition is not available here. You can still preview a successful result.");
+      setFeedback(error instanceof Error && error.message === "no-audio"
+        ? "The recording was too short. Hold the button long enough to say the full sentence."
+        : "The assessment service could not score that attempt. Your attempt was not counted; please try again.");
+    }
+  };
+
+  const startSpeaking = async () => {
+    if (!pronunciationApiUrl) {
+      setSpeechState("error");
+      setFeedback("Speech assessment is not configured for this deployment yet.");
       return;
     }
 
-    const recognition = new SpeechRecognition();
-    recognition.lang = languages[practiceLanguageId].locale;
-    recognition.continuous = false;
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    recognition.onstart = () => {
-      setSpeechState("recording");
-      setFeedback("Listening now. Speak the full sentence.");
-    };
-    recognition.onresult = (event) => {
-      const recognizedText = event.results[0]?.[0]?.transcript ?? "";
-      setSpeechState("evaluating");
-      setFeedback("Comparing what the browser heard with the sample sentence.");
-      evaluationTimerRef.current = window.setTimeout(() => finishEvaluation(recognizedText), reduceMotion ? 0 : 520);
-    };
-    recognition.onerror = (event) => {
-      setSpeechState("error");
-      setFeedback(event.error === "not-allowed"
-        ? "Microphone access was blocked. Allow it in your browser settings and try again."
-        : "The browser could not assess that attempt. It has not been counted.");
-    };
-    recognition.onend = () => {
-      recognitionRef.current = null;
-      setSpeechState((current) => current === "recording" ? "error" : current);
-      setFeedback((current) => current === "Listening now. Speak the full sentence."
-        ? "No speech was detected. Try again when you are ready."
-        : current);
-    };
-
-    recognitionRef.current = recognition;
     setSpeechState("requesting_permission");
-    setFeedback("Requesting microphone access. Your audio is handled by the browser for this demo.");
+    setFeedback("Requesting microphone access. Only this short attempt will be sent for assessment.");
     try {
-      recognition.start();
-    } catch {
+      const recording = await startAudioRecording();
+      recordingRef.current = recording;
+      setSpeechState("recording");
+      setFeedback("Listening now. Say the full sentence, then press Stop & assess.");
+      recordingTimerRef.current = window.setTimeout(() => void evaluateRecording(recording), maximumRecordingMs);
+    } catch (error) {
       setSpeechState("error");
-      setFeedback("The microphone could not start. Wait a moment and try again.");
+      setFeedback(error instanceof DOMException && error.name === "NotAllowedError"
+        ? "Microphone access was blocked. Allow it in your browser settings and try again."
+        : "The microphone could not start in this browser. Try current Chrome, Edge, Firefox, or Safari.");
     }
-  };
-
-  const previewPass = () => {
-    setSpeechState("passed");
-    setScore(88);
-    setTranscript("Sample browser transcript");
-    setAttempts((value) => value + 1);
-    setFeedback("Demo result previewed. The next sentence is unlocked.");
-    setCompletion("passed", 10);
   };
 
   const skipUnit = () => {
@@ -415,7 +392,7 @@ export function LanguageLearningLab() {
               ))}
             </select>
             {languages[practiceLanguageId].toneSensitive ? (
-              <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> Tone scoring needs a speech provider in the scaled version.</p>
+              <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> Azure assesses this locale, but does not return a separate tone score.</p>
             ) : null}
           </div>
 
@@ -591,11 +568,13 @@ export function LanguageLearningLab() {
                     <button
                       className={`${styles.speakButton} ${speechState === "recording" ? styles.speakButtonRecording : ""}`}
                       type="button"
-                      disabled={speechState === "recording" || speechState === "evaluating" || speechState === "requesting_permission"}
-                      onClick={startSpeaking}
+                      disabled={speechState === "evaluating" || speechState === "requesting_permission"}
+                      onClick={() => void (speechState === "recording"
+                        ? recordingRef.current && evaluateRecording(recordingRef.current)
+                        : startSpeaking())}
                     >
                       {speechIcon}
-                      <span>{speechState === "recording" ? "Listening" : speechState === "evaluating" ? "Checking" : "Start speaking"}</span>
+                      <span>{speechState === "recording" ? "Stop & assess" : speechState === "evaluating" ? "Checking" : "Start speaking"}</span>
                     </button>
 
                     <div className={styles.result} aria-live="polite">
@@ -604,17 +583,17 @@ export function LanguageLearningLab() {
                       {speechState === "error" ? <WarningCircle size={30} weight="fill" aria-hidden="true" /> : null}
                       <span>
                         {score !== null ? <strong>{score}</strong> : <strong>{attempts}</strong>}
-                        <small>{score !== null ? "demo score" : attempts === 1 ? "attempt" : "attempts"}</small>
+                        <small>{score !== null ? "pronunciation" : attempts === 1 ? "attempt" : "attempts"}</small>
                       </span>
                     </div>
                   </div>
 
-                  {transcript ? <p className={styles.transcript}>Browser heard: <q>{transcript}</q></p> : null}
+                  {transcript ? <p className={styles.transcript}>Azure heard: <q>{transcript}</q></p> : null}
 
                   <div className={styles.speechFooter}>
-                    <p>Prototype score only. Audio is not stored by this site.</p>
+                    <p>Short audio is sent to Azure Speech for scoring and is not stored by this app.</p>
                     <div>
-                      {speechState === "error" ? <button type="button" onClick={previewPass}>Preview a pass</button> : null}
+                      {speechState === "error" ? <button type="button" onClick={() => { setSpeechState("idle"); setFeedback("Ready when you are. Say the full sentence aloud."); }}>Try again</button> : null}
                       {speechState === "failed" ? <button type="button" onClick={() => setSpeechState("idle")}>Retry</button> : null}
                       {skipAvailable && !unitIsComplete ? <button type="button" onClick={skipUnit}>Skip for now</button> : null}
                     </div>

@@ -1,0 +1,16 @@
+{
+  "name": "language-lab-speech-function",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "main": "src/functions/*.js",
+  "scripts": {
+    "start": "func start",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0"
+  }
+}

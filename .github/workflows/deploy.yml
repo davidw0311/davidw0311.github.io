@@ -35,6 +35,8 @@ jobs:
 
       - name: Build static site
         run: npm run build
+        env:
+          NEXT_PUBLIC_PRONUNCIATION_API_URL: https://speechlab-assessment-hfh9hpfwhdafh7gz.southeastasia-01.azurewebsites.net/api/pronunciation/assess
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
