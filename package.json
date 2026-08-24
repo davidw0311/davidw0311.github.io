@@ -9,6 +9,7 @@
     "dev": "next dev",
     "build": "next build && node scripts/sync-pages-root.mjs",
     "start": "next start",
+    "test": "node --no-warnings --test tests/*.test.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },

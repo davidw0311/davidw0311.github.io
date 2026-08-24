@@ -1,0 +1,430 @@
+.trainer {
+  width: min(calc(100% - 40px), 1220px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid rgb(223 245 241 / 0.18);
+  border-radius: 16px;
+  background: #071925;
+  box-shadow: 0 42px 120px rgb(0 9 17 / 0.46);
+}
+
+.trainerHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgb(223 245 241 / 0.14);
+  background: rgb(6 22 33 / 0.94);
+}
+
+.focusControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.focusControls button,
+.actionGrid button,
+.nextButton {
+  min-height: 44px;
+  border: 1px solid rgb(221 244 240 / 0.2);
+  color: #dcecea;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.focusControls button {
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.72rem;
+}
+
+.focusControls button:hover,
+.focusControls .activeFocus {
+  border-color: #79e4c5;
+  color: #06251f;
+  background: #79e4c5;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: clamp(16px, 2vw, 28px);
+  margin: 0;
+}
+
+.scoreboard div {
+  display: grid;
+  gap: 1px;
+}
+
+.scoreboard dt {
+  color: #9cb6b7;
+  font-size: 0.63rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.scoreboard dd {
+  margin: 0;
+  color: #ecf7f5;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.gameGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  min-height: 650px;
+}
+
+.tableSurface {
+  position: relative;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  min-width: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 48%, rgb(121 228 197 / 0.13), transparent 34%),
+    radial-gradient(circle at 50% 130%, #0b694f 0, #084536 50%, #062f2a 100%);
+}
+
+.tableSurface::before {
+  position: absolute;
+  inset: 18px;
+  content: "";
+  border: 1px solid rgb(232 247 243 / 0.15);
+  border-radius: 50% 50% 18px 18px;
+  pointer-events: none;
+}
+
+.tableRule {
+  position: absolute;
+  top: 50%;
+  right: 12%;
+  left: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(224 246 241 / 0.27), transparent);
+}
+
+.dealerZone,
+.playerZone {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(115px, 0.35fr) minmax(0, 0.65fr);
+  align-items: center;
+  gap: 24px;
+  min-height: 0;
+  padding: 34px clamp(30px, 5vw, 64px);
+}
+
+.dealerZone {
+  border-bottom: 1px solid rgb(229 246 242 / 0.11);
+}
+
+.handHeading {
+  display: grid;
+  gap: 6px;
+}
+
+.handHeading span {
+  color: #b5cecb;
+  font-size: 0.7rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.handHeading strong {
+  color: #eef8f6;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.35rem, 2.8vw, 2.35rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.dealerCards,
+.playerCards {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  padding-right: 12px;
+}
+
+.playerCards .card + .card {
+  margin-left: clamp(-24px, -3vw, -14px);
+}
+
+.card {
+  position: relative;
+  flex: 0 0 clamp(92px, 12vw, 126px);
+  aspect-ratio: 0.7;
+  overflow: hidden;
+  border: 1px solid rgb(14 39 46 / 0.22);
+  border-radius: 12px;
+  color: #12242b;
+  background:
+    linear-gradient(145deg, rgb(255 255 255 / 0.62), transparent 35%),
+    #edf3ed;
+  box-shadow: 0 17px 32px rgb(0 22 18 / 0.25), inset 0 0 0 4px rgb(255 255 255 / 0.34);
+}
+
+.redCard {
+  color: #a3313c;
+}
+
+.cardCorner {
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  display: grid;
+  justify-items: center;
+  line-height: 1;
+}
+
+.cardCorner strong {
+  font-size: clamp(0.9rem, 2vw, 1.16rem);
+}
+
+.cardCorner i {
+  margin-top: 3px;
+  font-size: clamp(0.78rem, 1.8vw, 1rem);
+  font-style: normal;
+}
+
+.cardCornerBottom {
+  inset: auto 10px 9px auto;
+  transform: rotate(180deg);
+}
+
+.cardSuit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: clamp(2.1rem, 5vw, 3.5rem);
+  transform: translate(-50%, -50%);
+}
+
+.controlPanel {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 28px;
+  min-width: 0;
+  padding: clamp(30px, 4vw, 50px);
+  border-left: 1px solid rgb(223 245 241 / 0.14);
+  background:
+    radial-gradient(circle at 100% 0, rgb(121 228 197 / 0.08), transparent 34%),
+    #071925;
+}
+
+.prompt {
+  margin: 0 0 18px;
+  color: #edf7f5;
+  font-size: clamp(1.05rem, 1.7vw, 1.28rem);
+  font-weight: 800;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.actionGrid button {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgb(221 244 240 / 0.06);
+}
+
+.actionGrid button:last-child {
+  grid-column: 1 / -1;
+}
+
+.actionGrid button:hover:not(:disabled) {
+  border-color: #79e4c5;
+  color: #79e4c5;
+  transform: translateY(-1px);
+}
+
+.actionGrid button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.actionGrid .correctAction,
+.actionGrid .correctAction:disabled {
+  border-color: #79e4c5;
+  color: #06251f;
+  background: #79e4c5;
+  opacity: 1;
+}
+
+.actionGrid .wrongAction,
+.actionGrid .wrongAction:disabled {
+  border-color: #e88580;
+  color: #fff2ef;
+  background: #8a393c;
+  opacity: 1;
+}
+
+.instructions,
+.feedback {
+  align-self: end;
+  padding-top: 24px;
+  border-top: 1px solid rgb(223 245 241 / 0.14);
+}
+
+.instructions p,
+.feedback p {
+  margin: 0;
+  color: #c4d7d6;
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+.instructions small,
+.feedback small {
+  display: block;
+  margin-top: 12px;
+  color: #92acad;
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.feedbackTitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+}
+
+.feedbackTitle strong {
+  color: #f0f8f6;
+  font-size: 1.28rem;
+}
+
+.feedbackCorrect .feedbackTitle svg {
+  color: #79e4c5;
+}
+
+.feedbackWrong .feedbackTitle svg {
+  color: #f29b92;
+}
+
+.feedback .correctPlay {
+  margin-bottom: 9px;
+  color: #ecf7f5;
+}
+
+.nextButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 16px;
+  border-color: #79e4c5;
+  border-radius: 999px;
+  color: #06251f;
+  background: #79e4c5;
+}
+
+.nextButton:hover {
+  background: #9aedd6;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .trainerHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .scoreboard {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .gameGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tableSurface {
+    min-height: 610px;
+  }
+
+  .controlPanel {
+    min-height: 430px;
+    border-top: 1px solid rgb(223 245 241 / 0.14);
+    border-left: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .trainer {
+    width: calc(100% - 24px);
+  }
+
+  .trainerHeader {
+    padding: 14px;
+  }
+
+  .focusControls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .focusControls button {
+    width: 100%;
+  }
+
+  .scoreboard {
+    gap: 10px;
+  }
+
+  .scoreboard dt {
+    font-size: 0.57rem;
+  }
+
+  .tableSurface {
+    min-height: 440px;
+  }
+
+  .dealerZone,
+  .playerZone {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 10px;
+    padding: 26px 18px;
+  }
+
+  .handHeading strong {
+    font-size: 1.28rem;
+  }
+
+  .card {
+    flex-basis: clamp(78px, 24vw, 98px);
+  }
+
+  .playerCards .card + .card {
+    margin-left: -25px;
+  }
+
+  .controlPanel {
+    min-height: 470px;
+    padding: 26px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focusControls button,
+  .actionGrid button,
+  .nextButton {
+    transition: none;
+  }
+}
