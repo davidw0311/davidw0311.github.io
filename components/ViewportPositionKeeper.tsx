@@ -10,6 +10,14 @@ type CenterAnchor = {
   ratio: number;
 };
 
+type ViewportOrientation = "portrait" | "landscape";
+
+type RotationOrigin = {
+  anchor: CenterAnchor | null;
+  orientation: ViewportOrientation;
+  scrollTop: number;
+};
+
 function viewportCenter() {
   const viewport = window.visualViewport;
 
@@ -49,9 +57,11 @@ function findCenterAnchor(): CenterAnchor | null {
   };
 }
 
-function isLandscape() {
+function viewportOrientation(): ViewportOrientation {
   const viewport = window.visualViewport;
-  return (viewport?.width ?? window.innerWidth) > (viewport?.height ?? window.innerHeight);
+  return (viewport?.width ?? window.innerWidth) > (viewport?.height ?? window.innerHeight)
+    ? "landscape"
+    : "portrait";
 }
 
 export function ViewportPositionKeeper() {
@@ -59,37 +69,48 @@ export function ViewportPositionKeeper() {
 
   useEffect(() => {
     let anchor: CenterAnchor | null = null;
-    let landscape = isLandscape();
+    let orientation = viewportOrientation();
+    let rotationOrigin: RotationOrigin | null = null;
     let rotationPending = false;
+    let stableScrollTop = window.scrollY;
+    let captureBlockedUntil = 0;
     let captureTimer: number | undefined;
     let restoreTimer: number | undefined;
     let captureFrame = 0;
     let restoreFrame = 0;
 
     const capture = () => {
-      if (!rotationPending) anchor = findCenterAnchor();
+      if (rotationPending || performance.now() < captureBlockedUntil) return;
+
+      stableScrollTop = window.scrollY;
+      anchor = findCenterAnchor();
     };
 
     const scheduleCapture = () => {
-      if (rotationPending || isLandscape() !== landscape) return;
+      if (
+        rotationPending
+        || viewportOrientation() !== orientation
+        || performance.now() < captureBlockedUntil
+      ) return;
 
       window.clearTimeout(captureTimer);
       captureTimer = window.setTimeout(capture, 80);
     };
 
     const trackScrollPosition = () => {
-      if (rotationPending || isLandscape() !== landscape) return;
+      if (rotationPending || viewportOrientation() !== orientation) return;
 
+      stableScrollTop = window.scrollY;
       window.cancelAnimationFrame(captureFrame);
       captureFrame = window.requestAnimationFrame(capture);
     };
 
-    const alignAnchor = () => {
-      if (!anchor?.element.isConnected) return;
+    const alignAnchor = (targetAnchor: CenterAnchor) => {
+      if (!targetAnchor.element.isConnected) return;
 
       const center = viewportCenter();
-      const rect = anchor.element.getBoundingClientRect();
-      const anchoredPoint = rect.top + rect.height * anchor.ratio;
+      const rect = targetAnchor.element.getBoundingClientRect();
+      const anchoredPoint = rect.top + rect.height * targetAnchor.ratio;
       const nextScrollTop = window.scrollY + anchoredPoint - center.y;
       window.scrollTo({ top: Math.max(0, nextScrollTop), behavior: "auto" });
     };
@@ -98,7 +119,11 @@ export function ViewportPositionKeeper() {
       window.clearTimeout(restoreTimer);
       restoreTimer = undefined;
 
-      if (!anchor?.element.isConnected) {
+      const origin = rotationOrigin;
+      const returningToOrigin = origin?.orientation === orientation;
+      const targetAnchor = returningToOrigin ? origin.anchor : anchor;
+
+      if (!returningToOrigin && !targetAnchor?.element.isConnected) {
         rotationPending = false;
         capture();
         return;
@@ -109,36 +134,63 @@ export function ViewportPositionKeeper() {
       root.style.scrollBehavior = "auto";
 
       restoreFrame = window.requestAnimationFrame(() => {
-        alignAnchor();
+        if (returningToOrigin) {
+          window.scrollTo({ top: origin.scrollTop, behavior: "auto" });
+        } else if (targetAnchor) {
+          alignAnchor(targetAnchor);
+        }
+
         restoreFrame = window.requestAnimationFrame(() => {
-          alignAnchor();
+          if (returningToOrigin) {
+            window.scrollTo({ top: origin.scrollTop, behavior: "auto" });
+          } else if (targetAnchor) {
+            alignAnchor(targetAnchor);
+          }
+
           root.style.scrollBehavior = previousBehavior;
           rotationPending = false;
-          capture();
+          stableScrollTop = window.scrollY;
+          captureBlockedUntil = performance.now() + 600;
+
+          if (returningToOrigin) {
+            anchor = origin.anchor;
+            rotationOrigin = null;
+          }
         });
       });
     };
 
-    const scheduleRestore = () => {
+    const scheduleRestore = (nextOrientation: ViewportOrientation) => {
+      const orientationChanged = nextOrientation !== orientation;
+      if (!orientationChanged && !rotationPending) return;
+
+      if (orientationChanged) {
+        if (!rotationPending && !rotationOrigin) {
+          rotationOrigin = {
+            anchor,
+            orientation,
+            scrollTop: stableScrollTop,
+          };
+        }
+
+        orientation = nextOrientation;
+      }
+
       rotationPending = true;
       window.clearTimeout(restoreTimer);
       restoreTimer = window.setTimeout(restore, 180);
     };
 
     const handleResize = () => {
-      const nextLandscape = isLandscape();
-
-      if (nextLandscape !== landscape) {
-        landscape = nextLandscape;
-        scheduleRestore();
-      } else if (rotationPending) {
-        scheduleRestore();
-      }
+      scheduleRestore(viewportOrientation());
     };
 
     const handleOrientationChange = () => {
-      landscape = isLandscape();
-      scheduleRestore();
+      scheduleRestore(viewportOrientation());
+    };
+
+    const resetRotationCycle = () => {
+      if (!rotationPending) rotationOrigin = null;
     };
 
     const initialFrame = window.requestAnimationFrame(() => {
@@ -153,8 +205,12 @@ export function ViewportPositionKeeper() {
     viewportObserver.observe(document.documentElement);
 
     document.addEventListener("scrollend", scheduleCapture, { passive: true });
+    document.addEventListener("pointerdown", resetRotationCycle, { passive: true });
     document.addEventListener("pointerup", scheduleCapture, { passive: true });
+    document.addEventListener("touchstart", resetRotationCycle, { passive: true });
     document.addEventListener("touchend", scheduleCapture, { passive: true });
+    document.addEventListener("wheel", resetRotationCycle, { passive: true });
+    document.addEventListener("keydown", resetRotationCycle);
     document.addEventListener("keyup", scheduleCapture);
     window.addEventListener("resize", handleResize, { passive: true });
     window.addEventListener("orientationchange", handleOrientationChange, { passive: true });
@@ -171,8 +227,12 @@ export function ViewportPositionKeeper() {
       window.cancelAnimationFrame(initialFrame);
       window.cancelAnimationFrame(restoreFrame);
       document.removeEventListener("scrollend", scheduleCapture);
+      document.removeEventListener("pointerdown", resetRotationCycle);
       document.removeEventListener("pointerup", scheduleCapture);
+      document.removeEventListener("touchstart", resetRotationCycle);
       document.removeEventListener("touchend", scheduleCapture);
+      document.removeEventListener("wheel", resetRotationCycle);
+      document.removeEventListener("keydown", resetRotationCycle);
       document.removeEventListener("keyup", scheduleCapture);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("orientationchange", handleOrientationChange);
