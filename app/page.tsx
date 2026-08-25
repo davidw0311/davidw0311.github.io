@@ -53,7 +53,7 @@ export default function Home() {
               </Link>
               <Link href="/projects/piano-note-lab/">
                 <PianoKeys size={34} weight="thin" />
-                <span>Piano note lab</span>
+                <span>Piano Party</span>
               </Link>
               <div><Binoculars size={34} weight="thin" /><span>Deep observation</span></div>
             </div>

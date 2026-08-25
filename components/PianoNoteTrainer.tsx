@@ -9,7 +9,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type CSSProperties, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import {
   accidentalSymbol,
   blackKeys,
@@ -35,6 +35,26 @@ type Score = {
   correct: number;
   streak: number;
 };
+
+type SafariAudioWindow = typeof window & {
+  webkitAudioContext?: typeof AudioContext;
+};
+
+async function resumeAudioContext(context: AudioContext) {
+  if (context.state === "running") return true;
+
+  const resumed = context.resume().then(
+    () => context.state === "running",
+    () => false,
+  );
+
+  return Promise.race([
+    resumed,
+    new Promise<boolean>((resolve) => {
+      window.setTimeout(() => resolve(context.state === "running"), 350);
+    }),
+  ]);
+}
 
 const exerciseLabels: Record<PianoExerciseMode, string> = {
   "key-name": "Key to note",
@@ -202,13 +222,63 @@ export function PianoNoteTrainer() {
     return `The answer is ${displayedAnswer}.`;
   }, [answered, displayedAnswer, isCorrect]);
 
-  const playTone = (note: PianoNote) => {
+  useEffect(() => {
+    const discardAudioContext = () => {
+      const context = audioContextRef.current;
+      audioContextRef.current = null;
+
+      if (context && context.state !== "closed") {
+        void context.close().catch(() => undefined);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") discardAudioContext();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pagehide", discardAudioContext);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", discardAudioContext);
+      discardAudioContext();
+    };
+  }, []);
+
+  const createAudioContext = () => {
+    const browserWindow = window as SafariAudioWindow;
+    const AudioContextConstructor = browserWindow.AudioContext ?? browserWindow.webkitAudioContext;
+    if (!AudioContextConstructor) return null;
+
+    const context = new AudioContextConstructor();
+    audioContextRef.current = context;
+    return context;
+  };
+
+  const getPlayableAudioContext = async () => {
+    let context = audioContextRef.current;
+
+    if (!context || context.state === "closed") context = createAudioContext();
+    if (!context) return null;
+
+    if (await resumeAudioContext(context)) return context;
+
+    if (audioContextRef.current === context) audioContextRef.current = null;
+    void context.close().catch(() => undefined);
+    context = createAudioContext();
+
+    if (!context || !(await resumeAudioContext(context))) return null;
+    return context;
+  };
+
+  const playTone = async (note: PianoNote) => {
     if (!soundEnabled) return;
 
-    const AudioContextConstructor = window.AudioContext;
-    const context = audioContextRef.current ?? new AudioContextConstructor();
-    audioContextRef.current = context;
-    const now = context.currentTime;
+    const context = await getPlayableAudioContext();
+    if (!context) return;
+
+    const now = context.currentTime + 0.01;
     const frequency = noteFrequency(note.midi);
     const output = context.createGain();
     output.gain.setValueAtTime(0.0001, now);
@@ -242,7 +312,7 @@ export function PianoNoteTrainer() {
       correct: current.correct + (correct ? 1 : 0),
       streak: correct ? current.streak + 1 : 0,
     }));
-    playTone(playedNote);
+    void playTone(playedNote);
   };
 
   const nextQuestion = (nextMode = mode, nextClef = clefFilter) => {
@@ -346,7 +416,7 @@ export function PianoNoteTrainer() {
                 answered={answered}
                 interactive
                 showPrompt
-                onChoose={playTone}
+                onChoose={(note) => void playTone(note)}
               />
             ) : null}
           </motion.div>
@@ -386,7 +456,7 @@ export function PianoNoteTrainer() {
               answered={answered}
               interactive
               showPrompt={false}
-              onChoose={(note) => answered ? playTone(note) : recordAnswer(note.id, note)}
+              onChoose={(note) => answered ? void playTone(note) : recordAnswer(note.id, note)}
             />
           )}
 

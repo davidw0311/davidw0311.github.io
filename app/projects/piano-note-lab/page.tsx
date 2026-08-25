@@ -5,7 +5,7 @@ import { PianoNoteTrainer } from "@/components/PianoNoteTrainer";
 import styles from "./piano-note-lab.module.css";
 
 export const metadata: Metadata = {
-  title: "Piano Note Lab",
+  title: "Piano Party",
   description: "A focused piano note trainer for learning natural, sharp, and flat keys in treble and bass clef.",
   alternates: { canonical: "/projects/piano-note-lab/" },
 };
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function PianoNoteLabPage() {
   return (
     <main className={styles.page}>
-      <nav className={styles.nav} aria-label="Piano note lab navigation">
+      <nav className={styles.nav} aria-label="Piano Party navigation">
         <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Back to space</Link>
         <Link href="/#about">DYW</Link>
       </nav>
@@ -25,7 +25,7 @@ export default function PianoNoteLabPage() {
           </div>
           <div>
             <p>Interactive project</p>
-            <h1 id="piano-lab-title">Piano Note Lab.</h1>
+            <h1 id="piano-lab-title">Piano Party.</h1>
             <strong>Build quick note recognition on the keyboard, treble clef, and bass clef.</strong>
           </div>
         </header>
