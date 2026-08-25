@@ -762,7 +762,8 @@ export function LanguageLearningLab() {
                       aria-expanded={languagePickerOpen}
                       onClick={() => setLanguagePickerOpen((open) => !open)}
                     >
-                      <Plus size={20} weight="bold" />
+                      <Plus size={15} weight="bold" aria-hidden="true" />
+                      <span>Add language</span>
                     </button>
                     <AnimatePresence initial={false}>
                       {languagePickerOpen ? (

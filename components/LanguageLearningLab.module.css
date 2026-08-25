@@ -533,20 +533,24 @@
 
 .languageManager {
   display: grid;
-  justify-items: center;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .addLanguageButton {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border: 1px solid var(--lab-line-strong);
-  border-radius: 50%;
-  color: var(--lab-muted);
-  background: var(--lab-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 32px;
+  padding: 5px 10px;
+  border: 1px solid var(--lab-line);
+  border-radius: 9px;
+  color: var(--lab-faint);
+  background: rgb(255 255 255 / 0.025);
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
 }
@@ -560,7 +564,7 @@
 }
 
 .addLanguageButton:active {
-  transform: scale(0.96);
+  transform: translateY(1px);
 }
 
 .languagePicker {
