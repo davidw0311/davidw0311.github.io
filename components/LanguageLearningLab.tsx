@@ -3,21 +3,29 @@
 import {
   ArrowLeft,
   ArrowRight,
-  ArrowsDownUp,
   BookmarkSimple,
   BookOpenText,
-  CaretDown,
-  CaretUp,
   CheckCircle,
+  DotsSixVertical,
   Microphone,
   NumberCircleOne,
+  Plus,
   SpeakerHigh,
   SpinnerGap,
   Translate,
+  Trash,
   WarningCircle,
   XCircle,
 } from "@phosphor-icons/react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  Reorder,
+  useDragControls,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   contentItems,
@@ -29,6 +37,7 @@ import {
   unitProgressKey,
   type CompletionStatus,
   type LanguageId,
+  type LocalizedUnit,
   type LocalProgress,
   type PhraseSegment,
 } from "@/data/languageLearning";
@@ -44,7 +53,6 @@ type SpeechState =
   | "passed"
   | "failed"
   | "error";
-type Strictness = "relaxed" | "normal" | "strict";
 
 type AssessmentResult = {
   passed: boolean;
@@ -57,6 +65,129 @@ const storageKey = "dyw-language-lab-progress-v1";
 const pronunciationApiUrl = process.env.NEXT_PUBLIC_PRONUNCIATION_API_URL?.trim();
 const maximumRecordingMs = 12_000;
 
+type SupportLanguageCardProps = {
+  languageId: LanguageId;
+  localization: LocalizedUnit;
+  activePhraseId?: string;
+  playing: boolean;
+  showRomanization: boolean;
+  canMove: boolean;
+  reduceMotion: boolean;
+  onPlay: () => void;
+  onOpenPhrase: (phrase: PhraseSegment) => void;
+  onRemove: () => void;
+  onMove: (direction: -1 | 1) => void;
+};
+
+function SupportLanguageCard({
+  languageId,
+  localization,
+  activePhraseId,
+  playing,
+  showRomanization,
+  canMove,
+  reduceMotion,
+  onPlay,
+  onOpenPhrase,
+  onRemove,
+  onMove,
+}: SupportLanguageCardProps) {
+  const reorderControls = useDragControls();
+  const swipeControls = useDragControls();
+  const x = useMotionValue(0);
+  const removeOpacity = useTransform(x, [-82, -28, 0], [1, 0.35, 0]);
+
+  return (
+    <Reorder.Item
+      as="div"
+      value={languageId}
+      className={styles.supportLanguageItem}
+      dragListener={false}
+      dragControls={reorderControls}
+      transition={reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 460, damping: 38 }}
+    >
+      <motion.div className={styles.removeLanguageBackground} style={{ opacity: removeOpacity }} aria-hidden="true">
+        <Trash size={17} weight="fill" />
+        <span>Remove</span>
+      </motion.div>
+      <motion.article
+        className={styles.supportLanguageCard}
+        lang={languages[languageId].locale}
+        style={{ x }}
+        drag="x"
+        dragListener={false}
+        dragControls={swipeControls}
+        dragConstraints={{ left: -84, right: 0 }}
+        dragElastic={0.06}
+        dragSnapToOrigin
+        onPointerDown={(event) => {
+          if ((event.target as HTMLElement).closest("[data-no-swipe]")) return;
+          swipeControls.start(event);
+        }}
+        onDragEnd={(_, info) => {
+          if (info.offset.x < -58 || info.velocity.x < -520) onRemove();
+        }}
+      >
+        <header>
+          <div>
+            <span>{languages[languageId].nameNative}</span>
+            <small>{languages[languageId].nameEnglish}</small>
+          </div>
+        </header>
+        <p className={styles.sentence}>
+          {localization.segments.map((phrase) => (
+            <button
+              type="button"
+              key={phrase.id}
+              className={activePhraseId === phrase.id ? styles.activePhrase : ""}
+              onClick={() => onOpenPhrase(phrase)}
+            >
+              {phrase.text}
+            </button>
+          ))}
+        </p>
+        {showRomanization && localization.romanization ? <p className={styles.romanization}>{localization.romanization}</p> : null}
+        <button
+          type="button"
+          className={styles.supportAudioButton}
+          data-no-swipe
+          aria-label={`Play ${languages[languageId].nameEnglish} sentence`}
+          aria-pressed={playing}
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={onPlay}
+        >
+          <SpeakerHigh size={17} weight="fill" />
+        </button>
+        <button
+          type="button"
+          className={styles.dragHandle}
+          data-no-swipe
+          aria-label={`Reorder ${languages[languageId].nameEnglish}. Use arrow keys to move or Delete to remove.`}
+          aria-describedby="support-language-help"
+          onPointerDown={(event) => {
+            event.stopPropagation();
+            if (canMove) reorderControls.start(event);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowUp") {
+              event.preventDefault();
+              onMove(-1);
+            } else if (event.key === "ArrowDown") {
+              event.preventDefault();
+              onMove(1);
+            } else if (event.key === "Delete" || event.key === "Backspace") {
+              event.preventDefault();
+              onRemove();
+            }
+          }}
+        >
+          <DotsSixVertical size={19} weight="bold" />
+        </button>
+      </motion.article>
+    </Reorder.Item>
+  );
+}
+
 function isLanguageId(value: unknown): value is LanguageId {
   return typeof value === "string" && languageIds.includes(value as LanguageId);
 }
@@ -68,13 +199,18 @@ function readLocalProgress(value: string | null): LocalProgress {
     const practiceLanguageId = isLanguageId(parsed.practiceLanguageId)
       ? parsed.practiceLanguageId
       : defaultLocalProgress.practiceLanguageId;
-    const supportLanguageId = preferredSupportLanguage(
+    const storedSupportLanguageId = preferredSupportLanguage(
       practiceLanguageId,
       isLanguageId(parsed.supportLanguageId) ? parsed.supportLanguageId : defaultLocalProgress.supportLanguageId,
     );
-    const displayLanguageIds = Array.isArray(parsed.displayLanguageIds)
+    const storedDisplayLanguageIds = Array.isArray(parsed.displayLanguageIds)
       ? parsed.displayLanguageIds.filter(isLanguageId)
       : defaultLocalProgress.displayLanguageIds;
+    const supportingLanguageIds = Array.from(new Set(storedDisplayLanguageIds))
+      .filter((languageId) => languageId !== practiceLanguageId);
+    const supportLanguageId = supportingLanguageIds.includes(storedSupportLanguageId)
+      ? storedSupportLanguageId
+      : supportingLanguageIds[0] ?? storedSupportLanguageId;
     return {
       xp: typeof parsed.xp === "number" ? parsed.xp : 0,
       completed: parsed.completed && typeof parsed.completed === "object" ? parsed.completed : {},
@@ -83,11 +219,7 @@ function readLocalProgress(value: string | null): LocalProgress {
         : [],
       practiceLanguageId,
       supportLanguageId,
-      displayLanguageIds: ensureLearningLanguages(
-        displayLanguageIds.length > 0 ? displayLanguageIds : defaultLocalProgress.displayLanguageIds,
-        practiceLanguageId,
-        supportLanguageId,
-      ),
+      displayLanguageIds: [...supportingLanguageIds, practiceLanguageId],
       showRomanization: parsed.showRomanization ?? true,
     };
   } catch {
@@ -101,16 +233,16 @@ export function LanguageLearningLab() {
   const [ready, setReady] = useState(false);
   const [contentIndex, setContentIndex] = useState(0);
   const [unitIndex, setUnitIndex] = useState(0);
-  const [strictness, setStrictness] = useState<Strictness>("normal");
   const [speechState, setSpeechState] = useState<SpeechState>("idle");
   const [attempts, setAttempts] = useState(0);
   const [score, setScore] = useState<number | null>(null);
   const [transcript, setTranscript] = useState("");
-  const [feedback, setFeedback] = useState("Listen once, then hold the button while you say the sentence.");
+  const [feedback, setFeedback] = useState("");
   const [activePhrase, setActivePhrase] = useState<{ languageId: LanguageId; phrase: PhraseSegment } | null>(null);
   const [translationRevealed, setTranslationRevealed] = useState(false);
   const [lessonFinished, setLessonFinished] = useState(false);
   const [playingSampleId, setPlayingSampleId] = useState<string | null>(null);
+  const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
   const recordingRef = useRef<AudioRecording | null>(null);
   const recordingTimerRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -130,13 +262,11 @@ export function LanguageLearningLab() {
   const progressKey = unitProgressKey(content.id, currentUnit.id, practiceLanguageId);
   const persistedStatus = progress.completed[progressKey] ?? "not_started";
   const unitIsComplete = speechState === "passed" || persistedStatus === "passed" || persistedStatus === "skipped";
-  const skipAvailable = attempts >= 3;
   const readingFocusActive = speechState === "requesting_permission" || speechState === "recording";
   const supportLanguageIds = progress.displayLanguageIds.filter((languageId) => languageId !== practiceLanguageId);
-  const settingsLanguageIds = [
-    ...progress.displayLanguageIds,
-    ...languageIds.filter((languageId) => !progress.displayLanguageIds.includes(languageId)),
-  ];
+  const availableLanguageIds = languageIds.filter((languageId) => (
+    languageId !== practiceLanguageId && !supportLanguageIds.includes(languageId)
+  ));
 
   const completionCount = useMemo(
     () => content.units.filter((candidate) => {
@@ -174,7 +304,7 @@ export function LanguageLearningLab() {
     setPlayingSampleId(null);
   }, []);
 
-  const resetAttempt = useCallback((message = "Listen once, then hold the button while you say the sentence.") => {
+  const resetAttempt = useCallback((message = "") => {
     holdActiveRef.current = false;
     stopPlayback();
     void recordingRef.current?.cancel();
@@ -211,22 +341,9 @@ export function LanguageLearningLab() {
         ),
       };
     });
+    setLanguagePickerOpen(false);
     setLessonFinished(false);
-    resetAttempt(`Now practicing ${languages[languageId].nameEnglish}. Listen once, then hold to speak.`);
-  };
-
-  const selectSupportLanguage = (languageId: LanguageId) => {
-    if (languageId === practiceLanguageId) return;
-    setProgress((current) => ({
-      ...current,
-      supportLanguageId: languageId,
-      displayLanguageIds: ensureLearningLanguages(
-        current.displayLanguageIds,
-        current.practiceLanguageId,
-        languageId,
-      ),
-    }));
-    setActivePhrase(null);
+    resetAttempt();
   };
 
   const setCompletion = (status: Exclude<CompletionStatus, "not_started">, earnedXp: number) => {
@@ -330,7 +447,7 @@ export function LanguageLearningLab() {
           audioBase64: await blobToBase64(audio),
           locale: languages[practiceLanguageId].locale,
           referenceText: practiceLocalization.text,
-          strictness,
+          strictness: "normal",
         }),
       });
       const result = await response.json().catch(() => null) as (AssessmentResult & { error?: string }) | null;
@@ -390,13 +507,6 @@ export function LanguageLearningLab() {
     if (recording) void evaluateRecording(recording);
   };
 
-  const skipUnit = () => {
-    setSpeechState("passed");
-    setScore(null);
-    setFeedback("Sentence skipped. You can return to practice it later.");
-    setCompletion("skipped", 0);
-  };
-
   const goToUnit = (index: number) => {
     if (index < 0 || index >= content.units.length) return;
     setUnitIndex(index);
@@ -411,41 +521,56 @@ export function LanguageLearningLab() {
     setLessonFinished(true);
   };
 
-  const toggleDisplayLanguage = (languageId: LanguageId) => {
+  const reorderSupportLanguages = (orderedLanguageIds: LanguageId[]) => {
     setProgress((current) => {
-      const selected = current.displayLanguageIds.includes(languageId);
-      if (selected && (
-        current.displayLanguageIds.length === 1
-        || languageId === practiceLanguageId
-        || languageId === supportLanguageId
-      )) return current;
+      const nextSupportingLanguages = orderedLanguageIds.filter((languageId) => (
+        languageId !== current.practiceLanguageId
+        && current.displayLanguageIds.includes(languageId)
+      ));
       return {
         ...current,
-        displayLanguageIds: ensureLearningLanguages(
-          selected
-            ? current.displayLanguageIds.filter((candidate) => candidate !== languageId)
-            : [...current.displayLanguageIds, languageId],
-          current.practiceLanguageId,
-          current.supportLanguageId,
-        ),
+        supportLanguageId: nextSupportingLanguages[0]
+          ?? preferredSupportLanguage(current.practiceLanguageId, current.supportLanguageId),
+        displayLanguageIds: [...nextSupportingLanguages, current.practiceLanguageId],
       };
     });
   };
 
-  const moveDisplayLanguage = (languageId: LanguageId, direction: -1 | 1) => {
+  const moveSupportLanguage = (languageId: LanguageId, direction: -1 | 1) => {
+    const index = supportLanguageIds.indexOf(languageId);
+    const nextIndex = index + direction;
+    if (index < 0 || nextIndex < 0 || nextIndex >= supportLanguageIds.length) return;
+    const next = [...supportLanguageIds];
+    [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
+    reorderSupportLanguages(next);
+  };
+
+  const addSupportLanguage = (languageId: LanguageId) => {
     setProgress((current) => {
-      const index = current.displayLanguageIds.indexOf(languageId);
-      const nextIndex = index + direction;
-      const lastSupportingIndex = current.displayLanguageIds.length - 2;
-      if (
-        languageId === current.practiceLanguageId
-        || index < 0
-        || nextIndex < 0
-        || nextIndex > lastSupportingIndex
-      ) return current;
-      const next = [...current.displayLanguageIds];
-      [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
-      return { ...current, displayLanguageIds: next };
+      if (languageId === current.practiceLanguageId || current.displayLanguageIds.includes(languageId)) return current;
+      const currentSupportingLanguages = current.displayLanguageIds.filter((candidate) => candidate !== current.practiceLanguageId);
+      const nextSupportingLanguages = [...currentSupportingLanguages, languageId];
+      return {
+        ...current,
+        supportLanguageId: currentSupportingLanguages[0] ?? languageId,
+        displayLanguageIds: [...nextSupportingLanguages, current.practiceLanguageId],
+      };
+    });
+    setLanguagePickerOpen(false);
+  };
+
+  const removeSupportLanguage = (languageId: LanguageId) => {
+    setActivePhrase((current) => current?.languageId === languageId ? null : current);
+    setProgress((current) => {
+      const currentSupportingLanguages = current.displayLanguageIds.filter((candidate) => candidate !== current.practiceLanguageId);
+      const nextSupportingLanguages = currentSupportingLanguages.filter((candidate) => candidate !== languageId);
+      if (nextSupportingLanguages.length === currentSupportingLanguages.length) return current;
+      return {
+        ...current,
+        supportLanguageId: nextSupportingLanguages[0]
+          ?? preferredSupportLanguage(current.practiceLanguageId, current.supportLanguageId),
+        displayLanguageIds: [...nextSupportingLanguages, current.practiceLanguageId],
+      };
     });
   };
 
@@ -536,65 +661,10 @@ export function LanguageLearningLab() {
                 ))}
               </select>
             </div>
-            <div className={styles.languageChoice}>
-              <label htmlFor="support-language">Show help in</label>
-              <select
-                id="support-language"
-                value={supportLanguageId}
-                onChange={(event) => selectSupportLanguage(event.target.value as LanguageId)}
-              >
-                {languageIds.filter((id) => id !== practiceLanguageId).map((id) => (
-                  <option key={id} value={id}>
-                    {id === "en" ? languages[id].nameEnglish : `${languages[id].nameEnglish} (${languages[id].nameNative})`}
-                  </option>
-                ))}
-              </select>
-            </div>
             {languages[practiceLanguageId].toneSensitive ? (
               <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> Azure assesses this locale, but does not return a separate tone score.</p>
             ) : null}
           </div>
-
-          <details className={styles.displaySettings}>
-            <summary><ArrowsDownUp size={18} aria-hidden="true" /> Display languages</summary>
-            <div className={styles.settingsBody}>
-              {settingsLanguageIds.map((languageId) => {
-                const selected = progress.displayLanguageIds.includes(languageId);
-                const selectedIndex = progress.displayLanguageIds.indexOf(languageId);
-                return (
-                  <div className={styles.languageSetting} key={languageId}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={selected}
-                        disabled={selected && (
-                          progress.displayLanguageIds.length === 1
-                          || languageId === practiceLanguageId
-                          || languageId === supportLanguageId
-                        )}
-                        onChange={() => toggleDisplayLanguage(languageId)}
-                      />
-                      <span>{languages[languageId].nameEnglish}</span>
-                    </label>
-                    {selected ? (
-                      <span className={styles.orderButtons}>
-                        <button type="button" aria-label={`Move ${languages[languageId].nameEnglish} up`} disabled={languageId === practiceLanguageId || selectedIndex === 0} onClick={() => moveDisplayLanguage(languageId, -1)}><CaretUp size={15} weight="bold" /></button>
-                        <button type="button" aria-label={`Move ${languages[languageId].nameEnglish} down`} disabled={languageId === practiceLanguageId || selectedIndex >= progress.displayLanguageIds.length - 2} onClick={() => moveDisplayLanguage(languageId, 1)}><CaretDown size={15} weight="bold" /></button>
-                      </span>
-                    ) : null}
-                  </div>
-                );
-              })}
-              <label className={styles.romanizationToggle}>
-                <input
-                  type="checkbox"
-                  checked={progress.showRomanization}
-                  onChange={(event) => setProgress((current) => ({ ...current, showRomanization: event.target.checked }))}
-                />
-                <span>Show romanization</span>
-              </label>
-            </div>
-          </details>
         </aside>
 
         <section className={styles.lesson} id="language-lesson" aria-labelledby="active-lesson-title">
@@ -655,40 +725,75 @@ export function LanguageLearningLab() {
                   animate={{ opacity: readingFocusActive ? 0 : 1, scale: readingFocusActive ? 0.99 : 1 }}
                   transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  {supportLanguageIds.map((languageId) => {
-                    const localization = currentUnit.localizations[languageId];
-                    return (
-                      <article key={languageId} lang={languages[languageId].locale}>
-                        <header>
+                  <p className={styles.srOnly} id="support-language-help">Swipe a language left to remove it. Drag its handle to reorder it.</p>
+                  <Reorder.Group
+                    as="div"
+                    axis="y"
+                    values={supportLanguageIds}
+                    onReorder={reorderSupportLanguages}
+                    className={styles.supportLanguageList}
+                  >
+                    {supportLanguageIds.map((languageId, index) => (
+                      <SupportLanguageCard
+                        key={languageId}
+                        languageId={languageId}
+                        localization={currentUnit.localizations[languageId]}
+                        activePhraseId={activePhrase?.phrase.id}
+                        playing={playingSampleId === `sentence:${content.slug}:${currentUnit.id}:${languageId}:normal`}
+                        showRomanization={progress.showRomanization}
+                        canMove={supportLanguageIds.length > 1}
+                        reduceMotion={Boolean(reduceMotion)}
+                        onPlay={() => playSentence(languageId)}
+                        onOpenPhrase={(phrase) => openPhrase(languageId, phrase)}
+                        onRemove={() => removeSupportLanguage(languageId)}
+                        onMove={(direction) => {
+                          const nextIndex = index + direction;
+                          if (nextIndex >= 0 && nextIndex < supportLanguageIds.length) moveSupportLanguage(languageId, direction);
+                        }}
+                      />
+                    ))}
+                  </Reorder.Group>
+
+                  <div className={styles.languageManager}>
+                    <button
+                      type="button"
+                      className={styles.addLanguageButton}
+                      aria-label="Add a language"
+                      aria-expanded={languagePickerOpen}
+                      onClick={() => setLanguagePickerOpen((open) => !open)}
+                    >
+                      <Plus size={20} weight="bold" />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {languagePickerOpen ? (
+                        <motion.div
+                          className={styles.languagePicker}
+                          initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+                          transition={reduceMotion ? { duration: 0 } : { duration: 0.18 }}
+                        >
+                          <strong>Add a language</strong>
                           <div>
-                            <span>{languages[languageId].nameNative}</span>
-                            <small>{languages[languageId].nameEnglish}</small>
+                            {availableLanguageIds.length > 0 ? availableLanguageIds.map((languageId) => (
+                              <button type="button" key={languageId} onClick={() => addSupportLanguage(languageId)}>
+                                <span>{languages[languageId].nameNative}</span>
+                                <small>{languages[languageId].nameEnglish}</small>
+                              </button>
+                            )) : <span className={styles.allLanguagesAdded}>All languages added</span>}
                           </div>
-                          <button
-                            type="button"
-                            aria-label={`Play ${languages[languageId].nameEnglish} sentence`}
-                            aria-pressed={playingSampleId === `sentence:${content.slug}:${currentUnit.id}:${languageId}:normal`}
-                            onClick={() => playSentence(languageId)}
-                          >
-                            <SpeakerHigh size={21} weight="fill" />
-                          </button>
-                        </header>
-                        <p className={styles.sentence}>
-                          {localization.segments.map((phrase) => (
-                            <button
-                              type="button"
-                              key={phrase.id}
-                              className={activePhrase?.phrase.id === phrase.id ? styles.activePhrase : ""}
-                              onClick={() => openPhrase(languageId, phrase)}
-                            >
-                              {phrase.text}
-                            </button>
-                          ))}
-                        </p>
-                        {progress.showRomanization && localization.romanization ? <p className={styles.romanization}>{localization.romanization}</p> : null}
-                      </article>
-                    );
-                  })}
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={progress.showRomanization}
+                              onChange={(event) => setProgress((current) => ({ ...current, showRomanization: event.target.checked }))}
+                            />
+                            <span>Show romanization</span>
+                          </label>
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
+                  </div>
                 </motion.section>
 
                 <AnimatePresence>
@@ -730,20 +835,7 @@ export function LanguageLearningLab() {
                 </AnimatePresence>
 
                 <section className={styles.speakingPanel} aria-labelledby="speaking-title">
-                  <div className={styles.speakingIntro}>
-                    <div>
-                      <h2 id="speaking-title">Say it aloud</h2>
-                      <p>{feedback}</p>
-                    </div>
-                    <label>
-                      <span>Strictness</span>
-                      <select value={strictness} onChange={(event) => setStrictness(event.target.value as Strictness)}>
-                        <option value="relaxed">Relaxed</option>
-                        <option value="normal">Normal</option>
-                        <option value="strict">Strict</option>
-                      </select>
-                    </label>
-                  </div>
+                  <h2 id="speaking-title">Say it aloud</h2>
 
                   <div className={styles.practicePrompt} lang={languages[practiceLanguageId].locale}>
                     <div>
@@ -828,15 +920,7 @@ export function LanguageLearningLab() {
                   </div>
 
                   {transcript ? <p className={styles.transcript}>Azure heard: <q>{transcript}</q></p> : null}
-
-                  <div className={styles.speechFooter}>
-                    <p>Short audio is sent to Azure Speech for scoring and is not stored by this app.</p>
-                    <div>
-                      {speechState === "error" ? <button type="button" onClick={() => { setSpeechState("idle"); setFeedback("Ready when you are. Hold the button and say the full sentence."); }}>Try again</button> : null}
-                      {speechState === "failed" ? <button type="button" onClick={() => setSpeechState("idle")}>Retry</button> : null}
-                      {skipAvailable && !unitIsComplete ? <button type="button" onClick={skipUnit}>Skip for now</button> : null}
-                    </div>
-                  </div>
+                  {speechState !== "idle" && feedback ? <p className={styles.speechFeedback} aria-live="polite">{feedback}</p> : null}
                 </section>
 
                 <nav className={styles.unitNavigation} aria-label="Lesson sentence navigation">
