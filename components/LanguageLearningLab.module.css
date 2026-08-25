@@ -467,15 +467,11 @@
 
 .reader {
   overflow: hidden;
+  overflow-anchor: none;
   border: 1px solid var(--lab-line-strong);
   border-radius: 16px;
   background: var(--lab-surface);
-  transition: border-color 220ms ease, box-shadow 220ms ease;
-}
-
-.readerFocused {
-  border-color: rgb(121 228 197 / 0.5);
-  box-shadow: 0 18px 48px rgb(3 16 20 / 0.22);
+  transform-origin: bottom center;
 }
 
 .reader article {
@@ -485,21 +481,6 @@
 
 .reader article + article {
   border-top: 1px solid var(--lab-line);
-}
-
-.reader article.practiceBlock {
-  background: linear-gradient(90deg, rgb(121 228 197 / 0.075), transparent 48%);
-}
-
-.reader article.practiceBlock::before {
-  position: absolute;
-  top: 18px;
-  bottom: 18px;
-  left: 0;
-  width: 3px;
-  border-radius: 0 3px 3px 0;
-  content: "";
-  background: var(--lab-accent);
 }
 
 .reader article header {
@@ -597,9 +578,11 @@
   margin-top: 10px;
   padding: 16px 18px;
   overflow: hidden;
+  overflow-anchor: none;
   border: 1px solid rgb(121 228 197 / 0.28);
   border-radius: 16px;
   background: var(--lab-surface-strong);
+  transform-origin: bottom center;
 }
 
 .phrasePanel > div:first-child {
@@ -725,6 +708,60 @@
   min-height: 38px;
   padding-block: 6px;
   font-size: 0.72rem;
+}
+
+.practicePrompt {
+  position: relative;
+  margin-top: 18px;
+  padding: 16px 18px 17px;
+  overflow: hidden;
+  border: 1px solid rgb(121 228 197 / 0.27);
+  border-radius: 13px;
+  background:
+    linear-gradient(90deg, rgb(121 228 197 / 0.08), transparent 54%),
+    var(--lab-surface);
+}
+
+.practicePrompt::before {
+  position: absolute;
+  inset: 12px auto 12px 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  content: "";
+  background: var(--lab-accent);
+}
+
+.practicePrompt > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.practicePrompt > div span {
+  color: var(--lab-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.practicePrompt > div small {
+  color: var(--lab-faint);
+  font-size: 0.62rem;
+}
+
+.practicePrompt > p {
+  margin: 8px 0 0;
+  color: var(--lab-ink);
+  font-size: clamp(1.22rem, 2.5vw, 1.7rem);
+  font-weight: 590;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+}
+
+.practiceRomanization {
+  display: block;
+  margin-top: 5px;
+  color: var(--lab-faint);
+  font-size: 0.76rem;
 }
 
 .audioActions {
@@ -1083,6 +1120,10 @@
   .reader article,
   .speakingPanel {
     padding: 18px 16px;
+  }
+
+  .practicePrompt {
+    padding: 15px 16px 16px;
   }
 
   .reader article header > div {

@@ -132,7 +132,7 @@ export function LanguageLearningLab() {
   const unitIsComplete = speechState === "passed" || persistedStatus === "passed" || persistedStatus === "skipped";
   const skipAvailable = attempts >= 3;
   const readingFocusActive = speechState === "requesting_permission" || speechState === "recording";
-  const visibleLanguageIds = readingFocusActive ? [practiceLanguageId] : progress.displayLanguageIds;
+  const supportLanguageIds = progress.displayLanguageIds.filter((languageId) => languageId !== practiceLanguageId);
   const settingsLanguageIds = [
     ...progress.displayLanguageIds,
     ...languageIds.filter((languageId) => !progress.displayLanguageIds.includes(languageId)),
@@ -380,8 +380,6 @@ export function LanguageLearningLab() {
     if (holdActiveRef.current || speechState === "requesting_permission" || speechState === "recording" || speechState === "evaluating") return;
     holdActiveRef.current = true;
     stopPlayback();
-    setActivePhrase(null);
-    setTranslationRevealed(false);
     void startSpeaking();
   };
 
@@ -650,30 +648,21 @@ export function LanguageLearningLab() {
                 ) : null}
 
                 <motion.section
-                  layout
-                  className={`${styles.reader} ${readingFocusActive ? styles.readerFocused : ""}`}
-                  aria-label={readingFocusActive ? `${languages[practiceLanguageId].nameEnglish} sentence reader` : "Multilingual sentence reader"}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                  className={styles.reader}
+                  aria-label="Support language reader"
+                  aria-hidden={readingFocusActive}
+                  inert={readingFocusActive}
+                  animate={{ opacity: readingFocusActive ? 0 : 1, scale: readingFocusActive ? 0.99 : 1 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <AnimatePresence initial={false} mode="popLayout">
-                  {visibleLanguageIds.map((languageId) => {
+                  {supportLanguageIds.map((languageId) => {
                     const localization = currentUnit.localizations[languageId];
-                    const isPracticeLanguage = languageId === practiceLanguageId;
                     return (
-                      <motion.article
-                        layout="position"
-                        className={isPracticeLanguage ? styles.practiceBlock : ""}
-                        key={languageId}
-                        lang={languages[languageId].locale}
-                        initial={reduceMotion ? false : { opacity: 0, scale: 0.985, y: -8 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={reduceMotion ? undefined : { opacity: 0, scale: 0.985, y: -8 }}
-                        transition={reduceMotion ? { duration: 0 } : { duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-                      >
+                      <article key={languageId} lang={languages[languageId].locale}>
                         <header>
                           <div>
                             <span>{languages[languageId].nameNative}</span>
-                            <small>{languages[languageId].nameEnglish}{isPracticeLanguage ? " practice" : ""}</small>
+                            <small>{languages[languageId].nameEnglish}</small>
                           </div>
                           <button
                             type="button"
@@ -697,10 +686,9 @@ export function LanguageLearningLab() {
                           ))}
                         </p>
                         {progress.showRomanization && localization.romanization ? <p className={styles.romanization}>{localization.romanization}</p> : null}
-                      </motion.article>
+                      </article>
                     );
                   })}
-                  </AnimatePresence>
                 </motion.section>
 
                 <AnimatePresence>
@@ -708,9 +696,12 @@ export function LanguageLearningLab() {
                     <motion.aside
                       className={styles.phrasePanel}
                       aria-label="Phrase details"
+                      aria-hidden={readingFocusActive}
+                      inert={readingFocusActive}
                       initial={reduceMotion ? false : { opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
+                      animate={{ opacity: readingFocusActive ? 0 : 1, height: "auto", scale: readingFocusActive ? 0.99 : 1 }}
                       exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
+                      transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div>
                         <span>{languages[activePhrase.languageId].nameEnglish} phrase</span>
@@ -752,6 +743,17 @@ export function LanguageLearningLab() {
                         <option value="strict">Strict</option>
                       </select>
                     </label>
+                  </div>
+
+                  <div className={styles.practicePrompt} lang={languages[practiceLanguageId].locale}>
+                    <div>
+                      <span>{languages[practiceLanguageId].nameNative}</span>
+                      <small>{languages[practiceLanguageId].nameEnglish} practice</small>
+                    </div>
+                    <p>{practiceLocalization.text}</p>
+                    {progress.showRomanization && practiceLocalization.romanization ? (
+                      <small className={styles.practiceRomanization}>{practiceLocalization.romanization}</small>
+                    ) : null}
                   </div>
 
                   <div className={styles.audioActions}>
