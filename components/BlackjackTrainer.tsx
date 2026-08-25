@@ -2,7 +2,13 @@
 
 import {
   ArrowClockwise,
+  ArrowLeft,
+  ArrowRight,
+  Brain,
+  CardsThree,
+  ChartBar,
   CheckCircle,
+  Coins,
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -20,14 +26,22 @@ import {
   type StrategyCode,
   type TrainingScenario,
 } from "@/data/blackjackStrategy";
+import {
+  masterySections,
+  settleSimulationHand,
+  unmasteredScenarios,
+  type SimulationSettlement,
+} from "@/data/blackjackModes";
 import styles from "./BlackjackTrainer.module.css";
 
 type TrainingFocus = "all" | HandKind | "custom";
-type TrainerView = "practice" | "table";
+type TrainerScreen = "menu" | "mastery" | "simulation" | "practice" | "table";
 type Suit = "clubs" | "diamonds" | "hearts" | "spades";
 
 const actions: BlackjackAction[] = ["hit", "stand", "double", "split", "surrender"];
 const suits: Suit[] = ["spades", "hearts", "clubs", "diamonds"];
+const wagerOptions = [5, 10, 25, 50, 100];
+const startingBankroll = 500;
 const suitGlyphs: Record<Suit, string> = {
   clubs: "♣︎",
   diamonds: "♦︎",
@@ -54,7 +68,9 @@ const strategyCodeLabels: Record<StrategyCode, string> = {
   R: "Surrender, otherwise hit",
 };
 
-const initialScenario = trainingScenarios.find((scenario) => scenario.id === "hard-16-vs-10") ?? trainingScenarios[0];
+const initialScenario = trainingScenarios.find(
+  (candidate) => candidate.id === "hard-16-vs-10",
+) ?? trainingScenarios[0];
 
 function hashText(value: string) {
   return Array.from(value).reduce((hash, character) => ((hash * 31) + character.charCodeAt(0)) >>> 0, 7);
@@ -75,18 +91,19 @@ function randomScenarioIndex(length: number) {
   return Math.floor(Math.random() * length);
 }
 
+function randomOutcomeRoll() {
+  return Math.random();
+}
+
 function formatHandHeading(scenario: TrainingScenario) {
   if (scenario.kind !== "pair") {
     return `${scenario.kind[0].toUpperCase()}${scenario.kind.slice(1)} ${scenario.total}`;
   }
-
-  const rank = scenario.playerRanks[0];
-  return rank === "A" ? "Pair of Aces" : `Pair of ${rank}s`;
+  return scenario.playerRanks[0] === "A" ? "Pair of Aces" : `Pair of ${scenario.playerRanks[0]}s`;
 }
 
 function formatTableRowLabel(scenario: TrainingScenario) {
-  if (scenario.kind === "hard") return String(scenario.total);
-  return scenario.handLabel;
+  return scenario.kind === "hard" ? String(scenario.total) : scenario.handLabel;
 }
 
 function formatTableRowName(scenario: TrainingScenario) {
@@ -96,18 +113,28 @@ function formatTableRowName(scenario: TrainingScenario) {
 }
 
 function selectionState(selectedIds: Set<string>, scenarios: TrainingScenario[]) {
-  const selectedCount = scenarios.filter((scenario) => selectedIds.has(scenario.id)).length;
-  if (selectedCount === 0) return "none";
-  if (selectedCount === scenarios.length) return "all";
+  const count = scenarios.filter((scenario) => selectedIds.has(scenario.id)).length;
+  if (count === 0) return "none";
+  if (count === scenarios.length) return "all";
   return "some";
+}
+
+function formatMoney(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+  }).format(value);
 }
 
 function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label: string }) {
   const isRed = suit === "diamonds" || suit === "hearts";
   const suitName = suit.slice(0, -1);
-
   return (
-    <div className={`${styles.card} ${isRed ? styles.redCard : ""}`} aria-label={`${label}: ${rank} of ${suitName}s`}>
+    <div
+      className={`${styles.card} ${isRed ? styles.redCard : ""}`}
+      aria-label={`${label}: ${rank} of ${suitName}s`}
+    >
       <span className={styles.cardCorner} aria-hidden="true">
         <strong>{rank}</strong>
         <i>{suitGlyphs[suit]}</i>
@@ -123,7 +150,7 @@ function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label:
 
 export function BlackjackTrainer() {
   const reduceMotion = useReducedMotion();
-  const [view, setView] = useState<TrainerView>("practice");
+  const [screen, setScreen] = useState<TrainerScreen>("menu");
   const [focus, setFocus] = useState<TrainingFocus>("all");
   const [tableKind, setTableKind] = useState<HandKind>("hard");
   const [selectedScenarioIds, setSelectedScenarioIds] = useState<Set<string>>(() => new Set());
@@ -134,10 +161,20 @@ export function BlackjackTrainer() {
   const [answered, setAnswered] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [masterySectionIndex, setMasterySectionIndex] = useState(0);
+  const [masteredScenarioIds, setMasteredScenarioIds] = useState<Set<string>>(() => new Set());
+  const [masteryAttempts, setMasteryAttempts] = useState(0);
+  const [masterySectionComplete, setMasterySectionComplete] = useState(false);
+  const [bankroll, setBankroll] = useState(startingBankroll);
+  const [wager, setWager] = useState(25);
+  const [simulationSettlement, setSimulationSettlement] = useState<
+    (SimulationSettlement & { bankrollAfter: number }) | null
+  >(null);
 
   const isCorrect = selectedAction === scenario.correctAction;
   const accuracy = answered === 0 ? 0 : Math.round((correct / answered) * 100);
   const explanation = useMemo(() => explainScenario(scenario), [scenario]);
+  const currentMasterySection = masterySections[masterySectionIndex];
   const activePracticeScenarios = useMemo(() => {
     if (!activePracticeIds) return [];
     return trainingScenarios.filter((candidate) => activePracticeIds.has(candidate.id));
@@ -153,19 +190,25 @@ export function BlackjackTrainer() {
     return [...rows.values()];
   }, [tableScenarios]);
 
-  const dealFrom = (candidates: TrainingScenario[]) => {
+  const resetStats = () => {
+    setAnswered(0);
+    setCorrect(0);
+    setStreak(0);
+  };
+
+  const dealFrom = (candidates: readonly TrainingScenario[]) => {
     if (candidates.length === 0) return;
     let index = randomScenarioIndex(candidates.length);
     if (candidates.length > 1 && candidates[index].id === scenario.id) {
       index = (index + 1) % candidates.length;
     }
-
     setScenario(candidates[index]);
     setSelectedAction(null);
+    setSimulationSettlement(null);
     setDealNumber((value) => value + 1);
   };
 
-  const deal = (nextFocus: TrainingFocus = focus) => {
+  const dealPractice = (nextFocus: TrainingFocus = focus) => {
     const candidates = nextFocus === "all"
       ? trainingScenarios
       : nextFocus === "custom"
@@ -174,10 +217,36 @@ export function BlackjackTrainer() {
     dealFrom(candidates);
   };
 
+  const startMastery = () => {
+    setScreen("mastery");
+    setMasterySectionIndex(0);
+    setMasteredScenarioIds(new Set());
+    setMasteryAttempts(0);
+    setMasterySectionComplete(false);
+    resetStats();
+    dealFrom(masterySections[0].scenarios);
+  };
+
+  const startSimulation = () => {
+    setScreen("simulation");
+    setBankroll(startingBankroll);
+    setWager(25);
+    resetStats();
+    dealFrom(trainingScenarios);
+  };
+
+  const startPractice = () => {
+    setScreen("practice");
+    setFocus("all");
+    setActivePracticeIds(null);
+    resetStats();
+    dealFrom(trainingScenarios);
+  };
+
   const changeFocus = (nextFocus: Exclude<TrainingFocus, "custom">) => {
     setActivePracticeIds(null);
     setFocus(nextFocus);
-    deal(nextFocus);
+    dealPractice(nextFocus);
   };
 
   const toggleSelection = (candidates: TrainingScenario[]) => {
@@ -197,19 +266,18 @@ export function BlackjackTrainer() {
     if (candidates.length === 0) return;
     setActivePracticeIds(new Set(selectedScenarioIds));
     setFocus("custom");
-    setView("practice");
+    setScreen("practice");
+    resetStats();
     dealFrom(candidates);
-  };
-
-  const clearCustomPractice = () => {
-    setSelectedScenarioIds(new Set());
-    setActivePracticeIds(null);
-    setFocus("all");
-    dealFrom(trainingScenarios);
   };
 
   const chooseAction = (action: BlackjackAction) => {
     if (selectedAction || !actionIsAvailable(action, scenario)) return;
+    if (
+      screen === "simulation"
+      && (action === "double" || action === "split")
+      && bankroll < wager * 2
+    ) return;
     const answerIsCorrect = action === scenario.correctAction;
     setSelectedAction(action);
     setAnswered((value) => value + 1);
@@ -219,77 +287,178 @@ export function BlackjackTrainer() {
     } else {
       setStreak(0);
     }
+
+    if (screen === "mastery") {
+      setMasteryAttempts((value) => value + 1);
+      if (answerIsCorrect) {
+        setMasteredScenarioIds((current) => {
+          const next = new Set(current);
+          next.add(scenario.id);
+          if (next.size === currentMasterySection.scenarios.length) setMasterySectionComplete(true);
+          return next;
+        });
+      }
+    }
+
+    if (screen === "simulation") {
+      const settlement = settleSimulationHand({
+        wager,
+        selectedAction: action,
+        correctAction: scenario.correctAction,
+        roll: randomOutcomeRoll(),
+      });
+      const bankrollAfter = Math.max(0, bankroll + settlement.delta);
+      setBankroll(bankrollAfter);
+      setSimulationSettlement({ ...settlement, bankrollAfter });
+    }
   };
 
-  return (
-    <section className={styles.trainer} aria-label="Blackjack basic strategy trainer">
-      <div className={styles.trainerHeader}>
-        <div className={styles.headerControls}>
-          <div className={styles.viewControls} aria-label="Choose trainer view">
-            <button
-              type="button"
-              className={view === "practice" ? styles.activeView : ""}
-              aria-pressed={view === "practice"}
-              onClick={() => setView("practice")}
-            >
-              Practice
-            </button>
-            <button
-              type="button"
-              className={view === "table" ? styles.activeView : ""}
-              aria-pressed={view === "table"}
-              onClick={() => setView("table")}
-            >
-              Strategy tables
-            </button>
-          </div>
+  const nextMasteryHand = () => {
+    dealFrom(unmasteredScenarios(currentMasterySection, masteredScenarioIds));
+  };
 
-          {view === "practice" ? (
-            <div className={styles.focusControls} aria-label="Choose a hand category">
-              {(Object.keys(focusLabels) as Exclude<TrainingFocus, "custom">[]).map((option) => (
-                <button
-                  type="button"
-                  key={option}
-                  className={focus === option ? styles.activeFocus : ""}
-                  aria-pressed={focus === option}
-                  onClick={() => changeFocus(option)}
-                >
-                  {focusLabels[option]}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className={styles.tableTabs} aria-label="Choose a strategy table">
-              {(Object.keys(tableLabels) as HandKind[]).map((kind) => (
-                <button
-                  type="button"
-                  key={kind}
-                  className={tableKind === kind ? styles.activeTable : ""}
-                  aria-pressed={tableKind === kind}
-                  onClick={() => setTableKind(kind)}
-                >
-                  {tableLabels[kind]}
-                </button>
-              ))}
-            </div>
-          )}
+  const advanceMasterySection = () => {
+    if (masterySectionIndex === masterySections.length - 1) {
+      setScreen("menu");
+      return;
+    }
+    const nextIndex = masterySectionIndex + 1;
+    setMasterySectionIndex(nextIndex);
+    setMasteredScenarioIds(new Set());
+    setMasteryAttempts(0);
+    setMasterySectionComplete(false);
+    dealFrom(masterySections[nextIndex].scenarios);
+  };
+
+  const nextSimulationHand = () => {
+    if (bankroll <= 0) return;
+    setWager((current) => Math.min(current, bankroll));
+    dealFrom(trainingScenarios);
+  };
+
+  const actionAvailableForCurrentMode = (action: BlackjackAction) => {
+    if (!actionIsAvailable(action, scenario)) return false;
+    return !(
+      screen === "simulation"
+      && (action === "double" || action === "split")
+      && bankroll < wager * 2
+    );
+  };
+
+  const renderMenu = () => (
+    <motion.div
+      className={styles.modeMenu}
+      key="mode-menu"
+      initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+      transition={{ duration: 0.34, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className={styles.menuIntro}>
+        <CardsThree size={36} weight="thin" aria-hidden="true" />
+        <h2>Choose how you want to train</h2>
+        <p>Build one part of the chart at a time, or test your decisions with money on the table.</p>
+      </div>
+      <div className={styles.modeGrid}>
+        <motion.button
+          type="button"
+          className={`${styles.modeCard} ${styles.masteryModeCard}`}
+          onClick={startMastery}
+          whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+        >
+          <span className={styles.modeIcon}>
+            <Brain size={30} weight="duotone" />
+          </span>
+          <span className={styles.modeCardCopy}>
+            <strong>Table Mastery</strong>
+            <span>Clear seven focused sections. A section stays locked in until every matchup is correct.</span>
+          </span>
+          <span className={styles.modeMeta}>350 decisions</span>
+          <ArrowRight className={styles.modeArrow} size={22} weight="bold" />
+        </motion.button>
+        <motion.button
+          type="button"
+          className={`${styles.modeCard} ${styles.simulationModeCard}`}
+          onClick={startSimulation}
+          whileTap={reduceMotion ? undefined : { scale: 0.985 }}
+        >
+          <span className={styles.modeIcon}>
+            <Coins size={30} weight="duotone" />
+          </span>
+          <span className={styles.modeCardCopy}>
+            <strong>Bankroll Game</strong>
+            <span>Start with $500, set your wager, and play an endless run of realistic strategy decisions.</span>
+          </span>
+          <span className={styles.modeMeta}>Continuous table</span>
+          <ArrowRight className={styles.modeArrow} size={22} weight="bold" />
+        </motion.button>
+      </div>
+      <div className={styles.menuUtilities}>
+        <span>More ways to study</span>
+        <div>
+          <button type="button" onClick={startPractice}>
+            <ArrowClockwise size={17} /> Free practice
+          </button>
+          <button type="button" onClick={() => setScreen("table")}>
+            <ChartBar size={17} /> Strategy chart
+          </button>
         </div>
+      </div>
+    </motion.div>
+  );
 
-        {view === "practice" ? (
+  const renderTrainerHeader = () => (
+    <>
+      <div className={styles.trainerHeader}>
+        <div className={styles.modeIdentity}>
+          <button type="button" className={styles.backToModes} onClick={() => setScreen("menu")}>
+            <ArrowLeft size={17} weight="bold" /> Modes
+          </button>
+          <div>
+            <span>
+              {screen === "mastery" ? "Table Mastery"
+                : screen === "simulation" ? "Bankroll Game"
+                  : screen === "table" ? "Strategy Chart"
+                    : "Free Practice"}
+            </span>
+            <strong>
+              {screen === "mastery" ? currentMasterySection.title
+                : screen === "simulation" ? "Live training table"
+                  : screen === "table" ? tableLabels[tableKind]
+                    : focus === "custom" ? "Custom selection"
+                      : focusLabels[focus]}
+            </strong>
+          </div>
+        </div>
+        {screen === "mastery" && (
+          <dl className={styles.compactStats} aria-label="Section progress">
+            <div><dt>Mastered</dt><dd>{masteredScenarioIds.size}/{currentMasterySection.scenarios.length}</dd></div>
+            <div><dt>Attempts</dt><dd>{masteryAttempts}</dd></div>
+          </dl>
+        )}
+        {screen === "simulation" && (
+          <dl className={styles.compactStats} aria-label="Bankroll statistics">
+            <div><dt>Bankroll</dt><dd className={styles.bankrollValue}>{formatMoney(bankroll)}</dd></div>
+            <div><dt>Hands</dt><dd>{answered}</dd></div>
+            <div><dt>Correct</dt><dd>{correct}</dd></div>
+          </dl>
+        )}
+        {screen === "practice" && (
           <dl className={styles.scoreboard} aria-label="Training statistics">
             <div><dt>Hands</dt><dd>{answered}</dd></div>
             <div><dt>Correct</dt><dd>{correct}</dd></div>
             <div><dt>Streak</dt><dd>{streak}</dd></div>
             <div><dt>Accuracy</dt><dd>{accuracy}%</dd></div>
           </dl>
-        ) : (
+        )}
+        {screen === "table" && (
           <div className={styles.selectionActions} aria-live="polite">
             <span><strong>{selectedScenarioIds.size}</strong> {selectedScenarioIds.size === 1 ? "hand" : "hands"} selected</span>
             <button
               type="button"
               className={styles.clearSelection}
               disabled={selectedScenarioIds.size === 0}
-              onClick={clearCustomPractice}
+              onClick={() => setSelectedScenarioIds(new Set())}
             >
               Clear
             </button>
@@ -304,219 +473,372 @@ export function BlackjackTrainer() {
           </div>
         )}
       </div>
-
-      {view === "practice" ? (
-        <>
+      {screen === "practice" && (
+        <div className={styles.subControls}>
+          <div className={styles.focusControls} aria-label="Choose a hand category">
+            {(Object.keys(focusLabels) as Exclude<TrainingFocus, "custom">[]).map((option) => (
+              <button
+                type="button"
+                key={option}
+                className={focus === option ? styles.activeFocus : ""}
+                aria-pressed={focus === option}
+                onClick={() => changeFocus(option)}
+              >
+                {focusLabels[option]}
+              </button>
+            ))}
+          </div>
           {focus === "custom" && (
-            <div className={styles.customScope} role="status">
-              <span><strong>Selected practice</strong> {activePracticeScenarios.length} {activePracticeScenarios.length === 1 ? "hand" : "hands"}</span>
-              <div>
-                <button type="button" onClick={() => setView("table")}>Edit selection</button>
-                <button type="button" onClick={clearCustomPractice}>Use all hands</button>
-              </div>
-            </div>
+            <button type="button" className={styles.editSelection} onClick={() => setScreen("table")}>
+              Edit selection
+            </button>
           )}
-
-          <div className={styles.gameGrid}>
-        <div className={styles.tableSurface}>
-          <div className={styles.tableRule} aria-hidden="true" />
-          <div className={styles.dealerZone}>
-            <div className={styles.handHeading}>
-              <span>Dealer shows</span>
-              <strong>{scenario.dealerUpcard}</strong>
-            </div>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                className={styles.dealerCards}
-                key={`dealer-${scenario.id}-${dealNumber}`}
-                initial={reduceMotion ? false : { opacity: 0, y: -18, rotate: -3 }}
-                animate={{ opacity: 1, y: 0, rotate: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
-                transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <PlayingCard rank={scenario.dealerUpcard} suit={suitFor(scenario, 3, dealNumber)} label="Dealer upcard" />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className={styles.playerZone}>
-            <div className={styles.handHeading}>
-              <span>Your hand</span>
-              <strong>{formatHandHeading(scenario)}</strong>
-            </div>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                className={styles.playerCards}
-                key={`player-${scenario.id}-${dealNumber}`}
-                initial={reduceMotion ? false : { opacity: 0, y: 24, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
-                transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {scenario.playerRanks.map((rank, index) => (
-                  <PlayingCard
-                    key={`${scenario.id}-${index}`}
-                    rank={rank}
-                    suit={suitFor(scenario, index, dealNumber)}
-                    label={`Player card ${index + 1}`}
-                  />
-                ))}
-              </motion.div>
-            </AnimatePresence>
-          </div>
         </div>
-
-        <div className={styles.controlPanel}>
-          <div>
-            <p className={styles.prompt}>What is the basic strategy play?</p>
-            <div className={styles.actionGrid}>
-              {actions.map((action) => {
-                const available = actionIsAvailable(action, scenario);
-                const selected = selectedAction === action;
-                const answer = selectedAction && scenario.correctAction === action;
-                const stateClass = selected && !isCorrect
-                  ? styles.wrongAction
-                  : answer
-                    ? styles.correctAction
-                    : "";
-
-                return (
-                  <motion.button
-                    type="button"
-                    key={action}
-                    className={stateClass}
-                    disabled={!available || selectedAction !== null}
-                    aria-label={available ? actionLabels[action] : `${actionLabels[action]} unavailable for this hand`}
-                    onClick={() => chooseAction(action)}
-                    whileTap={reduceMotion ? undefined : { scale: 0.98 }}
-                  >
-                    {actionLabels[action]}
-                  </motion.button>
-                );
-              })}
-            </div>
-          </div>
-
-          <AnimatePresence mode="wait">
-            {selectedAction ? (
-              <motion.div
-                key={`feedback-${scenario.id}`}
-                className={`${styles.feedback} ${isCorrect ? styles.feedbackCorrect : styles.feedbackWrong}`}
-                role="status"
-                aria-live="polite"
-                initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0 }}
-                transition={{ duration: 0.28 }}
+      )}
+      {screen === "table" && (
+        <div className={styles.subControls}>
+          <div className={styles.tableTabs} aria-label="Choose a strategy table">
+            {(Object.keys(tableLabels) as HandKind[]).map((kind) => (
+              <button
+                type="button"
+                key={kind}
+                className={tableKind === kind ? styles.activeTable : ""}
+                aria-pressed={tableKind === kind}
+                onClick={() => setTableKind(kind)}
               >
-                <div className={styles.feedbackTitle}>
-                  {isCorrect ? <CheckCircle size={25} weight="fill" /> : <XCircle size={25} weight="fill" />}
-                  <strong>{isCorrect ? "Correct" : "Not quite"}</strong>
-                </div>
-                <p className={styles.correctPlay}>Correct play: <strong>{actionLabels[scenario.correctAction]}</strong></p>
-                <p>{explanation}</p>
-                <small>Chart entry: {strategyCodeMeaning(scenario.strategyCode)}</small>
-                <button type="button" className={styles.nextButton} onClick={() => deal()}>
-                  Next hand <ArrowClockwise size={18} weight="bold" />
-                </button>
-              </motion.div>
-            ) : (
-              <motion.div key="instructions" className={styles.instructions} initial={reduceMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }}>
-                <p>Choose the best action for the cards shown.</p>
-                <small>Unavailable actions are disabled. Strategy assumes an initial two-card decision unless the hand shows three cards.</small>
-              </motion.div>
-            )}
-          </AnimatePresence>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className={styles.strategyWorkspace}>
-          <div className={styles.strategyIntro}>
-            <h2>Select what you want to practice</h2>
-            <p>Select multiple player rows, dealer columns, or individual cells. Every selection joins the same practice set.</p>
-          </div>
-
-          <div className={styles.tableScroll} tabIndex={0} aria-label={`${tableLabels[tableKind]} strategy table, horizontally scrollable`}>
-            <table className={styles.strategyTable}>
-              <caption className={styles.srOnly}>{tableLabels[tableKind]} basic strategy</caption>
-              <thead>
-                <tr>
-                  <th scope="col" className={styles.cornerHeading}>Your hand</th>
-                  {dealerUpcards.map((upcard) => {
-                    const columnScenarios = scenariosForSelection({ kind: tableKind, dealerUpcard: upcard });
-                    const state = selectionState(selectedScenarioIds, columnScenarios);
-                    return (
-                      <th scope="col" key={upcard}>
-                        <button
-                          type="button"
-                          className={`${styles.columnSelector} ${state === "all" ? styles.tableSelectionActive : ""} ${state === "some" ? styles.tableSelectionPartial : ""}`}
-                          aria-label={`Select dealer ${upcard} column in ${tableLabels[tableKind]}`}
-                          aria-pressed={state === "some" ? "mixed" : state === "all"}
-                          onClick={() => toggleSelection(columnScenarios)}
-                        >
-                          <span>Dealer</span>
-                          <strong>{upcard}</strong>
-                        </button>
-                      </th>
-                    );
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {tableRows.map((row) => {
-                  const rowScenario = row[0];
-                  const rowState = selectionState(selectedScenarioIds, row);
-                  const rowName = formatTableRowName(rowScenario);
-                  return (
-                    <tr key={rowScenario.handLabel}>
-                      <th scope="row">
-                        <button
-                          type="button"
-                          className={`${styles.rowSelector} ${rowState === "all" ? styles.tableSelectionActive : ""} ${rowState === "some" ? styles.tableSelectionPartial : ""}`}
-                          aria-label={`Select ${rowName} row`}
-                          aria-pressed={rowState === "some" ? "mixed" : rowState === "all"}
-                          onClick={() => toggleSelection(row)}
-                        >
-                          <span>{rowScenario.kind === "hard" ? "Hard" : rowScenario.kind === "soft" ? "Soft" : "Pair"}</span>
-                          <strong>{formatTableRowLabel(rowScenario)}</strong>
-                        </button>
-                      </th>
-                      {row.map((cell) => {
-                        const selected = selectedScenarioIds.has(cell.id);
-                        return (
-                          <td key={cell.id}>
-                            <button
-                              type="button"
-                              className={`${styles.strategyCell} ${selected ? styles.tableSelectionActive : ""}`}
-                              data-code={cell.strategyCode}
-                              aria-label={`${rowName} against dealer ${cell.dealerUpcard}: ${strategyCodeLabels[cell.strategyCode]}`}
-                              aria-pressed={selected}
-                              title={strategyCodeLabels[cell.strategyCode]}
-                              onClick={() => toggleSelection([cell])}
-                            >
-                              {cell.strategyCode}
-                            </button>
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-
-          <div className={styles.strategyLegend} aria-label="Strategy table legend">
-            {(Object.keys(strategyCodeLabels) as StrategyCode[]).map((code) => (
-              <div key={code}>
-                <strong>{code}</strong>
-                <span>{strategyCodeLabels[code]}</span>
-              </div>
+                {tableLabels[kind]}
+              </button>
             ))}
           </div>
         </div>
       )}
+    </>
+  );
+
+  const renderFeedback = () => {
+    if (!selectedAction) {
+      return (
+        <motion.div
+          key="instructions"
+          className={styles.instructions}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <p>
+            {screen === "simulation"
+              ? "Choose the basic strategy play, then the hand will settle."
+              : "Choose the best action for the cards shown."}
+          </p>
+          <small>
+            {screen === "mastery"
+              ? currentMasterySection.description
+              : "Unavailable actions are disabled for this hand."}
+          </small>
+        </motion.div>
+      );
+    }
+    const isFinalMasterySection = masterySectionIndex === masterySections.length - 1;
+    return (
+      <motion.div
+        key={`feedback-${scenario.id}-${dealNumber}`}
+        className={`${styles.feedback} ${isCorrect ? styles.feedbackCorrect : styles.feedbackWrong}`}
+        role="status"
+        aria-live="polite"
+        initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={reduceMotion ? undefined : { opacity: 0 }}
+        transition={{ duration: 0.28 }}
+      >
+        <div className={styles.feedbackTitle}>
+          {isCorrect
+            ? <CheckCircle size={25} weight="fill" />
+            : <XCircle size={25} weight="fill" />}
+          <strong>{isCorrect ? "Correct strategy" : "Not quite"}</strong>
+        </div>
+        <p className={styles.correctPlay}>
+          Correct play: <strong>{actionLabels[scenario.correctAction]}</strong>
+        </p>
+        <p>{explanation}</p>
+        <small>Chart entry: {strategyCodeMeaning(scenario.strategyCode)}</small>
+        {screen === "mastery" && (
+          <div className={styles.resultBlock}>
+            <span>
+              {masterySectionComplete
+                ? `${currentMasterySection.title} complete`
+                : `${masteredScenarioIds.size} of ${currentMasterySection.scenarios.length} matchups mastered`}
+            </span>
+            <button
+              type="button"
+              className={styles.nextButton}
+              onClick={masterySectionComplete ? advanceMasterySection : nextMasteryHand}
+            >
+              {masterySectionComplete
+                ? isFinalMasterySection
+                  ? "Finish mastery"
+                  : `Continue to ${masterySections[masterySectionIndex + 1].shortTitle}`
+                : "Next challenge"}
+              <ArrowRight size={18} weight="bold" />
+            </button>
+          </div>
+        )}
+        {screen === "simulation" && simulationSettlement && (
+          <div className={`${styles.resultBlock} ${styles[`outcome${simulationSettlement.outcome[0].toUpperCase()}${simulationSettlement.outcome.slice(1)}`]}`}>
+            <span className={styles.settlementLine}>
+              <strong>{simulationSettlement.label}</strong>
+              <b>
+                {simulationSettlement.delta > 0 ? "+" : ""}
+                {formatMoney(simulationSettlement.delta)}
+              </b>
+            </span>
+            <small>Correct strategy improves the odds, but any single hand can still win or lose.</small>
+            {simulationSettlement.bankrollAfter > 0 ? (
+              <button type="button" className={styles.nextButton} onClick={nextSimulationHand}>
+                Deal next hand <ArrowClockwise size={18} weight="bold" />
+              </button>
+            ) : (
+              <button type="button" className={styles.nextButton} onClick={startSimulation}>
+                Restart with {formatMoney(startingBankroll)} <ArrowClockwise size={18} weight="bold" />
+              </button>
+            )}
+          </div>
+        )}
+        {screen === "practice" && (
+          <button type="button" className={styles.nextButton} onClick={() => dealPractice()}>
+            Next hand <ArrowClockwise size={18} weight="bold" />
+          </button>
+        )}
+      </motion.div>
+    );
+  };
+
+  const renderGame = () => (
+    <div className={styles.gameGrid}>
+      <div className={styles.tableSurface}>
+        <div className={styles.tableRule} aria-hidden="true" />
+        <div className={styles.dealerZone}>
+          <div className={styles.handHeading}>
+            <span>Dealer shows</span>
+            <strong>{scenario.dealerUpcard}</strong>
+          </div>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              className={styles.dealerCards}
+              key={`dealer-${scenario.id}-${dealNumber}`}
+              initial={reduceMotion ? false : { opacity: 0, y: -18, rotate: -3 }}
+              animate={{ opacity: 1, y: 0, rotate: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: 12 }}
+              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <PlayingCard
+                rank={scenario.dealerUpcard}
+                suit={suitFor(scenario, 3, dealNumber)}
+                label="Dealer upcard"
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        <div className={styles.playerZone}>
+          <div className={styles.handHeading}>
+            <span>Your hand</span>
+            <strong>{formatHandHeading(scenario)}</strong>
+          </div>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              className={styles.playerCards}
+              key={`player-${scenario.id}-${dealNumber}`}
+              initial={reduceMotion ? false : { opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
+              transition={{ duration: 0.36, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {scenario.playerRanks.map((rank, index) => (
+                <PlayingCard
+                  key={`${scenario.id}-${index}`}
+                  rank={rank}
+                  suit={suitFor(scenario, index, dealNumber)}
+                  label={`Player card ${index + 1}`}
+                />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+      <div className={styles.controlPanel}>
+        <div>
+          {screen === "simulation" && (
+            <div className={styles.wagerPanel}>
+              <span>Wager <strong>{formatMoney(wager)}</strong></span>
+              <div aria-label="Choose wager">
+                {wagerOptions.map((amount) => (
+                  <button
+                    type="button"
+                    key={amount}
+                    className={wager === amount ? styles.activeWager : ""}
+                    disabled={selectedAction !== null || amount > bankroll}
+                    aria-pressed={wager === amount}
+                    onClick={() => setWager(amount)}
+                  >
+                    {formatMoney(amount)}
+                  </button>
+                ))}
+                {bankroll > 0 && bankroll < 5 && (
+                  <button
+                    type="button"
+                    className={styles.activeWager}
+                    disabled={selectedAction !== null}
+                    onClick={() => setWager(bankroll)}
+                  >
+                    All in
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+          <p className={styles.prompt}>What is the basic strategy play?</p>
+          <div className={styles.actionGrid}>
+            {actions.map((action) => {
+              const available = actionAvailableForCurrentMode(action);
+              const selected = selectedAction === action;
+              const answer = selectedAction && scenario.correctAction === action;
+              const stateClass = selected && !isCorrect
+                ? styles.wrongAction
+                : answer
+                  ? styles.correctAction
+                  : "";
+              return (
+                <motion.button
+                  type="button"
+                  key={action}
+                  className={stateClass}
+                  disabled={!available || selectedAction !== null || (screen === "simulation" && bankroll <= 0)}
+                  aria-label={available ? actionLabels[action] : `${actionLabels[action]} unavailable for this hand or wager`}
+                  onClick={() => chooseAction(action)}
+                  whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+                >
+                  {actionLabels[action]}
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
+        <AnimatePresence mode="wait">{renderFeedback()}</AnimatePresence>
+      </div>
+    </div>
+  );
+
+  const renderStrategyTable = () => (
+    <div className={styles.strategyWorkspace}>
+      <div className={styles.strategyIntro}>
+        <h2>Select what you want to practice</h2>
+        <p>Select player rows, dealer columns, or individual cells. Every selection joins the same practice set.</p>
+      </div>
+      <div
+        className={styles.tableScroll}
+        tabIndex={0}
+        aria-label={`${tableLabels[tableKind]} strategy table, horizontally scrollable`}
+      >
+        <table className={styles.strategyTable}>
+          <caption className={styles.srOnly}>{tableLabels[tableKind]} basic strategy</caption>
+          <thead>
+            <tr>
+              <th scope="col" className={styles.cornerHeading}>Your hand</th>
+              {dealerUpcards.map((upcard) => {
+                const columnScenarios = scenariosForSelection({
+                  kind: tableKind,
+                  dealerUpcard: upcard,
+                });
+                const state = selectionState(selectedScenarioIds, columnScenarios);
+                return (
+                  <th scope="col" key={upcard}>
+                    <button
+                      type="button"
+                      className={`${styles.columnSelector} ${state === "all" ? styles.tableSelectionActive : ""} ${state === "some" ? styles.tableSelectionPartial : ""}`}
+                      aria-label={`Select dealer ${upcard} column in ${tableLabels[tableKind]}`}
+                      aria-pressed={state === "some" ? "mixed" : state === "all"}
+                      onClick={() => toggleSelection(columnScenarios)}
+                    >
+                      <span>Dealer</span>
+                      <strong>{upcard}</strong>
+                    </button>
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {tableRows.map((row) => {
+              const rowScenario = row[0];
+              const rowState = selectionState(selectedScenarioIds, row);
+              const rowName = formatTableRowName(rowScenario);
+              return (
+                <tr key={rowScenario.handLabel}>
+                  <th scope="row">
+                    <button
+                      type="button"
+                      className={`${styles.rowSelector} ${rowState === "all" ? styles.tableSelectionActive : ""} ${rowState === "some" ? styles.tableSelectionPartial : ""}`}
+                      aria-label={`Select ${rowName} row`}
+                      aria-pressed={rowState === "some" ? "mixed" : rowState === "all"}
+                      onClick={() => toggleSelection(row)}
+                    >
+                      <span>
+                        {rowScenario.kind === "hard"
+                          ? "Hard"
+                          : rowScenario.kind === "soft" ? "Soft" : "Pair"}
+                      </span>
+                      <strong>{formatTableRowLabel(rowScenario)}</strong>
+                    </button>
+                  </th>
+                  {row.map((cell) => {
+                    const selected = selectedScenarioIds.has(cell.id);
+                    return (
+                      <td key={cell.id}>
+                        <button
+                          type="button"
+                          className={`${styles.strategyCell} ${selected ? styles.tableSelectionActive : ""}`}
+                          data-code={cell.strategyCode}
+                          aria-label={`${rowName} against dealer ${cell.dealerUpcard}: ${strategyCodeLabels[cell.strategyCode]}`}
+                          aria-pressed={selected}
+                          title={strategyCodeLabels[cell.strategyCode]}
+                          onClick={() => toggleSelection([cell])}
+                        >
+                          {cell.strategyCode}
+                        </button>
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className={styles.strategyLegend} aria-label="Strategy table legend">
+        {(Object.keys(strategyCodeLabels) as StrategyCode[]).map((code) => (
+          <div key={code}>
+            <strong>{code}</strong>
+            <span>{strategyCodeLabels[code]}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <section className={styles.trainer} aria-label="Blackjack basic strategy trainer">
+      <AnimatePresence mode="wait" initial={false}>
+        {screen === "menu" ? renderMenu() : (
+          <motion.div
+            key={screen}
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={reduceMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: 0.22 }}
+          >
+            {renderTrainerHeader()}
+            {screen === "table" ? renderStrategyTable() : renderGame()}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

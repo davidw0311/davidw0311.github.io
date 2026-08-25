@@ -11,6 +11,12 @@ import {
   softStrategy,
   trainingScenarios,
 } from "../data/blackjackStrategy.ts";
+import {
+  actionStakeMultiplier,
+  masterySections,
+  settleSimulationHand,
+  unmasteredScenarios,
+} from "../data/blackjackModes.ts";
 
 const workbookHardRows: Record<number, string> = {
   5: "H,H,H,H,H,H,H,H,H,H",
@@ -118,4 +124,41 @@ test("returns exact row, column, and cell practice pools", () => {
   assert.equal(softColumn.length, 8);
   assert.ok(softColumn.every((scenario) => scenario.dealerUpcard === "A"));
   assert.deepEqual(pairCell.map((scenario) => scenario.id), ["pair-8-8-vs-10"]);
+});
+
+test("divides mastery into ordered sections that cover the whole chart once", () => {
+  assert.equal(masterySections.length, 7);
+  assert.deepEqual(masterySections.map((section) => section.scenarios.length), [40, 30, 50, 50, 50, 30, 100]);
+
+  const coveredIds = masterySections.flatMap((section) => section.scenarios.map((scenario) => scenario.id));
+  assert.equal(coveredIds.length, trainingScenarios.length);
+  assert.equal(new Set(coveredIds).size, trainingScenarios.length);
+});
+
+test("keeps only unfinished matchups in a mastery section", () => {
+  const section = masterySections[0];
+  const masteredIds = new Set(section.scenarios.slice(0, 3).map((scenario) => scenario.id));
+  const remaining = unmasteredScenarios(section, masteredIds);
+
+  assert.equal(remaining.length, section.scenarios.length - 3);
+  assert.ok(remaining.every((scenario) => !masteredIds.has(scenario.id)));
+});
+
+test("settles bankroll hands with wager exposure and non-guaranteed outcomes", () => {
+  assert.equal(actionStakeMultiplier("hit"), 1);
+  assert.equal(actionStakeMultiplier("double"), 2);
+  assert.equal(actionStakeMultiplier("split"), 2);
+
+  assert.deepEqual(
+    settleSimulationHand({ wager: 25, selectedAction: "stand", correctAction: "stand", roll: 0.1 }),
+    { outcome: "win", label: "Hand won", delta: 25, amountAtRisk: 25 },
+  );
+  assert.deepEqual(
+    settleSimulationHand({ wager: 25, selectedAction: "double", correctAction: "double", roll: 0.9 }),
+    { outcome: "loss", label: "Hand lost", delta: -50, amountAtRisk: 50 },
+  );
+  assert.deepEqual(
+    settleSimulationHand({ wager: 25, selectedAction: "surrender", correctAction: "surrender", roll: 0.1 }),
+    { outcome: "surrender", label: "Hand surrendered", delta: -12.5, amountAtRisk: 12.5 },
+  );
 });
