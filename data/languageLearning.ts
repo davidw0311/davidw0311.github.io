@@ -3,6 +3,7 @@ export const languageIds = ["en", "zh", "yue", "ja", "ko", "ms", "fr", "es", "ta
 export type LanguageId = (typeof languageIds)[number];
 export type ContentType = "story" | "number_drill";
 export type CompletionStatus = "not_started" | "passed" | "skipped";
+export type PronunciationMode = "off" | "native" | "english";
 
 export type LanguageConfig = {
   id: LanguageId;
@@ -54,6 +55,7 @@ export type LocalProgress = {
   supportLanguageId: LanguageId;
   displayLanguageIds: LanguageId[];
   showRomanization: boolean;
+  pronunciationModes: Partial<Record<LanguageId, PronunciationMode>>;
 };
 
 export const languages: Record<LanguageId, LanguageConfig> = {
@@ -542,6 +544,7 @@ export const defaultLocalProgress: LocalProgress = {
   supportLanguageId: "en",
   displayLanguageIds: ["en", "ja"],
   showRomanization: true,
+  pronunciationModes: {},
 };
 
 export function preferredSupportLanguage(

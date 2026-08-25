@@ -41,6 +41,7 @@ import {
   type LocalizedUnit,
   type LocalProgress,
   type PhraseSegment,
+  type PronunciationMode,
 } from "@/data/languageLearning";
 import {
   formatUi,
@@ -48,12 +49,15 @@ import {
   type LanguageLearningUiCopy,
 } from "@/data/languageLearningUi";
 import {
-  isChineseCharacterLanguage,
-} from "@/data/chineseCharacterStudy";
-import {
   tokenizeLanguageStudyText,
   type LanguageStudyToken,
 } from "@/data/languageStudyTokens";
+import {
+  getEnglishPronunciationGuide,
+  getNativePronunciationGuide,
+  nativePronunciationSystems,
+  type NativePronunciationSystem,
+} from "@/data/languagePronunciation";
 import { blobToBase64, startAudioRecording, type AudioRecording } from "@/lib/browserAudioRecorder";
 import { phraseAudioPath, sentenceAudioPath, type SentenceAudioSpeed } from "@/lib/languageAudio";
 import styles from "./LanguageLearningLab.module.css";
@@ -209,6 +213,21 @@ function isLanguageId(value: unknown): value is LanguageId {
   return typeof value === "string" && languageIds.includes(value as LanguageId);
 }
 
+function isPronunciationMode(value: unknown): value is PronunciationMode {
+  return value === "off" || value === "native" || value === "english";
+}
+
+function nativePronunciationLabel(
+  system: NativePronunciationSystem,
+  ui: LanguageLearningUiCopy,
+): string {
+  if (system === "pinyin") return ui.pinyin;
+  if (system === "jyutping") return ui.jyutping;
+  if (system === "hiragana") return ui.hiragana;
+  if (system === "romanization") return ui.romanizationLabel;
+  return ui.transliteration;
+}
+
 function readLocalProgress(value: string | null): LocalProgress {
   if (!value) return defaultLocalProgress;
   try {
@@ -228,6 +247,14 @@ function readLocalProgress(value: string | null): LocalProgress {
     const supportLanguageId = supportingLanguageIds.includes(storedSupportLanguageId)
       ? storedSupportLanguageId
       : supportingLanguageIds[0] ?? storedSupportLanguageId;
+    const pronunciationModes = parsed.pronunciationModes && typeof parsed.pronunciationModes === "object"
+      ? Object.fromEntries(
+        languageIds.flatMap((languageId) => {
+          const mode = parsed.pronunciationModes?.[languageId];
+          return isPronunciationMode(mode) ? [[languageId, mode]] : [];
+        }),
+      ) as Partial<Record<LanguageId, PronunciationMode>>
+      : {};
     return {
       xp: typeof parsed.xp === "number" ? parsed.xp : 0,
       completed: parsed.completed && typeof parsed.completed === "object" ? parsed.completed : {},
@@ -241,6 +268,7 @@ function readLocalProgress(value: string | null): LocalProgress {
       supportLanguageId,
       displayLanguageIds: [...supportingLanguageIds, practiceLanguageId],
       showRomanization: parsed.showRomanization ?? true,
+      pronunciationModes,
     };
   } catch {
     return defaultLocalProgress;
@@ -268,7 +296,6 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     token: LanguageStudyToken;
   } | null>(null);
   const [translationRevealed, setTranslationRevealed] = useState(false);
-  const [characterReadingRevealed, setCharacterReadingRevealed] = useState(false);
   const [lessonFinished, setLessonFinished] = useState(false);
   const [playingSampleId, setPlayingSampleId] = useState<string | null>(null);
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
@@ -293,6 +320,32 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const activePhraseMeaningLanguage = activePhrase && activePhrase.languageId !== supportLanguageId && supportLanguageId !== "en"
     ? languages[supportLanguageId].nameNative
     : languages.en.nameNative;
+  const activePronunciationLanguageId = activePhrase?.languageId;
+  const activePronunciationLocalization = activePronunciationLanguageId
+    ? currentUnit.localizations[activePronunciationLanguageId]
+    : null;
+  const activeNativePronunciation = activePhrase && activePronunciationLocalization
+    ? getNativePronunciationGuide(
+      activePhrase.languageId,
+      activePhrase.phrase,
+      activePronunciationLocalization,
+      activeStudyToken?.token,
+    )
+    : null;
+  const activeEnglishPronunciation = activePhrase && activePronunciationLocalization
+    ? getEnglishPronunciationGuide(
+      activePhrase.languageId,
+      activePhrase.phrase,
+      activePronunciationLocalization,
+      activeStudyToken?.token,
+    )
+    : null;
+  const activePronunciationMode = activePronunciationLanguageId
+    ? progress.pronunciationModes[activePronunciationLanguageId] ?? "off"
+    : "off";
+  const activePronunciationGuide = activePronunciationMode === "native"
+    ? activeNativePronunciation
+    : activePronunciationMode === "english" ? activeEnglishPronunciation : null;
   const progressKey = unitProgressKey(content.id, currentUnit.id, practiceLanguageId);
   const persistedStatus = progress.completed[progressKey] ?? "not_started";
   const unitIsComplete = speechState === "passed" || persistedStatus === "passed" || persistedStatus === "skipped";
@@ -385,7 +438,6 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     setActivePhrase(null);
     setActiveStudyToken(null);
     setTranslationRevealed(false);
-    setCharacterReadingRevealed(false);
   }, [stopPlayback]);
 
   const selectContent = (index: number) => {
@@ -696,7 +748,13 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     token: LanguageStudyToken,
   ) => {
     setActiveStudyToken({ languageId, token });
-    setCharacterReadingRevealed(false);
+  };
+
+  const setPronunciationMode = (languageId: LanguageId, mode: PronunciationMode) => {
+    setProgress((current) => ({
+      ...current,
+      pronunciationModes: { ...current.pronunciationModes, [languageId]: mode },
+    }));
   };
 
   const speechIcon = speechState === "recording"
@@ -1087,25 +1145,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                                 <BookmarkSimple size={18} weight={progress.savedPhraseIds.includes(activeStudyToken.token.id) ? "fill" : "regular"} />
                                 {progress.savedPhraseIds.includes(activeStudyToken.token.id) ? ui.saved : ui.save}
                               </button>
-                              {activeStudyToken.token.romanization && isChineseCharacterLanguage(activeStudyToken.languageId) ? (
-                                <button
-                                  type="button"
-                                  aria-expanded={characterReadingRevealed}
-                                  onClick={() => setCharacterReadingRevealed((value) => !value)}
-                                >
-                                  <Translate size={18} />
-                                  {activeStudyToken.languageId === "zh"
-                                    ? characterReadingRevealed ? ui.hidePinyin : ui.showPinyin
-                                    : characterReadingRevealed ? ui.hideJyutping : ui.showJyutping}
-                                </button>
-                              ) : null}
                             </div>
-                            {characterReadingRevealed && activeStudyToken.token.romanization ? (
-                              <p className={styles.characterReading}>
-                                <small>{activeStudyToken.languageId === "zh" ? ui.pinyin : ui.jyutping}</small>
-                                {activeStudyToken.token.romanization}
-                              </p>
-                            ) : null}
                           </>
                         ) : (
                           <>
@@ -1145,6 +1185,53 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                             {translationRevealed ? <p><small>{formatUi(ui.meaningIn, { language: activePhraseMeaningLanguage })}</small>{activePhraseMeaning}</p> : null}
                           </>
                         )}
+                        {activePronunciationLanguageId && (activeNativePronunciation || activeEnglishPronunciation) ? (
+                          <div className={styles.pronunciationBlock}>
+                            <div
+                              className={styles.pronunciationOptions}
+                              role="group"
+                              aria-label={ui.pronunciationGuide}
+                            >
+                              <span>{ui.pronunciationGuide}</span>
+                              <button
+                                type="button"
+                                aria-pressed={activePronunciationMode === "off"}
+                                onClick={() => setPronunciationMode(activePronunciationLanguageId, "off")}
+                              >
+                                {ui.pronunciationOff}
+                              </button>
+                              {activeNativePronunciation && nativePronunciationSystems[activePronunciationLanguageId] ? (
+                                <button
+                                  type="button"
+                                  aria-pressed={activePronunciationMode === "native"}
+                                  onClick={() => setPronunciationMode(activePronunciationLanguageId, "native")}
+                                >
+                                  {nativePronunciationLabel(nativePronunciationSystems[activePronunciationLanguageId], ui)}
+                                </button>
+                              ) : null}
+                              {activeEnglishPronunciation ? (
+                                <button
+                                  type="button"
+                                  aria-pressed={activePronunciationMode === "english"}
+                                  onClick={() => setPronunciationMode(activePronunciationLanguageId, "english")}
+                                >
+                                  {ui.englishPhonetics}
+                                </button>
+                              ) : null}
+                            </div>
+                            {activePronunciationGuide ? (
+                              <p className={styles.pronunciationReading}>
+                                <small>
+                                  {activePronunciationMode === "native" && nativePronunciationSystems[activePronunciationLanguageId]
+                                    ? nativePronunciationLabel(nativePronunciationSystems[activePronunciationLanguageId], ui)
+                                    : ui.englishPhonetics}
+                                  {activeStudyToken && activePronunciationGuide.scope === "phrase" ? ` · ${ui.phraseGuide}` : ""}
+                                </small>
+                                {activePronunciationGuide.text}
+                              </p>
+                            ) : null}
+                          </div>
+                        ) : null}
                       </motion.aside>
                     ) : null}
                   </AnimatePresence>
