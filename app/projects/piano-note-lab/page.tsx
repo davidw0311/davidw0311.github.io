@@ -6,7 +6,7 @@ import styles from "./piano-note-lab.module.css";
 
 export const metadata: Metadata = {
   title: "Piano Note Lab",
-  description: "A focused piano note trainer for learning keyboard names, treble clef, and bass clef.",
+  description: "A focused piano note trainer for learning natural, sharp, and flat keys in treble and bass clef.",
   alternates: { canonical: "/projects/piano-note-lab/" },
 };
 
@@ -40,7 +40,7 @@ export default function PianoNoteLabPage() {
         </div>
         <div className={styles.guideCopy}>
           <p>Start with key names, then move to staff reading. Mixed clefs combine both skills once each one feels familiar.</p>
-          <p>The MVP uses natural notes from C3 to C5 and plays each answer so sight and sound reinforce one another.</p>
+          <p>Practice natural notes, sharps, and flats from C3 to C5. Each answer plays aloud so sight and sound reinforce one another.</p>
         </div>
       </section>
 
