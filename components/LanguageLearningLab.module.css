@@ -1633,6 +1633,180 @@
   }
 }
 
+@media (orientation: landscape) and (max-width: 1024px) and (max-height: 600px) {
+  .app {
+    grid-template-rows: 44px minmax(0, 1fr);
+  }
+
+  .appHeader {
+    min-height: 44px;
+    padding-block: 4px;
+  }
+
+  .brandMark {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .backToLibrary {
+    min-height: 30px;
+    padding-block: 4px;
+  }
+
+  .landing {
+    gap: 6px;
+    padding: 7px 12px;
+  }
+
+  .landingHeading {
+    gap: 6px;
+  }
+
+  .landingHeading h1 {
+    font-size: 1.45rem;
+  }
+
+  .landingHeading > div:first-child p,
+  .lessonCardCopy > span,
+  .voiceSource,
+  .practiceRomanization,
+  .speakingPanel > h2,
+  .speechMessages {
+    display: none;
+  }
+
+  .practiceLanguage select {
+    min-height: 30px;
+    padding-block: 3px;
+  }
+
+  .lessonCards {
+    gap: 4px;
+  }
+
+  .lessonCards > button {
+    padding-block: 5px;
+  }
+
+  .lessonCardIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .lesson {
+    grid-template-rows: 28px minmax(0, 1fr);
+    padding: 2px 6px 5px;
+  }
+
+  .supportLanguageList {
+    gap: 3px;
+  }
+
+  .supportLanguageCard {
+    min-height: 34px;
+    padding: 3px 62px 3px 8px;
+  }
+
+  .supportLanguageCard header {
+    min-height: 8px;
+    line-height: 1;
+  }
+
+  .supportLanguageCard header span {
+    font-size: 0.52rem;
+  }
+
+  .supportLanguageCard header small {
+    display: none;
+  }
+
+  .sentence {
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+
+  .romanization {
+    display: none;
+  }
+
+  .supportAudioButton,
+  .dragHandle {
+    width: 23px;
+    height: 23px;
+  }
+
+  .supportAudioButton {
+    right: 33px;
+  }
+
+  .dragHandle {
+    right: 5px;
+  }
+
+  .languageManager {
+    margin-top: 3px;
+  }
+
+  .addLanguageButton {
+    min-height: 18px;
+    padding-block: 0;
+  }
+
+  .speakingPanel {
+    padding: 5px 7px;
+  }
+
+  .practicePrompt {
+    margin-top: 0;
+    padding: 4px 9px 5px;
+  }
+
+  .practicePrompt > p {
+    margin-top: 1px;
+    font-size: 0.8rem;
+    line-height: 1.05;
+  }
+
+  .audioActions {
+    gap: 4px;
+    margin-top: 3px;
+  }
+
+  .audioActions button {
+    min-height: 24px;
+    padding: 1px 8px;
+  }
+
+  .speechActionRow {
+    grid-template-columns: minmax(0, 1fr) 78px;
+    margin-top: 3px;
+  }
+
+  .speakButton,
+  .result {
+    min-height: 38px;
+  }
+
+  .speakButton {
+    gap: 6px;
+    padding: 4px 10px;
+  }
+
+  .result {
+    padding: 3px 6px;
+  }
+
+  .result small {
+    display: none;
+  }
+
+  .unitNavigation button {
+    min-height: 32px;
+    padding-block: 4px;
+  }
+}
+
 @media (orientation: portrait) and (max-height: 720px) {
   .landing {
     padding-block: 9px;

@@ -248,13 +248,21 @@
 
 @media (orientation: landscape) and (max-width: 1024px) and (max-height: 600px) {
   .page {
-    position: fixed;
-    inset: 0 auto auto 0;
-    width: 100dvh;
-    height: 100dvw;
+    grid-template-rows: 38px minmax(0, 1fr);
     min-height: 0;
-    transform: rotate(90deg) translateY(-100%);
-    transform-origin: top left;
+  }
+
+  .nav {
+    min-height: 38px;
+  }
+
+  .nav a {
+    min-height: 36px;
+    font-size: 0.7rem;
+  }
+
+  .stage {
+    padding-bottom: 4px;
   }
 }
 
