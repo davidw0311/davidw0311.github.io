@@ -35,6 +35,7 @@ import {
   languageIds,
   languages,
   preferredSupportLanguage,
+  speechLocale,
   unitProgressKey,
   type CompletionStatus,
   type LanguageId,
@@ -497,9 +498,14 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     }
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = languages[languageId].locale;
+    const voiceLocale = speechLocale(languageId);
+    utterance.lang = voiceLocale;
     utterance.rate = rate;
-    const voice = window.speechSynthesis.getVoices().find((candidate) => candidate.lang.toLowerCase().startsWith(languageId));
+    const voiceLocaleLower = voiceLocale.toLowerCase();
+    const voiceLanguage = voiceLocaleLower.split("-")[0];
+    const availableVoices = window.speechSynthesis.getVoices();
+    const voice = availableVoices.find((candidate) => candidate.lang.toLowerCase() === voiceLocaleLower)
+      ?? availableVoices.find((candidate) => candidate.lang.toLowerCase().startsWith(voiceLanguage));
     if (voice) utterance.voice = voice;
     window.speechSynthesis.speak(utterance);
   }, [ui.audioUnavailable]);
@@ -577,8 +583,10 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           audioBase64: await blobToBase64(audio),
-          locale: languages[practiceLanguageId].locale,
-          referenceText: practiceLocalization.text,
+          locale: speechLocale(practiceLanguageId),
+          referenceText: practiceLanguageId === "zht"
+            ? currentUnit.localizations.zh.text
+            : practiceLocalization.text,
           strictness: "normal",
         }),
       });

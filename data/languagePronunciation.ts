@@ -19,6 +19,7 @@ export type PronunciationGuide = {
 
 export const nativePronunciationSystems: Partial<Record<LanguageId, NativePronunciationSystem>> = {
   zh: "pinyin",
+  zht: "pinyin",
   yue: "jyutping",
   ja: "hiragana",
   ko: "romanization",
@@ -185,7 +186,7 @@ function stripDiacritics(text: string): string {
   return text.normalize("NFD").replace(/\p{M}+/gu, "").normalize("NFC");
 }
 
-function chinesePhraseReading(phrase: PhraseSegment, languageId: Extract<LanguageId, "zh" | "yue">): string {
+function chinesePhraseReading(phrase: PhraseSegment, languageId: Extract<LanguageId, "zh" | "zht" | "yue">): string {
   return tokenizeLanguageStudyText(phrase.text, languageId)
     .flatMap((chunk) => chunk.type === "study" && chunk.token.romanization ? [chunk.token.romanization] : [])
     .join(" ");
@@ -275,7 +276,7 @@ function respellWords(text: string, languageId: LanguageId): string {
   return cleanGuideText(text).split(" ").filter(Boolean).map((rawWord) => {
     const word = rawWord.toLowerCase();
     if (languageId === "en") return englishWordRespellings[word] ?? word;
-    if (languageId === "zh") return respellMandarinWord(word);
+    if (languageId === "zh" || languageId === "zht") return respellMandarinWord(word);
     if (languageId === "yue") return respellCantoneseWord(word);
     if (languageId === "ja") return japaneseWordRespellings[word] ?? stripDiacritics(word);
     if (languageId === "ko") return respellKoreanWord(word);
@@ -293,10 +294,10 @@ export function getNativePronunciationGuide(
   token?: LanguageStudyToken,
 ): PronunciationGuide | null {
   if (!nativePronunciationSystems[languageId]) return null;
-  if ((languageId === "zh" || languageId === "yue") && token?.romanization) {
+  if ((languageId === "zh" || languageId === "zht" || languageId === "yue") && token?.romanization) {
     return { text: token.romanization, scope: "token" };
   }
-  if (languageId === "zh" || languageId === "yue") {
+  if (languageId === "zh" || languageId === "zht" || languageId === "yue") {
     const text = chinesePhraseReading(phrase, languageId);
     return text ? { text, scope: "phrase" } : null;
   }
@@ -322,7 +323,7 @@ export function getEnglishPronunciationGuide(
   } else if (token && ["en", "ms", "fr", "es"].includes(languageId)) {
     source = token.text;
     scope = "token";
-  } else if (languageId === "zh" || languageId === "yue") {
+  } else if (languageId === "zh" || languageId === "zht" || languageId === "yue") {
     source = chinesePhraseReading(phrase, languageId);
   } else if (["ja", "ko", "ta"].includes(languageId)) {
     source = phraseRomanization(phrase, localization);

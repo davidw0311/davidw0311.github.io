@@ -1,6 +1,6 @@
 import type { LanguageId } from "./languageLearning";
 
-export type ChineseCharacterLanguageId = Extract<LanguageId, "zh" | "yue">;
+export type ChineseCharacterLanguageId = Extract<LanguageId, "zh" | "zht" | "yue">;
 
 export type ChineseCharacterStudy = {
   id: string;
@@ -20,6 +20,16 @@ const readings = {
     起: "qǐ", 来: "lái", 吃: "chī", 回: "huí", 家: "jiā", 的: "de", 路: "lù",
     下: "xià", 雨: "yǔ", 打: "dǎ", 开: "kāi", 色: "sè", 小: "xiǎo", 伞: "sǎn",
     灯: "dēng", 映: "yìng", 在: "zài", 每: "měi", 水: "shuǐ", 洼: "wā", 里: "lǐ",
+    一: "yī", 二: "èr", 四: "sì", 五: "wǔ", 六: "liù", 七: "qī", 八: "bā",
+    九: "jiǔ", 十: "shí",
+  },
+  zht: {
+    早: "zǎo", 上: "shàng", 好: "hǎo", 市: "shì", 場: "chǎng", 已: "yǐ", 經: "jīng",
+    很: "hěn", 熱: "rè", 鬧: "nào", 了: "le", 請: "qǐng", 給: "gěi", 我: "wǒ",
+    三: "sān", 個: "gè", 紅: "hóng", 蘋: "píng", 果: "guǒ", 謝: "xiè", 看: "kàn",
+    起: "qǐ", 來: "lái", 吃: "chī", 回: "huí", 家: "jiā", 的: "de", 路: "lù",
+    下: "xià", 雨: "yǔ", 打: "dǎ", 開: "kāi", 色: "sè", 小: "xiǎo", 傘: "sǎn",
+    燈: "dēng", 映: "yìng", 在: "zài", 每: "měi", 水: "shuǐ", 窪: "wā", 裡: "lǐ",
     一: "yī", 二: "èr", 四: "sì", 五: "wǔ", 六: "liù", 七: "qī", 八: "bā",
     九: "jiǔ", 十: "shí",
   },
@@ -54,7 +64,7 @@ export const chineseCharacterStudies: Record<
 export function isChineseCharacterLanguage(
   languageId: LanguageId,
 ): languageId is ChineseCharacterLanguageId {
-  return languageId === "zh" || languageId === "yue";
+  return languageId === "zh" || languageId === "zht" || languageId === "yue";
 }
 
 export function tokenizeChineseCharacters(

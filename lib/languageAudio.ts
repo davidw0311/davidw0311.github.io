@@ -1,4 +1,4 @@
-import type { LanguageId } from "@/data/languageLearning";
+import { speechLanguageId, type LanguageId } from "../data/languageLearning.ts";
 
 export type SentenceAudioSpeed = "normal" | "slow";
 
@@ -10,7 +10,7 @@ export function sentenceAudioPath(
   languageId: LanguageId,
   speed: SentenceAudioSpeed = "normal",
 ) {
-  return `${audioRoot}/${contentSlug}/${unitId}/${languageId}/sentence-${speed}.mp3`;
+  return `${audioRoot}/${contentSlug}/${unitId}/${speechLanguageId(languageId)}/sentence-${speed}.mp3`;
 }
 
 export function phraseAudioPath(
@@ -19,5 +19,7 @@ export function phraseAudioPath(
   languageId: LanguageId,
   phraseId: string,
 ) {
-  return `${audioRoot}/${contentSlug}/${unitId}/${languageId}/phrases/${phraseId}.mp3`;
+  const audioLanguageId = speechLanguageId(languageId);
+  const audioPhraseId = languageId === "zht" ? phraseId.replace(/-zht(?=-|$)/u, "-zh") : phraseId;
+  return `${audioRoot}/${contentSlug}/${unitId}/${audioLanguageId}/phrases/${audioPhraseId}.mp3`;
 }

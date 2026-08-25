@@ -10,6 +10,8 @@ import {
   normalizeSpeech,
   preferredSupportLanguage,
   scoreTranscript,
+  speechLanguageId,
+  speechLocale,
   unitProgressKey,
 } from "../data/languageLearning.ts";
 import { phraseAudioPath, sentenceAudioPath } from "../lib/languageAudio.ts";
@@ -38,8 +40,8 @@ test("ships two short stories and a counting drill", () => {
   );
 });
 
-test("includes every language in the v1 scope", () => {
-  assert.deepEqual(languageIds, ["en", "zh", "yue", "ja", "ko", "ms", "fr", "es", "ta"]);
+test("includes every language and Mandarin script option in the v1 scope", () => {
+  assert.deepEqual(languageIds, ["en", "zh", "zht", "yue", "ja", "ko", "ms", "fr", "es", "ta"]);
 });
 
 test("localizes the interface and lesson catalog in every v1 language", () => {
@@ -81,8 +83,8 @@ test("keeps every sample multilingual and explicitly segmented", () => {
   }
 });
 
-test("makes every Mandarin and Cantonese character individually studyable", () => {
-  for (const languageId of ["zh", "yue"] satisfies ChineseCharacterLanguageId[]) {
+test("makes every Chinese character individually studyable", () => {
+  for (const languageId of ["zh", "zht", "yue"] satisfies ChineseCharacterLanguageId[]) {
     const seenIds = new Map<string, string>();
     for (const content of contentItems) {
       for (const unit of content.units) {
@@ -115,6 +117,8 @@ test("makes every Mandarin and Cantonese character individually studyable", () =
 test("uses Pinyin for Mandarin and Jyutping tone numbers for Cantonese", () => {
   assert.equal(chineseCharacterStudies.zh.早.romanization, "zǎo");
   assert.equal(chineseCharacterStudies.zh.雨.romanization, "yǔ");
+  assert.equal(chineseCharacterStudies.zht.場.romanization, "chǎng");
+  assert.equal(chineseCharacterStudies.zht.雨.romanization, "yǔ");
   assert.equal(chineseCharacterStudies.yue.早.romanization, "zou2");
   assert.equal(chineseCharacterStudies.yue.雨.romanization, "jyu5");
   for (const study of Object.values(chineseCharacterStudies.yue)) {
@@ -192,6 +196,10 @@ test("offers Pinyin, Jyutping, Hiragana, and English-friendly readings", () => {
     "zǎo shàng hǎo",
   );
   assert.equal(
+    getNativePronunciationGuide("zht", marketHello.localizations.zht.segments[0], marketHello.localizations.zht)?.text,
+    "zǎo shàng hǎo",
+  );
+  assert.equal(
     getNativePronunciationGuide("yue", marketHello.localizations.yue.segments[0], marketHello.localizations.yue)?.text,
     "zou2 san4",
   );
@@ -234,6 +242,26 @@ test("uses stable paths for Azure neural lesson audio", () => {
     phraseAudioPath("market-morning", "market-hello", "ja", "market-hello-ja-1"),
     "/audio/language-lab/v1/market-morning/market-hello/ja/phrases/market-hello-ja-1.mp3",
   );
+  assert.equal(
+    sentenceAudioPath("market-morning", "market-hello", "zht"),
+    sentenceAudioPath("market-morning", "market-hello", "zh"),
+  );
+  assert.equal(
+    phraseAudioPath("market-morning", "market-hello", "zht", "market-hello-zht-2"),
+    phraseAudioPath("market-morning", "market-hello", "zh", "market-hello-zh-2"),
+  );
+  assert.equal(speechLanguageId("zht"), "zh");
+  assert.equal(speechLocale("zht"), "zh-CN");
+});
+
+test("keeps Traditional Mandarin speech aligned with Simplified Mandarin", () => {
+  for (const content of contentItems) {
+    for (const unit of content.units) {
+      assert.equal(unit.localizations.zht.romanization, unit.localizations.zh.romanization, unit.id);
+      assert.equal(unit.localizations.zht.segments.length, unit.localizations.zh.segments.length, unit.id);
+    }
+  }
+  assert.notEqual(contentItems[0].units[0].localizations.zht.text, contentItems[0].units[0].localizations.zh.text);
 });
 
 test("includes Azure neural audio for every sentence speed and phrase", () => {
@@ -249,8 +277,9 @@ test("includes Azure neural audio for every sentence speed and phrase", () => {
       }
     }
   }
-  assert.equal(audioPaths.length, 782);
-  for (const audioPath of audioPaths) {
+  const uniqueAudioPaths = [...new Set(audioPaths)];
+  assert.equal(uniqueAudioPaths.length, 782);
+  for (const audioPath of uniqueAudioPaths) {
     assert.ok(statSync(path.join(process.cwd(), "public", audioPath)).size > 500, audioPath);
   }
 });

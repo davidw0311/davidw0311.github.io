@@ -1,4 +1,4 @@
-export const languageIds = ["en", "zh", "yue", "ja", "ko", "ms", "fr", "es", "ta"] as const;
+export const languageIds = ["en", "zh", "zht", "yue", "ja", "ko", "ms", "fr", "es", "ta"] as const;
 
 export type LanguageId = (typeof languageIds)[number];
 export type ContentType = "story" | "number_drill";
@@ -80,9 +80,18 @@ export const languages: Record<LanguageId, LanguageConfig> = {
   zh: {
     id: "zh",
     locale: "zh-CN",
-    nameEnglish: "Mandarin",
-    nameNative: "普通话",
+    nameEnglish: "Mandarin (Simplified)",
+    nameNative: "普通话（简体）",
     script: "Simplified Chinese",
+    supportsRomanization: true,
+    toneSensitive: true,
+  },
+  zht: {
+    id: "zht",
+    locale: "zh-TW",
+    nameEnglish: "Mandarin (Traditional)",
+    nameNative: "普通話（繁體）",
+    script: "Traditional Chinese",
     supportsRomanization: true,
     toneSensitive: true,
   },
@@ -142,6 +151,14 @@ export const languages: Record<LanguageId, LanguageConfig> = {
   },
 };
 
+export function speechLanguageId(languageId: LanguageId): LanguageId {
+  return languageId === "zht" ? "zh" : languageId;
+}
+
+export function speechLocale(languageId: LanguageId): string {
+  return languages[speechLanguageId(languageId)].locale;
+}
+
 const unit = (
   id: string,
   localizations: LearningUnit["localizations"],
@@ -149,8 +166,9 @@ const unit = (
 ): LearningUnit => ({ id, localizations, number });
 
 type NumberWord = { text: string; romanization?: string };
+type CountingLanguageId = Exclude<LanguageId, "zht">;
 
-const countingSamples: Array<{ number: number; words: Record<LanguageId, NumberWord> }> = [
+const countingSamples: Array<{ number: number; words: Record<CountingLanguageId, NumberWord> }> = [
   { number: 1, words: { en: { text: "one" }, zh: { text: "一", romanization: "yī" }, yue: { text: "一", romanization: "jat1" }, ja: { text: "一", romanization: "ichi" }, ko: { text: "일", romanization: "il" }, ms: { text: "satu" }, fr: { text: "un" }, es: { text: "uno" }, ta: { text: "ஒன்று", romanization: "oṉṟu" } } },
   { number: 2, words: { en: { text: "two" }, zh: { text: "二", romanization: "èr" }, yue: { text: "二", romanization: "ji6" }, ja: { text: "二", romanization: "ni" }, ko: { text: "이", romanization: "i" }, ms: { text: "dua" }, fr: { text: "deux" }, es: { text: "dos" }, ta: { text: "இரண்டு", romanization: "iraṇṭu" } } },
   { number: 3, words: { en: { text: "three" }, zh: { text: "三", romanization: "sān" }, yue: { text: "三", romanization: "saam1" }, ja: { text: "三", romanization: "san" }, ko: { text: "삼", romanization: "sam" }, ms: { text: "tiga" }, fr: { text: "trois" }, es: { text: "tres" }, ta: { text: "மூன்று", romanization: "mūṉṟu" } } },
@@ -176,7 +194,7 @@ const countingSamples: Array<{ number: number; words: Record<LanguageId, NumberW
 function countingUnit({ number, words }: (typeof countingSamples)[number]): LearningUnit {
   const english = words.en.text;
   const localizations = Object.fromEntries(languageIds.map((languageId) => {
-    const word = words[languageId];
+    const word = words[languageId === "zht" ? "zh" : languageId];
     return [languageId, {
       text: word.text,
       natural: english,
@@ -228,6 +246,17 @@ export const contentItems: ContentItem[] = [
             { id: "market-hello-zh-1", text: "早上好。", translation: "Good morning." },
             { id: "market-hello-zh-2", text: "市场", translation: "market" },
             { id: "market-hello-zh-3", text: "已经很热闹了。", translation: "is already very busy." },
+          ],
+        },
+        zht: {
+          text: "早上好。市場已經很熱鬧了。",
+          natural: "Good morning. The market is already busy.",
+          literal: "Morning good. The market already is very lively.",
+          romanization: "Zǎoshang hǎo. Shìchǎng yǐjīng hěn rènào le.",
+          segments: [
+            { id: "market-hello-zht-1", text: "早上好。", translation: "Good morning." },
+            { id: "market-hello-zht-2", text: "市場", translation: "market" },
+            { id: "market-hello-zht-3", text: "已經很熱鬧了。", translation: "is already very busy." },
           ],
         },
         yue: {
@@ -326,6 +355,17 @@ export const contentItems: ContentItem[] = [
             { id: "market-apples-zh-3", text: "红苹果。", translation: "red apples." },
           ],
         },
+        zht: {
+          text: "請給我三個紅蘋果。",
+          natural: "Three red apples, please.",
+          literal: "Please give me three red apples.",
+          romanization: "Qǐng gěi wǒ sān ge hóng píngguǒ.",
+          segments: [
+            { id: "market-apples-zht-1", text: "請給我", translation: "please give me" },
+            { id: "market-apples-zht-2", text: "三個", translation: "three" },
+            { id: "market-apples-zht-3", text: "紅蘋果。", translation: "red apples." },
+          ],
+        },
         yue: {
           text: "我想要三個紅蘋果，唔該。",
           natural: "I would like three red apples, please.",
@@ -419,6 +459,16 @@ export const contentItems: ContentItem[] = [
             { id: "market-thanks-zh-2", text: "看起来很好吃。", translation: "They look delicious." },
           ],
         },
+        zht: {
+          text: "謝謝。看起來很好吃。",
+          natural: "Thank you. They look delicious.",
+          literal: "Thanks. They look very good to eat.",
+          romanization: "Xièxie. Kàn qǐlái hěn hǎochī.",
+          segments: [
+            { id: "market-thanks-zht-1", text: "謝謝。", translation: "Thank you." },
+            { id: "market-thanks-zht-2", text: "看起來很好吃。", translation: "They look delicious." },
+          ],
+        },
         yue: {
           text: "多謝。睇落好好食。",
           natural: "Thank you. They look delicious.",
@@ -492,6 +542,7 @@ export const contentItems: ContentItem[] = [
         en: { text: "It started raining on my way home.", natural: "It started raining on my way home.", segments: [{ id: "rain-start-en-1", text: "It started raining", translation: "The rain began" }, { id: "rain-start-en-2", text: "on my way home.", translation: "while I was going home" }] },
         ja: { text: "帰り道に雨が降り始めました。", natural: "It started raining on my way home.", literal: "On the road home, rain began to fall.", romanization: "Kaerimichi ni ame ga furihajimemashita.", segments: [{ id: "rain-start-ja-1", text: "帰り道に", translation: "on the way home" }, { id: "rain-start-ja-2", text: "雨が", translation: "rain" }, { id: "rain-start-ja-3", text: "降り始めました。", translation: "started to fall." }] },
         zh: { text: "回家的路上下起了雨。", natural: "It started raining on my way home.", literal: "On the road going home, rain began.", romanization: "Huí jiā de lùshang xià qǐ le yǔ.", segments: [{ id: "rain-start-zh-1", text: "回家的路上", translation: "on the way home" }, { id: "rain-start-zh-2", text: "下起了雨。", translation: "it started raining." }] },
+        zht: { text: "回家的路上下起了雨。", natural: "It started raining on my way home.", literal: "On the road going home, rain began.", romanization: "Huí jiā de lùshang xià qǐ le yǔ.", segments: [{ id: "rain-start-zht-1", text: "回家的路上", translation: "on the way home" }, { id: "rain-start-zht-2", text: "下起了雨。", translation: "it started raining." }] },
         yue: { text: "返屋企途中開始落雨。", natural: "It started raining on my way home.", literal: "While returning home, rain began to fall.", romanization: "Faan1 uk1 kei2 tou4 zung1 hoi1 ci2 lok6 jyu5.", segments: [{ id: "rain-start-yue-1", text: "返屋企途中", translation: "on the way home" }, { id: "rain-start-yue-2", text: "開始落雨。", translation: "it started raining." }] },
         ko: { text: "집에 가는 길에 비가 오기 시작했어요.", natural: "It started raining on my way home.", literal: "On the road going home, rain started coming.", romanization: "Jibe ganeun gire biga ogi sijakaesseoyo.", segments: [{ id: "rain-start-ko-1", text: "집에 가는 길에", translation: "on the way home" }, { id: "rain-start-ko-2", text: "비가 오기 시작했어요.", translation: "it started raining." }] },
         ms: { text: "Hujan mula turun semasa saya dalam perjalanan pulang.", natural: "It started raining on my way home.", literal: "Rain began falling while I was on the journey home.", segments: [{ id: "rain-start-ms-1", text: "Hujan mula turun", translation: "It started raining" }, { id: "rain-start-ms-2", text: "semasa saya dalam perjalanan pulang.", translation: "while I was on my way home." }] },
@@ -503,6 +554,7 @@ export const contentItems: ContentItem[] = [
         en: { text: "I opened my small red umbrella.", natural: "I opened my small red umbrella.", segments: [{ id: "rain-umbrella-en-1", text: "I opened", translation: "I unfolded" }, { id: "rain-umbrella-en-2", text: "my small red umbrella.", translation: "the umbrella that belongs to me" }] },
         ja: { text: "小さな赤い傘を開きました。", natural: "I opened my small red umbrella.", literal: "A small red umbrella, I opened.", romanization: "Chiisana akai kasa o hirakimashita.", segments: [{ id: "rain-umbrella-ja-1", text: "小さな赤い傘を", translation: "a small red umbrella" }, { id: "rain-umbrella-ja-2", text: "開きました。", translation: "I opened." }] },
         zh: { text: "我打开了红色的小雨伞。", natural: "I opened my small red umbrella.", literal: "I opened the red small umbrella.", romanization: "Wǒ dǎkāi le hóngsè de xiǎo yǔsǎn.", segments: [{ id: "rain-umbrella-zh-1", text: "我打开了", translation: "I opened" }, { id: "rain-umbrella-zh-2", text: "红色的小雨伞。", translation: "the small red umbrella." }] },
+        zht: { text: "我打開了紅色的小雨傘。", natural: "I opened my small red umbrella.", literal: "I opened the red small umbrella.", romanization: "Wǒ dǎkāi le hóngsè de xiǎo yǔsǎn.", segments: [{ id: "rain-umbrella-zht-1", text: "我打開了", translation: "I opened" }, { id: "rain-umbrella-zht-2", text: "紅色的小雨傘。", translation: "the small red umbrella." }] },
         yue: { text: "我打開咗把紅色嘅小雨傘。", natural: "I opened my small red umbrella.", literal: "I opened the small red umbrella.", romanization: "Ngo5 daa2 hoi1 zo2 baa2 hung4 sik1 ge3 siu2 jyu5 saan3.", segments: [{ id: "rain-umbrella-yue-1", text: "我打開咗", translation: "I opened" }, { id: "rain-umbrella-yue-2", text: "把紅色嘅小雨傘。", translation: "the small red umbrella." }] },
         ko: { text: "작은 빨간 우산을 펼쳤어요.", natural: "I opened my small red umbrella.", literal: "I unfolded the small red umbrella.", romanization: "Jageun ppalgan usaneul pyeolchyeosseoyo.", segments: [{ id: "rain-umbrella-ko-1", text: "작은 빨간 우산을", translation: "my small red umbrella" }, { id: "rain-umbrella-ko-2", text: "펼쳤어요.", translation: "I opened." }] },
         ms: { text: "Saya membuka payung merah kecil saya.", natural: "I opened my small red umbrella.", literal: "I opened my red small umbrella.", segments: [{ id: "rain-umbrella-ms-1", text: "Saya membuka", translation: "I opened" }, { id: "rain-umbrella-ms-2", text: "payung merah kecil saya.", translation: "my small red umbrella." }] },
@@ -514,6 +566,7 @@ export const contentItems: ContentItem[] = [
         en: { text: "The street lights shone in every puddle.", natural: "The street lights shone in every puddle.", segments: [{ id: "rain-puddles-en-1", text: "The street lights", translation: "Lights along the road" }, { id: "rain-puddles-en-2", text: "shone in every puddle.", translation: "were reflected in all the puddles" }] },
         ja: { text: "街灯が水たまりに映っていました。", natural: "The street lights were reflected in the puddles.", literal: "Street lights were reflected in puddles.", romanization: "Gaitou ga mizutamari ni utsutte imashita.", segments: [{ id: "rain-puddles-ja-1", text: "街灯が", translation: "the street lights" }, { id: "rain-puddles-ja-2", text: "水たまりに", translation: "in the puddles" }, { id: "rain-puddles-ja-3", text: "映っていました。", translation: "were reflected." }] },
         zh: { text: "路灯映在每个水洼里。", natural: "The street lights were reflected in every puddle.", literal: "Road lights reflected inside every puddle.", romanization: "Lùdēng yìng zài měi ge shuǐwā lǐ.", segments: [{ id: "rain-puddles-zh-1", text: "路灯", translation: "street lights" }, { id: "rain-puddles-zh-2", text: "映在", translation: "were reflected in" }, { id: "rain-puddles-zh-3", text: "每个水洼里。", translation: "every puddle." }] },
+        zht: { text: "路燈映在每個水窪裡。", natural: "The street lights were reflected in every puddle.", literal: "Road lights reflected inside every puddle.", romanization: "Lùdēng yìng zài měi ge shuǐwā lǐ.", segments: [{ id: "rain-puddles-zht-1", text: "路燈", translation: "street lights" }, { id: "rain-puddles-zht-2", text: "映在", translation: "were reflected in" }, { id: "rain-puddles-zht-3", text: "每個水窪裡。", translation: "every puddle." }] },
         yue: { text: "街燈映照喺每個水氹入面。", natural: "The street lights shone in every puddle.", literal: "Street lights reflected inside every puddle.", romanization: "Gaai1 dang1 jing2 ziu3 hai2 mui5 go3 seoi2 tam5 jap6 min6.", segments: [{ id: "rain-puddles-yue-1", text: "街燈", translation: "street lights" }, { id: "rain-puddles-yue-2", text: "映照喺", translation: "were reflected in" }, { id: "rain-puddles-yue-3", text: "每個水氹入面。", translation: "every puddle." }] },
         ko: { text: "가로등이 모든 물웅덩이에 비쳤어요.", natural: "The street lights shone in every puddle.", literal: "The street lights were reflected in every puddle.", romanization: "Garodeungi modeun murungdeongie bichyeosseoyo.", segments: [{ id: "rain-puddles-ko-1", text: "가로등이", translation: "the street lights" }, { id: "rain-puddles-ko-2", text: "모든 물웅덩이에", translation: "in every puddle" }, { id: "rain-puddles-ko-3", text: "비쳤어요.", translation: "were reflected." }] },
         ms: { text: "Lampu jalan bersinar di setiap lopak.", natural: "The street lights shone in every puddle.", literal: "Street lights shone in every puddle.", segments: [{ id: "rain-puddles-ms-1", text: "Lampu jalan", translation: "The street lights" }, { id: "rain-puddles-ms-2", text: "bersinar", translation: "shone" }, { id: "rain-puddles-ms-3", text: "di setiap lopak.", translation: "in every puddle." }] },

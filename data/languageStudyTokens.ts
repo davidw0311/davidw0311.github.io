@@ -19,13 +19,13 @@ export type LanguageStudyChunk =
 
 export function usesCharacterStudy(
   languageId: LanguageId,
-): languageId is Extract<LanguageId, "zh" | "yue" | "ja"> {
-  return languageId === "zh" || languageId === "yue" || languageId === "ja";
+): languageId is Extract<LanguageId, "zh" | "zht" | "yue" | "ja"> {
+  return languageId === "zh" || languageId === "zht" || languageId === "yue" || languageId === "ja";
 }
 
 function characterStudyToken(
   character: string,
-  languageId: Extract<LanguageId, "zh" | "yue" | "ja">,
+  languageId: Extract<LanguageId, "zh" | "zht" | "yue" | "ja">,
 ): LanguageStudyToken | null {
   if (!/[\p{L}\p{N}]/u.test(character)) return null;
   const chineseStudy = isChineseCharacterLanguage(languageId)

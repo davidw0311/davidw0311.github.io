@@ -1,7 +1,7 @@
 import { mkdir, rename, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { contentItems, languageIds, languages } from "../data/languageLearning.ts";
+import { contentItems, languageIds, languages, speechLanguageId } from "../data/languageLearning.ts";
 
 const voices = {
   en: "en-US-JennyNeural",
@@ -57,6 +57,7 @@ function buildSamples() {
   for (const content of contentItems) {
     for (const unit of content.units) {
       for (const languageId of languageIds) {
+        if (speechLanguageId(languageId) !== languageId) continue;
         const localization = unit.localizations[languageId];
         for (const speed of ["normal", "slow"]) {
           samples.push({
