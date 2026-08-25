@@ -6,7 +6,7 @@ import styles from "./blackjack.module.css";
 
 export const metadata: Metadata = {
   title: "Blackjack Strategy Lab",
-  description: "An interactive blackjack basic strategy trainer for 4-8 deck S17 games with DAS and late surrender.",
+  description: "An interactive blackjack strategy trainer with focused drills and a configurable, card-by-card bankroll simulator.",
   alternates: { canonical: "/projects/blackjack-trainer/" },
 };
 
@@ -32,23 +32,23 @@ export default function BlackjackTrainerPage() {
         <div className={styles.notesIntro}>
           <CardsThree size={38} weight="thin" aria-hidden="true" />
           <h2 id="strategy-notes-title">The chart behind the game</h2>
-          <p>The trainer encodes all 350 decisions in the supplied basic strategy workbook.</p>
+          <p>The trainer encodes all 350 decisions in the supplied workbook and plays configured simulation rounds to completion.</p>
         </div>
 
         <div className={styles.rulesGrid}>
           <div>
             <h3>Table rules</h3>
             <ul>
-              <li>Four to eight decks</li>
-              <li>Dealer stands on soft 17</li>
-              <li>Double after split is allowed</li>
-              <li>Late surrender is available</li>
+              <li>One to eight decks</li>
+              <li>Cut card, fresh shoe, or continuous shuffle</li>
+              <li>Configurable dealer, double, split, and surrender rules</li>
+              <li>Table limits, flat betting, insurance, and payout options</li>
             </ul>
           </div>
           <div>
             <h3>Training method</h3>
-            <p>Each hand is a focused strategy decision. Feedback names the correct action, explains the matchup, and records your accuracy and streak.</p>
-            <p className={styles.disclaimer}>Basic strategy improves decision quality but cannot guarantee a winning hand. This project is for training only.</p>
+            <p>Practice single decisions or play complete rounds with visible hits, dealer draws, split hands, doubles, and bankroll settlement.</p>
+            <p className={styles.disclaimer}>Coaching follows the supplied multi-deck chart while gameplay enforces your configured table rules. This project is for training only.</p>
           </div>
         </div>
       </section>

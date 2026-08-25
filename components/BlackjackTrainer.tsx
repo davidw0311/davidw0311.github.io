@@ -28,10 +28,9 @@ import {
 } from "@/data/blackjackStrategy";
 import {
   masterySections,
-  settleSimulationHand,
   unmasteredScenarios,
-  type SimulationSettlement,
 } from "@/data/blackjackModes";
+import { BlackjackSimulation } from "./BlackjackSimulation";
 import styles from "./BlackjackTrainer.module.css";
 
 type TrainingFocus = "all" | HandKind | "custom";
@@ -40,8 +39,6 @@ type Suit = "clubs" | "diamonds" | "hearts" | "spades";
 
 const actions: BlackjackAction[] = ["hit", "stand", "double", "split", "surrender"];
 const suits: Suit[] = ["spades", "hearts", "clubs", "diamonds"];
-const wagerOptions = [5, 10, 25, 50, 100];
-const startingBankroll = 500;
 const suitGlyphs: Record<Suit, string> = {
   clubs: "♣︎",
   diamonds: "♦︎",
@@ -91,10 +88,6 @@ function randomScenarioIndex(length: number) {
   return Math.floor(Math.random() * length);
 }
 
-function randomOutcomeRoll() {
-  return Math.random();
-}
-
 function formatHandHeading(scenario: TrainingScenario) {
   if (scenario.kind !== "pair") {
     return `${scenario.kind[0].toUpperCase()}${scenario.kind.slice(1)} ${scenario.total}`;
@@ -117,14 +110,6 @@ function selectionState(selectedIds: Set<string>, scenarios: TrainingScenario[])
   if (count === 0) return "none";
   if (count === scenarios.length) return "all";
   return "some";
-}
-
-function formatMoney(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
-  }).format(value);
 }
 
 function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label: string }) {
@@ -165,11 +150,6 @@ export function BlackjackTrainer() {
   const [masteredScenarioIds, setMasteredScenarioIds] = useState<Set<string>>(() => new Set());
   const [masteryAttempts, setMasteryAttempts] = useState(0);
   const [masterySectionComplete, setMasterySectionComplete] = useState(false);
-  const [bankroll, setBankroll] = useState(startingBankroll);
-  const [wager, setWager] = useState(25);
-  const [simulationSettlement, setSimulationSettlement] = useState<
-    (SimulationSettlement & { bankrollAfter: number }) | null
-  >(null);
 
   const isCorrect = selectedAction === scenario.correctAction;
   const accuracy = answered === 0 ? 0 : Math.round((correct / answered) * 100);
@@ -204,7 +184,6 @@ export function BlackjackTrainer() {
     }
     setScenario(candidates[index]);
     setSelectedAction(null);
-    setSimulationSettlement(null);
     setDealNumber((value) => value + 1);
   };
 
@@ -229,10 +208,6 @@ export function BlackjackTrainer() {
 
   const startSimulation = () => {
     setScreen("simulation");
-    setBankroll(startingBankroll);
-    setWager(25);
-    resetStats();
-    dealFrom(trainingScenarios);
   };
 
   const startPractice = () => {
@@ -273,11 +248,6 @@ export function BlackjackTrainer() {
 
   const chooseAction = (action: BlackjackAction) => {
     if (selectedAction || !actionIsAvailable(action, scenario)) return;
-    if (
-      screen === "simulation"
-      && (action === "double" || action === "split")
-      && bankroll < wager * 2
-    ) return;
     const answerIsCorrect = action === scenario.correctAction;
     setSelectedAction(action);
     setAnswered((value) => value + 1);
@@ -299,18 +269,6 @@ export function BlackjackTrainer() {
         });
       }
     }
-
-    if (screen === "simulation") {
-      const settlement = settleSimulationHand({
-        wager,
-        selectedAction: action,
-        correctAction: scenario.correctAction,
-        roll: randomOutcomeRoll(),
-      });
-      const bankrollAfter = Math.max(0, bankroll + settlement.delta);
-      setBankroll(bankrollAfter);
-      setSimulationSettlement({ ...settlement, bankrollAfter });
-    }
   };
 
   const nextMasteryHand = () => {
@@ -330,19 +288,8 @@ export function BlackjackTrainer() {
     dealFrom(masterySections[nextIndex].scenarios);
   };
 
-  const nextSimulationHand = () => {
-    if (bankroll <= 0) return;
-    setWager((current) => Math.min(current, bankroll));
-    dealFrom(trainingScenarios);
-  };
-
   const actionAvailableForCurrentMode = (action: BlackjackAction) => {
-    if (!actionIsAvailable(action, scenario)) return false;
-    return !(
-      screen === "simulation"
-      && (action === "double" || action === "split")
-      && bankroll < wager * 2
-    );
+    return actionIsAvailable(action, scenario);
   };
 
   const renderMenu = () => (
@@ -387,9 +334,9 @@ export function BlackjackTrainer() {
           </span>
           <span className={styles.modeCardCopy}>
             <strong>Bankroll Game</strong>
-            <span>Start with $500, set your wager, and play an endless run of realistic strategy decisions.</span>
+            <span>Match a real or digital table, then play every hit, double, split, dealer draw, and payout.</span>
           </span>
-          <span className={styles.modeMeta}>Continuous table</span>
+          <span className={styles.modeMeta}>Configurable rules</span>
           <ArrowRight className={styles.modeArrow} size={22} weight="bold" />
         </motion.button>
       </div>
@@ -434,13 +381,6 @@ export function BlackjackTrainer() {
           <dl className={styles.compactStats} aria-label="Section progress">
             <div><dt>Mastered</dt><dd>{masteredScenarioIds.size}/{currentMasterySection.scenarios.length}</dd></div>
             <div><dt>Attempts</dt><dd>{masteryAttempts}</dd></div>
-          </dl>
-        )}
-        {screen === "simulation" && (
-          <dl className={styles.compactStats} aria-label="Bankroll statistics">
-            <div><dt>Bankroll</dt><dd className={styles.bankrollValue}>{formatMoney(bankroll)}</dd></div>
-            <div><dt>Hands</dt><dd>{answered}</dd></div>
-            <div><dt>Correct</dt><dd>{correct}</dd></div>
           </dl>
         )}
         {screen === "practice" && (
@@ -525,9 +465,7 @@ export function BlackjackTrainer() {
           animate={{ opacity: 1 }}
         >
           <p>
-            {screen === "simulation"
-              ? "Choose the basic strategy play, then the hand will settle."
-              : "Choose the best action for the cards shown."}
+            Choose the best action for the cards shown.
           </p>
           <small>
             {screen === "mastery"
@@ -579,27 +517,6 @@ export function BlackjackTrainer() {
                 : "Next challenge"}
               <ArrowRight size={18} weight="bold" />
             </button>
-          </div>
-        )}
-        {screen === "simulation" && simulationSettlement && (
-          <div className={`${styles.resultBlock} ${styles[`outcome${simulationSettlement.outcome[0].toUpperCase()}${simulationSettlement.outcome.slice(1)}`]}`}>
-            <span className={styles.settlementLine}>
-              <strong>{simulationSettlement.label}</strong>
-              <b>
-                {simulationSettlement.delta > 0 ? "+" : ""}
-                {formatMoney(simulationSettlement.delta)}
-              </b>
-            </span>
-            <small>Correct strategy improves the odds, but any single hand can still win or lose.</small>
-            {simulationSettlement.bankrollAfter > 0 ? (
-              <button type="button" className={styles.nextButton} onClick={nextSimulationHand}>
-                Deal next hand <ArrowClockwise size={18} weight="bold" />
-              </button>
-            ) : (
-              <button type="button" className={styles.nextButton} onClick={startSimulation}>
-                Restart with {formatMoney(startingBankroll)} <ArrowClockwise size={18} weight="bold" />
-              </button>
-            )}
           </div>
         )}
         {screen === "practice" && (
@@ -665,35 +582,6 @@ export function BlackjackTrainer() {
       </div>
       <div className={styles.controlPanel}>
         <div>
-          {screen === "simulation" && (
-            <div className={styles.wagerPanel}>
-              <span>Wager <strong>{formatMoney(wager)}</strong></span>
-              <div aria-label="Choose wager">
-                {wagerOptions.map((amount) => (
-                  <button
-                    type="button"
-                    key={amount}
-                    className={wager === amount ? styles.activeWager : ""}
-                    disabled={selectedAction !== null || amount > bankroll}
-                    aria-pressed={wager === amount}
-                    onClick={() => setWager(amount)}
-                  >
-                    {formatMoney(amount)}
-                  </button>
-                ))}
-                {bankroll > 0 && bankroll < 5 && (
-                  <button
-                    type="button"
-                    className={styles.activeWager}
-                    disabled={selectedAction !== null}
-                    onClick={() => setWager(bankroll)}
-                  >
-                    All in
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
           <p className={styles.prompt}>What is the basic strategy play?</p>
           <div className={styles.actionGrid}>
             {actions.map((action) => {
@@ -710,8 +598,8 @@ export function BlackjackTrainer() {
                   type="button"
                   key={action}
                   className={stateClass}
-                  disabled={!available || selectedAction !== null || (screen === "simulation" && bankroll <= 0)}
-                  aria-label={available ? actionLabels[action] : `${actionLabels[action]} unavailable for this hand or wager`}
+                  disabled={!available || selectedAction !== null}
+                  aria-label={available ? actionLabels[action] : `${actionLabels[action]} unavailable for this hand`}
                   onClick={() => chooseAction(action)}
                   whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                 >
@@ -826,7 +714,9 @@ export function BlackjackTrainer() {
   return (
     <section className={styles.trainer} aria-label="Blackjack basic strategy trainer">
       <AnimatePresence mode="wait" initial={false}>
-        {screen === "menu" ? renderMenu() : (
+        {screen === "menu" ? renderMenu() : screen === "simulation" ? (
+          <BlackjackSimulation onExit={() => setScreen("menu")} />
+        ) : (
           <motion.div
             key={screen}
             initial={reduceMotion ? false : { opacity: 0 }}
