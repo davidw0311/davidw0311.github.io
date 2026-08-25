@@ -476,7 +476,7 @@
 
 .reader article {
   position: relative;
-  padding: 22px 24px 24px;
+  padding: 13px 16px 15px;
 }
 
 .reader article + article {
@@ -485,10 +485,10 @@
 
 .reader article header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 4px;
 }
 
 .reader article header > div {
@@ -499,24 +499,24 @@
 
 .reader article header span {
   color: var(--lab-muted);
-  font-size: 0.75rem;
+  font-size: 0.69rem;
   font-weight: 800;
 }
 
 .reader article header small {
   color: var(--lab-faint);
-  font-size: 0.64rem;
+  font-size: 0.59rem;
 }
 
 .reader article header button {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   padding: 0;
   border: 1px solid var(--lab-line);
-  border-radius: 12px;
+  border-radius: 10px;
   color: var(--lab-muted);
   background: transparent;
   cursor: pointer;
@@ -542,10 +542,10 @@
   gap: 0.16em 0.2em;
   margin: 0;
   color: var(--lab-ink);
-  font-size: clamp(1.22rem, 2.5vw, 1.8rem);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
   font-weight: 560;
   letter-spacing: -0.02em;
-  line-height: 1.5;
+  line-height: 1.38;
 }
 
 .sentence button {
@@ -565,9 +565,9 @@
 }
 
 .romanization {
-  margin: 7px 0 0;
+  margin: 4px 0 0;
   color: var(--lab-faint);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
 }
 
 .phrasePanel {
@@ -1117,18 +1117,16 @@
     width: 15px;
   }
 
-  .reader article,
+  .reader article {
+    padding: 12px 13px 14px;
+  }
+
   .speakingPanel {
     padding: 18px 16px;
   }
 
   .practicePrompt {
     padding: 15px 16px 16px;
-  }
-
-  .reader article header > div {
-    display: grid;
-    gap: 0;
   }
 
   .phrasePanel,
