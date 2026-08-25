@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { stat } from "node:fs/promises";
 import test from "node:test";
 import {
   blackKeys,
@@ -6,6 +7,7 @@ import {
   formatNotation,
   ledgerStepsFor,
   noteFrequency,
+  pianoAudioPath,
   pianoNotes,
   questionPool,
   staffStepFor,
@@ -57,4 +59,12 @@ test("A4 remains concert pitch", () => {
   const a4 = pianoNotes.find((note) => note.id === "A4");
   assert.ok(a4);
   assert.equal(noteFrequency(a4.midi), 440);
+});
+
+test("every piano key has a local media file for mobile playback", async () => {
+  for (const note of pianoNotes) {
+    assert.equal(pianoAudioPath(note), `/audio/piano-party/${note.midi}.wav`);
+    const audio = await stat(`public${pianoAudioPath(note)}`);
+    assert.ok(audio.size > 10_000, `${note.id} audio should contain a playable tone`);
+  }
 });

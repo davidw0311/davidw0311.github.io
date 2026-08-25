@@ -10,6 +10,7 @@
     "build": "next build && node scripts/sync-pages-root.mjs",
     "start": "next start",
     "generate:language-audio": "node --no-warnings scripts/generate-language-audio.mjs",
+    "generate:piano-audio": "node --no-warnings scripts/generate-piano-audio.mjs",
     "test": "node --no-warnings --test tests/*.test.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
