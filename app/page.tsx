@@ -8,7 +8,7 @@ import {
   GithubLogo,
   InstagramLogo,
   LinkedinLogo,
-  Planet,
+  PianoKeys,
   Translate,
   YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
@@ -51,7 +51,10 @@ export default function Home() {
                 <Translate size={34} weight="thin" />
                 <span>Language lab</span>
               </Link>
-              <div><Planet size={34} weight="thin" /><span>New worlds</span></div>
+              <Link href="/projects/piano-note-lab/">
+                <PianoKeys size={34} weight="thin" />
+                <span>Piano note lab</span>
+              </Link>
               <div><Binoculars size={34} weight="thin" /><span>Deep observation</span></div>
             </div>
             <a className={styles.secondaryButton} href="#about">Return to the lake</a>
