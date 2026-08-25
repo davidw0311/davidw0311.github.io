@@ -1699,6 +1699,29 @@
     padding: 2px 6px 5px;
   }
 
+  .lessonBody {
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 7px 8px;
+  }
+
+  .referencePane {
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 2px;
+    scrollbar-color: var(--lab-line-strong) transparent;
+    scrollbar-width: thin;
+  }
+
+  .referencePane::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .referencePane::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--lab-line-strong);
+  }
+
   .supportLanguageList {
     gap: 3px;
   }
@@ -1745,12 +1768,19 @@
   }
 
   .languageManager {
+    position: static;
     margin-top: 3px;
   }
 
   .addLanguageButton {
     min-height: 18px;
     padding-block: 0;
+  }
+
+  .languagePicker {
+    inset: 0 2px auto 0;
+    max-height: 100%;
+    overflow-y: auto;
   }
 
   .speakingPanel {
