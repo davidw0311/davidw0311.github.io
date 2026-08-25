@@ -6,6 +6,7 @@ import {
   contentItems,
   ensureLearningLanguages,
   languageIds,
+  languages,
   normalizeSpeech,
   preferredSupportLanguage,
   scoreTranscript,
@@ -18,8 +19,12 @@ test("ships two short stories and a counting drill", () => {
   assert.equal(contentItems.filter((item) => item.type === "number_drill").length, 1);
   assert.deepEqual(
     contentItems.find((item) => item.type === "number_drill")?.units.map((unit) => unit.number),
-    [1, 2, 3, 4, 5],
+    Array.from({ length: 20 }, (_, index) => index + 1),
   );
+});
+
+test("includes every language in the v1 scope", () => {
+  assert.deepEqual(languageIds, ["en", "zh", "yue", "ja", "ko", "ms", "fr", "es", "ta"]);
 });
 
 test("keeps every sample multilingual and explicitly segmented", () => {
@@ -31,6 +36,14 @@ test("keeps every sample multilingual and explicitly segmented", () => {
         const localization = unit.localizations[languageId];
         assert.ok(localization.text.length > 0, `${unit.id}:${languageId}`);
         assert.ok(localization.segments.length > 0, `${unit.id}:${languageId}`);
+        assert.equal(
+          normalizeSpeech(localization.segments.map((segment) => segment.text).join(" ")),
+          normalizeSpeech(localization.text),
+          `${unit.id}:${languageId}:segments`,
+        );
+        if (languages[languageId].supportsRomanization) {
+          assert.ok(localization.romanization?.length, `${unit.id}:${languageId}:romanization`);
+        }
         for (const phrase of localization.segments) {
           assert.equal(phraseIds.has(phrase.id), false, phrase.id);
           phraseIds.add(phrase.id);
@@ -84,7 +97,7 @@ test("includes Azure neural audio for every sentence speed and phrase", () => {
       }
     }
   }
-  assert.equal(audioPaths.length, 167);
+  assert.equal(audioPaths.length, 782);
   for (const audioPath of audioPaths) {
     assert.ok(statSync(path.join(process.cwd(), "public", audioPath)).size > 500, audioPath);
   }

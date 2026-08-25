@@ -1433,11 +1433,19 @@
   }
 
   .unitCount {
+    flex: 1 1 auto;
+    grid-template-columns: auto minmax(40px, 1fr);
     gap: 7px;
   }
 
+  .progressSegments {
+    min-width: 0;
+  }
+
   .progressSegments i {
-    width: 14px;
+    flex: 1 1 0;
+    width: auto;
+    min-width: 2px;
     height: 3px;
   }
 

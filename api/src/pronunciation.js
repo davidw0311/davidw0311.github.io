@@ -1,4 +1,14 @@
-const supportedLocales = new Set(["en-US", "es-ES", "ja-JP", "zh-CN"]);
+const supportedLocales = new Set([
+  "en-US",
+  "es-ES",
+  "fr-FR",
+  "ja-JP",
+  "ko-KR",
+  "ms-MY",
+  "ta-IN",
+  "zh-CN",
+  "zh-HK",
+]);
 const passingScores = { relaxed: 62, normal: 74, strict: 86 };
 
 const maximumBase64Length = 1_200_000;

@@ -57,7 +57,7 @@ The GitHub Pages workflow sets `NEXT_PUBLIC_PRONUNCIATION_API_URL` to the deploy
 ## MVP safeguards
 
 - Accepted origins are restricted to the configured site.
-- Requests are limited to the four lesson locales and short WAV files.
+- Requests are limited to the nine v1 lesson locales and short WAV files.
 - Each warm function instance applies a small per-address rate limit.
 - Nothing is persisted, so no database is needed.
 

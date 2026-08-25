@@ -7,7 +7,12 @@ const voices = {
   en: "en-US-JennyNeural",
   ja: "ja-JP-NanamiNeural",
   zh: "zh-CN-XiaoxiaoNeural",
+  yue: "zh-HK-HiuMaanNeural",
+  ko: "ko-KR-SunHiNeural",
+  ms: "ms-MY-YasminNeural",
+  fr: "fr-FR-DeniseNeural",
   es: "es-ES-ElviraNeural",
+  ta: "ta-IN-PallaviNeural",
 };
 
 const speechKey = process.env.AZURE_SPEECH_KEY?.trim();

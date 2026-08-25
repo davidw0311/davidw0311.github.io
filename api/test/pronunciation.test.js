@@ -20,6 +20,14 @@ test("accepts a bounded WAV request", () => {
   assert.equal(result.locale, "ja-JP");
 });
 
+test("accepts every v1 lesson locale", () => {
+  for (const locale of ["en-US", "es-ES", "fr-FR", "ja-JP", "ko-KR", "ms-MY", "ta-IN", "zh-CN", "zh-HK"]) {
+    assert.equal(parseAssessmentRequest({
+      audioBase64: wavBase64(), locale, referenceText: "sample", strictness: "normal",
+    }).locale, locale);
+  }
+});
+
 test("rejects unsupported locales and non-WAV payloads", () => {
   assert.throws(() => parseAssessmentRequest({
     audioBase64: wavBase64(), locale: "xx-XX", referenceText: "hello", strictness: "normal",
