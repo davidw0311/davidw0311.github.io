@@ -96,7 +96,11 @@ function PianoKeyboard({
 }) {
   return (
     <div className={styles.keyboardWrap}>
-      <div className={styles.keyboard} role="group" aria-label="Piano keyboard from C3 to C5, including sharp and flat keys">
+      <div
+        className={`${styles.keyboard} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
+        role="group"
+        aria-label="Piano keyboard from C3 to C5, including sharp and flat keys"
+      >
         {keyboardRanges.map((range) => (
           <div className={styles.keyboardRange} key={range.id}>
             <div className={styles.whiteKeys} style={{ "--white-count": range.whiteNotes.length } as CSSProperties}>
@@ -105,7 +109,7 @@ function PianoKeyboard({
                   type="button"
                   key={note.id}
                   className={`${styles.whiteKey} ${keyStateClass(note, target, selectedId, answered, showPrompt)}`}
-                  disabled={!interactive || answered}
+                  disabled={!interactive}
                   tabIndex={interactive ? 0 : -1}
                   aria-label={spokenPitchName(note)}
                   aria-pressed={interactive ? selectedId === note.id : undefined}
@@ -126,7 +130,7 @@ function PianoKeyboard({
                     key={note.id}
                     className={`${styles.blackKey} ${keyStateClass(note, target, selectedId, answered, showPrompt)}`}
                     style={{ left: `${((relativeIndex + 1) / range.whiteNotes.length) * 100}%` }}
-                    disabled={!interactive || answered}
+                    disabled={!interactive}
                     tabIndex={interactive ? 0 : -1}
                     aria-label={spokenPitchName(note)}
                     aria-pressed={interactive ? selectedId === note.id : undefined}
@@ -319,7 +323,7 @@ export function PianoNoteTrainer() {
               </button>
             ))}
           </div>
-        ) : <span className={styles.rangeLabel}>C3–C5 · naturals + accidentals</span>}
+        ) : <span className={styles.rangeLabel}>C3-C5 · naturals + accidentals</span>}
       </div>
 
       <div className={styles.practiceArea}>
@@ -340,9 +344,9 @@ export function PianoNoteTrainer() {
                 target={question.note}
                 selectedId={null}
                 answered={answered}
-                interactive={false}
+                interactive
                 showPrompt
-                onChoose={() => undefined}
+                onChoose={playTone}
               />
             ) : null}
           </motion.div>
@@ -382,7 +386,7 @@ export function PianoNoteTrainer() {
               answered={answered}
               interactive
               showPrompt={false}
-              onChoose={(note) => recordAnswer(note.id, note)}
+              onChoose={(note) => answered ? playTone(note) : recordAnswer(note.id, note)}
             />
           )}
 

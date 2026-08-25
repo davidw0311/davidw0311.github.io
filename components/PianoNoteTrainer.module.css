@@ -139,9 +139,12 @@
 .clefControls button:active,
 .noteChoices button:active,
 .nextButton:active:not(:disabled),
-.whiteKey:active:not(:disabled),
-.blackKey:active:not(:disabled) {
+.whiteKey:active:not(:disabled) {
   transform: scale(0.97);
+}
+
+.blackKey:active:not(:disabled) {
+  transform: translateX(-50%) translateY(2px) scale(0.97);
 }
 
 .practiceTopline {
@@ -534,10 +537,14 @@
 
 .blackKey:hover:not(:disabled) > span,
 .blackKey:focus-visible > span,
-.blackKey.promptKey > span,
 .blackKey.correctKey > span,
 .blackKey.wrongKey > span {
   opacity: 1;
+}
+
+.keyboard.concealKeyLabels .whiteKey > span,
+.keyboard.concealKeyLabels .blackKey > span {
+  opacity: 0;
 }
 
 .blackKey:hover:not(:disabled) {
