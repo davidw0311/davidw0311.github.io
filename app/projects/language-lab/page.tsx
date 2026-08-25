@@ -1,7 +1,5 @@
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { LanguageLearningLab } from "@/components/LanguageLearningLab";
+import { LanguageLabShell } from "@/components/LanguageLabShell";
 import styles from "./language-lab.module.css";
 
 export const metadata: Metadata = {
@@ -13,14 +11,7 @@ export const metadata: Metadata = {
 export default function LanguageLabPage() {
   return (
     <main className={styles.page}>
-      <nav className={styles.nav} aria-label="Language lab navigation">
-        <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Back to space</Link>
-        <Link href="/#about">DYW</Link>
-      </nav>
-
-      <section className={styles.stage} aria-label="Lilt language learning app">
-        <LanguageLearningLab />
-      </section>
+      <LanguageLabShell />
     </main>
   );
 }

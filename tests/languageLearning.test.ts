@@ -13,6 +13,7 @@ import {
   unitProgressKey,
 } from "../data/languageLearning.ts";
 import { phraseAudioPath, sentenceAudioPath } from "../lib/languageAudio.ts";
+import { formatUi, languageLearningUi } from "../data/languageLearningUi.ts";
 
 test("ships two short stories and a counting drill", () => {
   assert.equal(contentItems.filter((item) => item.type === "story").length, 2);
@@ -25,6 +26,19 @@ test("ships two short stories and a counting drill", () => {
 
 test("includes every language in the v1 scope", () => {
   assert.deepEqual(languageIds, ["en", "zh", "yue", "ja", "ko", "ms", "fr", "es", "ta"]);
+});
+
+test("localizes the interface and lesson catalog in every v1 language", () => {
+  for (const languageId of languageIds) {
+    const ui = languageLearningUi[languageId];
+    assert.ok(ui.chooseLesson.length > 0, languageId);
+    assert.equal(Object.keys(ui.content).length, contentItems.length, languageId);
+    for (const item of contentItems) {
+      assert.ok(ui.content[item.id]?.title.length > 0, `${languageId}:${item.id}:title`);
+      assert.ok(ui.content[item.id]?.description.length > 0, `${languageId}:${item.id}:description`);
+    }
+    assert.equal(formatUi(ui.promptProgress, { count: 2, total: 3 }).includes("{count}"), false);
+  }
 });
 
 test("keeps every sample multilingual and explicitly segmented", () => {
@@ -105,4 +119,5 @@ test("includes Azure neural audio for every sentence speed and phrase", () => {
 
 test("keeps visible sample copy free of decorative long dashes", () => {
   assert.doesNotMatch(JSON.stringify(contentItems), /[—–]/);
+  assert.doesNotMatch(JSON.stringify(languageLearningUi), /[—–]/);
 });

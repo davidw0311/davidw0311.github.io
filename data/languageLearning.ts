@@ -49,6 +49,7 @@ export type LocalProgress = {
   xp: number;
   completed: Record<string, CompletionStatus>;
   savedPhraseIds: string[];
+  systemLanguageId: LanguageId;
   practiceLanguageId: LanguageId;
   supportLanguageId: LanguageId;
   displayLanguageIds: LanguageId[];
@@ -536,6 +537,7 @@ export const defaultLocalProgress: LocalProgress = {
   xp: 0,
   completed: {},
   savedPhraseIds: [],
+  systemLanguageId: "en",
   practiceLanguageId: "ja",
   supportLanguageId: "en",
   displayLanguageIds: ["en", "ja"],

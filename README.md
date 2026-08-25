@@ -35,7 +35,7 @@ The production export is written to `out/`.
 
 ## Language Lab audio
 
-The Language Lab keeps its MVP lesson catalog and 782 Azure neural voice clips in the static site. It includes normal and slow sentence readings plus each tappable phrase in English, Mandarin, Cantonese, Japanese, Korean, Malay, French, Spanish, and Tamil. The clips can be regenerated with the existing Azure Speech resource without exposing its key to the browser:
+The Language Lab keeps its MVP lesson catalog and 782 Azure neural voice clips in the static site. It includes normal and slow sentence readings plus each tappable phrase in English, Mandarin, Cantonese, Japanese, Korean, Malay, French, Spanish, and Tamil. The lesson setup and full interface can also be displayed in any of those nine languages. The clips can be regenerated with the existing Azure Speech resource without exposing its key to the browser:
 
 ```bash
 AZURE_SPEECH_KEY=... AZURE_SPEECH_REGION=southeastasia npm run generate:language-audio -- --force
