@@ -15,6 +15,7 @@ import {
   Translate,
   Trash,
   WarningCircle,
+  X,
   XCircle,
 } from "@phosphor-icons/react";
 import {
@@ -243,6 +244,7 @@ export function LanguageLearningLab() {
   const [lessonFinished, setLessonFinished] = useState(false);
   const [playingSampleId, setPlayingSampleId] = useState<string | null>(null);
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
+  const [lessonOpen, setLessonOpen] = useState(false);
   const recordingRef = useRef<AudioRecording | null>(null);
   const recordingTimerRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -297,6 +299,18 @@ export function LanguageLearningLab() {
     window.speechSynthesis?.cancel();
   }, []);
 
+  useEffect(() => {
+    if (!lessonOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousOverscrollBehavior = document.body.style.overscrollBehavior;
+    document.body.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "none";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.overscrollBehavior = previousOverscrollBehavior;
+    };
+  }, [lessonOpen]);
+
   const stopPlayback = useCallback(() => {
     audioRef.current?.pause();
     audioRef.current = null;
@@ -324,6 +338,17 @@ export function LanguageLearningLab() {
     setContentIndex(index);
     setUnitIndex(0);
     setLessonFinished(false);
+    resetAttempt();
+  };
+
+  const openLesson = (index: number) => {
+    selectContent(index);
+    setLessonOpen(true);
+  };
+
+  const returnToLibrary = () => {
+    setLessonOpen(false);
+    setLanguagePickerOpen(false);
     resetAttempt();
   };
 
@@ -597,84 +622,112 @@ export function LanguageLearningLab() {
   return (
     <div className={styles.app}>
       <header className={styles.appHeader}>
-        <div className={styles.brandBlock}>
-          <span className={styles.brandMark} aria-hidden="true">L</span>
-          <div>
-            <strong>Lilt</strong>
-            <span>speaking lab</span>
+        {lessonOpen ? (
+          <div className={styles.lessonIdentity}>
+            <button type="button" className={styles.backToLibrary} aria-label="Back to lessons" onClick={returnToLibrary}>
+              <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+              <span>Lessons</span>
+            </button>
+            <div>
+              <span>{content.type === "story" ? "Story" : "Counting"}</span>
+              <h1 id="active-lesson-title">{content.title}</h1>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className={styles.brandBlock}>
+            <span className={styles.brandMark} aria-hidden="true">L</span>
+            <div>
+              <strong>Lilt</strong>
+              <span>speaking lab</span>
+            </div>
+          </div>
+        )}
         <div className={styles.headerStats} aria-label="Local learning progress">
           <span>{progress.xp} XP</span>
           <span>{progress.savedPhraseIds.length} saved</span>
         </div>
       </header>
 
-      <div className={styles.appGrid}>
-        <aside className={styles.library} aria-labelledby="library-title">
-          <div className={styles.libraryHeading}>
-            <div>
-              <h2 id="library-title">Try a tiny lesson</h2>
-              <p>Three local samples. No account needed.</p>
+      <AnimatePresence mode="wait" initial={false}>
+        {!lessonOpen ? (
+          <motion.section
+            key="library"
+            className={styles.landing}
+            aria-labelledby="library-title"
+            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.2 }}
+          >
+            <div className={styles.landingHeading}>
+              <div>
+                <h1 id="library-title">Choose a short lesson</h1>
+                <p>Pick a scene, then practice every sentence by speaking it.</p>
+              </div>
+              <div className={styles.practiceLanguage}>
+                <div className={styles.languageChoice}>
+                  <label htmlFor="practice-language">Learning language</label>
+                  <select
+                    id="practice-language"
+                    value={practiceLanguageId}
+                    onChange={(event) => selectPracticeLanguage(event.target.value as LanguageId)}
+                  >
+                    {languageIds.map((id) => (
+                      <option key={id} value={id}>
+                        {id === "en" ? languages[id].nameEnglish : `${languages[id].nameEnglish} (${languages[id].nameNative})`}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {languages[practiceLanguageId].toneSensitive ? (
+                  <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> Azure does not return a separate tone score for this language.</p>
+                ) : null}
+              </div>
             </div>
-            <span className={styles.localBadge}>On this device</span>
-          </div>
 
-          <div className={styles.contentList}>
-            {contentItems.map((item, index) => {
-              const completed = item.units.filter((candidate) => {
-                const status = progress.completed[unitProgressKey(item.id, candidate.id, practiceLanguageId)];
-                return status === "passed" || status === "skipped";
-              }).length;
-              const Icon = item.type === "story" ? BookOpenText : NumberCircleOne;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={index === contentIndex ? styles.activeContent : ""}
-                  aria-pressed={index === contentIndex}
-                  onClick={() => selectContent(index)}
-                >
-                  <Icon size={25} weight={index === contentIndex ? "fill" : "regular"} aria-hidden="true" />
-                  <span>
-                    <strong>{item.title}</strong>
-                    <small>{item.estimatedMinutes} min, {item.units.length} prompts</small>
-                  </span>
-                  {completed > 0 ? <em>{completed}/{item.units.length}</em> : <ArrowRight size={18} aria-hidden="true" />}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className={styles.practiceLanguage}>
-            <div className={styles.languageChoice}>
-              <label htmlFor="practice-language">I want to practice</label>
-              <select
-                id="practice-language"
-                value={practiceLanguageId}
-                onChange={(event) => selectPracticeLanguage(event.target.value as LanguageId)}
-              >
-                {languageIds.map((id) => (
-                  <option key={id} value={id}>
-                    {id === "en" ? languages[id].nameEnglish : `${languages[id].nameEnglish} (${languages[id].nameNative})`}
-                  </option>
-                ))}
-              </select>
+            <div className={styles.lessonCards} aria-label="Available lessons">
+              {contentItems.map((item, index) => {
+                const completed = item.units.filter((candidate) => {
+                  const status = progress.completed[unitProgressKey(item.id, candidate.id, practiceLanguageId)];
+                  return status === "passed" || status === "skipped";
+                }).length;
+                const Icon = item.type === "story" ? BookOpenText : NumberCircleOne;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    aria-label={`Open ${item.title}`}
+                    onClick={() => openLesson(index)}
+                  >
+                    <span className={styles.lessonCardIcon}><Icon size={25} weight="fill" aria-hidden="true" /></span>
+                    <span className={styles.lessonCardCopy}>
+                      <small>{item.type === "story" ? "Story" : "Counting"} / {item.estimatedMinutes} min</small>
+                      <strong>{item.title}</strong>
+                      <span>{item.description}</span>
+                    </span>
+                    <span className={styles.lessonCardAction}>
+                      <small>{completed > 0 ? `${completed} of ${item.units.length} complete` : `${item.units.length} prompts`}</small>
+                      <span>{completed > 0 && completed < item.units.length ? "Continue" : "Start"} <ArrowRight size={17} weight="bold" aria-hidden="true" /></span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-            {languages[practiceLanguageId].toneSensitive ? (
-              <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> Azure assesses this locale, but does not return a separate tone score.</p>
-            ) : null}
-          </div>
-        </aside>
-
-        <section className={styles.lesson} id="language-lesson" aria-labelledby="active-lesson-title">
+          </motion.section>
+        ) : (
+          <motion.section
+            key="lesson"
+            className={styles.lessonView}
+            initial={reduceMotion ? false : { opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, x: 10 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.2 }}
+          >
+            <section className={styles.lesson} id="language-lesson" aria-labelledby="active-lesson-title">
           <div className={styles.lessonTopline}>
-            <div>
-              <span>{content.type === "story" ? "Story" : "Counting"}</span>
-              <h2 id="active-lesson-title">{content.title}</h2>
-            </div>
+            <span>{languages[practiceLanguageId].nameEnglish} practice</span>
             <div className={styles.unitCount} aria-label={`${completionCount} of ${content.units.length} prompts complete`}>
-              <strong>{unitIndex + 1}/{content.units.length}</strong>
+              <strong>Prompt {unitIndex + 1} of {content.units.length}</strong>
               <div className={styles.progressSegments} aria-hidden="true">
                 {content.units.map((candidate, index) => {
                   const status = progress.completed[unitProgressKey(content.id, candidate.id, practiceLanguageId)];
@@ -698,7 +751,7 @@ export function LanguageLearningLab() {
                 <p>You worked through {content.units.length} prompts in {languages[practiceLanguageId].nameEnglish}. Progress is saved on this device.</p>
                 <div>
                   <button type="button" onClick={() => { setLessonFinished(false); goToUnit(0); }}>Practice again</button>
-                  <button type="button" onClick={() => selectContent((contentIndex + 1) % contentItems.length)}>Try another sample</button>
+                  <button type="button" onClick={returnToLibrary}>Choose another lesson</button>
                 </div>
               </motion.section>
             ) : (
@@ -710,14 +763,15 @@ export function LanguageLearningLab() {
                 exit={reduceMotion ? undefined : { opacity: 0, x: -12 }}
                 transition={{ duration: 0.24 }}
               >
-                {currentUnit.number ? (
-                  <div className={styles.numberPrompt} aria-label={`Number ${currentUnit.number}`}>
-                    <span>Say this number</span>
-                    <strong>{currentUnit.number}</strong>
-                  </div>
-                ) : null}
+                <div className={styles.referencePane}>
+                  {currentUnit.number ? (
+                    <div className={styles.numberPrompt} aria-label={`Number ${currentUnit.number}`}>
+                      <span>Say this number</span>
+                      <strong>{currentUnit.number}</strong>
+                    </div>
+                  ) : null}
 
-                <motion.section
+                  <motion.section
                   className={styles.reader}
                   aria-label="Support language reader"
                   aria-hidden={readingFocusActive}
@@ -795,45 +849,49 @@ export function LanguageLearningLab() {
                       ) : null}
                     </AnimatePresence>
                   </div>
-                </motion.section>
+                  </motion.section>
 
-                <AnimatePresence>
-                  {activePhrase ? (
-                    <motion.aside
-                      className={styles.phrasePanel}
-                      aria-label="Phrase details"
-                      aria-hidden={readingFocusActive}
-                      inert={readingFocusActive}
-                      initial={reduceMotion ? false : { opacity: 0, height: 0 }}
-                      animate={{ opacity: readingFocusActive ? 0 : 1, height: "auto", scale: readingFocusActive ? 0.99 : 1 }}
-                      exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
-                      transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div>
-                        <span>{languages[activePhrase.languageId].nameEnglish} phrase</span>
-                        <strong lang={languages[activePhrase.languageId].locale}>{activePhrase.phrase.text}</strong>
-                      </div>
-                      <div className={styles.phraseActions}>
-                        <button
-                          type="button"
-                          aria-pressed={playingSampleId === `phrase:${activePhrase.phrase.id}`}
-                          onClick={() => playSample(
-                            `phrase:${activePhrase.phrase.id}`,
-                            phraseAudioPath(content.slug, currentUnit.id, activePhrase.languageId, activePhrase.phrase.id),
-                            activePhrase.phrase.text,
-                            activePhrase.languageId,
-                          )}
-                        ><SpeakerHigh size={18} weight="fill" /> Play</button>
-                        <button type="button" aria-pressed={progress.savedPhraseIds.includes(activePhrase.phrase.id)} onClick={() => toggleSavedPhrase(activePhrase.phrase.id)}>
-                          <BookmarkSimple size={18} weight={progress.savedPhraseIds.includes(activePhrase.phrase.id) ? "fill" : "regular"} />
-                          {progress.savedPhraseIds.includes(activePhrase.phrase.id) ? "Saved" : "Save"}
+                  <AnimatePresence>
+                    {activePhrase ? (
+                      <motion.aside
+                        className={styles.phrasePanel}
+                        aria-label="Phrase details"
+                        aria-hidden={readingFocusActive}
+                        inert={readingFocusActive}
+                        initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                        animate={{ opacity: readingFocusActive ? 0 : 1, y: 0, scale: readingFocusActive ? 0.99 : 1 }}
+                        exit={reduceMotion ? undefined : { opacity: 0, y: 6 }}
+                        transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                      >
+                        <button type="button" className={styles.closePhraseButton} aria-label="Close phrase details" onClick={() => setActivePhrase(null)}>
+                          <X size={16} weight="bold" aria-hidden="true" />
                         </button>
-                        <button type="button" aria-expanded={translationRevealed} onClick={() => setTranslationRevealed((value) => !value)}><Translate size={18} /> {translationRevealed ? "Hide meaning" : "Show meaning"}</button>
-                      </div>
-                      {translationRevealed ? <p><small>Meaning in {activePhraseMeaningLanguage}</small>{activePhraseMeaning}</p> : null}
-                    </motion.aside>
-                  ) : null}
-                </AnimatePresence>
+                        <div>
+                          <span>{languages[activePhrase.languageId].nameEnglish} phrase</span>
+                          <strong lang={languages[activePhrase.languageId].locale}>{activePhrase.phrase.text}</strong>
+                        </div>
+                        <div className={styles.phraseActions}>
+                          <button
+                            type="button"
+                            aria-pressed={playingSampleId === `phrase:${activePhrase.phrase.id}`}
+                            onClick={() => playSample(
+                              `phrase:${activePhrase.phrase.id}`,
+                              phraseAudioPath(content.slug, currentUnit.id, activePhrase.languageId, activePhrase.phrase.id),
+                              activePhrase.phrase.text,
+                              activePhrase.languageId,
+                            )}
+                          ><SpeakerHigh size={18} weight="fill" /> Play</button>
+                          <button type="button" aria-pressed={progress.savedPhraseIds.includes(activePhrase.phrase.id)} onClick={() => toggleSavedPhrase(activePhrase.phrase.id)}>
+                            <BookmarkSimple size={18} weight={progress.savedPhraseIds.includes(activePhrase.phrase.id) ? "fill" : "regular"} />
+                            {progress.savedPhraseIds.includes(activePhrase.phrase.id) ? "Saved" : "Save"}
+                          </button>
+                          <button type="button" aria-expanded={translationRevealed} onClick={() => setTranslationRevealed((value) => !value)}><Translate size={18} /> {translationRevealed ? "Hide meaning" : "Show meaning"}</button>
+                        </div>
+                        {translationRevealed ? <p><small>Meaning in {activePhraseMeaningLanguage}</small>{activePhraseMeaning}</p> : null}
+                      </motion.aside>
+                    ) : null}
+                  </AnimatePresence>
+                </div>
 
                 <section className={styles.speakingPanel} aria-labelledby="speaking-title">
                   <h2 id="speaking-title">Say it aloud</h2>
@@ -920,8 +978,10 @@ export function LanguageLearningLab() {
                     </div>
                   </div>
 
-                  {transcript ? <p className={styles.transcript}>Azure heard: <q>{transcript}</q></p> : null}
-                  {speechState !== "idle" && feedback ? <p className={styles.speechFeedback} aria-live="polite">{feedback}</p> : null}
+                  <div className={styles.speechMessages}>
+                    {transcript ? <p className={styles.transcript}>Azure heard: <q>{transcript}</q></p> : null}
+                    {speechState !== "idle" && feedback ? <p className={styles.speechFeedback} aria-live="polite">{feedback}</p> : null}
+                  </div>
                 </section>
 
                 <nav className={styles.unitNavigation} aria-label="Lesson sentence navigation">
@@ -933,8 +993,10 @@ export function LanguageLearningLab() {
               </motion.div>
             )}
           </AnimatePresence>
-        </section>
-      </div>
+            </section>
+          </motion.section>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ArrowLeft, Microphone } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LanguageLearningLab } from "@/components/LanguageLearningLab";
@@ -18,30 +18,9 @@ export default function LanguageLabPage() {
         <Link href="/#about">DYW</Link>
       </nav>
 
-      <section className={styles.stage} aria-labelledby="language-lab-title">
-        <header className={styles.intro}>
-          <div className={styles.introIcon} aria-hidden="true"><Microphone size={24} weight="fill" /></div>
-          <div>
-            <p>Interactive project</p>
-            <h1 id="language-lab-title">Learn by saying it.</h1>
-            <strong>Read, listen, inspect, and speak through a few tiny multilingual lessons.</strong>
-          </div>
-        </header>
-
+      <section className={styles.stage} aria-label="Lilt language learning app">
         <LanguageLearningLab />
       </section>
-
-      <section className={styles.prototypeNote} aria-labelledby="prototype-note-title">
-        <h2 id="prototype-note-title">What this version proves</h2>
-        <div>
-          <p>The reader, phrase interactions, Azure neural examples, speech gate, local progress, and content model all run without a database.</p>
-          <p>Short recordings are scored by Azure Speech through a small serverless function. This app stores neither the audio nor the returned assessment.</p>
-        </div>
-      </section>
-
-      <footer className={styles.footer}>
-        <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Return to space</Link>
-      </footer>
     </main>
   );
 }

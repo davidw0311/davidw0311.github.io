@@ -12,7 +12,10 @@
   --lab-accent-ink: #06251e;
   --lab-danger: #ff9d97;
   --lab-warning: #f0cc79;
-  min-height: 760px;
+  display: grid;
+  grid-template-rows: 64px minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   color: var(--lab-ink);
   border: 1px solid var(--lab-line-strong);
@@ -49,8 +52,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  min-height: 72px;
-  padding: 12px 18px;
+  min-height: 64px;
+  padding: 9px 16px;
   border-bottom: 1px solid var(--lab-line);
   background: rgb(9 26 34 / 0.84);
 }
@@ -124,6 +127,200 @@
   font-style: normal;
   font-weight: 750;
   white-space: nowrap;
+}
+
+.lessonIdentity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.backToLibrary {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 7px 10px;
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 10px;
+  color: var(--lab-muted);
+  background: transparent;
+  font-size: 0.68rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.backToLibrary:hover,
+.backToLibrary:focus-visible {
+  border-color: var(--lab-accent);
+  color: var(--lab-accent);
+  background: rgb(121 228 197 / 0.07);
+}
+
+.backToLibrary:active {
+  transform: translateY(1px);
+}
+
+.lessonIdentity > div {
+  display: grid;
+  min-width: 0;
+}
+
+.lessonIdentity > div > span {
+  color: var(--lab-accent);
+  font-size: 0.59rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lessonIdentity h1 {
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1rem, 2.2vw, 1.42rem);
+  font-weight: 540;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.landing {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(16px, 2.4vh, 24px);
+  width: min(100%, 1040px);
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: clamp(20px, 3.5vw, 38px);
+  overflow: hidden;
+}
+
+.landingHeading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+  gap: clamp(24px, 6vw, 72px);
+  align-items: end;
+}
+
+.landingHeading h1 {
+  max-width: 680px;
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4.6vw, 4.5rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.landingHeading > div:first-child p {
+  max-width: 520px;
+  margin: 10px 0 0;
+  color: var(--lab-muted);
+  font-size: clamp(0.78rem, 1.3vw, 0.95rem);
+  line-height: 1.45;
+}
+
+.lessonCards {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  min-height: 0;
+}
+
+.lessonCards > button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 15px;
+  align-items: center;
+  min-width: 0;
+  padding: clamp(14px, 2vw, 22px);
+  border: 1px solid var(--lab-line-strong);
+  border-radius: 14px;
+  color: var(--lab-ink);
+  text-align: left;
+  background: var(--lab-surface);
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.lessonCards > button:first-child {
+  grid-row: 1 / span 2;
+}
+
+.lessonCards > button:hover,
+.lessonCards > button:focus-visible {
+  border-color: rgb(121 228 197 / 0.55);
+  background: var(--lab-surface-strong);
+}
+
+.lessonCards > button:active {
+  transform: scale(0.99);
+}
+
+.lessonCardIcon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  color: var(--lab-accent-ink);
+  background: var(--lab-accent);
+}
+
+.lessonCardCopy {
+  display: grid;
+  min-width: 0;
+}
+
+.lessonCardCopy > small {
+  color: var(--lab-accent);
+  font-size: 0.61rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.lessonCardCopy > strong {
+  margin-top: 4px;
+  font-size: clamp(0.92rem, 1.7vw, 1.2rem);
+  letter-spacing: -0.025em;
+}
+
+.lessonCardCopy > span {
+  max-width: 46ch;
+  margin-top: 5px;
+  color: var(--lab-faint);
+  font-size: 0.69rem;
+  line-height: 1.4;
+}
+
+.lessonCardAction {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+  min-width: 82px;
+}
+
+.lessonCardAction > small {
+  color: var(--lab-faint);
+  font-size: 0.61rem;
+  white-space: nowrap;
+}
+
+.lessonCardAction > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--lab-accent);
+  font-size: 0.7rem;
+  font-weight: 850;
 }
 
 .appGrid {
@@ -226,10 +423,7 @@
 
 .practiceLanguage {
   display: grid;
-  gap: 13px;
-  margin-top: 28px;
-  padding-top: 23px;
-  border-top: 1px solid var(--lab-line);
+  gap: 8px;
 }
 
 .languageChoice {
@@ -257,7 +451,7 @@
 .practiceLanguage p {
   display: flex;
   gap: 7px;
-  margin: 2px 0 0;
+  margin: 0;
   color: var(--lab-warning);
   font-size: 0.67rem;
   line-height: 1.45;
@@ -269,48 +463,51 @@
 }
 
 .lesson {
+  display: grid;
+  grid-template-rows: 40px minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
   min-width: 0;
-  padding: clamp(24px, 4.2vw, 56px);
+  min-height: 0;
+  padding: 10px clamp(12px, 2vw, 24px) 12px;
+}
+
+.lessonView {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .lessonTopline {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 30px;
-  max-width: 850px;
-  margin: 0 auto 34px;
-}
-
-.lessonTopline > div:first-child > span {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--lab-accent);
-  font-size: 0.69rem;
+  gap: 20px;
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  color: var(--lab-faint);
+  font-size: 0.65rem;
   font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
-.lessonTopline h2 {
-  margin: 0;
-  font-family: var(--font-display), sans-serif;
-  font-size: clamp(1.72rem, 3.4vw, 2.65rem);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.08;
+.lessonTopline > span {
+  color: var(--lab-accent);
 }
 
 .unitCount {
   display: grid;
   flex: 0 0 auto;
-  gap: 8px;
-  min-width: 105px;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
   text-align: right;
 }
 
 .unitCount strong {
-  font-size: 0.82rem;
+  font-size: 0.65rem;
+  white-space: nowrap;
 }
 
 .progressSegments {
@@ -336,16 +533,34 @@
 
 .lessonBody,
 .finishState {
-  max-width: 850px;
+  width: min(100%, 1100px);
+  min-height: 0;
   margin: 0 auto;
+}
+
+.lessonBody {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 10px 12px;
+  height: 100%;
+}
+
+.referencePane {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
 }
 
 .numberPrompt {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  margin-bottom: 12px;
-  padding: 18px 24px;
+  min-height: 58px;
+  padding: 9px 14px;
   overflow: hidden;
   border: 1px solid rgb(121 228 197 / 0.28);
   border-radius: 16px;
@@ -363,12 +578,13 @@
 .numberPrompt strong {
   color: var(--lab-accent);
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(3.2rem, 7vw, 6rem);
+  font-size: clamp(2rem, 4vw, 3.4rem);
   font-weight: 500;
   line-height: 0.9;
 }
 
 .reader {
+  min-height: 0;
   overflow-anchor: none;
   transform-origin: bottom center;
 }
@@ -532,6 +748,7 @@
 }
 
 .languageManager {
+  position: relative;
   display: grid;
   margin-top: 6px;
 }
@@ -568,10 +785,12 @@
 }
 
 .languagePicker {
+  position: absolute;
+  inset: auto 0 38px;
+  z-index: 3;
   display: grid;
   gap: 9px;
-  width: min(100%, 420px);
-  margin-top: 8px;
+  width: 100%;
   padding: 12px;
   border: 1px solid var(--lab-line-strong);
   border-radius: 13px;
@@ -642,18 +861,43 @@
 }
 
 .phrasePanel {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
   display: grid;
   grid-template-columns: minmax(120px, 0.55fr) minmax(0, 1fr);
   gap: 18px;
   align-items: center;
-  margin-top: 10px;
-  padding: 16px 18px;
+  max-height: 100%;
+  padding: 16px 42px 16px 18px;
   overflow: hidden;
   overflow-anchor: none;
   border: 1px solid rgb(121 228 197 / 0.28);
   border-radius: 16px;
   background: var(--lab-surface-strong);
   transform-origin: bottom center;
+}
+
+.closePhraseButton {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--lab-line);
+  border-radius: 8px;
+  color: var(--lab-muted);
+  background: transparent;
+  cursor: pointer;
+}
+
+.closePhraseButton:hover,
+.closePhraseButton:focus-visible {
+  border-color: var(--lab-accent);
+  color: var(--lab-accent);
 }
 
 .phrasePanel > div:first-child {
@@ -741,8 +985,9 @@
 }
 
 .speakingPanel {
-  margin-top: 12px;
-  padding: 22px 24px;
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(14px, 2vh, 20px) clamp(14px, 2vw, 22px);
   border: 1px solid var(--lab-line-strong);
   border-radius: 16px;
   background: var(--lab-surface-soft);
@@ -756,8 +1001,8 @@
 
 .practicePrompt {
   position: relative;
-  margin-top: 11px;
-  padding: 16px 18px 17px;
+  margin-top: 8px;
+  padding: 12px 15px 13px;
   overflow: hidden;
   border: 1px solid rgb(121 228 197 / 0.27);
   border-radius: 13px;
@@ -793,12 +1038,12 @@
 }
 
 .practicePrompt > p {
-  margin: 8px 0 0;
+  margin: 5px 0 0;
   color: var(--lab-ink);
-  font-size: clamp(1.22rem, 2.5vw, 1.7rem);
+  font-size: clamp(1.08rem, 2.1vw, 1.45rem);
   font-weight: 590;
   letter-spacing: -0.02em;
-  line-height: 1.45;
+  line-height: 1.35;
 }
 
 .practiceRomanization {
@@ -812,7 +1057,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin-top: 18px;
+  margin-top: 10px;
 }
 
 .audioActions button {
@@ -837,7 +1082,7 @@
   display: grid;
   grid-template-columns: minmax(190px, 1fr) auto;
   gap: 12px;
-  margin-top: 13px;
+  margin-top: 9px;
 }
 
 .speakButton {
@@ -845,8 +1090,8 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 58px;
-  padding: 12px 22px;
+  min-height: 54px;
+  padding: 10px 20px;
   border: 1px solid var(--lab-accent);
   border-radius: 14px;
   color: var(--lab-accent-ink);
@@ -902,7 +1147,7 @@
   justify-content: center;
   gap: 8px;
   min-width: 112px;
-  min-height: 58px;
+  min-height: 54px;
   padding: 8px 14px;
   border: 1px solid var(--lab-line);
   border-radius: 14px;
@@ -935,7 +1180,7 @@
 }
 
 .transcript {
-  margin: 13px 0 0;
+  margin: 0;
   color: var(--lab-muted);
   font-size: 0.73rem;
 }
@@ -945,18 +1190,33 @@
 }
 
 .speechFeedback {
-  margin: 10px 0 0;
+  margin: 0;
   color: var(--lab-muted);
   font-size: 0.7rem;
   line-height: 1.45;
 }
 
+.speechMessages {
+  display: grid;
+  gap: 3px;
+  min-height: 0;
+  margin-top: 7px;
+}
+
+.speechMessages p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 .unitNavigation {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 14px;
+  margin-top: 0;
 }
 
 .unitNavigation button {
@@ -983,8 +1243,9 @@
 .finishState {
   display: grid;
   place-items: center;
-  min-height: 540px;
-  padding: 40px 24px;
+  height: 100%;
+  min-height: 0;
+  padding: 24px;
   text-align: center;
 }
 
@@ -1057,149 +1318,347 @@
 }
 
 @media (max-width: 960px) {
-  .appGrid {
-    grid-template-columns: 240px minmax(0, 1fr);
-  }
-
-  .libraryHeading {
-    display: grid;
-  }
-
-  .localBadge {
-    width: fit-content;
-  }
-
   .lesson {
-    padding-inline: 24px;
+    padding-inline: 14px;
   }
 }
 
 @media (max-width: 767px) {
   .app {
-    min-height: auto;
+    grid-template-rows: 54px minmax(0, 1fr);
     border-radius: 14px;
   }
 
   .appHeader {
-    min-height: 64px;
-    padding-inline: 13px;
+    min-height: 54px;
+    padding: 7px 10px;
   }
 
   .headerStats span:last-child {
     display: none;
   }
 
-  .appGrid {
+  .brandMark {
+    width: 36px;
+    height: 36px;
+  }
+
+  .lessonIdentity {
+    gap: 9px;
+  }
+
+  .backToLibrary {
+    min-height: 34px;
+    padding: 6px 8px;
+  }
+
+  .landing {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .landingHeading {
+    grid-template-columns: minmax(0, 1fr) minmax(132px, 0.72fr);
+    gap: 12px;
+  }
+
+  .landingHeading h1 {
+    font-size: clamp(1.62rem, 8.5vw, 2.5rem);
+  }
+
+  .landingHeading > div:first-child p {
+    margin-top: 5px;
+    font-size: 0.68rem;
+    line-height: 1.35;
+  }
+
+  .languageChoice {
+    gap: 4px;
+  }
+
+  .practiceLanguage select {
+    min-height: 38px;
+    padding-block: 6px;
+    font-size: 0.75rem;
+  }
+
+  .practiceLanguage p {
+    font-size: 0.58rem;
+    line-height: 1.3;
+  }
+
+  .lessonCards {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 6px;
   }
 
-  .library {
-    min-width: 0;
-    padding: 20px 14px;
-    border-right: 0;
-    border-bottom: 1px solid var(--lab-line);
+  .lessonCards > button:first-child {
+    grid-row: auto;
   }
 
-  .libraryHeading {
-    display: flex;
-    margin-bottom: 14px;
+  .lessonCards > button {
+    gap: 10px;
+    padding: 10px 11px;
   }
 
-  .contentList {
-    display: flex;
-    gap: 8px;
-    padding-bottom: 5px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+  .lessonCardIcon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
   }
 
-  .contentList > button {
-    flex: 0 0 min(82vw, 290px);
-    scroll-snap-align: start;
+  .lessonCardCopy > strong {
+    margin-top: 2px;
+    font-size: 0.88rem;
   }
 
-  .practiceLanguage {
-    margin-top: 18px;
-    padding-top: 16px;
+  .lessonCardCopy > span {
+    margin-top: 2px;
+    font-size: 0.62rem;
+    line-height: 1.3;
+  }
+
+  .lessonCardAction {
+    min-width: 72px;
   }
 
   .lesson {
-    padding: 26px 14px 34px;
+    grid-template-rows: 34px minmax(0, 1fr);
+    padding: 5px 8px 8px;
   }
 
   .lessonTopline {
-    gap: 14px;
-    margin-bottom: 22px;
+    gap: 8px;
   }
 
   .unitCount {
-    min-width: 84px;
+    gap: 7px;
   }
 
   .progressSegments i {
-    width: 15px;
+    width: 14px;
+    height: 3px;
+  }
+
+  .lessonBody {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 7px;
+  }
+
+  .referencePane {
+    gap: 5px;
+  }
+
+  .numberPrompt {
+    min-height: 46px;
+    padding: 6px 11px;
+  }
+
+  .numberPrompt strong {
+    font-size: 2rem;
+  }
+
+  .supportLanguageList {
+    gap: 4px;
   }
 
   .supportLanguageCard {
-    padding: 8px 76px 9px 11px;
+    min-height: 50px;
+    padding: 6px 72px 6px 10px;
   }
 
-  .speakingPanel {
-    padding: 18px 16px;
+  .supportLanguageCard header {
+    min-height: 12px;
   }
 
-  .practicePrompt {
-    padding: 15px 16px 16px;
+  .sentence {
+    font-size: 0.86rem;
+    line-height: 1.16;
+  }
+
+  .romanization {
+    font-size: 0.56rem;
+  }
+
+  .supportAudioButton,
+  .dragHandle {
+    width: 27px;
+    height: 27px;
+  }
+
+  .supportAudioButton {
+    right: 39px;
+  }
+
+  .dragHandle {
+    right: 7px;
+  }
+
+  .languageManager {
+    margin-top: 4px;
+  }
+
+  .addLanguageButton {
+    min-height: 28px;
+    padding-block: 3px;
+  }
+
+  .languagePicker {
+    bottom: 34px;
   }
 
   .phrasePanel {
     grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 12px 38px 12px 12px;
   }
 
   .phraseActions {
     justify-content: flex-start;
   }
 
+  .phraseActions button {
+    min-height: 36px;
+  }
+
+  .speakingPanel {
+    padding: 10px 11px;
+    overflow: hidden;
+  }
+
+  .speakingPanel > h2 {
+    font-size: 0.82rem;
+  }
+
+  .practicePrompt {
+    margin-top: 5px;
+    padding: 8px 11px 9px;
+  }
+
+  .practicePrompt > p {
+    margin-top: 3px;
+    font-size: 1rem;
+    line-height: 1.22;
+  }
+
+  .practiceRomanization {
+    margin-top: 3px;
+    font-size: 0.64rem;
+    line-height: 1.25;
+  }
+
+  .audioActions {
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .audioActions button {
+    min-height: 34px;
+    padding-block: 5px;
+  }
+
+  .voiceSource {
+    font-size: 0.56rem;
+  }
+
   .speechActionRow {
-    grid-template-columns: minmax(0, 1fr) 96px;
+    grid-template-columns: minmax(0, 1fr) 88px;
+    gap: 7px;
+    margin-top: 7px;
   }
 
   .speakButton {
-    padding-inline: 14px;
+    min-height: 46px;
+    padding: 8px 12px;
   }
 
   .result {
     min-width: 0;
-    padding-inline: 9px;
+    min-height: 46px;
+    padding: 6px 8px;
+  }
+
+  .speechMessages {
+    margin-top: 4px;
+  }
+
+  .speechMessages p {
+    font-size: 0.61rem;
+    -webkit-line-clamp: 1;
+  }
+
+  .unitNavigation {
+    gap: 8px;
   }
 
   .unitNavigation button {
     min-width: 0;
-    padding-inline: 12px;
+    min-height: 38px;
+    padding: 6px 10px;
   }
 }
 
 @media (max-width: 430px) {
-  .localBadge,
   .brandBlock > div span {
     display: none;
   }
 
-  .lessonTopline h2 {
-    max-width: 230px;
+  .landingHeading {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
   }
 
-  .numberPrompt {
-    padding: 16px 18px;
+  .landingHeading .languageChoice {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
   }
 
-  .sentence {
-    font-size: 0.96rem;
+  .lessonIdentity > div > span {
+    display: none;
   }
 
-  .audioActions button,
+  .backToLibrary span {
+    display: none;
+  }
+
+  .lessonCardCopy > span {
+    display: none;
+  }
+
   .phraseActions button {
     flex: 1 1 auto;
+  }
+}
+
+@media (max-height: 720px) {
+  .landing {
+    padding-block: 9px;
+  }
+
+  .landingHeading > div:first-child p,
+  .lessonCardCopy > span,
+  .voiceSource {
+    display: none;
+  }
+
+  .lessonCards > button {
+    padding-block: 8px;
+  }
+
+  .speakingPanel {
+    padding-block: 8px;
+  }
+
+  .practicePrompt {
+    padding-block: 7px;
+  }
+
+  .audioActions,
+  .speechActionRow {
+    margin-top: 5px;
   }
 }
 
