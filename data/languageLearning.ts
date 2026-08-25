@@ -298,7 +298,7 @@ export const defaultLocalProgress: LocalProgress = {
   savedPhraseIds: [],
   practiceLanguageId: "ja",
   supportLanguageId: "en",
-  displayLanguageIds: ["ja", "en"],
+  displayLanguageIds: ["en", "ja"],
   showRomanization: true,
 };
 
@@ -317,7 +317,11 @@ export function ensureLearningLanguages(
   practiceLanguageId: LanguageId,
   supportLanguageId: LanguageId,
 ) {
-  return Array.from(new Set([practiceLanguageId, supportLanguageId, ...displayLanguageIds]));
+  const supportingLanguages = Array.from(new Set([
+    supportLanguageId,
+    ...displayLanguageIds.filter((languageId) => languageId !== practiceLanguageId),
+  ]));
+  return [...supportingLanguages, practiceLanguageId];
 }
 
 export function normalizeSpeech(value: string) {

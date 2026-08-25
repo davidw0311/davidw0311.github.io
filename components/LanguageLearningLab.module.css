@@ -470,6 +470,12 @@
   border: 1px solid var(--lab-line-strong);
   border-radius: 16px;
   background: var(--lab-surface);
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.readerFocused {
+  border-color: rgb(121 228 197 / 0.5);
+  box-shadow: 0 18px 48px rgb(3 16 20 / 0.22);
 }
 
 .reader article {
@@ -766,6 +772,9 @@
   background: var(--lab-accent);
   font-weight: 850;
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
   box-shadow: 0 14px 32px rgb(5 75 60 / 0.2);
   transition: background-color 160ms ease, transform 160ms ease, opacity 160ms ease;
 }
@@ -777,6 +786,11 @@
 
 .speakButton:active:not(:disabled) {
   transform: scale(0.985);
+}
+
+.speakButton[aria-pressed="true"] {
+  transform: scale(0.985);
+  box-shadow: 0 8px 20px rgb(5 75 60 / 0.17);
 }
 
 .speakButton:disabled {
@@ -1146,6 +1160,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reader,
   .contentList > button,
   .reader article header button,
   .sentence button,

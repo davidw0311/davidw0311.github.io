@@ -56,7 +56,8 @@ test("supports English practice with a different help language", () => {
   assert.equal(preferredSupportLanguage("en", "en"), "ja");
   assert.equal(preferredSupportLanguage("en", "es"), "es");
   assert.equal(preferredSupportLanguage("ja", "ja"), "en");
-  assert.deepEqual(ensureLearningLanguages(["zh"], "en", "es"), ["en", "es", "zh"]);
+  assert.deepEqual(ensureLearningLanguages(["zh"], "en", "es"), ["es", "zh", "en"]);
+  assert.deepEqual(ensureLearningLanguages(["ja", "en", "zh"], "ja", "en"), ["en", "zh", "ja"]);
 });
 
 test("uses stable paths for Azure neural lesson audio", () => {

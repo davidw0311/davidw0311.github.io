@@ -106,7 +106,7 @@ export function LanguageLearningLab() {
   const [attempts, setAttempts] = useState(0);
   const [score, setScore] = useState<number | null>(null);
   const [transcript, setTranscript] = useState("");
-  const [feedback, setFeedback] = useState("Listen once, then say the sentence aloud.");
+  const [feedback, setFeedback] = useState("Listen once, then hold the button while you say the sentence.");
   const [activePhrase, setActivePhrase] = useState<{ languageId: LanguageId; phrase: PhraseSegment } | null>(null);
   const [translationRevealed, setTranslationRevealed] = useState(false);
   const [lessonFinished, setLessonFinished] = useState(false);
@@ -114,6 +114,7 @@ export function LanguageLearningLab() {
   const recordingRef = useRef<AudioRecording | null>(null);
   const recordingTimerRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const holdActiveRef = useRef(false);
 
   const practiceLanguageId = progress.practiceLanguageId;
   const supportLanguageId = progress.supportLanguageId;
@@ -130,6 +131,12 @@ export function LanguageLearningLab() {
   const persistedStatus = progress.completed[progressKey] ?? "not_started";
   const unitIsComplete = speechState === "passed" || persistedStatus === "passed" || persistedStatus === "skipped";
   const skipAvailable = attempts >= 3;
+  const readingFocusActive = speechState === "requesting_permission" || speechState === "recording";
+  const visibleLanguageIds = readingFocusActive ? [practiceLanguageId] : progress.displayLanguageIds;
+  const settingsLanguageIds = [
+    ...progress.displayLanguageIds,
+    ...languageIds.filter((languageId) => !progress.displayLanguageIds.includes(languageId)),
+  ];
 
   const completionCount = useMemo(
     () => content.units.filter((candidate) => {
@@ -153,6 +160,7 @@ export function LanguageLearningLab() {
   }, [progress, ready]);
 
   useEffect(() => () => {
+    holdActiveRef.current = false;
     void recordingRef.current?.cancel();
     if (recordingTimerRef.current !== null) window.clearTimeout(recordingTimerRef.current);
     audioRef.current?.pause();
@@ -166,7 +174,8 @@ export function LanguageLearningLab() {
     setPlayingSampleId(null);
   }, []);
 
-  const resetAttempt = useCallback((message = "Listen once, then say the sentence aloud.") => {
+  const resetAttempt = useCallback((message = "Listen once, then hold the button while you say the sentence.") => {
+    holdActiveRef.current = false;
     stopPlayback();
     void recordingRef.current?.cancel();
     recordingRef.current = null;
@@ -203,7 +212,7 @@ export function LanguageLearningLab() {
       };
     });
     setLessonFinished(false);
-    resetAttempt(`Now practicing ${languages[languageId].nameEnglish}. Listen once, then speak.`);
+    resetAttempt(`Now practicing ${languages[languageId].nameEnglish}. Listen once, then hold to speak.`);
   };
 
   const selectSupportLanguage = (languageId: LanguageId) => {
@@ -303,6 +312,7 @@ export function LanguageLearningLab() {
   };
 
   const evaluateRecording = async (recording: AudioRecording) => {
+    holdActiveRef.current = false;
     if (recordingTimerRef.current !== null) window.clearTimeout(recordingTimerRef.current);
     recordingTimerRef.current = null;
     recordingRef.current = null;
@@ -339,25 +349,47 @@ export function LanguageLearningLab() {
 
   const startSpeaking = async () => {
     if (!pronunciationApiUrl) {
+      holdActiveRef.current = false;
       setSpeechState("error");
       setFeedback("Speech assessment is not configured for this deployment yet.");
       return;
     }
 
     setSpeechState("requesting_permission");
-    setFeedback("Requesting microphone access. Only this short attempt will be sent for assessment.");
+    setFeedback("Keep holding while microphone access starts.");
     try {
       const recording = await startAudioRecording();
       recordingRef.current = recording;
+      if (!holdActiveRef.current) {
+        void evaluateRecording(recording);
+        return;
+      }
       setSpeechState("recording");
-      setFeedback("Listening now. Say the full sentence, then press Stop & assess.");
+      setFeedback("Listening now. Keep holding while you say the full sentence.");
       recordingTimerRef.current = window.setTimeout(() => void evaluateRecording(recording), maximumRecordingMs);
     } catch (error) {
+      holdActiveRef.current = false;
       setSpeechState("error");
       setFeedback(error instanceof DOMException && error.name === "NotAllowedError"
         ? "Microphone access was blocked. Allow it in your browser settings and try again."
         : "The microphone could not start in this browser. Try current Chrome, Edge, Firefox, or Safari.");
     }
+  };
+
+  const beginSpeaking = () => {
+    if (holdActiveRef.current || speechState === "requesting_permission" || speechState === "recording" || speechState === "evaluating") return;
+    holdActiveRef.current = true;
+    stopPlayback();
+    setActivePhrase(null);
+    setTranslationRevealed(false);
+    void startSpeaking();
+  };
+
+  const releaseSpeaking = () => {
+    if (!holdActiveRef.current) return;
+    holdActiveRef.current = false;
+    const recording = recordingRef.current;
+    if (recording) void evaluateRecording(recording);
   };
 
   const skipUnit = () => {
@@ -391,9 +423,13 @@ export function LanguageLearningLab() {
       )) return current;
       return {
         ...current,
-        displayLanguageIds: selected
-          ? current.displayLanguageIds.filter((candidate) => candidate !== languageId)
-          : [...current.displayLanguageIds, languageId],
+        displayLanguageIds: ensureLearningLanguages(
+          selected
+            ? current.displayLanguageIds.filter((candidate) => candidate !== languageId)
+            : [...current.displayLanguageIds, languageId],
+          current.practiceLanguageId,
+          current.supportLanguageId,
+        ),
       };
     });
   };
@@ -402,7 +438,13 @@ export function LanguageLearningLab() {
     setProgress((current) => {
       const index = current.displayLanguageIds.indexOf(languageId);
       const nextIndex = index + direction;
-      if (index < 0 || nextIndex < 0 || nextIndex >= current.displayLanguageIds.length) return current;
+      const lastSupportingIndex = current.displayLanguageIds.length - 2;
+      if (
+        languageId === current.practiceLanguageId
+        || index < 0
+        || nextIndex < 0
+        || nextIndex > lastSupportingIndex
+      ) return current;
       const next = [...current.displayLanguageIds];
       [next[index], next[nextIndex]] = [next[nextIndex], next[index]];
       return { ...current, displayLanguageIds: next };
@@ -518,7 +560,7 @@ export function LanguageLearningLab() {
           <details className={styles.displaySettings}>
             <summary><ArrowsDownUp size={18} aria-hidden="true" /> Display languages</summary>
             <div className={styles.settingsBody}>
-              {languageIds.map((languageId) => {
+              {settingsLanguageIds.map((languageId) => {
                 const selected = progress.displayLanguageIds.includes(languageId);
                 const selectedIndex = progress.displayLanguageIds.indexOf(languageId);
                 return (
@@ -538,8 +580,8 @@ export function LanguageLearningLab() {
                     </label>
                     {selected ? (
                       <span className={styles.orderButtons}>
-                        <button type="button" aria-label={`Move ${languages[languageId].nameEnglish} up`} disabled={selectedIndex === 0} onClick={() => moveDisplayLanguage(languageId, -1)}><CaretUp size={15} weight="bold" /></button>
-                        <button type="button" aria-label={`Move ${languages[languageId].nameEnglish} down`} disabled={selectedIndex === progress.displayLanguageIds.length - 1} onClick={() => moveDisplayLanguage(languageId, 1)}><CaretDown size={15} weight="bold" /></button>
+                        <button type="button" aria-label={`Move ${languages[languageId].nameEnglish} up`} disabled={languageId === practiceLanguageId || selectedIndex === 0} onClick={() => moveDisplayLanguage(languageId, -1)}><CaretUp size={15} weight="bold" /></button>
+                        <button type="button" aria-label={`Move ${languages[languageId].nameEnglish} down`} disabled={languageId === practiceLanguageId || selectedIndex >= progress.displayLanguageIds.length - 2} onClick={() => moveDisplayLanguage(languageId, 1)}><CaretDown size={15} weight="bold" /></button>
                       </span>
                     ) : null}
                   </div>
@@ -607,12 +649,27 @@ export function LanguageLearningLab() {
                   </div>
                 ) : null}
 
-                <section className={styles.reader} aria-label="Multilingual sentence reader">
-                  {progress.displayLanguageIds.map((languageId) => {
+                <motion.section
+                  layout
+                  className={`${styles.reader} ${readingFocusActive ? styles.readerFocused : ""}`}
+                  aria-label={readingFocusActive ? `${languages[practiceLanguageId].nameEnglish} sentence reader` : "Multilingual sentence reader"}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <AnimatePresence initial={false} mode="popLayout">
+                  {visibleLanguageIds.map((languageId) => {
                     const localization = currentUnit.localizations[languageId];
                     const isPracticeLanguage = languageId === practiceLanguageId;
                     return (
-                      <article className={isPracticeLanguage ? styles.practiceBlock : ""} key={languageId} lang={languages[languageId].locale}>
+                      <motion.article
+                        layout="position"
+                        className={isPracticeLanguage ? styles.practiceBlock : ""}
+                        key={languageId}
+                        lang={languages[languageId].locale}
+                        initial={reduceMotion ? false : { opacity: 0, scale: 0.985, y: -8 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={reduceMotion ? undefined : { opacity: 0, scale: 0.985, y: -8 }}
+                        transition={reduceMotion ? { duration: 0 } : { duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                      >
                         <header>
                           <div>
                             <span>{languages[languageId].nameNative}</span>
@@ -640,10 +697,11 @@ export function LanguageLearningLab() {
                           ))}
                         </p>
                         {progress.showRomanization && localization.romanization ? <p className={styles.romanization}>{localization.romanization}</p> : null}
-                      </article>
+                      </motion.article>
                     );
                   })}
-                </section>
+                  </AnimatePresence>
+                </motion.section>
 
                 <AnimatePresence>
                   {activePhrase ? (
@@ -714,13 +772,46 @@ export function LanguageLearningLab() {
                     <button
                       className={`${styles.speakButton} ${speechState === "recording" ? styles.speakButtonRecording : ""}`}
                       type="button"
-                      disabled={speechState === "evaluating" || speechState === "requesting_permission"}
-                      onClick={() => void (speechState === "recording"
-                        ? recordingRef.current && evaluateRecording(recordingRef.current)
-                        : startSpeaking())}
+                      aria-label="Hold to speak and release to assess"
+                      aria-pressed={readingFocusActive}
+                      disabled={speechState === "evaluating"}
+                      onClick={(event) => event.preventDefault()}
+                      onPointerDown={(event) => {
+                        if (event.button !== 0) return;
+                        event.preventDefault();
+                        event.currentTarget.setPointerCapture(event.pointerId);
+                        beginSpeaking();
+                      }}
+                      onPointerUp={(event) => {
+                        event.preventDefault();
+                        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                          event.currentTarget.releasePointerCapture(event.pointerId);
+                        }
+                        releaseSpeaking();
+                      }}
+                      onPointerCancel={releaseSpeaking}
+                      onKeyDown={(event) => {
+                        if ((event.key === " " || event.key === "Enter") && !event.repeat) {
+                          event.preventDefault();
+                          beginSpeaking();
+                        }
+                      }}
+                      onKeyUp={(event) => {
+                        if (event.key === " " || event.key === "Enter") {
+                          event.preventDefault();
+                          releaseSpeaking();
+                        }
+                      }}
+                      onBlur={releaseSpeaking}
                     >
                       {speechIcon}
-                      <span>{speechState === "recording" ? "Stop & assess" : speechState === "evaluating" ? "Checking" : "Start speaking"}</span>
+                      <span>{speechState === "recording"
+                        ? "Release to assess"
+                        : speechState === "requesting_permission"
+                          ? "Keep holding"
+                          : speechState === "evaluating"
+                            ? "Checking"
+                            : "Hold to speak"}</span>
                     </button>
 
                     <div className={styles.result} aria-live="polite">
@@ -739,7 +830,7 @@ export function LanguageLearningLab() {
                   <div className={styles.speechFooter}>
                     <p>Short audio is sent to Azure Speech for scoring and is not stored by this app.</p>
                     <div>
-                      {speechState === "error" ? <button type="button" onClick={() => { setSpeechState("idle"); setFeedback("Ready when you are. Say the full sentence aloud."); }}>Try again</button> : null}
+                      {speechState === "error" ? <button type="button" onClick={() => { setSpeechState("idle"); setFeedback("Ready when you are. Hold the button and say the full sentence."); }}>Try again</button> : null}
                       {speechState === "failed" ? <button type="button" onClick={() => setSpeechState("idle")}>Retry</button> : null}
                       {skipAvailable && !unitIsComplete ? <button type="button" onClick={skipUnit}>Skip for now</button> : null}
                     </div>
