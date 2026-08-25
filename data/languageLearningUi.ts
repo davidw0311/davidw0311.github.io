@@ -45,6 +45,15 @@ export type LanguageLearningUiCopy = {
   phraseDetails: string;
   closePhraseDetails: string;
   phraseIn: string;
+  characterDetails: string;
+  closeCharacterDetails: string;
+  characterIn: string;
+  showPinyin: string;
+  hidePinyin: string;
+  showJyutping: string;
+  hideJyutping: string;
+  pinyin: string;
+  jyutping: string;
   play: string;
   saved: string;
   save: string;
@@ -101,6 +110,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     reorderLanguage: "Reorder {language}. Use arrow keys to move or Delete to remove.",
     addLanguage: "Add language", allLanguagesAdded: "All languages added", showRomanization: "Show romanization",
     phraseDetails: "Phrase details", closePhraseDetails: "Close phrase details", phraseIn: "{language} phrase",
+    characterDetails: "Character details", closeCharacterDetails: "Close character details", characterIn: "{language} character",
+    showPinyin: "Show Pinyin", hidePinyin: "Hide Pinyin", showJyutping: "Show Jyutping", hideJyutping: "Hide Jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     play: "Play", saved: "Saved", save: "Save", hideMeaning: "Hide meaning", showMeaning: "Show meaning",
     meaningIn: "Meaning in {language}", sayItAloud: "Say it aloud", listen: "Listen", slow: "Slow",
     azureVoice: "Azure neural voice", holdToSpeakAria: "Hold to speak and release to assess",
@@ -138,6 +149,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "播放{language}句子", reorderLanguage: "重新排列{language}。使用方向键移动，或按 Delete 移除。",
     addLanguage: "添加语言", allLanguagesAdded: "已添加所有语言", showRomanization: "显示罗马字",
     phraseDetails: "短语详情", closePhraseDetails: "关闭短语详情", phraseIn: "{language}短语", play: "播放",
+    characterDetails: "汉字详情", closeCharacterDetails: "关闭汉字详情", characterIn: "{language}汉字",
+    showPinyin: "显示拼音", hidePinyin: "隐藏拼音", showJyutping: "显示粤拼", hideJyutping: "隐藏粤拼", pinyin: "拼音", jyutping: "粤拼",
     saved: "已收藏", save: "收藏", hideMeaning: "隐藏含义", showMeaning: "显示含义", meaningIn: "{language}含义",
     sayItAloud: "大声读出来", listen: "听发音", slow: "慢速", azureVoice: "Azure 神经语音",
     holdToSpeakAria: "按住说话，松开后评分", releaseToAssess: "松开并评分", keepHolding: "请继续按住", checking: "评分中",
@@ -169,6 +182,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "播放{language}句子", reorderLanguage: "重新排列{language}。用方向鍵移動，或者按 Delete 刪除。",
     addLanguage: "加入語言", allLanguagesAdded: "已加入所有語言", showRomanization: "顯示拼音",
     phraseDetails: "短語詳情", closePhraseDetails: "關閉短語詳情", phraseIn: "{language}短語", play: "播放",
+    characterDetails: "漢字詳情", closeCharacterDetails: "關閉漢字詳情", characterIn: "{language}漢字",
+    showPinyin: "顯示拼音", hidePinyin: "隱藏拼音", showJyutping: "顯示粵拼", hideJyutping: "隱藏粵拼", pinyin: "拼音", jyutping: "粵拼",
     saved: "已收藏", save: "收藏", hideMeaning: "隱藏意思", showMeaning: "顯示意思", meaningIn: "{language}意思",
     sayItAloud: "大聲讀出嚟", listen: "聽發音", slow: "慢速", azureVoice: "Azure 神經語音",
     holdToSpeakAria: "按住講話，放手後評分", releaseToAssess: "放手並評分", keepHolding: "繼續按住", checking: "評分中",
@@ -200,6 +215,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "{language}の文を再生", reorderLanguage: "{language}を並べ替えます。矢印キーで移動し、Deleteキーで削除できます。",
     addLanguage: "言語を追加", allLanguagesAdded: "すべて追加済み", showRomanization: "ローマ字を表示",
     phraseDetails: "フレーズ詳細", closePhraseDetails: "フレーズ詳細を閉じる", phraseIn: "{language}のフレーズ", play: "再生",
+    characterDetails: "漢字の詳細", closeCharacterDetails: "漢字の詳細を閉じる", characterIn: "{language}の漢字",
+    showPinyin: "ピンインを表示", hidePinyin: "ピンインを隠す", showJyutping: "粤拼を表示", hideJyutping: "粤拼を隠す", pinyin: "ピンイン", jyutping: "粤拼",
     saved: "保存済み", save: "保存", hideMeaning: "意味を隠す", showMeaning: "意味を表示", meaningIn: "{language}での意味",
     sayItAloud: "声に出して言う", listen: "聞く", slow: "ゆっくり", azureVoice: "Azure ニューラル音声",
     holdToSpeakAria: "押している間話し、離して採点", releaseToAssess: "離して採点", keepHolding: "押し続ける", checking: "採点中",
@@ -231,6 +248,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "{language} 문장 재생", reorderLanguage: "{language} 순서 변경. 화살표 키로 이동하거나 Delete 키로 삭제하세요.",
     addLanguage: "언어 추가", allLanguagesAdded: "모든 언어 추가됨", showRomanization: "로마자 표시",
     phraseDetails: "구문 정보", closePhraseDetails: "구문 정보 닫기", phraseIn: "{language} 구문", play: "재생",
+    characterDetails: "한자 정보", closeCharacterDetails: "한자 정보 닫기", characterIn: "{language} 한자",
+    showPinyin: "병음 표시", hidePinyin: "병음 숨기기", showJyutping: "Jyutping 표시", hideJyutping: "Jyutping 숨기기", pinyin: "병음", jyutping: "Jyutping",
     saved: "저장됨", save: "저장", hideMeaning: "뜻 숨기기", showMeaning: "뜻 보기", meaningIn: "{language} 뜻",
     sayItAloud: "소리 내어 말하세요", listen: "듣기", slow: "천천히", azureVoice: "Azure 신경망 음성",
     holdToSpeakAria: "누르고 말한 뒤 놓아서 평가", releaseToAssess: "놓아서 평가", keepHolding: "계속 누르세요", checking: "확인 중",
@@ -262,6 +281,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "Mainkan ayat {language}", reorderLanguage: "Susun semula {language}. Gunakan kekunci anak panah atau Delete untuk membuang.",
     addLanguage: "Tambah bahasa", allLanguagesAdded: "Semua bahasa ditambah", showRomanization: "Tunjukkan romanisasi",
     phraseDetails: "Butiran frasa", closePhraseDetails: "Tutup butiran frasa", phraseIn: "Frasa {language}", play: "Main",
+    characterDetails: "Butiran aksara", closeCharacterDetails: "Tutup butiran aksara", characterIn: "Aksara {language}",
+    showPinyin: "Tunjukkan Pinyin", hidePinyin: "Sembunyikan Pinyin", showJyutping: "Tunjukkan Jyutping", hideJyutping: "Sembunyikan Jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     saved: "Disimpan", save: "Simpan", hideMeaning: "Sembunyikan makna", showMeaning: "Tunjukkan makna", meaningIn: "Makna dalam {language}",
     sayItAloud: "Sebut dengan kuat", listen: "Dengar", slow: "Perlahan", azureVoice: "Suara neural Azure",
     holdToSpeakAria: "Tekan dan tahan untuk bercakap, lepaskan untuk dinilai", releaseToAssess: "Lepaskan untuk dinilai", keepHolding: "Terus tahan", checking: "Memeriksa",
@@ -293,6 +314,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "Écouter la phrase en {language}", reorderLanguage: "Réorganiser {language}. Utilisez les flèches ou Suppr pour supprimer.",
     addLanguage: "Ajouter une langue", allLanguagesAdded: "Toutes les langues sont ajoutées", showRomanization: "Afficher la romanisation",
     phraseDetails: "Détails de l'expression", closePhraseDetails: "Fermer les détails", phraseIn: "Expression en {language}", play: "Écouter",
+    characterDetails: "Détails du caractère", closeCharacterDetails: "Fermer les détails du caractère", characterIn: "Caractère en {language}",
+    showPinyin: "Afficher le pinyin", hidePinyin: "Masquer le pinyin", showJyutping: "Afficher le jyutping", hideJyutping: "Masquer le jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     saved: "Enregistré", save: "Enregistrer", hideMeaning: "Masquer le sens", showMeaning: "Afficher le sens", meaningIn: "Sens en {language}",
     sayItAloud: "Prononcez à voix haute", listen: "Écouter", slow: "Lentement", azureVoice: "Voix neuronale Azure",
     holdToSpeakAria: "Maintenez pour parler, puis relâchez pour l'évaluation", releaseToAssess: "Relâchez pour évaluer", keepHolding: "Maintenez", checking: "Évaluation",
@@ -324,6 +347,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "Reproducir frase en {language}", reorderLanguage: "Reordenar {language}. Usa las flechas para moverlo o Supr para eliminarlo.",
     addLanguage: "Añadir idioma", allLanguagesAdded: "Todos los idiomas añadidos", showRomanization: "Mostrar romanización",
     phraseDetails: "Detalles de la frase", closePhraseDetails: "Cerrar detalles", phraseIn: "Frase en {language}", play: "Reproducir",
+    characterDetails: "Detalles del carácter", closeCharacterDetails: "Cerrar detalles del carácter", characterIn: "Carácter en {language}",
+    showPinyin: "Mostrar pinyin", hidePinyin: "Ocultar pinyin", showJyutping: "Mostrar jyutping", hideJyutping: "Ocultar jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     saved: "Guardado", save: "Guardar", hideMeaning: "Ocultar significado", showMeaning: "Mostrar significado", meaningIn: "Significado en {language}",
     sayItAloud: "Dilo en voz alta", listen: "Escuchar", slow: "Lento", azureVoice: "Voz neuronal de Azure",
     holdToSpeakAria: "Mantén pulsado para hablar y suelta para evaluar", releaseToAssess: "Suelta para evaluar", keepHolding: "Sigue pulsando", checking: "Evaluando",
@@ -355,6 +380,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     playSentence: "{language} வாக்கியத்தை இயக்கு", reorderLanguage: "{language} வரிசையை மாற்றுக. நகர்த்த அம்புக்குறி விசைகள், நீக்க Delete விசையைப் பயன்படுத்துக.",
     addLanguage: "மொழி சேர்", allLanguagesAdded: "அனைத்து மொழிகளும் சேர்க்கப்பட்டன", showRomanization: "ரோமன் எழுத்தாக்கத்தைக் காட்டு",
     phraseDetails: "சொற்றொடர் விவரம்", closePhraseDetails: "சொற்றொடர் விவரத்தை மூடு", phraseIn: "{language} சொற்றொடர்", play: "இயக்கு",
+    characterDetails: "எழுத்து விவரம்", closeCharacterDetails: "எழுத்து விவரத்தை மூடு", characterIn: "{language} எழுத்து",
+    showPinyin: "பின்யினைக் காட்டு", hidePinyin: "பின்யினை மறை", showJyutping: "ஜ்யூட்பிங்கைக் காட்டு", hideJyutping: "ஜ்யூட்பிங்கை மறை", pinyin: "பின்யின்", jyutping: "ஜ்யூட்பிங்",
     saved: "சேமிக்கப்பட்டது", save: "சேமி", hideMeaning: "பொருளை மறை", showMeaning: "பொருளைக் காட்டு", meaningIn: "{language} பொருள்",
     sayItAloud: "உரக்கச் சொல்லுங்கள்", listen: "கேள்", slow: "மெதுவாக", azureVoice: "Azure நரம்பியல் குரல்",
     holdToSpeakAria: "பேச அழுத்திப் பிடித்து, மதிப்பிட விடுங்கள்", releaseToAssess: "மதிப்பிட விடுங்கள்", keepHolding: "தொடர்ந்து பிடியுங்கள்", checking: "சரிபார்க்கிறது",

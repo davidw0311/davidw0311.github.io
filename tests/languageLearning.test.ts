@@ -14,6 +14,11 @@ import {
 } from "../data/languageLearning.ts";
 import { phraseAudioPath, sentenceAudioPath } from "../lib/languageAudio.ts";
 import { formatUi, languageLearningUi } from "../data/languageLearningUi.ts";
+import {
+  chineseCharacterStudies,
+  tokenizeChineseCharacters,
+  type ChineseCharacterLanguageId,
+} from "../data/chineseCharacterStudy.ts";
 
 test("ships two short stories and a counting drill", () => {
   assert.equal(contentItems.filter((item) => item.type === "story").length, 2);
@@ -64,6 +69,47 @@ test("keeps every sample multilingual and explicitly segmented", () => {
         }
       }
     }
+  }
+});
+
+test("makes every Mandarin and Cantonese character individually studyable", () => {
+  for (const languageId of ["zh", "yue"] satisfies ChineseCharacterLanguageId[]) {
+    const seenIds = new Map<string, string>();
+    for (const content of contentItems) {
+      for (const unit of content.units) {
+        const text = unit.localizations[languageId].text;
+        const tokens = tokenizeChineseCharacters(text, languageId);
+        assert.equal(
+          tokens.map((token) => token.type === "character" ? token.study.character : token.text).join(""),
+          text,
+          `${unit.id}:${languageId}:character-text`,
+        );
+        assert.equal(
+          tokens.some((token) => token.type === "text" && /[㐀-鿿]/u.test(token.text)),
+          false,
+          `${unit.id}:${languageId}:missing-reading`,
+        );
+        for (const token of tokens) {
+          if (token.type !== "character") continue;
+          assert.ok(token.study.romanization.length > 0, token.study.id);
+          assert.equal(chineseCharacterStudies[languageId][token.study.character], token.study);
+          const existingCharacter = seenIds.get(token.study.id);
+          assert.ok(!existingCharacter || existingCharacter === token.study.character, token.study.id);
+          seenIds.set(token.study.id, token.study.character);
+        }
+      }
+    }
+    assert.equal(seenIds.size, Object.keys(chineseCharacterStudies[languageId]).length, languageId);
+  }
+});
+
+test("uses Pinyin for Mandarin and Jyutping tone numbers for Cantonese", () => {
+  assert.equal(chineseCharacterStudies.zh.早.romanization, "zǎo");
+  assert.equal(chineseCharacterStudies.zh.雨.romanization, "yǔ");
+  assert.equal(chineseCharacterStudies.yue.早.romanization, "zou2");
+  assert.equal(chineseCharacterStudies.yue.雨.romanization, "jyu5");
+  for (const study of Object.values(chineseCharacterStudies.yue)) {
+    assert.match(study.romanization, /^[a-z]+[1-6]$/);
   }
 });
 
