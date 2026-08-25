@@ -52,6 +52,13 @@ export type LanguageLearningUiCopy = {
   closeWordDetails: string;
   wordIn: string;
   backToPhrase: string;
+  pronunciationGuide: string;
+  pronunciationOff: string;
+  englishPhonetics: string;
+  hiragana: string;
+  romanizationLabel: string;
+  transliteration: string;
+  phraseGuide: string;
   showPinyin: string;
   hidePinyin: string;
   showJyutping: string;
@@ -116,6 +123,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "Phrase details", closePhraseDetails: "Close phrase details", phraseIn: "{language} phrase",
     characterDetails: "Character details", closeCharacterDetails: "Close character details", characterIn: "{language} character",
     wordDetails: "Word details", closeWordDetails: "Close word details", wordIn: "{language} word", backToPhrase: "Back to phrase",
+    pronunciationGuide: "Pronunciation", pronunciationOff: "Off", englishPhonetics: "English phonetics", hiragana: "Hiragana",
+    romanizationLabel: "Romanization", transliteration: "Transliteration", phraseGuide: "Phrase guide",
     showPinyin: "Show Pinyin", hidePinyin: "Hide Pinyin", showJyutping: "Show Jyutping", hideJyutping: "Hide Jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     play: "Play", saved: "Saved", save: "Save", hideMeaning: "Hide meaning", showMeaning: "Show meaning",
     meaningIn: "Meaning in {language}", sayItAloud: "Say it aloud", listen: "Listen", slow: "Slow",
@@ -156,6 +165,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "短语详情", closePhraseDetails: "关闭短语详情", phraseIn: "{language}短语", play: "播放",
     characterDetails: "汉字详情", closeCharacterDetails: "关闭汉字详情", characterIn: "{language}汉字",
     wordDetails: "词语详情", closeWordDetails: "关闭词语详情", wordIn: "{language}词语", backToPhrase: "返回短语",
+    pronunciationGuide: "发音辅助", pronunciationOff: "关闭", englishPhonetics: "英语读音", hiragana: "平假名",
+    romanizationLabel: "罗马字", transliteration: "转写", phraseGuide: "短语发音",
     showPinyin: "显示拼音", hidePinyin: "隐藏拼音", showJyutping: "显示粤拼", hideJyutping: "隐藏粤拼", pinyin: "拼音", jyutping: "粤拼",
     saved: "已收藏", save: "收藏", hideMeaning: "隐藏含义", showMeaning: "显示含义", meaningIn: "{language}含义",
     sayItAloud: "大声读出来", listen: "听发音", slow: "慢速", azureVoice: "Azure 神经语音",
@@ -190,6 +201,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "短語詳情", closePhraseDetails: "關閉短語詳情", phraseIn: "{language}短語", play: "播放",
     characterDetails: "漢字詳情", closeCharacterDetails: "關閉漢字詳情", characterIn: "{language}漢字",
     wordDetails: "詞語詳情", closeWordDetails: "關閉詞語詳情", wordIn: "{language}詞語", backToPhrase: "返回短語",
+    pronunciationGuide: "發音輔助", pronunciationOff: "關閉", englishPhonetics: "英語讀音", hiragana: "平假名",
+    romanizationLabel: "羅馬字", transliteration: "轉寫", phraseGuide: "短語發音",
     showPinyin: "顯示拼音", hidePinyin: "隱藏拼音", showJyutping: "顯示粵拼", hideJyutping: "隱藏粵拼", pinyin: "拼音", jyutping: "粵拼",
     saved: "已收藏", save: "收藏", hideMeaning: "隱藏意思", showMeaning: "顯示意思", meaningIn: "{language}意思",
     sayItAloud: "大聲讀出嚟", listen: "聽發音", slow: "慢速", azureVoice: "Azure 神經語音",
@@ -224,6 +237,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "フレーズ詳細", closePhraseDetails: "フレーズ詳細を閉じる", phraseIn: "{language}のフレーズ", play: "再生",
     characterDetails: "漢字の詳細", closeCharacterDetails: "漢字の詳細を閉じる", characterIn: "{language}の漢字",
     wordDetails: "単語の詳細", closeWordDetails: "単語の詳細を閉じる", wordIn: "{language}の単語", backToPhrase: "フレーズに戻る",
+    pronunciationGuide: "発音ガイド", pronunciationOff: "オフ", englishPhonetics: "英語式の発音", hiragana: "ひらがな",
+    romanizationLabel: "ローマ字", transliteration: "翻字", phraseGuide: "フレーズの発音",
     showPinyin: "ピンインを表示", hidePinyin: "ピンインを隠す", showJyutping: "粤拼を表示", hideJyutping: "粤拼を隠す", pinyin: "ピンイン", jyutping: "粤拼",
     saved: "保存済み", save: "保存", hideMeaning: "意味を隠す", showMeaning: "意味を表示", meaningIn: "{language}での意味",
     sayItAloud: "声に出して言う", listen: "聞く", slow: "ゆっくり", azureVoice: "Azure ニューラル音声",
@@ -258,6 +273,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "구문 정보", closePhraseDetails: "구문 정보 닫기", phraseIn: "{language} 구문", play: "재생",
     characterDetails: "한자 정보", closeCharacterDetails: "한자 정보 닫기", characterIn: "{language} 한자",
     wordDetails: "단어 정보", closeWordDetails: "단어 정보 닫기", wordIn: "{language} 단어", backToPhrase: "구문으로 돌아가기",
+    pronunciationGuide: "발음 안내", pronunciationOff: "끄기", englishPhonetics: "영어식 발음", hiragana: "히라가나",
+    romanizationLabel: "로마자", transliteration: "음역", phraseGuide: "구문 발음",
     showPinyin: "병음 표시", hidePinyin: "병음 숨기기", showJyutping: "Jyutping 표시", hideJyutping: "Jyutping 숨기기", pinyin: "병음", jyutping: "Jyutping",
     saved: "저장됨", save: "저장", hideMeaning: "뜻 숨기기", showMeaning: "뜻 보기", meaningIn: "{language} 뜻",
     sayItAloud: "소리 내어 말하세요", listen: "듣기", slow: "천천히", azureVoice: "Azure 신경망 음성",
@@ -292,6 +309,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "Butiran frasa", closePhraseDetails: "Tutup butiran frasa", phraseIn: "Frasa {language}", play: "Main",
     characterDetails: "Butiran aksara", closeCharacterDetails: "Tutup butiran aksara", characterIn: "Aksara {language}",
     wordDetails: "Butiran perkataan", closeWordDetails: "Tutup butiran perkataan", wordIn: "Perkataan {language}", backToPhrase: "Kembali ke frasa",
+    pronunciationGuide: "Panduan sebutan", pronunciationOff: "Tutup", englishPhonetics: "Fonetik Inggeris", hiragana: "Hiragana",
+    romanizationLabel: "Romanisasi", transliteration: "Transliterasi", phraseGuide: "Sebutan frasa",
     showPinyin: "Tunjukkan Pinyin", hidePinyin: "Sembunyikan Pinyin", showJyutping: "Tunjukkan Jyutping", hideJyutping: "Sembunyikan Jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     saved: "Disimpan", save: "Simpan", hideMeaning: "Sembunyikan makna", showMeaning: "Tunjukkan makna", meaningIn: "Makna dalam {language}",
     sayItAloud: "Sebut dengan kuat", listen: "Dengar", slow: "Perlahan", azureVoice: "Suara neural Azure",
@@ -326,6 +345,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "Détails de l'expression", closePhraseDetails: "Fermer les détails", phraseIn: "Expression en {language}", play: "Écouter",
     characterDetails: "Détails du caractère", closeCharacterDetails: "Fermer les détails du caractère", characterIn: "Caractère en {language}",
     wordDetails: "Détails du mot", closeWordDetails: "Fermer les détails du mot", wordIn: "Mot en {language}", backToPhrase: "Retour à l'expression",
+    pronunciationGuide: "Prononciation", pronunciationOff: "Masquer", englishPhonetics: "Phonétique anglaise", hiragana: "Hiragana",
+    romanizationLabel: "Romanisation", transliteration: "Translittération", phraseGuide: "Prononciation de l'expression",
     showPinyin: "Afficher le pinyin", hidePinyin: "Masquer le pinyin", showJyutping: "Afficher le jyutping", hideJyutping: "Masquer le jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     saved: "Enregistré", save: "Enregistrer", hideMeaning: "Masquer le sens", showMeaning: "Afficher le sens", meaningIn: "Sens en {language}",
     sayItAloud: "Prononcez à voix haute", listen: "Écouter", slow: "Lentement", azureVoice: "Voix neuronale Azure",
@@ -360,6 +381,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "Detalles de la frase", closePhraseDetails: "Cerrar detalles", phraseIn: "Frase en {language}", play: "Reproducir",
     characterDetails: "Detalles del carácter", closeCharacterDetails: "Cerrar detalles del carácter", characterIn: "Carácter en {language}",
     wordDetails: "Detalles de la palabra", closeWordDetails: "Cerrar detalles de la palabra", wordIn: "Palabra en {language}", backToPhrase: "Volver a la frase",
+    pronunciationGuide: "Pronunciación", pronunciationOff: "Ocultar", englishPhonetics: "Fonética inglesa", hiragana: "Hiragana",
+    romanizationLabel: "Romanización", transliteration: "Transliteración", phraseGuide: "Pronunciación de la frase",
     showPinyin: "Mostrar pinyin", hidePinyin: "Ocultar pinyin", showJyutping: "Mostrar jyutping", hideJyutping: "Ocultar jyutping", pinyin: "Pinyin", jyutping: "Jyutping",
     saved: "Guardado", save: "Guardar", hideMeaning: "Ocultar significado", showMeaning: "Mostrar significado", meaningIn: "Significado en {language}",
     sayItAloud: "Dilo en voz alta", listen: "Escuchar", slow: "Lento", azureVoice: "Voz neuronal de Azure",
@@ -394,6 +417,8 @@ export const languageLearningUi: Record<LanguageId, LanguageLearningUiCopy> = {
     phraseDetails: "சொற்றொடர் விவரம்", closePhraseDetails: "சொற்றொடர் விவரத்தை மூடு", phraseIn: "{language} சொற்றொடர்", play: "இயக்கு",
     characterDetails: "எழுத்து விவரம்", closeCharacterDetails: "எழுத்து விவரத்தை மூடு", characterIn: "{language} எழுத்து",
     wordDetails: "சொல் விவரம்", closeWordDetails: "சொல் விவரத்தை மூடு", wordIn: "{language} சொல்", backToPhrase: "சொற்றொடருக்குத் திரும்பு",
+    pronunciationGuide: "உச்சரிப்பு வழிகாட்டி", pronunciationOff: "மறை", englishPhonetics: "ஆங்கில ஒலிப்பு", hiragana: "ஹிராகானா",
+    romanizationLabel: "ரோமன் எழுத்தாக்கம்", transliteration: "ஒலிபெயர்ப்பு", phraseGuide: "சொற்றொடர் உச்சரிப்பு",
     showPinyin: "பின்யினைக் காட்டு", hidePinyin: "பின்யினை மறை", showJyutping: "ஜ்யூட்பிங்கைக் காட்டு", hideJyutping: "ஜ்யூட்பிங்கை மறை", pinyin: "பின்யின்", jyutping: "ஜ்யூட்பிங்",
     saved: "சேமிக்கப்பட்டது", save: "சேமி", hideMeaning: "பொருளை மறை", showMeaning: "பொருளைக் காட்டு", meaningIn: "{language} பொருள்",
     sayItAloud: "உரக்கச் சொல்லுங்கள்", listen: "கேள்", slow: "மெதுவாக", azureVoice: "Azure நரம்பியல் குரல்",

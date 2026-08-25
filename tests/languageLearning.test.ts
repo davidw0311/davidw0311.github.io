@@ -23,6 +23,11 @@ import {
   tokenizeLanguageStudyText,
   usesCharacterStudy,
 } from "../data/languageStudyTokens.ts";
+import {
+  getEnglishPronunciationGuide,
+  getNativePronunciationGuide,
+  nativePronunciationSystems,
+} from "../data/languagePronunciation.ts";
 
 test("ships two short stories and a counting drill", () => {
   assert.equal(contentItems.filter((item) => item.type === "story").length, 2);
@@ -159,6 +164,44 @@ test("uses character study for Japanese and word study for other v1 languages", 
       .filter((chunk) => chunk.type === "study")
       .map((chunk) => chunk.token.text),
     ["Buenos", "días"],
+  );
+});
+
+test("provides persistent pronunciation choices for every v1 phrase", () => {
+  for (const content of contentItems) {
+    for (const unit of content.units) {
+      for (const languageId of languageIds) {
+        const localization = unit.localizations[languageId];
+        for (const phrase of localization.segments) {
+          const englishGuide = getEnglishPronunciationGuide(languageId, phrase, localization);
+          assert.ok(englishGuide?.text.length, `${phrase.id}:english-phonetics`);
+          if (nativePronunciationSystems[languageId]) {
+            const nativeGuide = getNativePronunciationGuide(languageId, phrase, localization);
+            assert.ok(nativeGuide?.text.length, `${phrase.id}:native-pronunciation`);
+          }
+        }
+      }
+    }
+  }
+});
+
+test("offers Pinyin, Jyutping, Hiragana, and English-friendly readings", () => {
+  const marketHello = contentItems[0].units[0];
+  assert.equal(
+    getNativePronunciationGuide("zh", marketHello.localizations.zh.segments[0], marketHello.localizations.zh)?.text,
+    "zǎo shàng hǎo",
+  );
+  assert.equal(
+    getNativePronunciationGuide("yue", marketHello.localizations.yue.segments[0], marketHello.localizations.yue)?.text,
+    "zou2 san4",
+  );
+  assert.equal(
+    getNativePronunciationGuide("ja", marketHello.localizations.ja.segments[0], marketHello.localizations.ja)?.text,
+    "おはよう ございます",
+  );
+  assert.equal(
+    getEnglishPronunciationGuide("ja", marketHello.localizations.ja.segments[0], marketHello.localizations.ja)?.text,
+    "oh-hah-yoh goh-zai-mah-soo",
   );
 });
 
