@@ -174,3 +174,7 @@ export function createPianoQuestion(
 export function noteFrequency(midi: number) {
   return 440 * (2 ** ((midi - 69) / 12));
 }
+
+export function pianoAudioPath(note: Pick<PianoNote, "midi">) {
+  return `/audio/piano-party/${note.midi}.wav`;
+}

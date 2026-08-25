@@ -18,6 +18,7 @@ import {
   formatPianoKey,
   ledgerStepsFor,
   noteFrequency,
+  pianoAudioPath,
   pitchNames,
   spokenPitchName,
   staffStepFor,
@@ -201,6 +202,7 @@ function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: StaffCl
 
 export function PianoNoteTrainer() {
   const reduceMotion = useReducedMotion();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const [mode, setMode] = useState<PianoExerciseMode>("key-name");
   const [clefFilter, setClefFilter] = useState<ClefFilter>("mixed");
@@ -242,6 +244,8 @@ export function PianoNoteTrainer() {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("pagehide", discardAudioContext);
+      audioRef.current?.pause();
+      audioRef.current = null;
       discardAudioContext();
     };
   }, []);
@@ -272,9 +276,7 @@ export function PianoNoteTrainer() {
     return context;
   };
 
-  const playTone = async (note: PianoNote) => {
-    if (!soundEnabled) return;
-
+  const playSynthesizedTone = async (note: PianoNote) => {
     const context = await getPlayableAudioContext();
     if (!context) return;
 
@@ -303,6 +305,33 @@ export function PianoNoteTrainer() {
     });
   };
 
+  const playTone = (note: PianoNote) => {
+    if (!soundEnabled) return;
+
+    audioRef.current?.pause();
+    const audio = new Audio(pianoAudioPath(note));
+    let fallbackStarted = false;
+    const clearAudio = () => {
+      if (audioRef.current === audio) audioRef.current = null;
+    };
+    const fallback = () => {
+      if (fallbackStarted) return;
+      fallbackStarted = true;
+      clearAudio();
+      void playSynthesizedTone(note);
+    };
+
+    audio.preload = "auto";
+    audio.volume = 0.9;
+    audio.addEventListener("ended", clearAudio, { once: true });
+    audio.addEventListener("error", fallback, { once: true });
+    audioRef.current = audio;
+
+    // Keep play() in the original tap event. Mobile Safari permits media
+    // playback here even when its Web Audio context remains suspended.
+    void audio.play().catch(fallback);
+  };
+
   const recordAnswer = (answer: string, playedNote: PianoNote) => {
     if (answered) return;
     const correct = answer === expectedAnswer;
@@ -312,7 +341,7 @@ export function PianoNoteTrainer() {
       correct: current.correct + (correct ? 1 : 0),
       streak: correct ? current.streak + 1 : 0,
     }));
-    void playTone(playedNote);
+    playTone(playedNote);
   };
 
   const nextQuestion = (nextMode = mode, nextClef = clefFilter) => {
@@ -334,6 +363,14 @@ export function PianoNoteTrainer() {
     setScore({ answered: 0, correct: 0, streak: 0 });
     setSelectedAnswer(null);
     setQuestion(createPianoQuestion(mode, clefFilter, question.id));
+  };
+
+  const toggleSound = () => {
+    if (soundEnabled) {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    }
+    setSoundEnabled((enabled) => !enabled);
   };
 
   return (
@@ -364,7 +401,7 @@ export function PianoNoteTrainer() {
             className={styles.iconButton}
             aria-label={soundEnabled ? "Turn sound off" : "Turn sound on"}
             aria-pressed={soundEnabled}
-            onClick={() => setSoundEnabled((enabled) => !enabled)}
+            onClick={toggleSound}
           >
             {soundEnabled ? <SpeakerHigh size={18} weight="fill" /> : <SpeakerSlash size={18} />}
           </button>
@@ -416,7 +453,7 @@ export function PianoNoteTrainer() {
                 answered={answered}
                 interactive
                 showPrompt
-                onChoose={(note) => void playTone(note)}
+                onChoose={playTone}
               />
             ) : null}
           </motion.div>
@@ -456,7 +493,7 @@ export function PianoNoteTrainer() {
               answered={answered}
               interactive
               showPrompt={false}
-              onChoose={(note) => answered ? void playTone(note) : recordAnswer(note.id, note)}
+              onChoose={(note) => answered ? playTone(note) : recordAnswer(note.id, note)}
             />
           )}
 
