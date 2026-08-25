@@ -49,10 +49,11 @@ import {
 } from "@/data/languageLearningUi";
 import {
   isChineseCharacterLanguage,
-  tokenizeChineseCharacters,
-  type ChineseCharacterLanguageId,
-  type ChineseCharacterStudy,
 } from "@/data/chineseCharacterStudy";
+import {
+  tokenizeLanguageStudyText,
+  type LanguageStudyToken,
+} from "@/data/languageStudyTokens";
 import { blobToBase64, startAudioRecording, type AudioRecording } from "@/lib/browserAudioRecorder";
 import { phraseAudioPath, sentenceAudioPath, type SentenceAudioSpeed } from "@/lib/languageAudio";
 import styles from "./LanguageLearningLab.module.css";
@@ -81,8 +82,6 @@ type SupportLanguageCardProps = {
   languageId: LanguageId;
   localization: LocalizedUnit;
   activePhraseId?: string;
-  activeCharacterId?: string;
-  savedStudyIds: string[];
   playing: boolean;
   showRomanization: boolean;
   canMove: boolean;
@@ -90,7 +89,6 @@ type SupportLanguageCardProps = {
   ui: LanguageLearningUiCopy;
   onPlay: () => void;
   onOpenPhrase: (phrase: PhraseSegment) => void;
-  onOpenCharacter: (character: ChineseCharacterStudy) => void;
   onRemove: () => void;
   onMove: (direction: -1 | 1) => void;
 };
@@ -99,8 +97,6 @@ function SupportLanguageCard({
   languageId,
   localization,
   activePhraseId,
-  activeCharacterId,
-  savedStudyIds,
   playing,
   showRomanization,
   canMove,
@@ -108,7 +104,6 @@ function SupportLanguageCard({
   ui,
   onPlay,
   onOpenPhrase,
-  onOpenCharacter,
   onRemove,
   onMove,
 }: SupportLanguageCardProps) {
@@ -154,33 +149,19 @@ function SupportLanguageCard({
             <small>{languages[languageId].locale}</small>
           </div>
         </header>
-        <p className={`${styles.sentence} ${isChineseCharacterLanguage(languageId) ? styles.characterSentence : ""}`}>
-          {isChineseCharacterLanguage(languageId)
-            ? tokenizeChineseCharacters(localization.text, languageId).map((token, index) => token.type === "character" ? (
-              <button
-                type="button"
-                key={`${token.study.id}-${index}`}
-                className={`${styles.characterButton} ${activeCharacterId === token.study.id ? styles.activePhrase : ""} ${savedStudyIds.includes(token.study.id) ? styles.savedCharacter : ""}`}
-                data-no-swipe
-                aria-pressed={savedStudyIds.includes(token.study.id)}
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={() => onOpenCharacter(token.study)}
-              >
-                {token.study.character}
-              </button>
-            ) : <span key={`text-${index}`}>{token.text}</span>)
-            : localization.segments.map((phrase) => (
-              <button
-                type="button"
-                key={phrase.id}
-                className={activePhraseId === phrase.id ? styles.activePhrase : ""}
-                data-no-swipe
-                onPointerDown={(event) => event.stopPropagation()}
-                onClick={() => onOpenPhrase(phrase)}
-              >
-                {phrase.text}
-              </button>
-            ))}
+        <p className={styles.sentence}>
+          {localization.segments.map((phrase) => (
+            <button
+              type="button"
+              key={phrase.id}
+              className={activePhraseId === phrase.id ? styles.activePhrase : ""}
+              data-no-swipe
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={() => onOpenPhrase(phrase)}
+            >
+              {phrase.text}
+            </button>
+          ))}
         </p>
         {showRomanization && localization.romanization ? <p className={styles.romanization}>{localization.romanization}</p> : null}
         <button
@@ -282,9 +263,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const [transcript, setTranscript] = useState("");
   const [feedback, setFeedback] = useState("");
   const [activePhrase, setActivePhrase] = useState<{ languageId: LanguageId; phrase: PhraseSegment } | null>(null);
-  const [activeCharacter, setActiveCharacter] = useState<{
-    languageId: ChineseCharacterLanguageId;
-    character: ChineseCharacterStudy;
+  const [activeStudyToken, setActiveStudyToken] = useState<{
+    languageId: LanguageId;
+    token: LanguageStudyToken;
   } | null>(null);
   const [translationRevealed, setTranslationRevealed] = useState(false);
   const [characterReadingRevealed, setCharacterReadingRevealed] = useState(false);
@@ -402,7 +383,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     setTranscript("");
     setFeedback(message);
     setActivePhrase(null);
-    setActiveCharacter(null);
+    setActiveStudyToken(null);
     setTranslationRevealed(false);
     setCharacterReadingRevealed(false);
   }, [stopPlayback]);
@@ -660,7 +641,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
 
   const removeSupportLanguage = (languageId: LanguageId) => {
     setActivePhrase((current) => current?.languageId === languageId ? null : current);
-    setActiveCharacter((current) => current?.languageId === languageId ? null : current);
+    setActiveStudyToken((current) => current?.languageId === languageId ? null : current);
     setProgress((current) => {
       const currentSupportingLanguages = current.displayLanguageIds.filter((candidate) => candidate !== current.practiceLanguageId);
       const nextSupportingLanguages = currentSupportingLanguages.filter((candidate) => candidate !== languageId);
@@ -706,16 +687,15 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
 
   const openPhrase = (languageId: LanguageId, phrase: PhraseSegment) => {
     setActivePhrase({ languageId, phrase });
-    setActiveCharacter(null);
+    setActiveStudyToken(null);
     setTranslationRevealed(false);
   };
 
-  const openCharacter = (
-    languageId: ChineseCharacterLanguageId,
-    character: ChineseCharacterStudy,
+  const openStudyToken = (
+    languageId: LanguageId,
+    token: LanguageStudyToken,
   ) => {
-    setActiveCharacter({ languageId, character });
-    setActivePhrase(null);
+    setActiveStudyToken({ languageId, token });
     setCharacterReadingRevealed(false);
   };
 
@@ -990,8 +970,6 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                         languageId={languageId}
                         localization={currentUnit.localizations[languageId]}
                         activePhraseId={activePhrase?.phrase.id}
-                        activeCharacterId={activeCharacter?.character.id}
-                        savedStudyIds={progress.savedPhraseIds}
                         playing={playingSampleId === `sentence:${content.slug}:${currentUnit.id}:${languageId}:normal`}
                         showRomanization={progress.showRomanization}
                         canMove={supportLanguageIds.length > 1}
@@ -999,9 +977,6 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                         ui={ui}
                         onPlay={() => playSentence(languageId)}
                         onOpenPhrase={(phrase) => openPhrase(languageId, phrase)}
-                        onOpenCharacter={(character) => {
-                          if (isChineseCharacterLanguage(languageId)) openCharacter(languageId, character);
-                        }}
                         onRemove={() => removeSupportLanguage(languageId)}
                         onMove={(direction) => {
                           const nextIndex = index + direction;
@@ -1055,10 +1030,12 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                   </motion.section>
 
                   <AnimatePresence>
-                    {activePhrase || activeCharacter ? (
+                    {activePhrase ? (
                       <motion.aside
                         className={styles.phrasePanel}
-                        aria-label={activeCharacter ? ui.characterDetails : ui.phraseDetails}
+                        aria-label={activeStudyToken
+                          ? activeStudyToken.token.kind === "character" ? ui.characterDetails : ui.wordDetails
+                          : ui.phraseDetails}
                         aria-hidden={readingFocusActive}
                         inert={readingFocusActive}
                         initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -1069,52 +1046,84 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                         <button
                           type="button"
                           className={styles.closePhraseButton}
-                          aria-label={activeCharacter ? ui.closeCharacterDetails : ui.closePhraseDetails}
+                          aria-label={activeStudyToken
+                            ? activeStudyToken.token.kind === "character" ? ui.closeCharacterDetails : ui.closeWordDetails
+                            : ui.closePhraseDetails}
                           onClick={() => {
                             setActivePhrase(null);
-                            setActiveCharacter(null);
+                            setActiveStudyToken(null);
                           }}
                         >
                           <X size={16} weight="bold" aria-hidden="true" />
                         </button>
-                        {activeCharacter ? (
+                        {activeStudyToken ? (
                           <>
+                            <button
+                              type="button"
+                              className={styles.backToPhraseButton}
+                              aria-label={ui.backToPhrase}
+                              onClick={() => setActiveStudyToken(null)}
+                            >
+                              <ArrowLeft size={16} weight="bold" aria-hidden="true" />
+                            </button>
                             <div>
-                              <span>{formatUi(ui.characterIn, { language: languages[activeCharacter.languageId].nameNative })}</span>
-                              <strong className={styles.characterGlyph} lang={languages[activeCharacter.languageId].locale}>{activeCharacter.character.character}</strong>
+                              <span>{formatUi(
+                                activeStudyToken.token.kind === "character" ? ui.characterIn : ui.wordIn,
+                                { language: languages[activeStudyToken.languageId].nameNative },
+                              )}</span>
+                              <strong
+                                className={activeStudyToken.token.kind === "character" ? styles.characterGlyph : styles.wordGlyph}
+                                lang={languages[activeStudyToken.languageId].locale}
+                              >
+                                {activeStudyToken.token.text}
+                              </strong>
                             </div>
                             <div className={styles.phraseActions}>
                               <button
                                 type="button"
-                                aria-pressed={progress.savedPhraseIds.includes(activeCharacter.character.id)}
-                                onClick={() => toggleSavedPhrase(activeCharacter.character.id)}
+                                aria-pressed={progress.savedPhraseIds.includes(activeStudyToken.token.id)}
+                                onClick={() => toggleSavedPhrase(activeStudyToken.token.id)}
                               >
-                                <BookmarkSimple size={18} weight={progress.savedPhraseIds.includes(activeCharacter.character.id) ? "fill" : "regular"} />
-                                {progress.savedPhraseIds.includes(activeCharacter.character.id) ? ui.saved : ui.save}
+                                <BookmarkSimple size={18} weight={progress.savedPhraseIds.includes(activeStudyToken.token.id) ? "fill" : "regular"} />
+                                {progress.savedPhraseIds.includes(activeStudyToken.token.id) ? ui.saved : ui.save}
                               </button>
-                              <button
-                                type="button"
-                                aria-expanded={characterReadingRevealed}
-                                onClick={() => setCharacterReadingRevealed((value) => !value)}
-                              >
-                                <Translate size={18} />
-                                {activeCharacter.languageId === "zh"
-                                  ? characterReadingRevealed ? ui.hidePinyin : ui.showPinyin
-                                  : characterReadingRevealed ? ui.hideJyutping : ui.showJyutping}
-                              </button>
+                              {activeStudyToken.token.romanization && isChineseCharacterLanguage(activeStudyToken.languageId) ? (
+                                <button
+                                  type="button"
+                                  aria-expanded={characterReadingRevealed}
+                                  onClick={() => setCharacterReadingRevealed((value) => !value)}
+                                >
+                                  <Translate size={18} />
+                                  {activeStudyToken.languageId === "zh"
+                                    ? characterReadingRevealed ? ui.hidePinyin : ui.showPinyin
+                                    : characterReadingRevealed ? ui.hideJyutping : ui.showJyutping}
+                                </button>
+                              ) : null}
                             </div>
-                            {characterReadingRevealed ? (
+                            {characterReadingRevealed && activeStudyToken.token.romanization ? (
                               <p className={styles.characterReading}>
-                                <small>{activeCharacter.languageId === "zh" ? ui.pinyin : ui.jyutping}</small>
-                                {activeCharacter.character.romanization}
+                                <small>{activeStudyToken.languageId === "zh" ? ui.pinyin : ui.jyutping}</small>
+                                {activeStudyToken.token.romanization}
                               </p>
                             ) : null}
                           </>
-                        ) : activePhrase ? (
+                        ) : (
                           <>
                             <div>
                               <span>{formatUi(ui.phraseIn, { language: languages[activePhrase.languageId].nameNative })}</span>
-                              <strong lang={languages[activePhrase.languageId].locale}>{activePhrase.phrase.text}</strong>
+                              <strong className={styles.phraseStudyText} lang={languages[activePhrase.languageId].locale}>
+                                {tokenizeLanguageStudyText(activePhrase.phrase.text, activePhrase.languageId).map((chunk, index) => chunk.type === "study" ? (
+                                  <button
+                                    type="button"
+                                    key={`${chunk.token.id}-${index}`}
+                                    className={progress.savedPhraseIds.includes(chunk.token.id) ? styles.savedStudyToken : ""}
+                                    aria-pressed={progress.savedPhraseIds.includes(chunk.token.id)}
+                                    onClick={() => openStudyToken(activePhrase.languageId, chunk.token)}
+                                  >
+                                    {chunk.token.text}
+                                  </button>
+                                ) : <span key={`text-${index}`}>{chunk.text}</span>)}
+                              </strong>
                             </div>
                             <div className={styles.phraseActions}>
                               <button
@@ -1135,7 +1144,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                             </div>
                             {translationRevealed ? <p><small>{formatUi(ui.meaningIn, { language: activePhraseMeaningLanguage })}</small>{activePhraseMeaning}</p> : null}
                           </>
-                        ) : null}
+                        )}
                       </motion.aside>
                     ) : null}
                   </AnimatePresence>
@@ -1149,33 +1158,21 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       <span>{languages[practiceLanguageId].nameNative}</span>
                       <small>{formatUi(ui.practiceIn, { language: languages[practiceLanguageId].nameNative })}</small>
                     </div>
-                    <p className={isChineseCharacterLanguage(practiceLanguageId) ? styles.characterPracticeText : ""}>
-                      {isChineseCharacterLanguage(practiceLanguageId)
-                        ? tokenizeChineseCharacters(practiceLocalization.text, practiceLanguageId).map((token, index) => token.type === "character" ? (
+                    <p>
+                      {practiceLocalization.segments.map((phrase) => {
+                        const saved = progress.savedPhraseIds.includes(phrase.id);
+                        return (
                           <button
                             type="button"
-                            key={`${token.study.id}-${index}`}
-                            className={`${styles.characterButton} ${activeCharacter?.character.id === token.study.id ? styles.activePhrase : ""} ${progress.savedPhraseIds.includes(token.study.id) ? styles.savedPracticePhrase : ""}`}
-                            aria-pressed={progress.savedPhraseIds.includes(token.study.id)}
-                            onClick={() => openCharacter(practiceLanguageId, token.study)}
+                            key={phrase.id}
+                            className={`${activePhrase?.phrase.id === phrase.id ? styles.activePhrase : ""} ${saved ? styles.savedPracticePhrase : ""}`}
+                            aria-pressed={saved}
+                            onClick={() => openPhrase(practiceLanguageId, phrase)}
                           >
-                            {token.study.character}
+                            {phrase.text}
                           </button>
-                        ) : <span key={`text-${index}`}>{token.text}</span>)
-                        : practiceLocalization.segments.map((phrase) => {
-                          const saved = progress.savedPhraseIds.includes(phrase.id);
-                          return (
-                            <button
-                              type="button"
-                              key={phrase.id}
-                              className={`${activePhrase?.phrase.id === phrase.id ? styles.activePhrase : ""} ${saved ? styles.savedPracticePhrase : ""}`}
-                              aria-pressed={saved}
-                              onClick={() => openPhrase(practiceLanguageId, phrase)}
-                            >
-                              {phrase.text}
-                            </button>
-                          );
-                        })}
+                        );
+                      })}
                     </p>
                     {progress.showRomanization && practiceLocalization.romanization ? (
                       <small className={styles.practiceRomanization}>{practiceLocalization.romanization}</small>

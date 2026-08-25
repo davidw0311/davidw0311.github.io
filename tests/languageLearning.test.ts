@@ -19,6 +19,10 @@ import {
   tokenizeChineseCharacters,
   type ChineseCharacterLanguageId,
 } from "../data/chineseCharacterStudy.ts";
+import {
+  tokenizeLanguageStudyText,
+  usesCharacterStudy,
+} from "../data/languageStudyTokens.ts";
 
 test("ships two short stories and a counting drill", () => {
   assert.equal(contentItems.filter((item) => item.type === "story").length, 2);
@@ -111,6 +115,51 @@ test("uses Pinyin for Mandarin and Jyutping tone numbers for Cantonese", () => {
   for (const study of Object.values(chineseCharacterStudies.yue)) {
     assert.match(study.romanization, /^[a-z]+[1-6]$/);
   }
+});
+
+test("breaks phrases into characters or words without changing their text", () => {
+  for (const content of contentItems) {
+    for (const unit of content.units) {
+      for (const languageId of languageIds) {
+        for (const phrase of unit.localizations[languageId].segments) {
+          const chunks = tokenizeLanguageStudyText(phrase.text, languageId);
+          assert.equal(
+            chunks.map((chunk) => chunk.type === "study" ? chunk.token.text : chunk.text).join(""),
+            phrase.text,
+            `${phrase.id}:study-text`,
+          );
+          const studyTokens = chunks.filter((chunk) => chunk.type === "study").map((chunk) => chunk.token);
+          assert.ok(studyTokens.length > 0, `${phrase.id}:study-tokens`);
+          for (const token of studyTokens) {
+            assert.equal(token.kind, usesCharacterStudy(languageId) ? "character" : "word", token.id);
+            if (token.kind === "character") assert.equal([...token.text].length, 1, token.id);
+            else assert.match(token.text, /^[\p{L}\p{M}\p{N}]+(?:['’-][\p{L}\p{M}\p{N}]+)*$/u, token.id);
+          }
+        }
+      }
+    }
+  }
+});
+
+test("uses character study for Japanese and word study for other v1 languages", () => {
+  assert.deepEqual(
+    tokenizeLanguageStudyText("市場は", "ja")
+      .filter((chunk) => chunk.type === "study")
+      .map((chunk) => chunk.token.text),
+    ["市", "場", "は"],
+  );
+  assert.deepEqual(
+    tokenizeLanguageStudyText("Good morning.", "en")
+      .filter((chunk) => chunk.type === "study")
+      .map((chunk) => chunk.token.text),
+    ["Good", "morning"],
+  );
+  assert.deepEqual(
+    tokenizeLanguageStudyText("Buenos días.", "es")
+      .filter((chunk) => chunk.type === "study")
+      .map((chunk) => chunk.token.text),
+    ["Buenos", "días"],
+  );
 });
 
 test("normalizes punctuation and scores close transcripts", () => {
