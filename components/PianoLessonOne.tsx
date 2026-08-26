@@ -13,10 +13,11 @@ import { type CSSProperties, type FormEvent, useEffect, useRef, useState } from 
 import {
   createPianoLessonDeck,
   formatLessonTime,
+  formatRecognitionTime,
   getPianoLesson,
   lessonAccuracy,
-  mostMissedLessonNotes,
-  type LessonErrorCounts,
+  rankLessonNotePerformance,
+  type LessonNotePerformanceMap,
   type PianoLessonCard,
   type PianoLessonId,
 } from "@/data/pianoLessons";
@@ -41,6 +42,7 @@ function AnswerChoice({ name }: { name: PitchName }) {
 export function PianoLesson({ lessonId }: PianoLessonProps) {
   const lesson = getPianoLesson(lessonId);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const cardStartedAtRef = useRef<number | null>(null);
   const [stage, setStage] = useState<LessonStage>("ready");
   const [name, setName] = useState("");
   const [playerName, setPlayerName] = useState("Pianist");
@@ -48,7 +50,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const [cardIndex, setCardIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<PitchName | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
-  const [errorCounts, setErrorCounts] = useState<LessonErrorCounts>({});
+  const [notePerformance, setNotePerformance] = useState<LessonNotePerformanceMap>({});
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
 
@@ -56,7 +58,10 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const answered = selectedAnswer !== null;
   const answerIsCorrect = answered && selectedAnswer === currentCard?.note.name;
   const accuracy = lessonAccuracy(correctCount, deck.length);
-  const mostMissed = mostMissedLessonNotes(errorCounts);
+  const noteReport = rankLessonNotePerformance(
+    deck.map((card) => card.note.name),
+    notePerformance,
+  );
 
   useEffect(() => {
     if (stage !== "playing" || startedAt === null) return;
@@ -81,44 +86,59 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     void audio.play().catch(() => undefined);
   };
 
-  const beginLesson = (nextPlayerName: string) => {
+  const beginLesson = (nextPlayerName: string, firstCardStartedAt: number) => {
+    const now = Date.now();
     setPlayerName(nextPlayerName);
     setDeck(createPianoLessonDeck(lessonId));
     setCardIndex(0);
     setSelectedAnswer(null);
     setCorrectCount(0);
-    setErrorCounts({});
+    setNotePerformance({});
     setElapsedMs(0);
-    setStartedAt(Date.now());
+    setStartedAt(now);
+    cardStartedAtRef.current = firstCardStartedAt;
     setStage("playing");
   };
 
   const handleStart = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    beginLesson(name.trim() || "Pianist");
+    beginLesson(name.trim() || "Pianist", event.timeStamp);
   };
 
-  const chooseAnswer = (answer: PitchName) => {
+  const handleAnswer = (answer: PitchName, answeredAt: number) => {
     if (!currentCard || answered) return;
+    const recognitionMs = Math.max(0, answeredAt - (cardStartedAtRef.current ?? answeredAt));
+    const isCorrect = answer === currentCard.note.name;
     setSelectedAnswer(answer);
-    if (answer === currentCard.note.name) {
-      setCorrectCount((current) => current + 1);
-    } else {
-      setErrorCounts((current) => ({
+    setNotePerformance((current) => {
+      const previous = current[currentCard.note.name] ?? {
+        attempts: 0,
+        mistakes: 0,
+        totalRecognitionMs: 0,
+      };
+      return {
         ...current,
-        [currentCard.note.name]: (current[currentCard.note.name] ?? 0) + 1,
-      }));
+        [currentCard.note.name]: {
+          attempts: previous.attempts + 1,
+          mistakes: previous.mistakes + (isCorrect ? 0 : 1),
+          totalRecognitionMs: previous.totalRecognitionMs + recognitionMs,
+        },
+      };
+    });
+    if (isCorrect) {
+      setCorrectCount((current) => current + 1);
     }
     playNote(currentCard);
   };
 
-  const advance = () => {
+  const advance = (nextCardStartedAt: number) => {
     if (!answered || startedAt === null) return;
     if (cardIndex === deck.length - 1) {
       setElapsedMs(Date.now() - startedAt);
       setStage("complete");
       return;
     }
+    cardStartedAtRef.current = nextCardStartedAt;
     setCardIndex((current) => current + 1);
     setSelectedAnswer(null);
   };
@@ -172,21 +192,42 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
             <div><dt>Score</dt><dd>{correctCount}/{lesson.cardCount}</dd></div>
             <div><dt>Accuracy</dt><dd>{accuracy}%</dd></div>
           </dl>
-          <section className={styles.errorSummary} aria-labelledby="lesson-errors-title">
-            <h2 id="lesson-errors-title">Most missed notes</h2>
-            <p>
-              {mostMissed
-                ? mostMissed.noteNames.map(answerChoiceLabel).join(", ")
-                : "No missed notes"}
-            </p>
-            <span>
-              {mostMissed
-                ? `${mostMissed.errorCount} ${mostMissed.errorCount === 1 ? "error" : "errors"} each`
-                : "Perfect run"}
-            </span>
+          <section className={styles.noteReport} aria-labelledby="lesson-note-report-title">
+            <header className={styles.noteReportHeader}>
+              <h2 id="lesson-note-report-title">Note report</h2>
+              <p>Ranked by mistakes, then average recognition time.</p>
+            </header>
+            <div
+              className={styles.noteReportTable}
+              tabIndex={0}
+              aria-label="Ranked statistics for every note in this lesson"
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Mistakes</th>
+                    <th scope="col">Avg. time</th>
+                    <th scope="col">Cards</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {noteReport.map((row, index) => (
+                    <tr key={row.noteName}>
+                      <td>{index + 1}</td>
+                      <th scope="row">{answerChoiceLabel(row.noteName)}</th>
+                      <td>{row.mistakes}</td>
+                      <td>{formatRecognitionTime(row.averageRecognitionMs)}</td>
+                      <td>{row.attempts}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
           <div className={styles.completeActions}>
-            <button type="button" onClick={() => beginLesson(playerName)}>Try again</button>
+            <button type="button" onClick={(event) => beginLesson(playerName, event.timeStamp)}>Try again</button>
             <Link href="/projects/piano-note-lab/lessons/">All lessons</Link>
           </div>
         </div>
@@ -241,7 +282,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
                     key={noteName}
                     className={correct ? styles.correct : wrong ? styles.wrong : ""}
                     disabled={answered}
-                    onClick={() => chooseAnswer(noteName)}
+                    onClick={(event) => handleAnswer(noteName, event.timeStamp)}
                     aria-label={noteName.replace("/", " or ")}
                   >
                     <AnswerChoice name={noteName} />
@@ -255,7 +296,11 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
                 {answerIsCorrect ? <CheckCircle size={19} weight="fill" /> : answered ? <XCircle size={19} weight="fill" /> : null}
                 {answerIsCorrect ? "Correct." : answered ? `That key is ${currentCard.note.name}.` : "Choose the highlighted key's note name."}
               </span>
-              <button type="button" disabled={!answered} onClick={advance}>
+              <button
+                type="button"
+                disabled={!answered}
+                onClick={(event) => advance(event.timeStamp)}
+              >
                 {cardIndex === deck.length - 1 ? "Finish" : "Next"} <ArrowRight size={17} weight="bold" />
               </button>
             </div>

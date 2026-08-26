@@ -15,7 +15,13 @@ export type PianoLessonCard = {
   note: PianoNote;
 };
 
-export type LessonErrorCounts = Partial<Record<PitchName, number>>;
+export type LessonNotePerformance = {
+  attempts: number;
+  mistakes: number;
+  totalRecognitionMs: number;
+};
+
+export type LessonNotePerformanceMap = Partial<Record<PitchName, LessonNotePerformance>>;
 
 export type PianoLessonDefinition = {
   id: PianoLessonId;
@@ -127,18 +133,47 @@ export function lessonAccuracy(correct: number, total: number) {
   return Math.round((correct / total) * 100);
 }
 
-export function mostMissedLessonNotes(errorCounts: LessonErrorCounts) {
-  const highestErrorCount = pitchNames.reduce(
-    (highest, noteName) => Math.max(highest, errorCounts[noteName] ?? 0),
-    0,
-  );
+export function rankLessonNotePerformance(
+  lessonNoteNames: readonly PitchName[],
+  performance: LessonNotePerformanceMap,
+) {
+  const includedNoteNames = new Set(lessonNoteNames);
 
-  if (highestErrorCount === 0) return null;
+  return pitchNames
+    .filter((noteName) => includedNoteNames.has(noteName))
+    .map((noteName, chromaticIndex) => {
+      const notePerformance = performance[noteName] ?? {
+        attempts: 0,
+        mistakes: 0,
+        totalRecognitionMs: 0,
+      };
 
-  return {
-    errorCount: highestErrorCount,
-    noteNames: pitchNames.filter((noteName) => errorCounts[noteName] === highestErrorCount),
-  };
+      return {
+        noteName,
+        attempts: notePerformance.attempts,
+        mistakes: notePerformance.mistakes,
+        averageRecognitionMs: notePerformance.attempts === 0
+          ? 0
+          : Math.round(notePerformance.totalRecognitionMs / notePerformance.attempts),
+        chromaticIndex,
+      };
+    })
+    .sort((left, right) => (
+      right.mistakes - left.mistakes
+      || right.averageRecognitionMs - left.averageRecognitionMs
+      || left.chromaticIndex - right.chromaticIndex
+    ))
+    .map(({ noteName, attempts, mistakes, averageRecognitionMs }) => ({
+      noteName,
+      attempts,
+      mistakes,
+      averageRecognitionMs,
+    }));
+}
+
+export function formatRecognitionTime(elapsedMs: number) {
+  const seconds = Math.max(0, elapsedMs) / 1000;
+  return `${seconds < 10 ? seconds.toFixed(2) : seconds.toFixed(1)}s`;
 }
 
 export function formatLessonTime(elapsedMs: number) {

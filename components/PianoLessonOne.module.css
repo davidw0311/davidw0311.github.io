@@ -267,11 +267,7 @@
   font-size: clamp(1.15rem, 3vw, 1.65rem);
 }
 
-.errorSummary {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 5px 16px;
-  align-items: baseline;
+.noteReport {
   width: min(100%, 560px);
   margin-top: 18px;
   padding-top: 14px;
@@ -279,9 +275,20 @@
   text-align: left;
 }
 
-.errorSummary h2 {
-  grid-column: 1 / -1;
+.noteReportHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.noteReportHeader h2,
+.noteReportHeader p {
   margin: 0;
+}
+
+.noteReportHeader h2 {
   color: var(--lesson-faint);
   font-size: 0.58rem;
   font-weight: 800;
@@ -289,23 +296,74 @@
   text-transform: uppercase;
 }
 
-.errorSummary p {
-  min-width: 0;
-  margin: 0;
-  color: var(--lesson-ink);
-  font-family: var(--font-display), sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.25;
-  overflow-wrap: anywhere;
+.noteReportHeader p {
+  color: var(--lesson-muted);
+  font-size: 0.64rem;
 }
 
-.errorSummary span {
+.noteReportTable {
+  width: 100%;
+  max-height: min(31dvh, 270px);
+  overflow: auto;
+  border: 1px solid var(--lesson-line);
+  border-radius: 9px;
+  scrollbar-color: var(--lesson-line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.noteReportTable:focus-visible {
+  outline: 3px solid var(--piano-accent);
+  outline-offset: 3px;
+}
+
+.noteReportTable table {
+  width: 100%;
+  border-collapse: collapse;
   color: var(--lesson-muted);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.68rem;
-  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.noteReportTable thead {
+  position: sticky;
+  top: 0;
+  background: var(--lesson-surface);
+}
+
+.noteReportTable th,
+.noteReportTable td {
+  padding: 7px 9px;
+  text-align: right;
   white-space: nowrap;
+}
+
+.noteReportTable thead th {
+  color: var(--lesson-faint);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.noteReportTable tbody tr + tr {
+  border-top: 1px solid var(--lesson-line);
+}
+
+.noteReportTable th:nth-child(2),
+.noteReportTable td:nth-child(2) {
+  text-align: left;
+}
+
+.noteReportTable tbody th {
+  color: var(--lesson-ink);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.noteReportTable tbody td:first-child {
+  color: var(--lesson-faint);
 }
 
 .completeActions {
@@ -641,26 +699,48 @@
     font-size: 1rem;
   }
 
-  .errorSummary {
-    gap: 3px 10px;
-    margin-top: 13px;
-    padding-top: 10px;
+  .noteReport {
+    margin-top: 11px;
+    padding-top: 9px;
   }
 
-  .errorSummary h2 {
+  .noteReportHeader {
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+
+  .noteReportHeader h2 {
     font-size: 0.48rem;
   }
 
-  .errorSummary p {
-    font-size: 0.82rem;
+  .noteReportHeader p {
+    font-size: 0.52rem;
   }
 
-  .errorSummary span {
+  .noteReportTable {
+    max-height: min(31dvh, 238px);
+    border-radius: 7px;
+  }
+
+  .noteReportTable table {
     font-size: 0.58rem;
   }
 
+  .noteReportTable th,
+  .noteReportTable td {
+    padding: 5px 6px;
+  }
+
+  .noteReportTable thead th {
+    font-size: 0.46rem;
+  }
+
+  .noteReportTable tbody th {
+    font-size: 0.66rem;
+  }
+
   .completeActions {
-    margin-top: 20px;
+    margin-top: 12px;
   }
 
   .quiz {
@@ -797,23 +877,15 @@
 
   .completeCard {
     min-height: 0;
-    padding: 8px 24px;
+    padding: 6px 24px;
   }
 
   .trophy {
-    width: 38px;
-    height: 38px;
-    margin-bottom: 4px;
-    border-radius: 10px;
-  }
-
-  .trophy svg {
-    width: 26px;
-    height: 26px;
+    display: none;
   }
 
   .completeCard h1 {
-    font-size: clamp(1.35rem, 4vw, 2rem);
+    font-size: clamp(1.2rem, 3.5vw, 1.75rem);
   }
 
   .completeCard > p {
@@ -823,7 +895,7 @@
 
   .results,
   .completeActions {
-    margin-top: 8px;
+    margin-top: 5px;
   }
 
   .results div {
@@ -834,14 +906,31 @@
     font-size: 1rem;
   }
 
-  .errorSummary {
-    margin-top: 5px;
+  .noteReport {
+    margin-top: 4px;
     padding-top: 4px;
+  }
+
+  .noteReportHeader {
+    margin-bottom: 3px;
+  }
+
+  .noteReportHeader p {
+    display: none;
+  }
+
+  .noteReportTable {
+    max-height: 104px;
+  }
+
+  .noteReportTable th,
+  .noteReportTable td {
+    padding-block: 3px;
   }
 
   .completeActions button,
   .completeActions a {
-    min-height: 36px;
+    min-height: 32px;
   }
 
   .quiz {

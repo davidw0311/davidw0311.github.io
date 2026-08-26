@@ -4,12 +4,13 @@ import {
   createLessonOneDeck,
   createPianoLessonDeck,
   formatLessonTime,
+  formatRecognitionTime,
   getPianoLesson,
   lessonAccuracy,
   lessonOneCardCount,
   lessonOneNoteNames,
-  mostMissedLessonNotes,
   pianoLessons,
+  rankLessonNotePerformance,
 } from "../data/pianoLessons.ts";
 import { blackKeys, pianoNotes, pitchNames } from "../data/pianoNotes.ts";
 
@@ -36,12 +37,21 @@ test("lesson statistics format time and accuracy", () => {
   assert.equal(lessonAccuracy(0, 0), 0);
 });
 
-test("lesson error summaries identify the most-missed notes and ties", () => {
-  assert.equal(mostMissedLessonNotes({}), null);
-  assert.deepEqual(mostMissedLessonNotes({ C: 1, D: 3, "F♯/G♭": 3 }), {
-    errorCount: 3,
-    noteNames: ["D", "F♯/G♭"],
+test("lesson reports rank every included note by mistakes and then recognition time", () => {
+  const report = rankLessonNotePerformance(["C", "D", "E", "F", "C", "D"], {
+    C: { attempts: 2, mistakes: 2, totalRecognitionMs: 4_000 },
+    D: { attempts: 2, mistakes: 2, totalRecognitionMs: 6_000 },
+    E: { attempts: 1, mistakes: 1, totalRecognitionMs: 10_000 },
   });
+
+  assert.deepEqual(report, [
+    { noteName: "D", attempts: 2, mistakes: 2, averageRecognitionMs: 3_000 },
+    { noteName: "C", attempts: 2, mistakes: 2, averageRecognitionMs: 2_000 },
+    { noteName: "E", attempts: 1, mistakes: 1, averageRecognitionMs: 10_000 },
+    { noteName: "F", attempts: 0, mistakes: 0, averageRecognitionMs: 0 },
+  ]);
+  assert.equal(formatRecognitionTime(3_000), "3.00s");
+  assert.equal(formatRecognitionTime(12_340), "12.3s");
 });
 
 test("lesson two contains four cards for every black key", () => {
