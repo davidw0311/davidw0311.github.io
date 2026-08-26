@@ -45,7 +45,7 @@ export default function Home() {
             <div className={styles.missionIcons} aria-label="Interactive projects and future project placeholders">
               <Link href="/projects/blackjack-trainer/">
                 <CardsThree size={34} weight="thin" />
-                <span>Blackjack trainer</span>
+                <span>Back to Blackjack</span>
               </Link>
               <Link href="/projects/language-lab/">
                 <Translate size={34} weight="thin" />

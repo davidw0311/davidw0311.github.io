@@ -5,7 +5,7 @@ import { BlackjackTrainer } from "@/components/BlackjackTrainer";
 import styles from "./blackjack.module.css";
 
 export const metadata: Metadata = {
-  title: "Blackjack Strategy Lab",
+  title: "Back to Blackjack",
   description: "An interactive blackjack strategy trainer with focused drills and a configurable, card-by-card bankroll simulator.",
   alternates: { canonical: "/projects/blackjack-trainer/" },
 };
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function BlackjackTrainerPage() {
   return (
     <main className={styles.page}>
-      <nav className={styles.nav} aria-label="Blackjack trainer navigation">
+      <nav className={styles.nav} aria-label="Back to Blackjack navigation">
         <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Back to space</Link>
         <Link href="/#about">DYW</Link>
       </nav>
@@ -21,7 +21,7 @@ export default function BlackjackTrainerPage() {
       <section className={styles.playStage} aria-labelledby="trainer-title">
         <header className={styles.intro}>
           <p>Interactive project</p>
-          <h1 id="trainer-title">Blackjack Strategy Lab.</h1>
+          <h1 id="trainer-title">Back to Blackjack</h1>
           <strong>Practice every core decision and learn why the chart recommends each move.</strong>
         </header>
 

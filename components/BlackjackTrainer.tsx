@@ -712,7 +712,7 @@ export function BlackjackTrainer() {
   );
 
   return (
-    <section className={styles.trainer} aria-label="Blackjack basic strategy trainer">
+    <section className={styles.trainer} aria-label="Back to Blackjack trainer">
       <AnimatePresence mode="wait" initial={false}>
         {screen === "menu" ? renderMenu() : screen === "simulation" ? (
           <BlackjackSimulation onExit={() => setScreen("menu")} />
