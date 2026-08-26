@@ -228,7 +228,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
           </section>
           <div className={styles.completeActions}>
             <button type="button" onClick={(event) => beginLesson(playerName, event.timeStamp)}>Try again</button>
-            <Link href="/projects/piano-note-lab/lessons/">All lessons</Link>
+            <Link href="/projects/piano-party/lessons/">All lessons</Link>
           </div>
         </div>
       </section>

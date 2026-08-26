@@ -1,23 +1,5 @@
-import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { PianoLesson } from "@/components/PianoLessonOne";
-import styles from "../../piano-note-lab.module.css";
+import { permanentRedirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Lesson 1 | Piano Party",
-  description: "Learn the seven natural piano note names with a shuffled, timed exercise.",
-  alternates: { canonical: "/projects/piano-note-lab/lessons/1/" },
-};
-
-export default function PianoLessonOnePage() {
-  return (
-    <main className={`${styles.page} ${styles.lessonPlayPage}`}>
-      <nav className={styles.nav} aria-label="Lesson 1 navigation">
-        <Link href="/projects/piano-note-lab/lessons/"><ArrowLeft size={18} weight="bold" /> Lessons</Link>
-        <Link href="/projects/piano-note-lab/">Piano Party</Link>
-      </nav>
-      <PianoLesson lessonId={1} />
-    </main>
-  );
+export default function LegacyPianoLessonOnePage() {
+  permanentRedirect("/projects/piano-party/lessons/1/");
 }

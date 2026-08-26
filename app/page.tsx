@@ -51,7 +51,7 @@ export default function Home() {
                 <Translate size={34} weight="thin" />
                 <span>Language lab</span>
               </Link>
-              <Link href="/projects/piano-note-lab/">
+              <Link href="/projects/piano-party/">
                 <PianoKeys size={34} weight="thin" />
                 <span>Piano Party</span>
               </Link>
