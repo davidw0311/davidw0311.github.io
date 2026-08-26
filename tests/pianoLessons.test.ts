@@ -9,10 +9,12 @@ import {
   lessonAccuracy,
   lessonOneCardCount,
   lessonOneNoteNames,
+  lessonThreeNoteNames,
+  lessonTwoNoteNames,
   pianoLessons,
   rankLessonNotePerformance,
 } from "../data/pianoLessons.ts";
-import { blackKeys, pianoNotes, pitchNames } from "../data/pianoNotes.ts";
+import { pitchNames } from "../data/pianoNotes.ts";
 
 test("lesson one contains three shuffled cards for every natural note", () => {
   let seed = 17;
@@ -54,28 +56,34 @@ test("lesson reports rank every included note by mistakes and then recognition t
   assert.equal(formatRecognitionTime(12_340), "12.3s");
 });
 
-test("lesson two contains four cards for every black key", () => {
+test("lesson two contains four cards for every black-key note name", () => {
   const deck = createPianoLessonDeck(2, () => 0.42);
 
-  assert.equal(deck.length, 60);
-  assert.equal(getPianoLesson(2).cardCount, 60);
-  assert.equal(new Set(deck.map((card) => card.id)).size, 60);
+  assert.equal(deck.length, 20);
+  assert.equal(getPianoLesson(2).cardCount, 20);
+  assert.equal(getPianoLesson(2).focusCount, 5);
+  assert.equal(new Set(deck.map((card) => card.id)).size, 20);
   assert.ok(deck.every((card) => card.note.isBlack));
-  for (const note of blackKeys) {
-    assert.equal(deck.filter((card) => card.note.id === note.id).length, 4);
+  for (const noteName of lessonTwoNoteNames) {
+    const matchingCards = deck.filter((card) => card.note.name === noteName);
+    assert.equal(matchingCards.length, 4);
+    assert.equal(new Set(matchingCards.map((card) => card.note.octave)).size, 3);
   }
 });
 
-test("lesson three contains three cards for every piano key", () => {
+test("lesson three contains three octave-spanning cards for every note name", () => {
   const deck = createPianoLessonDeck(3, () => 0.73);
 
-  assert.equal(deck.length, 111);
-  assert.equal(getPianoLesson(3).cardCount, 111);
-  assert.equal(new Set(deck.map((card) => card.id)).size, 111);
+  assert.equal(deck.length, 36);
+  assert.equal(getPianoLesson(3).cardCount, 36);
+  assert.equal(getPianoLesson(3).focusCount, 12);
+  assert.equal(new Set(deck.map((card) => card.id)).size, 36);
   assert.ok(deck.some((card) => card.note.isBlack));
   assert.ok(deck.some((card) => !card.note.isBlack));
-  for (const note of pianoNotes) {
-    assert.equal(deck.filter((card) => card.note.id === note.id).length, 3);
+  for (const noteName of lessonThreeNoteNames) {
+    const matchingCards = deck.filter((card) => card.note.name === noteName);
+    assert.equal(matchingCards.length, 3);
+    assert.deepEqual([...new Set(matchingCards.map((card) => card.note.octave))].sort(), [3, 4, 5]);
   }
 });
 

@@ -960,15 +960,15 @@
   }
 
   .quizBody {
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-    grid-template-rows: minmax(0, 1fr);
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 4px;
     padding: 3px 6px 6px;
   }
 
   .answerPanel {
-    align-content: center;
-    gap: 5px;
+    align-content: end;
+    gap: 4px;
   }
 
   .lessonChoices {
@@ -977,13 +977,13 @@
   }
 
   .lessonChoices button {
-    min-height: 38px;
-    font-size: 0.82rem;
+    min-height: 32px;
+    font-size: 0.74rem;
   }
 
   .lessonFeedback {
-    min-height: 35px;
-    padding-top: 4px;
+    min-height: 30px;
+    padding-top: 2px;
   }
 }
 

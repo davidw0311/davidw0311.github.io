@@ -39,6 +39,8 @@ export type PianoLessonDefinition = {
 
 export const lessonOneNoteNames: PitchName[] = [...naturalNoteNames];
 export const lessonOneCardCount = lessonOneNoteNames.length * 3;
+export const lessonTwoNoteNames = pitchNames.filter((name) => blackKeys.some((note) => note.name === name));
+export const lessonThreeNoteNames: PitchName[] = [...pitchNames];
 
 const lessonOneCards: PianoLessonCard[] = lessonOneNoteNames.flatMap((name) => {
   const matchingKeys = whiteKeys.filter((note) => note.name === name);
@@ -48,17 +50,30 @@ const lessonOneCards: PianoLessonCard[] = lessonOneNoteNames.flatMap((name) => {
   }));
 });
 
-function repeatKeys(lessonId: PianoLessonId, notes: readonly PianoNote[], repeatCount: number) {
-  return notes.flatMap((note) => Array.from({ length: repeatCount }, (_, repeatIndex) => ({
-    id: `lesson-${lessonId}-${note.id}-${repeatIndex + 1}`,
-    note,
-  })));
+function repeatNoteNames(
+  lessonId: PianoLessonId,
+  noteNames: readonly PitchName[],
+  availableKeys: readonly PianoNote[],
+  repeatCount: number,
+) {
+  return noteNames.flatMap((name) => {
+    const matchingKeys = availableKeys.filter((note) => note.name === name);
+    if (matchingKeys.length === 0) throw new Error(`No piano keys available for ${name}`);
+
+    return Array.from({ length: repeatCount }, (_, repeatIndex) => {
+      const note = matchingKeys[repeatIndex % matchingKeys.length];
+      return {
+        id: `lesson-${lessonId}-${note.id}-${repeatIndex + 1}`,
+        note,
+      };
+    });
+  });
 }
 
 const lessonCards: Record<PianoLessonId, PianoLessonCard[]> = {
   1: lessonOneCards,
-  2: repeatKeys(2, blackKeys, 4),
-  3: repeatKeys(3, pianoNotes, 3),
+  2: repeatNoteNames(2, lessonTwoNoteNames, blackKeys, 4),
+  3: repeatNoteNames(3, lessonThreeNoteNames, pianoNotes, 3),
 };
 
 export const pianoLessons: readonly PianoLessonDefinition[] = [
@@ -78,26 +93,26 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
   {
     id: 2,
     title: "Black key names",
-    description: "Identify every black key by its sharp or flat name. Each key appears four times in a shuffled 60-card deck.",
-    libraryDescription: "60 shuffled cards. Every black key appears four times.",
+    description: "Identify the five black-key names. Each note name appears four times across the keyboard in a shuffled 20-card deck.",
+    libraryDescription: "20 shuffled cards. Each black-key name appears four times.",
     completionDescription: "You finished every black-key card in Lesson 2.",
     answerChoices: pitchNames,
     cardCount: lessonCards[2].length,
-    focusLabel: "Keys",
-    focusCount: blackKeys.length,
+    focusLabel: "Notes",
+    focusCount: lessonTwoNoteNames.length,
     desktopChoiceColumns: 6,
     mobileChoiceColumns: 4,
   },
   {
     id: 3,
     title: "All key names",
-    description: "Identify every white and black key from C3 to C6. Each key appears three times in a shuffled 111-card deck.",
-    libraryDescription: "111 shuffled cards. Every white and black key appears three times.",
+    description: "Identify all 12 note names across the keyboard. Each note name appears once in each octave in a shuffled 36-card deck.",
+    libraryDescription: "36 shuffled cards. Each note name appears three times.",
     completionDescription: "You finished every white-key and black-key card in Lesson 3.",
     answerChoices: pitchNames,
     cardCount: lessonCards[3].length,
-    focusLabel: "Keys",
-    focusCount: pianoNotes.length,
+    focusLabel: "Notes",
+    focusCount: lessonThreeNoteNames.length,
     desktopChoiceColumns: 6,
     mobileChoiceColumns: 4,
   },

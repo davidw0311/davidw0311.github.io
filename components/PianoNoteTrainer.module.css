@@ -979,19 +979,19 @@
   }
 
   .practiceArea {
-    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-    grid-template-rows: minmax(0, 1fr);
-    gap: 9px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 4px;
     min-height: 0;
     padding: 0 7px 7px;
   }
 
   .promptArea {
-    padding: 4px 0;
+    padding: 2px 0;
   }
 
   .staffCard {
-    min-height: 142px;
+    min-height: 112px;
     padding: 8px 8px 4px;
   }
 
@@ -1010,14 +1010,14 @@
 
   .staff {
     height: 134px;
-    margin-top: -8px;
-    transform: scale(0.84);
+    margin-top: -48px;
+    transform: translateY(18px) scale(0.65);
     transform-origin: center;
   }
 
   .answerArea {
-    align-content: center;
-    gap: 6px;
+    align-content: end;
+    gap: 4px;
   }
 
   .noteChoices {
@@ -1026,21 +1026,21 @@
   }
 
   .noteChoices button {
-    min-height: 38px;
+    min-height: 32px;
     border-radius: 7px;
-    font-size: 0.83rem;
+    font-size: 0.74rem;
   }
 
   .keyboardWrap {
-    padding: 2px 0 4px;
+    padding: 1px 0 2px;
   }
 
   .keyboard {
     grid-template-columns: 7fr 7fr 8fr;
     grid-template-rows: 1fr;
     gap: 2px;
-    height: clamp(92px, 30dvh, 112px);
-    border-width: 5px;
+    height: clamp(72px, 21dvh, 82px);
+    border-width: 4px;
     border-radius: 9px;
   }
 
@@ -1068,8 +1068,8 @@
 
   .feedbackRow {
     gap: 6px;
-    min-height: 36px;
-    padding-top: 4px;
+    min-height: 30px;
+    padding-top: 2px;
   }
 
   .feedback {
@@ -1086,7 +1086,7 @@
 
   .nextButton {
     min-width: 68px;
-    min-height: 30px;
+    min-height: 28px;
     padding: 3px 7px;
     font-size: 0.61rem;
   }
