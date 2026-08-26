@@ -15,6 +15,8 @@ import {
   formatLessonTime,
   getPianoLesson,
   lessonAccuracy,
+  mostMissedLessonNotes,
+  type LessonErrorCounts,
   type PianoLessonCard,
   type PianoLessonId,
 } from "@/data/pianoLessons";
@@ -28,8 +30,12 @@ type PianoLessonProps = {
   lessonId: PianoLessonId;
 };
 
-function AnswerChoice({ name }: { name: PitchName }) {
+function answerChoiceLabel(name: PitchName) {
   return name.replace("/", " / ");
+}
+
+function AnswerChoice({ name }: { name: PitchName }) {
+  return answerChoiceLabel(name);
 }
 
 export function PianoLesson({ lessonId }: PianoLessonProps) {
@@ -42,6 +48,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const [cardIndex, setCardIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<PitchName | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
+  const [errorCounts, setErrorCounts] = useState<LessonErrorCounts>({});
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
 
@@ -49,6 +56,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const answered = selectedAnswer !== null;
   const answerIsCorrect = answered && selectedAnswer === currentCard?.note.name;
   const accuracy = lessonAccuracy(correctCount, deck.length);
+  const mostMissed = mostMissedLessonNotes(errorCounts);
 
   useEffect(() => {
     if (stage !== "playing" || startedAt === null) return;
@@ -79,6 +87,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     setCardIndex(0);
     setSelectedAnswer(null);
     setCorrectCount(0);
+    setErrorCounts({});
     setElapsedMs(0);
     setStartedAt(Date.now());
     setStage("playing");
@@ -92,7 +101,14 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const chooseAnswer = (answer: PitchName) => {
     if (!currentCard || answered) return;
     setSelectedAnswer(answer);
-    if (answer === currentCard.note.name) setCorrectCount((current) => current + 1);
+    if (answer === currentCard.note.name) {
+      setCorrectCount((current) => current + 1);
+    } else {
+      setErrorCounts((current) => ({
+        ...current,
+        [currentCard.note.name]: (current[currentCard.note.name] ?? 0) + 1,
+      }));
+    }
     playNote(currentCard);
   };
 
@@ -156,6 +172,19 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
             <div><dt>Score</dt><dd>{correctCount}/{lesson.cardCount}</dd></div>
             <div><dt>Accuracy</dt><dd>{accuracy}%</dd></div>
           </dl>
+          <section className={styles.errorSummary} aria-labelledby="lesson-errors-title">
+            <h2 id="lesson-errors-title">Most missed notes</h2>
+            <p>
+              {mostMissed
+                ? mostMissed.noteNames.map(answerChoiceLabel).join(", ")
+                : "No missed notes"}
+            </p>
+            <span>
+              {mostMissed
+                ? `${mostMissed.errorCount} ${mostMissed.errorCount === 1 ? "error" : "errors"} each`
+                : "Perfect run"}
+            </span>
+          </section>
           <div className={styles.completeActions}>
             <button type="button" onClick={() => beginLesson(playerName)}>Try again</button>
             <Link href="/projects/piano-note-lab/lessons/">All lessons</Link>

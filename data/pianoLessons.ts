@@ -15,6 +15,8 @@ export type PianoLessonCard = {
   note: PianoNote;
 };
 
+export type LessonErrorCounts = Partial<Record<PitchName, number>>;
+
 export type PianoLessonDefinition = {
   id: PianoLessonId;
   title: string;
@@ -123,6 +125,20 @@ export function createLessonOneDeck(random: () => number = Math.random) {
 export function lessonAccuracy(correct: number, total: number) {
   if (total === 0) return 0;
   return Math.round((correct / total) * 100);
+}
+
+export function mostMissedLessonNotes(errorCounts: LessonErrorCounts) {
+  const highestErrorCount = pitchNames.reduce(
+    (highest, noteName) => Math.max(highest, errorCounts[noteName] ?? 0),
+    0,
+  );
+
+  if (highestErrorCount === 0) return null;
+
+  return {
+    errorCount: highestErrorCount,
+    noteNames: pitchNames.filter((noteName) => errorCounts[noteName] === highestErrorCount),
+  };
 }
 
 export function formatLessonTime(elapsedMs: number) {

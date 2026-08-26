@@ -8,6 +8,7 @@ import {
   lessonAccuracy,
   lessonOneCardCount,
   lessonOneNoteNames,
+  mostMissedLessonNotes,
   pianoLessons,
 } from "../data/pianoLessons.ts";
 import { blackKeys, pianoNotes, pitchNames } from "../data/pianoNotes.ts";
@@ -33,6 +34,14 @@ test("lesson statistics format time and accuracy", () => {
   assert.equal(formatLessonTime(65_499), "1:05.4");
   assert.equal(lessonAccuracy(17, 21), 81);
   assert.equal(lessonAccuracy(0, 0), 0);
+});
+
+test("lesson error summaries identify the most-missed notes and ties", () => {
+  assert.equal(mostMissedLessonNotes({}), null);
+  assert.deepEqual(mostMissedLessonNotes({ C: 1, D: 3, "F♯/G♭": 3 }), {
+    errorCount: 3,
+    noteNames: ["D", "F♯/G♭"],
+  });
 });
 
 test("lesson two contains four cards for every black key", () => {
