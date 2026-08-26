@@ -78,17 +78,19 @@ const clefLabels: Record<ClefFilter, string> = {
 const keyboardRanges = [
   {
     id: "lower",
-    whiteNotes: whiteKeys.filter((note) => note.octave === 3 || note.id === "C4"),
+    whiteNotes: whiteKeys.filter((note) => note.octave === 3),
     blackNotes: blackKeys.filter((note) => note.octave === 3),
     whiteOffset: 0,
     portraitLeadingWhiteKeys: 0,
+    portraitWhiteCount: 8,
   },
   {
     id: "upper",
-    whiteNotes: whiteKeys.filter((note) => (note.octave === 4 && note.id !== "C4") || note.id === "C5"),
+    whiteNotes: whiteKeys.filter((note) => note.octave === 4 || note.id === "C5"),
     blackNotes: blackKeys.filter((note) => note.octave === 4),
-    whiteOffset: 8,
-    portraitLeadingWhiteKeys: 1,
+    whiteOffset: 7,
+    portraitLeadingWhiteKeys: 0,
+    portraitWhiteCount: 8,
   },
 ];
 
@@ -125,15 +127,13 @@ export function PianoKeyboard({
         aria-label="Piano keyboard from C3 to C5, including sharp and flat keys"
       >
         {keyboardRanges.map((range) => {
-          const portraitWhiteCount = range.whiteNotes.length + range.portraitLeadingWhiteKeys;
-
           return (
             <div className={styles.keyboardRange} key={range.id}>
               <div
                 className={styles.whiteKeys}
                 style={{
                   "--desktop-white-count": range.whiteNotes.length,
-                  "--portrait-white-count": portraitWhiteCount,
+                  "--portrait-white-count": range.portraitWhiteCount,
                   "--portrait-white-start": range.portraitLeadingWhiteKeys + 1,
                 } as CSSProperties}
               >
@@ -159,7 +159,7 @@ export function PianoKeyboard({
                   const relativeIndex = (note.afterWhiteIndex ?? range.whiteOffset) - range.whiteOffset;
                   const desktopLeft = ((relativeIndex + 1) / range.whiteNotes.length) * 100;
                   const portraitLeft = (
-                    (relativeIndex + range.portraitLeadingWhiteKeys + 1) / portraitWhiteCount
+                    (relativeIndex + range.portraitLeadingWhiteKeys + 1) / range.portraitWhiteCount
                   ) * 100;
                   return (
                     <button

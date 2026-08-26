@@ -415,7 +415,7 @@
 
 .keyboard {
   display: grid;
-  grid-template-columns: 8fr 7fr;
+  grid-template-columns: 7fr 8fr;
   gap: 2px;
   width: 100%;
   height: clamp(138px, 17vw, 194px);
@@ -988,7 +988,7 @@
   }
 
   .keyboard {
-    grid-template-columns: 8fr 7fr;
+    grid-template-columns: 7fr 8fr;
     grid-template-rows: 1fr;
     gap: 2px;
     height: clamp(92px, 30dvh, 112px);
