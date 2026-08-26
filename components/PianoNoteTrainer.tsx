@@ -85,10 +85,18 @@ const keyboardRanges = [
     portraitWhiteCount: 8,
   },
   {
-    id: "upper",
-    whiteNotes: whiteKeys.filter((note) => note.octave === 4 || note.id === "C5"),
+    id: "middle",
+    whiteNotes: whiteKeys.filter((note) => note.octave === 4),
     blackNotes: blackKeys.filter((note) => note.octave === 4),
     whiteOffset: 7,
+    portraitLeadingWhiteKeys: 0,
+    portraitWhiteCount: 8,
+  },
+  {
+    id: "upper",
+    whiteNotes: whiteKeys.filter((note) => note.octave === 5 || note.id === "C6"),
+    blackNotes: blackKeys.filter((note) => note.octave === 5),
+    whiteOffset: 14,
     portraitLeadingWhiteKeys: 0,
     portraitWhiteCount: 8,
   },
@@ -124,7 +132,7 @@ export function PianoKeyboard({
       <div
         className={`${styles.keyboard} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
         role="group"
-        aria-label="Piano keyboard from C3 to C5, including sharp and flat keys"
+        aria-label="Piano keyboard from C3 to C6, including sharp and flat keys"
       >
         {keyboardRanges.map((range) => {
           return (
@@ -197,9 +205,14 @@ function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: StaffCl
 
   return (
     <div className={styles.staffCard} role="img" aria-label={`${formatNotation(notation, true)} written in ${clef} clef`}>
-      <span className={styles.clefName}>{clef === "treble" ? "Treble clef" : "Bass clef"}</span>
+      <div className={styles.staffHeader}>
+        <span className={styles.clefName}>{clef === "treble" ? "Treble clef" : "Bass clef"}</span>
+        <span className={styles.staffRange}>{clef === "treble" ? "C4-C6 range" : "C3-C4 range"}</span>
+      </div>
       <div className={styles.staff} aria-hidden="true">
         {[0, 1, 2, 3, 4].map((line) => <span key={line} className={styles.staffLine} />)}
+        <span className={styles.staffStartBar} />
+        <span className={styles.staffEndBar} />
         <span className={`${styles.clef} ${clef === "bass" ? styles.bassClef : ""}`}>
           {clef === "treble" ? "𝄞" : "𝄢"}
         </span>
@@ -450,7 +463,7 @@ export function PianoNoteTrainer() {
               </button>
             ))}
           </div>
-        ) : <span className={styles.rangeLabel}>C3-C5 · naturals + accidentals</span>}
+        ) : <span className={styles.rangeLabel}>C3-C6 · naturals + accidentals</span>}
       </div>
 
       <div className={styles.practiceArea}>

@@ -57,9 +57,9 @@ test("lesson reports rank every included note by mistakes and then recognition t
 test("lesson two contains four cards for every black key", () => {
   const deck = createPianoLessonDeck(2, () => 0.42);
 
-  assert.equal(deck.length, 40);
-  assert.equal(getPianoLesson(2).cardCount, 40);
-  assert.equal(new Set(deck.map((card) => card.id)).size, 40);
+  assert.equal(deck.length, 60);
+  assert.equal(getPianoLesson(2).cardCount, 60);
+  assert.equal(new Set(deck.map((card) => card.id)).size, 60);
   assert.ok(deck.every((card) => card.note.isBlack));
   for (const note of blackKeys) {
     assert.equal(deck.filter((card) => card.note.id === note.id).length, 4);
@@ -69,9 +69,9 @@ test("lesson two contains four cards for every black key", () => {
 test("lesson three contains three cards for every piano key", () => {
   const deck = createPianoLessonDeck(3, () => 0.73);
 
-  assert.equal(deck.length, 75);
-  assert.equal(getPianoLesson(3).cardCount, 75);
-  assert.equal(new Set(deck.map((card) => card.id)).size, 75);
+  assert.equal(deck.length, 111);
+  assert.equal(getPianoLesson(3).cardCount, 111);
+  assert.equal(new Set(deck.map((card) => card.id)).size, 111);
   assert.ok(deck.some((card) => card.note.isBlack));
   assert.ok(deck.some((card) => !card.note.isBlack));
   for (const note of pianoNotes) {

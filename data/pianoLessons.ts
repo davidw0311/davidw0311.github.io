@@ -78,8 +78,8 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
   {
     id: 2,
     title: "Black key names",
-    description: "Identify every black key by its sharp or flat name. Each key appears four times in a shuffled 40-card deck.",
-    libraryDescription: "40 shuffled cards. Every black key appears four times.",
+    description: "Identify every black key by its sharp or flat name. Each key appears four times in a shuffled 60-card deck.",
+    libraryDescription: "60 shuffled cards. Every black key appears four times.",
     completionDescription: "You finished every black-key card in Lesson 2.",
     answerChoices: pitchNames,
     cardCount: lessonCards[2].length,
@@ -91,8 +91,8 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
   {
     id: 3,
     title: "All key names",
-    description: "Identify every white and black key from C3 to C5. Each key appears three times in a shuffled 75-card deck.",
-    libraryDescription: "75 shuffled cards. Every white and black key appears three times.",
+    description: "Identify every white and black key from C3 to C6. Each key appears three times in a shuffled 111-card deck.",
+    libraryDescription: "111 shuffled cards. Every white and black key appears three times.",
     completionDescription: "You finished every white-key and black-key card in Lesson 3.",
     answerChoices: pitchNames,
     cardCount: lessonCards[3].length,

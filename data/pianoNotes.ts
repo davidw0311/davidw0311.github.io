@@ -56,7 +56,7 @@ export const naturalNoteNames: NaturalNoteName[] = ["C", "D", "E", "F", "G", "A"
 
 let whiteKeyIndex = -1;
 
-export const pianoNotes: PianoNote[] = [3, 4]
+export const pianoNotes: PianoNote[] = [3, 4, 5]
   .flatMap((octave) => pitchClassDefinitions.map((pitch) => {
     const isBlack = pitch.spellings.length > 1;
     if (!isBlack) whiteKeyIndex += 1;
@@ -72,13 +72,13 @@ export const pianoNotes: PianoNote[] = [3, 4]
     };
   }))
   .concat({
-    id: "C5",
+    id: "C6",
     name: "C",
-    octave: 5,
-    midi: 72,
+    octave: 6,
+    midi: 84,
     isBlack: false,
     afterWhiteIndex: null,
-    spellings: [{ name: "C", octave: 5, accidental: null }],
+    spellings: [{ name: "C", octave: 6, accidental: null }],
   });
 
 export const whiteKeys = pianoNotes.filter((note) => !note.isBlack);
@@ -134,7 +134,7 @@ export function spokenPitchName(note: PianoNote) {
 }
 
 function staffQuestionPool(clef: StaffClef) {
-  const [minimumMidi, maximumMidi] = clef === "treble" ? [60, 72] : [48, 60];
+  const [minimumMidi, maximumMidi] = clef === "treble" ? [60, 84] : [48, 60];
 
   return pianoNotes
     .filter((note) => note.midi >= minimumMidi && note.midi <= maximumMidi)

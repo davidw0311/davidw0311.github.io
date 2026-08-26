@@ -14,12 +14,12 @@ import {
   whiteKeys,
 } from "../data/pianoNotes.ts";
 
-test("the keyboard spans two chromatic octaves plus the final C", () => {
-  assert.equal(pianoNotes.length, 25);
-  assert.equal(whiteKeys.length, 15);
-  assert.equal(blackKeys.length, 10);
+test("the keyboard spans three chromatic octaves plus the final C", () => {
+  assert.equal(pianoNotes.length, 37);
+  assert.equal(whiteKeys.length, 22);
+  assert.equal(blackKeys.length, 15);
   assert.equal(pianoNotes[0].id, "C3");
-  assert.equal(pianoNotes.at(-1)?.id, "C5");
+  assert.equal(pianoNotes.at(-1)?.id, "C6");
 });
 
 test("black keys expose both sharp and flat spellings", () => {
@@ -43,8 +43,9 @@ test("middle C receives the expected ledger line in either clef", () => {
 
 test("staff exercises include natural, sharp, and flat notation", () => {
   const treblePool = questionPool("staff-name", "treble");
-  assert.equal(treblePool.length, 18);
+  assert.equal(treblePool.length, 35);
   assert.ok(treblePool.every((question) => question.clef === "treble"));
+  assert.ok(treblePool.some((question) => question.note.id === "C6"));
   assert.ok(treblePool.some((question) => question.notation?.accidental === "sharp"));
   assert.ok(treblePool.some((question) => question.notation?.accidental === "flat"));
 });
