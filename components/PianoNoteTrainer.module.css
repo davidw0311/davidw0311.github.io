@@ -365,17 +365,9 @@
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1;
+  white-space: nowrap;
   cursor: pointer;
   transition: color 170ms ease, border-color 170ms ease, background-color 170ms ease, transform 170ms ease;
-}
-
-.noteChoices button small {
-  display: block;
-  margin-top: 2px;
-  color: currentColor;
-  font-size: 0.58rem;
-  font-weight: 700;
-  opacity: 0.72;
 }
 
 .noteChoices button:hover:not(:disabled) {
@@ -791,11 +783,6 @@
     font-size: 0.87rem;
   }
 
-  .noteChoices button small {
-    margin-top: 1px;
-    font-size: 0.48rem;
-  }
-
   .keyboardWrap {
     padding: 3px 0 5px;
   }
@@ -977,10 +964,6 @@
     min-height: 38px;
     border-radius: 7px;
     font-size: 0.83rem;
-  }
-
-  .noteChoices button small {
-    font-size: 0.46rem;
   }
 
   .keyboardWrap {

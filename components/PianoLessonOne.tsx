@@ -29,13 +29,7 @@ type PianoLessonProps = {
 };
 
 function AnswerChoice({ name }: { name: PitchName }) {
-  const [primaryName, alternateName] = name.split("/");
-  return (
-    <>
-      <span>{primaryName}</span>
-      {alternateName ? <small>{alternateName}</small> : null}
-    </>
-  );
+  return name.replace("/", " / ");
 }
 
 export function PianoLesson({ lessonId }: PianoLessonProps) {

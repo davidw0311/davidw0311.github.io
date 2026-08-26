@@ -353,7 +353,6 @@
 .lessonChoices button {
   display: grid;
   place-content: center;
-  gap: 1px;
   min-height: 54px;
   border: 1px solid var(--lesson-line-strong);
   border-radius: 9px;
@@ -362,15 +361,9 @@
   font-family: var(--font-display), sans-serif;
   font-size: 1rem;
   font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
-}
-
-.lessonChoices button small {
-  font-family: var(--font-body), sans-serif;
-  font-size: 0.58rem;
-  font-weight: 750;
-  line-height: 1;
 }
 
 .lessonChoices button:hover:not(:disabled) {

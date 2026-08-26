@@ -483,7 +483,6 @@ export function PianoNoteTrainer() {
           {mode !== "staff-key" ? (
             <div className={styles.noteChoices} aria-label="Choose a note name">
               {pitchNames.map((name) => {
-                const [primary, alternate] = name.split("/");
                 const isTarget = name === question.note.name;
                 const isSelected = name === selectedAnswer;
                 const stateClass = answered && isTarget
@@ -500,8 +499,7 @@ export function PianoNoteTrainer() {
                     aria-label={`Choose ${name.replace("/", " or ")}`}
                     onClick={() => recordAnswer(name, question.note)}
                   >
-                    <span>{primary}</span>
-                    {alternate ? <small>{alternate}</small> : null}
+                    {name.replace("/", " / ")}
                   </button>
                 );
               })}
