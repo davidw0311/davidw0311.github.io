@@ -10,7 +10,7 @@ import {
   lessonOneNoteNames,
   pianoLessons,
 } from "../data/pianoLessons.ts";
-import { blackKeys, pianoNotes } from "../data/pianoNotes.ts";
+import { blackKeys, pianoNotes, pitchNames } from "../data/pianoNotes.ts";
 
 test("lesson one contains three shuffled cards for every natural note", () => {
   let seed = 17;
@@ -62,4 +62,12 @@ test("lesson three contains three cards for every piano key", () => {
 
 test("lesson definitions are numbered in order", () => {
   assert.deepEqual(pianoLessons.map((lesson) => lesson.id), [1, 2, 3]);
+});
+
+test("every lesson presents the same complete set of answer labels", () => {
+  for (const lesson of pianoLessons) {
+    assert.deepEqual(lesson.answerChoices, pitchNames);
+    assert.equal(lesson.desktopChoiceColumns, 6);
+    assert.equal(lesson.mobileChoiceColumns, 4);
+  }
 });
