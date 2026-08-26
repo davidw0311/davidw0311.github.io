@@ -6,6 +6,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pianoLessons } from "@/data/pianoLessons";
 import styles from "../piano-note-lab.module.css";
 
 export const metadata: Metadata = {
@@ -29,20 +30,23 @@ export default function PianoLessonsPage() {
           <strong>Short, focused sessions that build one piano-reading skill at a time.</strong>
         </header>
 
-        <Link className={styles.lessonRow} href="/projects/piano-note-lab/lessons/1/">
-          <span className={styles.lessonNumber}>01</span>
-          <span className={styles.lessonRowIcon} aria-hidden="true"><Keyboard size={29} weight="thin" /></span>
-          <span className={styles.lessonRowCopy}>
-            <strong>White key names</strong>
-            <span>21 shuffled cards. C through B appears three times.</span>
-          </span>
-          <span className={styles.lessonReady}><CheckCircle size={17} weight="fill" /> Ready</span>
-          <ArrowRight className={styles.lessonArrow} size={19} weight="bold" aria-hidden="true" />
-        </Link>
-
-        <div className={styles.lessonEmpty}>
-          <span>Next lessons</span>
-          <p>This library is ready to grow with new levels and dedicated exercises.</p>
+        <div className={styles.lessonList}>
+          {pianoLessons.map((lesson) => (
+            <Link
+              className={styles.lessonRow}
+              href={`/projects/piano-note-lab/lessons/${lesson.id}/`}
+              key={lesson.id}
+            >
+              <span className={styles.lessonRowIcon} aria-hidden="true"><Keyboard size={29} weight="thin" /></span>
+              <span className={styles.lessonRowCopy}>
+                <span className={styles.lessonLabel}>Lesson {lesson.id}</span>
+                <strong>{lesson.title}</strong>
+                <span className={styles.lessonDescription}>{lesson.libraryDescription}</span>
+              </span>
+              <span className={styles.lessonReady}><CheckCircle size={17} weight="fill" /> Ready</span>
+              <ArrowRight className={styles.lessonArrow} size={19} weight="bold" aria-hidden="true" />
+            </Link>
+          ))}
         </div>
       </section>
     </main>

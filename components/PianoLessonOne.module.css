@@ -344,13 +344,16 @@
 
 .lessonChoices {
   display: grid;
-  grid-template-columns: repeat(7, minmax(48px, 1fr));
+  grid-template-columns: repeat(var(--lesson-choice-columns), minmax(48px, 1fr));
   gap: 6px;
   width: min(100%, 760px);
   margin: 0 auto;
 }
 
 .lessonChoices button {
+  display: grid;
+  place-content: center;
+  gap: 1px;
   min-height: 54px;
   border: 1px solid var(--lesson-line-strong);
   border-radius: 9px;
@@ -361,6 +364,13 @@
   font-weight: 700;
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.lessonChoices button small {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.58rem;
+  font-weight: 750;
+  line-height: 1;
 }
 
 .lessonChoices button:hover:not(:disabled) {
@@ -641,7 +651,7 @@
   }
 
   .lessonChoices {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--lesson-mobile-choice-columns), minmax(0, 1fr));
     gap: 4px;
   }
 
@@ -796,7 +806,7 @@
   }
 
   .lessonChoices {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--lesson-mobile-choice-columns), minmax(0, 1fr));
     gap: 4px;
   }
 

@@ -9,29 +9,44 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { type FormEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type FormEvent, useEffect, useRef, useState } from "react";
 import {
-  createLessonOneDeck,
+  createPianoLessonDeck,
   formatLessonTime,
+  getPianoLesson,
   lessonAccuracy,
-  lessonOneCardCount,
-  lessonOneNoteNames,
   type PianoLessonCard,
+  type PianoLessonId,
 } from "@/data/pianoLessons";
-import { pianoAudioPath, type NaturalNoteName } from "@/data/pianoNotes";
+import { pianoAudioPath, type PitchName } from "@/data/pianoNotes";
 import { PianoKeyboard } from "./PianoNoteTrainer";
 import styles from "./PianoLessonOne.module.css";
 
 type LessonStage = "ready" | "playing" | "complete";
 
-export function PianoLessonOne() {
+type PianoLessonProps = {
+  lessonId: PianoLessonId;
+};
+
+function AnswerChoice({ name }: { name: PitchName }) {
+  const [primaryName, alternateName] = name.split("/");
+  return (
+    <>
+      <span>{primaryName}</span>
+      {alternateName ? <small>{alternateName}</small> : null}
+    </>
+  );
+}
+
+export function PianoLesson({ lessonId }: PianoLessonProps) {
+  const lesson = getPianoLesson(lessonId);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [stage, setStage] = useState<LessonStage>("ready");
   const [name, setName] = useState("");
   const [playerName, setPlayerName] = useState("Pianist");
   const [deck, setDeck] = useState<PianoLessonCard[]>([]);
   const [cardIndex, setCardIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<NaturalNoteName | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<PitchName | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [elapsedMs, setElapsedMs] = useState(0);
@@ -66,7 +81,7 @@ export function PianoLessonOne() {
 
   const beginLesson = (nextPlayerName: string) => {
     setPlayerName(nextPlayerName);
-    setDeck(createLessonOneDeck());
+    setDeck(createPianoLessonDeck(lessonId));
     setCardIndex(0);
     setSelectedAnswer(null);
     setCorrectCount(0);
@@ -80,7 +95,7 @@ export function PianoLessonOne() {
     beginLesson(name.trim() || "Pianist");
   };
 
-  const chooseAnswer = (answer: NaturalNoteName) => {
+  const chooseAnswer = (answer: PitchName) => {
     if (!currentCard || answered) return;
     setSelectedAnswer(answer);
     if (answer === currentCard.note.name) setCorrectCount((current) => current + 1);
@@ -100,15 +115,15 @@ export function PianoLessonOne() {
 
   if (stage === "ready") {
     return (
-      <section className={styles.lessonShell} aria-labelledby="lesson-one-title">
+      <section className={styles.lessonShell} aria-labelledby={`lesson-${lesson.id}-title`}>
         <div className={styles.startCard}>
           <div className={styles.startCopy}>
-            <span>Lesson 1</span>
-            <h1 id="lesson-one-title">White key names.</h1>
-            <p>Identify C through B on the keyboard. Each note appears three times in a shuffled 21-card deck.</p>
+            <span>Lesson {lesson.id}</span>
+            <h1 id={`lesson-${lesson.id}-title`}>{lesson.title}.</h1>
+            <p>{lesson.description}</p>
             <dl className={styles.lessonFacts} aria-label="Lesson details">
-              <div><dt>Cards</dt><dd>21</dd></div>
-              <div><dt>Notes</dt><dd>7</dd></div>
+              <div><dt>Cards</dt><dd>{lesson.cardCount}</dd></div>
+              <div><dt>{lesson.focusLabel}</dt><dd>{lesson.focusCount}</dd></div>
               <div><dt>Format</dt><dd>Timed</dd></div>
             </dl>
           </div>
@@ -141,10 +156,10 @@ export function PianoLessonOne() {
           <div className={styles.trophy} aria-hidden="true"><Trophy size={42} weight="thin" /></div>
           <span>Lesson complete</span>
           <h1 id="lesson-complete-title">Congratulations, {playerName}!</h1>
-          <p>You finished every white-key card in Lesson 1.</p>
+          <p>{lesson.completionDescription}</p>
           <dl className={styles.results} aria-label="Lesson results">
             <div><dt>Time</dt><dd>{formatLessonTime(elapsedMs)}</dd></div>
-            <div><dt>Score</dt><dd>{correctCount}/{lessonOneCardCount}</dd></div>
+            <div><dt>Score</dt><dd>{correctCount}/{lesson.cardCount}</dd></div>
             <div><dt>Accuracy</dt><dd>{accuracy}%</dd></div>
           </dl>
           <div className={styles.completeActions}>
@@ -159,11 +174,11 @@ export function PianoLessonOne() {
   if (!currentCard) return null;
 
   return (
-    <section className={styles.lessonShell} aria-label="Lesson 1 in progress">
+    <section className={styles.lessonShell} aria-label={`Lesson ${lesson.id} in progress`}>
       <div className={styles.quiz}>
         <header className={styles.quizHeader}>
           <div>
-            <span>Lesson 1</span>
+            <span>Lesson {lesson.id}</span>
             <h1>Which note is highlighted?</h1>
           </div>
           <dl className={styles.liveStats} aria-label="Current lesson statistics">
@@ -186,8 +201,15 @@ export function PianoLessonOne() {
           </div>
 
           <div className={styles.answerPanel}>
-            <div className={styles.lessonChoices} aria-label="Choose a white key note name">
-              {lessonOneNoteNames.map((noteName) => {
+            <div
+              className={styles.lessonChoices}
+              aria-label="Choose a piano key note name"
+              style={{
+                "--lesson-choice-columns": lesson.desktopChoiceColumns,
+                "--lesson-mobile-choice-columns": lesson.mobileChoiceColumns,
+              } as CSSProperties}
+            >
+              {lesson.answerChoices.map((noteName) => {
                 const correct = answered && noteName === currentCard.note.name;
                 const wrong = answered && noteName === selectedAnswer && !correct;
                 return (
@@ -197,8 +219,9 @@ export function PianoLessonOne() {
                     className={correct ? styles.correct : wrong ? styles.wrong : ""}
                     disabled={answered}
                     onClick={() => chooseAnswer(noteName)}
+                    aria-label={noteName.replace("/", " or ")}
                   >
-                    {noteName}
+                    <AnswerChoice name={noteName} />
                   </button>
                 );
               })}
