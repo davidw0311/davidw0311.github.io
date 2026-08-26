@@ -10,6 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/projects/blackjack-trainer/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/language-lab/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/piano-note-lab/`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/projects/piano-note-lab/practice/`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/projects/piano-note-lab/lessons/`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/projects/piano-note-lab/lessons/1/`, changeFrequency: "monthly", priority: 0.7 },
     ...projects.map((project) => ({
       url: `${baseUrl}/projects/${project.slug}/`,
       changeFrequency: "yearly" as const,

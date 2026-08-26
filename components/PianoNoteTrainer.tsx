@@ -100,7 +100,7 @@ function keyStateClass(note: PianoNote, target: PianoNote, selectedId: string | 
   ].filter(Boolean).join(" ");
 }
 
-function PianoKeyboard({
+export function PianoKeyboard({
   target,
   selectedId,
   answered,

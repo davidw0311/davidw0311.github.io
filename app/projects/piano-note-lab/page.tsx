@@ -1,52 +1,61 @@
-import { ArrowLeft, PianoKeys } from "@phosphor-icons/react/dist/ssr";
+import {
+  ArrowLeft,
+  ArrowRight,
+  GraduationCap,
+  PianoKeys,
+} from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PianoNoteTrainer } from "@/components/PianoNoteTrainer";
 import styles from "./piano-note-lab.module.css";
 
 export const metadata: Metadata = {
   title: "Piano Party",
-  description: "A focused piano note trainer for learning natural, sharp, and flat keys in treble and bass clef.",
+  description: "Choose free piano practice or work through structured note-reading lessons.",
   alternates: { canonical: "/projects/piano-note-lab/" },
 };
 
-export default function PianoNoteLabPage() {
+export default function PianoPartyPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${styles.menuPage}`}>
       <nav className={styles.nav} aria-label="Piano Party navigation">
         <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Back to space</Link>
         <Link href="/#about">DYW</Link>
       </nav>
 
-      <section className={styles.stage} aria-labelledby="piano-lab-title">
+      <section className={styles.menuStage} aria-labelledby="piano-party-title">
         <header className={styles.intro}>
           <div className={styles.introIcon} aria-hidden="true">
             <PianoKeys size={27} weight="thin" />
           </div>
           <div>
-            <p>Interactive project</p>
-            <h1 id="piano-lab-title">Piano Party.</h1>
-            <strong>Build quick note recognition on the keyboard, treble clef, and bass clef.</strong>
+            <p>Choose your path</p>
+            <h1 id="piano-party-title">Piano Party.</h1>
+            <strong>Build fast note recognition through open practice or guided lessons.</strong>
           </div>
         </header>
 
-        <PianoNoteTrainer />
-      </section>
+        <div className={styles.modeList} aria-label="Piano Party modes">
+          <Link className={styles.modeOption} href="/projects/piano-note-lab/practice/">
+            <span className={styles.modeIcon} aria-hidden="true"><PianoKeys size={32} weight="thin" /></span>
+            <span className={styles.modeCopy}>
+              <small>Explore freely</small>
+              <strong>Free Practice</strong>
+              <span>Train key names, staff notes, treble clef, and bass clef at your own pace.</span>
+            </span>
+            <span className={styles.modeAction}>Open practice <ArrowRight size={18} weight="bold" /></span>
+          </Link>
 
-      <section className={styles.practiceGuide} aria-labelledby="practice-guide-title">
-        <div>
-          <PianoKeys size={38} weight="thin" aria-hidden="true" />
-          <h2 id="practice-guide-title">Read. Find. Repeat.</h2>
-        </div>
-        <div className={styles.guideCopy}>
-          <p>Start with key names, then move to staff reading. Mixed clefs combine both skills once each one feels familiar.</p>
-          <p>Practice natural notes, sharps, and flats from C3 to C5. Each answer plays aloud so sight and sound reinforce one another.</p>
+          <Link className={`${styles.modeOption} ${styles.lessonOption}`} href="/projects/piano-note-lab/lessons/">
+            <span className={styles.modeIcon} aria-hidden="true"><GraduationCap size={32} weight="thin" /></span>
+            <span className={styles.modeCopy}>
+              <small>Follow a sequence</small>
+              <strong>Lessons</strong>
+              <span>Complete focused exercises, race the clock, and finish with a lesson report.</span>
+            </span>
+            <span className={styles.modeAction}>View lessons <ArrowRight size={18} weight="bold" /></span>
+          </Link>
         </div>
       </section>
-
-      <footer className={styles.footer}>
-        <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Return to future projects</Link>
-      </footer>
     </main>
   );
 }
