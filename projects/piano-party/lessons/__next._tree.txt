@@ -1,4 +1,4 @@
 :HL["/_next/static/chunks/1wot_w9-q13mr.css","style"]
 :HL["/_next/static/media/BrunoAceSC_Regular-s.p.372avm877bc76.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
-:HL["/_next/static/chunks/2qpoby52bzn6n.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4192,"slots":{"children":{"name":"piano-party","param":null,"prefetchHints":4192,"slots":{"children":{"name":"lessons","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}}}},"staleTime":300,"buildId":"F3mENl2GZx2D9sMzQCxbS"}
+:HL["/_next/static/chunks/41io94flcni6i.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4192,"slots":{"children":{"name":"piano-party","param":null,"prefetchHints":4192,"slots":{"children":{"name":"lessons","param":null,"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}}}},"staleTime":300,"buildId":"_fzUIH473f4rmI80UvNCn"}
