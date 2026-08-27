@@ -125,7 +125,7 @@ export function PianoKeyboard({
   answered: boolean;
   interactive: boolean;
   showPrompt: boolean;
-  onChoose: (note: PianoNote) => void;
+  onChoose: (note: PianoNote, answeredAt: number) => void;
 }) {
   return (
     <div className={styles.keyboardWrap}>
@@ -154,7 +154,7 @@ export function PianoKeyboard({
                     tabIndex={interactive ? 0 : -1}
                     aria-label={spokenPitchName(note)}
                     aria-pressed={interactive ? selectedId === note.id : undefined}
-                    onClick={() => onChoose(note)}
+                    onClick={(event) => onChoose(note, event.timeStamp)}
                   >
                     <span className={answered && (note.id === target.id || note.id === selectedId) ? styles.visibleKeyLabel : ""}>
                       {note.name}<small>{note.octave}</small>
@@ -182,7 +182,7 @@ export function PianoKeyboard({
                       tabIndex={interactive ? 0 : -1}
                       aria-label={spokenPitchName(note)}
                       aria-pressed={interactive ? selectedId === note.id : undefined}
-                      onClick={() => onChoose(note)}
+                      onClick={(event) => onChoose(note, event.timeStamp)}
                     >
                       <span>{formatPianoKey(note)}</span>
                     </button>
@@ -197,7 +197,7 @@ export function PianoKeyboard({
   );
 }
 
-function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: StaffClef }) {
+export function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: StaffClef }) {
   const step = staffStepFor(notation, clef);
   const ledgerSteps = ledgerStepsFor(notation, clef);
   const style = { "--note-step": step } as CSSProperties;

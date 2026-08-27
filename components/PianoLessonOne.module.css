@@ -429,6 +429,10 @@
   padding: 10px clamp(16px, 3vw, 36px) clamp(14px, 2.6vw, 28px);
 }
 
+.staffQuizBody {
+  grid-template-rows: minmax(190px, 1fr) auto;
+}
+
 .keyboardPrompt {
   display: grid;
   place-items: center;
@@ -778,6 +782,10 @@
     padding: 3px 6px 6px;
   }
 
+  .staffQuizBody {
+    grid-template-rows: minmax(138px, 1fr) auto;
+  }
+
   .answerPanel {
     gap: 5px;
   }
@@ -964,6 +972,10 @@
     grid-template-rows: minmax(0, 1fr) auto;
     gap: 4px;
     padding: 3px 6px 6px;
+  }
+
+  .staffQuizBody {
+    grid-template-rows: minmax(112px, 1fr) auto;
   }
 
   .answerPanel {

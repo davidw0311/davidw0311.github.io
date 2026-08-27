@@ -16,13 +16,14 @@ import {
   formatRecognitionTime,
   getPianoLesson,
   lessonAccuracy,
-  rankLessonNotePerformance,
+  lessonPerformanceKey,
+  rankPianoLessonPerformance,
   type LessonNotePerformanceMap,
   type PianoLessonCard,
   type PianoLessonId,
 } from "@/data/pianoLessons";
-import { pianoAudioPath, type PitchName } from "@/data/pianoNotes";
-import { PianoKeyboard } from "./PianoNoteTrainer";
+import { formatPianoKey, pianoAudioPath, type PianoNote, type PitchName } from "@/data/pianoNotes";
+import { MusicStaff, PianoKeyboard } from "./PianoNoteTrainer";
 import styles from "./PianoLessonOne.module.css";
 
 type LessonStage = "ready" | "playing" | "complete";
@@ -31,7 +32,7 @@ type PianoLessonProps = {
   lessonId: PianoLessonId;
 };
 
-function answerChoiceLabel(name: PitchName) {
+function answerChoiceLabel(name: string) {
   return name.replace("/", " / ");
 }
 
@@ -48,7 +49,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const [playerName, setPlayerName] = useState("Pianist");
   const [deck, setDeck] = useState<PianoLessonCard[]>([]);
   const [cardIndex, setCardIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<PitchName | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [notePerformance, setNotePerformance] = useState<LessonNotePerformanceMap>({});
   const [startedAt, setStartedAt] = useState<number | null>(null);
@@ -56,12 +57,12 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
 
   const currentCard = deck[cardIndex];
   const answered = selectedAnswer !== null;
-  const answerIsCorrect = answered && selectedAnswer === currentCard?.note.name;
+  const expectedAnswer = currentCard
+    ? lesson.exerciseMode === "staff-key" ? currentCard.note.id : currentCard.note.name
+    : null;
+  const answerIsCorrect = answered && selectedAnswer === expectedAnswer;
   const accuracy = lessonAccuracy(correctCount, deck.length);
-  const noteReport = rankLessonNotePerformance(
-    deck.map((card) => card.note.name),
-    notePerformance,
-  );
+  const noteReport = rankPianoLessonPerformance(lessonId, notePerformance);
 
   useEffect(() => {
     if (stage !== "playing" || startedAt === null) return;
@@ -74,9 +75,9 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     audioRef.current = null;
   }, []);
 
-  const playNote = (card: PianoLessonCard) => {
+  const playNote = (note: PianoNote) => {
     audioRef.current?.pause();
-    const audio = new Audio(pianoAudioPath(card.note));
+    const audio = new Audio(pianoAudioPath(note));
     audio.preload = "auto";
     audio.volume = 0.9;
     audio.addEventListener("ended", () => {
@@ -105,20 +106,21 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     beginLesson(name.trim() || "Pianist", event.timeStamp);
   };
 
-  const handleAnswer = (answer: PitchName, answeredAt: number) => {
+  const handleAnswer = (answer: string, answeredAt: number, playedNote?: PianoNote) => {
     if (!currentCard || answered) return;
     const recognitionMs = Math.max(0, answeredAt - (cardStartedAtRef.current ?? answeredAt));
-    const isCorrect = answer === currentCard.note.name;
+    const isCorrect = answer === expectedAnswer;
+    const performanceKey = lessonPerformanceKey(lessonId, currentCard);
     setSelectedAnswer(answer);
     setNotePerformance((current) => {
-      const previous = current[currentCard.note.name] ?? {
+      const previous = current[performanceKey] ?? {
         attempts: 0,
         mistakes: 0,
         totalRecognitionMs: 0,
       };
       return {
         ...current,
-        [currentCard.note.name]: {
+        [performanceKey]: {
           attempts: previous.attempts + 1,
           mistakes: previous.mistakes + (isCorrect ? 0 : 1),
           totalRecognitionMs: previous.totalRecognitionMs + recognitionMs,
@@ -128,7 +130,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     if (isCorrect) {
       setCorrectCount((current) => current + 1);
     }
-    playNote(currentCard);
+    playNote(playedNote ?? currentCard.note);
   };
 
   const advance = (nextCardStartedAt: number) => {
@@ -243,7 +245,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
         <header className={styles.quizHeader}>
           <div>
             <span>Lesson {lesson.id}</span>
-            <h1>Which note is highlighted?</h1>
+            <h1>{lesson.prompt}</h1>
           </div>
           <dl className={styles.liveStats} aria-label="Current lesson statistics">
             <div><dt>Card</dt><dd>{cardIndex + 1}/{deck.length}</dd></div>
@@ -252,49 +254,76 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
           </dl>
         </header>
 
-        <div className={styles.quizBody}>
+        <div className={`${styles.quizBody} ${lesson.exerciseMode !== "key-name" ? styles.staffQuizBody : ""}`}>
           <div className={styles.keyboardPrompt}>
-            <PianoKeyboard
-              target={currentCard.note}
-              selectedId={null}
-              answered={answered}
-              interactive={false}
-              showPrompt
-              onChoose={() => undefined}
-            />
+            {lesson.exerciseMode === "key-name" ? (
+              <PianoKeyboard
+                target={currentCard.note}
+                selectedId={null}
+                answered={answered}
+                interactive={false}
+                showPrompt
+                onChoose={() => undefined}
+              />
+            ) : currentCard.notation && currentCard.clef ? (
+              <MusicStaff notation={currentCard.notation} clef={currentCard.clef} />
+            ) : null}
           </div>
 
           <div className={styles.answerPanel}>
-            <div
-              className={styles.lessonChoices}
-              aria-label="Choose a piano key note name"
-              style={{
-                "--lesson-choice-columns": lesson.desktopChoiceColumns,
-                "--lesson-mobile-choice-columns": lesson.mobileChoiceColumns,
-              } as CSSProperties}
-            >
-              {lesson.answerChoices.map((noteName) => {
-                const correct = answered && noteName === currentCard.note.name;
-                const wrong = answered && noteName === selectedAnswer && !correct;
-                return (
-                  <button
-                    type="button"
-                    key={noteName}
-                    className={correct ? styles.correct : wrong ? styles.wrong : ""}
-                    disabled={answered}
-                    onClick={(event) => handleAnswer(noteName, event.timeStamp)}
-                    aria-label={noteName.replace("/", " or ")}
-                  >
-                    <AnswerChoice name={noteName} />
-                  </button>
-                );
-              })}
-            </div>
+            {lesson.exerciseMode === "staff-key" ? (
+              <PianoKeyboard
+                target={currentCard.note}
+                selectedId={selectedAnswer}
+                answered={answered}
+                interactive
+                showPrompt={false}
+                onChoose={(note, answeredAt) => answered
+                  ? playNote(note)
+                  : handleAnswer(note.id, answeredAt, note)}
+              />
+            ) : (
+              <div
+                className={styles.lessonChoices}
+                aria-label="Choose a piano key note name"
+                style={{
+                  "--lesson-choice-columns": lesson.desktopChoiceColumns,
+                  "--lesson-mobile-choice-columns": lesson.mobileChoiceColumns,
+                } as CSSProperties}
+              >
+                {lesson.answerChoices.map((noteName) => {
+                  const correct = answered && noteName === currentCard.note.name;
+                  const wrong = answered && noteName === selectedAnswer && !correct;
+                  return (
+                    <button
+                      type="button"
+                      key={noteName}
+                      className={correct ? styles.correct : wrong ? styles.wrong : ""}
+                      disabled={answered}
+                      onClick={(event) => handleAnswer(noteName, event.timeStamp)}
+                      aria-label={noteName.replace("/", " or ")}
+                    >
+                      <AnswerChoice name={noteName} />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             <div className={styles.lessonFeedback} aria-live="polite">
               <span className={answerIsCorrect ? styles.goodFeedback : answered ? styles.badFeedback : ""}>
                 {answerIsCorrect ? <CheckCircle size={19} weight="fill" /> : answered ? <XCircle size={19} weight="fill" /> : null}
-                {answerIsCorrect ? "Correct." : answered ? `That key is ${currentCard.note.name}.` : "Choose the highlighted key's note name."}
+                {answerIsCorrect
+                  ? "Correct."
+                  : answered
+                    ? lesson.exerciseMode === "key-name"
+                      ? `That key is ${currentCard.note.name}.`
+                      : `That note is ${formatPianoKey(currentCard.note, true)}.`
+                    : lesson.exerciseMode === "key-name"
+                      ? "Choose the highlighted key's note name."
+                      : lesson.exerciseMode === "staff-name"
+                        ? "Choose the staff note's name."
+                        : "Choose the matching piano key."}
               </span>
               <button
                 type="button"

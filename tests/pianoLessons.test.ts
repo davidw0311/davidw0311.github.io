@@ -7,12 +7,18 @@ import {
   formatRecognitionTime,
   getPianoLesson,
   lessonAccuracy,
+  lessonEightNoteIds,
+  lessonFourNoteIds,
   lessonOneCardCount,
   lessonOneNoteNames,
+  lessonSixNoteIds,
+  lessonTenNoteIds,
   lessonThreeNoteNames,
   lessonTwoNoteNames,
   pianoLessons,
+  rankPianoLessonPerformance,
   rankLessonNotePerformance,
+  type PianoLessonId,
 } from "../data/pianoLessons.ts";
 import { pitchNames } from "../data/pianoNotes.ts";
 
@@ -88,7 +94,7 @@ test("lesson three contains three octave-spanning cards for every note name", ()
 });
 
 test("lesson definitions are numbered in order", () => {
-  assert.deepEqual(pianoLessons.map((lesson) => lesson.id), [1, 2, 3]);
+  assert.deepEqual(pianoLessons.map((lesson) => lesson.id), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 });
 
 test("every lesson presents the same complete set of answer labels", () => {
@@ -97,4 +103,47 @@ test("every lesson presents the same complete set of answer labels", () => {
     assert.equal(lesson.desktopChoiceColumns, 6);
     assert.equal(lesson.mobileChoiceColumns, 4);
   }
+});
+
+test("staff lessons contain three treble-clef cards for every exact target note", () => {
+  const staffLessonCases: Array<{
+    lessonId: PianoLessonId;
+    noteIds: readonly string[];
+    exerciseMode: "staff-name" | "staff-key";
+  }> = [
+    { lessonId: 4, noteIds: lessonFourNoteIds, exerciseMode: "staff-name" },
+    { lessonId: 5, noteIds: lessonFourNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 6, noteIds: lessonSixNoteIds, exerciseMode: "staff-name" },
+    { lessonId: 7, noteIds: lessonSixNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 8, noteIds: lessonEightNoteIds, exerciseMode: "staff-name" },
+    { lessonId: 9, noteIds: lessonEightNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 10, noteIds: lessonTenNoteIds, exerciseMode: "staff-name" },
+    { lessonId: 11, noteIds: lessonTenNoteIds, exerciseMode: "staff-key" },
+  ];
+
+  for (const { lessonId, noteIds, exerciseMode } of staffLessonCases) {
+    const deck = createPianoLessonDeck(lessonId, () => 0.57);
+    assert.equal(deck.length, noteIds.length * 3);
+    assert.equal(getPianoLesson(lessonId).cardCount, noteIds.length * 3);
+    assert.equal(getPianoLesson(lessonId).exerciseMode, exerciseMode);
+    assert.equal(new Set(deck.map((card) => card.id)).size, deck.length);
+    assert.ok(deck.every((card) => card.clef === "treble"));
+    assert.ok(deck.every((card) => card.notation?.accidental === null));
+    assert.deepEqual([...new Set(deck.map((card) => card.note.id))].sort(), [...noteIds].sort());
+
+    for (const noteId of noteIds) {
+      assert.equal(deck.filter((card) => card.note.id === noteId).length, 3);
+    }
+  }
+});
+
+test("staff lesson reports keep octave-specific note labels", () => {
+  const report = rankPianoLessonPerformance(6, {
+    C4: { attempts: 3, mistakes: 1, totalRecognitionMs: 3_000 },
+    D4: { attempts: 3, mistakes: 2, totalRecognitionMs: 4_500 },
+    E4: { attempts: 3, mistakes: 2, totalRecognitionMs: 7_500 },
+    F4: { attempts: 3, mistakes: 0, totalRecognitionMs: 12_000 },
+  });
+
+  assert.deepEqual(report.map(({ noteName }) => noteName), ["E4", "D4", "C4", "F4"]);
 });
