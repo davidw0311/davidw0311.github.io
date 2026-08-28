@@ -4,6 +4,7 @@ import {
   ArrowRight,
   CheckCircle,
   Clock,
+  Sparkle,
   Trophy,
   User,
   XCircle,
@@ -24,6 +25,7 @@ import {
 } from "@/data/pianoLessons";
 import { formatPianoKey, pianoAudioPath, type PianoNote, type PitchName } from "@/data/pianoNotes";
 import { MusicStaff, PianoKeyboard } from "./PianoNoteTrainer";
+import { PianoLessonShareButton } from "./PianoLessonShareButton";
 import styles from "./PianoLessonOne.module.css";
 
 type LessonStage = "ready" | "playing" | "complete";
@@ -38,6 +40,28 @@ function answerChoiceLabel(name: string) {
 
 function AnswerChoice({ name }: { name: PitchName }) {
   return answerChoiceLabel(name);
+}
+
+const confettiColors = ["#79e4c5", "#edf8f5", "#ffcf70", "#ff9d97"];
+
+function PerfectLessonCelebration() {
+  return (
+    <div className={styles.celebration} aria-hidden="true">
+      {Array.from({ length: 28 }, (_, index) => (
+        <i
+          key={index}
+          className={styles.confetti}
+          style={{
+            "--confetti-left": `${4 + ((index * 37) % 92)}%`,
+            "--confetti-delay": `${(index % 7) * 70}ms`,
+            "--confetti-drift": `${((index * 29) % 180) - 90}px`,
+            "--confetti-spin": `${420 + (index % 5) * 90}deg`,
+            "--confetti-color": confettiColors[index % confettiColors.length],
+          } as CSSProperties}
+        />
+      ))}
+    </div>
+  );
 }
 
 export function PianoLesson({ lessonId }: PianoLessonProps) {
@@ -63,6 +87,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   const answerIsCorrect = answered && selectedAnswer === expectedAnswer;
   const accuracy = lessonAccuracy(correctCount, deck.length);
   const noteReport = rankPianoLessonPerformance(lessonId, notePerformance);
+  const perfectLesson = deck.length > 0 && correctCount === deck.length;
 
   useEffect(() => {
     if (stage !== "playing" || startedAt === null) return;
@@ -184,11 +209,20 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
   if (stage === "complete") {
     return (
       <section className={styles.lessonShell} aria-labelledby="lesson-complete-title">
-        <div className={styles.completeCard}>
+        <div className={`${styles.completeCard} ${perfectLesson ? styles.perfectCompleteCard : ""}`}>
+          {perfectLesson ? <PerfectLessonCelebration /> : null}
           <div className={styles.trophy} aria-hidden="true"><Trophy size={42} weight="thin" /></div>
-          <span>Lesson complete</span>
+          <div className={styles.completionLabel}>
+            <strong>Lesson {lesson.id}</strong>
+            <span>Complete</span>
+          </div>
           <h1 id="lesson-complete-title">Congratulations, {playerName}!</h1>
           <p>{lesson.completionDescription}</p>
+          {perfectLesson ? (
+            <p className={styles.perfectMessage}>
+              <Sparkle size={17} weight="fill" aria-hidden="true" /> Perfect run. Every note was correct.
+            </p>
+          ) : null}
           <dl className={styles.results} aria-label="Lesson results">
             <div><dt>Time</dt><dd>{formatLessonTime(elapsedMs)}</dd></div>
             <div><dt>Score</dt><dd>{correctCount}/{lesson.cardCount}</dd></div>
@@ -230,6 +264,17 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
           </section>
           <div className={styles.completeActions}>
             <button type="button" onClick={(event) => beginLesson(playerName, event.timeStamp)}>Try again</button>
+            <PianoLessonShareButton
+              result={{
+                lessonId: lesson.id,
+                lessonTitle: lesson.title,
+                playerName,
+                elapsedTime: formatLessonTime(elapsedMs),
+                correctCount,
+                cardCount: lesson.cardCount,
+                accuracy,
+              }}
+            />
             <Link href="/projects/piano-party/lessons/">All lessons</Link>
           </div>
         </div>

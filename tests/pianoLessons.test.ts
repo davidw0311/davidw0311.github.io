@@ -22,6 +22,10 @@ import {
   type PianoLessonId,
 } from "../data/pianoLessons.ts";
 import { pitchNames } from "../data/pianoNotes.ts";
+import {
+  pianoLessonShareFileName,
+  pianoLessonShareText,
+} from "../data/pianoLessonShare.ts";
 
 test("lesson one contains three shuffled cards for every natural note", () => {
   let seed = 17;
@@ -44,6 +48,28 @@ test("lesson statistics format time and accuracy", () => {
   assert.equal(formatLessonTime(65_499), "1:05.4");
   assert.equal(lessonAccuracy(17, 21), 81);
   assert.equal(lessonAccuracy(0, 0), 0);
+});
+
+test("lesson result shares use clear progress copy and image names", () => {
+  const result = {
+    lessonId: 4,
+    lessonTitle: "Treble FACE notes",
+    playerName: "Avery",
+    elapsedTime: "0:42.3",
+    correctCount: 12,
+    cardCount: 12,
+    accuracy: 100,
+  };
+
+  assert.equal(pianoLessonShareFileName(result.lessonId), "piano-party-lesson-4.png");
+  assert.equal(
+    pianoLessonShareText(result),
+    "I completed Piano Party Lesson 4 with 100% accuracy in 0:42.3. A perfect run!",
+  );
+  assert.equal(
+    pianoLessonShareText({ ...result, correctCount: 10, accuracy: 83 }),
+    "I completed Piano Party Lesson 4 with 83% accuracy in 0:42.3.",
+  );
 });
 
 test("lesson reports rank every included note by mistakes and then recognition time", () => {

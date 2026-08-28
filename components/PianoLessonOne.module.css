@@ -64,7 +64,6 @@
 }
 
 .startCopy > span,
-.completeCard > span,
 .quizHeader > div > span {
   color: var(--piano-accent);
   font-size: 0.65rem;
@@ -216,12 +215,70 @@
 }
 
 .completeCard {
+  position: relative;
+  isolation: isolate;
   display: grid;
   place-items: center;
   max-width: 780px;
   min-height: 500px;
   padding: clamp(32px, 6vw, 68px);
   text-align: center;
+}
+
+.completeCard > :not(.celebration) {
+  position: relative;
+  z-index: 1;
+}
+
+.completionLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+  color: var(--lesson-faint);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.completionLabel strong {
+  padding: 7px 11px;
+  border: 1px solid rgb(121 228 197 / 0.44);
+  border-radius: 9px;
+  color: var(--piano-accent);
+  background: rgb(121 228 197 / 0.08);
+  font-size: 0.8rem;
+}
+
+.perfectMessage {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 13px 0 0;
+  color: var(--piano-accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.celebration {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  top: -18px;
+  left: var(--confetti-left);
+  width: 7px;
+  height: 15px;
+  border-radius: 2px;
+  background: var(--confetti-color);
+  opacity: 0;
 }
 
 .trophy {
@@ -376,6 +433,14 @@
 .completeActions a {
   min-width: 116px;
   padding: 8px 16px;
+}
+
+.completeActions button:disabled {
+  color: var(--lesson-faint);
+  border-color: var(--lesson-line);
+  background: rgb(220 243 239 / 0.04);
+  cursor: wait;
+  opacity: 0.72;
 }
 
 .completeActions a {
@@ -605,7 +670,6 @@
   }
 
   .startCopy > span,
-  .completeCard > span,
   .quizHeader > div > span {
     font-size: 0.52rem;
   }
@@ -686,6 +750,21 @@
     font-size: clamp(1.65rem, 8vw, 2.5rem);
   }
 
+  .completionLabel {
+    margin-bottom: 2px;
+    font-size: 0.52rem;
+  }
+
+  .completionLabel strong {
+    padding: 5px 8px;
+    font-size: 0.66rem;
+  }
+
+  .perfectMessage {
+    margin-top: 7px;
+    font-size: 0.62rem;
+  }
+
   .completeCard > p {
     margin-top: 8px;
     font-size: 0.69rem;
@@ -744,7 +823,15 @@
   }
 
   .completeActions {
+    flex-wrap: wrap;
+    justify-content: center;
     margin-top: 12px;
+  }
+
+  .completeActions button,
+  .completeActions a {
+    min-width: 0;
+    padding-inline: 11px;
   }
 
   .quiz {
@@ -901,6 +988,14 @@
     font-size: 0.68rem;
   }
 
+  .completionLabel {
+    margin-bottom: 0;
+  }
+
+  .perfectMessage {
+    margin-top: 2px;
+  }
+
   .results,
   .completeActions {
     margin-top: 5px;
@@ -939,6 +1034,7 @@
   .completeActions button,
   .completeActions a {
     min-height: 32px;
+    padding-block: 4px;
   }
 
   .quiz {
@@ -1003,5 +1099,47 @@
   .lessonShell button,
   .lessonShell a {
     transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .perfectCompleteCard .trophy {
+    animation: perfect-trophy 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .confetti {
+    animation: perfect-confetti 2.8s cubic-bezier(0.2, 0.7, 0.25, 1) var(--confetti-delay) both;
+  }
+}
+
+@keyframes perfect-trophy {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-9deg);
+  }
+
+  65% {
+    transform: scale(1.08) rotate(3deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes perfect-confetti {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -24px, 0) rotate(0);
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--confetti-drift), 760px, 0) rotate(var(--confetti-spin));
   }
 }
