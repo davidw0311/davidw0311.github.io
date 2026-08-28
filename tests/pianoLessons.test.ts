@@ -127,6 +127,29 @@ test("shuffled lessons never repeat an equivalent question twice in a row", () =
   }
 });
 
+test("redoing every lesson creates a fresh visible note order", () => {
+  const seededRandom = (initialSeed: number) => {
+    let seed = initialSeed;
+    return () => {
+      seed = (seed * 1_664_525 + 1_013_904_223) % 4_294_967_296;
+      return seed / 4_294_967_296;
+    };
+  };
+
+  for (const lesson of pianoLessons) {
+    const firstRun = createPianoLessonDeck(lesson.id, seededRandom(101))
+      .map((card) => lessonPerformanceKey(lesson.id, card));
+    const redo = createPianoLessonDeck(lesson.id, seededRandom(202))
+      .map((card) => lessonPerformanceKey(lesson.id, card));
+
+    assert.notDeepEqual(
+      redo,
+      firstRun,
+      `Lesson ${lesson.id} reused the same visible note order`,
+    );
+  }
+});
+
 test("staff lessons contain three treble-clef cards for every exact target note", () => {
   const staffLessonCases: Array<{
     lessonId: PianoLessonId;
