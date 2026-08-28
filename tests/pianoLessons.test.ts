@@ -9,6 +9,7 @@ import {
   lessonAccuracy,
   lessonEightNoteIds,
   lessonFourNoteIds,
+  lessonPerformanceKey,
   lessonOneCardCount,
   lessonOneNoteNames,
   lessonSixNoteIds,
@@ -102,6 +103,27 @@ test("every lesson presents the same complete set of answer labels", () => {
     assert.deepEqual(lesson.answerChoices, pitchNames);
     assert.equal(lesson.desktopChoiceColumns, 6);
     assert.equal(lesson.mobileChoiceColumns, 4);
+  }
+});
+
+test("shuffled lessons never repeat an equivalent question twice in a row", () => {
+  for (const lesson of pianoLessons) {
+    for (let initialSeed = 1; initialSeed <= 50; initialSeed += 1) {
+      let seed = initialSeed;
+      const random = () => {
+        seed = (seed * 1_664_525 + 1_013_904_223) % 4_294_967_296;
+        return seed / 4_294_967_296;
+      };
+      const deck = createPianoLessonDeck(lesson.id, random);
+
+      for (let index = 1; index < deck.length; index += 1) {
+        assert.notEqual(
+          lessonPerformanceKey(lesson.id, deck[index]),
+          lessonPerformanceKey(lesson.id, deck[index - 1]),
+          `Lesson ${lesson.id} repeated a question at cards ${index} and ${index + 1}`,
+        );
+      }
+    }
   }
 });
 

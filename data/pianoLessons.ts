@@ -291,12 +291,45 @@ export function createPianoLessonDeck(
   lessonId: PianoLessonId,
   random: () => number = Math.random,
 ) {
-  const deck = [...lessonCards[lessonId]];
+  const shuffledCards = [...lessonCards[lessonId]];
 
-  for (let index = deck.length - 1; index > 0; index -= 1) {
+  for (let index = shuffledCards.length - 1; index > 0; index -= 1) {
     const randomValue = Math.min(0.999999999, Math.max(0, random()));
     const swapIndex = Math.floor(randomValue * (index + 1));
-    [deck[index], deck[swapIndex]] = [deck[swapIndex], deck[index]];
+    [shuffledCards[index], shuffledCards[swapIndex]] = [shuffledCards[swapIndex], shuffledCards[index]];
+  }
+
+  const cardGroups = new Map<string, PianoLessonCard[]>();
+  for (const card of shuffledCards) {
+    const questionKey = lessonPerformanceKey(lessonId, card);
+    const group = cardGroups.get(questionKey) ?? [];
+    group.push(card);
+    cardGroups.set(questionKey, group);
+  }
+
+  const deck: PianoLessonCard[] = [];
+  let previousQuestionKey: string | null = null;
+
+  while (deck.length < shuffledCards.length) {
+    const eligibleGroups = [...cardGroups.entries()].filter(([
+      questionKey,
+      cards,
+    ]) => questionKey !== previousQuestionKey && cards.length > 0);
+
+    if (eligibleGroups.length === 0) {
+      throw new Error(`Unable to separate repeated notes in Lesson ${lessonId}`);
+    }
+
+    const largestGroupSize = Math.max(...eligibleGroups.map(([, cards]) => cards.length));
+    const largestGroups = eligibleGroups.filter(([, cards]) => cards.length === largestGroupSize);
+    const randomValue = Math.min(0.999999999, Math.max(0, random()));
+    const groupIndex = Math.floor(randomValue * largestGroups.length);
+    const [questionKey, cards] = largestGroups[groupIndex];
+    const nextCard = cards.pop();
+
+    if (!nextCard) throw new Error(`Missing lesson card for ${questionKey}`);
+    deck.push(nextCard);
+    previousQuestionKey = questionKey;
   }
 
   return deck;
