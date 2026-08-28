@@ -226,7 +226,10 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
 
   if (stage === "complete") {
     return (
-      <section className={styles.lessonShell} aria-labelledby="lesson-complete-title">
+      <section
+        className={`${styles.lessonShell} ${styles.completeShell}`}
+        aria-labelledby="lesson-complete-title"
+      >
         <div className={`${styles.completeCard} ${perfectLesson ? styles.perfectCompleteCard : ""}`}>
           {perfectLesson ? <PerfectLessonCelebration /> : null}
           <div className={styles.trophy} aria-hidden="true"><Trophy size={42} weight="thin" /></div>

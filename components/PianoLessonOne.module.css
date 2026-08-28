@@ -651,6 +651,10 @@
     padding: 4px 7px 7px;
   }
 
+  .completeShell {
+    height: calc(100svh - 40px);
+  }
+
   .startCard,
   .completeCard,
   .quiz {
@@ -730,8 +734,17 @@
   }
 
   .completeCard {
+    align-content: start;
     min-height: 0;
-    padding: 20px 14px;
+    padding: 20px 14px max(24px, calc(16px + env(safe-area-inset-bottom)));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-padding-bottom: max(24px, calc(16px + env(safe-area-inset-bottom)));
+    scrollbar-color: var(--lesson-line-strong) transparent;
+    scrollbar-width: thin;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 
   .trophy {
@@ -915,6 +928,10 @@
     height: calc(100dvh - 34px);
     min-height: 0;
     padding: 3px 6px 5px;
+  }
+
+  .completeShell {
+    height: calc(100svh - 34px);
   }
 
   .startCard {
