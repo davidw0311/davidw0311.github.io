@@ -69,7 +69,8 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const [unitIndex, setUnitIndex] = useState(0);
   const [activePhrase, setActivePhrase] = useState<ActivePhrase | null>(null);
   const [lessonFinished, setLessonFinished] = useState(false);
-  const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
+  const [landingLanguagePickerOpen, setLandingLanguagePickerOpen] = useState(false);
+  const [lessonLanguagePickerOpen, setLessonLanguagePickerOpen] = useState(false);
   const [systemLanguagePickerOpen, setSystemLanguagePickerOpen] = useState(false);
   const [lessonOpen, setLessonOpen] = useState(false);
   const [pendingLessonIndex, setPendingLessonIndex] = useState<number | null>(null);
@@ -157,10 +158,14 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   }, [resetSpeechAttempt, stopPlayback]);
 
   const closeLanguagePickers = useCallback(() => {
-    setLanguagePickerOpen(false);
+    setLandingLanguagePickerOpen(false);
+    setLessonLanguagePickerOpen(false);
     setSystemLanguagePickerOpen(false);
   }, []);
-  useEscapeKey(languagePickerOpen || systemLanguagePickerOpen, closeLanguagePickers);
+  useEscapeKey(
+    landingLanguagePickerOpen || lessonLanguagePickerOpen || systemLanguagePickerOpen,
+    closeLanguagePickers,
+  );
   useBodyScrollLock(lessonOpen);
 
   const selectContent = (index: number) => {
@@ -172,6 +177,8 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
 
   const openLesson = async (index: number) => {
     if (pendingLessonIndex !== null) return;
+    setLandingLanguagePickerOpen(false);
+    setSystemLanguagePickerOpen(false);
     setPendingLessonIndex(index);
     setLessonEntryError("");
 
@@ -181,7 +188,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
         microphoneReadyRef.current = true;
       }
       selectContent(index);
-      setSystemLanguagePickerOpen(false);
+      setLessonLanguagePickerOpen(false);
       setLessonOpen(true);
     } catch (error) {
       setLessonEntryError(error instanceof DOMException && error.name === "NotAllowedError"
@@ -194,13 +201,13 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
 
   const returnToLibrary = () => {
     setLessonOpen(false);
-    setLanguagePickerOpen(false);
+    closeLanguagePickers();
     resetAttempt();
   };
 
   const selectPracticeLanguage = (languageId: LanguageId) => {
     setProgress((current) => withPracticeLanguage(current, languageId));
-    setLanguagePickerOpen(false);
+    setLandingLanguagePickerOpen(false);
     setLessonFinished(false);
     resetAttempt();
   };
@@ -250,7 +257,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
 
   const addSupportLanguage = (languageId: LanguageId) => {
     setProgress((current) => withAddedSupportLanguage(current, languageId));
-    setLanguagePickerOpen(false);
+    setLessonLanguagePickerOpen(false);
   };
 
   const removeSupportLanguage = (languageId: LanguageId) => {
@@ -397,8 +404,8 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                   <button
                     type="button"
                     aria-label={ui.chooseDisplayedLanguages}
-                    aria-expanded={languagePickerOpen}
-                    onClick={() => setLanguagePickerOpen((open) => !open)}
+                    aria-expanded={landingLanguagePickerOpen}
+                    onClick={() => setLandingLanguagePickerOpen((open) => !open)}
                   >
                     <span>{supportLanguageIds.length > 0
                       ? supportLanguageIds.slice(0, 2).map((id) => languages[id].nameNative).join(", ")
@@ -407,7 +414,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                     <Plus size={15} weight="bold" aria-hidden="true" />
                   </button>
                   <AnimatePresence initial={false}>
-                    {languagePickerOpen ? (
+                    {landingLanguagePickerOpen ? (
                       <motion.div
                         className={styles.displayLanguagePicker}
                         role="group"
@@ -583,14 +590,14 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       type="button"
                       className={styles.addLanguageButton}
                       aria-label={ui.addLanguage}
-                      aria-expanded={languagePickerOpen}
-                      onClick={() => setLanguagePickerOpen((open) => !open)}
+                      aria-expanded={lessonLanguagePickerOpen}
+                      onClick={() => setLessonLanguagePickerOpen((open) => !open)}
                     >
                       <Plus size={15} weight="bold" aria-hidden="true" />
                       <span>{ui.addLanguage}</span>
                     </button>
                     <AnimatePresence initial={false}>
-                      {languagePickerOpen ? (
+                      {lessonLanguagePickerOpen ? (
                         <motion.div
                           className={styles.languagePicker}
                           initial={reduceMotion ? false : { opacity: 0, y: -6 }}
