@@ -24,6 +24,7 @@ import {
 import { pitchNames } from "../data/pianoNotes.ts";
 import {
   pianoLessonShareFileName,
+  pianoLessonShareMistakeCount,
   pianoLessonShareText,
 } from "../data/pianoLessonShare.ts";
 
@@ -59,6 +60,10 @@ test("lesson result shares use clear progress copy and image names", () => {
     correctCount: 12,
     cardCount: 12,
     accuracy: 100,
+    noteResults: [
+      { noteName: "F4", mistakes: 0, averageRecognitionTime: "1.20s", attempts: 3 },
+      { noteName: "A4", mistakes: 0, averageRecognitionTime: "0.82s", attempts: 3 },
+    ],
   };
 
   assert.equal(pianoLessonShareFileName(result.lessonId), "piano-party-lesson-4.png");
@@ -66,9 +71,19 @@ test("lesson result shares use clear progress copy and image names", () => {
     pianoLessonShareText(result),
     "I completed Piano Party Lesson 4 with 100% accuracy in 0:42.3. A perfect run!",
   );
+  const resultWithMistakes = {
+    ...result,
+    correctCount: 10,
+    accuracy: 83,
+    noteResults: [
+      { noteName: "C4", mistakes: 2, averageRecognitionTime: "3.40s", attempts: 3 },
+      { noteName: "D4", mistakes: 1, averageRecognitionTime: "2.10s", attempts: 3 },
+    ],
+  };
+  assert.equal(pianoLessonShareMistakeCount(resultWithMistakes), 3);
   assert.equal(
-    pianoLessonShareText({ ...result, correctCount: 10, accuracy: 83 }),
-    "I completed Piano Party Lesson 4 with 83% accuracy in 0:42.3.",
+    pianoLessonShareText(resultWithMistakes),
+    "I completed Piano Party Lesson 4 with 83% accuracy in 0:42.3. The note report includes 3 mistakes.",
   );
 });
 

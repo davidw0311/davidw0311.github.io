@@ -10,7 +10,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { type CSSProperties, type FormEvent, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
   createPianoLessonDeck,
   formatLessonTime,
@@ -86,8 +86,26 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     : null;
   const answerIsCorrect = answered && selectedAnswer === expectedAnswer;
   const accuracy = lessonAccuracy(correctCount, deck.length);
-  const noteReport = rankPianoLessonPerformance(lessonId, notePerformance);
+  const noteReport = useMemo(
+    () => rankPianoLessonPerformance(lessonId, notePerformance),
+    [lessonId, notePerformance],
+  );
   const perfectLesson = deck.length > 0 && correctCount === deck.length;
+  const shareResult = useMemo(() => ({
+    lessonId: lesson.id,
+    lessonTitle: lesson.title,
+    playerName,
+    elapsedTime: formatLessonTime(elapsedMs),
+    correctCount,
+    cardCount: lesson.cardCount,
+    accuracy,
+    noteResults: noteReport.map((row) => ({
+      noteName: row.noteName,
+      mistakes: row.mistakes,
+      averageRecognitionTime: formatRecognitionTime(row.averageRecognitionMs),
+      attempts: row.attempts,
+    })),
+  }), [accuracy, correctCount, elapsedMs, lesson, noteReport, playerName]);
 
   useEffect(() => {
     if (stage !== "playing" || startedAt === null) return;
@@ -264,17 +282,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
           </section>
           <div className={styles.completeActions}>
             <button type="button" onClick={(event) => beginLesson(playerName, event.timeStamp)}>Try again</button>
-            <PianoLessonShareButton
-              result={{
-                lessonId: lesson.id,
-                lessonTitle: lesson.title,
-                playerName,
-                elapsedTime: formatLessonTime(elapsedMs),
-                correctCount,
-                cardCount: lesson.cardCount,
-                accuracy,
-              }}
-            />
+            <PianoLessonShareButton result={shareResult} />
             <Link href="/projects/piano-party/lessons/">All lessons</Link>
           </div>
         </div>
