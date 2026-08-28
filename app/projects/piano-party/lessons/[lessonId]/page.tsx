@@ -2,19 +2,17 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PianoLesson } from "@/components/PianoLessonOne";
-import { getPianoLesson, pianoLessons, type PianoLessonId } from "@/data/pianoLessons";
+import { dynamicPianoLessonIds, getPianoLesson, type PianoLessonId } from "@/data/pianoLessons";
 import styles from "../../piano-party.module.css";
 
 type LessonPageProps = {
   params: Promise<{ lessonId: string }>;
 };
 
-const newLessonIds = pianoLessons.filter(({ id }) => id >= 4).map(({ id }) => id);
-
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return newLessonIds.map((lessonId) => ({ lessonId: String(lessonId) }));
+  return dynamicPianoLessonIds.map((lessonId) => ({ lessonId: String(lessonId) }));
 }
 
 export async function generateMetadata({ params }: LessonPageProps): Promise<Metadata> {

@@ -11,9 +11,12 @@ import {
   type StaffNotation,
 } from "./pianoNotes.ts";
 
-export type PianoLessonId =
-  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17;
+export const pianoLessonIds = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9,
+  10, 11, 12, 13, 14, 15, 16, 17,
+] as const;
+
+export type PianoLessonId = (typeof pianoLessonIds)[number];
 
 export type PianoLessonCard = {
   id: string;
@@ -44,6 +47,13 @@ export type PianoLessonDefinition = {
   focusCount: number;
   desktopChoiceColumns: number;
   mobileChoiceColumns: number;
+};
+
+export type PianoLessonGroupDefinition = {
+  id: string;
+  title: string;
+  description: string;
+  lessons: readonly PianoLessonDefinition[];
 };
 
 export const lessonOneNoteNames: PitchName[] = [...naturalNoteNames];
@@ -385,11 +395,77 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
   },
 ];
 
+const pianoLessonsById = new Map(pianoLessons.map((lesson) => [lesson.id, lesson]));
+
+if (
+  pianoLessonsById.size !== pianoLessonIds.length
+  || pianoLessonIds.some((lessonId) => !pianoLessonsById.has(lessonId))
+) {
+  throw new Error("Piano lesson definitions must include every lesson ID exactly once");
+}
+
+for (const lesson of pianoLessons) {
+  if (lessonCards[lesson.id].length !== lesson.cardCount) {
+    throw new Error(`Lesson ${lesson.id} card count does not match its definition`);
+  }
+}
+
 export function getPianoLesson(lessonId: PianoLessonId) {
-  const lesson = pianoLessons.find(({ id }) => id === lessonId);
+  const lesson = pianoLessonsById.get(lessonId);
   if (!lesson) throw new Error(`Unknown piano lesson: ${lessonId}`);
   return lesson;
 }
+
+const pianoLessonGroupSpecs = [
+  {
+    id: "keyboard-map",
+    title: "Keyboard map",
+    description: "Build quick recognition across white keys, black keys, and the full keyboard.",
+    lessonIds: [1, 2, 3],
+  },
+  {
+    id: "treble-foundations",
+    title: "Treble foundations",
+    description: "Connect the staff to note names and piano keys from C4 through C5.",
+    lessonIds: [4, 5, 6, 7, 8, 9, 10, 11],
+  },
+  {
+    id: "upper-treble",
+    title: "Upper treble",
+    description: "Extend staff reading through the upper register from C5 to C6.",
+    lessonIds: [12, 13, 14, 15],
+  },
+  {
+    id: "full-range",
+    title: "Full range",
+    description: "Bring the complete C4 to C6 white-key range together.",
+    lessonIds: [16, 17],
+  },
+] as const satisfies ReadonlyArray<{
+  id: string;
+  title: string;
+  description: string;
+  lessonIds: readonly PianoLessonId[];
+}>;
+
+const groupedLessonIds = pianoLessonGroupSpecs.flatMap((group) => group.lessonIds);
+if (
+  new Set(groupedLessonIds).size !== pianoLessonIds.length
+  || pianoLessonIds.some((lessonId) => !groupedLessonIds.includes(lessonId))
+) {
+  throw new Error("Piano lesson groups must include every lesson exactly once");
+}
+
+export const pianoLessonGroups: readonly PianoLessonGroupDefinition[] = pianoLessonGroupSpecs.map((group) => ({
+  id: group.id,
+  title: group.title,
+  description: group.description,
+  lessons: group.lessonIds.map(getPianoLesson),
+}));
+
+// Lessons 1-3 retain their original explicit routes. Later lessons share the
+// dynamic route, so both the canonical and legacy routes use this same list.
+export const dynamicPianoLessonIds = pianoLessonIds.filter((lessonId) => lessonId >= 4);
 
 export function createPianoLessonDeck(
   lessonId: PianoLessonId,

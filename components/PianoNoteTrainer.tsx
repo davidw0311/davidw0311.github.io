@@ -9,7 +9,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 import {
   accidentalSymbol,
   blackKeys,
@@ -17,8 +17,6 @@ import {
   formatNotation,
   formatPianoKey,
   ledgerStepsFor,
-  noteFrequency,
-  pianoAudioPath,
   pitchNames,
   spokenPitchName,
   staffStepFor,
@@ -29,6 +27,7 @@ import {
   type StaffClef,
   type StaffNotation,
 } from "@/data/pianoNotes";
+import { usePianoAudio } from "@/hooks/usePianoAudio";
 import styles from "./PianoNoteTrainer.module.css";
 
 type Score = {
@@ -36,26 +35,6 @@ type Score = {
   correct: number;
   streak: number;
 };
-
-type SafariAudioWindow = typeof window & {
-  webkitAudioContext?: typeof AudioContext;
-};
-
-async function resumeAudioContext(context: AudioContext) {
-  if (context.state === "running") return true;
-
-  const resumed = context.resume().then(
-    () => context.state === "running",
-    () => false,
-  );
-
-  return Promise.race([
-    resumed,
-    new Promise<boolean>((resolve) => {
-      window.setTimeout(() => resolve(context.state === "running"), 350);
-    }),
-  ]);
-}
 
 const exerciseLabels: Record<PianoExerciseMode, string> = {
   "key-name": "Key to note",
@@ -235,14 +214,13 @@ export function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: 
 
 export function PianoNoteTrainer() {
   const reduceMotion = useReducedMotion();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
   const [mode, setMode] = useState<PianoExerciseMode>("key-name");
   const [clefFilter, setClefFilter] = useState<ClefFilter>("mixed");
   const [question, setQuestion] = useState(() => createPianoQuestion("key-name", "mixed", undefined, () => 0));
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [score, setScore] = useState<Score>({ answered: 0, correct: 0, streak: 0 });
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const { playNote: playTone, stopNote } = usePianoAudio(soundEnabled);
 
   const answered = selectedAnswer !== null;
   const expectedAnswer = mode === "staff-key" ? question.note.id : question.note.name;
@@ -256,114 +234,6 @@ export function PianoNoteTrainer() {
     if (isCorrect) return `${displayedAnswer}. Nicely read.`;
     return `The answer is ${displayedAnswer}.`;
   }, [answered, displayedAnswer, isCorrect]);
-
-  useEffect(() => {
-    const discardAudioContext = () => {
-      const context = audioContextRef.current;
-      audioContextRef.current = null;
-
-      if (context && context.state !== "closed") {
-        void context.close().catch(() => undefined);
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") discardAudioContext();
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("pagehide", discardAudioContext);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("pagehide", discardAudioContext);
-      audioRef.current?.pause();
-      audioRef.current = null;
-      discardAudioContext();
-    };
-  }, []);
-
-  const createAudioContext = () => {
-    const browserWindow = window as SafariAudioWindow;
-    const AudioContextConstructor = browserWindow.AudioContext ?? browserWindow.webkitAudioContext;
-    if (!AudioContextConstructor) return null;
-
-    const context = new AudioContextConstructor();
-    audioContextRef.current = context;
-    return context;
-  };
-
-  const getPlayableAudioContext = async () => {
-    let context = audioContextRef.current;
-
-    if (!context || context.state === "closed") context = createAudioContext();
-    if (!context) return null;
-
-    if (await resumeAudioContext(context)) return context;
-
-    if (audioContextRef.current === context) audioContextRef.current = null;
-    void context.close().catch(() => undefined);
-    context = createAudioContext();
-
-    if (!context || !(await resumeAudioContext(context))) return null;
-    return context;
-  };
-
-  const playSynthesizedTone = async (note: PianoNote) => {
-    const context = await getPlayableAudioContext();
-    if (!context) return;
-
-    const now = context.currentTime + 0.01;
-    const frequency = noteFrequency(note.midi);
-    const output = context.createGain();
-    output.gain.setValueAtTime(0.0001, now);
-    output.gain.exponentialRampToValueAtTime(0.22, now + 0.018);
-    output.gain.exponentialRampToValueAtTime(0.0001, now + 1.15);
-    output.connect(context.destination);
-
-    [
-      { type: "triangle" as OscillatorType, ratio: 1, level: 0.8 },
-      { type: "sine" as OscillatorType, ratio: 2, level: 0.16 },
-      { type: "sine" as OscillatorType, ratio: 3, level: 0.08 },
-    ].forEach(({ type, ratio, level }) => {
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = type;
-      oscillator.frequency.setValueAtTime(frequency * ratio, now);
-      gain.gain.setValueAtTime(level, now);
-      oscillator.connect(gain);
-      gain.connect(output);
-      oscillator.start(now);
-      oscillator.stop(now + 1.2);
-    });
-  };
-
-  const playTone = (note: PianoNote) => {
-    if (!soundEnabled) return;
-
-    audioRef.current?.pause();
-    const audio = new Audio(pianoAudioPath(note));
-    let fallbackStarted = false;
-    const clearAudio = () => {
-      if (audioRef.current === audio) audioRef.current = null;
-    };
-    const fallback = () => {
-      if (fallbackStarted) return;
-      fallbackStarted = true;
-      clearAudio();
-      void playSynthesizedTone(note);
-    };
-
-    audio.preload = "auto";
-    audio.volume = 0.9;
-    audio.addEventListener("ended", clearAudio, { once: true });
-    audio.addEventListener("error", fallback, { once: true });
-    audioRef.current = audio;
-
-    // Keep play() in the original tap event. Mobile Safari permits media
-    // playback here even when its Web Audio context remains suspended.
-    void audio.play().catch(fallback);
-  };
 
   const recordAnswer = (answer: string, playedNote: PianoNote) => {
     if (answered) return;
@@ -399,10 +269,7 @@ export function PianoNoteTrainer() {
   };
 
   const toggleSound = () => {
-    if (soundEnabled) {
-      audioRef.current?.pause();
-      audioRef.current = null;
-    }
+    if (soundEnabled) stopNote();
     setSoundEnabled((enabled) => !enabled);
   };
 

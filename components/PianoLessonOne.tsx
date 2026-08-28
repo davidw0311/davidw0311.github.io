@@ -23,7 +23,8 @@ import {
   type PianoLessonCard,
   type PianoLessonId,
 } from "@/data/pianoLessons";
-import { formatPianoKey, pianoAudioPath, type PianoNote, type PitchName } from "@/data/pianoNotes";
+import { formatPianoKey, type PianoNote, type PitchName } from "@/data/pianoNotes";
+import { usePianoAudio } from "@/hooks/usePianoAudio";
 import { MusicStaff, PianoKeyboard } from "./PianoNoteTrainer";
 import { PianoLessonShareButton } from "./PianoLessonShareButton";
 import styles from "./PianoLessonOne.module.css";
@@ -66,7 +67,7 @@ function PerfectLessonCelebration() {
 
 export function PianoLesson({ lessonId }: PianoLessonProps) {
   const lesson = getPianoLesson(lessonId);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { playNote } = usePianoAudio();
   const cardStartedAtRef = useRef<number | null>(null);
   const [stage, setStage] = useState<LessonStage>("ready");
   const [name, setName] = useState("");
@@ -112,23 +113,6 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     const timer = window.setInterval(() => setElapsedMs(Date.now() - startedAt), 100);
     return () => window.clearInterval(timer);
   }, [stage, startedAt]);
-
-  useEffect(() => () => {
-    audioRef.current?.pause();
-    audioRef.current = null;
-  }, []);
-
-  const playNote = (note: PianoNote) => {
-    audioRef.current?.pause();
-    const audio = new Audio(pianoAudioPath(note));
-    audio.preload = "auto";
-    audio.volume = 0.9;
-    audio.addEventListener("ended", () => {
-      if (audioRef.current === audio) audioRef.current = null;
-    }, { once: true });
-    audioRef.current = audio;
-    void audio.play().catch(() => undefined);
-  };
 
   const beginLesson = (nextPlayerName: string, firstCardStartedAt: number) => {
     const now = Date.now();

@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   createLessonOneDeck,
   createPianoLessonDeck,
+  dynamicPianoLessonIds,
   formatLessonTime,
   formatRecognitionTime,
   getPianoLesson,
@@ -19,6 +20,8 @@ import {
   lessonTwelveNoteIds,
   lessonThreeNoteNames,
   lessonTwoNoteNames,
+  pianoLessonGroups,
+  pianoLessonIds,
   pianoLessons,
   rankPianoLessonPerformance,
   rankLessonNotePerformance,
@@ -141,8 +144,21 @@ test("lesson three contains three octave-spanning cards for every note name", ()
 test("lesson definitions are numbered in order", () => {
   assert.deepEqual(
     pianoLessons.map((lesson) => lesson.id),
-    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+    pianoLessonIds,
   );
+});
+
+test("lesson library groups and dynamic routes cover the catalog without drift", () => {
+  const groupedIds = pianoLessonGroups.flatMap((group) => group.lessons.map((lesson) => lesson.id));
+
+  assert.deepEqual(groupedIds, pianoLessonIds);
+  assert.equal(new Set(groupedIds).size, pianoLessonIds.length);
+  assert.deepEqual(dynamicPianoLessonIds, pianoLessonIds.filter((lessonId) => lessonId >= 4));
+
+  for (const lesson of pianoLessons) {
+    assert.equal(createPianoLessonDeck(lesson.id, () => 0.41).length, lesson.cardCount);
+    assert.equal(getPianoLesson(lesson.id), lesson);
+  }
 });
 
 test("every lesson presents the same complete set of answer labels", () => {
