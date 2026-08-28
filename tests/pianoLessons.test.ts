@@ -8,12 +8,15 @@ import {
   getPianoLesson,
   lessonAccuracy,
   lessonEightNoteIds,
+  lessonFourteenNoteIds,
   lessonFourNoteIds,
   lessonPerformanceKey,
   lessonOneCardCount,
   lessonOneNoteNames,
   lessonSixNoteIds,
+  lessonSixteenNoteIds,
   lessonTenNoteIds,
+  lessonTwelveNoteIds,
   lessonThreeNoteNames,
   lessonTwoNoteNames,
   pianoLessons,
@@ -136,7 +139,10 @@ test("lesson three contains three octave-spanning cards for every note name", ()
 });
 
 test("lesson definitions are numbered in order", () => {
-  assert.deepEqual(pianoLessons.map((lesson) => lesson.id), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+  assert.deepEqual(
+    pianoLessons.map((lesson) => lesson.id),
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+  );
 });
 
 test("every lesson presents the same complete set of answer labels", () => {
@@ -205,6 +211,12 @@ test("staff lessons contain three treble-clef cards for every exact target note"
     { lessonId: 9, noteIds: lessonEightNoteIds, exerciseMode: "staff-key" },
     { lessonId: 10, noteIds: lessonTenNoteIds, exerciseMode: "staff-name" },
     { lessonId: 11, noteIds: lessonTenNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 12, noteIds: lessonTwelveNoteIds, exerciseMode: "staff-name" },
+    { lessonId: 13, noteIds: lessonTwelveNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 14, noteIds: lessonFourteenNoteIds, exerciseMode: "staff-name" },
+    { lessonId: 15, noteIds: lessonFourteenNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 16, noteIds: lessonSixteenNoteIds, exerciseMode: "staff-key" },
+    { lessonId: 17, noteIds: lessonSixteenNoteIds, exerciseMode: "staff-name" },
   ];
 
   for (const { lessonId, noteIds, exerciseMode } of staffLessonCases) {

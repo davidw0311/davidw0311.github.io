@@ -11,7 +11,9 @@ import {
   type StaffNotation,
 } from "./pianoNotes.ts";
 
-export type PianoLessonId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+export type PianoLessonId =
+  | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17;
 
 export type PianoLessonCard = {
   id: string;
@@ -52,6 +54,12 @@ export const lessonFourNoteIds = ["F4", "A4", "C5", "E5"] as const;
 export const lessonSixNoteIds = ["C4", "D4", "E4", "F4"] as const;
 export const lessonEightNoteIds = ["G4", "A4", "B4", "C5"] as const;
 export const lessonTenNoteIds = ["C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5"] as const;
+export const lessonTwelveNoteIds = ["C5", "D5", "E5", "F5"] as const;
+export const lessonFourteenNoteIds = ["G5", "A5", "B5", "C6"] as const;
+export const lessonSixteenNoteIds = [
+  "C4", "D4", "E4", "F4", "G4", "A4", "B4",
+  "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6",
+] as const;
 
 const lessonOneCards: PianoLessonCard[] = lessonOneNoteNames.flatMap((name) => {
   const matchingKeys = whiteKeys.filter((note) => note.name === name);
@@ -111,6 +119,12 @@ const lessonCards: Record<PianoLessonId, PianoLessonCard[]> = {
   9: createTrebleStaffCards(9, lessonEightNoteIds),
   10: createTrebleStaffCards(10, lessonTenNoteIds),
   11: createTrebleStaffCards(11, lessonTenNoteIds),
+  12: createTrebleStaffCards(12, lessonTwelveNoteIds),
+  13: createTrebleStaffCards(13, lessonTwelveNoteIds),
+  14: createTrebleStaffCards(14, lessonFourteenNoteIds),
+  15: createTrebleStaffCards(15, lessonFourteenNoteIds),
+  16: createTrebleStaffCards(16, lessonSixteenNoteIds),
+  17: createTrebleStaffCards(17, lessonSixteenNoteIds),
 };
 
 export const pianoLessons: readonly PianoLessonDefinition[] = [
@@ -276,6 +290,96 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
     cardCount: lessonCards[11].length,
     focusLabel: "Notes",
     focusCount: lessonTenNoteIds.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+  },
+  {
+    id: 12,
+    title: "Treble notes: C5-F5",
+    description: "Read C5, D5, E5, and F5 in treble clef. Each note appears three times in a shuffled 12-card deck.",
+    libraryDescription: "12 staff-to-note cards covering C5 through F5.",
+    completionDescription: "You read every C5 through F5 treble-clef card in Lesson 12.",
+    exerciseMode: "staff-name",
+    prompt: "Which note is on the staff?",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[12].length,
+    focusLabel: "Notes",
+    focusCount: lessonTwelveNoteIds.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+  },
+  {
+    id: 13,
+    title: "Treble notes to keys: C5-F5",
+    description: "Read C5, D5, E5, and F5 in treble clef, then play the matching keyboard key. Each note appears three times.",
+    libraryDescription: "12 staff-to-key cards covering C5 through F5.",
+    completionDescription: "You matched every C5 through F5 treble note to its piano key in Lesson 13.",
+    exerciseMode: "staff-key",
+    prompt: "Play this note on the keyboard.",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[13].length,
+    focusLabel: "Notes",
+    focusCount: lessonTwelveNoteIds.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+  },
+  {
+    id: 14,
+    title: "Treble notes: G5-C6",
+    description: "Read G5, A5, B5, and C6 in treble clef. Each note appears three times in a shuffled 12-card deck.",
+    libraryDescription: "12 staff-to-note cards covering G5 through C6.",
+    completionDescription: "You read every G5 through C6 treble-clef card in Lesson 14.",
+    exerciseMode: "staff-name",
+    prompt: "Which note is on the staff?",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[14].length,
+    focusLabel: "Notes",
+    focusCount: lessonFourteenNoteIds.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+  },
+  {
+    id: 15,
+    title: "Treble notes to keys: G5-C6",
+    description: "Read G5, A5, B5, and C6 in treble clef, then play the matching keyboard key. Each note appears three times.",
+    libraryDescription: "12 staff-to-key cards covering G5 through C6.",
+    completionDescription: "You matched every G5 through C6 treble note to its piano key in Lesson 15.",
+    exerciseMode: "staff-key",
+    prompt: "Play this note on the keyboard.",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[15].length,
+    focusLabel: "Notes",
+    focusCount: lessonFourteenNoteIds.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+  },
+  {
+    id: 16,
+    title: "Treble white notes to keys: C4-C6",
+    description: "Read every white-key note from C4 through C6 in treble clef, then play the matching keyboard key. Each note appears three times.",
+    libraryDescription: "45 staff-to-key cards covering every white key from C4 to C6.",
+    completionDescription: "You matched every C4 through C6 treble note to its piano key in Lesson 16.",
+    exerciseMode: "staff-key",
+    prompt: "Play this note on the keyboard.",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[16].length,
+    focusLabel: "Notes",
+    focusCount: lessonSixteenNoteIds.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+  },
+  {
+    id: 17,
+    title: "Treble white notes: C4-C6",
+    description: "Read every white-key note from C4 through C6 in treble clef. Each note appears three times in a shuffled 45-card deck.",
+    libraryDescription: "45 staff-to-note cards covering every white key from C4 to C6.",
+    completionDescription: "You read every white-key treble note from C4 through C6 in Lesson 17.",
+    exerciseMode: "staff-name",
+    prompt: "Which note is on the staff?",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[17].length,
+    focusLabel: "Notes",
+    focusCount: lessonSixteenNoteIds.length,
     desktopChoiceColumns: 6,
     mobileChoiceColumns: 4,
   },
