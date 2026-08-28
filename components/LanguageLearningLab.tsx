@@ -53,6 +53,7 @@ import {
   PhraseStudyPanel,
   type ActivePhrase,
 } from "./language-lab/PhraseStudyPanel";
+import { LessonLanguageSetup } from "./language-lab/LessonLanguageSetup";
 import { SupportLanguageCard } from "./language-lab/SupportLanguageCard";
 import styles from "./LanguageLearningLab.module.css";
 
@@ -62,6 +63,8 @@ type LanguageLearningLabProps = {
   onSystemLanguageChange?: (languageId: LanguageId) => void;
 };
 
+type LanguageLabScreen = "library" | "setup" | "lesson";
+
 export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearningLabProps = {}) {
   const reduceMotion = useReducedMotion();
   const [progress, setProgress] = usePersistentLanguageProgress();
@@ -69,11 +72,10 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const [unitIndex, setUnitIndex] = useState(0);
   const [activePhrase, setActivePhrase] = useState<ActivePhrase | null>(null);
   const [lessonFinished, setLessonFinished] = useState(false);
-  const [landingLanguagePickerOpen, setLandingLanguagePickerOpen] = useState(false);
   const [lessonLanguagePickerOpen, setLessonLanguagePickerOpen] = useState(false);
   const [systemLanguagePickerOpen, setSystemLanguagePickerOpen] = useState(false);
-  const [lessonOpen, setLessonOpen] = useState(false);
-  const [pendingLessonIndex, setPendingLessonIndex] = useState<number | null>(null);
+  const [screen, setScreen] = useState<LanguageLabScreen>("library");
+  const [lessonStarting, setLessonStarting] = useState(false);
   const [lessonEntryError, setLessonEntryError] = useState("");
   const [audioFeedback, setAudioFeedback] = useState("");
   const microphoneReadyRef = useRef(false);
@@ -129,6 +131,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const persistedStatus = progress.completed[progressKey] ?? "not_started";
   const unitIsComplete = speechState === "passed" || persistedStatus === "passed" || persistedStatus === "skipped";
   const supportLanguageIds = progress.displayLanguageIds.filter((languageId) => languageId !== practiceLanguageId);
+  const lessonOpen = screen === "lesson";
   const availableLanguageIds = languageIds.filter((languageId) => (
     languageId !== practiceLanguageId && !supportLanguageIds.includes(languageId)
   ));
@@ -158,12 +161,11 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   }, [resetSpeechAttempt, stopPlayback]);
 
   const closeLanguagePickers = useCallback(() => {
-    setLandingLanguagePickerOpen(false);
     setLessonLanguagePickerOpen(false);
     setSystemLanguagePickerOpen(false);
   }, []);
   useEscapeKey(
-    landingLanguagePickerOpen || lessonLanguagePickerOpen || systemLanguagePickerOpen,
+    lessonLanguagePickerOpen || systemLanguagePickerOpen,
     closeLanguagePickers,
   );
   useBodyScrollLock(lessonOpen);
@@ -175,39 +177,43 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     resetAttempt();
   };
 
-  const openLesson = async (index: number) => {
-    if (pendingLessonIndex !== null) return;
-    setLandingLanguagePickerOpen(false);
+  const chooseLesson = (index: number) => {
     setSystemLanguagePickerOpen(false);
-    setPendingLessonIndex(index);
     setLessonEntryError("");
+    selectContent(index);
+    setScreen("setup");
+  };
 
+  const startLesson = async () => {
+    if (lessonStarting) return;
+    setLessonStarting(true);
+    setLessonEntryError("");
     try {
       if (!microphoneReadyRef.current) {
         await requestMicrophoneAccess();
         microphoneReadyRef.current = true;
       }
-      selectContent(index);
       setLessonLanguagePickerOpen(false);
-      setLessonOpen(true);
+      setSystemLanguagePickerOpen(false);
+      setScreen("lesson");
     } catch (error) {
       setLessonEntryError(error instanceof DOMException && error.name === "NotAllowedError"
         ? ui.microphoneBlocked
         : ui.microphoneError);
     } finally {
-      setPendingLessonIndex(null);
+      setLessonStarting(false);
     }
   };
 
   const returnToLibrary = () => {
-    setLessonOpen(false);
+    setScreen("library");
     closeLanguagePickers();
+    setLessonEntryError("");
     resetAttempt();
   };
 
   const selectPracticeLanguage = (languageId: LanguageId) => {
     setProgress((current) => withPracticeLanguage(current, languageId));
-    setLandingLanguagePickerOpen(false);
     setLessonFinished(false);
     resetAttempt();
   };
@@ -369,7 +375,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
       </header>
 
       <AnimatePresence mode="wait" initial={false}>
-        {!lessonOpen ? (
+        {screen === "library" ? (
           <motion.section
             key="library"
             className={styles.landing}
@@ -383,74 +389,6 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
               <div>
                 <h1 id="library-title">{ui.chooseLesson}</h1>
                 <p>{ui.chooseLessonHelp}</p>
-              </div>
-              <div className={styles.languageSetup}>
-                <div className={styles.languageChoice}>
-                  <label htmlFor="practice-language">{ui.learningLanguage}</label>
-                  <select
-                    id="practice-language"
-                    value={practiceLanguageId}
-                    onChange={(event) => selectPracticeLanguage(event.target.value as LanguageId)}
-                  >
-                    {languageIds.map((id) => (
-                      <option key={id} value={id}>
-                        {languages[id].nameNative}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className={styles.displayLanguageChoice}>
-                  <span>{ui.displayedLanguages}</span>
-                  <button
-                    type="button"
-                    aria-label={ui.chooseDisplayedLanguages}
-                    aria-expanded={landingLanguagePickerOpen}
-                    onClick={() => setLandingLanguagePickerOpen((open) => !open)}
-                  >
-                    <span>{supportLanguageIds.length > 0
-                      ? supportLanguageIds.slice(0, 2).map((id) => languages[id].nameNative).join(", ")
-                      : ui.noDisplayedLanguages}</span>
-                    {supportLanguageIds.length > 2 ? <small>+{supportLanguageIds.length - 2}</small> : null}
-                    <Plus size={15} weight="bold" aria-hidden="true" />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {landingLanguagePickerOpen ? (
-                      <motion.div
-                        className={styles.displayLanguagePicker}
-                        role="group"
-                        aria-label={ui.chooseDisplayedLanguages}
-                        initial={reduceMotion ? false : { opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
-                        transition={reduceMotion ? { duration: 0 } : { duration: 0.16 }}
-                      >
-                        <strong>{ui.chooseDisplayedLanguages}</strong>
-                        <div>
-                          {languageIds.filter((id) => id !== practiceLanguageId).map((languageId) => {
-                            const selected = supportLanguageIds.includes(languageId);
-                            return (
-                              <button
-                                type="button"
-                                key={languageId}
-                                aria-pressed={selected}
-                                onClick={() => toggleDisplayLanguage(languageId)}
-                              >
-                                <span>{languages[languageId].nameNative}</span>
-                                {selected ? <CheckCircle size={17} weight="fill" aria-hidden="true" /> : null}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
-                </div>
-                {languages[practiceLanguageId].toneSensitive ? (
-                  <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> {ui.toneWarning}</p>
-                ) : null}
-                {lessonEntryError ? (
-                  <p className={styles.lessonEntryError} role="alert"><WarningCircle size={16} weight="fill" aria-hidden="true" /> {lessonEntryError}</p>
-                ) : null}
               </div>
             </div>
 
@@ -467,11 +405,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                     key={item.id}
                     type="button"
                     aria-label={formatUi(ui.openLesson, { lesson: itemText.title })}
-                    aria-busy={pendingLessonIndex === index}
-                    disabled={pendingLessonIndex !== null}
-                    onClick={() => void openLesson(index)}
+                    onClick={() => chooseLesson(index)}
                   >
-                    <span className={styles.lessonCardIcon}><Icon size={25} weight="fill" aria-hidden="true" /></span>
+                    <span className={styles.lessonCardIcon}><Icon size={32} weight="fill" aria-hidden="true" /></span>
                     <span className={styles.lessonCardCopy}>
                       <small>{item.type === "story" ? ui.story : ui.counting} / {formatUi(ui.minutes, { count: item.estimatedMinutes })}</small>
                       <strong>{itemText.title}</strong>
@@ -481,15 +417,27 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       <small>{completed > 0
                         ? formatUi(ui.completedCount, { count: completed, total: item.units.length })
                         : formatUi(ui.promptsCount, { count: item.units.length })}</small>
-                      <span>{pendingLessonIndex === index
-                        ? <><Microphone size={17} weight="fill" aria-hidden="true" /> {ui.allowMicrophone}</>
-                        : <>{completed > 0 && completed < item.units.length ? ui.continue : ui.start} <ArrowRight size={17} weight="bold" aria-hidden="true" /></>}</span>
+                      <span>{completed > 0 && completed < item.units.length ? ui.continue : ui.start} <ArrowRight size={17} weight="bold" aria-hidden="true" /></span>
                     </span>
                   </button>
                 );
               })}
             </div>
           </motion.section>
+        ) : screen === "setup" ? (
+          <LessonLanguageSetup
+            content={content}
+            contentText={contentText}
+            practiceLanguageId={practiceLanguageId}
+            supportLanguageIds={supportLanguageIds}
+            lessonStarting={lessonStarting}
+            lessonEntryError={lessonEntryError}
+            ui={ui}
+            onSelectPracticeLanguage={selectPracticeLanguage}
+            onToggleDisplayLanguage={toggleDisplayLanguage}
+            onProceed={() => void startLesson()}
+            onBack={returnToLibrary}
+          />
         ) : (
           <motion.section
             key="lesson"

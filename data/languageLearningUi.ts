@@ -15,6 +15,10 @@ export type LanguageLearningUiCopy = {
   systemLanguage: string;
   chooseLesson: string;
   chooseLessonHelp: string;
+  setupLesson: string;
+  setupLessonHelp: string;
+  chooseLearningLanguage: string;
+  proceed: string;
   learningLanguage: string;
   displayedLanguages: string;
   chooseDisplayedLanguages: string;
@@ -109,6 +113,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "Local learning progress", xp: "{count} XP", savedCount: "{count} saved",
     changeSystemLanguage: "Change interface language", systemLanguage: "Interface language",
     chooseLesson: "Choose a short lesson", chooseLessonHelp: "Pick a scene, then practice every sentence by speaking it.",
+    setupLesson: "Set up your lesson", setupLessonHelp: "Choose your lesson languages",
+    chooseLearningLanguage: "Choose the language you will speak.", proceed: "Proceed",
     learningLanguage: "Learning language", displayedLanguages: "Displayed languages",
     chooseDisplayedLanguages: "Choose displayed languages", noDisplayedLanguages: "No help languages",
     toneWarning: "Azure does not return a separate tone score for this language.", availableLessons: "Available lessons",
@@ -154,6 +160,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "本地学习进度", xp: "{count} 经验值", savedCount: "已收藏 {count} 个",
     changeSystemLanguage: "更改界面语言", systemLanguage: "界面语言",
     chooseLesson: "选择一个短课程", chooseLessonHelp: "选择一个场景，然后通过朗读练习每个句子。",
+    setupLesson: "设置课程", setupLessonHelp: "选择课程语言",
+    chooseLearningLanguage: "选择你要朗读的语言。", proceed: "继续",
     learningLanguage: "学习语言", displayedLanguages: "显示语言", chooseDisplayedLanguages: "选择显示语言", noDisplayedLanguages: "不显示辅助语言",
     toneWarning: "Azure 不会为此语言单独提供声调分数。", availableLessons: "可选课程", openLesson: "打开{lesson}", allowMicrophone: "允许麦克风",
     minutes: "{count} 分钟", completedCount: "已完成 {count}/{total}", promptsCount: "{count} 个练习",
@@ -190,6 +198,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "本機學習進度", xp: "{count} 經驗值", savedCount: "已收藏 {count} 個",
     changeSystemLanguage: "更改介面語言", systemLanguage: "介面語言",
     chooseLesson: "揀一個短課堂", chooseLessonHelp: "揀一個場景，再開聲練習每一句。",
+    setupLesson: "設定課堂", setupLessonHelp: "選擇課堂語言",
+    chooseLearningLanguage: "選擇你要開聲練習嘅語言。", proceed: "繼續",
     learningLanguage: "學習語言", displayedLanguages: "顯示語言", chooseDisplayedLanguages: "選擇顯示語言", noDisplayedLanguages: "唔顯示輔助語言",
     toneWarning: "Azure 唔會為呢種語言另外提供聲調分數。", availableLessons: "可選課堂", openLesson: "開啟{lesson}", allowMicrophone: "允許咪高峰",
     minutes: "{count} 分鐘", completedCount: "完成咗 {count}/{total}", promptsCount: "{count} 個練習",
@@ -226,6 +236,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "端末内の学習記録", xp: "{count} XP", savedCount: "保存済み {count}件",
     changeSystemLanguage: "表示言語を変更", systemLanguage: "表示言語",
     chooseLesson: "短いレッスンを選ぶ", chooseLessonHelp: "場面を選び、各文を声に出して練習します。",
+    setupLesson: "レッスンの設定", setupLessonHelp: "レッスンの言語を選ぶ",
+    chooseLearningLanguage: "声に出して練習する言語を選んでください。", proceed: "次へ",
     learningLanguage: "学ぶ言語", displayedLanguages: "表示する言語", chooseDisplayedLanguages: "表示する言語を選択", noDisplayedLanguages: "補助言語なし",
     toneWarning: "Azure はこの言語の声調を個別に採点しません。", availableLessons: "レッスン一覧", openLesson: "{lesson}を開く", allowMicrophone: "マイクを許可",
     minutes: "{count}分", completedCount: "{total}問中{count}問完了", promptsCount: "{count}問",
@@ -262,6 +274,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "기기 학습 진도", xp: "{count} XP", savedCount: "{count}개 저장",
     changeSystemLanguage: "화면 언어 변경", systemLanguage: "화면 언어",
     chooseLesson: "짧은 레슨을 선택하세요", chooseLessonHelp: "장면을 고른 뒤 각 문장을 소리 내어 연습하세요.",
+    setupLesson: "레슨 설정", setupLessonHelp: "레슨 언어 선택",
+    chooseLearningLanguage: "소리 내어 연습할 언어를 선택하세요.", proceed: "계속",
     learningLanguage: "배울 언어", displayedLanguages: "표시할 언어", chooseDisplayedLanguages: "표시할 언어 선택", noDisplayedLanguages: "도움 언어 없음",
     toneWarning: "Azure는 이 언어의 성조를 별도로 채점하지 않습니다.", availableLessons: "레슨 목록", openLesson: "{lesson} 열기", allowMicrophone: "마이크 허용",
     minutes: "{count}분", completedCount: "{total}개 중 {count}개 완료", promptsCount: "{count}개 연습",
@@ -298,6 +312,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "Kemajuan pembelajaran setempat", xp: "{count} XP", savedCount: "{count} disimpan",
     changeSystemLanguage: "Tukar bahasa antara muka", systemLanguage: "Bahasa antara muka",
     chooseLesson: "Pilih pelajaran ringkas", chooseLessonHelp: "Pilih satu situasi, kemudian berlatih menyebut setiap ayat.",
+    setupLesson: "Sediakan pelajaran", setupLessonHelp: "Pilih bahasa pelajaran",
+    chooseLearningLanguage: "Pilih bahasa yang akan anda tuturkan.", proceed: "Teruskan",
     learningLanguage: "Bahasa dipelajari", displayedLanguages: "Bahasa paparan", chooseDisplayedLanguages: "Pilih bahasa paparan", noDisplayedLanguages: "Tiada bahasa bantuan",
     toneWarning: "Azure tidak memberikan skor nada berasingan untuk bahasa ini.", availableLessons: "Pelajaran tersedia", openLesson: "Buka {lesson}", allowMicrophone: "Benarkan mikrofon",
     minutes: "{count} min", completedCount: "{count} daripada {total} selesai", promptsCount: "{count} latihan",
@@ -334,6 +350,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "Progression locale", xp: "{count} XP", savedCount: "{count} enregistrés",
     changeSystemLanguage: "Changer la langue de l'interface", systemLanguage: "Langue de l'interface",
     chooseLesson: "Choisissez une leçon courte", chooseLessonHelp: "Choisissez une scène, puis entraînez-vous à prononcer chaque phrase.",
+    setupLesson: "Préparer la leçon", setupLessonHelp: "Choisissez les langues",
+    chooseLearningLanguage: "Choisissez la langue que vous allez parler.", proceed: "Continuer",
     learningLanguage: "Langue apprise", displayedLanguages: "Langues affichées", chooseDisplayedLanguages: "Choisir les langues affichées", noDisplayedLanguages: "Aucune langue d'aide",
     toneWarning: "Azure ne fournit pas de note de ton distincte pour cette langue.", availableLessons: "Leçons disponibles", openLesson: "Ouvrir {lesson}", allowMicrophone: "Autoriser le micro",
     minutes: "{count} min", completedCount: "{count} sur {total} terminés", promptsCount: "{count} exercices",
@@ -370,6 +388,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "Progreso local", xp: "{count} XP", savedCount: "{count} guardados",
     changeSystemLanguage: "Cambiar idioma de la interfaz", systemLanguage: "Idioma de la interfaz",
     chooseLesson: "Elige una lección corta", chooseLessonHelp: "Elige una escena y practica cada frase en voz alta.",
+    setupLesson: "Configura la lección", setupLessonHelp: "Elige los idiomas",
+    chooseLearningLanguage: "Elige el idioma que vas a hablar.", proceed: "Continuar",
     learningLanguage: "Idioma que aprendes", displayedLanguages: "Idiomas mostrados", chooseDisplayedLanguages: "Elegir idiomas mostrados", noDisplayedLanguages: "Sin idiomas de ayuda",
     toneWarning: "Azure no ofrece una puntuación tonal separada para este idioma.", availableLessons: "Lecciones disponibles", openLesson: "Abrir {lesson}", allowMicrophone: "Permitir micrófono",
     minutes: "{count} min", completedCount: "{count} de {total} completados", promptsCount: "{count} ejercicios",
@@ -406,6 +426,8 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     localProgress: "சாதனக் கற்றல் முன்னேற்றம்", xp: "{count} XP", savedCount: "{count} சேமிக்கப்பட்டது",
     changeSystemLanguage: "இடைமுக மொழியை மாற்று", systemLanguage: "இடைமுக மொழி",
     chooseLesson: "ஒரு குறும் பாடத்தைத் தேர்வு செய்க", chooseLessonHelp: "ஒரு காட்சியைத் தேர்ந்து, ஒவ்வொரு வாக்கியத்தையும் உரக்கப் பயிற்சி செய்க.",
+    setupLesson: "பாடத்தை அமைக்கவும்", setupLessonHelp: "பாட மொழிகளைத் தேர்ந்தெடுக்கவும்",
+    chooseLearningLanguage: "நீங்கள் பேசிப் பயிற்சி செய்யும் மொழியைத் தேர்ந்தெடுக்கவும்.", proceed: "தொடர்க",
     learningLanguage: "கற்கும் மொழி", displayedLanguages: "காட்டப்படும் மொழிகள்", chooseDisplayedLanguages: "காட்டப்படும் மொழிகளைத் தேர்வு செய்க", noDisplayedLanguages: "உதவி மொழிகள் இல்லை",
     toneWarning: "இந்த மொழிக்கு Azure தனியான தொனி மதிப்பெண் வழங்காது.", availableLessons: "கிடைக்கும் பாடங்கள்", openLesson: "{lesson} திற", allowMicrophone: "ஒலிவாங்கியை அனுமதி",
     minutes: "{count} நிமி", completedCount: "{total} இல் {count} முடிந்தது", promptsCount: "{count} பயிற்சிகள்",
@@ -455,6 +477,10 @@ const traditionalMandarinUi: LanguageLearningUiCopy = {
   systemLanguage: "介面語言",
   chooseLesson: "選擇一個短課程",
   chooseLessonHelp: "選擇一個場景，然後透過朗讀練習每個句子。",
+  setupLesson: "設定課程",
+  setupLessonHelp: "選擇課程語言",
+  chooseLearningLanguage: "選擇你要朗讀練習的語言。",
+  proceed: "繼續",
   learningLanguage: "學習語言",
   displayedLanguages: "顯示語言",
   chooseDisplayedLanguages: "選擇顯示語言",
