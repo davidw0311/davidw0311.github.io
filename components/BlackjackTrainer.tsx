@@ -12,7 +12,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   actionLabels,
   dealerUpcards,
@@ -89,6 +89,8 @@ function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: TrainingSuit
 
 export function BlackjackTrainer() {
   const reduceMotion = useReducedMotion();
+  const trainerRef = useRef<HTMLElement>(null);
+  const initialScreen = useRef(true);
   const {
     accuracy,
     advanceMasterySection,
@@ -122,6 +124,19 @@ export function BlackjackTrainer() {
     toggleSelection,
   } = useBlackjackTraining();
   const explanation = useMemo(() => explainScenario(scenario), [scenario]);
+
+  useEffect(() => {
+    if (initialScreen.current) {
+      initialScreen.current = false;
+      return;
+    }
+    const trainer = trainerRef.current;
+    if (!trainer) return;
+    window.scrollTo({
+      top: Math.max(0, window.scrollY + trainer.getBoundingClientRect().top - 8),
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [reduceMotion, screen]);
 
   const renderMenu = () => (
     <motion.div
@@ -411,7 +426,7 @@ export function BlackjackTrainer() {
           </AnimatePresence>
         </div>
       </div>
-      <div className={styles.controlPanel}>
+      <div className={`${styles.controlPanel} ${selectedAction ? styles.answeredPanel : ""}`}>
         <div>
           <p className={styles.prompt}>What is the basic strategy play?</p>
           <div className={styles.actionGrid}>
@@ -543,13 +558,14 @@ export function BlackjackTrainer() {
   );
 
   return (
-    <section className={styles.trainer} aria-label="Back to Blackjack trainer">
+    <section ref={trainerRef} className={styles.trainer} aria-label="Back to Blackjack trainer">
       <AnimatePresence mode="wait" initial={false}>
         {screen === "menu" ? renderMenu() : screen === "simulation" ? (
           <BlackjackSimulation onExit={() => setScreen("menu")} />
         ) : (
           <motion.div
             key={screen}
+            className={screen === "table" ? undefined : styles.activeTrainer}
             initial={reduceMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? undefined : { opacity: 0 }}

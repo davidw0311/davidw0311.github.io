@@ -10,7 +10,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { actionLabels, type BlackjackAction } from "@/data/blackjackStrategy";
 import {
   actionAvailability as availabilityFor,
@@ -82,10 +82,25 @@ function PlayingCard({ card, label, concealed = false }: { card: ShoeCard; label
 
 export function BlackjackSimulation({ onExit }: { onExit: () => void }) {
   const reduceMotion = useReducedMotion();
+  const simulatorRef = useRef<HTMLElement>(null);
+  const initialView = useRef(true);
   const [view, setView] = useState<SimulatorView>("setup");
   const [rules, setRules] = useState<SimulationRules>(defaultSimulationRules);
   const [setupError, setSetupError] = useState("");
   const [session, setSession] = useState<SimulationSession | null>(null);
+
+  useEffect(() => {
+    if (initialView.current) {
+      initialView.current = false;
+      return;
+    }
+    const simulator = simulatorRef.current;
+    if (!simulator) return;
+    window.scrollTo({
+      top: Math.max(0, window.scrollY + simulator.getBoundingClientRect().top - 8),
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }, [reduceMotion, view]);
 
   const updateRule = <Key extends keyof SimulationRules>(key: Key, value: SimulationRules[Key]) => {
     setRules((current) => ({ ...current, [key]: value }));
@@ -640,7 +655,7 @@ export function BlackjackSimulation({ onExit }: { onExit: () => void }) {
   };
 
   return (
-    <section className={styles.simulator} aria-label="Configurable blackjack game simulator">
+    <section ref={simulatorRef} className={styles.simulator} aria-label="Configurable blackjack game simulator">
       <AnimatePresence mode="wait" initial={false}>
         <div key={view}>{view === "setup" ? renderSetup() : renderTable()}</div>
       </AnimatePresence>
