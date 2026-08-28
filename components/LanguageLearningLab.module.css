@@ -474,11 +474,11 @@
   color: var(--lab-accent);
 }
 
-.setupIntro > div {
+.setupIntroCopy {
   min-width: 0;
 }
 
-.setupIntro > div > span {
+.setupIntroCopy > span {
   color: var(--lab-accent);
   font-size: 0.66rem;
   font-weight: 850;
@@ -493,6 +493,34 @@
   font-weight: 520;
   letter-spacing: -0.045em;
   line-height: 1;
+}
+
+.setupProgress {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  color: var(--lab-faint);
+}
+
+.setupProgress > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: var(--lab-faint);
+  font-size: 0.64rem;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+
+.setupProgress > span[data-active="true"] {
+  border-color: rgb(121 228 197 / 0.42);
+  color: var(--lab-accent);
+  background: rgb(121 228 197 / 0.07);
 }
 
 .setupGrid {
@@ -580,7 +608,9 @@
 
 .setupLanguageSection {
   display: grid;
+  align-content: start;
   gap: 12px;
+  min-height: 300px;
   padding: 15px;
   border: 1px solid var(--lab-line);
   border-radius: 15px;
@@ -742,7 +772,7 @@
   background: rgb(121 228 197 / 0.07);
 }
 
-.displayLanguageTiles button > span {
+.displayLanguageTiles button > span:first-child {
   display: grid;
   place-items: center;
   width: 32px;
@@ -754,11 +784,26 @@
   background: rgb(121 228 197 / 0.08);
 }
 
-.displayLanguageTiles strong {
+.displayLanguageName {
+  display: grid;
+  min-width: 0;
+}
+
+.displayLanguageTiles strong,
+.displayLanguageTiles small {
   overflow: hidden;
-  font-size: 0.65rem;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.displayLanguageTiles strong {
+  font-size: 0.65rem;
+}
+
+.displayLanguageTiles small {
+  margin-top: 2px;
+  color: var(--lab-faint);
+  font-size: 0.54rem;
 }
 
 .displayLanguageTiles svg {
@@ -776,6 +821,10 @@
 
 .setupActions > div {
   min-width: 0;
+}
+
+.setupActionsLearning .setupProceedButton {
+  grid-column: 3;
 }
 
 .setupActions p {
@@ -2025,6 +2074,7 @@
   }
 
   .setupIntro {
+    flex-wrap: wrap;
     gap: 11px;
     margin-bottom: 10px;
   }
@@ -2036,6 +2086,17 @@
   .setupBackButton {
     min-height: 36px;
     padding: 6px 8px;
+  }
+
+  .setupProgress {
+    order: 3;
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+
+  .setupProgress > span {
+    flex: 1 1 0;
+    justify-content: center;
   }
 
   .setupGrid {
@@ -2074,6 +2135,7 @@
 
   .setupLanguageSection {
     gap: 10px;
+    min-height: 0;
     padding: 11px;
   }
 
@@ -2447,7 +2509,7 @@
     margin-bottom: 6px;
   }
 
-  .setupIntro > div > span {
+  .setupIntroCopy > span {
     display: none;
   }
 
@@ -2459,6 +2521,23 @@
   .setupBackButton {
     min-height: 30px;
     padding-block: 4px;
+  }
+
+  .setupProgress {
+    order: initial;
+    flex-basis: auto;
+    gap: 4px;
+    margin-left: auto;
+  }
+
+  .setupProgress > span {
+    flex: 0 0 auto;
+    min-height: 28px;
+    padding: 4px 6px;
+  }
+
+  .setupProgress strong {
+    display: none;
   }
 
   .setupGrid {
@@ -2572,7 +2651,7 @@
     padding: 3px 5px;
   }
 
-  .displayLanguageTiles button > span {
+  .displayLanguageTiles button > span:first-child {
     width: 24px;
     height: 24px;
     border-radius: 7px;
@@ -2581,6 +2660,10 @@
 
   .displayLanguageTiles strong {
     font-size: 0.54rem;
+  }
+
+  .displayLanguageTiles small {
+    display: none;
   }
 
   .setupActions {

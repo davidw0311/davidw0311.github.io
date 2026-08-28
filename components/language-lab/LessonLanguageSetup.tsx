@@ -11,7 +11,8 @@ import {
   Translate,
   WarningCircle,
 } from "@phosphor-icons/react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useState } from "react";
 import {
   languageIds,
   languages,
@@ -48,6 +49,14 @@ type LessonLanguageSetupProps = {
   onBack: () => void;
 };
 
+type SetupStep = "learning" | "display";
+
+const setupStepVariants = {
+  enter: (direction: number) => ({ opacity: 0, x: direction * 18 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: number) => ({ opacity: 0, x: direction * -14 }),
+};
+
 export function LessonLanguageSetup({
   content,
   contentText,
@@ -62,7 +71,27 @@ export function LessonLanguageSetup({
   onBack,
 }: LessonLanguageSetupProps) {
   const reduceMotion = useReducedMotion();
+  const [step, setStep] = useState<SetupStep>("learning");
+  const [transitionDirection, setTransitionDirection] = useState(1);
   const LessonIcon = content.type === "story" ? BookOpenText : NumberCircleOne;
+
+  const showDisplayLanguages = () => {
+    setTransitionDirection(1);
+    setStep("display");
+  };
+
+  const showLearningLanguage = () => {
+    setTransitionDirection(-1);
+    setStep("learning");
+  };
+
+  const handleBack = () => {
+    if (step === "display") {
+      showLearningLanguage();
+      return;
+    }
+    onBack();
+  };
 
   return (
     <motion.section
@@ -76,13 +105,24 @@ export function LessonLanguageSetup({
     >
       <div className={styles.setupScrollArea}>
         <div className={styles.setupIntro}>
-          <button type="button" className={styles.setupBackButton} onClick={onBack}>
+          <button type="button" className={styles.setupBackButton} onClick={handleBack}>
             <ArrowLeft size={18} weight="bold" aria-hidden="true" />
-            <span>{ui.lessons}</span>
+            <span>{step === "learning" ? ui.lessons : ui.learningLanguage}</span>
           </button>
-          <div>
+          <div className={styles.setupIntroCopy}>
             <span>{ui.setupLesson}</span>
             <h1 id="lesson-setup-title">{ui.setupLessonHelp}</h1>
+          </div>
+          <div className={styles.setupProgress} aria-label={ui.setupLesson}>
+            <span data-active={step === "learning"}>
+              <Microphone size={17} weight="fill" aria-hidden="true" />
+              <strong>{ui.learningLanguage}</strong>
+            </span>
+            <ArrowRight size={15} weight="bold" aria-hidden="true" />
+            <span data-active={step === "display"}>
+              <Translate size={17} weight="bold" aria-hidden="true" />
+              <strong>{ui.displayedLanguages}</strong>
+            </span>
           </div>
         </div>
 
@@ -103,81 +143,115 @@ export function LessonLanguageSetup({
           </article>
 
           <div className={styles.setupLanguagePanel}>
-            <section className={styles.setupLanguageSection} aria-labelledby="learning-language-title">
-              <div className={styles.setupSectionHeading}>
-                <span className={styles.setupSectionIcon}><Microphone size={22} weight="fill" aria-hidden="true" /></span>
-                <div>
-                  <h2 id="learning-language-title">{ui.learningLanguage}</h2>
-                  <p>{ui.chooseLearningLanguage}</p>
-                </div>
-              </div>
-              <div className={styles.languageTileGrid}>
-                {languageIds.map((languageId) => {
-                  const selected = practiceLanguageId === languageId;
-                  return (
-                    <button
-                      type="button"
-                      key={languageId}
-                      className={styles.languageTile}
-                      aria-pressed={selected}
-                      onClick={() => onSelectPracticeLanguage(languageId)}
-                    >
-                      <span className={styles.languageMark} aria-hidden="true">{languageMarks[languageId]}</span>
-                      <span>
-                        <strong>{languages[languageId].nameNative}</strong>
-                        <small>{languages[languageId].nameEnglish}</small>
-                      </span>
-                      {selected ? <CheckCircle size={21} weight="fill" aria-hidden="true" /> : null}
-                    </button>
-                  );
-                })}
-              </div>
-              {languages[practiceLanguageId].toneSensitive ? (
-                <p className={styles.setupNotice}><WarningCircle size={16} weight="fill" aria-hidden="true" /> {ui.toneWarning}</p>
-              ) : null}
-            </section>
-
-            <section className={styles.setupLanguageSection} aria-labelledby="display-languages-title">
-              <div className={styles.setupSectionHeading}>
-                <span className={styles.setupSectionIcon}><Translate size={22} weight="bold" aria-hidden="true" /></span>
-                <div>
-                  <h2 id="display-languages-title">{ui.displayedLanguages}</h2>
-                  <p>{ui.chooseDisplayedLanguages}</p>
-                </div>
-              </div>
-              <div className={styles.displayLanguageTiles}>
-                {languageIds.filter((languageId) => languageId !== practiceLanguageId).map((languageId) => {
-                  const selected = supportLanguageIds.includes(languageId);
-                  return (
-                    <button
-                      type="button"
-                      key={languageId}
-                      aria-pressed={selected}
-                      onClick={() => onToggleDisplayLanguage(languageId)}
-                    >
-                      <span aria-hidden="true">{languageMarks[languageId]}</span>
-                      <strong>{languages[languageId].nameNative}</strong>
-                      {selected ? <CheckCircle size={18} weight="fill" aria-hidden="true" /> : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
+            <AnimatePresence mode="wait" initial={false} custom={transitionDirection}>
+              {step === "learning" ? (
+                <motion.section
+                  key="learning-language"
+                  className={styles.setupLanguageSection}
+                  aria-labelledby="learning-language-title"
+                  custom={transitionDirection}
+                  variants={setupStepVariants}
+                  initial={reduceMotion ? false : "enter"}
+                  animate="center"
+                  exit={reduceMotion ? undefined : "exit"}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.18 }}
+                >
+                  <div className={styles.setupSectionHeading}>
+                    <span className={styles.setupSectionIcon}><Microphone size={22} weight="fill" aria-hidden="true" /></span>
+                    <div>
+                      <h2 id="learning-language-title">{ui.learningLanguage}</h2>
+                      <p>{ui.chooseLearningLanguage}</p>
+                    </div>
+                  </div>
+                  <div className={styles.languageTileGrid}>
+                    {languageIds.map((languageId) => {
+                      const selected = practiceLanguageId === languageId;
+                      return (
+                        <button
+                          type="button"
+                          key={languageId}
+                          className={styles.languageTile}
+                          aria-pressed={selected}
+                          onClick={() => onSelectPracticeLanguage(languageId)}
+                        >
+                          <span className={styles.languageMark} aria-hidden="true">{languageMarks[languageId]}</span>
+                          <span>
+                            <strong>{languages[languageId].nameNative}</strong>
+                            <small>{languages[languageId].nameEnglish}</small>
+                          </span>
+                          {selected ? <CheckCircle size={21} weight="fill" aria-hidden="true" /> : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {languages[practiceLanguageId].toneSensitive ? (
+                    <p className={styles.setupNotice}><WarningCircle size={16} weight="fill" aria-hidden="true" /> {ui.toneWarning}</p>
+                  ) : null}
+                </motion.section>
+              ) : (
+                <motion.section
+                  key="display-languages"
+                  className={styles.setupLanguageSection}
+                  aria-labelledby="display-languages-title"
+                  custom={transitionDirection}
+                  variants={setupStepVariants}
+                  initial={reduceMotion ? false : "enter"}
+                  animate="center"
+                  exit={reduceMotion ? undefined : "exit"}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.18 }}
+                >
+                  <div className={styles.setupSectionHeading}>
+                    <span className={styles.setupSectionIcon}><Translate size={22} weight="bold" aria-hidden="true" /></span>
+                    <div>
+                      <h2 id="display-languages-title">{ui.displayedLanguages}</h2>
+                      <p>{ui.chooseDisplayedLanguages}</p>
+                    </div>
+                  </div>
+                  <div className={styles.displayLanguageTiles}>
+                    {languageIds.filter((languageId) => languageId !== practiceLanguageId).map((languageId) => {
+                      const selected = supportLanguageIds.includes(languageId);
+                      return (
+                        <button
+                          type="button"
+                          key={languageId}
+                          aria-pressed={selected}
+                          onClick={() => onToggleDisplayLanguage(languageId)}
+                        >
+                          <span aria-hidden="true">{languageMarks[languageId]}</span>
+                          <span className={styles.displayLanguageName}>
+                            <strong>{languages[languageId].nameNative}</strong>
+                            <small>{languages[languageId].nameEnglish}</small>
+                          </span>
+                          {selected ? <CheckCircle size={18} weight="fill" aria-hidden="true" /> : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </motion.section>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
 
-      <div className={styles.setupActions}>
+      <div className={`${styles.setupActions} ${step === "learning" ? styles.setupActionsLearning : ""}`}>
         <div aria-live="polite">
           {lessonEntryError ? <p role="alert"><WarningCircle size={17} weight="fill" aria-hidden="true" /> {lessonEntryError}</p> : null}
         </div>
-        <button type="button" className={styles.setupSecondaryButton} onClick={onBack} disabled={lessonStarting}>
-          {ui.lessons}
-        </button>
-        <button type="button" className={styles.setupProceedButton} onClick={onProceed} disabled={lessonStarting}>
-          {lessonStarting
+        {step === "display" ? (
+          <button type="button" className={styles.setupSecondaryButton} onClick={showLearningLanguage} disabled={lessonStarting}>
+            <ArrowLeft size={18} weight="bold" aria-hidden="true" /> {ui.learningLanguage}
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className={styles.setupProceedButton}
+          onClick={step === "learning" ? showDisplayLanguages : onProceed}
+          disabled={lessonStarting}
+        >
+          {step === "display" && lessonStarting
             ? <><SpinnerGap className={styles.spinner} size={20} weight="bold" aria-hidden="true" /> {ui.allowMicrophone}</>
-            : <>{ui.proceed} <ArrowRight size={19} weight="bold" aria-hidden="true" /></>}
+            : <>{step === "learning" ? ui.continue : ui.proceed} <ArrowRight size={19} weight="bold" aria-hidden="true" /></>}
         </button>
       </div>
     </motion.section>
