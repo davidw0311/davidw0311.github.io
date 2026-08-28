@@ -363,6 +363,11 @@
   transform: scale(0.99);
 }
 
+.lessonCards > button:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
 .lessonCardIcon {
   display: grid;
   place-items: center;
@@ -605,6 +610,10 @@
 .languageSetup > p svg {
   flex: 0 0 auto;
   margin-top: 2px;
+}
+
+.languageSetup > .lessonEntryError {
+  color: var(--lab-danger);
 }
 
 .lesson {

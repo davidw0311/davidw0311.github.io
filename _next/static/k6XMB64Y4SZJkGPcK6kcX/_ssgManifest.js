@@ -1,1 +1,0 @@
-self.__SSG_MANIFEST=new Set(["\u002Fprojects\u002F[slug]","\u002Fprojects\u002Fpiano-note-lab\u002Flessons\u002F[lessonId]","\u002Fprojects\u002Fpiano-party\u002Flessons\u002F[lessonId]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()

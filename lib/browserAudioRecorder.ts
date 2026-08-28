@@ -1,9 +1,24 @@
 const targetSampleRate = 16_000;
+const microphoneAudioConstraints: MediaTrackConstraints = {
+  channelCount: 1,
+  echoCancellation: true,
+  noiseSuppression: true,
+  autoGainControl: true,
+};
 
 export type AudioRecording = {
   stop: () => Promise<Blob>;
   cancel: () => Promise<void>;
 };
+
+export async function requestMicrophoneAccess(): Promise<void> {
+  if (!navigator.mediaDevices?.getUserMedia) throw new Error("unsupported");
+
+  const stream = await navigator.mediaDevices.getUserMedia({
+    audio: microphoneAudioConstraints,
+  });
+  stream.getTracks().forEach((track) => track.stop());
+}
 
 function mergeChunks(chunks: Float32Array[]) {
   const length = chunks.reduce((total, chunk) => total + chunk.length, 0);
@@ -76,12 +91,7 @@ export async function startAudioRecording(): Promise<AudioRecording> {
   }
 
   const stream = await navigator.mediaDevices.getUserMedia({
-    audio: {
-      channelCount: 1,
-      echoCancellation: true,
-      noiseSuppression: true,
-      autoGainControl: true,
-    },
+    audio: microphoneAudioConstraints,
   });
 
   const audioContext = new AudioContext();

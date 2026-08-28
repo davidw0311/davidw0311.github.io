@@ -59,7 +59,12 @@ import {
   nativePronunciationSystems,
   type NativePronunciationSystem,
 } from "@/data/languagePronunciation";
-import { blobToBase64, startAudioRecording, type AudioRecording } from "@/lib/browserAudioRecorder";
+import {
+  blobToBase64,
+  requestMicrophoneAccess,
+  startAudioRecording,
+  type AudioRecording,
+} from "@/lib/browserAudioRecorder";
 import { phraseAudioPath, sentenceAudioPath, type SentenceAudioSpeed } from "@/lib/languageAudio";
 import styles from "./LanguageLearningLab.module.css";
 
@@ -302,10 +307,13 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
   const [systemLanguagePickerOpen, setSystemLanguagePickerOpen] = useState(false);
   const [lessonOpen, setLessonOpen] = useState(false);
+  const [pendingLessonIndex, setPendingLessonIndex] = useState<number | null>(null);
+  const [lessonEntryError, setLessonEntryError] = useState("");
   const recordingRef = useRef<AudioRecording | null>(null);
   const recordingTimerRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const holdActiveRef = useRef(false);
+  const microphoneReadyRef = useRef(false);
 
   const practiceLanguageId = progress.practiceLanguageId;
   const systemLanguageId = progress.systemLanguageId;
@@ -448,10 +456,26 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     resetAttempt();
   };
 
-  const openLesson = (index: number) => {
-    selectContent(index);
-    setSystemLanguagePickerOpen(false);
-    setLessonOpen(true);
+  const openLesson = async (index: number) => {
+    if (pendingLessonIndex !== null) return;
+    setPendingLessonIndex(index);
+    setLessonEntryError("");
+
+    try {
+      if (!microphoneReadyRef.current) {
+        await requestMicrophoneAccess();
+        microphoneReadyRef.current = true;
+      }
+      selectContent(index);
+      setSystemLanguagePickerOpen(false);
+      setLessonOpen(true);
+    } catch (error) {
+      setLessonEntryError(error instanceof DOMException && error.name === "NotAllowedError"
+        ? ui.microphoneBlocked
+        : ui.microphoneError);
+    } finally {
+      setPendingLessonIndex(null);
+    }
   };
 
   const returnToLibrary = () => {
@@ -922,6 +946,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                 {languages[practiceLanguageId].toneSensitive ? (
                   <p><WarningCircle size={16} weight="fill" aria-hidden="true" /> {ui.toneWarning}</p>
                 ) : null}
+                {lessonEntryError ? (
+                  <p className={styles.lessonEntryError} role="alert"><WarningCircle size={16} weight="fill" aria-hidden="true" /> {lessonEntryError}</p>
+                ) : null}
               </div>
             </div>
 
@@ -938,7 +965,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                     key={item.id}
                     type="button"
                     aria-label={formatUi(ui.openLesson, { lesson: itemText.title })}
-                    onClick={() => openLesson(index)}
+                    aria-busy={pendingLessonIndex === index}
+                    disabled={pendingLessonIndex !== null}
+                    onClick={() => void openLesson(index)}
                   >
                     <span className={styles.lessonCardIcon}><Icon size={25} weight="fill" aria-hidden="true" /></span>
                     <span className={styles.lessonCardCopy}>
@@ -950,7 +979,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       <small>{completed > 0
                         ? formatUi(ui.completedCount, { count: completed, total: item.units.length })
                         : formatUi(ui.promptsCount, { count: item.units.length })}</small>
-                      <span>{completed > 0 && completed < item.units.length ? ui.continue : ui.start} <ArrowRight size={17} weight="bold" aria-hidden="true" /></span>
+                      <span>{pendingLessonIndex === index
+                        ? <><Microphone size={17} weight="fill" aria-hidden="true" /> {ui.allowMicrophone}</>
+                        : <>{completed > 0 && completed < item.units.length ? ui.continue : ui.start} <ArrowRight size={17} weight="bold" aria-hidden="true" /></>}</span>
                     </span>
                   </button>
                 );
