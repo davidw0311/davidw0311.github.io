@@ -212,8 +212,7 @@
   transform: translateX(4px);
 }
 
-.modeIcon,
-.lessonRowIcon {
+.modeIcon {
   display: grid;
   place-items: center;
   width: 58px;
@@ -278,7 +277,10 @@
 }
 
 .lessonList {
-  border-top: 1px solid rgb(219 242 238 / 0.2);
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 18px;
+  align-content: start;
 }
 
 .libraryHeader {
@@ -308,28 +310,101 @@
   font-weight: 520;
 }
 
+.lessonGroup {
+  overflow: hidden;
+  border: 1px solid rgb(219 242 238 / 0.18);
+  border-radius: 18px;
+  background: rgb(9 24 30 / 0.78);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.035);
+}
+
+.lessonGroupHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 17px 20px;
+  border-bottom: 1px solid rgb(219 242 238 / 0.14);
+  background: rgb(121 228 197 / 0.035);
+}
+
+.lessonGroupHeader > div {
+  display: grid;
+  gap: 3px;
+}
+
+.lessonGroupHeader h2,
+.lessonGroupHeader p {
+  margin: 0;
+}
+
+.lessonGroupHeader h2 {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.lessonGroupHeader p {
+  color: #86a5a2;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.lessonGroupHeader strong {
+  color: #79e4c5;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
 .lessonRow {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
-  gap: clamp(14px, 2.6vw, 28px);
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: clamp(14px, 2.4vw, 24px);
   align-items: center;
-  min-height: 108px;
-  padding: 14px 4px;
-  border-bottom: 1px solid rgb(219 242 238 / 0.2);
+  min-height: 104px;
+  padding: 13px 18px;
+  border-bottom: 1px solid rgb(219 242 238 / 0.12);
   color: inherit;
   text-decoration: none;
-  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  transition: color 180ms ease, background-color 180ms ease, box-shadow 180ms ease, transform 120ms ease;
+}
+
+.lessonRow:last-child {
+  border-bottom: 0;
 }
 
 .lessonRow:hover {
   color: #79e4c5;
-  background: rgb(121 228 197 / 0.045);
-  transform: translateX(4px);
+  background: rgb(121 228 197 / 0.065);
+  box-shadow: inset 3px 0 0 #79e4c5;
 }
 
-.lessonRowIcon {
-  width: 52px;
-  height: 52px;
+.lessonRow:focus-visible {
+  position: relative;
+  outline: 2px solid #79e4c5;
+  outline-offset: -3px;
+}
+
+.lessonRow:active {
+  transform: scale(0.995);
+}
+
+.lessonNumber {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid rgb(121 228 197 / 0.3);
+  border-radius: 12px;
+  color: #79e4c5;
+  background: rgb(121 228 197 / 0.075);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
 }
 
 .lessonRowCopy {
@@ -346,13 +421,23 @@
   font-size: clamp(1.15rem, 2.3vw, 1.65rem);
 }
 
-.lessonReady {
+.lessonAction {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  color: #79e4c5;
+  gap: 8px;
+  color: #c6dbd8;
   font-size: 0.69rem;
   font-weight: 800;
+  white-space: nowrap;
+}
+
+.lessonArrow {
+  color: #79e4c5;
+  transition: transform 180ms ease;
+}
+
+.lessonRow:hover .lessonArrow {
+  transform: translateX(2px);
 }
 
 @media (prefers-color-scheme: light) {
@@ -396,7 +481,8 @@
 
   .modeList,
   .modeOption,
-  .lessonList,
+  .lessonGroup,
+  .lessonGroupHeader,
   .lessonRow {
     border-color: rgb(18 62 64 / 0.18);
   }
@@ -404,11 +490,20 @@
   .modeOption:hover,
   .lessonRow:hover {
     color: #167f65;
+    background: rgb(22 127 101 / 0.07);
+  }
+
+  .lessonGroup {
+    background: rgb(248 252 250 / 0.86);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.78);
+  }
+
+  .lessonGroupHeader {
     background: rgb(22 127 101 / 0.045);
   }
 
   .modeIcon,
-  .lessonRowIcon {
+  .lessonNumber {
     color: #167f65;
     border-color: rgb(22 127 101 / 0.3);
     background: rgb(22 127 101 / 0.07);
@@ -423,17 +518,22 @@
   .modeCopy small,
   .libraryHeader p,
   .lessonLabel,
-  .lessonReady {
+  .lessonGroupHeader strong {
     color: #167f65;
   }
 
   .modeCopy > span,
   .lessonDescription,
-  .libraryHeader strong {
+  .libraryHeader strong,
+  .lessonGroupHeader p {
     color: #476765;
   }
 
   .modeAction {
+    color: #294f4f;
+  }
+
+  .lessonAction {
     color: #294f4f;
   }
 
@@ -583,7 +683,10 @@
   }
 
   .lessonList {
+    display: grid;
+    gap: 10px;
     min-height: 0;
+    padding-right: 2px;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-color: rgb(121 228 197 / 0.34) transparent;
@@ -610,14 +713,36 @@
   .lessonRow {
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 9px;
-    min-height: 82px;
-    padding: 7px 2px;
+    min-height: 76px;
+    padding: 8px 10px;
   }
 
-  .lessonRowIcon {
-    width: 42px;
-    height: 42px;
-    border-radius: 10px;
+  .lessonGroup {
+    border-radius: 13px;
+  }
+
+  .lessonGroupHeader {
+    gap: 12px;
+    padding: 11px 12px;
+  }
+
+  .lessonGroupHeader h2 {
+    font-size: 0.94rem;
+  }
+
+  .lessonGroupHeader p {
+    display: none;
+  }
+
+  .lessonGroupHeader strong {
+    font-size: 0.54rem;
+  }
+
+  .lessonNumber {
+    width: 40px;
+    height: 40px;
+    border-radius: 9px;
+    font-size: 0.82rem;
   }
 
   .lessonRowCopy strong {
@@ -633,8 +758,11 @@
     line-height: 1.3;
   }
 
-  .lessonReady {
-    display: none;
+  .lessonAction {
+    width: 20px;
+    overflow: hidden;
+    color: transparent;
+    font-size: 0;
   }
 
 }
@@ -722,7 +850,7 @@
 
   .lessonList {
     display: grid;
-    grid-auto-rows: minmax(66px, auto);
+    gap: 8px;
     height: 100%;
     min-height: 0;
     overflow-y: auto;
@@ -731,25 +859,32 @@
 
   .lessonRow {
     min-height: 0;
-    padding: 5px 2px;
+    padding: 6px 9px;
   }
 
-  .lessonRowIcon {
-    width: 38px;
-    height: 38px;
+  .lessonGroupHeader {
+    padding: 8px 10px;
   }
 
-  .lessonRowIcon svg {
-    width: 23px;
-    height: 23px;
+  .lessonGroupHeader p {
+    display: none;
+  }
+
+  .lessonNumber {
+    width: 36px;
+    height: 36px;
+    font-size: 0.76rem;
   }
 
   .lessonDescription {
     font-size: 0.59rem;
   }
 
-  .lessonReady {
-    display: none;
+  .lessonAction {
+    width: 20px;
+    overflow: hidden;
+    color: transparent;
+    font-size: 0;
   }
 }
 
@@ -760,6 +895,10 @@
 
   .modeOption,
   .lessonRow {
+    transition: none;
+  }
+
+  .lessonArrow {
     transition: none;
   }
 }
