@@ -378,8 +378,9 @@
   position: absolute;
   top: calc(116px - var(--ledger-step) * 9px);
   left: 64%;
-  width: 38px;
+  width: 32px;
   height: 1px;
+  border-radius: 999px;
   background: #203d44;
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.42);
   transform: translateX(-50%);
