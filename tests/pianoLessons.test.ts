@@ -33,6 +33,7 @@ import {
   pianoLessonShareMistakeCount,
   pianoLessonShareText,
 } from "../data/pianoLessonShare.ts";
+import { pianoLessonShareImageSize } from "../lib/pianoLessonShareImage.ts";
 
 test("lesson one contains three shuffled cards for every natural note", () => {
   let seed = 17;
@@ -91,6 +92,11 @@ test("lesson result shares use clear progress copy and image names", () => {
     pianoLessonShareText(resultWithMistakes),
     "I completed Piano Party Lesson 4 with 83% accuracy in 0:42.3. The note report includes 3 mistakes.",
   );
+});
+
+test("lesson share images reserve enough height for every note row", () => {
+  assert.deepEqual(pianoLessonShareImageSize(7), { height: 1_404, keyboardY: 1_214 });
+  assert.deepEqual(pianoLessonShareImageSize(21), { height: 2_132, keyboardY: 1_942 });
 });
 
 test("lesson reports rank every included note by mistakes and then recognition time", () => {

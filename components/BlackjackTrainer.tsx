@@ -12,34 +12,35 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   actionLabels,
   dealerUpcards,
   explainScenario,
   scenariosForSelection,
   strategyCodeMeaning,
-  trainingScenarios,
   type BlackjackAction,
   type CardRank,
   type HandKind,
   type StrategyCode,
-  type TrainingScenario,
 } from "@/data/blackjackStrategy";
+import { masterySections } from "@/data/blackjackModes";
 import {
-  masterySections,
-  unmasteredScenarios,
-} from "@/data/blackjackModes";
+  formatStrategyRowLabel,
+  formatStrategyRowName,
+  formatTrainingHandHeading,
+  strategySelectionState,
+  suitForTrainingCard,
+  trainingActionIsAvailable,
+  type TrainingFocus,
+  type TrainingSuit,
+} from "@/data/blackjackTraining";
+import { useBlackjackTraining } from "@/hooks/useBlackjackTraining";
 import { BlackjackSimulation } from "./BlackjackSimulation";
 import styles from "./BlackjackTrainer.module.css";
 
-type TrainingFocus = "all" | HandKind | "custom";
-type TrainerScreen = "menu" | "mastery" | "simulation" | "practice" | "table";
-type Suit = "clubs" | "diamonds" | "hearts" | "spades";
-
 const actions: BlackjackAction[] = ["hit", "stand", "double", "split", "surrender"];
-const suits: Suit[] = ["spades", "hearts", "clubs", "diamonds"];
-const suitGlyphs: Record<Suit, string> = {
+const suitGlyphs: Record<TrainingSuit, string> = {
   clubs: "♣︎",
   diamonds: "♦︎",
   hearts: "♥︎",
@@ -65,54 +66,7 @@ const strategyCodeLabels: Record<StrategyCode, string> = {
   R: "Surrender, otherwise hit",
 };
 
-const initialScenario = trainingScenarios.find(
-  (candidate) => candidate.id === "hard-16-vs-10",
-) ?? trainingScenarios[0];
-
-function hashText(value: string) {
-  return Array.from(value).reduce((hash, character) => ((hash * 31) + character.charCodeAt(0)) >>> 0, 7);
-}
-
-function suitFor(scenario: TrainingScenario, cardIndex: number, dealNumber: number) {
-  return suits[(hashText(scenario.id) + cardIndex + dealNumber) % suits.length];
-}
-
-function actionIsAvailable(action: BlackjackAction, scenario: TrainingScenario) {
-  if (action === "double") return scenario.availability.canDouble;
-  if (action === "split") return scenario.availability.canSplit;
-  if (action === "surrender") return scenario.availability.canSurrender;
-  return true;
-}
-
-function randomScenarioIndex(length: number) {
-  return Math.floor(Math.random() * length);
-}
-
-function formatHandHeading(scenario: TrainingScenario) {
-  if (scenario.kind !== "pair") {
-    return `${scenario.kind[0].toUpperCase()}${scenario.kind.slice(1)} ${scenario.total}`;
-  }
-  return scenario.playerRanks[0] === "A" ? "Pair of Aces" : `Pair of ${scenario.playerRanks[0]}s`;
-}
-
-function formatTableRowLabel(scenario: TrainingScenario) {
-  return scenario.kind === "hard" ? String(scenario.total) : scenario.handLabel;
-}
-
-function formatTableRowName(scenario: TrainingScenario) {
-  if (scenario.kind === "hard") return `Hard ${scenario.total}`;
-  if (scenario.kind === "soft") return `Soft ${scenario.handLabel}`;
-  return scenario.playerRanks[0] === "A" ? "Pair of Aces" : `Pair of ${scenario.playerRanks[0]}s`;
-}
-
-function selectionState(selectedIds: Set<string>, scenarios: TrainingScenario[]) {
-  const count = scenarios.filter((scenario) => selectedIds.has(scenario.id)).length;
-  if (count === 0) return "none";
-  if (count === scenarios.length) return "all";
-  return "some";
-}
-
-function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label: string }) {
+function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: TrainingSuit; label: string }) {
   const isRed = suit === "diamonds" || suit === "hearts";
   const suitName = suit.slice(0, -1);
   return (
@@ -135,162 +89,39 @@ function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: Suit; label:
 
 export function BlackjackTrainer() {
   const reduceMotion = useReducedMotion();
-  const [screen, setScreen] = useState<TrainerScreen>("menu");
-  const [focus, setFocus] = useState<TrainingFocus>("all");
-  const [tableKind, setTableKind] = useState<HandKind>("hard");
-  const [selectedScenarioIds, setSelectedScenarioIds] = useState<Set<string>>(() => new Set());
-  const [activePracticeIds, setActivePracticeIds] = useState<Set<string> | null>(null);
-  const [scenario, setScenario] = useState<TrainingScenario>(initialScenario);
-  const [selectedAction, setSelectedAction] = useState<BlackjackAction | null>(null);
-  const [dealNumber, setDealNumber] = useState(0);
-  const [answered, setAnswered] = useState(0);
-  const [correct, setCorrect] = useState(0);
-  const [streak, setStreak] = useState(0);
-  const [masterySectionIndex, setMasterySectionIndex] = useState(0);
-  const [masteredScenarioIds, setMasteredScenarioIds] = useState<Set<string>>(() => new Set());
-  const [masteryAttempts, setMasteryAttempts] = useState(0);
-  const [masterySectionComplete, setMasterySectionComplete] = useState(false);
-
-  const isCorrect = selectedAction === scenario.correctAction;
-  const accuracy = answered === 0 ? 0 : Math.round((correct / answered) * 100);
+  const {
+    accuracy,
+    advanceMasterySection,
+    answered,
+    changeFocus,
+    chooseAction,
+    clearSelection,
+    correct,
+    currentMasterySection,
+    dealNumber,
+    dealPractice,
+    focus,
+    isCorrect,
+    masteredScenarioIds,
+    masteryAttempts,
+    masterySectionComplete,
+    masterySectionIndex,
+    nextMasteryHand,
+    scenario,
+    screen,
+    selectedAction,
+    selectedScenarioIds,
+    setScreen,
+    setTableKind,
+    startMastery,
+    startPractice,
+    startSelectedPractice,
+    streak,
+    tableKind,
+    tableRows,
+    toggleSelection,
+  } = useBlackjackTraining();
   const explanation = useMemo(() => explainScenario(scenario), [scenario]);
-  const currentMasterySection = masterySections[masterySectionIndex];
-  const activePracticeScenarios = useMemo(() => {
-    if (!activePracticeIds) return [];
-    return trainingScenarios.filter((candidate) => activePracticeIds.has(candidate.id));
-  }, [activePracticeIds]);
-  const tableScenarios = useMemo(() => scenariosForSelection({ kind: tableKind }), [tableKind]);
-  const tableRows = useMemo(() => {
-    const rows = new Map<string, TrainingScenario[]>();
-    for (const candidate of tableScenarios) {
-      const row = rows.get(candidate.handLabel) ?? [];
-      row.push(candidate);
-      rows.set(candidate.handLabel, row);
-    }
-    return [...rows.values()];
-  }, [tableScenarios]);
-
-  const resetStats = () => {
-    setAnswered(0);
-    setCorrect(0);
-    setStreak(0);
-  };
-
-  const dealFrom = (candidates: readonly TrainingScenario[]) => {
-    if (candidates.length === 0) return;
-    let index = randomScenarioIndex(candidates.length);
-    if (candidates.length > 1 && candidates[index].id === scenario.id) {
-      index = (index + 1) % candidates.length;
-    }
-    setScenario(candidates[index]);
-    setSelectedAction(null);
-    setDealNumber((value) => value + 1);
-  };
-
-  const dealPractice = (nextFocus: TrainingFocus = focus) => {
-    const candidates = nextFocus === "all"
-      ? trainingScenarios
-      : nextFocus === "custom"
-        ? activePracticeScenarios
-        : trainingScenarios.filter((candidate) => candidate.kind === nextFocus);
-    dealFrom(candidates);
-  };
-
-  const startMastery = () => {
-    setScreen("mastery");
-    setMasterySectionIndex(0);
-    setMasteredScenarioIds(new Set());
-    setMasteryAttempts(0);
-    setMasterySectionComplete(false);
-    resetStats();
-    dealFrom(masterySections[0].scenarios);
-  };
-
-  const startSimulation = () => {
-    setScreen("simulation");
-  };
-
-  const startPractice = () => {
-    setScreen("practice");
-    setFocus("all");
-    setActivePracticeIds(null);
-    resetStats();
-    dealFrom(trainingScenarios);
-  };
-
-  const changeFocus = (nextFocus: Exclude<TrainingFocus, "custom">) => {
-    setActivePracticeIds(null);
-    setFocus(nextFocus);
-    dealPractice(nextFocus);
-  };
-
-  const toggleSelection = (candidates: TrainingScenario[]) => {
-    setSelectedScenarioIds((current) => {
-      const next = new Set(current);
-      const remove = candidates.every((candidate) => next.has(candidate.id));
-      for (const candidate of candidates) {
-        if (remove) next.delete(candidate.id);
-        else next.add(candidate.id);
-      }
-      return next;
-    });
-  };
-
-  const startSelectedPractice = () => {
-    const candidates = trainingScenarios.filter((candidate) => selectedScenarioIds.has(candidate.id));
-    if (candidates.length === 0) return;
-    setActivePracticeIds(new Set(selectedScenarioIds));
-    setFocus("custom");
-    setScreen("practice");
-    resetStats();
-    dealFrom(candidates);
-  };
-
-  const chooseAction = (action: BlackjackAction) => {
-    if (selectedAction || !actionIsAvailable(action, scenario)) return;
-    const answerIsCorrect = action === scenario.correctAction;
-    setSelectedAction(action);
-    setAnswered((value) => value + 1);
-    if (answerIsCorrect) {
-      setCorrect((value) => value + 1);
-      setStreak((value) => value + 1);
-    } else {
-      setStreak(0);
-    }
-
-    if (screen === "mastery") {
-      setMasteryAttempts((value) => value + 1);
-      if (answerIsCorrect) {
-        setMasteredScenarioIds((current) => {
-          const next = new Set(current);
-          next.add(scenario.id);
-          if (next.size === currentMasterySection.scenarios.length) setMasterySectionComplete(true);
-          return next;
-        });
-      }
-    }
-  };
-
-  const nextMasteryHand = () => {
-    dealFrom(unmasteredScenarios(currentMasterySection, masteredScenarioIds));
-  };
-
-  const advanceMasterySection = () => {
-    if (masterySectionIndex === masterySections.length - 1) {
-      setScreen("menu");
-      return;
-    }
-    const nextIndex = masterySectionIndex + 1;
-    setMasterySectionIndex(nextIndex);
-    setMasteredScenarioIds(new Set());
-    setMasteryAttempts(0);
-    setMasterySectionComplete(false);
-    dealFrom(masterySections[nextIndex].scenarios);
-  };
-
-  const actionAvailableForCurrentMode = (action: BlackjackAction) => {
-    return actionIsAvailable(action, scenario);
-  };
 
   const renderMenu = () => (
     <motion.div
@@ -326,7 +157,7 @@ export function BlackjackTrainer() {
         <motion.button
           type="button"
           className={`${styles.modeCard} ${styles.simulationModeCard}`}
-          onClick={startSimulation}
+          onClick={() => setScreen("simulation")}
           whileTap={reduceMotion ? undefined : { scale: 0.985 }}
         >
           <span className={styles.modeIcon}>
@@ -398,7 +229,7 @@ export function BlackjackTrainer() {
               type="button"
               className={styles.clearSelection}
               disabled={selectedScenarioIds.size === 0}
-              onClick={() => setSelectedScenarioIds(new Set())}
+              onClick={clearSelection}
             >
               Clear
             </button>
@@ -548,7 +379,7 @@ export function BlackjackTrainer() {
             >
               <PlayingCard
                 rank={scenario.dealerUpcard}
-                suit={suitFor(scenario, 3, dealNumber)}
+                suit={suitForTrainingCard(scenario, 3, dealNumber)}
                 label="Dealer upcard"
               />
             </motion.div>
@@ -557,7 +388,7 @@ export function BlackjackTrainer() {
         <div className={styles.playerZone}>
           <div className={styles.handHeading}>
             <span>Your hand</span>
-            <strong>{formatHandHeading(scenario)}</strong>
+            <strong>{formatTrainingHandHeading(scenario)}</strong>
           </div>
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -572,7 +403,7 @@ export function BlackjackTrainer() {
                 <PlayingCard
                   key={`${scenario.id}-${index}`}
                   rank={rank}
-                  suit={suitFor(scenario, index, dealNumber)}
+                  suit={suitForTrainingCard(scenario, index, dealNumber)}
                   label={`Player card ${index + 1}`}
                 />
               ))}
@@ -585,7 +416,7 @@ export function BlackjackTrainer() {
           <p className={styles.prompt}>What is the basic strategy play?</p>
           <div className={styles.actionGrid}>
             {actions.map((action) => {
-              const available = actionAvailableForCurrentMode(action);
+              const available = trainingActionIsAvailable(action, scenario);
               const selected = selectedAction === action;
               const answer = selectedAction && scenario.correctAction === action;
               const stateClass = selected && !isCorrect
@@ -635,7 +466,7 @@ export function BlackjackTrainer() {
                   kind: tableKind,
                   dealerUpcard: upcard,
                 });
-                const state = selectionState(selectedScenarioIds, columnScenarios);
+                const state = strategySelectionState(selectedScenarioIds, columnScenarios);
                 return (
                   <th scope="col" key={upcard}>
                     <button
@@ -656,8 +487,8 @@ export function BlackjackTrainer() {
           <tbody>
             {tableRows.map((row) => {
               const rowScenario = row[0];
-              const rowState = selectionState(selectedScenarioIds, row);
-              const rowName = formatTableRowName(rowScenario);
+              const rowState = strategySelectionState(selectedScenarioIds, row);
+              const rowName = formatStrategyRowName(rowScenario);
               return (
                 <tr key={rowScenario.handLabel}>
                   <th scope="row">
@@ -673,7 +504,7 @@ export function BlackjackTrainer() {
                           ? "Hard"
                           : rowScenario.kind === "soft" ? "Soft" : "Pair"}
                       </span>
-                      <strong>{formatTableRowLabel(rowScenario)}</strong>
+                      <strong>{formatStrategyRowLabel(rowScenario)}</strong>
                     </button>
                   </th>
                   {row.map((cell) => {

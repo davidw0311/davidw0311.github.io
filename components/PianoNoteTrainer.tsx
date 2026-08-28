@@ -9,25 +9,19 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type CSSProperties, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
-  accidentalSymbol,
-  blackKeys,
   createPianoQuestion,
   formatNotation,
   formatPianoKey,
-  ledgerStepsFor,
   pitchNames,
-  spokenPitchName,
-  staffStepFor,
-  whiteKeys,
   type ClefFilter,
   type PianoExerciseMode,
   type PianoNote,
-  type StaffClef,
-  type StaffNotation,
 } from "@/data/pianoNotes";
 import { usePianoAudio } from "@/hooks/usePianoAudio";
+import { MusicStaff } from "./piano/MusicStaff";
+import { PianoKeyboard } from "./piano/PianoKeyboard";
 import styles from "./PianoNoteTrainer.module.css";
 
 type Score = {
@@ -53,164 +47,6 @@ const clefLabels: Record<ClefFilter, string> = {
   treble: "Treble",
   bass: "Bass",
 };
-
-const keyboardRanges = [
-  {
-    id: "lower",
-    whiteNotes: whiteKeys.filter((note) => note.octave === 3),
-    blackNotes: blackKeys.filter((note) => note.octave === 3),
-    whiteOffset: 0,
-    portraitLeadingWhiteKeys: 0,
-    portraitWhiteCount: 8,
-  },
-  {
-    id: "middle",
-    whiteNotes: whiteKeys.filter((note) => note.octave === 4),
-    blackNotes: blackKeys.filter((note) => note.octave === 4),
-    whiteOffset: 7,
-    portraitLeadingWhiteKeys: 0,
-    portraitWhiteCount: 8,
-  },
-  {
-    id: "upper",
-    whiteNotes: whiteKeys.filter((note) => note.octave === 5 || note.id === "C6"),
-    blackNotes: blackKeys.filter((note) => note.octave === 5),
-    whiteOffset: 14,
-    portraitLeadingWhiteKeys: 0,
-    portraitWhiteCount: 8,
-  },
-];
-
-function keyStateClass(note: PianoNote, target: PianoNote, selectedId: string | null, answered: boolean, showPrompt: boolean) {
-  const isTarget = note.id === target.id;
-  const isSelected = selectedId === note.id;
-  return [
-    showPrompt && isTarget ? styles.promptKey : "",
-    answered && isTarget ? styles.correctKey : "",
-    answered && isSelected && !isTarget ? styles.wrongKey : "",
-  ].filter(Boolean).join(" ");
-}
-
-export function PianoKeyboard({
-  target,
-  selectedId,
-  answered,
-  interactive,
-  showPrompt,
-  onChoose,
-}: {
-  target: PianoNote;
-  selectedId: string | null;
-  answered: boolean;
-  interactive: boolean;
-  showPrompt: boolean;
-  onChoose: (note: PianoNote, answeredAt: number) => void;
-}) {
-  return (
-    <div className={styles.keyboardWrap}>
-      <div
-        className={`${styles.keyboard} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
-        role="group"
-        aria-label="Piano keyboard from C3 to C6, including sharp and flat keys"
-      >
-        {keyboardRanges.map((range) => {
-          return (
-            <div className={styles.keyboardRange} key={range.id}>
-              <div
-                className={styles.whiteKeys}
-                style={{
-                  "--desktop-white-count": range.whiteNotes.length,
-                  "--portrait-white-count": range.portraitWhiteCount,
-                  "--portrait-white-start": range.portraitLeadingWhiteKeys + 1,
-                } as CSSProperties}
-              >
-                {range.whiteNotes.map((note) => (
-                  <button
-                    type="button"
-                    key={note.id}
-                    className={`${styles.whiteKey} ${keyStateClass(note, target, selectedId, answered, showPrompt)}`}
-                    disabled={!interactive}
-                    tabIndex={interactive ? 0 : -1}
-                    aria-label={spokenPitchName(note)}
-                    aria-pressed={interactive ? selectedId === note.id : undefined}
-                    onClick={(event) => onChoose(note, event.timeStamp)}
-                  >
-                    <span className={answered && (note.id === target.id || note.id === selectedId) ? styles.visibleKeyLabel : ""}>
-                      {note.name}<small>{note.octave}</small>
-                    </span>
-                  </button>
-                ))}
-              </div>
-              <div className={styles.blackKeys}>
-                {range.blackNotes.map((note) => {
-                  const relativeIndex = (note.afterWhiteIndex ?? range.whiteOffset) - range.whiteOffset;
-                  const desktopLeft = ((relativeIndex + 1) / range.whiteNotes.length) * 100;
-                  const portraitLeft = (
-                    (relativeIndex + range.portraitLeadingWhiteKeys + 1) / range.portraitWhiteCount
-                  ) * 100;
-                  return (
-                    <button
-                      type="button"
-                      key={note.id}
-                      className={`${styles.blackKey} ${keyStateClass(note, target, selectedId, answered, showPrompt)}`}
-                      style={{
-                        "--desktop-left": `${desktopLeft}%`,
-                        "--portrait-left": `${portraitLeft}%`,
-                      } as CSSProperties}
-                      disabled={!interactive}
-                      tabIndex={interactive ? 0 : -1}
-                      aria-label={spokenPitchName(note)}
-                      aria-pressed={interactive ? selectedId === note.id : undefined}
-                      onClick={(event) => onChoose(note, event.timeStamp)}
-                    >
-                      <span>{formatPianoKey(note)}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-export function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: StaffClef }) {
-  const step = staffStepFor(notation, clef);
-  const ledgerSteps = ledgerStepsFor(notation, clef);
-  const style = { "--note-step": step } as CSSProperties;
-  const accidental = accidentalSymbol(notation.accidental);
-
-  return (
-    <div className={styles.staffCard} role="img" aria-label={`${formatNotation(notation, true)} written in ${clef} clef`}>
-      <div className={styles.staffHeader}>
-        <span className={styles.clefName}>{clef === "treble" ? "Treble clef" : "Bass clef"}</span>
-        <span className={styles.staffRange}>{clef === "treble" ? "C4-C6 range" : "C3-C4 range"}</span>
-      </div>
-      <div className={styles.staff} aria-hidden="true">
-        {[0, 1, 2, 3, 4].map((line) => <span key={line} className={styles.staffLine} />)}
-        <span className={styles.staffStartBar} />
-        <span className={styles.staffEndBar} />
-        <span className={`${styles.clef} ${clef === "bass" ? styles.bassClef : ""}`}>
-          {clef === "treble" ? "𝄞" : "𝄢"}
-        </span>
-        {ledgerSteps.map((ledgerStep) => (
-          <span
-            key={ledgerStep}
-            className={styles.ledgerLine}
-            style={{ "--ledger-step": ledgerStep } as CSSProperties}
-          />
-        ))}
-        {accidental ? <span className={styles.accidental} style={style}>{accidental}</span> : null}
-        <span className={`${styles.note} ${step >= 4 ? styles.stemDown : ""}`} style={style}>
-          <i />
-          <b />
-        </span>
-      </div>
-    </div>
-  );
-}
 
 export function PianoNoteTrainer() {
   const reduceMotion = useReducedMotion();

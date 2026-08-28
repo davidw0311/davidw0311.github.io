@@ -30,8 +30,13 @@ async function resumeAudioContext(context: AudioContext) {
 export function usePianoAudio(enabled = true) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const cleanupAudioRef = useRef<(() => void) | null>(null);
+  const playbackGenerationRef = useRef(0);
 
   const stopNote = useCallback(() => {
+    playbackGenerationRef.current += 1;
+    cleanupAudioRef.current?.();
+    cleanupAudioRef.current = null;
     audioRef.current?.pause();
     audioRef.current = null;
   }, []);
@@ -124,13 +129,17 @@ export function usePianoAudio(enabled = true) {
     if (!enabled) return;
 
     stopNote();
+    const generation = playbackGenerationRef.current;
     const audio = new Audio(pianoAudioPath(note));
     let fallbackStarted = false;
     const clearAudio = () => {
+      audio.removeEventListener("ended", clearAudio);
+      audio.removeEventListener("error", fallback);
       if (audioRef.current === audio) audioRef.current = null;
+      if (cleanupAudioRef.current === clearAudio) cleanupAudioRef.current = null;
     };
     const fallback = () => {
-      if (fallbackStarted) return;
+      if (fallbackStarted || generation !== playbackGenerationRef.current) return;
       fallbackStarted = true;
       clearAudio();
       void playSynthesizedTone(note);
@@ -141,6 +150,7 @@ export function usePianoAudio(enabled = true) {
     audio.addEventListener("ended", clearAudio, { once: true });
     audio.addEventListener("error", fallback, { once: true });
     audioRef.current = audio;
+    cleanupAudioRef.current = clearAudio;
 
     // Keep play() in the original tap event for mobile Safari. Web Audio is
     // only used if the local recording cannot start.

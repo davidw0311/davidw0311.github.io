@@ -25,8 +25,9 @@ import {
 } from "@/data/pianoLessons";
 import { formatPianoKey, type PianoNote, type PitchName } from "@/data/pianoNotes";
 import { usePianoAudio } from "@/hooks/usePianoAudio";
-import { MusicStaff, PianoKeyboard } from "./PianoNoteTrainer";
 import { PianoLessonShareButton } from "./PianoLessonShareButton";
+import { MusicStaff } from "./piano/MusicStaff";
+import { PianoKeyboard } from "./piano/PianoKeyboard";
 import styles from "./PianoLessonOne.module.css";
 
 type LessonStage = "ready" | "playing" | "complete";

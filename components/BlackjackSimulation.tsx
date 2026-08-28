@@ -11,14 +11,28 @@ import {
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
-import { actionLabels, type ActionAvailability, type BlackjackAction } from "@/data/blackjackStrategy";
+import { actionLabels, type BlackjackAction } from "@/data/blackjackStrategy";
 import {
-  canSplitCards,
+  actionAvailability as availabilityFor,
+  appendSimulationLog as appendLog,
+  blackjackCardName as cardName,
+  blackjackHandLabel as handLabel,
+  blackjackSuitGlyphs as suitGlyphs,
+  createSimulationSession as createSession,
+  drawSimulationCard as drawOne,
+  formatBlackjackMoney as formatMoney,
+  moveToNextSimulationHand as moveToNextHand,
+  settleSimulationRound as settleRound,
+  validateSimulationRules,
+  type DecisionFeedback,
+  type PlayerHand,
+  type SimulationSession,
+} from "@/data/blackjackSession";
+import {
   clampWager,
   createShuffledShoe,
   dealerShouldHit,
   defaultSimulationRules,
-  doubleAllowedForTotal,
   evaluateHand,
   normalizeRank,
   recommendedPlay,
@@ -28,7 +42,6 @@ import {
   type DoubleRule,
   type HoleCardRule,
   type ShoeCard,
-  type ShoeSuit,
   type ShuffleMode,
   type SimulationRules,
   type SurrenderRule,
@@ -37,76 +50,8 @@ import {
 import styles from "./BlackjackSimulation.module.css";
 
 type SimulatorView = "setup" | "table";
-type GamePhase = "betting" | "insurance" | "player" | "dealer" | "settled";
-type HandStatus = "playing" | "stood" | "bust" | "surrender" | "blackjack" | "win" | "loss" | "push";
-
-type PlayerHand = {
-  id: string;
-  cards: ShoeCard[];
-  wager: number;
-  status: HandStatus;
-  fromSplit: boolean;
-  splitAces: boolean;
-  doubled: boolean;
-  resultLabel?: string;
-};
-
-type DecisionFeedback = {
-  chosen: BlackjackAction | "insurance" | "decline-insurance";
-  recommended: BlackjackAction | "decline-insurance";
-  correct: boolean;
-  message: string;
-};
-
-type SimulationSession = {
-  rules: SimulationRules;
-  shoe: ShoeCard[];
-  shoeNumber: number;
-  cardsDealt: number;
-  bankroll: number;
-  pendingWager: number;
-  roundNumber: number;
-  roundStartingBankroll: number;
-  roundNet: number;
-  phase: GamePhase;
-  hands: PlayerHand[];
-  activeHandIndex: number;
-  dealerCards: ShoeCard[];
-  dealerHoleRevealed: boolean;
-  dealerNaturalCheckOnly: boolean;
-  insuranceBet: number;
-  decisions: number;
-  correctDecisions: number;
-  lastDecision: DecisionFeedback | null;
-  log: string[];
-};
 
 const actions: BlackjackAction[] = ["hit", "stand", "double", "split", "surrender"];
-const suitGlyphs: Record<ShoeSuit, string> = {
-  clubs: "♣︎",
-  diamonds: "♦︎",
-  hearts: "♥︎",
-  spades: "♠︎",
-};
-
-function formatMoney(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
-  }).format(value);
-}
-
-function cardName(card: ShoeCard) {
-  return `${card.rank}${suitGlyphs[card.suit]}`;
-}
-
-function handLabel(hand: PlayerHand) {
-  const value = evaluateHand(hand.cards);
-  if (hand.status === "blackjack") return "Blackjack";
-  if (value.bust) return `Bust ${value.total}`;
-  return `${value.soft ? "Soft " : ""}${value.total}`;
-}
 
 function PlayingCard({ card, label, concealed = false }: { card: ShoeCard; label: string; concealed?: boolean }) {
   const reduceMotion = useReducedMotion();
@@ -134,111 +79,6 @@ function PlayingCard({ card, label, concealed = false }: { card: ShoeCard; label
   );
 }
 
-function drawOne(shoe: ShoeCard[], rules: SimulationRules) {
-  const source = shoe.length > 0 ? [...shoe] : createShuffledShoe(rules.deckCount);
-  const card = source.shift();
-  if (!card) throw new Error("Unable to draw from the blackjack shoe.");
-  return { card, shoe: source };
-}
-
-function appendLog(log: readonly string[], message: string) {
-  return [...log, message].slice(-12);
-}
-
-function settleRound(session: SimulationSession): SimulationSession {
-  const dealerValue = evaluateHand(session.dealerCards);
-  const dealerBlackjack = dealerValue.blackjack;
-  let bankroll = session.bankroll;
-
-  if (session.insuranceBet > 0 && dealerBlackjack) {
-    bankroll += session.insuranceBet * 3;
-  }
-
-  const hands = session.hands.map((hand) => {
-    const value = evaluateHand(hand.cards);
-    if (hand.status === "surrender") return hand;
-    if (hand.status === "bust") return { ...hand, status: "loss" as const, resultLabel: "Bust" };
-    if (hand.status === "blackjack") {
-      if (dealerBlackjack) {
-        bankroll += hand.wager;
-        return { ...hand, status: "push" as const, resultLabel: "Blackjack push" };
-      }
-      bankroll += hand.wager * (1 + session.rules.blackjackPayout);
-      return { ...hand, status: "win" as const, resultLabel: `Blackjack pays ${session.rules.blackjackPayout === 1.5 ? "3:2" : "6:5"}` };
-    }
-    if (dealerBlackjack) return { ...hand, status: "loss" as const, resultLabel: "Dealer blackjack" };
-    if (dealerValue.bust || value.total > dealerValue.total) {
-      bankroll += hand.wager * 2;
-      return { ...hand, status: "win" as const, resultLabel: dealerValue.bust ? "Dealer bust" : "Higher total" };
-    }
-    if (value.total === dealerValue.total) {
-      bankroll += hand.wager;
-      return { ...hand, status: "push" as const, resultLabel: "Push" };
-    }
-    return { ...hand, status: "loss" as const, resultLabel: "Dealer wins" };
-  });
-
-  const roundNet = bankroll - session.roundStartingBankroll;
-  const resultMessage = roundNet > 0
-    ? `Round complete. You won ${formatMoney(roundNet)}.`
-    : roundNet < 0
-      ? `Round complete. You lost ${formatMoney(Math.abs(roundNet))}.`
-      : "Round complete. Your bankroll is unchanged.";
-
-  return {
-    ...session,
-    bankroll,
-    hands,
-    phase: "settled",
-    dealerHoleRevealed: true,
-    roundNet,
-    log: appendLog(session.log, resultMessage),
-  };
-}
-
-function moveToNextHand(session: SimulationSession, hands: PlayerHand[], completedIndex: number): SimulationSession {
-  const nextIndex = hands.findIndex((hand, index) => index > completedIndex && hand.status === "playing");
-  if (nextIndex >= 0) return { ...session, hands, activeHandIndex: nextIndex };
-
-  const hasComparableHand = hands.some((hand) => hand.status === "stood" || hand.status === "blackjack");
-  return {
-    ...session,
-    hands,
-    phase: "dealer",
-    dealerNaturalCheckOnly: !hasComparableHand,
-    log: appendLog(session.log, hasComparableHand ? "Dealer begins the draw." : "Dealer turn begins."),
-  };
-}
-
-function createSession(rules: SimulationRules): SimulationSession {
-  const firstWager = clampWager(
-    rules.bettingStyle === "flat-bet" ? rules.flatBet : Math.max(rules.minimumBet, 25),
-    rules.startingBankroll,
-    rules,
-  );
-  return {
-    rules,
-    shoe: createShuffledShoe(rules.deckCount),
-    shoeNumber: 1,
-    cardsDealt: 0,
-    bankroll: rules.startingBankroll,
-    pendingWager: firstWager,
-    roundNumber: 0,
-    roundStartingBankroll: rules.startingBankroll,
-    roundNet: 0,
-    phase: "betting",
-    hands: [],
-    activeHandIndex: 0,
-    dealerCards: [],
-    dealerHoleRevealed: false,
-    dealerNaturalCheckOnly: false,
-    insuranceBet: 0,
-    decisions: 0,
-    correctDecisions: 0,
-    lastDecision: null,
-    log: ["Shoe shuffled. Place a wager to begin."],
-  };
-}
 
 export function BlackjackSimulation({ onExit }: { onExit: () => void }) {
   const reduceMotion = useReducedMotion();
@@ -252,17 +92,8 @@ export function BlackjackSimulation({ onExit }: { onExit: () => void }) {
     setSetupError("");
   };
 
-  const validateRules = () => {
-    if (rules.minimumBet <= 0) return "The minimum bet must be greater than zero.";
-    if (rules.maximumBet < rules.minimumBet) return "The maximum bet must be at least the minimum bet.";
-    if (rules.startingBankroll < rules.minimumBet) return "The starting bankroll must cover at least one minimum bet.";
-    if (rules.chipSize <= 0) return "The chip size must be greater than zero.";
-    if (rules.flatBet < rules.minimumBet || rules.flatBet > rules.maximumBet) return "The flat bet must stay inside the table limits.";
-    return "";
-  };
-
   const startGame = () => {
-    const error = validateRules();
+    const error = validateSimulationRules(rules);
     if (error) {
       setSetupError(error);
       return;
@@ -375,24 +206,6 @@ export function BlackjackSimulation({ onExit }: { onExit: () => void }) {
       }
       return next;
     });
-  };
-
-  const availabilityFor = (current: SimulationSession, hand: PlayerHand): ActionAvailability => {
-    const value = evaluateHand(hand.cards);
-    const canAfford = current.bankroll >= hand.wager;
-    const isSplitAce = hand.cards[0]?.rank === "A";
-    return {
-      canDouble: hand.cards.length === 2
-        && canAfford
-        && doubleAllowedForTotal(value.total, current.rules.doubleRule)
-        && (!hand.fromSplit || current.rules.doubleAfterSplit)
-        && (!hand.splitAces || current.rules.hitSplitAces),
-      canSplit: canAfford
-        && canSplitCards(hand.cards, current.rules.tenSplitRule)
-        && current.hands.length < current.rules.maxSplitHands
-        && (!hand.fromSplit || !isSplitAce || current.rules.resplitAces),
-      canSurrender: current.rules.surrender === "late" && hand.cards.length === 2 && !hand.fromSplit,
-    };
   };
 
   const playAction = (action: BlackjackAction) => {
