@@ -665,16 +665,50 @@
 }
 
 .publicationVisual {
-  position: relative;
-  min-height: min(74vh, 760px);
-  overflow: hidden;
-  border-radius: var(--radius-card);
-  box-shadow: 0 34px 100px rgb(0 12 23 / 0.36);
+  min-width: 0;
 }
 
-.publicationVisual img {
-  object-fit: cover;
+.publicationVisualLink {
+  display: grid;
+  gap: 14px;
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.publicationPosterFrame {
+  position: relative;
+  display: block;
+  aspect-ratio: 4494 / 3175;
+  overflow: hidden;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-card);
+  background: rgb(232 243 241 / 0.04);
+  box-shadow: 0 34px 100px rgb(0 12 23 / 0.36);
+  transition: border-color 220ms ease, transform 280ms var(--ease-out), box-shadow 280ms ease;
+}
+
+.publicationPosterFrame img {
+  object-fit: contain;
   object-position: center;
+}
+
+.publicationVisualCaption {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.publicationVisualLink:hover .publicationPosterFrame {
+  border-color: rgb(121 228 197 / 0.54);
+  box-shadow: 0 38px 110px rgb(0 12 23 / 0.44);
+  transform: translateY(-3px);
+}
+
+.publicationVisualLink:active .publicationPosterFrame {
+  transform: translateY(-1px) scale(0.995);
 }
 
 .publicationCopy {
@@ -1243,7 +1277,23 @@
   }
 
   .projectImage {
-    min-height: 225px;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    background:
+      radial-gradient(circle at 50% 42%, rgb(72 144 163 / 0.18), transparent 62%),
+      #08283b;
+  }
+
+  .projectImage img {
+    object-fit: contain;
+    object-position: center;
+    box-sizing: border-box;
+    padding: clamp(16px, 5vw, 24px);
+  }
+
+  .projectCard:hover .projectImage img {
+    filter: none;
+    transform: none;
   }
 
   .projectIndex {
@@ -1256,7 +1306,7 @@
   }
 
   .publicationVisual {
-    min-height: 62vh;
+    min-height: 0;
   }
 
   .experienceGroups {

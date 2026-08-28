@@ -147,12 +147,25 @@ export default function Home() {
 
         <section id="publications" className={`${styles.section} ${styles.publication}`} aria-labelledby="publication-title" data-viewport-anchor>
           <Reveal className={styles.publicationVisual} viewportAnchor>
-            <Image
-              src="/assets/img/triumf_acot_poster.jpg"
-              alt="Poster presentation for accelerator tuning with deep reinforcement learning"
-              fill
-              sizes="(max-width: 767px) 100vw, 45vw"
-            />
+            <Link
+              className={styles.publicationVisualLink}
+              href="/publications/accelerator-tuning-poster/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open the full accelerator tuning poster in a new page"
+            >
+              <span className={styles.publicationPosterFrame}>
+                <Image
+                  src="/assets/img/triumf_acot_poster.jpg"
+                  alt="Poster presentation for accelerator tuning with deep reinforcement learning"
+                  fill
+                  sizes="(max-width: 767px) calc(100vw - 32px), 45vw"
+                />
+              </span>
+              <span className={styles.publicationVisualCaption}>
+                Open full poster <ArrowUpRight size={17} weight="bold" />
+              </span>
+            </Link>
           </Reveal>
           <Reveal className={styles.publicationCopy} delay={0.1} viewportAnchor>
             <p className={styles.eyebrow}>NeurIPS 2021</p>
@@ -163,7 +176,7 @@ export default function Home() {
             <div className={styles.linkCluster}>
               <a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank" rel="noopener noreferrer">Read paper <ArrowUpRight size={17} /></a>
               <a href="https://slideslive.com/38971739" target="_blank" rel="noopener noreferrer">Watch talk <ArrowUpRight size={17} /></a>
-              <a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125_poster.png" target="_blank" rel="noopener noreferrer">View poster <ArrowUpRight size={17} /></a>
+              <Link href="/publications/accelerator-tuning-poster/" target="_blank" rel="noopener noreferrer">View poster <ArrowUpRight size={17} /></Link>
             </div>
           </Reveal>
         </section>

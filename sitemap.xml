@@ -46,6 +46,11 @@
 <priority>0.7</priority>
 </url>
 <url>
+<loc>https://davidw0311.github.io/publications/accelerator-tuning-poster/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
 <loc>https://davidw0311.github.io/projects/core-diffuse/</loc>
 <changefreq>yearly</changefreq>
 <priority>0.7</priority>
