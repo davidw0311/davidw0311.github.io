@@ -352,7 +352,7 @@
   top: -9px;
   left: 40px;
   width: 2.5px;
-  height: 45px;
+  height: 41px;
   border-radius: 2px;
   background: #112b32;
 }
@@ -360,6 +360,7 @@
 .stemDown b {
   top: 34px;
   left: 14px;
+  height: 45px;
 }
 
 .accidental {
