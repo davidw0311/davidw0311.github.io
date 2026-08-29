@@ -19,9 +19,14 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
 
   const stopPlayback = useCallback(() => {
     playbackGenerationRef.current += 1;
+    const activeAudio = audioRef.current;
+
+    // Pause before cleanup clears audioRef, otherwise a rapid second tap can
+    // lose the first element while it continues playing in the background.
+    activeAudio?.pause();
+    if (activeAudio) activeAudio.currentTime = 0;
     cleanupAudioRef.current?.();
     cleanupAudioRef.current = null;
-    audioRef.current?.pause();
     audioRef.current = null;
     window.speechSynthesis?.cancel();
     setPlayingSampleId(null);
@@ -83,6 +88,8 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
     const handleError = () => {
       if (fallbackStarted || !isCurrent()) return;
       fallbackStarted = true;
+      audio.pause();
+      audio.currentTime = 0;
       clearAudio();
       setPlayingSampleId(null);
       playBrowserVoice(text, languageId, fallbackRate);
