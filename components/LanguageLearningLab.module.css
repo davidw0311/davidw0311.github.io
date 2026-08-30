@@ -1212,7 +1212,7 @@
 .unitCount {
   display: grid;
   flex: 0 0 auto;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 10px;
   min-width: 0;
@@ -1228,9 +1228,14 @@
   display: flex;
   justify-content: flex-end;
   gap: 4px;
+  width: max-content;
+  max-width: min(52vw, 520px);
+  min-width: 0;
 }
 
 .progressSegments i {
+  flex: 0 1 22px;
+  min-width: 5px;
   width: 22px;
   height: 4px;
   border-radius: 999px;
@@ -2142,10 +2147,15 @@
   margin-top: 26px;
 }
 
-.finishState button:last-child {
+.finishState .nextLessonButton {
   color: var(--lab-accent-ink);
   border-color: var(--lab-accent);
   background: var(--lab-accent);
+}
+
+.finishState .nextLessonButton:hover {
+  color: var(--lab-accent-ink);
+  background: #97eed5;
 }
 
 @keyframes spin {

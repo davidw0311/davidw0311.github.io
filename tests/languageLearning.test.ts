@@ -76,7 +76,7 @@ test("shares lessons by default and supports language-specific catalogs", () => 
   assert.equal(isContentAvailableForLanguage(japaneseOnlyLesson, "en"), false);
 });
 
-test("breaks the complete Japanese and Korean scripts into manageable lessons", () => {
+test("groups the complete Japanese scripts into focused 15-20 prompt lessons", () => {
   const japaneseItems = contentItems.filter((item) => item.practiceLanguageIds?.includes("ja"));
   const koreanItems = contentItems.filter((item) => item.practiceLanguageIds?.includes("ko"));
   const japaneseCharacterItems = japaneseItems.filter((item) => [
@@ -90,14 +90,15 @@ test("breaks the complete Japanese and Korean scripts into manageable lessons", 
     "ja-katakana-words",
   ].includes(item.sectionId ?? ""));
 
-  assert.equal(japaneseCharacterItems.length, [...hiraganaCurriculumCharacters + katakanaCurriculumCharacters].length);
-  assert.equal(japaneseWordItems.length, 40);
+  assert.equal(japaneseCharacterItems.length, 10);
+  assert.equal(japaneseWordItems.length, 2);
   assert.equal(koreanItems.length, 18);
 
   for (const item of japaneseItems) {
     assert.equal(item.type, "script_drill");
     assert.equal(item.audioSource, "browser");
-    assert.equal(item.units.length, 1, item.id);
+    assert.ok(item.units.length >= 15 && item.units.length <= 20, `${item.id}:${item.units.length}`);
+    assert.equal(item.estimatedMinutes, Math.ceil(item.units.length / 4), item.id);
     assert.ok(item.sectionId, item.id);
   }
   for (const item of koreanItems) {
@@ -108,15 +109,16 @@ test("breaks the complete Japanese and Korean scripts into manageable lessons", 
   }
 
   for (const item of japaneseCharacterItems) {
-    assert.equal([...item.title].length, 1, item.id);
-    assert.equal(item.units[0]?.localizations.ja.text, item.title, item.id);
-    assert.equal(item.estimatedMinutes, 1, item.id);
+    for (const unit of item.units) {
+      assert.equal([...unit.localizations.ja.text].length, 1, unit.id);
+    }
   }
   for (const item of japaneseWordItems) {
-    const word = item.units[0]?.localizations.ja.text ?? "";
-    assert.ok([...word].length >= 1 && [...word].length <= 5, `${item.id}:${word}`);
-    assert.equal(word.includes("・"), false, item.id);
-    assert.equal(item.estimatedMinutes, 1, item.id);
+    for (const unit of item.units) {
+      const word = unit.localizations.ja.text;
+      assert.ok([...word].length >= 1 && [...word].length <= 5, `${item.id}:${word}`);
+      assert.equal(word.includes("・"), false, item.id);
+    }
   }
 
   const japaneseText = japaneseItems.flatMap((item) => item.units.map((unit) => unit.localizations.ja.text)).join("");
@@ -126,6 +128,11 @@ test("breaks the complete Japanese and Korean scripts into manageable lessons", 
   for (const word of ["うみ", "すし", "ねこ", "ケーキ", "ニュース"]) assert.ok(japaneseText.includes(word), word);
   for (const word of ["안녕", "사람", "학교", "사과"]) assert.ok(koreanText.includes(word), word);
 
+  const japaneseCharacters = japaneseCharacterItems
+    .flatMap((item) => item.units.map((unit) => unit.localizations.ja.text))
+    .join("");
+  assert.equal(japaneseCharacters, hiraganaCurriculumCharacters + katakanaCurriculumCharacters);
+
   assert.deepEqual([...new Set(japaneseItems.map((item) => item.sectionId))], [
     "ja-hiragana",
     "ja-hiragana-variants",
@@ -134,6 +141,20 @@ test("breaks the complete Japanese and Korean scripts into manageable lessons", 
     "ja-katakana-variants",
     "ja-katakana-words",
   ]);
+  assert.deepEqual(
+    Object.fromEntries([...new Set(japaneseItems.map((item) => item.sectionId))].map((sectionId) => [
+      sectionId,
+      japaneseItems.filter((item) => item.sectionId === sectionId).length,
+    ])),
+    {
+      "ja-hiragana": 3,
+      "ja-hiragana-variants": 2,
+      "ja-hiragana-words": 1,
+      "ja-katakana": 3,
+      "ja-katakana-variants": 2,
+      "ja-katakana-words": 1,
+    },
+  );
   assert.deepEqual([...new Set(koreanItems.map((item) => item.sectionId))], ["ko-jamo", "ko-blocks", "ko-words"]);
 });
 
@@ -146,6 +167,7 @@ test("localizes the interface and lesson catalog in every v1 language", () => {
   for (const languageId of languageIds) {
     const ui = languageLearningUi[languageId];
     assert.ok(ui.chooseLesson.length > 0, languageId);
+    assert.ok(ui.nextLesson.length > 0, `${languageId}:nextLesson`);
     assert.equal(Object.keys(ui.content).length, sharedItems.length, languageId);
     for (const item of sharedItems) {
       assert.ok(ui.content[item.id]?.title.length > 0, `${languageId}:${item.id}:title`);

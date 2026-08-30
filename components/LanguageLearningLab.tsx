@@ -112,13 +112,6 @@ function contentTypeLabel(content: ContentItem, ui: LanguageLearningUiCopy) {
   return ui.scriptPractice;
 }
 
-function isKanaCharacterSection(sectionId: CurriculumSectionId) {
-  return sectionId === "ja-hiragana"
-    || sectionId === "ja-hiragana-variants"
-    || sectionId === "ja-katakana"
-    || sectionId === "ja-katakana-variants";
-}
-
 export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearningLabProps = {}) {
   const reduceMotion = useReducedMotion();
   const [progress, setProgress] = usePersistentLanguageProgress();
@@ -189,6 +182,10 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     () => contentItemsForPracticeLanguage(practiceLanguageId),
     [practiceLanguageId],
   );
+  const nextContentItem = useMemo(() => {
+    const currentIndex = availableContentItems.findIndex((item) => item.id === content.id);
+    return currentIndex >= 0 ? availableContentItems[currentIndex + 1] : undefined;
+  }, [availableContentItems, content.id]);
   const availableContentSections = useMemo(() => curriculumSectionOrder.flatMap((sectionId) => {
     const items = availableContentItems.filter((item) => (item.sectionId ?? "shared") === sectionId);
     return items.length > 0 ? [{ sectionId, items }] : [];
@@ -282,6 +279,15 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const returnToLibrary = () => {
     showLessonLibrary();
     resetAttempt();
+  };
+
+  const startNextLesson = () => {
+    if (!nextContentItem) return;
+    const nextIndex = contentItems.findIndex((item) => item.id === nextContentItem.id);
+    if (nextIndex < 0) return;
+    closeLanguagePickers();
+    selectContent(nextIndex);
+    setScreen("lesson");
   };
 
   const selectPracticeLanguage = (languageId: LanguageId) => {
@@ -492,7 +498,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       <span>{formatUi(ui.lessonCount, { count: items.length })}</span>
                     </header>
                     <div
-                      className={`${styles.lessonCards} ${styles.sectionLessonCards} ${isKanaCharacterSection(sectionId) ? styles.characterLessonCards : ""}`}
+                      className={`${styles.lessonCards} ${styles.sectionLessonCards}`}
                       data-count={Math.min(items.length, 3)}
                     >
                       {items.map((item) => {
@@ -582,8 +588,19 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                 <h2>{ui.sampleComplete}</h2>
                 <p>{formatUi(ui.sampleCompleteBody, { count: content.units.length, language: languages[practiceLanguageId].nameNative })}</p>
                 <div>
+                  {nextContentItem ? (
+                    <button type="button" className={styles.nextLessonButton} onClick={startNextLesson}>
+                      {ui.nextLesson} <ArrowRight size={18} weight="bold" aria-hidden="true" />
+                    </button>
+                  ) : null}
                   <button type="button" onClick={() => { setLessonFinished(false); goToUnit(0); }}>{ui.practiceAgain}</button>
-                  <button type="button" onClick={returnToLibrary}>{ui.chooseAnotherLesson}</button>
+                  <button
+                    type="button"
+                    className={!nextContentItem ? styles.nextLessonButton : undefined}
+                    onClick={returnToLibrary}
+                  >
+                    {ui.chooseAnotherLesson}
+                  </button>
                 </div>
               </motion.section>
             ) : (

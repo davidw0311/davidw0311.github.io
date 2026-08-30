@@ -68,7 +68,7 @@ function curriculumContent(lesson: CurriculumLesson): ContentItem {
     practiceLanguageIds: [lesson.practiceLanguageId],
     audioSource: "browser",
     title: lesson.title,
-    description: "Practice one character set and a few short words.",
+    description: "Practice a focused set of characters or short words.",
     estimatedMinutes: lesson.estimatedMinutes ?? 3,
     units: lesson.prompts.map((item) => curriculumUnit(lesson, item)),
   };
@@ -145,60 +145,95 @@ const katakanaWords: readonly JapaneseWord[] = [
   ["notebook", "ノート", "nooto", "notebook"], ["taxi", "タクシー", "takushii", "taxi"],
 ];
 
-function kanaCharacterLessons(
+function kanaCharacterLesson(
   script: "hiragana" | "katakana",
+  slug: string,
+  title: string,
   characters: string,
   readings: readonly KanaReading[],
   sectionId: CurriculumSectionId,
-): CurriculumLesson[] {
+): CurriculumLesson {
   const scriptName = script === "hiragana" ? "Hiragana" : "Katakana";
-  return [...characters].map((character, index) => {
+  const prompts = [...characters].map((character, index) => {
     const [slug, reading] = readings[index];
-    return {
-      id: `ja-${script}-${slug}-v2`,
-      slug: `ja-${script}-${slug}`,
-      title: character,
-      sectionId,
-      practiceLanguageId: "ja",
-      estimatedMinutes: 1,
-      prompts: [prompt("character", character, reading, `${scriptName} ${reading}`)],
-    };
+    return prompt(slug, character, reading, `${scriptName} ${reading}`);
   });
+
+  return {
+    id: `ja-${script}-${slug}-v3`,
+    slug: `ja-${script}-${slug}`,
+    title,
+    sectionId,
+    practiceLanguageId: "ja",
+    estimatedMinutes: Math.ceil(prompts.length / 4),
+    prompts,
+  };
 }
 
-function japaneseWordLessons(
+function japaneseWordLesson(
   script: "hiragana" | "katakana",
   words: readonly JapaneseWord[],
   sectionId: CurriculumSectionId,
-): CurriculumLesson[] {
-  return words.map(([slug, text, reading, meaning]) => ({
-    id: `ja-${script}-word-${slug}-v2`,
-    slug: `ja-${script}-word-${slug}`,
-    title: text,
+): CurriculumLesson {
+  const firstWord = words[0]!;
+  const lastWord = words.at(-1)!;
+  return {
+    id: `ja-${script}-short-words-v3`,
+    slug: `ja-${script}-short-words`,
+    title: `${firstWord[1]} - ${lastWord[1]}`,
     sectionId,
     practiceLanguageId: "ja",
-    estimatedMinutes: 1,
-    prompts: [prompt("word", text, reading, meaning)],
-  }));
+    estimatedMinutes: Math.ceil(words.length / 4),
+    prompts: words.map(([slug, text, reading, meaning]) => prompt(slug, text, reading, meaning)),
+  };
 }
 
+const basicHiragana = [...modernHiragana];
+const variantHiragana = [...hiraganaCurriculumCharacters.slice(basicHiragana.length)];
+const basicKatakana = [...modernKatakana];
+const variantKatakana = [...katakanaCurriculumCharacters.slice(basicKatakana.length)];
+
 const japaneseLessons: readonly CurriculumLesson[] = [
-  ...kanaCharacterLessons("hiragana", modernHiragana, basicKanaReadings, "ja-hiragana"),
-  ...kanaCharacterLessons(
+  kanaCharacterLesson("hiragana", "a-so", "あ - そ", basicHiragana.slice(0, 15).join(""), basicKanaReadings.slice(0, 15), "ja-hiragana"),
+  kanaCharacterLesson("hiragana", "ta-ho", "た - ほ", basicHiragana.slice(15, 30).join(""), basicKanaReadings.slice(15, 30), "ja-hiragana"),
+  kanaCharacterLesson("hiragana", "ma-n", "ま - ん", basicHiragana.slice(30).join(""), basicKanaReadings.slice(30), "ja-hiragana"),
+  kanaCharacterLesson(
     "hiragana",
-    hiraganaCurriculumCharacters.slice([...modernHiragana].length),
-    [...variantKanaReadings, ...smallHiraganaReadings],
+    "ga-do",
+    "が - ど",
+    variantHiragana.slice(0, 15).join(""),
+    variantKanaReadings.slice(0, 15),
     "ja-hiragana-variants",
   ),
-  ...japaneseWordLessons("hiragana", hiraganaWords, "ja-hiragana-words"),
-  ...kanaCharacterLessons("katakana", modernKatakana, basicKanaReadings, "ja-katakana"),
-  ...kanaCharacterLessons(
+  kanaCharacterLesson(
+    "hiragana",
+    "ba-small-wa",
+    "ば - ゎ",
+    variantHiragana.slice(15).join(""),
+    [...variantKanaReadings.slice(15), ...smallHiraganaReadings],
+    "ja-hiragana-variants",
+  ),
+  japaneseWordLesson("hiragana", hiraganaWords, "ja-hiragana-words"),
+  kanaCharacterLesson("katakana", "a-so", "ア - ソ", basicKatakana.slice(0, 15).join(""), basicKanaReadings.slice(0, 15), "ja-katakana"),
+  kanaCharacterLesson("katakana", "ta-ho", "タ - ホ", basicKatakana.slice(15, 30).join(""), basicKanaReadings.slice(15, 30), "ja-katakana"),
+  kanaCharacterLesson("katakana", "ma-n", "マ - ン", basicKatakana.slice(30).join(""), basicKanaReadings.slice(30), "ja-katakana"),
+  kanaCharacterLesson(
     "katakana",
-    katakanaCurriculumCharacters.slice([...modernKatakana].length),
-    [...variantKanaReadings, ...smallKatakanaReadings],
+    "ga-bo",
+    "ガ - ボ",
+    variantKatakana.slice(0, 20).join(""),
+    variantKanaReadings.slice(0, 20),
     "ja-katakana-variants",
   ),
-  ...japaneseWordLessons("katakana", katakanaWords, "ja-katakana-words"),
+  kanaCharacterLesson(
+    "katakana",
+    "pa-long-vowel",
+    "パ - ー",
+    variantKatakana.slice(20).join(""),
+    [...variantKanaReadings.slice(20), ...smallKatakanaReadings],
+    "ja-katakana-variants",
+  ),
+  japaneseWordLesson("katakana", katakanaWords, "ja-katakana-words"),
 ];
 
 const koreanLessons: readonly CurriculumLesson[] = [
