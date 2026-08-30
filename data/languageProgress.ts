@@ -162,6 +162,16 @@ export function removeSupportLanguage(
   };
 }
 
+export function toggleSupportLanguage(
+  progress: LocalProgress,
+  languageId: LanguageId,
+): LocalProgress {
+  if (languageId === progress.practiceLanguageId) return progress;
+  return progress.displayLanguageIds.includes(languageId)
+    ? removeSupportLanguage(progress, languageId)
+    : addSupportLanguage(progress, languageId);
+}
+
 export function toggleSavedStudyItem(progress: LocalProgress, itemId: string): LocalProgress {
   return {
     ...progress,

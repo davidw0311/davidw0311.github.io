@@ -1,4 +1,4 @@
 :HL["/_next/static/chunks/1wot_w9-q13mr.css","style"]
 :HL["/_next/static/media/BrunoAceSC_Regular-s.p.372avm877bc76.ttf","font",{"crossOrigin":"","type":"font/ttf"}]
 :HL["/_next/static/chunks/42u212jufb9q2.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4192,"slots":{"children":{"name":"slug","param":{"type":"d","key":"agrobot-wheel","siblings":["blackjack-trainer","language-lab","piano-note-lab","piano-party"]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"12DG8zFDNkQIItzWgt1RV"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"projects","param":null,"prefetchHints":4192,"slots":{"children":{"name":"slug","param":{"type":"d","key":"agrobot-wheel","siblings":["blackjack-trainer","language-lab","piano-note-lab","piano-party"]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"Z5jbO976CjyHserG6ZhBH"}

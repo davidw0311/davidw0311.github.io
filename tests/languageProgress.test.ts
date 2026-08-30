@@ -9,6 +9,7 @@ import {
   selectPracticeLanguage,
   setPronunciationPreference,
   toggleSavedStudyItem,
+  toggleSupportLanguage,
 } from "../data/languageProgress.ts";
 
 test("language progress safely migrates incomplete and malformed local data", () => {
@@ -59,4 +60,17 @@ test("saved items and pronunciation preferences update immutably", () => {
   const withPronunciation = setPronunciationPreference(saved, "ja", "native");
   assert.equal(withPronunciation.pronunciationModes.ja, "native");
   assert.equal(saved.pronunciationModes.ja, undefined);
+});
+
+test("display-language selection toggles from the latest progress state", () => {
+  const added = toggleSupportLanguage(defaultLocalProgress, "fr");
+  assert.equal(added.displayLanguageIds.includes("fr"), true);
+
+  const removed = toggleSupportLanguage(added, "fr");
+  assert.equal(removed.displayLanguageIds.includes("fr"), false);
+
+  assert.equal(
+    toggleSupportLanguage(removed, removed.practiceLanguageId),
+    removed,
+  );
 });

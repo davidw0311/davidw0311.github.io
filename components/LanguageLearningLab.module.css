@@ -480,19 +480,19 @@
 
 .setupIntroCopy > span {
   color: var(--lab-accent);
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   font-weight: 850;
   letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
 .setupIntro h1 {
-  margin: 3px 0 0;
+  margin: 4px 0 0;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(1.65rem, 3.6vw, 3rem);
-  font-weight: 520;
+  font-size: clamp(1.75rem, 3.8vw, 3.1rem);
+  font-weight: 580;
   letter-spacing: -0.045em;
-  line-height: 1;
+  line-height: 1.03;
 }
 
 .setupProgress {
@@ -637,14 +637,17 @@
 
 .setupSectionHeading h2 {
   margin: 0;
-  font-size: 0.91rem;
+  font-size: 1.05rem;
+  font-weight: 820;
   letter-spacing: -0.02em;
 }
 
 .setupSectionHeading p {
-  margin: 3px 0 0;
-  color: var(--lab-faint);
-  font-size: 0.67rem;
+  margin: 4px 0 0;
+  color: var(--lab-muted);
+  font-size: 0.76rem;
+  font-weight: 580;
+  line-height: 1.4;
 }
 
 .languageTileGrid {
@@ -659,23 +662,31 @@
   justify-items: center;
   gap: 6px;
   min-width: 0;
-  min-height: 92px;
-  padding: 10px 7px 8px;
+  min-height: 82px;
+  padding: 8px 6px 7px;
   border: 1px solid var(--lab-line);
   border-radius: 13px;
   color: var(--lab-muted);
   text-align: center;
   background: var(--lab-surface-soft);
   cursor: pointer;
-  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-.languageTile:hover,
-.languageTile:focus-visible,
 .languageTile[aria-pressed="true"] {
   border-color: rgb(121 228 197 / 0.65);
   color: var(--lab-ink);
   background: rgb(121 228 197 / 0.08);
+  box-shadow: inset 0 0 0 1px rgb(121 228 197 / 0.2);
+}
+
+@media (hover: hover) {
+  .languageTile[aria-pressed="false"]:hover {
+    border-color: var(--lab-line-strong);
+    color: var(--lab-ink);
+    background: rgb(121 228 197 / 0.035);
+    transform: translateY(-1px);
+  }
 }
 
 .languageTile:active {
@@ -692,14 +703,21 @@
 .languageMark {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgb(121 228 197 / 0.16);
+  border-radius: 11px;
+  color: var(--lab-accent);
+  background: rgb(121 228 197 / 0.07);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 750;
+  transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.languageTile[aria-pressed="true"] .languageMark {
   color: var(--lab-accent-ink);
   background: var(--lab-accent);
-  font-family: var(--font-display), sans-serif;
-  font-size: 0.85rem;
-  font-weight: 750;
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.28);
 }
 
@@ -749,39 +767,59 @@
 
 .displayLanguageTiles button {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr) 18px;
+  grid-template-columns: 28px minmax(0, 1fr) 18px;
   align-items: center;
   gap: 8px;
   min-width: 0;
-  min-height: 46px;
-  padding: 6px 9px;
+  min-height: 42px;
+  padding: 5px 8px;
   border: 1px solid var(--lab-line);
   border-radius: 11px;
   color: var(--lab-muted);
   text-align: left;
   background: var(--lab-surface-soft);
   cursor: pointer;
-  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
-.displayLanguageTiles button:hover,
-.displayLanguageTiles button:focus-visible,
 .displayLanguageTiles button[aria-pressed="true"] {
   border-color: rgb(121 228 197 / 0.58);
   color: var(--lab-ink);
   background: rgb(121 228 197 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(121 228 197 / 0.18);
+}
+
+@media (hover: hover) {
+  .displayLanguageTiles button[aria-pressed="false"]:hover {
+    border-color: var(--lab-line-strong);
+    color: var(--lab-ink);
+    background: rgb(121 228 197 / 0.03);
+    transform: translateY(-1px);
+  }
+}
+
+.displayLanguageTiles button:active {
+  transform: scale(0.985);
 }
 
 .displayLanguageTiles button > span:first-child {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 9px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgb(121 228 197 / 0.14);
+  border-radius: 8px;
   color: var(--lab-accent);
   font-size: 0.62rem;
   font-weight: 850;
   background: rgb(121 228 197 / 0.08);
+  transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.displayLanguageTiles button[aria-pressed="true"] > span:first-child {
+  color: var(--lab-accent-ink);
+  background: var(--lab-accent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.24);
 }
 
 .displayLanguageName {
@@ -2144,17 +2182,17 @@
   }
 
   .languageTile {
-    grid-template-columns: 38px minmax(0, 1fr) 20px;
+    grid-template-columns: 34px minmax(0, 1fr) 20px;
     justify-items: start;
     align-items: center;
-    min-height: 58px;
-    padding: 7px;
+    min-height: 54px;
+    padding: 6px;
     text-align: left;
   }
 
   .languageMark {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
   }
 
   .languageTile > svg {
@@ -2611,16 +2649,16 @@
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     gap: 3px;
-    min-height: 55px;
-    padding: 5px 3px;
+    min-height: 50px;
+    padding: 4px 3px;
     text-align: center;
   }
 
   .languageMark {
-    width: 30px;
-    height: 30px;
-    border-radius: 9px;
-    font-size: 0.68rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 0.64rem;
   }
 
   .languageTile > svg {

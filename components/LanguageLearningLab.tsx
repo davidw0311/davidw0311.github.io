@@ -41,6 +41,7 @@ import {
   selectPracticeLanguage as withPracticeLanguage,
   setPronunciationPreference as withPronunciationPreference,
   toggleSavedStudyItem as withToggledSavedStudyItem,
+  toggleSupportLanguage as withToggledSupportLanguage,
 } from "@/data/languageProgress";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
@@ -273,11 +274,8 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
 
   const toggleDisplayLanguage = (languageId: LanguageId) => {
     if (languageId === practiceLanguageId) return;
-    if (supportLanguageIds.includes(languageId)) {
-      removeSupportLanguage(languageId);
-      return;
-    }
-    setProgress((current) => withAddedSupportLanguage(current, languageId));
+    setActivePhrase((current) => current?.languageId === languageId ? null : current);
+    setProgress((current) => withToggledSupportLanguage(current, languageId));
   };
 
   const selectSystemLanguage = (languageId: LanguageId) => {
