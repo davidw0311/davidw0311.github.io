@@ -20,6 +20,7 @@ type CurriculumLesson = {
   title: string;
   sectionId: CurriculumSectionId;
   practiceLanguageId: Extract<LanguageId, "ja" | "ko">;
+  estimatedMinutes?: number;
   prompts: readonly CurriculumPrompt[];
 };
 
@@ -68,7 +69,7 @@ function curriculumContent(lesson: CurriculumLesson): ContentItem {
     audioSource: "browser",
     title: lesson.title,
     description: "Practice one character set and a few short words.",
-    estimatedMinutes: 3,
+    estimatedMinutes: lesson.estimatedMinutes ?? 3,
     units: lesson.prompts.map((item) => curriculumUnit(lesson, item)),
   };
 }
@@ -78,232 +79,126 @@ export const modernKatakana = "アイウエオカキクケコサシスセソタ�
 export const modernHangulConsonants = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㄲㄸㅃㅆㅉ";
 export const modernHangulVowels = "ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣㅐㅔㅚㅟㅢㅒㅖㅘㅙㅝㅞ";
 
+type KanaReading = readonly [slug: string, reading: string];
+type JapaneseWord = readonly [slug: string, text: string, reading: string, meaning: string];
+
+const basicKanaReadings: readonly KanaReading[] = [
+  ["a", "a"], ["i", "i"], ["u", "u"], ["e", "e"], ["o", "o"],
+  ["ka", "ka"], ["ki", "ki"], ["ku", "ku"], ["ke", "ke"], ["ko", "ko"],
+  ["sa", "sa"], ["shi", "shi"], ["su", "su"], ["se", "se"], ["so", "so"],
+  ["ta", "ta"], ["chi", "chi"], ["tsu", "tsu"], ["te", "te"], ["to", "to"],
+  ["na", "na"], ["ni", "ni"], ["nu", "nu"], ["ne", "ne"], ["no", "no"],
+  ["ha", "ha"], ["hi", "hi"], ["fu", "fu"], ["he", "he"], ["ho", "ho"],
+  ["ma", "ma"], ["mi", "mi"], ["mu", "mu"], ["me", "me"], ["mo", "mo"],
+  ["ya", "ya"], ["yu", "yu"], ["yo", "yo"],
+  ["ra", "ra"], ["ri", "ri"], ["ru", "ru"], ["re", "re"], ["ro", "ro"],
+  ["wa", "wa"], ["wo", "o (wo)"], ["n", "n"],
+];
+
+const variantKanaReadings: readonly KanaReading[] = [
+  ["ga", "ga"], ["gi", "gi"], ["gu", "gu"], ["ge", "ge"], ["go", "go"],
+  ["za", "za"], ["ji", "ji"], ["zu", "zu"], ["ze", "ze"], ["zo", "zo"],
+  ["da", "da"], ["dji", "ji (di)"], ["dzu", "zu (du)"], ["de", "de"], ["do", "do"],
+  ["ba", "ba"], ["bi", "bi"], ["bu", "bu"], ["be", "be"], ["bo", "bo"],
+  ["pa", "pa"], ["pi", "pi"], ["pu", "pu"], ["pe", "pe"], ["po", "po"],
+];
+
+const smallHiraganaReadings: readonly KanaReading[] = [
+  ["small-a", "small a"], ["small-i", "small i"], ["small-u", "small u"],
+  ["small-e", "small e"], ["small-o", "small o"], ["small-tsu", "small tsu"],
+  ["small-ya", "small ya"], ["small-yu", "small yu"], ["small-yo", "small yo"],
+  ["small-wa", "small wa"],
+];
+
+const smallKatakanaReadings: readonly KanaReading[] = [
+  ...smallHiraganaReadings,
+  ["small-ka", "small ka"], ["small-ke", "small ke"],
+  ["vu", "vu"], ["long-vowel", "long vowel mark"],
+];
+
+export const hiraganaCurriculumCharacters = `${modernHiragana}がぎぐげござじずぜぞだぢづでどばびぶべぼぱぴぷぺぽぁぃぅぇぉっゃゅょゎ`;
+export const katakanaCurriculumCharacters = `${modernKatakana}ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォッャュョヮヵヶヴー`;
+
+const hiraganaWords: readonly JapaneseWord[] = [
+  ["sea", "うみ", "umi", "sea"], ["house", "いえ", "ie", "house"],
+  ["cat", "ねこ", "neko", "cat"], ["dog", "いぬ", "inu", "dog"],
+  ["sushi", "すし", "sushi", "sushi"], ["sky", "そら", "sora", "sky"],
+  ["bird", "とり", "tori", "bird"], ["flower", "はな", "hana", "flower"],
+  ["boat", "ふね", "fune", "boat"], ["mountain", "やま", "yama", "mountain"],
+  ["dream", "ゆめ", "yume", "dream"], ["night", "よる", "yoru", "night"],
+  ["ears", "みみ", "mimi", "ears"], ["beans", "まめ", "mame", "beans"],
+  ["book", "ほん", "hon", "book"], ["water", "みず", "mizu", "water"],
+  ["bread", "ぱん", "pan", "bread"], ["key", "かぎ", "kagi", "key"],
+  ["shoes", "くつ", "kutsu", "shoes"], ["morning", "あさ", "asa", "morning"],
+];
+
+const katakanaWords: readonly JapaneseWord[] = [
+  ["bread", "パン", "pan", "bread"], ["bus", "バス", "basu", "bus"],
+  ["pen", "ペン", "pen", "pen"], ["door", "ドア", "doa", "door"],
+  ["camera", "カメラ", "kamera", "camera"], ["television", "テレビ", "terebi", "television"],
+  ["radio", "ラジオ", "rajio", "radio"], ["hotel", "ホテル", "hoteru", "hotel"],
+  ["tomato", "トマト", "tomato", "tomato"], ["piano", "ピアノ", "piano", "piano"],
+  ["memo", "メモ", "memo", "memo"], ["zero", "ゼロ", "zero", "zero"],
+  ["cocoa", "ココア", "kokoa", "cocoa"], ["cake", "ケーキ", "keeki", "cake"],
+  ["soup", "スープ", "suupu", "soup"], ["shirt", "シャツ", "shatsu", "shirt"],
+  ["chocolate", "チョコ", "choko", "chocolate"], ["news", "ニュース", "nyuusu", "news"],
+  ["notebook", "ノート", "nooto", "notebook"], ["taxi", "タクシー", "takushii", "taxi"],
+];
+
+function kanaCharacterLessons(
+  script: "hiragana" | "katakana",
+  characters: string,
+  readings: readonly KanaReading[],
+  sectionId: CurriculumSectionId,
+): CurriculumLesson[] {
+  const scriptName = script === "hiragana" ? "Hiragana" : "Katakana";
+  return [...characters].map((character, index) => {
+    const [slug, reading] = readings[index];
+    return {
+      id: `ja-${script}-${slug}-v2`,
+      slug: `ja-${script}-${slug}`,
+      title: character,
+      sectionId,
+      practiceLanguageId: "ja",
+      estimatedMinutes: 1,
+      prompts: [prompt("character", character, reading, `${scriptName} ${reading}`)],
+    };
+  });
+}
+
+function japaneseWordLessons(
+  script: "hiragana" | "katakana",
+  words: readonly JapaneseWord[],
+  sectionId: CurriculumSectionId,
+): CurriculumLesson[] {
+  return words.map(([slug, text, reading, meaning]) => ({
+    id: `ja-${script}-word-${slug}-v2`,
+    slug: `ja-${script}-word-${slug}`,
+    title: text,
+    sectionId,
+    practiceLanguageId: "ja",
+    estimatedMinutes: 1,
+    prompts: [prompt("word", text, reading, meaning)],
+  }));
+}
+
 const japaneseLessons: readonly CurriculumLesson[] = [
-  {
-    id: "ja-hiragana-vowels-v1", slug: "ja-hiragana-vowels", title: "あ・い・う・え・お", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "あ・い・う・え・お", "a i u e o", "a, i, u, e, o"),
-      prompt("love", "あい", "ai", "love"),
-      prompt("house", "いえ", "ie", "house"),
-      prompt("above", "うえ", "ue", "above"),
-    ],
-  },
-  {
-    id: "ja-hiragana-k-v1", slug: "ja-hiragana-k", title: "か・き・く・け・こ", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "か・き・く・け・こ", "ka ki ku ke ko", "ka, ki, ku, ke, ko"),
-      prompt("face", "かお", "kao", "face"),
-      prompt("listen", "きく", "kiku", "to listen"),
-      prompt("voice", "こえ", "koe", "voice"),
-    ],
-  },
-  {
-    id: "ja-hiragana-s-v1", slug: "ja-hiragana-s", title: "さ・し・す・せ・そ", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "さ・し・す・せ・そ", "sa shi su se so", "sa, shi, su, se, so"),
-      prompt("sushi", "すし", "sushi", "sushi"),
-      prompt("morning", "あさ", "asa", "morning"),
-      prompt("there", "そこ", "soko", "there"),
-    ],
-  },
-  {
-    id: "ja-hiragana-t-v1", slug: "ja-hiragana-t", title: "た・ち・つ・て・と", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "た・ち・つ・て・と", "ta chi tsu te to", "ta, chi, tsu, te, to"),
-      prompt("song", "うた", "uta", "song"),
-      prompt("shoes", "くつ", "kutsu", "shoes"),
-      prompt("sound", "おと", "oto", "sound"),
-    ],
-  },
-  {
-    id: "ja-hiragana-n-v1", slug: "ja-hiragana-n", title: "な・に・ぬ・ね・の", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "な・に・ぬ・ね・の", "na ni nu ne no", "na, ni, nu, ne, no"),
-      prompt("dog", "いぬ", "inu", "dog"),
-      prompt("cat", "ねこ", "neko", "cat"),
-      prompt("summer", "なつ", "natsu", "summer"),
-    ],
-  },
-  {
-    id: "ja-hiragana-h-v1", slug: "ja-hiragana-h", title: "は・ひ・ふ・へ・ほ", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "は・ひ・ふ・へ・ほ", "ha hi fu he ho", "ha, hi, fu, he, ho"),
-      prompt("flower", "はな", "hana", "flower"),
-      prompt("person", "ひと", "hito", "person"),
-      prompt("boat", "ふね", "fune", "boat"),
-    ],
-  },
-  {
-    id: "ja-hiragana-m-v1", slug: "ja-hiragana-m", title: "ま・み・む・め・も", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ま・み・む・め・も", "ma mi mu me mo", "ma, mi, mu, me, mo"),
-      prompt("sea", "うみ", "umi", "sea"),
-      prompt("ears", "みみ", "mimi", "ears"),
-      prompt("beans", "まめ", "mame", "beans"),
-    ],
-  },
-  {
-    id: "ja-hiragana-y-v1", slug: "ja-hiragana-y", title: "や・ゆ・よ", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "や・ゆ・よ", "ya yu yo", "ya, yu, yo"),
-      prompt("mountain", "やま", "yama", "mountain"),
-      prompt("dream", "ゆめ", "yume", "dream"),
-      prompt("night", "よる", "yoru", "night"),
-    ],
-  },
-  {
-    id: "ja-hiragana-r-v1", slug: "ja-hiragana-r", title: "ら・り・る・れ・ろ", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ら・り・る・れ・ろ", "ra ri ru re ro", "ra, ri, ru, re, ro"),
-      prompt("sky", "そら", "sora", "sky"),
-      prompt("bird", "とり", "tori", "bird"),
-      prompt("spring", "はる", "haru", "spring"),
-    ],
-  },
-  {
-    id: "ja-hiragana-w-n-v1", slug: "ja-hiragana-w-n", title: "わ・を・ん", sectionId: "ja-hiragana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "わ・を・ん", "wa o n", "wa, object marker o, n"),
-      prompt("crocodile", "わに", "wani", "crocodile"),
-      prompt("book", "ほん", "hon", "book"),
-      prompt("circle", "えん", "en", "circle"),
-    ],
-  },
-  {
-    id: "ja-katakana-vowels-v1", slug: "ja-katakana-vowels", title: "ア・イ・ウ・エ・オ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ア・イ・ウ・エ・オ", "a i u e o", "a, i, u, e, o"),
-      prompt("idea", "アイデア", "aidea", "idea"),
-      prompt("air", "エア", "ea", "air"),
-      prompt("oil", "オイル", "oiru", "oil"),
-    ],
-  },
-  {
-    id: "ja-katakana-k-v1", slug: "ja-katakana-k", title: "カ・キ・ク・ケ・コ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "カ・キ・ク・ケ・コ", "ka ki ku ke ko", "ka, ki, ku, ke, ko"),
-      prompt("cake", "ケーキ", "keeki", "cake"),
-      prompt("cocoa", "ココア", "kokoa", "cocoa"),
-      prompt("cookie", "クッキー", "kukkii", "cookie"),
-    ],
-  },
-  {
-    id: "ja-katakana-s-v1", slug: "ja-katakana-s", title: "サ・シ・ス・セ・ソ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "サ・シ・ス・セ・ソ", "sa shi su se so", "sa, shi, su, se, so"),
-      prompt("salad", "サラダ", "sarada", "salad"),
-      prompt("soup", "スープ", "suupu", "soup"),
-      prompt("set", "セット", "setto", "set"),
-    ],
-  },
-  {
-    id: "ja-katakana-t-v1", slug: "ja-katakana-t", title: "タ・チ・ツ・テ・ト", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "タ・チ・ツ・テ・ト", "ta chi tsu te to", "ta, chi, tsu, te, to"),
-      prompt("taxi", "タクシー", "takushii", "taxi"),
-      prompt("test", "テスト", "tesuto", "test"),
-      prompt("toast", "トースト", "toosuto", "toast"),
-    ],
-  },
-  {
-    id: "ja-katakana-n-v1", slug: "ja-katakana-n", title: "ナ・ニ・ヌ・ネ・ノ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ナ・ニ・ヌ・ネ・ノ", "na ni nu ne no", "na, ni, nu, ne, no"),
-      prompt("knife", "ナイフ", "naifu", "knife"),
-      prompt("tennis", "テニス", "tenisu", "tennis"),
-      prompt("notebook", "ノート", "nooto", "notebook"),
-    ],
-  },
-  {
-    id: "ja-katakana-h-v1", slug: "ja-katakana-h", title: "ハ・ヒ・フ・ヘ・ホ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ハ・ヒ・フ・ヘ・ホ", "ha hi fu he ho", "ha, hi, fu, he, ho"),
-      prompt("coffee", "コーヒー", "koohii", "coffee"),
-      prompt("hotel", "ホテル", "hoteru", "hotel"),
-      prompt("fork", "フォーク", "fooku", "fork"),
-    ],
-  },
-  {
-    id: "ja-katakana-m-v1", slug: "ja-katakana-m", title: "マ・ミ・ム・メ・モ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "マ・ミ・ム・メ・モ", "ma mi mu me mo", "ma, mi, mu, me, mo"),
-      prompt("memo", "メモ", "memo", "memo"),
-      prompt("camera", "カメラ", "kamera", "camera"),
-      prompt("game", "ゲーム", "geemu", "game"),
-    ],
-  },
-  {
-    id: "ja-katakana-y-v1", slug: "ja-katakana-y", title: "ヤ・ユ・ヨ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ヤ・ユ・ヨ", "ya yu yo", "ya, yu, yo"),
-      prompt("yoga", "ヨガ", "yoga", "yoga"),
-      prompt("youth", "ユース", "yuusu", "youth"),
-      prompt("tire", "タイヤ", "taiya", "tire"),
-    ],
-  },
-  {
-    id: "ja-katakana-r-v1", slug: "ja-katakana-r", title: "ラ・リ・ル・レ・ロ", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ラ・リ・ル・レ・ロ", "ra ri ru re ro", "ra, ri, ru, re, ro"),
-      prompt("radio", "ラジオ", "rajio", "radio"),
-      prompt("lemon", "レモン", "remon", "lemon"),
-      prompt("roll", "ロール", "rooru", "roll"),
-    ],
-  },
-  {
-    id: "ja-katakana-w-n-v1", slug: "ja-katakana-w-n", title: "ワ・ヲ・ン", sectionId: "ja-katakana", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ワ・ヲ・ン", "wa o n", "wa, object marker o, n"),
-      prompt("wine", "ワイン", "wain", "wine"),
-      prompt("one", "ワン", "wan", "one"),
-      prompt("online", "オンライン", "onrain", "online"),
-    ],
-  },
-  {
-    id: "ja-sounds-hiragana-voiced-v1", slug: "ja-hiragana-voiced", title: "が・ざ・だ・ば・ぱ", sectionId: "ja-sounds", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "がぎぐげご・ざじずぜぞ・だぢづでど・ばびぶべぼ・ぱぴぷぺぽ", "ga gi gu ge go, za ji zu ze zo, da ji zu de do, ba bi bu be bo, pa pi pu pe po", "voiced and semi-voiced Hiragana"),
-      prompt("key", "かぎ", "kagi", "key"),
-      prompt("water", "みず", "mizu", "water"),
-      prompt("bread", "ぱん", "pan", "bread"),
-    ],
-  },
-  {
-    id: "ja-sounds-hiragana-combinations-v1", slug: "ja-hiragana-combinations", title: "きゃ・しゅ・ちょ", sectionId: "ja-sounds", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "きゃきゅきょ・しゃしゅしょ・ちゃちゅちょ・にゃにゅにょ・ひゃひゅひょ・みゃみゅみょ・りゃりゅりょ・ぎゃぎゅぎょ・じゃじゅじょ・びゃびゅびょ・ぴゃぴゅぴょ", "kya kyu kyo, sha shu sho, cha chu cho, nya nyu nyo, hya hyu hyo, mya myu myo, rya ryu ryo, gya gyu gyo, ja ju jo, bya byu byo, pya pyu pyo", "contracted Hiragana sounds"),
-      prompt("guest", "きゃく", "kyaku", "guest"),
-      prompt("hobby", "しゅみ", "shumi", "hobby"),
-      prompt("travel", "りょこう", "ryokou", "travel"),
-    ],
-  },
-  {
-    id: "ja-sounds-katakana-voiced-v1", slug: "ja-katakana-voiced", title: "ガ・ザ・ダ・バ・パ", sectionId: "ja-sounds", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ガギグゲゴ・ザジズゼゾ・ダヂヅデド・バビブベボ・パピプペポ", "ga gi gu ge go, za ji zu ze zo, da ji zu de do, ba bi bu be bo, pa pi pu pe po", "voiced and semi-voiced Katakana"),
-      prompt("glass", "ガラス", "garasu", "glass"),
-      prompt("zero", "ゼロ", "zero", "zero"),
-      prompt("panda", "パンダ", "panda", "panda"),
-    ],
-  },
-  {
-    id: "ja-sounds-katakana-combinations-v1", slug: "ja-katakana-combinations", title: "キャ・シュ・チョ", sectionId: "ja-sounds", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "キャキュキョ・シャシュショ・チャチュチョ・ニャニュニョ・ヒャヒュヒョ・ミャミュミョ・リャリュリョ・ギャギュギョ・ジャジュジョ・ビャビュビョ・ピャピュピョ", "kya kyu kyo, sha shu sho, cha chu cho, nya nyu nyo, hya hyu hyo, mya myu myo, rya ryu ryo, gya gyu gyo, ja ju jo, bya byu byo, pya pyu pyo", "contracted Katakana sounds"),
-      prompt("shirt", "シャツ", "shatsu", "shirt"),
-      prompt("chocolate", "チョコ", "choko", "chocolate"),
-      prompt("news", "ニュース", "nyuusu", "news"),
-    ],
-  },
-  {
-    id: "ja-sounds-small-kana-v1", slug: "ja-small-kana", title: "っ・ッ・ー・ヴ", sectionId: "ja-sounds", practiceLanguageId: "ja",
-    prompts: [
-      prompt("characters", "ぁぃぅぇぉっゃゅょゎ・ァィゥェォッャュョヮヵヶヴー", "small vowels, small tsu, small ya yu yo, small wa, vu, long vowel mark", "small Kana and long sounds"),
-      prompt("bed", "ベッド", "beddo", "bed"),
-      prompt("file", "ファイル", "fairu", "file"),
-      prompt("violin", "ヴァイオリン", "vaiorin", "violin"),
-    ],
-  },
+  ...kanaCharacterLessons("hiragana", modernHiragana, basicKanaReadings, "ja-hiragana"),
+  ...kanaCharacterLessons(
+    "hiragana",
+    hiraganaCurriculumCharacters.slice([...modernHiragana].length),
+    [...variantKanaReadings, ...smallHiraganaReadings],
+    "ja-hiragana-variants",
+  ),
+  ...japaneseWordLessons("hiragana", hiraganaWords, "ja-hiragana-words"),
+  ...kanaCharacterLessons("katakana", modernKatakana, basicKanaReadings, "ja-katakana"),
+  ...kanaCharacterLessons(
+    "katakana",
+    katakanaCurriculumCharacters.slice([...modernKatakana].length),
+    [...variantKanaReadings, ...smallKatakanaReadings],
+    "ja-katakana-variants",
+  ),
+  ...japaneseWordLessons("katakana", katakanaWords, "ja-katakana-words"),
 ];
 
 const koreanLessons: readonly CurriculumLesson[] = [

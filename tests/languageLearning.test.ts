@@ -17,6 +17,8 @@ import {
   unitProgressKey,
 } from "../data/languageLearning.ts";
 import {
+  hiraganaCurriculumCharacters,
+  katakanaCurriculumCharacters,
   modernHangulConsonants,
   modernHangulVowels,
   modernHiragana,
@@ -77,24 +79,61 @@ test("shares lessons by default and supports language-specific catalogs", () => 
 test("breaks the complete Japanese and Korean scripts into manageable lessons", () => {
   const japaneseItems = contentItems.filter((item) => item.practiceLanguageIds?.includes("ja"));
   const koreanItems = contentItems.filter((item) => item.practiceLanguageIds?.includes("ko"));
-  assert.equal(japaneseItems.length, 25);
+  const japaneseCharacterItems = japaneseItems.filter((item) => [
+    "ja-hiragana",
+    "ja-hiragana-variants",
+    "ja-katakana",
+    "ja-katakana-variants",
+  ].includes(item.sectionId ?? ""));
+  const japaneseWordItems = japaneseItems.filter((item) => [
+    "ja-hiragana-words",
+    "ja-katakana-words",
+  ].includes(item.sectionId ?? ""));
+
+  assert.equal(japaneseCharacterItems.length, [...hiraganaCurriculumCharacters + katakanaCurriculumCharacters].length);
+  assert.equal(japaneseWordItems.length, 40);
   assert.equal(koreanItems.length, 18);
 
-  for (const item of [...japaneseItems, ...koreanItems]) {
+  for (const item of japaneseItems) {
+    assert.equal(item.type, "script_drill");
+    assert.equal(item.audioSource, "browser");
+    assert.equal(item.units.length, 1, item.id);
+    assert.ok(item.sectionId, item.id);
+  }
+  for (const item of koreanItems) {
     assert.equal(item.type, "script_drill");
     assert.equal(item.audioSource, "browser");
     assert.equal(item.units.length, 4, item.id);
     assert.ok(item.sectionId, item.id);
   }
 
+  for (const item of japaneseCharacterItems) {
+    assert.equal([...item.title].length, 1, item.id);
+    assert.equal(item.units[0]?.localizations.ja.text, item.title, item.id);
+    assert.equal(item.estimatedMinutes, 1, item.id);
+  }
+  for (const item of japaneseWordItems) {
+    const word = item.units[0]?.localizations.ja.text ?? "";
+    assert.ok([...word].length >= 1 && [...word].length <= 5, `${item.id}:${word}`);
+    assert.equal(word.includes("・"), false, item.id);
+    assert.equal(item.estimatedMinutes, 1, item.id);
+  }
+
   const japaneseText = japaneseItems.flatMap((item) => item.units.map((unit) => unit.localizations.ja.text)).join("");
   const koreanText = koreanItems.flatMap((item) => item.units.map((unit) => unit.localizations.ko.text)).join("");
   for (const character of modernHiragana + modernKatakana) assert.ok(japaneseText.includes(character), character);
   for (const character of modernHangulConsonants + modernHangulVowels) assert.ok(koreanText.includes(character), character);
-  for (const word of ["すし", "ねこ", "コーヒー", "ヴァイオリン"]) assert.ok(japaneseText.includes(word), word);
+  for (const word of ["うみ", "すし", "ねこ", "ケーキ", "ニュース"]) assert.ok(japaneseText.includes(word), word);
   for (const word of ["안녕", "사람", "학교", "사과"]) assert.ok(koreanText.includes(word), word);
 
-  assert.deepEqual([...new Set(japaneseItems.map((item) => item.sectionId))], ["ja-hiragana", "ja-katakana", "ja-sounds"]);
+  assert.deepEqual([...new Set(japaneseItems.map((item) => item.sectionId))], [
+    "ja-hiragana",
+    "ja-hiragana-variants",
+    "ja-hiragana-words",
+    "ja-katakana",
+    "ja-katakana-variants",
+    "ja-katakana-words",
+  ]);
   assert.deepEqual([...new Set(koreanItems.map((item) => item.sectionId))], ["ko-jamo", "ko-blocks", "ko-words"]);
 });
 

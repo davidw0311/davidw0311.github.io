@@ -76,8 +76,11 @@ type LanguageLabScreen = "language" | "library" | "setup" | "lesson";
 const curriculumSectionOrder: readonly CurriculumSectionId[] = [
   "shared",
   "ja-hiragana",
+  "ja-hiragana-variants",
+  "ja-hiragana-words",
   "ja-katakana",
-  "ja-sounds",
+  "ja-katakana-variants",
+  "ja-katakana-words",
   "ko-jamo",
   "ko-blocks",
   "ko-words",
@@ -93,8 +96,11 @@ function localizedContentText(content: ContentItem, ui: LanguageLearningUiCopy) 
 function curriculumSectionTitle(sectionId: CurriculumSectionId, ui: LanguageLearningUiCopy) {
   if (sectionId === "shared") return ui.everydayLessons;
   if (sectionId === "ja-hiragana") return ui.hiragana;
+  if (sectionId === "ja-hiragana-variants") return ui.hiraganaVariants;
+  if (sectionId === "ja-hiragana-words") return ui.hiraganaWords;
   if (sectionId === "ja-katakana") return ui.katakana;
-  if (sectionId === "ja-sounds") return ui.soundCombinations;
+  if (sectionId === "ja-katakana-variants") return ui.katakanaVariants;
+  if (sectionId === "ja-katakana-words") return ui.katakanaWords;
   if (sectionId === "ko-jamo") return ui.hangulLetters;
   if (sectionId === "ko-blocks") return ui.syllableBlocks;
   return ui.commonWords;
@@ -104,6 +110,13 @@ function contentTypeLabel(content: ContentItem, ui: LanguageLearningUiCopy) {
   if (content.type === "story") return ui.story;
   if (content.type === "number_drill") return ui.counting;
   return ui.scriptPractice;
+}
+
+function isKanaCharacterSection(sectionId: CurriculumSectionId) {
+  return sectionId === "ja-hiragana"
+    || sectionId === "ja-hiragana-variants"
+    || sectionId === "ja-katakana"
+    || sectionId === "ja-katakana-variants";
 }
 
 export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearningLabProps = {}) {
@@ -478,7 +491,10 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       <h2 id={`lesson-section-${sectionId}`}>{sectionTitle}</h2>
                       <span>{formatUi(ui.lessonCount, { count: items.length })}</span>
                     </header>
-                    <div className={`${styles.lessonCards} ${styles.sectionLessonCards}`} data-count={Math.min(items.length, 3)}>
+                    <div
+                      className={`${styles.lessonCards} ${styles.sectionLessonCards} ${isKanaCharacterSection(sectionId) ? styles.characterLessonCards : ""}`}
+                      data-count={Math.min(items.length, 3)}
+                    >
                       {items.map((item) => {
                         const itemIndex = contentItems.findIndex((candidate) => candidate.id === item.id);
                         const completed = item.units.filter((candidate) => {

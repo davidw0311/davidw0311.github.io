@@ -4,7 +4,10 @@ type CurriculumUiCopy = {
   scriptPractice: string;
   everydayLessons: string;
   katakana: string;
-  soundCombinations: string;
+  hiraganaVariants: string;
+  hiraganaWords: string;
+  katakanaVariants: string;
+  katakanaWords: string;
   hangulLetters: string;
   syllableBlocks: string;
   commonWords: string;
@@ -124,53 +127,63 @@ export type LanguageLearningUiCopy = CurriculumUiCopy & {
 const curriculumUiCopy: Record<LanguageId, CurriculumUiCopy> = {
   en: {
     scriptPractice: "Script", everydayLessons: "Everyday speaking", katakana: "Katakana",
-    soundCombinations: "Sound combinations", hangulLetters: "Hangul letters", syllableBlocks: "Syllable blocks",
-    commonWords: "Common words", scriptLessonHelp: "Practice the character set, then read a few short words.", lessonCount: "{count} lessons", browserVoice: "Device voice", chooseScriptLessonHelp: "Start with a small character set or word group, then practice it aloud.",
+    hiraganaVariants: "Hiragana variants", hiraganaWords: "Hiragana words", katakanaVariants: "Katakana variants", katakanaWords: "Katakana words",
+    hangulLetters: "Hangul letters", syllableBlocks: "Syllable blocks",
+    commonWords: "Common words", scriptLessonHelp: "Practice this character or short word.", lessonCount: "{count} lessons", browserVoice: "Device voice", chooseScriptLessonHelp: "Choose one character or short word to practice aloud.",
   },
   zh: {
     scriptPractice: "文字练习", everydayLessons: "日常口语", katakana: "片假名",
-    soundCombinations: "组合音", hangulLetters: "韩文字母", syllableBlocks: "音节方块",
-    commonWords: "常用词", scriptLessonHelp: "先练习这组字符，再读几个短词。", lessonCount: "{count} 课", browserVoice: "设备语音", chooseScriptLessonHelp: "先选择一小组字符或词语，再大声练习。",
+    hiraganaVariants: "平假名变体", hiraganaWords: "平假名单词", katakanaVariants: "片假名变体", katakanaWords: "片假名单词",
+    hangulLetters: "韩文字母", syllableBlocks: "音节方块",
+    commonWords: "常用词", scriptLessonHelp: "练习这个字符或短词。", lessonCount: "{count} 课", browserVoice: "设备语音", chooseScriptLessonHelp: "选择一个字符或短词并大声练习。",
   },
   zht: {
     scriptPractice: "文字練習", everydayLessons: "日常口語", katakana: "片假名",
-    soundCombinations: "組合音", hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
-    commonWords: "常用詞", scriptLessonHelp: "先練習這組字元，再讀幾個短詞。", lessonCount: "{count} 課", browserVoice: "裝置語音", chooseScriptLessonHelp: "先選擇一小組字元或詞語，再大聲練習。",
+    hiraganaVariants: "平假名變體", hiraganaWords: "平假名詞語", katakanaVariants: "片假名變體", katakanaWords: "片假名詞語",
+    hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
+    commonWords: "常用詞", scriptLessonHelp: "練習這個字元或短詞。", lessonCount: "{count} 課", browserVoice: "裝置語音", chooseScriptLessonHelp: "選擇一個字元或短詞並大聲練習。",
   },
   yue: {
     scriptPractice: "文字練習", everydayLessons: "日常口語", katakana: "片假名",
-    soundCombinations: "組合音", hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
-    commonWords: "常用詞", scriptLessonHelp: "先練習呢組字，再讀幾個短詞。", lessonCount: "{count} 課堂", browserVoice: "裝置語音", chooseScriptLessonHelp: "先揀一小組字或詞語，再開聲練習。",
+    hiraganaVariants: "平假名變體", hiraganaWords: "平假名詞語", katakanaVariants: "片假名變體", katakanaWords: "片假名詞語",
+    hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
+    commonWords: "常用詞", scriptLessonHelp: "練習呢個字或短詞。", lessonCount: "{count} 課堂", browserVoice: "裝置語音", chooseScriptLessonHelp: "揀一個字或短詞，再開聲練習。",
   },
   ja: {
     scriptPractice: "文字練習", everydayLessons: "日常会話", katakana: "カタカナ",
-    soundCombinations: "組み合わせ音", hangulLetters: "ハングル文字", syllableBlocks: "音節ブロック",
-    commonWords: "よく使う単語", scriptLessonHelp: "文字の組を練習してから、短い単語を読みます。", lessonCount: "{count}レッスン", browserVoice: "端末の音声", chooseScriptLessonHelp: "少ない文字や単語の組から選び、声に出して練習します。",
+    hiraganaVariants: "ひらがなの変化形", hiraganaWords: "ひらがなの単語", katakanaVariants: "カタカナの変化形", katakanaWords: "カタカナの単語",
+    hangulLetters: "ハングル文字", syllableBlocks: "音節ブロック",
+    commonWords: "よく使う単語", scriptLessonHelp: "この文字または短い単語を練習します。", lessonCount: "{count}レッスン", browserVoice: "端末の音声", chooseScriptLessonHelp: "文字または短い単語を一つ選び、声に出して練習します。",
   },
   ko: {
     scriptPractice: "문자 연습", everydayLessons: "일상 말하기", katakana: "가타카나",
-    soundCombinations: "결합음", hangulLetters: "한글 자모", syllableBlocks: "음절 블록",
-    commonWords: "자주 쓰는 낱말", scriptLessonHelp: "글자 묶음을 연습한 뒤 짧은 낱말을 읽어 보세요.", lessonCount: "레슨 {count}개", browserVoice: "기기 음성", chooseScriptLessonHelp: "작은 글자 묶음이나 낱말 모음을 골라 소리 내어 연습하세요.",
+    hiraganaVariants: "히라가나 변형", hiraganaWords: "히라가나 단어", katakanaVariants: "가타카나 변형", katakanaWords: "가타카나 단어",
+    hangulLetters: "한글 자모", syllableBlocks: "음절 블록",
+    commonWords: "자주 쓰는 낱말", scriptLessonHelp: "이 글자 또는 짧은 단어를 연습하세요.", lessonCount: "레슨 {count}개", browserVoice: "기기 음성", chooseScriptLessonHelp: "글자 또는 짧은 단어 하나를 골라 소리 내어 연습하세요.",
   },
   ms: {
     scriptPractice: "Tulisan", everydayLessons: "Pertuturan harian", katakana: "Katakana",
-    soundCombinations: "Gabungan bunyi", hangulLetters: "Huruf Hangul", syllableBlocks: "Blok suku kata",
-    commonWords: "Perkataan biasa", scriptLessonHelp: "Latih set aksara, kemudian baca beberapa perkataan ringkas.", lessonCount: "{count} pelajaran", browserVoice: "Suara peranti", chooseScriptLessonHelp: "Mulakan dengan set aksara atau kumpulan perkataan kecil, kemudian sebut dengan kuat.",
+    hiraganaVariants: "Variasi Hiragana", hiraganaWords: "Perkataan Hiragana", katakanaVariants: "Variasi Katakana", katakanaWords: "Perkataan Katakana",
+    hangulLetters: "Huruf Hangul", syllableBlocks: "Blok suku kata",
+    commonWords: "Perkataan biasa", scriptLessonHelp: "Latih aksara atau perkataan ringkas ini.", lessonCount: "{count} pelajaran", browserVoice: "Suara peranti", chooseScriptLessonHelp: "Pilih satu aksara atau perkataan ringkas untuk disebut dengan kuat.",
   },
   fr: {
     scriptPractice: "Écriture", everydayLessons: "Expression quotidienne", katakana: "Katakana",
-    soundCombinations: "Combinaisons de sons", hangulLetters: "Lettres hangul", syllableBlocks: "Blocs syllabiques",
-    commonWords: "Mots courants", scriptLessonHelp: "Travaillez les caractères, puis lisez quelques mots courts.", lessonCount: "{count} leçons", browserVoice: "Voix de l’appareil", chooseScriptLessonHelp: "Choisissez un petit groupe de caractères ou de mots, puis entraînez-vous à voix haute.",
+    hiraganaVariants: "Variantes hiragana", hiraganaWords: "Mots en hiragana", katakanaVariants: "Variantes katakana", katakanaWords: "Mots en katakana",
+    hangulLetters: "Lettres hangul", syllableBlocks: "Blocs syllabiques",
+    commonWords: "Mots courants", scriptLessonHelp: "Travaillez ce caractère ou ce mot court.", lessonCount: "{count} leçons", browserVoice: "Voix de l’appareil", chooseScriptLessonHelp: "Choisissez un caractère ou un mot court à prononcer à voix haute.",
   },
   es: {
     scriptPractice: "Escritura", everydayLessons: "Habla cotidiana", katakana: "Katakana",
-    soundCombinations: "Combinaciones de sonidos", hangulLetters: "Letras hangul", syllableBlocks: "Bloques silábicos",
-    commonWords: "Palabras comunes", scriptLessonHelp: "Practica los caracteres y después lee algunas palabras cortas.", lessonCount: "{count} lecciones", browserVoice: "Voz del dispositivo", chooseScriptLessonHelp: "Empieza con un grupo pequeño de caracteres o palabras y practícalo en voz alta.",
+    hiraganaVariants: "Variantes de hiragana", hiraganaWords: "Palabras en hiragana", katakanaVariants: "Variantes de katakana", katakanaWords: "Palabras en katakana",
+    hangulLetters: "Letras hangul", syllableBlocks: "Bloques silábicos",
+    commonWords: "Palabras comunes", scriptLessonHelp: "Practica este carácter o esta palabra corta.", lessonCount: "{count} lecciones", browserVoice: "Voz del dispositivo", chooseScriptLessonHelp: "Elige un carácter o una palabra corta para practicar en voz alta.",
   },
   ta: {
     scriptPractice: "எழுத்துப் பயிற்சி", everydayLessons: "அன்றாடப் பேச்சு", katakana: "கடகானா",
-    soundCombinations: "ஒலிச் சேர்க்கைகள்", hangulLetters: "ஹங்குல் எழுத்துகள்", syllableBlocks: "அசைத் தொகுதிகள்",
-    commonWords: "பொதுவான சொற்கள்", scriptLessonHelp: "எழுத்துத் தொகுப்பைப் பயிற்சி செய்து, சில குறுஞ்சொற்களை வாசிக்கவும்.", lessonCount: "{count} பாடங்கள்", browserVoice: "சாதனக் குரல்", chooseScriptLessonHelp: "ஒரு சிறிய எழுத்து அல்லது சொல் தொகுப்பைத் தேர்ந்து, உரக்கப் பயிற்சி செய்யுங்கள்.",
+    hiraganaVariants: "ஹிரகானா மாறுபாடுகள்", hiraganaWords: "ஹிரகானா சொற்கள்", katakanaVariants: "கடகானா மாறுபாடுகள்", katakanaWords: "கடகானா சொற்கள்",
+    hangulLetters: "ஹங்குல் எழுத்துகள்", syllableBlocks: "அசைத் தொகுதிகள்",
+    commonWords: "பொதுவான சொற்கள்", scriptLessonHelp: "இந்த எழுத்து அல்லது குறுஞ்சொல்லைப் பயிற்சி செய்யுங்கள்.", lessonCount: "{count} பாடங்கள்", browserVoice: "சாதனக் குரல்", chooseScriptLessonHelp: "ஒரு எழுத்து அல்லது குறுஞ்சொல்லைத் தேர்ந்து உரக்கப் பயிற்சி செய்யுங்கள்.",
   },
 };
 

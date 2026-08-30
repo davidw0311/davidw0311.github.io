@@ -7,8 +7,11 @@ export type ContentType = "story" | "number_drill" | "script_drill";
 export type CurriculumSectionId =
   | "shared"
   | "ja-hiragana"
+  | "ja-hiragana-variants"
+  | "ja-hiragana-words"
   | "ja-katakana"
-  | "ja-sounds"
+  | "ja-katakana-variants"
+  | "ja-katakana-words"
   | "ko-jamo"
   | "ko-blocks"
   | "ko-words";
