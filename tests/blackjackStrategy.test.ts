@@ -127,8 +127,11 @@ test("returns exact row, column, and cell practice pools", () => {
 });
 
 test("divides mastery into ordered sections that cover the whole chart once", () => {
-  assert.equal(masterySections.length, 7);
-  assert.deepEqual(masterySections.map((section) => section.scenarios.length), [40, 30, 50, 50, 50, 30, 100]);
+  assert.equal(masterySections.length, 9);
+  assert.deepEqual(
+    masterySections.map((section) => section.scenarios.length),
+    [40, 30, 30, 20, 50, 50, 30, 60, 40],
+  );
 
   const coveredIds = masterySections.flatMap((section) => section.scenarios.map((scenario) => scenario.id));
   assert.equal(coveredIds.length, trainingScenarios.length);

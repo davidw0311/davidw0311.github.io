@@ -28,11 +28,18 @@ const sectionDefinitions = [
     includes: (scenario: TrainingScenario) => scenario.kind === "hard" && scenario.total >= 9 && scenario.total <= 11,
   },
   {
-    id: "hard-pressure",
-    title: "Hard pressure hands",
-    shortTitle: "Hard 12-16",
-    description: "Master the hit, stand, and surrender boundaries where most mistakes happen.",
-    includes: (scenario: TrainingScenario) => scenario.kind === "hard" && scenario.total >= 12 && scenario.total <= 16,
+    id: "hard-stand-boundary",
+    title: "Hard stand boundary",
+    shortTitle: "Hard 12-14",
+    description: "Learn where low hard totals switch between hitting and standing against weak dealer cards.",
+    includes: (scenario: TrainingScenario) => scenario.kind === "hard" && scenario.total >= 12 && scenario.total <= 14,
+  },
+  {
+    id: "hard-surrender-boundary",
+    title: "Hard surrender boundary",
+    shortTitle: "Hard 15-16",
+    description: "Master the hit, stand, and surrender decisions on blackjack's toughest hard totals.",
+    includes: (scenario: TrainingScenario) => scenario.kind === "hard" && scenario.total >= 15 && scenario.total <= 16,
   },
   {
     id: "hard-stands",
@@ -56,11 +63,25 @@ const sectionDefinitions = [
     includes: (scenario: TrainingScenario) => scenario.kind === "soft" && scenario.total >= 18,
   },
   {
-    id: "pairs",
-    title: "Pair decisions",
-    shortTitle: "All pairs",
-    description: "Complete the chart by learning every split boundary.",
-    includes: (scenario: TrainingScenario) => scenario.kind === "pair",
+    id: "low-pairs",
+    title: "Small pair decisions",
+    shortTitle: "Pairs 2-7",
+    description: "Learn the dealer-dependent split boundaries for twos through sevens.",
+    includes: (scenario: TrainingScenario) => (
+      scenario.kind === "pair"
+      && scenario.playerRanks[0] !== "A"
+      && Number(scenario.playerRanks[0]) <= 7
+    ),
+  },
+  {
+    id: "high-pairs",
+    title: "Power pair decisions",
+    shortTitle: "Pairs 8-A",
+    description: "Finish the chart with eights, nines, tens, and Aces, including the always and never splits.",
+    includes: (scenario: TrainingScenario) => (
+      scenario.kind === "pair"
+      && (scenario.playerRanks[0] === "A" || Number(scenario.playerRanks[0]) >= 8)
+    ),
   },
 ] as const;
 

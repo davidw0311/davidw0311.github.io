@@ -6,7 +6,7 @@ import {
 } from "./blackjackStrategy.ts";
 
 export type TrainingFocus = "all" | HandKind | "custom";
-export type TrainerScreen = "menu" | "mastery" | "simulation" | "practice" | "table";
+export type TrainerScreen = "menu" | "lessons" | "mastery" | "simulation" | "practice" | "table";
 export type TrainingSuit = "clubs" | "diamonds" | "hearts" | "spades";
 
 const suits: readonly TrainingSuit[] = ["spades", "hearts", "clubs", "diamonds"];

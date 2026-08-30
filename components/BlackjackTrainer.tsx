@@ -98,6 +98,7 @@ export function BlackjackTrainer() {
     changeFocus,
     chooseAction,
     clearSelection,
+    completedMasterySectionIds,
     correct,
     currentMasterySection,
     dealNumber,
@@ -109,10 +110,12 @@ export function BlackjackTrainer() {
     masterySectionComplete,
     masterySectionIndex,
     nextMasteryHand,
+    openMasteryLessons,
     scenario,
     screen,
     selectedAction,
     selectedScenarioIds,
+    selectMasterySection,
     setScreen,
     setTableKind,
     startMastery,
@@ -156,7 +159,7 @@ export function BlackjackTrainer() {
         <motion.button
           type="button"
           className={`${styles.modeCard} ${styles.masteryModeCard}`}
-          onClick={startMastery}
+          onClick={openMasteryLessons}
           whileTap={reduceMotion ? undefined : { scale: 0.985 }}
         >
           <span className={styles.modeIcon}>
@@ -164,9 +167,9 @@ export function BlackjackTrainer() {
           </span>
           <span className={styles.modeCardCopy}>
             <strong>Table Mastery</strong>
-            <span>Clear seven focused sections. A section stays locked in until every matchup is correct.</span>
+            <span>Choose from nine guided lessons. Each chart section stays active until every matchup is correct.</span>
           </span>
-          <span className={styles.modeMeta}>350 decisions</span>
+          <span className={styles.modeMeta}>9 lessons · 350 decisions</span>
           <ArrowRight className={styles.modeArrow} size={22} weight="bold" />
         </motion.button>
         <motion.button
@@ -200,12 +203,84 @@ export function BlackjackTrainer() {
     </motion.div>
   );
 
+  const renderLessonLibrary = () => (
+    <motion.div
+      className={styles.lessonLibrary}
+      key="lesson-library"
+      initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
+      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className={styles.lessonLibraryHeader}>
+        <button type="button" className={styles.backToModes} onClick={() => setScreen("menu")}>
+          <ArrowLeft size={17} weight="bold" /> Modes
+        </button>
+        <div>
+          <h2>Choose a chart lesson</h2>
+          <p>Nine focused lessons cover all 350 basic-strategy matchups. Take them in order or jump to the section you want to practice.</p>
+        </div>
+        <div className={styles.lessonCompletion} aria-live="polite">
+          <strong>{completedMasterySectionIds.size}/{masterySections.length}</strong>
+          <span>completed</span>
+        </div>
+      </div>
+
+      <div className={styles.lessonChooser}>
+        <div className={styles.lessonList} aria-label="Table Mastery lessons">
+          {masterySections.map((section, index) => {
+            const isSelected = masterySectionIndex === index;
+            const isComplete = completedMasterySectionIds.has(section.id);
+            return (
+              <button
+                type="button"
+                key={section.id}
+                className={`${styles.lessonOption} ${isSelected ? styles.lessonOptionSelected : ""}`}
+                aria-pressed={isSelected}
+                onClick={() => selectMasterySection(index)}
+              >
+                <span className={styles.lessonNumber}>{String(index + 1).padStart(2, "0")}</span>
+                <span className={styles.lessonOptionCopy}>
+                  <strong>{section.shortTitle}</strong>
+                  <span>{section.title}</span>
+                </span>
+                <span className={styles.lessonMatchups}>{section.scenarios.length}</span>
+                {isComplete && (
+                  <CheckCircle className={styles.lessonCompleteIcon} size={19} weight="fill" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        <aside className={styles.lessonPreview} aria-live="polite">
+          <span className={styles.lessonSequence}>Lesson {masterySectionIndex + 1} of {masterySections.length}</span>
+          <h3>{currentMasterySection.title}</h3>
+          <p>{currentMasterySection.description}</p>
+          <dl className={styles.lessonFacts}>
+            <div><dt>Chart section</dt><dd>{currentMasterySection.shortTitle}</dd></div>
+            <div><dt>To master</dt><dd>{currentMasterySection.scenarios.length} matchups</dd></div>
+          </dl>
+          <button type="button" className={styles.startLesson} onClick={startMastery}>
+            {completedMasterySectionIds.has(currentMasterySection.id) ? "Practice again" : "Start lesson"}
+            <ArrowRight size={18} weight="bold" />
+          </button>
+          <small>Correct every matchup once to complete this lesson. Missed decisions stay in the practice pool.</small>
+        </aside>
+      </div>
+    </motion.div>
+  );
+
   const renderTrainerHeader = () => (
     <>
       <div className={styles.trainerHeader}>
         <div className={styles.modeIdentity}>
-          <button type="button" className={styles.backToModes} onClick={() => setScreen("menu")}>
-            <ArrowLeft size={17} weight="bold" /> Modes
+          <button
+            type="button"
+            className={styles.backToModes}
+            onClick={() => setScreen(screen === "mastery" ? "lessons" : "menu")}
+          >
+            <ArrowLeft size={17} weight="bold" /> {screen === "mastery" ? "Lessons" : "Modes"}
           </button>
           <div>
             <span>
@@ -321,7 +396,6 @@ export function BlackjackTrainer() {
         </motion.div>
       );
     }
-    const isFinalMasterySection = masterySectionIndex === masterySections.length - 1;
     return (
       <motion.div
         key={`feedback-${scenario.id}-${dealNumber}`}
@@ -357,9 +431,7 @@ export function BlackjackTrainer() {
               onClick={masterySectionComplete ? advanceMasterySection : nextMasteryHand}
             >
               {masterySectionComplete
-                ? isFinalMasterySection
-                  ? "Finish mastery"
-                  : `Continue to ${masterySections[masterySectionIndex + 1].shortTitle}`
+                ? "Choose next lesson"
                 : "Next challenge"}
               <ArrowRight size={18} weight="bold" />
             </button>
@@ -560,7 +632,7 @@ export function BlackjackTrainer() {
   return (
     <section ref={trainerRef} className={styles.trainer} aria-label="Back to Blackjack trainer">
       <AnimatePresence mode="wait" initial={false}>
-        {screen === "menu" ? renderMenu() : screen === "simulation" ? (
+        {screen === "menu" ? renderMenu() : screen === "lessons" ? renderLessonLibrary() : screen === "simulation" ? (
           <BlackjackSimulation onExit={() => setScreen("menu")} />
         ) : (
           <motion.div

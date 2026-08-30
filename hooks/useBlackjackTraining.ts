@@ -33,6 +33,9 @@ export function useBlackjackTraining() {
   const [masteredScenarioIds, setMasteredScenarioIds] = useState<Set<string>>(() => new Set());
   const [masteryAttempts, setMasteryAttempts] = useState(0);
   const [masterySectionComplete, setMasterySectionComplete] = useState(false);
+  const [completedMasterySectionIds, setCompletedMasterySectionIds] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   const isCorrect = selectedAction === scenario.correctAction;
   const accuracy = answered === 0 ? 0 : Math.round((correct / answered) * 100);
@@ -75,14 +78,21 @@ export function useBlackjackTraining() {
     dealFrom(candidates);
   };
 
+  const openMasteryLessons = () => {
+    setScreen("lessons");
+  };
+
+  const selectMasterySection = (sectionIndex: number) => {
+    setMasterySectionIndex(sectionIndex);
+  };
+
   const startMastery = () => {
     setScreen("mastery");
-    setMasterySectionIndex(0);
     setMasteredScenarioIds(new Set());
     setMasteryAttempts(0);
     setMasterySectionComplete(false);
     resetStats();
-    dealFrom(masterySections[0].scenarios);
+    dealFrom(currentMasterySection.scenarios);
   };
 
   const startPractice = () => {
@@ -151,16 +161,14 @@ export function useBlackjackTraining() {
   };
 
   const advanceMasterySection = () => {
-    if (masterySectionIndex === masterySections.length - 1) {
-      setScreen("menu");
-      return;
+    setCompletedMasterySectionIds((current) => new Set(current).add(currentMasterySection.id));
+    if (masterySectionIndex < masterySections.length - 1) {
+      setMasterySectionIndex(masterySectionIndex + 1);
     }
-    const nextIndex = masterySectionIndex + 1;
-    setMasterySectionIndex(nextIndex);
     setMasteredScenarioIds(new Set());
     setMasteryAttempts(0);
     setMasterySectionComplete(false);
-    dealFrom(masterySections[nextIndex].scenarios);
+    setScreen("lessons");
   };
 
   return {
@@ -170,6 +178,7 @@ export function useBlackjackTraining() {
     changeFocus,
     chooseAction,
     clearSelection: () => setSelectedScenarioIds(new Set()),
+    completedMasterySectionIds,
     correct,
     currentMasterySection,
     dealNumber,
@@ -181,10 +190,12 @@ export function useBlackjackTraining() {
     masterySectionComplete,
     masterySectionIndex,
     nextMasteryHand,
+    openMasteryLessons,
     scenario,
     screen,
     selectedAction,
     selectedScenarioIds,
+    selectMasterySection,
     setScreen,
     setTableKind,
     startMastery,
