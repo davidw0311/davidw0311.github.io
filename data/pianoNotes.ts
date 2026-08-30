@@ -94,6 +94,7 @@ export const pianoNotes: PianoNote[] = [3, 4, 5]
 
 export const whiteKeys = pianoNotes.filter((note) => !note.isBlack);
 export const blackKeys = pianoNotes.filter((note) => note.isBlack);
+export const chordKeyboardNotes = pianoNotes.filter((note) => note.midi >= 60 && note.midi <= 79);
 
 const chordIntervals: Record<PianoChordQuality, readonly number[]> = {
   major: [0, 4, 7],

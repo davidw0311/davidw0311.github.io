@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   blackKeys,
   chordMatchesNoteIds,
+  chordKeyboardNotes,
   createPianoChordQuestion,
   createPianoQuestion,
   formatChordSymbol,
@@ -74,6 +75,13 @@ test("the chord library contains every chromatic major and minor triad", () => {
   const cSharpMinor = pianoChords.find((chord) => chord.id === "C#4-minor");
   assert.ok(cSharpMinor);
   assert.equal(formatChordSymbol(cSharpMinor, true), "C♯m / D♭m");
+});
+
+test("chord practice uses one continuous C4 through G5 keyboard range", () => {
+  assert.equal(chordKeyboardNotes.length, 20);
+  assert.equal(chordKeyboardNotes[0].id, "C4");
+  assert.equal(chordKeyboardNotes.at(-1)?.id, "G5");
+  assert.ok(pianoChords.every((chord) => chord.notes.every((note) => chordKeyboardNotes.includes(note))));
 });
 
 test("chord answers match the three pitch classes in any octave or inversion", () => {

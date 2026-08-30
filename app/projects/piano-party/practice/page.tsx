@@ -40,7 +40,7 @@ export default function PianoPracticePage() {
         </div>
         <div className={styles.guideCopy}>
           <p>Start with key names and staff reading, then recognize and build major and minor triads. Mixed clefs combine both note-reading skills.</p>
-          <p>Note drills span C3 to C6; chord drills use a focused two-octave C4 to C6 keyboard. Every key and completed chord plays aloud.</p>
+          <p>Note drills span C3 to C6; chord drills use one continuous C4 to G5 keyboard row. Every key and completed chord plays aloud.</p>
         </div>
       </section>
 

@@ -41,6 +41,10 @@ const exercisePrompts: Record<PianoExerciseMode, string> = {
 };
 
 const clefLabels: Record<ClefFilter, string> = { mixed: "Mixed", treble: "Treble", bass: "Bass" };
+const chordQualityGroups = [
+  { quality: "major", title: "Major chords" },
+  { quality: "minor", title: "Minor chords" },
+] as const;
 
 function isNoteMode(mode: PianoExerciseMode): mode is PianoNoteExerciseMode {
   return mode === "key-name" || mode === "staff-name" || mode === "staff-key";
@@ -193,7 +197,7 @@ export function PianoNoteTrainer() {
               </button>
             ))}
           </div>
-        ) : <span className={styles.rangeLabel}>{mode === "key-name" ? "C3-C6 · naturals + accidentals" : "C4-C6 · major + minor triads"}</span>}
+        ) : <span className={styles.rangeLabel}>{mode === "key-name" ? "C3-C6 · naturals + accidentals" : "C4-G5 · major + minor triads"}</span>}
       </div>
 
       <div className={styles.practiceArea}>
@@ -204,7 +208,7 @@ export function PianoNoteTrainer() {
               <PianoKeyboard targetNotes={[noteQuestion.note]} selectedIds={[]} answered={answered} interactive showPrompt onChoose={playTone} />
             ) : null}
             {mode === "chord-name" ? (
-              <PianoKeyboard targetNotes={chordQuestion.notes} selectedIds={[]} answered={answered} interactive showPrompt range="two-octave" onChoose={playTone} />
+              <PianoKeyboard targetNotes={chordQuestion.notes} selectedIds={[]} answered={answered} interactive showPrompt range="chord" onChoose={playTone} />
             ) : null}
             {mode === "chord-key" ? (
               <div className={styles.chordPromptCard}>
@@ -237,24 +241,31 @@ export function PianoNoteTrainer() {
 
           {mode === "chord-name" ? (
             <div className={styles.chordNameAnswer}>
-              <div className={styles.chordChoices} aria-label="Choose a chord symbol">
-                {pianoChords.map((chord) => {
-                  const isTarget = chord.id === chordQuestion.id;
-                  const isSelected = chord.id === selectedAnswer;
-                  const stateClass = answered && isTarget ? styles.correctChoice : answered && isSelected ? styles.wrongChoice : "";
-                  return (
-                    <button type="button" key={chord.id} className={stateClass} disabled={answered} onClick={() => recordChordAnswer(chord.id)}>
-                      {formatChordSymbol(chord, true)}
-                    </button>
-                  );
-                })}
+              <div className={styles.chordChoiceGroups} aria-label="Choose a chord symbol">
+                {chordQualityGroups.map((group) => (
+                  <section className={styles.chordChoiceGroup} key={group.quality} aria-labelledby={`${group.quality}-chord-heading`}>
+                    <h3 id={`${group.quality}-chord-heading`}>{group.title}</h3>
+                    <div className={styles.chordChoices}>
+                      {pianoChords.filter((chord) => chord.quality === group.quality).map((chord) => {
+                        const isTarget = chord.id === chordQuestion.id;
+                        const isSelected = chord.id === selectedAnswer;
+                        const stateClass = answered && isTarget ? styles.correctChoice : answered && isSelected ? styles.wrongChoice : "";
+                        return (
+                          <button type="button" key={chord.id} className={stateClass} disabled={answered} onClick={() => recordChordAnswer(chord.id)}>
+                            {formatChordSymbol(chord, true)}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
+                ))}
               </div>
             </div>
           ) : null}
 
           {mode === "chord-key" ? (
             <div className={styles.chordKeyAnswer}>
-              <PianoKeyboard targetNotes={chordQuestion.notes} selectedIds={selectedChordKeyIds} answered={answered} interactive showPrompt={false} range="two-octave" onChoose={toggleChordKey} />
+              <PianoKeyboard targetNotes={chordQuestion.notes} selectedIds={selectedChordKeyIds} answered={answered} interactive showPrompt={false} range="chord" onChoose={toggleChordKey} />
               <button type="button" className={styles.checkChordButton} disabled={answered || !chordKeysReady} onClick={submitChordKeys}>Check chord · {selectedChordKeyIds.length}/3 keys</button>
             </div>
           ) : null}

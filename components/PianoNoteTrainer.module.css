@@ -484,6 +484,28 @@
   gap: 7px;
 }
 
+.chordChoiceGroups {
+  display: grid;
+  gap: 6px;
+}
+
+.chordChoiceGroup {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 7px;
+  align-items: center;
+}
+
+.chordChoiceGroup h3 {
+  margin: 0;
+  color: var(--piano-muted);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
 .chordChoices {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -571,8 +593,9 @@
   box-shadow: 0 20px 48px rgb(0 8 13 / 0.36), inset 0 1px 0 rgb(255 255 255 / 0.08);
 }
 
-.twoOctaveKeyboard {
-  grid-template-columns: 7fr 8fr;
+.chordKeyboard {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
   width: min(100%, 900px);
   margin: 0 auto;
 }
@@ -664,7 +687,7 @@
   z-index: 2;
   top: 0;
   left: var(--desktop-left);
-  width: 8.3%;
+  width: var(--black-key-width, 8.3%);
   height: 61%;
   padding: 0;
   border: 1px solid #071116;
@@ -973,9 +996,9 @@
     border-radius: 9px;
   }
 
-  .keyboard.twoOctaveKeyboard {
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    height: clamp(142px, 22dvh, 170px);
+  .keyboard.chordKeyboard {
+    grid-template-rows: 1fr;
+    height: clamp(104px, 15dvh, 124px);
   }
 
   .chordPromptCard {
@@ -986,6 +1009,15 @@
   .chordChoices {
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 3px;
+  }
+
+  .chordChoiceGroup {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .chordChoiceGroup h3 {
+    font-size: 0.52rem;
   }
 
   .chordChoices button,
@@ -1186,8 +1218,9 @@
     border-radius: 9px;
   }
 
-  .keyboard.twoOctaveKeyboard {
-    grid-template-columns: 7fr 8fr;
+  .keyboard.chordKeyboard {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
   }
 
   .chordPromptCard {

@@ -3,6 +3,7 @@
 import type { CSSProperties } from "react";
 import {
   blackKeys,
+  chordKeyboardNotes,
   formatPianoKey,
   spokenPitchName,
   whiteKeys,
@@ -37,6 +38,15 @@ const keyboardRanges = [
   },
 ];
 
+const chordKeyboardRange = {
+  id: "chord",
+  whiteNotes: chordKeyboardNotes.filter((note) => !note.isBlack),
+  blackNotes: chordKeyboardNotes.filter((note) => note.isBlack),
+  whiteOffset: 7,
+  portraitLeadingWhiteKeys: 0,
+  portraitWhiteCount: 12,
+};
+
 function keyStateClass(
   note: PianoNote,
   targetNotes: readonly PianoNote[],
@@ -60,7 +70,7 @@ type PianoKeyboardProps = {
   answered: boolean;
   interactive: boolean;
   showPrompt: boolean;
-  range?: "full" | "two-octave";
+  range?: "full" | "chord";
   onChoose: (note: PianoNote, answeredAt: number) => void;
 };
 
@@ -73,16 +83,16 @@ export function PianoKeyboard({
   range = "full",
   onChoose,
 }: PianoKeyboardProps) {
-  const visibleRanges = range === "two-octave"
-    ? keyboardRanges.filter((keyboardRange) => keyboardRange.id !== "lower")
+  const visibleRanges = range === "chord"
+    ? [chordKeyboardRange]
     : keyboardRanges;
 
   return (
     <div className={styles.keyboardWrap}>
       <div
-        className={`${styles.keyboard} ${range === "two-octave" ? styles.twoOctaveKeyboard : ""} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
+        className={`${styles.keyboard} ${range === "chord" ? styles.chordKeyboard : ""} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
         role="group"
-        aria-label={`Piano keyboard from ${range === "two-octave" ? "C4" : "C3"} to C6, including sharp and flat keys`}
+        aria-label={`Piano keyboard from ${range === "chord" ? "C4 to G5" : "C3 to C6"}, including sharp and flat keys`}
       >
         {visibleRanges.map((keyboardRange) => (
           <div className={styles.keyboardRange} key={keyboardRange.id}>
@@ -131,6 +141,7 @@ export function PianoKeyboard({
                     style={{
                       "--desktop-left": `${desktopLeft}%`,
                       "--portrait-left": `${portraitLeft}%`,
+                      "--black-key-width": `${(0.6 / keyboardRange.whiteNotes.length) * 100}%`,
                     } as CSSProperties}
                     disabled={!interactive}
                     tabIndex={interactive ? 0 : -1}
