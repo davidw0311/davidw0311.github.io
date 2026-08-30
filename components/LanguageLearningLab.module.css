@@ -14,6 +14,12 @@
   --lab-guidance-ink: #0a2b27;
   --lab-guidance-muted: #315650;
   --lab-guidance-line: rgb(209 233 227 / 0.9);
+  --lab-choice-bg: #f4faf8;
+  --lab-choice-bg-selected: #def4ec;
+  --lab-choice-ink: #0a2b27;
+  --lab-choice-muted: #426560;
+  --lab-choice-line: #d1e4df;
+  --lab-choice-selected-line: #259b78;
   --lab-danger: #ff9d97;
   --lab-warning: #f0cc79;
   display: grid;
@@ -676,27 +682,27 @@
   min-width: 0;
   min-height: 82px;
   padding: 8px 6px 7px;
-  border: 1px solid var(--lab-line);
+  border: 3px solid var(--lab-choice-line);
   border-radius: 13px;
-  color: var(--lab-muted);
+  color: var(--lab-choice-muted);
   text-align: center;
-  background: var(--lab-surface-soft);
+  background: var(--lab-choice-bg);
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .languageTile[aria-pressed="true"] {
-  border-color: rgb(121 228 197 / 0.65);
-  color: var(--lab-ink);
-  background: rgb(121 228 197 / 0.08);
-  box-shadow: inset 0 0 0 1px rgb(121 228 197 / 0.2);
+  border-color: var(--lab-choice-selected-line);
+  color: var(--lab-choice-ink);
+  background: var(--lab-choice-bg-selected);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7);
 }
 
 @media (hover: hover) {
   .languageTile[aria-pressed="false"]:hover {
-    border-color: var(--lab-line-strong);
-    color: var(--lab-ink);
-    background: rgb(121 228 197 / 0.035);
+    border-color: #9bc8bc;
+    color: var(--lab-choice-ink);
+    background: #edf7f3;
     transform: translateY(-1px);
   }
 }
@@ -709,7 +715,7 @@
   position: absolute;
   top: 7px;
   right: 7px;
-  color: var(--lab-accent);
+  color: var(--lab-choice-selected-line);
 }
 
 .languageMark {
@@ -719,8 +725,8 @@
   height: 36px;
   border: 1px solid rgb(121 228 197 / 0.16);
   border-radius: 11px;
-  color: var(--lab-accent);
-  background: rgb(121 228 197 / 0.07);
+  color: #18795e;
+  background: #e1f3ed;
   font-family: var(--font-display), sans-serif;
   font-size: 0.8rem;
   font-weight: 750;
@@ -752,7 +758,7 @@
 
 .languageTile small {
   margin-top: 2px;
-  color: var(--lab-faint);
+  color: var(--lab-choice-muted);
   font-size: 0.53rem;
 }
 
@@ -785,27 +791,27 @@
   min-width: 0;
   min-height: 42px;
   padding: 5px 8px;
-  border: 1px solid var(--lab-line);
+  border: 3px solid var(--lab-choice-line);
   border-radius: 11px;
-  color: var(--lab-muted);
+  color: var(--lab-choice-muted);
   text-align: left;
-  background: var(--lab-surface-soft);
+  background: var(--lab-choice-bg);
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .displayLanguageTiles button[aria-pressed="true"] {
-  border-color: rgb(121 228 197 / 0.58);
-  color: var(--lab-ink);
-  background: rgb(121 228 197 / 0.07);
-  box-shadow: inset 0 0 0 1px rgb(121 228 197 / 0.18);
+  border-color: var(--lab-choice-selected-line);
+  color: var(--lab-choice-ink);
+  background: var(--lab-choice-bg-selected);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7);
 }
 
 @media (hover: hover) {
   .displayLanguageTiles button[aria-pressed="false"]:hover {
-    border-color: var(--lab-line-strong);
-    color: var(--lab-ink);
-    background: rgb(121 228 197 / 0.03);
+    border-color: #9bc8bc;
+    color: var(--lab-choice-ink);
+    background: #edf7f3;
     transform: translateY(-1px);
   }
 }
@@ -821,10 +827,10 @@
   height: 28px;
   border: 1px solid rgb(121 228 197 / 0.14);
   border-radius: 8px;
-  color: var(--lab-accent);
+  color: #18795e;
   font-size: 0.62rem;
   font-weight: 850;
-  background: rgb(121 228 197 / 0.08);
+  background: #e1f3ed;
   transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
@@ -852,12 +858,12 @@
 
 .displayLanguageTiles small {
   margin-top: 2px;
-  color: var(--lab-faint);
+  color: var(--lab-choice-muted);
   font-size: 0.54rem;
 }
 
 .displayLanguageTiles svg {
-  color: var(--lab-accent);
+  color: var(--lab-choice-selected-line);
 }
 
 .setupActions {
