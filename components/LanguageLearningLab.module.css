@@ -637,6 +637,7 @@
 
 .setupSectionHeading h2 {
   margin: 0;
+  color: var(--lab-accent);
   font-size: 1.05rem;
   font-weight: 820;
   letter-spacing: -0.02em;
@@ -644,9 +645,9 @@
 
 .setupSectionHeading p {
   margin: 4px 0 0;
-  color: var(--lab-muted);
+  color: var(--lab-ink);
   font-size: 0.76rem;
-  font-weight: 580;
+  font-weight: 640;
   line-height: 1.4;
 }
 
