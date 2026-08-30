@@ -5,7 +5,7 @@ export type ClefFilter = "mixed" | StaffClef;
 export type PianoNoteExerciseMode = "key-name" | "staff-name" | "staff-key";
 export type PianoChordExerciseMode = "chord-name" | "chord-key";
 export type PianoExerciseMode = PianoNoteExerciseMode | PianoChordExerciseMode;
-export type PianoChordQuality = "major" | "minor";
+export type PianoChordQuality = "major" | "minor" | "diminished";
 
 type PitchDefinition = {
   key: string;
@@ -99,18 +99,26 @@ export const chordKeyboardNotes = pianoNotes.filter((note) => note.midi >= 60 &&
 const chordIntervals: Record<PianoChordQuality, readonly number[]> = {
   major: [0, 4, 7],
   minor: [0, 3, 7],
+  diminished: [0, 3, 6],
 };
 
 const chordRoots = pianoNotes.filter((note) => note.octave === 4);
+export const pianoChordQualityLabels: Record<PianoChordQuality, string> = {
+  major: "Major chords",
+  minor: "Minor chords",
+  diminished: "Diminished chords",
+};
+export const pianoChordQualities = Object.keys(pianoChordQualityLabels) as PianoChordQuality[];
+export const practicePianoChordQualities: readonly PianoChordQuality[] = ["major", "minor"];
 
 function chordSymbol(rootName: string, quality: PianoChordQuality, spaced: boolean) {
   const separator = spaced ? " / " : "/";
-  const suffix = quality === "minor" ? "m" : "";
+  const suffix = quality === "minor" ? "m" : quality === "diminished" ? "°" : "";
   return rootName.split("/").map((root) => `${root}${suffix}`).join(separator);
 }
 
-export const pianoChords: readonly PianoChord[] = chordRoots.flatMap((root) => (
-  (Object.keys(chordIntervals) as PianoChordQuality[]).map((quality) => {
+export const pianoChordCatalog: readonly PianoChord[] = chordRoots.flatMap((root) => (
+  pianoChordQualities.map((quality) => {
     const notes = chordIntervals[quality].map((interval) => {
       const note = pianoNotes.find((candidate) => candidate.midi === root.midi + interval);
       if (!note) throw new Error(`Missing ${quality} chord tone for ${root.id}`);
@@ -125,6 +133,12 @@ export const pianoChords: readonly PianoChord[] = chordRoots.flatMap((root) => (
       notes,
     };
   })
+));
+
+// Free Practice intentionally starts with major and minor triads. The complete
+// catalog also powers the reference chart and can grow independently.
+export const pianoChords: readonly PianoChord[] = pianoChordCatalog.filter((chord) => (
+  practicePianoChordQualities.includes(chord.quality)
 ));
 
 export function formatChordSymbol(chord: Pick<PianoChord, "root" | "quality">, spaced = false) {

@@ -12,6 +12,7 @@ import {
   ledgerStepsFor,
   noteFrequency,
   pianoAudioPath,
+  pianoChordCatalog,
   pianoChords,
   pianoNotes,
   questionPool,
@@ -77,11 +78,31 @@ test("the chord library contains every chromatic major and minor triad", () => {
   assert.equal(formatChordSymbol(cSharpMinor, true), "C♯m / D♭m");
 });
 
+test("the chord chart adds every chromatic diminished triad", () => {
+  assert.equal(pianoChordCatalog.length, 36);
+  assert.equal(new Set(pianoChordCatalog.map((chord) => chord.root.id)).size, 12);
+  assert.deepEqual(
+    new Set(pianoChordCatalog.map((chord) => chord.quality)),
+    new Set(["major", "minor", "diminished"]),
+  );
+  assert.ok(pianoChords.every((chord) => chord.quality !== "diminished"));
+
+  const cDiminished = pianoChordCatalog.find((chord) => chord.id === "C4-diminished");
+  assert.ok(cDiminished);
+  assert.deepEqual(cDiminished.notes.map((note) => note.id), ["C4", "D#4", "F#4"]);
+  assert.equal(formatChordSymbol(cDiminished), "C°");
+
+  const cSharpDiminished = pianoChordCatalog.find((chord) => chord.id === "C#4-diminished");
+  assert.ok(cSharpDiminished);
+  assert.equal(formatChordSymbol(cSharpDiminished, true), "C♯° / D♭°");
+});
+
 test("chord practice uses one continuous C4 through G5 keyboard range", () => {
   assert.equal(chordKeyboardNotes.length, 20);
   assert.equal(chordKeyboardNotes[0].id, "C4");
   assert.equal(chordKeyboardNotes.at(-1)?.id, "G5");
   assert.ok(pianoChords.every((chord) => chord.notes.every((note) => chordKeyboardNotes.includes(note))));
+  assert.ok(pianoChordCatalog.every((chord) => chord.notes.every((note) => chordKeyboardNotes.includes(note))));
 });
 
 test("chord answers match the three pitch classes in any octave or inversion", () => {

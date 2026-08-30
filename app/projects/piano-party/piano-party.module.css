@@ -229,6 +229,12 @@
   background: rgb(219 242 238 / 0.035);
 }
 
+.chartOption .modeIcon {
+  color: #8ed8ea;
+  border-color: rgb(142 216 234 / 0.3);
+  background: rgb(142 216 234 / 0.065);
+}
+
 .modeCopy {
   display: grid;
   gap: 5px;
@@ -515,6 +521,12 @@
     background: rgb(18 62 64 / 0.035);
   }
 
+  .chartOption .modeIcon {
+    color: #16728a;
+    border-color: rgb(22 114 138 / 0.28);
+    background: rgb(22 114 138 / 0.06);
+  }
+
   .modeCopy small,
   .libraryHeader p,
   .lessonLabel,
@@ -622,7 +634,7 @@
 
   .modeList {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
     min-height: 0;
   }
 

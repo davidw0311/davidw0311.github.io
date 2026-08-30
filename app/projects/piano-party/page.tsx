@@ -2,6 +2,7 @@ import {
   ArrowLeft,
   ArrowRight,
   GraduationCap,
+  MusicNotes,
   PianoKeys,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
@@ -10,7 +11,7 @@ import styles from "./piano-party.module.css";
 
 export const metadata: Metadata = {
   title: "Piano Party",
-  description: "Choose free piano practice or work through structured note-reading lessons.",
+  description: "Practice piano skills, explore an interactive chord chart, or work through structured lessons.",
   alternates: { canonical: "/projects/piano-party/" },
 };
 
@@ -30,7 +31,7 @@ export default function PianoPartyPage() {
           <div>
             <p>Choose your path</p>
             <h1 id="piano-party-title">Piano Party.</h1>
-            <strong>Build fast note recognition through open practice or guided lessons.</strong>
+            <strong>Build fast note recognition through open practice, a complete chord chart, or guided lessons.</strong>
           </div>
         </header>
 
@@ -43,6 +44,16 @@ export default function PianoPartyPage() {
               <span>Train key names, staff notes, treble clef, and bass clef at your own pace.</span>
             </span>
             <span className={styles.modeAction}>Open practice <ArrowRight size={18} weight="bold" /></span>
+          </Link>
+
+          <Link className={`${styles.modeOption} ${styles.chartOption}`} href="/projects/piano-party/chords/">
+            <span className={styles.modeIcon} aria-hidden="true"><MusicNotes size={32} weight="thin" /></span>
+            <span className={styles.modeCopy}>
+              <small>Look it up</small>
+              <strong>Chord Chart</strong>
+              <span>Explore all major, minor, and diminished triads and see every chord on the keyboard.</span>
+            </span>
+            <span className={styles.modeAction}>Open chart <ArrowRight size={18} weight="bold" /></span>
           </Link>
 
           <Link className={`${styles.modeOption} ${styles.lessonOption}`} href="/projects/piano-party/lessons/">

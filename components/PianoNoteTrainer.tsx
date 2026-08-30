@@ -18,6 +18,7 @@ import {
   type PianoNoteExerciseMode,
 } from "@/data/pianoNotes";
 import { usePianoAudio } from "@/hooks/usePianoAudio";
+import { ChordSelector } from "./piano/ChordSelector";
 import { MusicStaff } from "./piano/MusicStaff";
 import { PianoKeyboard } from "./piano/PianoKeyboard";
 import styles from "./PianoNoteTrainer.module.css";
@@ -41,10 +42,7 @@ const exercisePrompts: Record<PianoExerciseMode, string> = {
 };
 
 const clefLabels: Record<ClefFilter, string> = { mixed: "Mixed", treble: "Treble", bass: "Bass" };
-const chordQualityGroups = [
-  { quality: "major", title: "Major chords" },
-  { quality: "minor", title: "Minor chords" },
-] as const;
+const practiceChordQualities = ["major", "minor"] as const;
 
 function isNoteMode(mode: PianoExerciseMode): mode is PianoNoteExerciseMode {
   return mode === "key-name" || mode === "staff-name" || mode === "staff-key";
@@ -241,25 +239,16 @@ export function PianoNoteTrainer() {
 
           {mode === "chord-name" ? (
             <div className={styles.chordNameAnswer}>
-              <div className={styles.chordChoiceGroups} aria-label="Choose a chord symbol">
-                {chordQualityGroups.map((group) => (
-                  <section className={styles.chordChoiceGroup} key={group.quality} aria-labelledby={`${group.quality}-chord-heading`}>
-                    <h3 id={`${group.quality}-chord-heading`}>{group.title}</h3>
-                    <div className={styles.chordChoices}>
-                      {pianoChords.filter((chord) => chord.quality === group.quality).map((chord) => {
-                        const isTarget = chord.id === chordQuestion.id;
-                        const isSelected = chord.id === selectedAnswer;
-                        const stateClass = answered && isTarget ? styles.correctChoice : answered && isSelected ? styles.wrongChoice : "";
-                        return (
-                          <button type="button" key={chord.id} className={stateClass} disabled={answered} onClick={() => recordChordAnswer(chord.id)}>
-                            {formatChordSymbol(chord, true)}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </section>
-                ))}
-              </div>
+              <ChordSelector
+                chords={pianoChords}
+                qualities={practiceChordQualities}
+                selectedId={selectedAnswer}
+                correctId={answered ? chordQuestion.id : null}
+                wrongId={answered && !isCorrect ? selectedAnswer : null}
+                disabled={answered}
+                ariaLabel="Choose a chord symbol"
+                onChoose={(chord) => recordChordAnswer(chord.id)}
+              />
             </div>
           ) : null}
 
