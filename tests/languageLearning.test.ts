@@ -4,7 +4,9 @@ import path from "node:path";
 import test from "node:test";
 import {
   contentItems,
+  contentItemsForPracticeLanguage,
   ensureLearningLanguages,
+  isContentAvailableForLanguage,
   languageIds,
   languages,
   normalizeSpeech,
@@ -38,6 +40,20 @@ test("ships two short stories and a counting drill", () => {
     contentItems.find((item) => item.type === "number_drill")?.units.map((unit) => unit.number),
     Array.from({ length: 20 }, (_, index) => index + 1),
   );
+});
+
+test("shares lessons by default and supports language-specific catalogs", () => {
+  for (const languageId of languageIds) {
+    assert.deepEqual(contentItemsForPracticeLanguage(languageId), contentItems);
+  }
+
+  const japaneseOnlyLesson = {
+    ...contentItems[0],
+    id: "japanese-only-sample",
+    practiceLanguageIds: ["ja"] as const,
+  };
+  assert.equal(isContentAvailableForLanguage(japaneseOnlyLesson, "ja"), true);
+  assert.equal(isContentAvailableForLanguage(japaneseOnlyLesson, "en"), false);
 });
 
 test("includes every language and Mandarin script option in the v1 scope", () => {

@@ -332,6 +332,22 @@
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 10px;
   min-height: 0;
+  overflow-y: auto;
+}
+
+.lessonCards[data-count="1"] {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.lessonCards[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.lessonCards[data-count="1"] > button:first-child,
+.lessonCards[data-count="2"] > button:first-child {
+  grid-row: auto;
 }
 
 .lessonCards > button {
@@ -488,6 +504,14 @@
   min-width: 0;
 }
 
+.setupIntroCopy p {
+  max-width: 520px;
+  margin: 7px 0 0;
+  color: var(--lab-muted);
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
 .setupIntroCopy > span {
   color: var(--lab-accent);
   font-size: 0.72rem;
@@ -538,6 +562,15 @@
   grid-template-columns: minmax(230px, 0.36fr) minmax(0, 1fr);
   gap: clamp(14px, 2.4vw, 26px);
   align-items: start;
+}
+
+.languageSelectionGrid {
+  width: min(100%, 900px);
+  margin: 0 auto;
+}
+
+.librarySetupIntro {
+  margin-bottom: 0;
 }
 
 .setupLessonSummary {
@@ -890,6 +923,10 @@
   margin: 0;
   color: var(--lab-danger);
   font-size: 0.67rem;
+}
+
+.setupActions .setupToneNotice {
+  color: var(--lab-warning);
 }
 
 .setupSecondaryButton,
@@ -2102,6 +2139,14 @@
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: repeat(3, minmax(0, 1fr));
     gap: 6px;
+  }
+
+  .lessonCards[data-count="1"] {
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .lessonCards[data-count="2"] {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
   }
 
   .lessonCards > button:first-child {
