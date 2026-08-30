@@ -168,6 +168,7 @@ test("localizes the interface and lesson catalog in every v1 language", () => {
     const ui = languageLearningUi[languageId];
     assert.ok(ui.chooseLesson.length > 0, languageId);
     assert.ok(ui.nextLesson.length > 0, `${languageId}:nextLesson`);
+    assert.ok(ui.lessonCountSingle.length > 0, `${languageId}:lessonCountSingle`);
     assert.equal(Object.keys(ui.content).length, sharedItems.length, languageId);
     for (const item of sharedItems) {
       assert.ok(ui.content[item.id]?.title.length > 0, `${languageId}:${item.id}:title`);

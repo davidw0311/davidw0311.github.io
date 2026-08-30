@@ -112,6 +112,10 @@ function contentTypeLabel(content: ContentItem, ui: LanguageLearningUiCopy) {
   return ui.scriptPractice;
 }
 
+function lessonCountLabel(count: number, ui: LanguageLearningUiCopy) {
+  return count === 1 ? ui.lessonCountSingle : formatUi(ui.lessonCount, { count });
+}
+
 export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearningLabProps = {}) {
   const reduceMotion = useReducedMotion();
   const [progress, setProgress] = usePersistentLanguageProgress();
@@ -495,7 +499,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                   <section className={styles.lessonSection} key={sectionId} aria-labelledby={`lesson-section-${sectionId}`}>
                     <header>
                       <h2 id={`lesson-section-${sectionId}`}>{sectionTitle}</h2>
-                      <span>{formatUi(ui.lessonCount, { count: items.length })}</span>
+                      <span>{lessonCountLabel(items.length, ui)}</span>
                     </header>
                     <div
                       className={`${styles.lessonCards} ${styles.sectionLessonCards}`}

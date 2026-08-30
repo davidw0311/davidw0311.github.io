@@ -13,6 +13,7 @@ type CurriculumUiCopy = {
   commonWords: string;
   scriptLessonHelp: string;
   lessonCount: string;
+  lessonCountSingle: string;
   nextLesson: string;
   browserVoice: string;
   chooseScriptLessonHelp: string;
@@ -130,61 +131,61 @@ const curriculumUiCopy: Record<LanguageId, CurriculumUiCopy> = {
     scriptPractice: "Script", everydayLessons: "Everyday speaking", katakana: "Katakana",
     hiraganaVariants: "Hiragana variants", hiraganaWords: "Hiragana words", katakanaVariants: "Katakana variants", katakanaWords: "Katakana words",
     hangulLetters: "Hangul letters", syllableBlocks: "Syllable blocks",
-    commonWords: "Common words", scriptLessonHelp: "Practice 15-20 characters or short words.", lessonCount: "{count} lessons", nextLesson: "Next lesson", browserVoice: "Device voice", chooseScriptLessonHelp: "Choose a focused set of 15-20 characters or short words.",
+    commonWords: "Common words", scriptLessonHelp: "Practice 15-20 characters or short words.", lessonCount: "{count} lessons", lessonCountSingle: "1 lesson", nextLesson: "Next lesson", browserVoice: "Device voice", chooseScriptLessonHelp: "Choose a focused set of 15-20 characters or short words.",
   },
   zh: {
     scriptPractice: "文字练习", everydayLessons: "日常口语", katakana: "片假名",
     hiraganaVariants: "平假名变体", hiraganaWords: "平假名单词", katakanaVariants: "片假名变体", katakanaWords: "片假名单词",
     hangulLetters: "韩文字母", syllableBlocks: "音节方块",
-    commonWords: "常用词", scriptLessonHelp: "练习 15-20 个字符或短词。", lessonCount: "{count} 课", nextLesson: "下一课", browserVoice: "设备语音", chooseScriptLessonHelp: "选择一组 15-20 个字符或短词进行练习。",
+    commonWords: "常用词", scriptLessonHelp: "练习 15-20 个字符或短词。", lessonCount: "{count} 课", lessonCountSingle: "1 课", nextLesson: "下一课", browserVoice: "设备语音", chooseScriptLessonHelp: "选择一组 15-20 个字符或短词进行练习。",
   },
   zht: {
     scriptPractice: "文字練習", everydayLessons: "日常口語", katakana: "片假名",
     hiraganaVariants: "平假名變體", hiraganaWords: "平假名詞語", katakanaVariants: "片假名變體", katakanaWords: "片假名詞語",
     hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
-    commonWords: "常用詞", scriptLessonHelp: "練習 15-20 個字元或短詞。", lessonCount: "{count} 課", nextLesson: "下一課", browserVoice: "裝置語音", chooseScriptLessonHelp: "選擇一組 15-20 個字元或短詞進行練習。",
+    commonWords: "常用詞", scriptLessonHelp: "練習 15-20 個字元或短詞。", lessonCount: "{count} 課", lessonCountSingle: "1 課", nextLesson: "下一課", browserVoice: "裝置語音", chooseScriptLessonHelp: "選擇一組 15-20 個字元或短詞進行練習。",
   },
   yue: {
     scriptPractice: "文字練習", everydayLessons: "日常口語", katakana: "片假名",
     hiraganaVariants: "平假名變體", hiraganaWords: "平假名詞語", katakanaVariants: "片假名變體", katakanaWords: "片假名詞語",
     hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
-    commonWords: "常用詞", scriptLessonHelp: "練習 15-20 個字或短詞。", lessonCount: "{count} 課堂", nextLesson: "下一堂", browserVoice: "裝置語音", chooseScriptLessonHelp: "揀一組 15-20 個字或短詞嚟練習。",
+    commonWords: "常用詞", scriptLessonHelp: "練習 15-20 個字或短詞。", lessonCount: "{count} 課堂", lessonCountSingle: "1 課堂", nextLesson: "下一堂", browserVoice: "裝置語音", chooseScriptLessonHelp: "揀一組 15-20 個字或短詞嚟練習。",
   },
   ja: {
     scriptPractice: "文字練習", everydayLessons: "日常会話", katakana: "カタカナ",
     hiraganaVariants: "ひらがなの変化形", hiraganaWords: "ひらがなの単語", katakanaVariants: "カタカナの変化形", katakanaWords: "カタカナの単語",
     hangulLetters: "ハングル文字", syllableBlocks: "音節ブロック",
-    commonWords: "よく使う単語", scriptLessonHelp: "15-20個の文字または短い単語を練習します。", lessonCount: "{count}レッスン", nextLesson: "次のレッスン", browserVoice: "端末の音声", chooseScriptLessonHelp: "15-20個の文字または短い単語のまとまりを選んで練習します。",
+    commonWords: "よく使う単語", scriptLessonHelp: "15-20個の文字または短い単語を練習します。", lessonCount: "{count}レッスン", lessonCountSingle: "1レッスン", nextLesson: "次のレッスン", browserVoice: "端末の音声", chooseScriptLessonHelp: "15-20個の文字または短い単語のまとまりを選んで練習します。",
   },
   ko: {
     scriptPractice: "문자 연습", everydayLessons: "일상 말하기", katakana: "가타카나",
     hiraganaVariants: "히라가나 변형", hiraganaWords: "히라가나 단어", katakanaVariants: "가타카나 변형", katakanaWords: "가타카나 단어",
     hangulLetters: "한글 자모", syllableBlocks: "음절 블록",
-    commonWords: "자주 쓰는 낱말", scriptLessonHelp: "글자 또는 짧은 단어 15-20개를 연습하세요.", lessonCount: "레슨 {count}개", nextLesson: "다음 레슨", browserVoice: "기기 음성", chooseScriptLessonHelp: "글자 또는 짧은 단어 15-20개로 구성된 묶음을 선택하세요.",
+    commonWords: "자주 쓰는 낱말", scriptLessonHelp: "글자 또는 짧은 단어 15-20개를 연습하세요.", lessonCount: "레슨 {count}개", lessonCountSingle: "레슨 1개", nextLesson: "다음 레슨", browserVoice: "기기 음성", chooseScriptLessonHelp: "글자 또는 짧은 단어 15-20개로 구성된 묶음을 선택하세요.",
   },
   ms: {
     scriptPractice: "Tulisan", everydayLessons: "Pertuturan harian", katakana: "Katakana",
     hiraganaVariants: "Variasi Hiragana", hiraganaWords: "Perkataan Hiragana", katakanaVariants: "Variasi Katakana", katakanaWords: "Perkataan Katakana",
     hangulLetters: "Huruf Hangul", syllableBlocks: "Blok suku kata",
-    commonWords: "Perkataan biasa", scriptLessonHelp: "Latih 15-20 aksara atau perkataan ringkas.", lessonCount: "{count} pelajaran", nextLesson: "Pelajaran seterusnya", browserVoice: "Suara peranti", chooseScriptLessonHelp: "Pilih set 15-20 aksara atau perkataan ringkas untuk berlatih.",
+    commonWords: "Perkataan biasa", scriptLessonHelp: "Latih 15-20 aksara atau perkataan ringkas.", lessonCount: "{count} pelajaran", lessonCountSingle: "1 pelajaran", nextLesson: "Pelajaran seterusnya", browserVoice: "Suara peranti", chooseScriptLessonHelp: "Pilih set 15-20 aksara atau perkataan ringkas untuk berlatih.",
   },
   fr: {
     scriptPractice: "Écriture", everydayLessons: "Expression quotidienne", katakana: "Katakana",
     hiraganaVariants: "Variantes hiragana", hiraganaWords: "Mots en hiragana", katakanaVariants: "Variantes katakana", katakanaWords: "Mots en katakana",
     hangulLetters: "Lettres hangul", syllableBlocks: "Blocs syllabiques",
-    commonWords: "Mots courants", scriptLessonHelp: "Travaillez 15 à 20 caractères ou mots courts.", lessonCount: "{count} leçons", nextLesson: "Leçon suivante", browserVoice: "Voix de l’appareil", chooseScriptLessonHelp: "Choisissez un groupe de 15 à 20 caractères ou mots courts.",
+    commonWords: "Mots courants", scriptLessonHelp: "Travaillez 15 à 20 caractères ou mots courts.", lessonCount: "{count} leçons", lessonCountSingle: "1 leçon", nextLesson: "Leçon suivante", browserVoice: "Voix de l’appareil", chooseScriptLessonHelp: "Choisissez un groupe de 15 à 20 caractères ou mots courts.",
   },
   es: {
     scriptPractice: "Escritura", everydayLessons: "Habla cotidiana", katakana: "Katakana",
     hiraganaVariants: "Variantes de hiragana", hiraganaWords: "Palabras en hiragana", katakanaVariants: "Variantes de katakana", katakanaWords: "Palabras en katakana",
     hangulLetters: "Letras hangul", syllableBlocks: "Bloques silábicos",
-    commonWords: "Palabras comunes", scriptLessonHelp: "Practica entre 15 y 20 caracteres o palabras cortas.", lessonCount: "{count} lecciones", nextLesson: "Lección siguiente", browserVoice: "Voz del dispositivo", chooseScriptLessonHelp: "Elige un grupo de 15 a 20 caracteres o palabras cortas.",
+    commonWords: "Palabras comunes", scriptLessonHelp: "Practica entre 15 y 20 caracteres o palabras cortas.", lessonCount: "{count} lecciones", lessonCountSingle: "1 lección", nextLesson: "Lección siguiente", browserVoice: "Voz del dispositivo", chooseScriptLessonHelp: "Elige un grupo de 15 a 20 caracteres o palabras cortas.",
   },
   ta: {
     scriptPractice: "எழுத்துப் பயிற்சி", everydayLessons: "அன்றாடப் பேச்சு", katakana: "கடகானா",
     hiraganaVariants: "ஹிரகானா மாறுபாடுகள்", hiraganaWords: "ஹிரகானா சொற்கள்", katakanaVariants: "கடகானா மாறுபாடுகள்", katakanaWords: "கடகானா சொற்கள்",
     hangulLetters: "ஹங்குல் எழுத்துகள்", syllableBlocks: "அசைத் தொகுதிகள்",
-    commonWords: "பொதுவான சொற்கள்", scriptLessonHelp: "15-20 எழுத்துகள் அல்லது குறுஞ்சொற்களைப் பயிற்சி செய்யுங்கள்.", lessonCount: "{count} பாடங்கள்", nextLesson: "அடுத்த பாடம்", browserVoice: "சாதனக் குரல்", chooseScriptLessonHelp: "15-20 எழுத்துகள் அல்லது குறுஞ்சொற்கள் கொண்ட தொகுப்பைத் தேர்ந்தெடுக்கவும்.",
+    commonWords: "பொதுவான சொற்கள்", scriptLessonHelp: "15-20 எழுத்துகள் அல்லது குறுஞ்சொற்களைப் பயிற்சி செய்யுங்கள்.", lessonCount: "{count} பாடங்கள்", lessonCountSingle: "1 பாடம்", nextLesson: "அடுத்த பாடம்", browserVoice: "சாதனக் குரல்", chooseScriptLessonHelp: "15-20 எழுத்துகள் அல்லது குறுஞ்சொற்கள் கொண்ட தொகுப்பைத் தேர்ந்தெடுக்கவும்.",
   },
 };
 
