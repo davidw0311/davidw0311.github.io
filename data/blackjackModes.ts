@@ -100,6 +100,16 @@ export function unmasteredScenarios(
   return section.scenarios.filter((scenario) => !masteredScenarioIds.has(scenario.id));
 }
 
+export function masterySectionRows(section: MasterySection): TrainingScenario[][] {
+  const rows = new Map<string, TrainingScenario[]>();
+  for (const scenario of section.scenarios) {
+    const row = rows.get(scenario.handLabel) ?? [];
+    row.push(scenario);
+    rows.set(scenario.handLabel, row);
+  }
+  return [...rows.values()];
+}
+
 export type SimulationOutcome = "win" | "loss" | "push" | "surrender";
 
 export type SimulationSettlement = {

@@ -260,12 +260,238 @@
   transform: translateY(-1px);
 }
 
+.viewLessonChart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 8px;
+  padding: 8px 14px;
+  border: 1px solid rgb(121 228 197 / 0.45);
+  border-radius: 999px;
+  color: #dff3ee;
+  background: rgb(121 228 197 / 0.06);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.viewLessonChart:hover {
+  border-color: #79e4c5;
+  color: #79e4c5;
+  background: rgb(121 228 197 / 0.1);
+  transform: translateY(-1px);
+}
+
+.viewLessonChart:active {
+  transform: scale(0.98);
+}
+
 .lessonPreview small {
   display: block;
   margin-top: 12px;
   color: #8fa8a8;
   font-size: 0.65rem;
   line-height: 1.45;
+}
+
+.lessonChartDialog {
+  width: min(calc(100% - 32px), 940px);
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgb(121 228 197 / 0.35);
+  border-radius: 16px;
+  color: #dcecea;
+  background: #071925;
+  box-shadow: 0 36px 110px rgb(0 9 17 / 0.74);
+}
+
+.lessonChartDialog::backdrop {
+  background: rgb(0 9 17 / 0.78);
+  backdrop-filter: blur(5px);
+}
+
+.lessonChartDialogInner {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 34px);
+  overflow: hidden;
+}
+
+.lessonChartHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 18px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid rgb(223 245 241 / 0.14);
+  background:
+    radial-gradient(circle at 88% 0, rgb(121 228 197 / 0.1), transparent 32%),
+    #081e29;
+}
+
+.lessonChartHeader > div {
+  min-width: 0;
+}
+
+.lessonChartHeader span {
+  color: #79e4c5;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.lessonChartHeader h3 {
+  margin: 6px 0 0;
+  color: #edf7f5;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  letter-spacing: -0.035em;
+}
+
+.lessonChartHeader p {
+  margin: 7px 0 0;
+  color: #9fb7b7;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.closeLessonChart {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgb(221 244 240 / 0.2);
+  border-radius: 999px;
+  color: #dcecea;
+  background: rgb(221 244 240 / 0.05);
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.closeLessonChart:hover {
+  border-color: #79e4c5;
+  color: #79e4c5;
+  transform: translateY(-1px);
+}
+
+.lessonChartBody {
+  min-height: 0;
+  padding: 20px 24px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.lessonChartScroll {
+  width: 100%;
+  overflow-x: auto;
+  padding: 8px;
+  border: 1px solid rgb(223 245 241 / 0.14);
+  border-radius: 12px;
+  background: rgb(3 16 25 / 0.75);
+  scrollbar-color: rgb(121 228 197 / 0.5) rgb(221 244 240 / 0.06);
+  scrollbar-width: thin;
+}
+
+.lessonChartTable {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: separate;
+  border-spacing: 5px;
+  table-layout: fixed;
+}
+
+.lessonChartTable th,
+.lessonChartTable td {
+  height: 44px;
+  padding: 0;
+  text-align: center;
+}
+
+.lessonChartTable thead th {
+  color: #9eb6b6;
+  font-size: 0.67rem;
+  font-weight: 800;
+}
+
+.lessonChartTable thead th:first-child,
+.lessonChartTable tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  width: 80px;
+  background: #061722;
+}
+
+.lessonChartTable thead th:first-child {
+  z-index: 3;
+  text-align: left;
+}
+
+.lessonChartTable tbody th {
+  border: 1px solid rgb(223 245 241 / 0.13);
+  border-radius: 8px;
+  color: #edf7f5;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.lessonChartTable td span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgb(223 245 241 / 0.13);
+  border-radius: 8px;
+  color: #dbe9e8;
+  background: rgb(221 244 240 / 0.045);
+  font-size: 0.8rem;
+  font-weight: 850;
+}
+
+.lessonChartTable td span[data-code="D"],
+.lessonChartTable td span[data-code="Ds"],
+.lessonChartTable td span[data-code="P"] {
+  color: #a9e5d3;
+  background: rgb(121 228 197 / 0.09);
+}
+
+.lessonChartTable td span[data-code="R"] {
+  color: #f3b3aa;
+  background: rgb(232 133 128 / 0.08);
+}
+
+.lessonChartLegend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 18px;
+  margin-top: 16px;
+}
+
+.lessonChartLegend div {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 7px;
+}
+
+.lessonChartLegend strong {
+  color: #79e4c5;
+  font-size: 0.72rem;
+}
+
+.lessonChartLegend span {
+  color: #91aaab;
+  font-size: 0.67rem;
+  line-height: 1.35;
 }
 
 .menuIntro {
@@ -344,7 +570,10 @@
 .editSelection:focus-visible,
 .wagerPanel button:focus-visible,
 .lessonOption:focus-visible,
-.startLesson:focus-visible {
+.startLesson:focus-visible,
+.viewLessonChart:focus-visible,
+.closeLessonChart:focus-visible,
+.lessonChartScroll:focus-visible {
   outline: 2px solid #79e4c5;
   outline-offset: 3px;
 }
@@ -1439,6 +1668,59 @@
 
   .lessonPreview small {
     margin-top: 8px;
+  }
+
+  .lessonChartDialog {
+    width: calc(100% - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 14px;
+  }
+
+  .lessonChartDialogInner {
+    max-height: calc(100dvh - 18px);
+  }
+
+  .lessonChartHeader {
+    gap: 10px;
+    padding: 16px 14px 13px;
+  }
+
+  .lessonChartHeader h3 {
+    font-size: 1.25rem;
+  }
+
+  .lessonChartHeader p {
+    max-width: 31ch;
+    font-size: 0.7rem;
+  }
+
+  .closeLessonChart {
+    width: 38px;
+    height: 38px;
+  }
+
+  .lessonChartBody {
+    padding: 12px 10px 14px;
+  }
+
+  .lessonChartScroll {
+    padding: 6px;
+  }
+
+  .lessonChartTable {
+    min-width: 680px;
+    border-spacing: 4px;
+  }
+
+  .lessonChartTable th,
+  .lessonChartTable td {
+    height: 42px;
+  }
+
+  .lessonChartLegend {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 10px;
+    padding: 0 4px;
   }
 
   .menuIntro h2 {

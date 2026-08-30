@@ -14,6 +14,7 @@ import {
 import {
   actionStakeMultiplier,
   masterySections,
+  masterySectionRows,
   settleSimulationHand,
   unmasteredScenarios,
 } from "../data/blackjackModes.ts";
@@ -145,6 +146,19 @@ test("keeps only unfinished matchups in a mastery section", () => {
 
   assert.equal(remaining.length, section.scenarios.length - 3);
   assert.ok(remaining.every((scenario) => !masteredIds.has(scenario.id)));
+});
+
+test("builds a complete chart preview for every mastery lesson", () => {
+  assert.deepEqual(
+    masterySections.map((section) => masterySectionRows(section).length),
+    [4, 3, 3, 2, 5, 5, 3, 6, 4],
+  );
+
+  for (const section of masterySections) {
+    for (const row of masterySectionRows(section)) {
+      assert.deepEqual(row.map((scenario) => scenario.dealerUpcard), dealerUpcards);
+    }
+  }
 });
 
 test("settles bankroll hands with wager exposure and non-guaranteed outcomes", () => {

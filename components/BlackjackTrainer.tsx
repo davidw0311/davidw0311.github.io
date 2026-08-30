@@ -9,6 +9,7 @@ import {
   ChartBar,
   CheckCircle,
   Coins,
+  X,
   XCircle,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -24,7 +25,7 @@ import {
   type HandKind,
   type StrategyCode,
 } from "@/data/blackjackStrategy";
-import { masterySections } from "@/data/blackjackModes";
+import { masterySectionRows, masterySections } from "@/data/blackjackModes";
 import {
   formatStrategyRowLabel,
   formatStrategyRowName,
@@ -90,6 +91,7 @@ function PlayingCard({ rank, suit, label }: { rank: CardRank; suit: TrainingSuit
 export function BlackjackTrainer() {
   const reduceMotion = useReducedMotion();
   const trainerRef = useRef<HTMLElement>(null);
+  const lessonChartDialogRef = useRef<HTMLDialogElement>(null);
   const initialScreen = useRef(true);
   const {
     accuracy,
@@ -127,6 +129,10 @@ export function BlackjackTrainer() {
     toggleSelection,
   } = useBlackjackTraining();
   const explanation = useMemo(() => explainScenario(scenario), [scenario]);
+  const currentLessonRows = useMemo(
+    () => masterySectionRows(currentMasterySection),
+    [currentMasterySection],
+  );
 
   useEffect(() => {
     if (initialScreen.current) {
@@ -265,9 +271,88 @@ export function BlackjackTrainer() {
             {completedMasterySectionIds.has(currentMasterySection.id) ? "Practice again" : "Start lesson"}
             <ArrowRight size={18} weight="bold" />
           </button>
+          <button
+            type="button"
+            className={styles.viewLessonChart}
+            onClick={() => lessonChartDialogRef.current?.showModal()}
+          >
+            <ChartBar size={17} weight="bold" /> View lesson chart
+          </button>
           <small>Correct every matchup once to complete this lesson. Missed decisions stay in the practice pool.</small>
         </aside>
       </div>
+
+      <dialog
+        ref={lessonChartDialogRef}
+        className={styles.lessonChartDialog}
+        aria-labelledby="lesson-chart-title"
+        onClick={(event) => {
+          if (event.target === event.currentTarget) event.currentTarget.close();
+        }}
+      >
+        <div className={styles.lessonChartDialogInner}>
+          <header className={styles.lessonChartHeader}>
+            <div>
+              <span>Lesson {masterySectionIndex + 1} reference</span>
+              <h3 id="lesson-chart-title">{currentMasterySection.shortTitle} strategy chart</h3>
+              <p>Review every correct play in this lesson before you begin.</p>
+            </div>
+            <button
+              type="button"
+              className={styles.closeLessonChart}
+              aria-label="Close lesson chart"
+              onClick={() => lessonChartDialogRef.current?.close()}
+            >
+              <X size={20} weight="bold" />
+            </button>
+          </header>
+
+          <div className={styles.lessonChartBody}>
+            <div
+              className={styles.lessonChartScroll}
+              tabIndex={0}
+              aria-label={`${currentMasterySection.shortTitle} strategy chart, horizontally scrollable`}
+            >
+              <table className={styles.lessonChartTable}>
+                <caption className={styles.srOnly}>{currentMasterySection.title} correct plays</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Your hand</th>
+                    {dealerUpcards.map((upcard) => <th scope="col" key={upcard}>{upcard}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentLessonRows.map((row) => (
+                    <tr key={row[0].handLabel}>
+                      <th scope="row">{formatStrategyRowLabel(row[0])}</th>
+                      {row.map((cell) => (
+                        <td key={cell.id}>
+                          <span
+                            data-code={cell.strategyCode}
+                            title={strategyCodeLabels[cell.strategyCode]}
+                            aria-label={`${formatStrategyRowName(cell)} against dealer ${cell.dealerUpcard}: ${strategyCodeLabels[cell.strategyCode]}`}
+                          >
+                            {cell.strategyCode}
+                          </span>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className={styles.lessonChartLegend} aria-label="Lesson chart legend">
+              {(Object.keys(strategyCodeLabels) as StrategyCode[]).map((code) => (
+                <div key={code}>
+                  <strong>{code}</strong>
+                  <span>{strategyCodeLabels[code]}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </dialog>
     </motion.div>
   );
 
