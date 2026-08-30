@@ -1,7 +1,17 @@
+import { scriptCurriculumItems } from "./languageScriptCurricula.ts";
+
 export const languageIds = ["en", "zh", "zht", "yue", "ja", "ko", "ms", "fr", "es", "ta"] as const;
 
 export type LanguageId = (typeof languageIds)[number];
-export type ContentType = "story" | "number_drill";
+export type ContentType = "story" | "number_drill" | "script_drill";
+export type CurriculumSectionId =
+  | "shared"
+  | "ja-hiragana"
+  | "ja-katakana"
+  | "ja-sounds"
+  | "ko-jamo"
+  | "ko-blocks"
+  | "ko-words";
 export type CompletionStatus = "not_started" | "passed" | "skipped";
 export type PronunciationMode = "off" | "native" | "english";
 
@@ -40,7 +50,9 @@ export type ContentItem = {
   slug: string;
   type: ContentType;
   tier: 0 | 1;
+  sectionId?: CurriculumSectionId;
   practiceLanguageIds?: readonly LanguageId[];
+  audioSource?: "azure" | "browser";
   title: string;
   description: string;
   estimatedMinutes: number;
@@ -587,6 +599,7 @@ export const contentItems: ContentItem[] = [
     estimatedMinutes: 6,
     units: countingSamples.map(countingUnit),
   },
+  ...scriptCurriculumItems,
 ];
 
 export function isContentAvailableForLanguage(

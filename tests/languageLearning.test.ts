@@ -16,6 +16,12 @@ import {
   speechLocale,
   unitProgressKey,
 } from "../data/languageLearning.ts";
+import {
+  modernHangulConsonants,
+  modernHangulVowels,
+  modernHiragana,
+  modernKatakana,
+} from "../data/languageScriptCurricula.ts";
 import { phraseAudioPath, sentenceAudioPath } from "../lib/languageAudio.ts";
 import { formatUi, languageLearningUi } from "../data/languageLearningUi.ts";
 import {
@@ -43,9 +49,21 @@ test("ships two short stories and a counting drill", () => {
 });
 
 test("shares lessons by default and supports language-specific catalogs", () => {
-  for (const languageId of languageIds) {
-    assert.deepEqual(contentItemsForPracticeLanguage(languageId), contentItems);
+  const sharedItems = contentItems.filter((item) => item.practiceLanguageIds === undefined);
+  for (const languageId of languageIds.filter((id) => id !== "ja" && id !== "ko")) {
+    assert.deepEqual(contentItemsForPracticeLanguage(languageId), sharedItems);
   }
+
+  assert.ok(contentItemsForPracticeLanguage("ja").length > sharedItems.length);
+  assert.ok(contentItemsForPracticeLanguage("ko").length > sharedItems.length);
+  assert.equal(
+    contentItemsForPracticeLanguage("ja").some((item) => item.practiceLanguageIds?.includes("ko")),
+    false,
+  );
+  assert.equal(
+    contentItemsForPracticeLanguage("ko").some((item) => item.practiceLanguageIds?.includes("ja")),
+    false,
+  );
 
   const japaneseOnlyLesson = {
     ...contentItems[0],
@@ -56,16 +74,41 @@ test("shares lessons by default and supports language-specific catalogs", () => 
   assert.equal(isContentAvailableForLanguage(japaneseOnlyLesson, "en"), false);
 });
 
+test("breaks the complete Japanese and Korean scripts into manageable lessons", () => {
+  const japaneseItems = contentItems.filter((item) => item.practiceLanguageIds?.includes("ja"));
+  const koreanItems = contentItems.filter((item) => item.practiceLanguageIds?.includes("ko"));
+  assert.equal(japaneseItems.length, 25);
+  assert.equal(koreanItems.length, 18);
+
+  for (const item of [...japaneseItems, ...koreanItems]) {
+    assert.equal(item.type, "script_drill");
+    assert.equal(item.audioSource, "browser");
+    assert.equal(item.units.length, 4, item.id);
+    assert.ok(item.sectionId, item.id);
+  }
+
+  const japaneseText = japaneseItems.flatMap((item) => item.units.map((unit) => unit.localizations.ja.text)).join("");
+  const koreanText = koreanItems.flatMap((item) => item.units.map((unit) => unit.localizations.ko.text)).join("");
+  for (const character of modernHiragana + modernKatakana) assert.ok(japaneseText.includes(character), character);
+  for (const character of modernHangulConsonants + modernHangulVowels) assert.ok(koreanText.includes(character), character);
+  for (const word of ["すし", "ねこ", "コーヒー", "ヴァイオリン"]) assert.ok(japaneseText.includes(word), word);
+  for (const word of ["안녕", "사람", "학교", "사과"]) assert.ok(koreanText.includes(word), word);
+
+  assert.deepEqual([...new Set(japaneseItems.map((item) => item.sectionId))], ["ja-hiragana", "ja-katakana", "ja-sounds"]);
+  assert.deepEqual([...new Set(koreanItems.map((item) => item.sectionId))], ["ko-jamo", "ko-blocks", "ko-words"]);
+});
+
 test("includes every language and Mandarin script option in the v1 scope", () => {
   assert.deepEqual(languageIds, ["en", "zh", "zht", "yue", "ja", "ko", "ms", "fr", "es", "ta"]);
 });
 
 test("localizes the interface and lesson catalog in every v1 language", () => {
+  const sharedItems = contentItems.filter((item) => item.practiceLanguageIds === undefined);
   for (const languageId of languageIds) {
     const ui = languageLearningUi[languageId];
     assert.ok(ui.chooseLesson.length > 0, languageId);
-    assert.equal(Object.keys(ui.content).length, contentItems.length, languageId);
-    for (const item of contentItems) {
+    assert.equal(Object.keys(ui.content).length, sharedItems.length, languageId);
+    for (const item of sharedItems) {
       assert.ok(ui.content[item.id]?.title.length > 0, `${languageId}:${item.id}:title`);
       assert.ok(ui.content[item.id]?.description.length > 0, `${languageId}:${item.id}:description`);
     }
@@ -166,7 +209,13 @@ test("breaks phrases into characters or words without changing their text", () =
   }
 });
 
-test("uses character study for Japanese and word study for other v1 languages", () => {
+test("uses character study for Chinese, Japanese, and Korean", () => {
+  assert.deepEqual(
+    tokenizeLanguageStudyText("한글", "ko")
+      .filter((chunk) => chunk.type === "study")
+      .map((chunk) => chunk.token.text),
+    ["한", "글"],
+  );
   assert.deepEqual(
     tokenizeLanguageStudyText("市場は", "ja")
       .filter((chunk) => chunk.type === "study")
@@ -282,7 +331,7 @@ test("keeps Traditional Mandarin speech aligned with Simplified Mandarin", () =>
 
 test("includes Azure neural audio for every sentence speed and phrase", () => {
   const audioPaths: string[] = [];
-  for (const content of contentItems) {
+  for (const content of contentItems.filter((item) => item.audioSource !== "browser")) {
     for (const unit of content.units) {
       for (const languageId of languageIds) {
         audioPaths.push(sentenceAudioPath(content.slug, unit.id, languageId));

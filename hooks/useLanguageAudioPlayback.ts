@@ -5,7 +5,7 @@ import { speechLocale, type LanguageId } from "@/data/languageLearning";
 
 type PlaySampleOptions = {
   sampleId: string;
-  source: string;
+  source?: string;
   text: string;
   languageId: LanguageId;
   fallbackRate?: number;
@@ -38,6 +38,7 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
     text: string,
     languageId: LanguageId,
     rate = 1,
+    sampleId?: string,
   ) => {
     if (!("speechSynthesis" in window)) {
       onUnavailable();
@@ -46,6 +47,7 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
 
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
+    const generation = playbackGenerationRef.current;
     const voiceLocale = speechLocale(languageId);
     utterance.lang = voiceLocale;
     utterance.rate = rate;
@@ -55,6 +57,16 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
     utterance.voice = availableVoices.find((voice) => voice.lang.toLowerCase() === normalizedLocale)
       ?? availableVoices.find((voice) => voice.lang.toLowerCase().startsWith(languagePrefix))
       ?? null;
+    utterance.onstart = () => {
+      if (sampleId && playbackGenerationRef.current === generation) setPlayingSampleId(sampleId);
+    };
+    const handleFinished = () => {
+      if (sampleId && playbackGenerationRef.current === generation) {
+        setPlayingSampleId((current) => current === sampleId ? null : current);
+      }
+    };
+    utterance.onend = handleFinished;
+    utterance.onerror = handleFinished;
     window.speechSynthesis.speak(utterance);
   }, [onUnavailable]);
 
@@ -66,6 +78,10 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
     fallbackRate = 1,
   }: PlaySampleOptions) => {
     stopPlayback();
+    if (!source) {
+      playBrowserVoice(text, languageId, fallbackRate, sampleId);
+      return;
+    }
     const generation = playbackGenerationRef.current;
     const audio = new Audio(source);
     let fallbackStarted = false;
@@ -92,7 +108,7 @@ export function useLanguageAudioPlayback(onUnavailable: () => void) {
       audio.currentTime = 0;
       clearAudio();
       setPlayingSampleId(null);
-      playBrowserVoice(text, languageId, fallbackRate);
+      playBrowserVoice(text, languageId, fallbackRate, sampleId);
     };
 
     audio.preload = "auto";

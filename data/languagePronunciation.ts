@@ -197,6 +197,14 @@ function phraseRomanization(phrase: PhraseSegment, localization: LocalizedUnit):
     ?? (localization.segments.length === 1 ? localization.romanization : undefined);
 }
 
+function katakanaToHiragana(text: string): string {
+  return [...text].map((character) => {
+    const codePoint = character.codePointAt(0);
+    if (codePoint === undefined || codePoint < 0x30a1 || codePoint > 0x30f6) return character;
+    return String.fromCodePoint(codePoint - 0x60);
+  }).join("");
+}
+
 function respellMandarinWord(word: string): string {
   return stripDiacritics(word.toLowerCase())
     .replace(/^zh/u, "j")
@@ -299,10 +307,12 @@ export function getNativePronunciationGuide(
   }
   if (languageId === "zh" || languageId === "zht" || languageId === "yue") {
     const text = chinesePhraseReading(phrase, languageId);
-    return text ? { text, scope: "phrase" } : null;
+    const fallback = phraseRomanization(phrase, localization);
+    return text || fallback ? { text: text || cleanGuideText(fallback ?? ""), scope: "phrase" } : null;
   }
   if (languageId === "ja") {
-    const text = japaneseHiragana[phrase.id];
+    const text = japaneseHiragana[phrase.id]
+      ?? (localization.segments.length === 1 ? katakanaToHiragana(phrase.text) : undefined);
     return text ? { text, scope: "phrase" } : null;
   }
   const text = phraseRomanization(phrase, localization);
@@ -324,7 +334,7 @@ export function getEnglishPronunciationGuide(
     source = token.text;
     scope = "token";
   } else if (languageId === "zh" || languageId === "zht" || languageId === "yue") {
-    source = chinesePhraseReading(phrase, languageId);
+    source = chinesePhraseReading(phrase, languageId) || phraseRomanization(phrase, localization);
   } else if (["ja", "ko", "ta"].includes(languageId)) {
     source = phraseRomanization(phrase, localization);
   } else {

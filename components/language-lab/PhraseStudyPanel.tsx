@@ -38,6 +38,7 @@ export type ActivePhrase = {
 
 type PhraseStudyPanelProps = {
   activePhrase: ActivePhrase;
+  audioSource: "azure" | "browser";
   contentSlug: string;
   currentUnit: LearningUnit;
   playingSampleId: string | null;
@@ -49,7 +50,7 @@ type PhraseStudyPanelProps = {
   onClose: () => void;
   onPlaySample: (options: {
     sampleId: string;
-    source: string;
+    source?: string;
     text: string;
     languageId: LanguageId;
   }) => void;
@@ -70,6 +71,7 @@ function nativePronunciationLabel(
 
 export function PhraseStudyPanel({
   activePhrase,
+  audioSource,
   contentSlug,
   currentUnit,
   playingSampleId,
@@ -194,12 +196,14 @@ export function PhraseStudyPanel({
               aria-pressed={playingSampleId === `phrase:${activePhrase.phrase.id}`}
               onClick={() => onPlaySample({
                 sampleId: `phrase:${activePhrase.phrase.id}`,
-                source: phraseAudioPath(
-                  contentSlug,
-                  currentUnit.id,
-                  activePhrase.languageId,
-                  activePhrase.phrase.id,
-                ),
+                source: audioSource === "azure"
+                  ? phraseAudioPath(
+                    contentSlug,
+                    currentUnit.id,
+                    activePhrase.languageId,
+                    activePhrase.phrase.id,
+                  )
+                  : undefined,
                 text: activePhrase.phrase.text,
                 languageId: activePhrase.languageId,
               })}

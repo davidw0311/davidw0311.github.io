@@ -7,6 +7,7 @@ import {
   CheckCircle,
   NumberCircleOne,
   SpinnerGap,
+  TextAa,
   Translate,
   WarningCircle,
 } from "@phosphor-icons/react";
@@ -48,7 +49,12 @@ export function LessonLanguageSetup({
   onBack,
 }: LessonLanguageSetupProps) {
   const reduceMotion = useReducedMotion();
-  const LessonIcon = content.type === "story" ? BookOpenText : NumberCircleOne;
+  const LessonIcon = content.type === "story"
+    ? BookOpenText
+    : content.type === "number_drill" ? NumberCircleOne : TextAa;
+  const lessonType = content.type === "story"
+    ? ui.story
+    : content.type === "number_drill" ? ui.counting : ui.scriptPractice;
 
   return (
     <motion.section
@@ -80,7 +86,7 @@ export function LessonLanguageSetup({
               <LessonIcon size={38} weight="fill" />
             </span>
             <div>
-              <small>{content.type === "story" ? ui.story : ui.counting}</small>
+              <small>{lessonType}</small>
               <h2>{contentText.title}</h2>
               <p>{contentText.description}</p>
             </div>

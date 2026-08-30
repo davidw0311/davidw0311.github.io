@@ -1,6 +1,20 @@
 import type { LanguageId } from "./languageLearning";
 
-export type LanguageLearningUiCopy = {
+type CurriculumUiCopy = {
+  scriptPractice: string;
+  everydayLessons: string;
+  katakana: string;
+  soundCombinations: string;
+  hangulLetters: string;
+  syllableBlocks: string;
+  commonWords: string;
+  scriptLessonHelp: string;
+  lessonCount: string;
+  browserVoice: string;
+  chooseScriptLessonHelp: string;
+};
+
+export type LanguageLearningUiCopy = CurriculumUiCopy & {
   brandSubtitle: string;
   backToSpace: string;
   navigationLabel: string;
@@ -107,8 +121,62 @@ export type LanguageLearningUiCopy = {
   content: Record<string, { title: string; description: string }>;
 };
 
+const curriculumUiCopy: Record<LanguageId, CurriculumUiCopy> = {
+  en: {
+    scriptPractice: "Script", everydayLessons: "Everyday speaking", katakana: "Katakana",
+    soundCombinations: "Sound combinations", hangulLetters: "Hangul letters", syllableBlocks: "Syllable blocks",
+    commonWords: "Common words", scriptLessonHelp: "Practice the character set, then read a few short words.", lessonCount: "{count} lessons", browserVoice: "Device voice", chooseScriptLessonHelp: "Start with a small character set or word group, then practice it aloud.",
+  },
+  zh: {
+    scriptPractice: "文字练习", everydayLessons: "日常口语", katakana: "片假名",
+    soundCombinations: "组合音", hangulLetters: "韩文字母", syllableBlocks: "音节方块",
+    commonWords: "常用词", scriptLessonHelp: "先练习这组字符，再读几个短词。", lessonCount: "{count} 课", browserVoice: "设备语音", chooseScriptLessonHelp: "先选择一小组字符或词语，再大声练习。",
+  },
+  zht: {
+    scriptPractice: "文字練習", everydayLessons: "日常口語", katakana: "片假名",
+    soundCombinations: "組合音", hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
+    commonWords: "常用詞", scriptLessonHelp: "先練習這組字元，再讀幾個短詞。", lessonCount: "{count} 課", browserVoice: "裝置語音", chooseScriptLessonHelp: "先選擇一小組字元或詞語，再大聲練習。",
+  },
+  yue: {
+    scriptPractice: "文字練習", everydayLessons: "日常口語", katakana: "片假名",
+    soundCombinations: "組合音", hangulLetters: "韓文字母", syllableBlocks: "音節方塊",
+    commonWords: "常用詞", scriptLessonHelp: "先練習呢組字，再讀幾個短詞。", lessonCount: "{count} 課堂", browserVoice: "裝置語音", chooseScriptLessonHelp: "先揀一小組字或詞語，再開聲練習。",
+  },
+  ja: {
+    scriptPractice: "文字練習", everydayLessons: "日常会話", katakana: "カタカナ",
+    soundCombinations: "組み合わせ音", hangulLetters: "ハングル文字", syllableBlocks: "音節ブロック",
+    commonWords: "よく使う単語", scriptLessonHelp: "文字の組を練習してから、短い単語を読みます。", lessonCount: "{count}レッスン", browserVoice: "端末の音声", chooseScriptLessonHelp: "少ない文字や単語の組から選び、声に出して練習します。",
+  },
+  ko: {
+    scriptPractice: "문자 연습", everydayLessons: "일상 말하기", katakana: "가타카나",
+    soundCombinations: "결합음", hangulLetters: "한글 자모", syllableBlocks: "음절 블록",
+    commonWords: "자주 쓰는 낱말", scriptLessonHelp: "글자 묶음을 연습한 뒤 짧은 낱말을 읽어 보세요.", lessonCount: "레슨 {count}개", browserVoice: "기기 음성", chooseScriptLessonHelp: "작은 글자 묶음이나 낱말 모음을 골라 소리 내어 연습하세요.",
+  },
+  ms: {
+    scriptPractice: "Tulisan", everydayLessons: "Pertuturan harian", katakana: "Katakana",
+    soundCombinations: "Gabungan bunyi", hangulLetters: "Huruf Hangul", syllableBlocks: "Blok suku kata",
+    commonWords: "Perkataan biasa", scriptLessonHelp: "Latih set aksara, kemudian baca beberapa perkataan ringkas.", lessonCount: "{count} pelajaran", browserVoice: "Suara peranti", chooseScriptLessonHelp: "Mulakan dengan set aksara atau kumpulan perkataan kecil, kemudian sebut dengan kuat.",
+  },
+  fr: {
+    scriptPractice: "Écriture", everydayLessons: "Expression quotidienne", katakana: "Katakana",
+    soundCombinations: "Combinaisons de sons", hangulLetters: "Lettres hangul", syllableBlocks: "Blocs syllabiques",
+    commonWords: "Mots courants", scriptLessonHelp: "Travaillez les caractères, puis lisez quelques mots courts.", lessonCount: "{count} leçons", browserVoice: "Voix de l’appareil", chooseScriptLessonHelp: "Choisissez un petit groupe de caractères ou de mots, puis entraînez-vous à voix haute.",
+  },
+  es: {
+    scriptPractice: "Escritura", everydayLessons: "Habla cotidiana", katakana: "Katakana",
+    soundCombinations: "Combinaciones de sonidos", hangulLetters: "Letras hangul", syllableBlocks: "Bloques silábicos",
+    commonWords: "Palabras comunes", scriptLessonHelp: "Practica los caracteres y después lee algunas palabras cortas.", lessonCount: "{count} lecciones", browserVoice: "Voz del dispositivo", chooseScriptLessonHelp: "Empieza con un grupo pequeño de caracteres o palabras y practícalo en voz alta.",
+  },
+  ta: {
+    scriptPractice: "எழுத்துப் பயிற்சி", everydayLessons: "அன்றாடப் பேச்சு", katakana: "கடகானா",
+    soundCombinations: "ஒலிச் சேர்க்கைகள்", hangulLetters: "ஹங்குல் எழுத்துகள்", syllableBlocks: "அசைத் தொகுதிகள்",
+    commonWords: "பொதுவான சொற்கள்", scriptLessonHelp: "எழுத்துத் தொகுப்பைப் பயிற்சி செய்து, சில குறுஞ்சொற்களை வாசிக்கவும்.", lessonCount: "{count} பாடங்கள்", browserVoice: "சாதனக் குரல்", chooseScriptLessonHelp: "ஒரு சிறிய எழுத்து அல்லது சொல் தொகுப்பைத் தேர்ந்து, உரக்கப் பயிற்சி செய்யுங்கள்.",
+  },
+};
+
 const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearningUiCopy> = {
   en: {
+    ...curriculumUiCopy.en,
     brandSubtitle: "speaking lab", backToSpace: "Back to space", navigationLabel: "Language lab navigation", appLabel: "Lilt language learning app", lessons: "Lessons", story: "Story", counting: "Counting",
     localProgress: "Local learning progress", xp: "{count} XP", savedCount: "{count} saved",
     changeSystemLanguage: "Change interface language", systemLanguage: "Interface language",
@@ -156,6 +224,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   zh: {
+    ...curriculumUiCopy.zh,
     brandSubtitle: "口语练习", backToSpace: "返回空间", navigationLabel: "语言学习导航", appLabel: "Lilt 语言学习应用", lessons: "课程", story: "故事", counting: "数数",
     localProgress: "本地学习进度", xp: "{count} 经验值", savedCount: "已收藏 {count} 个",
     changeSystemLanguage: "更改界面语言", systemLanguage: "界面语言",
@@ -194,6 +263,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   yue: {
+    ...curriculumUiCopy.yue,
     brandSubtitle: "口語練習", backToSpace: "返回空間", navigationLabel: "語言學習導覽", appLabel: "Lilt 語言學習應用", lessons: "課堂", story: "故事", counting: "數數",
     localProgress: "本機學習進度", xp: "{count} 經驗值", savedCount: "已收藏 {count} 個",
     changeSystemLanguage: "更改介面語言", systemLanguage: "介面語言",
@@ -232,6 +302,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   ja: {
+    ...curriculumUiCopy.ja,
     brandSubtitle: "スピーキング練習", backToSpace: "スペースに戻る", navigationLabel: "言語ラボのナビゲーション", appLabel: "Lilt 言語学習アプリ", lessons: "レッスン", story: "ストーリー", counting: "数字",
     localProgress: "端末内の学習記録", xp: "{count} XP", savedCount: "保存済み {count}件",
     changeSystemLanguage: "表示言語を変更", systemLanguage: "表示言語",
@@ -270,6 +341,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   ko: {
+    ...curriculumUiCopy.ko,
     brandSubtitle: "말하기 연습", backToSpace: "공간으로 돌아가기", navigationLabel: "언어 학습 탐색", appLabel: "Lilt 언어 학습 앱", lessons: "레슨", story: "이야기", counting: "숫자 세기",
     localProgress: "기기 학습 진도", xp: "{count} XP", savedCount: "{count}개 저장",
     changeSystemLanguage: "화면 언어 변경", systemLanguage: "화면 언어",
@@ -308,6 +380,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   ms: {
+    ...curriculumUiCopy.ms,
     brandSubtitle: "latihan pertuturan", backToSpace: "Kembali ke ruang", navigationLabel: "Navigasi makmal bahasa", appLabel: "Aplikasi pembelajaran bahasa Lilt", lessons: "Pelajaran", story: "Cerita", counting: "Mengira",
     localProgress: "Kemajuan pembelajaran setempat", xp: "{count} XP", savedCount: "{count} disimpan",
     changeSystemLanguage: "Tukar bahasa antara muka", systemLanguage: "Bahasa antara muka",
@@ -346,6 +419,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   fr: {
+    ...curriculumUiCopy.fr,
     brandSubtitle: "atelier oral", backToSpace: "Retour à l'espace", navigationLabel: "Navigation du laboratoire de langues", appLabel: "Application d'apprentissage Lilt", lessons: "Leçons", story: "Histoire", counting: "Compter",
     localProgress: "Progression locale", xp: "{count} XP", savedCount: "{count} enregistrés",
     changeSystemLanguage: "Changer la langue de l'interface", systemLanguage: "Langue de l'interface",
@@ -384,6 +458,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   es: {
+    ...curriculumUiCopy.es,
     brandSubtitle: "práctica oral", backToSpace: "Volver al espacio", navigationLabel: "Navegación del laboratorio de idiomas", appLabel: "Aplicación de aprendizaje Lilt", lessons: "Lecciones", story: "Historia", counting: "Números",
     localProgress: "Progreso local", xp: "{count} XP", savedCount: "{count} guardados",
     changeSystemLanguage: "Cambiar idioma de la interfaz", systemLanguage: "Idioma de la interfaz",
@@ -422,6 +497,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
     },
   },
   ta: {
+    ...curriculumUiCopy.ta,
     brandSubtitle: "பேச்சுப் பயிற்சி", backToSpace: "இடத்திற்குத் திரும்பு", navigationLabel: "மொழிப் பயிற்சி வழிசெலுத்தல்", appLabel: "Lilt மொழிக் கற்றல் செயலி", lessons: "பாடங்கள்", story: "கதை", counting: "எண்ணுதல்",
     localProgress: "சாதனக் கற்றல் முன்னேற்றம்", xp: "{count} XP", savedCount: "{count} சேமிக்கப்பட்டது",
     changeSystemLanguage: "இடைமுக மொழியை மாற்று", systemLanguage: "இடைமுக மொழி",
@@ -463,6 +539,7 @@ const baseLanguageLearningUi: Record<Exclude<LanguageId, "zht">, LanguageLearnin
 
 const traditionalMandarinUi: LanguageLearningUiCopy = {
   ...baseLanguageLearningUi.zh,
+  ...curriculumUiCopy.zht,
   brandSubtitle: "口語練習",
   backToSpace: "返回空間",
   navigationLabel: "語言學習導覽",

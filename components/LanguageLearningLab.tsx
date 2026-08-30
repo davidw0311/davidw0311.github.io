@@ -10,6 +10,7 @@ import {
   Plus,
   SpeakerHigh,
   SpinnerGap,
+  TextAa,
   Translate,
   WarningCircle,
   XCircle,
@@ -27,6 +28,8 @@ import {
   languageIds,
   languages,
   unitProgressKey,
+  type ContentItem,
+  type CurriculumSectionId,
   type LanguageId,
   type PhraseSegment,
   type PronunciationMode,
@@ -34,6 +37,7 @@ import {
 import {
   formatUi,
   languageLearningUi,
+  type LanguageLearningUiCopy,
 } from "@/data/languageLearningUi";
 import {
   addSupportLanguage as withAddedSupportLanguage,
@@ -69,6 +73,39 @@ type LanguageLearningLabProps = {
 
 type LanguageLabScreen = "language" | "library" | "setup" | "lesson";
 
+const curriculumSectionOrder: readonly CurriculumSectionId[] = [
+  "shared",
+  "ja-hiragana",
+  "ja-katakana",
+  "ja-sounds",
+  "ko-jamo",
+  "ko-blocks",
+  "ko-words",
+];
+
+function localizedContentText(content: ContentItem, ui: LanguageLearningUiCopy) {
+  if (content.type === "script_drill") {
+    return { title: content.title, description: ui.scriptLessonHelp };
+  }
+  return ui.content[content.id] ?? { title: content.title, description: content.description };
+}
+
+function curriculumSectionTitle(sectionId: CurriculumSectionId, ui: LanguageLearningUiCopy) {
+  if (sectionId === "shared") return ui.everydayLessons;
+  if (sectionId === "ja-hiragana") return ui.hiragana;
+  if (sectionId === "ja-katakana") return ui.katakana;
+  if (sectionId === "ja-sounds") return ui.soundCombinations;
+  if (sectionId === "ko-jamo") return ui.hangulLetters;
+  if (sectionId === "ko-blocks") return ui.syllableBlocks;
+  return ui.commonWords;
+}
+
+function contentTypeLabel(content: ContentItem, ui: LanguageLearningUiCopy) {
+  if (content.type === "story") return ui.story;
+  if (content.type === "number_drill") return ui.counting;
+  return ui.scriptPractice;
+}
+
 export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearningLabProps = {}) {
   const reduceMotion = useReducedMotion();
   const [progress, setProgress] = usePersistentLanguageProgress();
@@ -89,7 +126,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const ui = languageLearningUi[systemLanguageId];
   const supportLanguageId = progress.supportLanguageId;
   const content = contentItems[contentIndex];
-  const contentText = ui.content[content.id] ?? { title: content.title, description: content.description };
+  const contentText = localizedContentText(content, ui);
   const currentUnit = content.units[unitIndex];
   const practiceLocalization = currentUnit.localizations[practiceLanguageId];
   const progressKey = unitProgressKey(content.id, currentUnit.id, practiceLanguageId);
@@ -139,6 +176,10 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     () => contentItemsForPracticeLanguage(practiceLanguageId),
     [practiceLanguageId],
   );
+  const availableContentSections = useMemo(() => curriculumSectionOrder.flatMap((sectionId) => {
+    const items = availableContentItems.filter((item) => (item.sectionId ?? "shared") === sectionId);
+    return items.length > 0 ? [{ sectionId, items }] : [];
+  }), [availableContentItems]);
   const lessonOpen = screen === "lesson";
   const availableLanguageIds = languageIds.filter((languageId) => (
     languageId !== practiceLanguageId && !supportLanguageIds.includes(languageId)
@@ -251,7 +292,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     setAudioFeedback("");
     playSample({
       sampleId,
-      source: sentenceAudioPath(content.slug, currentUnit.id, languageId, speed),
+      source: content.audioSource === "browser"
+        ? undefined
+        : sentenceAudioPath(content.slug, currentUnit.id, languageId, speed),
       text: localization.text,
       languageId,
       fallbackRate: speed === "slow" ? 0.72 : 1,
@@ -334,7 +377,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
               <span>{ui.lessons}</span>
             </button>
             <div>
-              <span>{content.type === "story" ? ui.story : ui.counting}</span>
+              <span>{contentTypeLabel(content, ui)}</span>
               <h1 id="active-lesson-title">{contentText.title}</h1>
             </div>
           </div>
@@ -421,44 +464,55 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
               <div className={styles.setupIntroCopy}>
                 <span>{languages[practiceLanguageId].nameNative}</span>
                 <h1 id="library-title">{ui.chooseLesson}</h1>
-                <p>{ui.chooseLessonHelp}</p>
+                <p>{practiceLanguageId === "ja" || practiceLanguageId === "ko" ? ui.chooseScriptLessonHelp : ui.chooseLessonHelp}</p>
               </div>
               <LessonFlowProgress activeStep="lessons" ui={ui} />
             </div>
 
-            <div
-              className={styles.lessonCards}
-              data-count={Math.min(availableContentItems.length, 3)}
-              aria-label={ui.availableLessons}
-            >
-              {availableContentItems.map((item) => {
-                const itemIndex = contentItems.findIndex((candidate) => candidate.id === item.id);
-                const completed = item.units.filter((candidate) => {
-                  const status = progress.completed[unitProgressKey(item.id, candidate.id, practiceLanguageId)];
-                  return status === "passed" || status === "skipped";
-                }).length;
-                const Icon = item.type === "story" ? BookOpenText : NumberCircleOne;
-                const itemText = ui.content[item.id] ?? { title: item.title, description: item.description };
+            <div className={styles.lessonCatalog} aria-label={ui.availableLessons}>
+              {availableContentSections.map(({ sectionId, items }) => {
+                const sectionTitle = curriculumSectionTitle(sectionId, ui);
                 return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    aria-label={formatUi(ui.openLesson, { lesson: itemText.title })}
-                    onClick={() => chooseLesson(itemIndex)}
-                  >
-                    <span className={styles.lessonCardIcon}><Icon size={32} weight="fill" aria-hidden="true" /></span>
-                    <span className={styles.lessonCardCopy}>
-                      <small>{item.type === "story" ? ui.story : ui.counting} / {formatUi(ui.minutes, { count: item.estimatedMinutes })}</small>
-                      <strong>{itemText.title}</strong>
-                      <span>{itemText.description}</span>
-                    </span>
-                    <span className={styles.lessonCardAction}>
-                      <small>{completed > 0
-                        ? formatUi(ui.completedCount, { count: completed, total: item.units.length })
-                        : formatUi(ui.promptsCount, { count: item.units.length })}</small>
-                      <span>{completed > 0 && completed < item.units.length ? ui.continue : ui.start} <ArrowRight size={17} weight="bold" aria-hidden="true" /></span>
-                    </span>
-                  </button>
+                  <section className={styles.lessonSection} key={sectionId} aria-labelledby={`lesson-section-${sectionId}`}>
+                    <header>
+                      <h2 id={`lesson-section-${sectionId}`}>{sectionTitle}</h2>
+                      <span>{formatUi(ui.lessonCount, { count: items.length })}</span>
+                    </header>
+                    <div className={`${styles.lessonCards} ${styles.sectionLessonCards}`} data-count={Math.min(items.length, 3)}>
+                      {items.map((item) => {
+                        const itemIndex = contentItems.findIndex((candidate) => candidate.id === item.id);
+                        const completed = item.units.filter((candidate) => {
+                          const status = progress.completed[unitProgressKey(item.id, candidate.id, practiceLanguageId)];
+                          return status === "passed" || status === "skipped";
+                        }).length;
+                        const Icon = item.type === "story"
+                          ? BookOpenText
+                          : item.type === "number_drill" ? NumberCircleOne : TextAa;
+                        const itemText = localizedContentText(item, ui);
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            aria-label={formatUi(ui.openLesson, { lesson: itemText.title })}
+                            onClick={() => chooseLesson(itemIndex)}
+                          >
+                            <span className={styles.lessonCardIcon}><Icon size={30} weight="fill" aria-hidden="true" /></span>
+                            <span className={styles.lessonCardCopy}>
+                              <small>{contentTypeLabel(item, ui)} / {formatUi(ui.minutes, { count: item.estimatedMinutes })}</small>
+                              <strong>{itemText.title}</strong>
+                              <span>{itemText.description}</span>
+                            </span>
+                            <span className={styles.lessonCardAction}>
+                              <small>{completed > 0
+                                ? formatUi(ui.completedCount, { count: completed, total: item.units.length })
+                                : formatUi(ui.promptsCount, { count: item.units.length })}</small>
+                              <span>{completed > 0 && completed < item.units.length ? ui.continue : ui.start} <ArrowRight size={17} weight="bold" aria-hidden="true" /></span>
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </section>
                 );
               })}
             </div>
@@ -619,6 +673,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       <PhraseStudyPanel
                         key={`${activePhrase.languageId}:${activePhrase.phrase.id}`}
                         activePhrase={activePhrase}
+                        audioSource={content.audioSource ?? "azure"}
                         contentSlug={content.slug}
                         currentUnit={currentUnit}
                         playingSampleId={playingSampleId}
@@ -679,7 +734,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                       onClick={() => playSentence(practiceLanguageId, "slow")}
                     ><SpeakerHigh size={20} /> {ui.slow}</button>
                     <span className={styles.voiceSource} role={audioFeedback ? "status" : undefined}>
-                      {audioFeedback || ui.azureVoice}
+                      {audioFeedback || (content.audioSource === "browser" ? ui.browserVoice : ui.azureVoice)}
                     </span>
                   </div>
 

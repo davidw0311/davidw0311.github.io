@@ -326,6 +326,45 @@
   line-height: 1.45;
 }
 
+.lessonCatalog {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  min-height: 0;
+  padding-right: 5px;
+  overflow-y: auto;
+  scrollbar-color: var(--lab-line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.lessonSection {
+  display: grid;
+  gap: 9px;
+}
+
+.lessonSection > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-inline: 2px;
+}
+
+.lessonSection > header h2 {
+  margin: 0;
+  color: var(--lab-ink);
+  font-size: 0.9rem;
+  font-weight: 820;
+  letter-spacing: -0.02em;
+}
+
+.lessonSection > header span {
+  flex: 0 0 auto;
+  color: var(--lab-faint);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
 .lessonCards {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
@@ -403,6 +442,41 @@
   width: 68px;
   height: 68px;
   border-radius: 18px;
+}
+
+.lessonCards.sectionLessonCards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: none;
+  grid-auto-rows: minmax(88px, auto);
+  overflow: visible;
+}
+
+.lessonCards.sectionLessonCards[data-count="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.lessonCards.sectionLessonCards > button:first-child {
+  grid-row: auto;
+}
+
+.lessonCards.sectionLessonCards > button {
+  gap: 11px;
+  padding: 11px 12px;
+}
+
+.lessonCards.sectionLessonCards .lessonCardIcon,
+.lessonCards.sectionLessonCards > button:first-child .lessonCardIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+}
+
+.lessonCards.sectionLessonCards .lessonCardCopy > span {
+  display: none;
+}
+
+.lessonCards.sectionLessonCards .lessonCardCopy > strong {
+  font-size: clamp(0.86rem, 1.4vw, 1.04rem);
 }
 
 .lessonCardCopy {
@@ -2141,6 +2215,18 @@
     gap: 6px;
   }
 
+  .lessonCatalog {
+    gap: 16px;
+    padding-right: 2px;
+  }
+
+  .lessonCards.sectionLessonCards,
+  .lessonCards.sectionLessonCards[data-count="1"] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-auto-rows: minmax(78px, auto);
+  }
+
   .lessonCards[data-count="1"] {
     grid-template-rows: minmax(0, 1fr);
   }
@@ -2582,6 +2668,16 @@
 
   .lessonCards {
     gap: 4px;
+  }
+
+  .lessonCatalog {
+    gap: 12px;
+  }
+
+  .lessonCards.sectionLessonCards,
+  .lessonCards.sectionLessonCards[data-count="1"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(64px, auto);
   }
 
   .lessonCards > button {
