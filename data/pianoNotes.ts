@@ -102,6 +102,12 @@ const chordIntervals: Record<PianoChordQuality, readonly number[]> = {
 
 const chordRoots = pianoNotes.filter((note) => note.octave === 4);
 
+function chordSymbol(rootName: string, quality: PianoChordQuality, spaced: boolean) {
+  const separator = spaced ? " / " : "/";
+  const suffix = quality === "minor" ? "m" : "";
+  return rootName.split("/").map((root) => `${root}${suffix}`).join(separator);
+}
+
 export const pianoChords: readonly PianoChord[] = chordRoots.flatMap((root) => (
   (Object.keys(chordIntervals) as PianoChordQuality[]).map((quality) => {
     const notes = chordIntervals[quality].map((interval) => {
@@ -112,13 +118,17 @@ export const pianoChords: readonly PianoChord[] = chordRoots.flatMap((root) => (
 
     return {
       id: `${root.id}-${quality}`,
-      name: `${root.name} ${quality}`,
+      name: chordSymbol(root.name, quality, false),
       quality,
       root,
       notes,
     };
   })
 ));
+
+export function formatChordSymbol(chord: Pick<PianoChord, "root" | "quality">, spaced = false) {
+  return chordSymbol(chord.root.name, chord.quality, spaced);
+}
 
 function diatonicIndex(note: Pick<StaffNotation, "name" | "octave">) {
   return note.octave * 7 + naturalNoteNames.indexOf(note.name);
@@ -222,8 +232,13 @@ export function createPianoChordQuestion(
 
 export function chordMatchesNoteIds(chord: PianoChord, noteIds: readonly string[]) {
   if (noteIds.length !== chord.notes.length) return false;
-  const selectedIds = new Set(noteIds);
-  return chord.notes.every((note) => selectedIds.has(note.id));
+  const selectedNotes = noteIds.map((id) => pianoNotes.find((note) => note.id === id));
+  if (!selectedNotes.every((note): note is PianoNote => note !== undefined)) return false;
+
+  const targetPitchClasses = new Set(chord.notes.map((note) => note.midi % 12));
+  const selectedPitchClasses = new Set(selectedNotes.map((note) => note.midi % 12));
+  return selectedPitchClasses.size === targetPitchClasses.size
+    && [...targetPitchClasses].every((pitchClass) => selectedPitchClasses.has(pitchClass));
 }
 
 export function noteFrequency(midi: number) {

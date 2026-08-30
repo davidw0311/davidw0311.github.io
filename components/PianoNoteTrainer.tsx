@@ -7,12 +7,12 @@ import {
   chordMatchesNoteIds,
   createPianoChordQuestion,
   createPianoQuestion,
+  formatChordSymbol,
   formatNotation,
   formatPianoKey,
   pianoChords,
   pitchNames,
   type ClefFilter,
-  type PianoChordQuality,
   type PianoExerciseMode,
   type PianoNote,
   type PianoNoteExerciseMode,
@@ -41,8 +41,6 @@ const exercisePrompts: Record<PianoExerciseMode, string> = {
 };
 
 const clefLabels: Record<ClefFilter, string> = { mixed: "Mixed", treble: "Treble", bass: "Bass" };
-const chordRoots = pianoChords.filter((chord) => chord.quality === "major");
-const chordQualities: readonly PianoChordQuality[] = ["major", "minor"];
 
 function isNoteMode(mode: PianoExerciseMode): mode is PianoNoteExerciseMode {
   return mode === "key-name" || mode === "staff-name" || mode === "staff-key";
@@ -63,8 +61,6 @@ export function PianoNoteTrainer() {
   const [noteQuestion, setNoteQuestion] = useState(() => createPianoQuestion("key-name", "mixed", undefined, () => 0));
   const [chordQuestion, setChordQuestion] = useState(() => createPianoChordQuestion(undefined, () => 0));
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [selectedChordRoot, setSelectedChordRoot] = useState<string | null>(null);
-  const [selectedChordQuality, setSelectedChordQuality] = useState<PianoChordQuality | null>(null);
   const [selectedChordKeyIds, setSelectedChordKeyIds] = useState<string[]>([]);
   const [score, setScore] = useState<Score>({ answered: 0, correct: 0, streak: 0 });
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -79,22 +75,20 @@ export function PianoNoteTrainer() {
       : selectedAnswer === noteExpectedAnswer;
   const accuracy = score.answered === 0 ? 0 : Math.round((score.correct / score.answered) * 100);
   const displayedAnswer = mode === "chord-name" || mode === "chord-key"
-    ? chordQuestion.name.replace("/", " / ")
+    ? formatChordSymbol(chordQuestion, true)
     : mode === "staff-name" && noteQuestion.notation
       ? `${formatNotation(noteQuestion.notation, true)} (${formatPianoKey(noteQuestion.note, true)})`
       : formatPianoKey(noteQuestion.note, true);
-  const chordToneLabel = chordQuestion.notes.map((note) => formatPianoKey(note, true)).join(", ");
+  const chordToneLabel = chordQuestion.notes.map((note) => note.name.replace("/", " / ")).join(", ");
   const feedback = useMemo(() => {
     if (!answered) return "";
     if (isCorrect) return `${displayedAnswer}. Nicely recognized.`;
-    if (mode === "chord-key") return `The answer is ${displayedAnswer}: ${chordToneLabel}.`;
+    if (mode === "chord-key") return `The answer is ${displayedAnswer}: ${chordToneLabel}, in any octave.`;
     return `The answer is ${displayedAnswer}.`;
   }, [answered, chordToneLabel, displayedAnswer, isCorrect, mode]);
 
   const clearSelections = () => {
     setSelectedAnswer(null);
-    setSelectedChordRoot(null);
-    setSelectedChordQuality(null);
     setSelectedChordKeyIds([]);
   };
 
@@ -106,9 +100,8 @@ export function PianoNoteTrainer() {
     playTone(playedNote);
   };
 
-  const submitChordName = () => {
-    if (answered || !selectedChordRoot || !selectedChordQuality) return;
-    const answer = `${selectedChordRoot}-${selectedChordQuality}`;
+  const recordChordAnswer = (answer: string) => {
+    if (answered) return;
     setSelectedAnswer(answer);
     setScore((current) => updateScore(current, answer === chordQuestion.id));
     playChord(chordQuestion.notes);
@@ -162,7 +155,6 @@ export function PianoNoteTrainer() {
   };
 
   const promptId = isNoteMode(mode) ? noteQuestion.id : chordQuestion.id;
-  const chordNameReady = selectedChordRoot !== null && selectedChordQuality !== null;
   const chordKeysReady = selectedChordKeyIds.length === chordQuestion.notes.length;
 
   return (
@@ -217,8 +209,7 @@ export function PianoNoteTrainer() {
             {mode === "chord-key" ? (
               <div className={styles.chordPromptCard}>
                 <span>Build this triad</span>
-                <strong>{chordQuestion.root.name.replace("/", " / ")}</strong>
-                <em>{chordQuestion.quality}</em>
+                <strong>{formatChordSymbol(chordQuestion, true)}</strong>
               </div>
             ) : null}
           </motion.div>
@@ -246,20 +237,17 @@ export function PianoNoteTrainer() {
 
           {mode === "chord-name" ? (
             <div className={styles.chordNameAnswer}>
-              <div className={styles.chordRootChoices} aria-label="Choose the chord root">
-                {chordRoots.map((chord) => (
-                  <button type="button" key={chord.root.id} className={selectedChordRoot === chord.root.id ? styles.selectedChoice : ""} disabled={answered} aria-pressed={selectedChordRoot === chord.root.id} onClick={() => setSelectedChordRoot(chord.root.id)}>
-                    {chord.root.name.replace("/", " / ")}
-                  </button>
-                ))}
-              </div>
-              <div className={styles.chordQualityRow} aria-label="Choose major or minor">
-                {chordQualities.map((quality) => (
-                  <button type="button" key={quality} className={selectedChordQuality === quality ? styles.selectedChoice : ""} disabled={answered} aria-pressed={selectedChordQuality === quality} onClick={() => setSelectedChordQuality(quality)}>
-                    {quality}
-                  </button>
-                ))}
-                <button type="button" className={styles.checkChordButton} disabled={answered || !chordNameReady} onClick={submitChordName}>Check chord</button>
+              <div className={styles.chordChoices} aria-label="Choose a chord symbol">
+                {pianoChords.map((chord) => {
+                  const isTarget = chord.id === chordQuestion.id;
+                  const isSelected = chord.id === selectedAnswer;
+                  const stateClass = answered && isTarget ? styles.correctChoice : answered && isSelected ? styles.wrongChoice : "";
+                  return (
+                    <button type="button" key={chord.id} className={stateClass} disabled={answered} onClick={() => recordChordAnswer(chord.id)}>
+                      {formatChordSymbol(chord, true)}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           ) : null}
@@ -276,7 +264,7 @@ export function PianoNoteTrainer() {
               {answered ? (
                 <>{isCorrect ? <CheckCircle size={21} weight="fill" /> : <XCircle size={21} weight="fill" />}<span>{feedback}</span></>
               ) : (
-                <span>{mode === "chord-name" ? "Choose a root and quality, then check your answer." : mode === "chord-key" ? "Select three keys, then check your chord." : "Choose an answer."}</span>
+                <span>{mode === "chord-name" ? "Choose the chord symbol." : mode === "chord-key" ? "Select three keys in any octave, then check your chord." : "Choose an answer."}</span>
               )}
             </div>
             <button type="button" className={styles.nextButton} disabled={!answered} onClick={() => nextQuestion()}>Next <ArrowRight size={17} weight="bold" /></button>

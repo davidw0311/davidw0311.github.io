@@ -138,8 +138,7 @@
 .modeControls button:active,
 .clefControls button:active,
 .noteChoices button:active,
-.chordRootChoices button:active,
-.chordQualityRow button:active,
+.chordChoices button:active,
 .checkChordButton:active:not(:disabled),
 .nextButton:active:not(:disabled),
 .whiteKey:active:not(:disabled) {
@@ -479,38 +478,19 @@
   line-height: 1;
 }
 
-.chordPromptCard em {
-  margin-top: 5px;
-  color: var(--piano-accent);
-  font-size: 0.8rem;
-  font-style: normal;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .chordNameAnswer,
 .chordKeyAnswer {
   display: grid;
   gap: 7px;
 }
 
-.chordRootChoices {
+.chordChoices {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 4px;
 }
 
-.chordQualityRow {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(100px, 1fr)) minmax(140px, 1.35fr);
-  gap: 5px;
-  width: min(100%, 560px);
-  margin: 0 auto;
-}
-
-.chordRootChoices button,
-.chordQualityRow button,
+.chordChoices button,
 .checkChordButton {
   min-height: 38px;
   padding: 4px 6px;
@@ -520,12 +500,11 @@
   background: var(--piano-surface-soft);
   font-size: 0.68rem;
   font-weight: 800;
-  text-transform: capitalize;
   cursor: pointer;
   transition: color 170ms ease, border-color 170ms ease, background-color 170ms ease, transform 170ms ease;
 }
 
-.chordRootChoices button {
+.chordChoices button {
   min-width: 0;
   padding-inline: 2px;
   font-family: var(--font-display), sans-serif;
@@ -533,20 +512,33 @@
   line-height: 1;
 }
 
-.chordRootChoices button:hover:not(:disabled),
-.chordQualityRow button:hover:not(:disabled),
-.chordRootChoices .selectedChoice,
-.chordQualityRow .selectedChoice {
+.chordChoices button:hover:not(:disabled) {
   border-color: var(--piano-accent);
   color: var(--piano-accent);
   background: rgb(121 228 197 / 0.09);
 }
 
-.chordRootChoices button:disabled,
-.chordQualityRow button:disabled,
+.chordChoices button:disabled,
 .checkChordButton:disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+.chordChoices .correctChoice,
+.chordChoices .wrongChoice {
+  opacity: 1;
+}
+
+.chordChoices .correctChoice {
+  border-color: var(--piano-accent);
+  color: var(--piano-accent-ink);
+  background: var(--piano-accent);
+}
+
+.chordChoices .wrongChoice {
+  border-color: var(--piano-danger);
+  color: #35100f;
+  background: var(--piano-danger);
 }
 
 .checkChordButton {
@@ -805,11 +797,13 @@
     background: rgb(237 246 243 / 0.88);
   }
 
-  .noteChoices .correctChoice {
+  .noteChoices .correctChoice,
+  .chordChoices .correctChoice {
     color: #f0faf6;
   }
 
-  .noteChoices .wrongChoice {
+  .noteChoices .wrongChoice,
+  .chordChoices .wrongChoice {
     color: #fff5f4;
   }
 
@@ -989,21 +983,15 @@
     padding: 15px;
   }
 
-  .chordRootChoices {
+  .chordChoices {
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 3px;
   }
 
-  .chordRootChoices button,
-  .chordQualityRow button,
+  .chordChoices button,
   .checkChordButton {
     min-height: 31px;
     font-size: 0.58rem;
-  }
-
-  .chordQualityRow {
-    grid-template-columns: repeat(2, minmax(68px, 1fr)) minmax(108px, 1.45fr);
-    gap: 3px;
   }
 
   .whiteKeys {
@@ -1211,13 +1199,12 @@
     font-size: 2rem;
   }
 
-  .chordRootChoices {
+  .chordChoices {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 3px;
   }
 
-  .chordRootChoices button,
-  .chordQualityRow button,
+  .chordChoices button,
   .checkChordButton {
     min-height: 28px;
     font-size: 0.55rem;

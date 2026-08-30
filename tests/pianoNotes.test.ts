@@ -6,6 +6,7 @@ import {
   chordMatchesNoteIds,
   createPianoChordQuestion,
   createPianoQuestion,
+  formatChordSymbol,
   formatNotation,
   ledgerStepsFor,
   noteFrequency,
@@ -68,15 +69,23 @@ test("the chord library contains every chromatic major and minor triad", () => {
   assert.deepEqual(pianoChords.find((chord) => chord.id === "C4-major")?.notes.map((note) => note.id), ["C4", "E4", "G4"]);
   assert.deepEqual(pianoChords.find((chord) => chord.id === "C4-minor")?.notes.map((note) => note.id), ["C4", "D#4", "G4"]);
   assert.deepEqual(pianoChords.find((chord) => chord.id === "B4-major")?.notes.map((note) => note.id), ["B4", "D#5", "F#5"]);
+  assert.equal(pianoChords.find((chord) => chord.id === "D4-major")?.name, "D");
+  assert.equal(pianoChords.find((chord) => chord.id === "D4-minor")?.name, "Dm");
+  const cSharpMinor = pianoChords.find((chord) => chord.id === "C#4-minor");
+  assert.ok(cSharpMinor);
+  assert.equal(formatChordSymbol(cSharpMinor, true), "C♯m / D♭m");
 });
 
-test("chord answers match the exact three keys in any order", () => {
+test("chord answers match the three pitch classes in any octave or inversion", () => {
   const chord = pianoChords.find((candidate) => candidate.id === "C4-major");
   assert.ok(chord);
   assert.equal(chordMatchesNoteIds(chord, ["G4", "C4", "E4"]), true);
+  assert.equal(chordMatchesNoteIds(chord, ["E5", "C5", "G5"]), true);
+  assert.equal(chordMatchesNoteIds(chord, ["G4", "E5", "C5"]), true);
   assert.equal(chordMatchesNoteIds(chord, ["C4", "E4"]), false);
   assert.equal(chordMatchesNoteIds(chord, ["C4", "E4", "F4"]), false);
   assert.equal(chordMatchesNoteIds(chord, ["C4", "E4", "G4", "C5"]), false);
+  assert.equal(chordMatchesNoteIds(chord, ["C4", "C5", "E5"]), false);
 });
 
 test("chord question generation avoids an immediate repeat", () => {
