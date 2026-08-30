@@ -4,12 +4,15 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { pianoLessonGroups } from "@/data/pianoLessons";
+import {
+  pianoLessonGroups,
+  type PianoLessonExerciseMode,
+} from "@/data/pianoLessons";
 import styles from "../piano-party.module.css";
 
 export const metadata: Metadata = {
   title: "Lessons | Piano Party",
-  description: "Build piano note-reading skills through focused, timed lessons.",
+  description: "Build piano note-reading and chord skills through focused, timed lessons.",
   alternates: { canonical: "/projects/piano-party/lessons/" },
 };
 
@@ -17,7 +20,10 @@ const exerciseLabels = {
   "key-name": "Key to note",
   "staff-name": "Staff to note",
   "staff-key": "Staff to key",
-} as const;
+  "chord-key": "Name to chord",
+  "chord-name": "Chord to name",
+  "chord-mixed": "Mixed chord review",
+} as const satisfies Record<PianoLessonExerciseMode, string>;
 
 export default function PianoLessonsPage() {
   return (
@@ -31,7 +37,7 @@ export default function PianoLessonsPage() {
         <header className={styles.libraryHeader}>
           <p>Guided path</p>
           <h1 id="lessons-title">Lessons.</h1>
-          <strong>Short, focused sessions that build one piano-reading skill at a time.</strong>
+          <strong>Short, focused sessions that build piano-reading and chord skills one step at a time.</strong>
         </header>
 
         <div className={styles.lessonList}>

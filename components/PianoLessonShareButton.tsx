@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   pianoLessonShareMistakeCount,
+  pianoLessonSharePerformanceLabel,
   pianoLessonShareText,
   type PianoLessonShareResult,
 } from "@/data/pianoLessonShare";
@@ -99,6 +100,7 @@ export function PianoLessonShareButton({ result }: { result: PianoLessonShareRes
         ? "Image saved"
         : "Share image";
   const mistakeCount = pianoLessonShareMistakeCount(result);
+  const performanceLabel = pianoLessonSharePerformanceLabel(result).toLowerCase();
   const { height: previewHeight } = pianoLessonShareImageSize(result.noteResults.length);
 
   const preview = previewOpen && shareAsset ? createPortal(
@@ -117,7 +119,7 @@ export function PianoLessonShareButton({ result }: { result: PianoLessonShareRes
         <header className={styles.header}>
           <div>
             <h2 id="lesson-share-preview-title">Share card preview</h2>
-            <p>Lesson {result.lessonId}, with {mistakeCount} {mistakeCount === 1 ? "mistake" : "mistakes"} in the full note report.</p>
+            <p>Lesson {result.lessonId}, with {mistakeCount} {mistakeCount === 1 ? "mistake" : "mistakes"} in the full {performanceLabel} report.</p>
           </div>
           <button
             ref={closeRef}
@@ -134,7 +136,7 @@ export function PianoLessonShareButton({ result }: { result: PianoLessonShareRes
           <Image
             className={styles.previewImage}
             src={shareAsset.previewUrl}
-            alt={`Preview of Piano Party Lesson ${result.lessonId} share card with the complete note report`}
+            alt={`Preview of Piano Party Lesson ${result.lessonId} share card with the complete ${performanceLabel} report`}
             width={1200}
             height={previewHeight}
             unoptimized

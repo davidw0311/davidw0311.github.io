@@ -1,10 +1,13 @@
 import {
   blackKeys,
   naturalNoteNames,
+  pianoChords,
   pianoNotes,
   pitchNames,
   whiteKeys,
-  type PianoNoteExerciseMode,
+  type PianoChord,
+  type PianoChordExerciseMode,
+  type PianoExerciseMode,
   type PianoNote,
   type PitchName,
   type StaffClef,
@@ -14,6 +17,8 @@ import {
 export const pianoLessonIds = [
   1, 2, 3, 4, 5, 6, 7, 8, 9,
   10, 11, 12, 13, 14, 15, 16, 17,
+  18, 19, 20, 21, 22, 23, 24,
+  25, 26, 27, 28, 29, 30, 31,
 ] as const;
 
 export type PianoLessonId = (typeof pianoLessonIds)[number];
@@ -21,9 +26,13 @@ export type PianoLessonId = (typeof pianoLessonIds)[number];
 export type PianoLessonCard = {
   id: string;
   note: PianoNote;
+  chord?: PianoChord;
+  exerciseMode?: PianoChordExerciseMode;
   clef?: StaffClef;
   notation?: StaffNotation;
 };
+
+export type PianoLessonExerciseMode = PianoExerciseMode | "chord-mixed";
 
 export type LessonNotePerformance = {
   attempts: number;
@@ -39,7 +48,7 @@ export type PianoLessonDefinition = {
   description: string;
   libraryDescription: string;
   completionDescription: string;
-  exerciseMode: PianoNoteExerciseMode;
+  exerciseMode: PianoLessonExerciseMode;
   prompt: string;
   answerChoices: readonly PitchName[];
   cardCount: number;
@@ -47,6 +56,7 @@ export type PianoLessonDefinition = {
   focusCount: number;
   desktopChoiceColumns: number;
   mobileChoiceColumns: number;
+  chords?: readonly PianoChord[];
 };
 
 export type PianoLessonGroupDefinition = {
@@ -70,6 +80,29 @@ export const lessonSixteenNoteIds = [
   "C4", "D4", "E4", "F4", "G4", "A4", "B4",
   "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6",
 ] as const;
+
+export const majorChordLessonGroups = [
+  { label: "C → F → G → D", chordIds: ["C4-major", "F4-major", "G4-major", "D4-major"] },
+  { label: "A → E → B♭ → E♭", chordIds: ["A4-major", "E4-major", "A#4-major", "D#4-major"] },
+  { label: "B → D♭ → A♭ → G♭", chordIds: ["B4-major", "C#4-major", "G#4-major", "F#4-major"] },
+] as const;
+
+export const minorChordLessonGroups = [
+  { label: "Am → Dm → Em → Cm", chordIds: ["A4-minor", "D4-minor", "E4-minor", "C4-minor"] },
+  { label: "Gm → Fm → Bm → F♯m", chordIds: ["G4-minor", "F4-minor", "B4-minor", "F#4-minor"] },
+  { label: "C♯m → G♯m → B♭m → E♭m", chordIds: ["C#4-minor", "G#4-minor", "A#4-minor", "D#4-minor"] },
+] as const;
+
+function chordsById(chordIds: readonly string[]) {
+  return chordIds.map((chordId) => {
+    const chord = pianoChords.find((candidate) => candidate.id === chordId);
+    if (!chord) throw new Error(`No piano chord available for ${chordId}`);
+    return chord;
+  });
+}
+
+export const allMajorLessonChords = chordsById(majorChordLessonGroups.flatMap((group) => group.chordIds));
+export const allMinorLessonChords = chordsById(minorChordLessonGroups.flatMap((group) => group.chordIds));
 
 const lessonOneCards: PianoLessonCard[] = lessonOneNoteNames.flatMap((name) => {
   const matchingKeys = whiteKeys.filter((note) => note.name === name);
@@ -117,6 +150,25 @@ function createTrebleStaffCards(
   });
 }
 
+function createChordCards(
+  lessonId: PianoLessonId,
+  chords: readonly PianoChord[],
+  exerciseMode: PianoChordExerciseMode,
+  repeatCount = 3,
+) {
+  return chords.flatMap((chord) => (
+    Array.from({ length: repeatCount }, (_, repeatIndex) => ({
+      id: `lesson-${lessonId}-${chord.id}-${exerciseMode}-${repeatIndex + 1}`,
+      note: chord.root,
+      chord,
+      exerciseMode,
+    }))
+  ));
+}
+
+const majorChordGroups = majorChordLessonGroups.map((group) => chordsById(group.chordIds));
+const minorChordGroups = minorChordLessonGroups.map((group) => chordsById(group.chordIds));
+
 const lessonCards: Record<PianoLessonId, PianoLessonCard[]> = {
   1: lessonOneCards,
   2: repeatNoteNames(2, lessonTwoNoteNames, blackKeys, 4),
@@ -135,7 +187,80 @@ const lessonCards: Record<PianoLessonId, PianoLessonCard[]> = {
   15: createTrebleStaffCards(15, lessonFourteenNoteIds),
   16: createTrebleStaffCards(16, lessonSixteenNoteIds),
   17: createTrebleStaffCards(17, lessonSixteenNoteIds),
+  18: createChordCards(18, majorChordGroups[0], "chord-key"),
+  19: createChordCards(19, majorChordGroups[0], "chord-name"),
+  20: createChordCards(20, majorChordGroups[1], "chord-key"),
+  21: createChordCards(21, majorChordGroups[1], "chord-name"),
+  22: createChordCards(22, majorChordGroups[2], "chord-key"),
+  23: createChordCards(23, majorChordGroups[2], "chord-name"),
+  24: [
+    ...createChordCards(24, allMajorLessonChords, "chord-key", 1),
+    ...createChordCards(24, allMajorLessonChords, "chord-name", 1),
+  ],
+  25: createChordCards(25, minorChordGroups[0], "chord-key"),
+  26: createChordCards(26, minorChordGroups[0], "chord-name"),
+  27: createChordCards(27, minorChordGroups[1], "chord-key"),
+  28: createChordCards(28, minorChordGroups[1], "chord-name"),
+  29: createChordCards(29, minorChordGroups[2], "chord-key"),
+  30: createChordCards(30, minorChordGroups[2], "chord-name"),
+  31: [
+    ...createChordCards(31, allMinorLessonChords, "chord-key", 1),
+    ...createChordCards(31, allMinorLessonChords, "chord-name", 1),
+  ],
 };
+
+function createChordLessonDefinition(
+  id: PianoLessonId,
+  title: string,
+  libraryDescription: string,
+  exerciseMode: PianoLessonExerciseMode,
+  chords: readonly PianoChord[],
+): PianoLessonDefinition {
+  const qualityName = chords[0]?.quality ?? "chord";
+  const direction = exerciseMode === "chord-key"
+    ? "Read each chord name, then build it on the keyboard."
+    : exerciseMode === "chord-name"
+      ? "Read the highlighted piano keys, then choose the chord name."
+      : "Alternate between building chords and recognizing highlighted chord shapes.";
+
+  return {
+    id,
+    title,
+    description: `${direction} This timed lesson covers ${chords.length} ${qualityName} chords in a shuffled ${lessonCards[id].length}-card deck.`,
+    libraryDescription,
+    completionDescription: `You completed every ${qualityName}-chord card in Lesson ${id}.`,
+    exerciseMode,
+    prompt: exerciseMode === "chord-key"
+      ? "Build this chord on the keyboard."
+      : exerciseMode === "chord-name"
+        ? "Which chord is highlighted?"
+        : "Build or recognize this chord.",
+    answerChoices: pitchNames,
+    cardCount: lessonCards[id].length,
+    focusLabel: "Chords",
+    focusCount: chords.length,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+    chords,
+  };
+}
+
+const chordLessonDefinitions: readonly PianoLessonDefinition[] = [
+  createChordLessonDefinition(18, "Build major chords: C-F-G-D", "12 name-to-chord cards for C, F, G, and D major.", "chord-key", majorChordGroups[0]),
+  createChordLessonDefinition(19, "Recognize major chords: C-F-G-D", "12 chord-to-name cards for C, F, G, and D major.", "chord-name", majorChordGroups[0]),
+  createChordLessonDefinition(20, "Build major chords: A-E-B♭-E♭", "12 name-to-chord cards for A, E, B♭, and E♭ major.", "chord-key", majorChordGroups[1]),
+  createChordLessonDefinition(21, "Recognize major chords: A-E-B♭-E♭", "12 chord-to-name cards for A, E, B♭, and E♭ major.", "chord-name", majorChordGroups[1]),
+  createChordLessonDefinition(22, "Build major chords: B-D♭-A♭-G♭", "12 name-to-chord cards for B, D♭, A♭, and G♭ major.", "chord-key", majorChordGroups[2]),
+  createChordLessonDefinition(23, "Recognize major chords: B-D♭-A♭-G♭", "12 chord-to-name cards for B, D♭, A♭, and G♭ major.", "chord-name", majorChordGroups[2]),
+  createChordLessonDefinition(24, "All major chords", "24 mixed cards covering every major chord in both directions.", "chord-mixed", allMajorLessonChords),
+  createChordLessonDefinition(25, "Build minor chords: Am-Dm-Em-Cm", "12 name-to-chord cards for Am, Dm, Em, and Cm.", "chord-key", minorChordGroups[0]),
+  createChordLessonDefinition(26, "Recognize minor chords: Am-Dm-Em-Cm", "12 chord-to-name cards for Am, Dm, Em, and Cm.", "chord-name", minorChordGroups[0]),
+  createChordLessonDefinition(27, "Build minor chords: Gm-Fm-Bm-F♯m", "12 name-to-chord cards for Gm, Fm, Bm, and F♯m.", "chord-key", minorChordGroups[1]),
+  createChordLessonDefinition(28, "Recognize minor chords: Gm-Fm-Bm-F♯m", "12 chord-to-name cards for Gm, Fm, Bm, and F♯m.", "chord-name", minorChordGroups[1]),
+  createChordLessonDefinition(29, "Build minor chords: C♯m-G♯m-B♭m-E♭m", "12 name-to-chord cards for C♯m, G♯m, B♭m, and E♭m.", "chord-key", minorChordGroups[2]),
+  createChordLessonDefinition(30, "Recognize minor chords: C♯m-G♯m-B♭m-E♭m", "12 chord-to-name cards for C♯m, G♯m, B♭m, and E♭m.", "chord-name", minorChordGroups[2]),
+  createChordLessonDefinition(31, "All minor chords", "24 mixed cards covering every minor chord in both directions.", "chord-mixed", allMinorLessonChords),
+];
 
 export const pianoLessons: readonly PianoLessonDefinition[] = [
   {
@@ -393,6 +518,7 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
     desktopChoiceColumns: 6,
     mobileChoiceColumns: 4,
   },
+  ...chordLessonDefinitions,
 ];
 
 const pianoLessonsById = new Map(pianoLessons.map((lesson) => [lesson.id, lesson]));
@@ -407,6 +533,12 @@ if (
 for (const lesson of pianoLessons) {
   if (lessonCards[lesson.id].length !== lesson.cardCount) {
     throw new Error(`Lesson ${lesson.id} card count does not match its definition`);
+  }
+
+  if (lesson.chords && lessonCards[lesson.id].some((card) => (
+    !card.chord || !card.exerciseMode || !lesson.chords?.some((chord) => chord.id === card.chord?.id)
+  ))) {
+    throw new Error(`Lesson ${lesson.id} contains an invalid chord card`);
   }
 }
 
@@ -440,6 +572,18 @@ const pianoLessonGroupSpecs = [
     title: "Full range",
     description: "Bring the complete C4 to C6 white-key range together.",
     lessonIds: [16, 17],
+  },
+  {
+    id: "major-chords",
+    title: "Major chords",
+    description: "Build and recognize the complete set of 12 major triads.",
+    lessonIds: [18, 19, 20, 21, 22, 23, 24],
+  },
+  {
+    id: "minor-chords",
+    title: "Minor chords",
+    description: "Build and recognize the complete set of 12 minor triads.",
+    lessonIds: [25, 26, 27, 28, 29, 30, 31],
   },
 ] as const satisfies ReadonlyArray<{
   id: string;
@@ -519,8 +663,18 @@ export function createLessonOneDeck(random: () => number = Math.random) {
   return createPianoLessonDeck(1, random);
 }
 
+export function lessonCardExerciseMode(lessonId: PianoLessonId, card: PianoLessonCard): PianoExerciseMode {
+  const lessonMode = getPianoLesson(lessonId).exerciseMode;
+  if (lessonMode === "chord-mixed") {
+    if (!card.exerciseMode) throw new Error(`Lesson ${lessonId} chord card is missing its exercise mode`);
+    return card.exerciseMode;
+  }
+  return lessonMode;
+}
+
 export function lessonPerformanceKey(lessonId: PianoLessonId, card: PianoLessonCard) {
-  return getPianoLesson(lessonId).exerciseMode === "key-name" ? card.note.name : card.note.id;
+  if (card.chord) return card.chord.name;
+  return lessonCardExerciseMode(lessonId, card) === "key-name" ? card.note.name : card.note.id;
 }
 
 export function rankPianoLessonPerformance(

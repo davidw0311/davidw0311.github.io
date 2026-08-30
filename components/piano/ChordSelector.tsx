@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, type CSSProperties } from "react";
 import {
   formatChordSymbol,
   pianoChordQualityLabels,
@@ -17,7 +17,8 @@ type ChordSelectorProps = {
   wrongId?: string | null;
   disabled?: boolean;
   ariaLabel?: string;
-  onChoose: (chord: PianoChord) => void;
+  columnCount?: number;
+  onChoose: (chord: PianoChord, answeredAt: number) => void;
 };
 
 function accessibleChordName(chord: PianoChord) {
@@ -33,9 +34,14 @@ export function ChordSelector({
   wrongId = null,
   disabled = false,
   ariaLabel = "Choose a chord",
+  columnCount = 12,
   onChoose,
 }: ChordSelectorProps) {
   const headingPrefix = useId();
+  const choiceColumns = {
+    "--chord-choice-columns": columnCount,
+    "--chord-mobile-choice-columns": Math.min(columnCount, 6),
+  } as CSSProperties;
 
   return (
     <div className={styles.groups} aria-label={ariaLabel}>
@@ -44,7 +50,7 @@ export function ChordSelector({
         return (
           <section className={styles.group} key={quality} aria-labelledby={headingId}>
             <h3 id={headingId}>{pianoChordQualityLabels[quality]}</h3>
-            <div className={styles.choices}>
+            <div className={styles.choices} style={choiceColumns}>
               {chords.filter((chord) => chord.quality === quality).map((chord) => {
                 const stateClass = chord.id === correctId
                   ? styles.correctChoice
@@ -59,7 +65,7 @@ export function ChordSelector({
                     disabled={disabled}
                     aria-label={`Choose ${accessibleChordName(chord)} chord`}
                     aria-pressed={selectedId === chord.id}
-                    onClick={() => onChoose(chord)}
+                    onClick={(event) => onChoose(chord, event.timeStamp)}
                   >
                     {formatChordSymbol(chord, true)}
                   </button>

@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  allMajorLessonChords,
+  allMinorLessonChords,
   createLessonOneDeck,
   createPianoLessonDeck,
   dynamicPianoLessonIds,
@@ -11,6 +13,7 @@ import {
   lessonEightNoteIds,
   lessonFourteenNoteIds,
   lessonFourNoteIds,
+  lessonCardExerciseMode,
   lessonPerformanceKey,
   lessonOneCardCount,
   lessonOneNoteNames,
@@ -20,6 +23,8 @@ import {
   lessonTwelveNoteIds,
   lessonThreeNoteNames,
   lessonTwoNoteNames,
+  majorChordLessonGroups,
+  minorChordLessonGroups,
   pianoLessonGroups,
   pianoLessonIds,
   pianoLessons,
@@ -91,6 +96,16 @@ test("lesson result shares use clear progress copy and image names", () => {
   assert.equal(
     pianoLessonShareText(resultWithMistakes),
     "I completed Piano Party Lesson 4 with 83% accuracy in 0:42.3. The note report includes 3 mistakes.",
+  );
+
+  assert.equal(
+    pianoLessonShareText({
+      ...resultWithMistakes,
+      lessonId: 24,
+      lessonTitle: "All major chords",
+      performanceLabel: "Chord",
+    }),
+    "I completed Piano Party Lesson 24 with 83% accuracy in 0:42.3. The chord report includes 3 mistakes.",
   );
 });
 
@@ -173,6 +188,72 @@ test("every lesson presents the same complete set of answer labels", () => {
     assert.equal(lesson.desktopChoiceColumns, 6);
     assert.equal(lesson.mobileChoiceColumns, 4);
   }
+});
+
+test("focused chord lessons repeat each chord three times in the requested direction", () => {
+  const focusedLessons = [
+    { ids: [18, 20, 22], groups: majorChordLessonGroups, mode: "chord-key", quality: "major" },
+    { ids: [19, 21, 23], groups: majorChordLessonGroups, mode: "chord-name", quality: "major" },
+    { ids: [25, 27, 29], groups: minorChordLessonGroups, mode: "chord-key", quality: "minor" },
+    { ids: [26, 28, 30], groups: minorChordLessonGroups, mode: "chord-name", quality: "minor" },
+  ] as const;
+
+  for (const lessonSet of focusedLessons) {
+    lessonSet.ids.forEach((lessonId, groupIndex) => {
+      const typedLessonId = lessonId as PianoLessonId;
+      const deck = createPianoLessonDeck(typedLessonId, () => 0.43);
+      const expectedIds = lessonSet.groups[groupIndex].chordIds;
+
+      assert.equal(deck.length, 12);
+      assert.equal(getPianoLesson(typedLessonId).cardCount, 12);
+      assert.deepEqual(
+        [...new Set(deck.map((card) => card.chord?.id))].sort(),
+        [...expectedIds].sort(),
+      );
+      assert.ok(deck.every((card) => card.chord?.quality === lessonSet.quality));
+      assert.ok(deck.every((card) => lessonCardExerciseMode(typedLessonId, card) === lessonSet.mode));
+
+      for (const chordId of expectedIds) {
+        assert.equal(deck.filter((card) => card.chord?.id === chordId).length, 3);
+      }
+    });
+  }
+});
+
+test("major and minor reviews cover all 12 chords once in each direction", () => {
+  const reviewLessons = [
+    { lessonId: 24, chords: allMajorLessonChords, quality: "major" },
+    { lessonId: 31, chords: allMinorLessonChords, quality: "minor" },
+  ] as const;
+
+  for (const { lessonId, chords, quality } of reviewLessons) {
+    const deck = createPianoLessonDeck(lessonId, () => 0.61);
+    assert.equal(deck.length, 24);
+    assert.equal(chords.length, 12);
+    assert.ok(deck.every((card) => card.chord?.quality === quality));
+
+    for (const chord of chords) {
+      const matchingCards = deck.filter((card) => card.chord?.id === chord.id);
+      assert.equal(matchingCards.length, 2);
+      assert.deepEqual(
+        matchingCards.map((card) => lessonCardExerciseMode(lessonId, card)).sort(),
+        ["chord-key", "chord-name"],
+      );
+    }
+  }
+});
+
+test("chord lesson reports aggregate both directions under the chord symbol", () => {
+  const deck = createPianoLessonDeck(24, () => 0.22);
+  const firstChord = deck[0].chord;
+  assert.ok(firstChord);
+  const matchingCards = deck.filter((card) => card.chord?.id === firstChord.id);
+
+  assert.equal(matchingCards.length, 2);
+  assert.deepEqual(
+    new Set(matchingCards.map((card) => lessonPerformanceKey(24, card))),
+    new Set([firstChord.name]),
+  );
 });
 
 test("shuffled lessons never repeat an equivalent question twice in a row", () => {

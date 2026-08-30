@@ -1,5 +1,6 @@
 import {
   pianoLessonShareFileName,
+  pianoLessonSharePerformanceLabel,
   type PianoLessonShareResult,
 } from "../data/pianoLessonShare.ts";
 
@@ -73,21 +74,22 @@ function drawShareStat(
   context.fillText(value, x, 620);
 }
 
-function drawNoteReport(context: CanvasRenderingContext2D, result: PianoLessonShareResult) {
+function drawPerformanceReport(context: CanvasRenderingContext2D, result: PianoLessonShareResult) {
   const reportTop = 710;
   const rowStart = 808;
   const rowHeight = 52;
+  const performanceLabel = pianoLessonSharePerformanceLabel(result);
 
   context.fillStyle = "#edf8f5";
   context.font = "700 32px Arial, sans-serif";
-  context.fillText("Note report", 112, reportTop);
+  context.fillText(`${performanceLabel} report`, 112, reportTop);
   context.fillStyle = "#789795";
   context.font = "500 21px Arial, sans-serif";
   context.fillText("Ranked by mistakes, then average recognition time", 112, reportTop + 36);
 
   context.font = "700 19px Arial, sans-serif";
   context.fillText("RANK", 112, 786);
-  context.fillText("NOTE", 210, 786);
+  context.fillText(performanceLabel.toUpperCase(), 210, 786);
   context.textAlign = "right";
   context.fillText("MISTAKES", 720, 786);
   context.fillText("AVG. TIME", 930, 786);
@@ -184,7 +186,7 @@ export function createPianoLessonShareImage(result: PianoLessonShareResult) {
   context.lineTo(1088, 665);
   context.stroke();
 
-  drawNoteReport(context, result);
+  drawPerformanceReport(context, result);
   drawShareKeyboard(context, keyboardY);
 
   context.fillStyle = "#789795";
