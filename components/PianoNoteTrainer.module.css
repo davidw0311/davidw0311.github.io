@@ -138,6 +138,9 @@
 .modeControls button:active,
 .clefControls button:active,
 .noteChoices button:active,
+.chordRootChoices button:active,
+.chordQualityRow button:active,
+.checkChordButton:active:not(:disabled),
 .nextButton:active:not(:disabled),
 .whiteKey:active:not(:disabled) {
   transform: scale(0.97);
@@ -448,6 +451,115 @@
   background: var(--piano-danger);
 }
 
+.chordPromptCard {
+  display: grid;
+  min-width: min(330px, 88vw);
+  padding: clamp(20px, 4vw, 34px);
+  border: 1px solid var(--piano-line-strong);
+  border-radius: 15px;
+  text-align: center;
+  background: radial-gradient(circle at 50% 0%, rgb(121 228 197 / 0.13), transparent 58%), var(--piano-surface);
+  box-shadow: 0 20px 50px rgb(0 8 13 / 0.28);
+}
+
+.chordPromptCard span {
+  color: var(--piano-faint);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.chordPromptCard strong {
+  margin-top: 5px;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.1rem, 6vw, 4rem);
+  font-weight: 650;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.chordPromptCard em {
+  margin-top: 5px;
+  color: var(--piano-accent);
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chordNameAnswer,
+.chordKeyAnswer {
+  display: grid;
+  gap: 7px;
+}
+
+.chordRootChoices {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.chordQualityRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr)) minmax(140px, 1.35fr);
+  gap: 5px;
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
+.chordRootChoices button,
+.chordQualityRow button,
+.checkChordButton {
+  min-height: 38px;
+  padding: 4px 6px;
+  border: 1px solid var(--piano-line-strong);
+  border-radius: 8px;
+  color: var(--piano-ink);
+  background: var(--piano-surface-soft);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: color 170ms ease, border-color 170ms ease, background-color 170ms ease, transform 170ms ease;
+}
+
+.chordRootChoices button {
+  min-width: 0;
+  padding-inline: 2px;
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.64rem;
+  line-height: 1;
+}
+
+.chordRootChoices button:hover:not(:disabled),
+.chordQualityRow button:hover:not(:disabled),
+.chordRootChoices .selectedChoice,
+.chordQualityRow .selectedChoice {
+  border-color: var(--piano-accent);
+  color: var(--piano-accent);
+  background: rgb(121 228 197 / 0.09);
+}
+
+.chordRootChoices button:disabled,
+.chordQualityRow button:disabled,
+.checkChordButton:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.checkChordButton {
+  border-color: var(--piano-accent);
+  color: var(--piano-accent-ink);
+  background: var(--piano-accent);
+}
+
+.chordKeyAnswer > .checkChordButton {
+  width: min(100%, 300px);
+  margin: 0 auto;
+}
+
 .keyboardWrap {
   width: 100%;
   min-width: 0;
@@ -465,6 +577,12 @@
   border-radius: 13px;
   background: #102229;
   box-shadow: 0 20px 48px rgb(0 8 13 / 0.36), inset 0 1px 0 rgb(255 255 255 / 0.08);
+}
+
+.twoOctaveKeyboard {
+  grid-template-columns: 7fr 8fr;
+  width: min(100%, 900px);
+  margin: 0 auto;
 }
 
 .keyboardRange {
@@ -533,6 +651,7 @@
 }
 
 .whiteKey.promptKey,
+.whiteKey.selectedKey,
 .whiteKey.correctKey {
   background: linear-gradient(to bottom, #b4f1df, var(--piano-accent));
   box-shadow: inset 0 -7px 0 rgb(6 37 30 / 0.16);
@@ -579,6 +698,7 @@
 
 .blackKey:hover:not(:disabled) > span,
 .blackKey:focus-visible > span,
+.blackKey.selectedKey > span,
 .blackKey.correctKey > span,
 .blackKey.wrongKey > span {
   opacity: 1;
@@ -594,6 +714,7 @@
 }
 
 .blackKey.promptKey,
+.blackKey.selectedKey,
 .blackKey.correctKey {
   border-color: #b4f1df;
   color: #06251e;
@@ -691,6 +812,10 @@
   .noteChoices .wrongChoice {
     color: #fff5f4;
   }
+
+  .checkChordButton {
+    color: #f0faf6;
+  }
 }
 
 @media (max-width: 900px) {
@@ -723,7 +848,7 @@
 
   .modeControls {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     width: 100%;
   }
 
@@ -854,6 +979,33 @@
     border-radius: 9px;
   }
 
+  .keyboard.twoOctaveKeyboard {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    height: clamp(142px, 22dvh, 170px);
+  }
+
+  .chordPromptCard {
+    min-width: min(280px, 82vw);
+    padding: 15px;
+  }
+
+  .chordRootChoices {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .chordRootChoices button,
+  .chordQualityRow button,
+  .checkChordButton {
+    min-height: 31px;
+    font-size: 0.58rem;
+  }
+
+  .chordQualityRow {
+    grid-template-columns: repeat(2, minmax(68px, 1fr)) minmax(108px, 1.45fr);
+    gap: 3px;
+  }
+
   .whiteKeys {
     grid-template-columns: repeat(var(--portrait-white-count), minmax(0, 1fr));
   }
@@ -920,8 +1072,8 @@
 
   .modeControls {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: min(100%, 360px);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: min(100%, 580px);
   }
 
   .modeControls button {
@@ -1044,6 +1196,31 @@
     height: clamp(72px, 21dvh, 82px);
     border-width: 4px;
     border-radius: 9px;
+  }
+
+  .keyboard.twoOctaveKeyboard {
+    grid-template-columns: 7fr 8fr;
+  }
+
+  .chordPromptCard {
+    min-width: 260px;
+    padding: 11px 18px;
+  }
+
+  .chordPromptCard strong {
+    font-size: 2rem;
+  }
+
+  .chordRootChoices {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 3px;
+  }
+
+  .chordRootChoices button,
+  .chordQualityRow button,
+  .checkChordButton {
+    min-height: 28px;
+    font-size: 0.55rem;
   }
 
   .whiteKeys {

@@ -299,8 +299,8 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
           <div className={styles.keyboardPrompt}>
             {lesson.exerciseMode === "key-name" ? (
               <PianoKeyboard
-                target={currentCard.note}
-                selectedId={null}
+                targetNotes={[currentCard.note]}
+                selectedIds={[]}
                 answered={answered}
                 interactive={false}
                 showPrompt
@@ -314,8 +314,8 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
           <div className={styles.answerPanel}>
             {lesson.exerciseMode === "staff-key" ? (
               <PianoKeyboard
-                target={currentCard.note}
-                selectedId={selectedAnswer}
+                targetNotes={[currentCard.note]}
+                selectedIds={selectedAnswer ? [selectedAnswer] : []}
                 answered={answered}
                 interactive
                 showPrompt={false}

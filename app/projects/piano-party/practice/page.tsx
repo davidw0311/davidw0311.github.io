@@ -6,7 +6,7 @@ import styles from "../piano-party.module.css";
 
 export const metadata: Metadata = {
   title: "Free Practice | Piano Party",
-  description: "Practice piano keys and staff notes freely in treble and bass clef.",
+  description: "Practice piano notes, staff reading, and major and minor chords.",
   alternates: { canonical: "/projects/piano-party/practice/" },
 };
 
@@ -39,8 +39,8 @@ export default function PianoPracticePage() {
           <h2 id="practice-guide-title">Read. Find. Repeat.</h2>
         </div>
         <div className={styles.guideCopy}>
-          <p>Start with key names, then move to staff reading. Mixed clefs combine both skills once each one feels familiar.</p>
-          <p>Practice natural notes, sharps, and flats from C3 to C5. Each answer plays aloud so sight and sound reinforce one another.</p>
+          <p>Start with key names and staff reading, then recognize and build major and minor triads. Mixed clefs combine both note-reading skills.</p>
+          <p>Note drills span C3 to C6; chord drills use a focused two-octave C4 to C6 keyboard. Every key and completed chord plays aloud.</p>
         </div>
       </section>
 

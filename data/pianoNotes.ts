@@ -2,7 +2,10 @@ export type NaturalNoteName = "A" | "B" | "C" | "D" | "E" | "F" | "G";
 export type Accidental = "sharp" | "flat" | null;
 export type StaffClef = "treble" | "bass";
 export type ClefFilter = "mixed" | StaffClef;
-export type PianoExerciseMode = "key-name" | "staff-name" | "staff-key";
+export type PianoNoteExerciseMode = "key-name" | "staff-name" | "staff-key";
+export type PianoChordExerciseMode = "chord-name" | "chord-key";
+export type PianoExerciseMode = PianoNoteExerciseMode | PianoChordExerciseMode;
+export type PianoChordQuality = "major" | "minor";
 
 type PitchDefinition = {
   key: string;
@@ -51,6 +54,14 @@ export type PianoQuestion = {
   notation?: StaffNotation;
 };
 
+export type PianoChord = {
+  id: string;
+  name: string;
+  quality: PianoChordQuality;
+  root: PianoNote;
+  notes: readonly PianoNote[];
+};
+
 export const pitchNames = pitchClassDefinitions.map((pitch) => pitch.name);
 export const naturalNoteNames: NaturalNoteName[] = ["C", "D", "E", "F", "G", "A", "B"];
 
@@ -83,6 +94,31 @@ export const pianoNotes: PianoNote[] = [3, 4, 5]
 
 export const whiteKeys = pianoNotes.filter((note) => !note.isBlack);
 export const blackKeys = pianoNotes.filter((note) => note.isBlack);
+
+const chordIntervals: Record<PianoChordQuality, readonly number[]> = {
+  major: [0, 4, 7],
+  minor: [0, 3, 7],
+};
+
+const chordRoots = pianoNotes.filter((note) => note.octave === 4);
+
+export const pianoChords: readonly PianoChord[] = chordRoots.flatMap((root) => (
+  (Object.keys(chordIntervals) as PianoChordQuality[]).map((quality) => {
+    const notes = chordIntervals[quality].map((interval) => {
+      const note = pianoNotes.find((candidate) => candidate.midi === root.midi + interval);
+      if (!note) throw new Error(`Missing ${quality} chord tone for ${root.id}`);
+      return note;
+    });
+
+    return {
+      id: `${root.id}-${quality}`,
+      name: `${root.name} ${quality}`,
+      quality,
+      root,
+      notes,
+    };
+  })
+));
 
 function diatonicIndex(note: Pick<StaffNotation, "name" | "octave">) {
   return note.octave * 7 + naturalNoteNames.indexOf(note.name);
@@ -146,7 +182,7 @@ function staffQuestionPool(clef: StaffClef) {
     })));
 }
 
-export function questionPool(mode: PianoExerciseMode, clefFilter: ClefFilter): PianoQuestion[] {
+export function questionPool(mode: PianoNoteExerciseMode, clefFilter: ClefFilter): PianoQuestion[] {
   if (mode === "key-name") {
     return pianoNotes.map((note) => ({ id: note.id, note }));
   }
@@ -156,7 +192,7 @@ export function questionPool(mode: PianoExerciseMode, clefFilter: ClefFilter): P
 }
 
 export function createPianoQuestion(
-  mode: PianoExerciseMode,
+  mode: PianoNoteExerciseMode,
   clefFilter: ClefFilter,
   previousId?: string,
   random: () => number = Math.random,
@@ -169,6 +205,25 @@ export function createPianoQuestion(
   }
 
   return pool[index];
+}
+
+export function createPianoChordQuestion(
+  previousId?: string,
+  random: () => number = Math.random,
+) {
+  let index = Math.min(pianoChords.length - 1, Math.floor(random() * pianoChords.length));
+
+  if (pianoChords.length > 1 && pianoChords[index].id === previousId) {
+    index = (index + 1) % pianoChords.length;
+  }
+
+  return pianoChords[index];
+}
+
+export function chordMatchesNoteIds(chord: PianoChord, noteIds: readonly string[]) {
+  if (noteIds.length !== chord.notes.length) return false;
+  const selectedIds = new Set(noteIds);
+  return chord.notes.every((note) => selectedIds.has(note.id));
 }
 
 export function noteFrequency(midi: number) {

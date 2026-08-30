@@ -39,83 +39,95 @@ const keyboardRanges = [
 
 function keyStateClass(
   note: PianoNote,
-  target: PianoNote,
-  selectedId: string | null,
+  targetNotes: readonly PianoNote[],
+  selectedIds: readonly string[],
   answered: boolean,
   showPrompt: boolean,
 ) {
-  const isTarget = note.id === target.id;
-  const isSelected = selectedId === note.id;
+  const isTarget = targetNotes.some((target) => note.id === target.id);
+  const isSelected = selectedIds.includes(note.id);
   return [
     showPrompt && isTarget ? styles.promptKey : "",
+    !answered && isSelected ? styles.selectedKey : "",
     answered && isTarget ? styles.correctKey : "",
     answered && isSelected && !isTarget ? styles.wrongKey : "",
   ].filter(Boolean).join(" ");
 }
 
 type PianoKeyboardProps = {
-  target: PianoNote;
-  selectedId: string | null;
+  targetNotes: readonly PianoNote[];
+  selectedIds: readonly string[];
   answered: boolean;
   interactive: boolean;
   showPrompt: boolean;
+  range?: "full" | "two-octave";
   onChoose: (note: PianoNote, answeredAt: number) => void;
 };
 
 export function PianoKeyboard({
-  target,
-  selectedId,
+  targetNotes,
+  selectedIds,
   answered,
   interactive,
   showPrompt,
+  range = "full",
   onChoose,
 }: PianoKeyboardProps) {
+  const visibleRanges = range === "two-octave"
+    ? keyboardRanges.filter((keyboardRange) => keyboardRange.id !== "lower")
+    : keyboardRanges;
+
   return (
     <div className={styles.keyboardWrap}>
       <div
-        className={`${styles.keyboard} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
+        className={`${styles.keyboard} ${range === "two-octave" ? styles.twoOctaveKeyboard : ""} ${showPrompt && !answered ? styles.concealKeyLabels : ""}`}
         role="group"
-        aria-label="Piano keyboard from C3 to C6, including sharp and flat keys"
+        aria-label={`Piano keyboard from ${range === "two-octave" ? "C4" : "C3"} to C6, including sharp and flat keys`}
       >
-        {keyboardRanges.map((range) => (
-          <div className={styles.keyboardRange} key={range.id}>
+        {visibleRanges.map((keyboardRange) => (
+          <div className={styles.keyboardRange} key={keyboardRange.id}>
             <div
               className={styles.whiteKeys}
               style={{
-                "--desktop-white-count": range.whiteNotes.length,
-                "--portrait-white-count": range.portraitWhiteCount,
-                "--portrait-white-start": range.portraitLeadingWhiteKeys + 1,
+                "--desktop-white-count": keyboardRange.whiteNotes.length,
+                "--portrait-white-count": keyboardRange.portraitWhiteCount,
+                "--portrait-white-start": keyboardRange.portraitLeadingWhiteKeys + 1,
               } as CSSProperties}
             >
-              {range.whiteNotes.map((note) => (
-                <button
-                  type="button"
-                  key={note.id}
-                  className={`${styles.whiteKey} ${keyStateClass(note, target, selectedId, answered, showPrompt)}`}
-                  disabled={!interactive}
-                  tabIndex={interactive ? 0 : -1}
-                  aria-label={spokenPitchName(note)}
-                  aria-pressed={interactive ? selectedId === note.id : undefined}
-                  onClick={(event) => onChoose(note, event.timeStamp)}
-                >
-                  <span className={answered && (note.id === target.id || note.id === selectedId) ? styles.visibleKeyLabel : ""}>
-                    {note.name}<small>{note.octave}</small>
-                  </span>
-                </button>
-              ))}
+              {keyboardRange.whiteNotes.map((note) => {
+                const isTarget = targetNotes.some((target) => target.id === note.id);
+                const isSelected = selectedIds.includes(note.id);
+                return (
+                  <button
+                    type="button"
+                    key={note.id}
+                    className={`${styles.whiteKey} ${keyStateClass(note, targetNotes, selectedIds, answered, showPrompt)}`}
+                    disabled={!interactive}
+                    tabIndex={interactive ? 0 : -1}
+                    aria-label={spokenPitchName(note)}
+                    aria-pressed={interactive ? isSelected : undefined}
+                    onClick={(event) => onChoose(note, event.timeStamp)}
+                  >
+                    <span className={(isSelected || (answered && isTarget)) ? styles.visibleKeyLabel : ""}>
+                      {note.name}<small>{note.octave}</small>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
             <div className={styles.blackKeys}>
-              {range.blackNotes.map((note) => {
-                const relativeIndex = (note.afterWhiteIndex ?? range.whiteOffset) - range.whiteOffset;
-                const desktopLeft = ((relativeIndex + 1) / range.whiteNotes.length) * 100;
+              {keyboardRange.blackNotes.map((note) => {
+                const isSelected = selectedIds.includes(note.id);
+                const relativeIndex = (note.afterWhiteIndex ?? keyboardRange.whiteOffset) - keyboardRange.whiteOffset;
+                const desktopLeft = ((relativeIndex + 1) / keyboardRange.whiteNotes.length) * 100;
                 const portraitLeft = (
-                  (relativeIndex + range.portraitLeadingWhiteKeys + 1) / range.portraitWhiteCount
+                  (relativeIndex + keyboardRange.portraitLeadingWhiteKeys + 1) / keyboardRange.portraitWhiteCount
                 ) * 100;
                 return (
                   <button
                     type="button"
                     key={note.id}
-                    className={`${styles.blackKey} ${keyStateClass(note, target, selectedId, answered, showPrompt)}`}
+                    className={`${styles.blackKey} ${keyStateClass(note, targetNotes, selectedIds, answered, showPrompt)}`}
                     style={{
                       "--desktop-left": `${desktopLeft}%`,
                       "--portrait-left": `${portraitLeft}%`,
@@ -123,7 +135,7 @@ export function PianoKeyboard({
                     disabled={!interactive}
                     tabIndex={interactive ? 0 : -1}
                     aria-label={spokenPitchName(note)}
-                    aria-pressed={interactive ? selectedId === note.id : undefined}
+                    aria-pressed={interactive ? isSelected : undefined}
                     onClick={(event) => onChoose(note, event.timeStamp)}
                   >
                     <span>{formatPianoKey(note)}</span>

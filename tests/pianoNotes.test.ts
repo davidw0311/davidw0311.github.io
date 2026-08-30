@@ -3,11 +3,14 @@ import { stat } from "node:fs/promises";
 import test from "node:test";
 import {
   blackKeys,
+  chordMatchesNoteIds,
+  createPianoChordQuestion,
   createPianoQuestion,
   formatNotation,
   ledgerStepsFor,
   noteFrequency,
   pianoAudioPath,
+  pianoChords,
   pianoNotes,
   questionPool,
   staffStepFor,
@@ -53,6 +56,32 @@ test("staff exercises include natural, sharp, and flat notation", () => {
 test("question generation avoids an immediate repeat", () => {
   const first = createPianoQuestion("key-name", "mixed", undefined, () => 0);
   const second = createPianoQuestion("key-name", "mixed", first.id, () => 0);
+  assert.notEqual(first.id, second.id);
+});
+
+test("the chord library contains every chromatic major and minor triad", () => {
+  assert.equal(pianoChords.length, 24);
+  assert.equal(new Set(pianoChords.map((chord) => chord.root.id)).size, 12);
+  assert.deepEqual(new Set(pianoChords.map((chord) => chord.quality)), new Set(["major", "minor"]));
+  assert.ok(pianoChords.every((chord) => chord.notes.every((note) => note.midi >= 60 && note.midi <= 84)));
+
+  assert.deepEqual(pianoChords.find((chord) => chord.id === "C4-major")?.notes.map((note) => note.id), ["C4", "E4", "G4"]);
+  assert.deepEqual(pianoChords.find((chord) => chord.id === "C4-minor")?.notes.map((note) => note.id), ["C4", "D#4", "G4"]);
+  assert.deepEqual(pianoChords.find((chord) => chord.id === "B4-major")?.notes.map((note) => note.id), ["B4", "D#5", "F#5"]);
+});
+
+test("chord answers match the exact three keys in any order", () => {
+  const chord = pianoChords.find((candidate) => candidate.id === "C4-major");
+  assert.ok(chord);
+  assert.equal(chordMatchesNoteIds(chord, ["G4", "C4", "E4"]), true);
+  assert.equal(chordMatchesNoteIds(chord, ["C4", "E4"]), false);
+  assert.equal(chordMatchesNoteIds(chord, ["C4", "E4", "F4"]), false);
+  assert.equal(chordMatchesNoteIds(chord, ["C4", "E4", "G4", "C5"]), false);
+});
+
+test("chord question generation avoids an immediate repeat", () => {
+  const first = createPianoChordQuestion(undefined, () => 0);
+  const second = createPianoChordQuestion(first.id, () => 0);
   assert.notEqual(first.id, second.id);
 });
 

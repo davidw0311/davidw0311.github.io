@@ -28,17 +28,17 @@ async function resumeAudioContext(context: AudioContext) {
 }
 
 export function usePianoAudio(enabled = true) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRefs = useRef<Set<HTMLAudioElement>>(new Set());
   const audioContextRef = useRef<AudioContext | null>(null);
-  const cleanupAudioRef = useRef<(() => void) | null>(null);
+  const cleanupAudioRefs = useRef<Set<() => void>>(new Set());
   const playbackGenerationRef = useRef(0);
 
   const stopNote = useCallback(() => {
     playbackGenerationRef.current += 1;
-    cleanupAudioRef.current?.();
-    cleanupAudioRef.current = null;
-    audioRef.current?.pause();
-    audioRef.current = null;
+    audioRefs.current.forEach((audio) => audio.pause());
+    cleanupAudioRefs.current.forEach((cleanup) => cleanup());
+    cleanupAudioRefs.current.clear();
+    audioRefs.current.clear();
   }, []);
 
   const discardAudioContext = useCallback(() => {
@@ -96,7 +96,7 @@ export function usePianoAudio(enabled = true) {
     return context;
   }, [createAudioContext]);
 
-  const playSynthesizedTone = useCallback(async (note: PianoNote) => {
+  const playSynthesizedTone = useCallback(async (note: PianoNote, peakVolume = 0.22) => {
     const context = await getPlayableAudioContext();
     if (!context) return;
 
@@ -104,7 +104,7 @@ export function usePianoAudio(enabled = true) {
     const frequency = noteFrequency(note.midi);
     const output = context.createGain();
     output.gain.setValueAtTime(0.0001, now);
-    output.gain.exponentialRampToValueAtTime(0.22, now + 0.018);
+    output.gain.exponentialRampToValueAtTime(peakVolume, now + 0.018);
     output.gain.exponentialRampToValueAtTime(0.0001, now + 1.15);
     output.connect(context.destination);
 
@@ -125,37 +125,43 @@ export function usePianoAudio(enabled = true) {
     });
   }, [getPlayableAudioContext]);
 
-  const playNote = useCallback((note: PianoNote) => {
-    if (!enabled) return;
-
+  const playNotes = useCallback((notes: readonly PianoNote[]) => {
+    if (!enabled || notes.length === 0) return;
     stopNote();
     const generation = playbackGenerationRef.current;
-    const audio = new Audio(pianoAudioPath(note));
-    let fallbackStarted = false;
-    const clearAudio = () => {
-      audio.removeEventListener("ended", clearAudio);
-      audio.removeEventListener("error", fallback);
-      if (audioRef.current === audio) audioRef.current = null;
-      if (cleanupAudioRef.current === clearAudio) cleanupAudioRef.current = null;
-    };
-    const fallback = () => {
-      if (fallbackStarted || generation !== playbackGenerationRef.current) return;
-      fallbackStarted = true;
-      clearAudio();
-      void playSynthesizedTone(note);
-    };
+    const noteVolume = notes.length === 1 ? 0.9 : 0.58;
+    const synthVolume = notes.length === 1 ? 0.22 : 0.11;
 
-    audio.preload = "auto";
-    audio.volume = 0.9;
-    audio.addEventListener("ended", clearAudio, { once: true });
-    audio.addEventListener("error", fallback, { once: true });
-    audioRef.current = audio;
-    cleanupAudioRef.current = clearAudio;
+    notes.forEach((note) => {
+      const audio = new Audio(pianoAudioPath(note));
+      let fallbackStarted = false;
+      const clearAudio = () => {
+        audio.removeEventListener("ended", clearAudio);
+        audio.removeEventListener("error", fallback);
+        audioRefs.current.delete(audio);
+        cleanupAudioRefs.current.delete(clearAudio);
+      };
+      const fallback = () => {
+        if (fallbackStarted || generation !== playbackGenerationRef.current) return;
+        fallbackStarted = true;
+        clearAudio();
+        void playSynthesizedTone(note, synthVolume);
+      };
 
-    // Keep play() in the original tap event for mobile Safari. Web Audio is
-    // only used if the local recording cannot start.
-    void audio.play().catch(fallback);
+      audio.preload = "auto";
+      audio.volume = noteVolume;
+      audio.addEventListener("ended", clearAudio, { once: true });
+      audio.addEventListener("error", fallback, { once: true });
+      audioRefs.current.add(audio);
+      cleanupAudioRefs.current.add(clearAudio);
+
+      // Keep play() in the original tap event for mobile Safari. Web Audio is
+      // only used if a local recording cannot start.
+      void audio.play().catch(fallback);
+    });
   }, [enabled, playSynthesizedTone, stopNote]);
 
-  return { playNote, stopNote };
+  const playNote = useCallback((note: PianoNote) => playNotes([note]), [playNotes]);
+
+  return { playNote, playNotes, stopNote };
 }

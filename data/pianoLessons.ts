@@ -4,7 +4,7 @@ import {
   pianoNotes,
   pitchNames,
   whiteKeys,
-  type PianoExerciseMode,
+  type PianoNoteExerciseMode,
   type PianoNote,
   type PitchName,
   type StaffClef,
@@ -39,7 +39,7 @@ export type PianoLessonDefinition = {
   description: string;
   libraryDescription: string;
   completionDescription: string;
-  exerciseMode: PianoExerciseMode;
+  exerciseMode: PianoNoteExerciseMode;
   prompt: string;
   answerChoices: readonly PitchName[];
   cardCount: number;
