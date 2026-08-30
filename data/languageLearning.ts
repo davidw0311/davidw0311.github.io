@@ -40,6 +40,7 @@ export type ContentItem = {
   slug: string;
   type: ContentType;
   tier: 0 | 1;
+  practiceLanguageIds?: readonly LanguageId[];
   title: string;
   description: string;
   estimatedMinutes: number;
@@ -587,6 +588,20 @@ export const contentItems: ContentItem[] = [
     units: countingSamples.map(countingUnit),
   },
 ];
+
+export function isContentAvailableForLanguage(
+  content: ContentItem,
+  practiceLanguageId: LanguageId,
+) {
+  return content.practiceLanguageIds === undefined
+    || content.practiceLanguageIds.includes(practiceLanguageId);
+}
+
+export function contentItemsForPracticeLanguage(practiceLanguageId: LanguageId) {
+  return contentItems.filter((content) => (
+    isContentAvailableForLanguage(content, practiceLanguageId)
+  ));
+}
 
 export const defaultLocalProgress: LocalProgress = {
   xp: 0,

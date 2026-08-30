@@ -23,6 +23,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   contentItems,
+  contentItemsForPracticeLanguage,
   languageIds,
   languages,
   unitProgressKey,
@@ -54,6 +55,8 @@ import {
   PhraseStudyPanel,
   type ActivePhrase,
 } from "./language-lab/PhraseStudyPanel";
+import { LearningLanguageSelection } from "./language-lab/LearningLanguageSelection";
+import { LessonFlowProgress } from "./language-lab/LessonFlowProgress";
 import { LessonLanguageSetup } from "./language-lab/LessonLanguageSetup";
 import { SupportLanguageCard } from "./language-lab/SupportLanguageCard";
 import styles from "./LanguageLearningLab.module.css";
@@ -64,7 +67,7 @@ type LanguageLearningLabProps = {
   onSystemLanguageChange?: (languageId: LanguageId) => void;
 };
 
-type LanguageLabScreen = "library" | "setup" | "lesson";
+type LanguageLabScreen = "language" | "library" | "setup" | "lesson";
 
 export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearningLabProps = {}) {
   const reduceMotion = useReducedMotion();
@@ -75,7 +78,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const [lessonFinished, setLessonFinished] = useState(false);
   const [lessonLanguagePickerOpen, setLessonLanguagePickerOpen] = useState(false);
   const [systemLanguagePickerOpen, setSystemLanguagePickerOpen] = useState(false);
-  const [screen, setScreen] = useState<LanguageLabScreen>("library");
+  const [screen, setScreen] = useState<LanguageLabScreen>("language");
   const [lessonStarting, setLessonStarting] = useState(false);
   const [lessonEntryError, setLessonEntryError] = useState("");
   const [audioFeedback, setAudioFeedback] = useState("");
@@ -132,6 +135,10 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   const persistedStatus = progress.completed[progressKey] ?? "not_started";
   const unitIsComplete = speechState === "passed" || persistedStatus === "passed" || persistedStatus === "skipped";
   const supportLanguageIds = progress.displayLanguageIds.filter((languageId) => languageId !== practiceLanguageId);
+  const availableContentItems = useMemo(
+    () => contentItemsForPracticeLanguage(practiceLanguageId),
+    [practiceLanguageId],
+  );
   const lessonOpen = screen === "lesson";
   const availableLanguageIds = languageIds.filter((languageId) => (
     languageId !== practiceLanguageId && !supportLanguageIds.includes(languageId)
@@ -185,6 +192,18 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
     setScreen("setup");
   };
 
+  const showLessonLibrary = () => {
+    closeLanguagePickers();
+    setLessonEntryError("");
+    setScreen("library");
+  };
+
+  const showLanguageSelection = () => {
+    closeLanguagePickers();
+    setLessonEntryError("");
+    setScreen("language");
+  };
+
   const startLesson = async () => {
     if (lessonStarting) return;
     setLessonStarting(true);
@@ -207,14 +226,18 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
   };
 
   const returnToLibrary = () => {
-    setScreen("library");
-    closeLanguagePickers();
-    setLessonEntryError("");
+    showLessonLibrary();
     resetAttempt();
   };
 
   const selectPracticeLanguage = (languageId: LanguageId) => {
+    const firstAvailableContent = contentItemsForPracticeLanguage(languageId)[0];
+    if (firstAvailableContent) {
+      const nextContentIndex = contentItems.findIndex((item) => item.id === firstAvailableContent.id);
+      if (nextContentIndex >= 0) setContentIndex(nextContentIndex);
+    }
     setProgress((current) => withPracticeLanguage(current, languageId));
+    setUnitIndex(0);
     setLessonFinished(false);
     resetAttempt();
   };
@@ -373,7 +396,14 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
       </header>
 
       <AnimatePresence mode="wait" initial={false}>
-        {screen === "library" ? (
+        {screen === "language" ? (
+          <LearningLanguageSelection
+            practiceLanguageId={practiceLanguageId}
+            ui={ui}
+            onSelect={selectPracticeLanguage}
+            onProceed={showLessonLibrary}
+          />
+        ) : screen === "library" ? (
           <motion.section
             key="library"
             className={styles.landing}
@@ -383,15 +413,26 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={reduceMotion ? { duration: 0 } : { duration: 0.2 }}
           >
-            <div className={styles.landingHeading}>
-              <div>
+            <div className={`${styles.setupIntro} ${styles.librarySetupIntro}`}>
+              <button type="button" className={styles.setupBackButton} onClick={showLanguageSelection}>
+                <ArrowLeft size={18} weight="bold" aria-hidden="true" />
+                <span>{ui.learningLanguage}</span>
+              </button>
+              <div className={styles.setupIntroCopy}>
+                <span>{languages[practiceLanguageId].nameNative}</span>
                 <h1 id="library-title">{ui.chooseLesson}</h1>
                 <p>{ui.chooseLessonHelp}</p>
               </div>
+              <LessonFlowProgress activeStep="lessons" ui={ui} />
             </div>
 
-            <div className={styles.lessonCards} aria-label={ui.availableLessons}>
-              {contentItems.map((item, index) => {
+            <div
+              className={styles.lessonCards}
+              data-count={Math.min(availableContentItems.length, 3)}
+              aria-label={ui.availableLessons}
+            >
+              {availableContentItems.map((item) => {
+                const itemIndex = contentItems.findIndex((candidate) => candidate.id === item.id);
                 const completed = item.units.filter((candidate) => {
                   const status = progress.completed[unitProgressKey(item.id, candidate.id, practiceLanguageId)];
                   return status === "passed" || status === "skipped";
@@ -403,7 +444,7 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
                     key={item.id}
                     type="button"
                     aria-label={formatUi(ui.openLesson, { lesson: itemText.title })}
-                    onClick={() => chooseLesson(index)}
+                    onClick={() => chooseLesson(itemIndex)}
                   >
                     <span className={styles.lessonCardIcon}><Icon size={32} weight="fill" aria-hidden="true" /></span>
                     <span className={styles.lessonCardCopy}>
@@ -431,10 +472,9 @@ export function LanguageLearningLab({ onSystemLanguageChange }: LanguageLearning
             lessonStarting={lessonStarting}
             lessonEntryError={lessonEntryError}
             ui={ui}
-            onSelectPracticeLanguage={selectPracticeLanguage}
             onToggleDisplayLanguage={toggleDisplayLanguage}
             onProceed={() => void startLesson()}
-            onBack={returnToLibrary}
+            onBack={showLessonLibrary}
           />
         ) : (
           <motion.section
