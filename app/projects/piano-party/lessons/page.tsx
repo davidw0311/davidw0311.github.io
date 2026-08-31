@@ -4,7 +4,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PianoLessonList } from "@/components/PianoLessonList";
 import {
+  pianoLessonLibraryAnchor,
   pianoLessonGroups,
   type PianoLessonExerciseMode,
 } from "@/data/pianoLessons";
@@ -40,7 +42,7 @@ export default function PianoLessonsPage() {
           <strong>Short, focused sessions that build piano-reading and chord skills one step at a time.</strong>
         </header>
 
-        <div className={styles.lessonList}>
+        <PianoLessonList>
           {pianoLessonGroups.map((group) => (
             <section
               className={styles.lessonGroup}
@@ -60,6 +62,8 @@ export default function PianoLessonsPage() {
                   <Link
                     className={styles.lessonRow}
                     href={`/projects/piano-party/lessons/${lesson.id}/`}
+                    id={pianoLessonLibraryAnchor(lesson.id)}
+                    data-piano-lesson-id={lesson.id}
                     key={lesson.id}
                   >
                     <span className={styles.lessonNumber} aria-hidden="true">
@@ -78,7 +82,7 @@ export default function PianoLessonsPage() {
               </div>
             </section>
           ))}
-        </div>
+        </PianoLessonList>
       </section>
     </main>
   );

@@ -28,6 +28,14 @@ export const pianoLessonIds = [
 
 export type PianoLessonId = (typeof pianoLessonIds)[number];
 
+export function pianoLessonLibraryAnchor(lessonId: PianoLessonId) {
+  return `lesson-${lessonId}`;
+}
+
+export function pianoLessonLibraryHref(lessonId: PianoLessonId) {
+  return `/projects/piano-party/lessons/#${pianoLessonLibraryAnchor(lessonId)}`;
+}
+
 export type PianoLessonCard = {
   id: string;
   note: PianoNote;

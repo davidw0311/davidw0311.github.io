@@ -2,6 +2,7 @@ import { ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PianoLesson } from "@/components/PianoLessonOne";
+import { pianoLessonLibraryHref } from "@/data/pianoLessons";
 import styles from "../../piano-party.module.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export default function PianoLessonThreePage() {
   return (
     <main className={`${styles.page} ${styles.lessonPlayPage}`}>
       <nav className={styles.nav} aria-label="Lesson 3 navigation">
-        <Link href="/projects/piano-party/lessons/"><ArrowLeft size={18} weight="bold" /> Lessons</Link>
+        <Link href={pianoLessonLibraryHref(3)}><ArrowLeft size={18} weight="bold" /> Lessons</Link>
         <Link href="/projects/piano-party/">Piano Party</Link>
       </nav>
       <PianoLesson lessonId={3} />

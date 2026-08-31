@@ -26,6 +26,8 @@ import {
   lessonTwoNoteNames,
   majorChordLessonGroups,
   majorKeySignatureLessons,
+  pianoLessonLibraryAnchor,
+  pianoLessonLibraryHref,
   minorChordLessonGroups,
   pianoLessonGroups,
   pianoLessonIds,
@@ -41,6 +43,11 @@ import {
   pianoLessonShareText,
 } from "../data/pianoLessonShare.ts";
 import { pianoLessonShareImageSize } from "../lib/pianoLessonShareImage.ts";
+
+test("lesson library return links target the lesson that was opened", () => {
+  assert.equal(pianoLessonLibraryAnchor(31), "lesson-31");
+  assert.equal(pianoLessonLibraryHref(31), "/projects/piano-party/lessons/#lesson-31");
+});
 
 test("lesson one contains three shuffled cards for every natural note", () => {
   let seed = 17;

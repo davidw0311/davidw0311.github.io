@@ -17,6 +17,7 @@ import {
   formatRecognitionTime,
   getPianoLesson,
   getNextPianoLessonId,
+  pianoLessonLibraryHref,
   lessonCardExerciseMode,
   lessonAccuracy,
   lessonPerformanceKey,
@@ -359,7 +360,7 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
             ) : null}
             <button type="button" onClick={(event) => beginLesson(playerName, event.timeStamp)}>Try again</button>
             <PianoLessonShareButton result={shareResult} />
-            <Link href="/projects/piano-party/lessons/">All lessons</Link>
+            <Link href={pianoLessonLibraryHref(lesson.id)}>All lessons</Link>
           </div>
         </div>
       </section>

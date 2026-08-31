@@ -49,7 +49,7 @@ export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
         </span>
         {signatureSteps.map((signatureStep, index) => (
           <span
-            className={`${styles.keySignatureAccidental} ${keySignature?.accidental === "flat" ? styles.keySignatureFlat : ""}`}
+            className={`${styles.keySignatureAccidental} ${keySignature?.accidental === "flat" ? styles.keySignatureFlat : styles.keySignatureSharp}`}
             key={`${signatureAccidental}-${index}`}
             style={{
               "--signature-index": index,
