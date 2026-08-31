@@ -323,7 +323,7 @@
 
 .trebleClef {
   /* A treble clef spans beyond the staff while its spiral stays on the G line. */
-  transform: translateY(24px) scale(1.28, 1.72);
+  transform: translateY(24px) scale(1.4, 1.72);
   transform-origin: 42% 56%;
 }
 
@@ -347,14 +347,14 @@
 
 .keySignatureSharp {
   /* Keep Apple Symbols' visual centre anchored while spacing its crossbars one staff-space apart. */
-  transform: translate(-50%, -41%) scaleY(1.7);
+  transform: translate(-50%, -41%) scale(1.14, 1.7);
   transform-origin: 50% 41%;
 }
 
 .keySignatureFlat {
   left: calc(23% + var(--signature-index) * 8px);
   /* Stretch the bowl across a full staff space without moving its widest point off the anchor. */
-  transform: translate(-50%, -54%) scaleY(1.45);
+  transform: translate(-50%, -54%) scale(1.14, 1.45);
   transform-origin: 50% 54%;
 }
 
