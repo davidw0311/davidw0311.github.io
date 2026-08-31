@@ -270,6 +270,36 @@ test("key signature lessons cover only the C4-C6 treble range and double every a
   }
 });
 
+test("weighted key-signature cards stay distributed through the shuffled lesson", () => {
+  let firstHalfAlteredCards = 0;
+  let firstHalfCards = 0;
+  let totalAlteredCards = 0;
+  let totalCards = 0;
+
+  for (let initialSeed = 1; initialSeed <= 100; initialSeed += 1) {
+    let seed = initialSeed;
+    const random = () => {
+      seed = (seed * 1_664_525 + 1_013_904_223) % 4_294_967_296;
+      return seed / 4_294_967_296;
+    };
+    const deck = createPianoLessonDeck(27, random);
+    const halfway = Math.floor(deck.length / 2);
+
+    firstHalfAlteredCards += deck.slice(0, halfway)
+      .filter((card) => card.notation?.accidental).length;
+    firstHalfCards += halfway;
+    totalAlteredCards += deck.filter((card) => card.notation?.accidental).length;
+    totalCards += deck.length;
+  }
+
+  const firstHalfRatio = firstHalfAlteredCards / firstHalfCards;
+  const wholeLessonRatio = totalAlteredCards / totalCards;
+  assert.ok(
+    Math.abs(firstHalfRatio - wholeLessonRatio) < 0.03,
+    "weighted accidentals should not be systematically front-loaded",
+  );
+});
+
 test("focused chord lessons repeat each chord three times in the requested direction", () => {
   const focusedLessons = [
     { ids: [29, 31, 33], groups: majorChordLessonGroups, mode: "chord-name", quality: "major" },

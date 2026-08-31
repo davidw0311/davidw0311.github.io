@@ -773,20 +773,36 @@ export function createPianoLessonDeck(
   let previousQuestionKey: string | null = null;
 
   while (deck.length < shuffledCards.length) {
-    const eligibleGroups = [...cardGroups.entries()].filter(([
-      questionKey,
-      cards,
-    ]) => questionKey !== previousQuestionKey && cards.length > 0);
+    const remainingCardCount = shuffledCards.length - deck.length - 1;
+    const eligibleGroups = [...cardGroups.entries()].filter(([questionKey, cards]) => {
+      if (questionKey === previousQuestionKey || cards.length === 0) return false;
+
+      // Keep enough room to separate every remaining copy after this choice.
+      // The selected question cannot occupy the next slot, while every other
+      // question may, so their maximum feasible counts differ by one.
+      return [...cardGroups.entries()].every(([remainingKey, remainingCards]) => {
+        const remainingCount = remainingCards.length - (remainingKey === questionKey ? 1 : 0);
+        const maximumCount = remainingKey === questionKey
+          ? Math.floor(remainingCardCount / 2)
+          : Math.ceil(remainingCardCount / 2);
+        return remainingCount <= maximumCount;
+      });
+    });
 
     if (eligibleGroups.length === 0) {
       throw new Error(`Unable to separate repeated notes in Lesson ${lessonId}`);
     }
 
-    const largestGroupSize = Math.max(...eligibleGroups.map(([, cards]) => cards.length));
-    const largestGroups = eligibleGroups.filter(([, cards]) => cards.length === largestGroupSize);
+    // Pick from all feasible cards, weighted by how many copies remain. This
+    // retains the lesson's intended proportions without front-loading the
+    // most common (usually accidental) questions.
+    const eligibleCardCount = eligibleGroups.reduce((total, [, cards]) => total + cards.length, 0);
     const randomValue = Math.min(0.999999999, Math.max(0, random()));
-    const groupIndex = Math.floor(randomValue * largestGroups.length);
-    const [questionKey, cards] = largestGroups[groupIndex];
+    let weightedIndex = Math.floor(randomValue * eligibleCardCount);
+    const [questionKey, cards] = eligibleGroups.find(([, groupCards]) => {
+      weightedIndex -= groupCards.length;
+      return weightedIndex < 0;
+    }) ?? eligibleGroups[eligibleGroups.length - 1];
     const nextCard = cards.pop();
 
     if (!nextCard) throw new Error(`Missing lesson card for ${questionKey}`);
