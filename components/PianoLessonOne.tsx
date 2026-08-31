@@ -56,6 +56,7 @@ function AnswerChoice({ name }: { name: PitchName }) {
 }
 
 const confettiColors = ["#79e4c5", "#edf8f5", "#ffcf70", "#ff9d97"];
+const playerNameStorageKey = "piano-party-player-name";
 
 function PerfectLessonCelebration() {
   return (
@@ -138,6 +139,19 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
     return () => window.clearInterval(timer);
   }, [stage, startedAt]);
 
+  useEffect(() => {
+    let storedPlayerName: string;
+    try {
+      storedPlayerName = window.sessionStorage.getItem(playerNameStorageKey) ?? "";
+    } catch {
+      // Storage may be unavailable in privacy-restricted in-app browsers.
+      return;
+    }
+
+    const restoreNameFrame = window.requestAnimationFrame(() => setName(storedPlayerName));
+    return () => window.cancelAnimationFrame(restoreNameFrame);
+  }, []);
+
   const beginLesson = (nextPlayerName: string, firstCardStartedAt: number) => {
     const now = Date.now();
     setPlayerName(nextPlayerName);
@@ -156,7 +170,17 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
 
   const handleStart = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    beginLesson(name.trim() || "Pianist", event.timeStamp);
+    const nextPlayerName = name.trim();
+    try {
+      if (nextPlayerName) {
+        window.sessionStorage.setItem(playerNameStorageKey, nextPlayerName);
+      } else {
+        window.sessionStorage.removeItem(playerNameStorageKey);
+      }
+    } catch {
+      // The lesson still works when browser storage is unavailable.
+    }
+    beginLesson(nextPlayerName || "Pianist", event.timeStamp);
   };
 
   const recordAnswer = (answer: string, answeredAt: number, isCorrect: boolean) => {
