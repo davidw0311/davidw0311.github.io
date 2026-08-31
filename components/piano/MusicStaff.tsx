@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import {
   accidentalSymbol,
   formatNotation,
+  keySignatureStaffSteps,
   ledgerStepsFor,
   staffStepFor,
   type StaffClef,
@@ -22,7 +23,9 @@ export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
   const step = staffStepFor(notation, clef);
   const ledgerSteps = ledgerStepsFor(notation, clef);
   const style = { "--note-step": step } as CSSProperties;
-  const accidental = accidentalSymbol(notation.accidental);
+  const accidental = keySignature ? "" : accidentalSymbol(notation.accidental);
+  const signatureAccidental = keySignature ? accidentalSymbol(keySignature.accidental) : "";
+  const signatureSteps = keySignature ? keySignatureStaffSteps(keySignature, clef) : [];
 
   return (
     <div
@@ -44,6 +47,18 @@ export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
         <span className={`${styles.clef} ${clef === "bass" ? styles.bassClef : ""}`}>
           {clef === "treble" ? "𝄞" : "𝄢"}
         </span>
+        {signatureSteps.map((signatureStep, index) => (
+          <span
+            className={`${styles.keySignatureAccidental} ${keySignature?.accidental === "flat" ? styles.keySignatureFlat : ""}`}
+            key={`${signatureAccidental}-${index}`}
+            style={{
+              "--signature-index": index,
+              "--signature-step": signatureStep,
+            } as CSSProperties}
+          >
+            {signatureAccidental}
+          </span>
+        ))}
         {ledgerSteps.map((ledgerStep) => (
           <span
             key={ledgerStep}

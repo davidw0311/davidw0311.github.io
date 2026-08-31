@@ -326,6 +326,22 @@
   font-size: 4.75rem;
 }
 
+.keySignatureAccidental {
+  position: absolute;
+  top: calc(116px - var(--signature-step) * 9px);
+  left: calc(24% + var(--signature-index) * 18px);
+  color: #17353c;
+  font-family: "Bravura Text", "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+
+.keySignatureFlat {
+  transform: translate(-50%, -44%);
+}
+
 .note {
   position: absolute;
   top: calc(116px - var(--note-step) * 9px);

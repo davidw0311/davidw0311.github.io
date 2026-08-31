@@ -180,6 +180,24 @@ export function ledgerStepsFor(notation: StaffNotation, clef: StaffClef) {
   return ledgerSteps;
 }
 
+const keySignatureSteps: Record<
+  StaffClef,
+  Record<PianoKeySignature["accidental"], readonly number[]>
+> = {
+  treble: {
+    sharp: [8, 5, 9, 6, 3, 7, 4],
+    flat: [4, 7, 3, 6, 2, 5, 1],
+  },
+  bass: {
+    sharp: [6, 3, 7, 4, 1, 5, 2],
+    flat: [2, 5, 1, 4, 0, 3, -1],
+  },
+};
+
+export function keySignatureStaffSteps(keySignature: PianoKeySignature, clef: StaffClef) {
+  return keySignatureSteps[clef][keySignature.accidental].slice(0, keySignature.count);
+}
+
 export function accidentalSymbol(accidental: Accidental) {
   if (accidental === "sharp") return "♯";
   if (accidental === "flat") return "♭";

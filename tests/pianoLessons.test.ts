@@ -34,7 +34,7 @@ import {
   rankLessonNotePerformance,
   type PianoLessonId,
 } from "../data/pianoLessons.ts";
-import { formatNotation, pitchNames } from "../data/pianoNotes.ts";
+import { formatNotation, keySignatureStaffSteps, pitchNames } from "../data/pianoNotes.ts";
 import {
   pianoLessonShareFileName,
   pianoLessonShareMistakeCount,
@@ -200,36 +200,37 @@ test("every lesson presents the same complete set of answer labels", () => {
   }
 });
 
-test("key signature lessons alternate sharps and flats from one through seven accidentals", () => {
-  assert.equal(majorKeySignatureLessons.length, 14);
+test("key signature lessons stop at five sharps and six flats", () => {
+  const sharpLessons = majorKeySignatureLessons.filter(({ keySignature }) => keySignature.accidental === "sharp");
+  const flatLessons = majorKeySignatureLessons.filter(({ keySignature }) => keySignature.accidental === "flat");
 
-  for (let index = 0; index < 7; index += 1) {
-    const sharpLesson = majorKeySignatureLessons[index * 2];
-    const flatLesson = majorKeySignatureLessons[index * 2 + 1];
+  assert.equal(majorKeySignatureLessons.length, 11);
+  assert.deepEqual(sharpLessons.map(({ keySignature }) => keySignature.count), [1, 2, 3, 4, 5]);
+  assert.deepEqual(flatLessons.map(({ keySignature }) => keySignature.count), [1, 2, 3, 4, 5, 6]);
+  assert.deepEqual(majorKeySignatureLessons.map(({ lessonId }) => lessonId), [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
 
-    assert.equal(sharpLesson.lessonId, 18 + index * 2);
-    assert.equal(sharpLesson.keySignature.accidental, "sharp");
-    assert.equal(sharpLesson.keySignature.count, index + 1);
-    assert.equal(sharpLesson.keySignature.alteredNotes.length, index + 1);
-    assert.equal(flatLesson.lessonId, 19 + index * 2);
-    assert.equal(flatLesson.keySignature.accidental, "flat");
-    assert.equal(flatLesson.keySignature.count, index + 1);
-    assert.equal(flatLesson.keySignature.alteredNotes.length, index + 1);
+  for (const { keySignature } of majorKeySignatureLessons) {
+    assert.equal(keySignature.alteredNotes.length, keySignature.count);
   }
 });
 
-test("lesson 31 remains the final key-signature lesson before chord lessons begin", () => {
-  const lessonThirtyOne = getPianoLesson(31);
-  const lessonThirtyTwo = getPianoLesson(32);
+test("lesson 28 is the final key-signature lesson before chord lessons begin", () => {
+  const lessonTwentyEight = getPianoLesson(28);
+  const lessonTwentyNine = getPianoLesson(29);
 
-  assert.equal(lessonThirtyOne.exerciseMode, "staff-key");
-  assert.equal(lessonThirtyOne.keySignature?.name, "C♭ major");
-  assert.equal(lessonThirtyOne.chords, undefined);
-  assert.equal(lessonThirtyTwo.exerciseMode, "chord-name");
-  assert.ok(lessonThirtyTwo.chords);
+  assert.equal(lessonTwentyEight.exerciseMode, "staff-key");
+  assert.equal(lessonTwentyEight.keySignature?.name, "G♭ major");
+  assert.equal(lessonTwentyEight.chords, undefined);
+  assert.equal(lessonTwentyNine.exerciseMode, "chord-name");
+  assert.ok(lessonTwentyNine.chords);
 });
 
-test("key signature lessons cover C3-C6 and double every affected written note", () => {
+test("key signatures use standard treble-clef accidental positions", () => {
+  assert.deepEqual(keySignatureStaffSteps(getPianoLesson(26).keySignature!, "treble"), [8, 5, 9, 6, 3]);
+  assert.deepEqual(keySignatureStaffSteps(getPianoLesson(28).keySignature!, "treble"), [4, 7, 3, 6, 2, 5]);
+});
+
+test("key signature lessons cover only the C4-C6 treble range and double every affected written note", () => {
   for (const { lessonId, keySignature } of majorKeySignatureLessons) {
     const lesson = getPianoLesson(lessonId);
     const deck = createPianoLessonDeck(lessonId, () => 0.47);
@@ -238,8 +239,8 @@ test("key signature lessons cover C3-C6 and double every affected written note",
     assert.equal(lesson.exerciseMode, "staff-key");
     assert.deepEqual(lesson.keySignature, keySignature);
     assert.equal(deck.length, lesson.cardCount);
-    assert.ok(deck.every((card) => card.note.midi >= 48 && card.note.midi <= 84));
-    assert.ok(deck.every((card) => card.clef === (card.notation!.octave < 4 ? "bass" : "treble")));
+    assert.ok(deck.every((card) => card.clef === "treble"));
+    assert.ok(deck.every((card) => card.notation!.octave >= 4 && card.notation!.octave <= 6));
 
     for (const card of deck) {
       assert.ok(card.notation);
@@ -256,18 +257,18 @@ test("key signature lessons cover C3-C6 and double every affected written note",
       assert.equal(cards.length, cards[0].notation?.accidental ? 6 : 3);
     }
 
-    assert.ok([...cardsByNotation.keys()].some((notation) => notation.startsWith("C") && notation.endsWith("3"))
-      || (keySignature.accidental === "flat" && keySignature.alteredNotes.includes("C")));
+    assert.ok([...cardsByNotation.keys()].some((notation) => notation.endsWith("4")));
+    assert.ok([...cardsByNotation.keys()].some((notation) => notation.endsWith("5")));
     assert.ok(Math.max(...deck.map((card) => card.note.midi)) >= 83);
   }
 });
 
 test("focused chord lessons repeat each chord three times in the requested direction", () => {
   const focusedLessons = [
-    { ids: [32, 34, 36], groups: majorChordLessonGroups, mode: "chord-name", quality: "major" },
-    { ids: [33, 35, 37], groups: majorChordLessonGroups, mode: "chord-key", quality: "major" },
-    { ids: [39, 41, 43], groups: minorChordLessonGroups, mode: "chord-name", quality: "minor" },
-    { ids: [40, 42, 44], groups: minorChordLessonGroups, mode: "chord-key", quality: "minor" },
+    { ids: [29, 31, 33], groups: majorChordLessonGroups, mode: "chord-name", quality: "major" },
+    { ids: [30, 32, 34], groups: majorChordLessonGroups, mode: "chord-key", quality: "major" },
+    { ids: [36, 38, 40], groups: minorChordLessonGroups, mode: "chord-name", quality: "minor" },
+    { ids: [37, 39, 41], groups: minorChordLessonGroups, mode: "chord-key", quality: "minor" },
   ] as const;
 
   for (const lessonSet of focusedLessons) {
@@ -293,11 +294,11 @@ test("focused chord lessons repeat each chord three times in the requested direc
 });
 
 test("every chord recognition lesson offers all 12 chord names of its quality", () => {
-  const recognitionLessons = [32, 34, 36, 39, 41, 43] as const;
+  const recognitionLessons = [29, 31, 33, 36, 38, 40] as const;
 
   for (const lessonId of recognitionLessons) {
     const lesson = getPianoLesson(lessonId);
-    const quality = lessonId < 39 ? "major" : "minor";
+    const quality = lessonId < 36 ? "major" : "minor";
 
     assert.equal(lesson.exerciseMode, "chord-name");
     assert.equal(lesson.answerChords?.length, 12);
@@ -309,8 +310,8 @@ test("every chord recognition lesson offers all 12 chord names of its quality", 
 
 test("major and minor reviews cover all 12 chords once in each direction", () => {
   const reviewLessons = [
-    { lessonId: 38, chords: allMajorLessonChords, quality: "major" },
-    { lessonId: 45, chords: allMinorLessonChords, quality: "minor" },
+    { lessonId: 35, chords: allMajorLessonChords, quality: "major" },
+    { lessonId: 42, chords: allMinorLessonChords, quality: "minor" },
   ] as const;
 
   for (const { lessonId, chords, quality } of reviewLessons) {
@@ -331,14 +332,14 @@ test("major and minor reviews cover all 12 chords once in each direction", () =>
 });
 
 test("chord lesson reports aggregate both directions under the chord symbol", () => {
-  const deck = createPianoLessonDeck(38, () => 0.22);
+  const deck = createPianoLessonDeck(35, () => 0.22);
   const firstChord = deck[0].chord;
   assert.ok(firstChord);
   const matchingCards = deck.filter((card) => card.chord?.id === firstChord.id);
 
   assert.equal(matchingCards.length, 2);
   assert.deepEqual(
-    new Set(matchingCards.map((card) => lessonPerformanceKey(38, card))),
+    new Set(matchingCards.map((card) => lessonPerformanceKey(35, card))),
     new Set([firstChord.name]),
   );
 });
