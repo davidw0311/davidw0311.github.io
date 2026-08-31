@@ -1,6 +1,5 @@
 import {
   ArrowUpRight,
-  Binoculars,
   CardsThree,
   EnvelopeSimple,
   FacebookLogo,
@@ -8,6 +7,7 @@ import {
   GithubLogo,
   InstagramLogo,
   LinkedinLogo,
+  MapTrifold,
   PianoKeys,
   Translate,
   YoutubeLogo,
@@ -55,7 +55,10 @@ export default function Home() {
                 <PianoKeys size={34} weight="thin" />
                 <span>Piano Party</span>
               </Link>
-              <div><Binoculars size={34} weight="thin" /><span>Deep observation</span></div>
+              <Link href="/projects/trips/">
+                <MapTrifold size={34} weight="thin" />
+                <span>Trips</span>
+              </Link>
             </div>
             <a className={styles.secondaryButton} href="#about">Return to the lake</a>
           </Reveal>
