@@ -346,14 +346,16 @@
 }
 
 .keySignatureSharp {
-  /* Apple Symbols places the visual centre of ♯ at 41% of its em box. */
-  transform: translate(-50%, -41%);
+  /* Keep Apple Symbols' visual centre anchored while spacing its crossbars one staff-space apart. */
+  transform: translate(-50%, -41%) scaleY(1.7);
+  transform-origin: 50% 41%;
 }
 
 .keySignatureFlat {
   left: calc(23% + var(--signature-index) * 8px);
-  /* The bowl sits low in the glyph box; align its widest point to the staff anchor. */
-  transform: translate(-50%, -54%);
+  /* Stretch the bowl across a full staff space without moving its widest point off the anchor. */
+  transform: translate(-50%, -54%) scaleY(1.45);
+  transform-origin: 50% 54%;
 }
 
 .note {
