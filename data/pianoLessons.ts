@@ -558,6 +558,11 @@ export function getPianoLesson(lessonId: PianoLessonId) {
   return lesson;
 }
 
+export function getNextPianoLessonId(lessonId: PianoLessonId): PianoLessonId | null {
+  const lessonIndex = pianoLessonIds.indexOf(lessonId);
+  return pianoLessonIds[lessonIndex + 1] ?? null;
+}
+
 const pianoLessonGroupSpecs = [
   {
     id: "keyboard-map",

@@ -16,6 +16,7 @@ import {
   formatLessonTime,
   formatRecognitionTime,
   getPianoLesson,
+  getNextPianoLessonId,
   lessonCardExerciseMode,
   lessonAccuracy,
   lessonPerformanceKey,
@@ -78,6 +79,7 @@ function PerfectLessonCelebration() {
 
 export function PianoLesson({ lessonId }: PianoLessonProps) {
   const lesson = getPianoLesson(lessonId);
+  const nextLessonId = getNextPianoLessonId(lessonId);
   const { playNote, playNotes } = usePianoAudio();
   const cardStartedAtRef = useRef<number | null>(null);
   const [stage, setStage] = useState<LessonStage>("ready");
@@ -322,6 +324,14 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
             </div>
           </section>
           <div className={styles.completeActions}>
+            {nextLessonId ? (
+              <Link
+                className={styles.nextLessonAction}
+                href={`/projects/piano-party/lessons/${nextLessonId}/`}
+              >
+                Next lesson <ArrowRight size={17} weight="bold" aria-hidden="true" />
+              </Link>
+            ) : null}
             <button type="button" onClick={(event) => beginLesson(playerName, event.timeStamp)}>Try again</button>
             <PianoLessonShareButton result={shareResult} />
             <Link href="/projects/piano-party/lessons/">All lessons</Link>

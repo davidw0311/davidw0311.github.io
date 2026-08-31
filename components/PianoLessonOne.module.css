@@ -456,6 +456,12 @@
   background: transparent;
 }
 
+.completeActions .nextLessonAction {
+  color: var(--piano-accent-ink);
+  border-color: var(--piano-accent);
+  background: var(--piano-accent);
+}
+
 .quiz {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);

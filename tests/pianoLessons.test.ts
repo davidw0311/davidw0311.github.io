@@ -9,6 +9,7 @@ import {
   formatLessonTime,
   formatRecognitionTime,
   getPianoLesson,
+  getNextPianoLessonId,
   lessonAccuracy,
   lessonEightNoteIds,
   lessonFourteenNoteIds,
@@ -167,6 +168,14 @@ test("lesson definitions are numbered in order", () => {
     pianoLessons.map((lesson) => lesson.id),
     pianoLessonIds,
   );
+});
+
+test("completed lessons link to the next lesson until the current curriculum ends", () => {
+  for (let index = 0; index < pianoLessonIds.length - 1; index += 1) {
+    assert.equal(getNextPianoLessonId(pianoLessonIds[index]), pianoLessonIds[index + 1]);
+  }
+
+  assert.equal(getNextPianoLessonId(pianoLessonIds.at(-1)!), null);
 });
 
 test("lesson library groups and dynamic routes cover the catalog without drift", () => {
