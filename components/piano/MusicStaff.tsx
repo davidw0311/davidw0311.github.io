@@ -19,12 +19,28 @@ type MusicStaffProps = {
   keySignature?: PianoKeySignature;
 };
 
+function KeySignatureGlyph({ accidental }: { accidental: PianoKeySignature["accidental"] }) {
+  if (accidental === "sharp") {
+    return (
+      <svg className={styles.keySignatureGlyph} viewBox="0 0 24 36" focusable="false">
+        <path d="M8.1 1.5 6.7 34.5M17.4.8 16 33.8" strokeWidth="2.35" />
+        <path d="m2 13.8 20-3.5M1.5 25.8l20-3.5" strokeWidth="3.25" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg className={styles.keySignatureGlyph} viewBox="0 0 20 42" focusable="false">
+      <path d="M6.5 1.5v37.2M6.5 20.2c7.8-4.8 12.2-1.6 11.1 4.9-1 5.8-6.4 10.8-11.1 13.6" strokeWidth="2.55" />
+    </svg>
+  );
+}
+
 export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
   const step = staffStepFor(notation, clef);
   const ledgerSteps = ledgerStepsFor(notation, clef);
   const style = { "--note-step": step } as CSSProperties;
   const accidental = keySignature ? "" : accidentalSymbol(notation.accidental);
-  const signatureAccidental = keySignature ? accidentalSymbol(keySignature.accidental) : "";
   const signatureSteps = keySignature ? keySignatureStaffSteps(keySignature, clef) : [];
 
   return (
@@ -50,13 +66,13 @@ export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
         {signatureSteps.map((signatureStep, index) => (
           <span
             className={`${styles.keySignatureAccidental} ${keySignature?.accidental === "flat" ? styles.keySignatureFlat : styles.keySignatureSharp}`}
-            key={`${signatureAccidental}-${index}`}
+            key={`${keySignature?.accidental}-${index}`}
             style={{
               "--signature-index": index,
               "--signature-step": signatureStep,
             } as CSSProperties}
           >
-            {signatureAccidental}
+            {keySignature ? <KeySignatureGlyph accidental={keySignature.accidental} /> : null}
           </span>
         ))}
         {ledgerSteps.map((ledgerStep) => (
