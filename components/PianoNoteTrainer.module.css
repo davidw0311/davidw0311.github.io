@@ -322,7 +322,8 @@
 }
 
 .trebleClef {
-  transform: translateY(14px) scale(1.08);
+  /* A treble clef spans beyond the staff while its spiral stays on the G line. */
+  transform: translateY(24px) scale(1.28, 1.72);
   transform-origin: 42% 56%;
 }
 
@@ -334,23 +335,27 @@
 .keySignatureAccidental {
   position: absolute;
   top: calc(116px - var(--signature-step) * 9px);
-  left: calc(21.5% + var(--signature-index) * 13px);
+  left: calc(23% + var(--signature-index) * 10px);
   color: #17353c;
   font-family: "Bravura Text", "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif;
   font-size: 2.15rem;
   font-weight: 500;
   line-height: 1;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 0.55px currentcolor;
 }
 
 .keySignatureSharp {
-  /* Apple Symbols places the visual centre of ♯ at 41% of its em box. */
-  transform: translate(-50%, -41%);
+  /* Keep Apple Symbols' visual centre anchored while spacing its crossbars one staff-space apart. */
+  transform: translate(-50%, -41%) scaleY(1.7);
+  transform-origin: 50% 41%;
 }
 
 .keySignatureFlat {
-  left: calc(21.5% + var(--signature-index) * 10px);
-  /* The bowl sits low in the glyph box; align its widest point to the staff anchor. */
-  transform: translate(-50%, -54%);
+  left: calc(23% + var(--signature-index) * 8px);
+  /* Stretch the bowl across a full staff space without moving its widest point off the anchor. */
+  transform: translate(-50%, -54%) scaleY(1.45);
+  transform-origin: 50% 54%;
 }
 
 .note {
