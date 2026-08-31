@@ -218,6 +218,17 @@ test("key signature lessons alternate sharps and flats from one through seven ac
   }
 });
 
+test("lesson 31 remains the final key-signature lesson before chord lessons begin", () => {
+  const lessonThirtyOne = getPianoLesson(31);
+  const lessonThirtyTwo = getPianoLesson(32);
+
+  assert.equal(lessonThirtyOne.exerciseMode, "staff-key");
+  assert.equal(lessonThirtyOne.keySignature?.name, "C♭ major");
+  assert.equal(lessonThirtyOne.chords, undefined);
+  assert.equal(lessonThirtyTwo.exerciseMode, "chord-name");
+  assert.ok(lessonThirtyTwo.chords);
+});
+
 test("key signature lessons cover C3-C6 and double every affected written note", () => {
   for (const { lessonId, keySignature } of majorKeySignatureLessons) {
     const lesson = getPianoLesson(lessonId);
