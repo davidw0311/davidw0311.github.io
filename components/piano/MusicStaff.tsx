@@ -44,7 +44,7 @@ export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
         {[0, 1, 2, 3, 4].map((line) => <span key={line} className={styles.staffLine} />)}
         <span className={styles.staffStartBar} />
         <span className={styles.staffEndBar} />
-        <span className={`${styles.clef} ${clef === "bass" ? styles.bassClef : ""}`}>
+        <span className={`${styles.clef} ${clef === "bass" ? styles.bassClef : styles.trebleClef}`}>
           {clef === "treble" ? "𝄞" : "𝄢"}
         </span>
         {signatureSteps.map((signatureStep, index) => (

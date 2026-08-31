@@ -312,13 +312,18 @@
 .clef {
   position: absolute;
   top: 29px;
-  left: 9%;
+  left: 8%;
   width: 76px;
   color: #17353c;
   font-family: "Bravura Text", "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif;
   font-size: 6.15rem;
   line-height: 0.9;
   text-shadow: 0 1px 0 rgb(255 255 255 / 0.5);
+}
+
+.trebleClef {
+  transform: translateY(14px) scale(1.08);
+  transform-origin: 42% 56%;
 }
 
 .bassClef {
@@ -329,16 +334,17 @@
 .keySignatureAccidental {
   position: absolute;
   top: calc(116px - var(--signature-step) * 9px);
-  left: calc(24% + var(--signature-index) * 18px);
+  left: calc(21.5% + var(--signature-index) * 16px);
   color: #17353c;
   font-family: "Bravura Text", "Noto Music", "Apple Symbols", "Segoe UI Symbol", serif;
-  font-size: 2rem;
+  font-size: 2.15rem;
   font-weight: 500;
   line-height: 1;
   transform: translate(-50%, -50%);
 }
 
 .keySignatureFlat {
+  left: calc(21.5% + var(--signature-index) * 13px);
   transform: translate(-50%, -44%);
 }
 
