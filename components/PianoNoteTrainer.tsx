@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useMemo, useState } from "react";
 import {
   chordMatchesNoteIds,
+  chordResultNotes,
   createPianoChordQuestion,
   createPianoQuestion,
   formatChordSymbol,
@@ -254,7 +255,17 @@ export function PianoNoteTrainer() {
 
           {mode === "chord-key" ? (
             <div className={styles.chordKeyAnswer}>
-              <PianoKeyboard targetNotes={chordQuestion.notes} selectedIds={selectedChordKeyIds} answered={answered} interactive showPrompt={false} range="chord" onChoose={toggleChordKey} />
+              <PianoKeyboard
+                targetNotes={answered
+                  ? chordResultNotes(chordQuestion, selectedChordKeyIds, isCorrect)
+                  : []}
+                selectedIds={selectedChordKeyIds}
+                answered={answered}
+                interactive
+                showPrompt={false}
+                range="chord"
+                onChoose={toggleChordKey}
+              />
               <button type="button" className={styles.checkChordButton} disabled={answered || !chordKeysReady} onClick={submitChordKeys}>Check chord · {selectedChordKeyIds.length}/3 keys</button>
             </div>
           ) : null}

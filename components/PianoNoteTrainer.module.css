@@ -593,14 +593,8 @@
 }
 
 .whiteKey .visibleKeyLabel,
-.whiteKey:hover:not(:disabled) > span,
 .whiteKey:focus-visible > span {
   opacity: 1;
-}
-
-.whiteKey:hover:not(:disabled) {
-  background: #e6f5ee;
-  box-shadow: inset 0 -7px 0 rgb(121 228 197 / 0.26);
 }
 
 .whiteKey.promptKey,
@@ -649,7 +643,6 @@
   opacity: 0;
 }
 
-.blackKey:hover:not(:disabled) > span,
 .blackKey:focus-visible > span,
 .blackKey.selectedKey > span,
 .blackKey.correctKey > span,
@@ -660,10 +653,6 @@
 .keyboard.concealKeyLabels .whiteKey > span,
 .keyboard.concealKeyLabels .blackKey > span {
   opacity: 0;
-}
-
-.blackKey:hover:not(:disabled) {
-  background: linear-gradient(110deg, #071116, #245a50 68%, #071116);
 }
 
 .blackKey.promptKey,
@@ -679,6 +668,22 @@
   border-color: #ffc6c2;
   color: #35100f;
   background: linear-gradient(110deg, #ffc6c2, var(--piano-danger) 70%, #cb5b56);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .whiteKey:hover:not(:disabled) > span,
+  .blackKey:hover:not(:disabled) > span {
+    opacity: 1;
+  }
+
+  .whiteKey:hover:not(:disabled) {
+    background: #e6f5ee;
+    box-shadow: inset 0 -7px 0 rgb(121 228 197 / 0.26);
+  }
+
+  .blackKey:hover:not(:disabled) {
+    background: linear-gradient(110deg, #071116, #245a50 68%, #071116);
+  }
 }
 
 .feedbackRow {

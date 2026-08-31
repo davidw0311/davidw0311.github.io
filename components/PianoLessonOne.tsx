@@ -26,6 +26,7 @@ import {
 } from "@/data/pianoLessons";
 import {
   chordMatchesNoteIds,
+  chordResultNotes,
   formatChordSymbol,
   formatPianoKey,
   type PianoChord,
@@ -423,7 +424,9 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
             ) : activeMode === "chord-key" && activeChord ? (
               <div className={styles.chordKeyAnswer}>
                 <PianoKeyboard
-                  targetNotes={activeChord.notes}
+                  targetNotes={answered
+                    ? chordResultNotes(activeChord, selectedChordKeyIds, answerIsCorrect)
+                    : []}
                   selectedIds={selectedChordKeyIds}
                   answered={answered}
                   interactive

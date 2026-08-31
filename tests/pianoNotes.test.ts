@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   blackKeys,
   chordMatchesNoteIds,
+  chordResultNotes,
   chordKeyboardNotes,
   createPianoChordQuestion,
   createPianoQuestion,
@@ -115,6 +116,20 @@ test("chord answers match the three pitch classes in any octave or inversion", (
   assert.equal(chordMatchesNoteIds(chord, ["C4", "E4", "F4"]), false);
   assert.equal(chordMatchesNoteIds(chord, ["C4", "E4", "G4", "C5"]), false);
   assert.equal(chordMatchesNoteIds(chord, ["C4", "C5", "E5"]), false);
+});
+
+test("correct chord feedback highlights the exact accepted keys", () => {
+  const chord = pianoChords.find((candidate) => candidate.id === "C4-major");
+  assert.ok(chord);
+
+  assert.deepEqual(
+    chordResultNotes(chord, ["C5", "E5", "G5"], true).map((note) => note.id),
+    ["C5", "E5", "G5"],
+  );
+  assert.deepEqual(
+    chordResultNotes(chord, ["C5", "F5", "G5"], false).map((note) => note.id),
+    ["C4", "E4", "G4"],
+  );
 });
 
 test("chord question generation avoids an immediate repeat", () => {

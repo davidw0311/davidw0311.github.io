@@ -256,6 +256,23 @@ export function chordMatchesNoteIds(chord: PianoChord, noteIds: readonly string[
     && [...targetPitchClasses].every((pitchClass) => selectedPitchClasses.has(pitchClass));
 }
 
+export function chordResultNotes(
+  chord: PianoChord,
+  selectedNoteIds: readonly string[],
+  isCorrect: boolean,
+) {
+  if (!isCorrect) return chord.notes;
+
+  const selectedNotes = selectedNoteIds.map((noteId) => (
+    pianoNotes.find((note) => note.id === noteId)
+  ));
+
+  return selectedNotes.every((note): note is PianoNote => note !== undefined)
+    && selectedNotes.length === chord.notes.length
+    ? selectedNotes
+    : chord.notes;
+}
+
 export function noteFrequency(midi: number) {
   return 440 * (2 ** ((midi - 69) / 12));
 }
