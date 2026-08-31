@@ -23,6 +23,7 @@ import {
   type TripItemKind,
 } from "@/data/trips";
 import { newZealandTripZh, type TripDayTranslation } from "@/data/trips.zh";
+import { TripDayNav } from "../TripDayNav";
 import { TripLanguageShell } from "../TripLanguage";
 import { TripNav } from "../TripNav";
 import { TripText } from "../TripText";
@@ -147,14 +148,13 @@ export default function NewZealandTripPage() {
           <p><TripText en="Times stay exact where the source provides them. Weather-dependent options remain clearly marked." zh="原始行程提供的时间会保持不变，需要看天气的选项也会清楚标注。" /></p>
         </Reveal>
 
-        <nav className={styles.dayNav} aria-label="Jump to a day / 跳到指定日期">
-          {newZealandTrip.days.map((day, index) => (
-            <a key={day.dayNumber} href={`#day-${day.dayNumber}`} aria-label={`Go to day ${day.dayNumber}, ${day.date} / 前往第${day.dayNumber}天，${newZealandTripZh.days[index].date}`}>
-              <span>{String(day.dayNumber).padStart(2, "0")}</span>
-              <small><TripText en={day.date} zh={newZealandTripZh.days[index].date} /></small>
-            </a>
-          ))}
-        </nav>
+        <TripDayNav
+          days={newZealandTrip.days.map((day, index) => ({
+            dayNumber: day.dayNumber,
+            date: day.date,
+            dateZh: newZealandTripZh.days[index].date,
+          }))}
+        />
 
         <JourneyChapter title="Arrival and Fiordland" titleZh="抵达与峡湾地区" days={firstChapter} translations={newZealandTripZh.days.slice(0, 5)} />
         <JourneyChapter title="The alpine road north" titleZh="沿高山公路向北" days={secondChapter} translations={newZealandTripZh.days.slice(5)} />
