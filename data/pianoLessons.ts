@@ -1,5 +1,7 @@
 import {
+  accidentalSymbol,
   blackKeys,
+  formatNotation,
   naturalNoteNames,
   pianoChords,
   pianoNotes,
@@ -9,7 +11,9 @@ import {
   type PianoChordExerciseMode,
   type PianoExerciseMode,
   type PianoNote,
+  type PianoKeySignature,
   type PitchName,
+  type NaturalNoteName,
   type StaffClef,
   type StaffNotation,
 } from "./pianoNotes.ts";
@@ -17,8 +21,9 @@ import {
 export const pianoLessonIds = [
   1, 2, 3, 4, 5, 6, 7, 8, 9,
   10, 11, 12, 13, 14, 15, 16, 17,
-  18, 19, 20, 21, 22, 23, 24,
-  25, 26, 27, 28, 29, 30, 31,
+  18, 19, 20, 21, 22, 23, 24, 25, 26,
+  27, 28, 29, 30, 31, 32, 33, 34, 35,
+  36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
 ] as const;
 
 export type PianoLessonId = (typeof pianoLessonIds)[number];
@@ -58,6 +63,7 @@ export type PianoLessonDefinition = {
   mobileChoiceColumns: number;
   chords?: readonly PianoChord[];
   answerChords?: readonly PianoChord[];
+  keySignature?: PianoKeySignature;
 };
 
 export type PianoLessonGroupDefinition = {
@@ -81,6 +87,35 @@ export const lessonSixteenNoteIds = [
   "C4", "D4", "E4", "F4", "G4", "A4", "B4",
   "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6",
 ] as const;
+
+const sharpOrder: readonly NaturalNoteName[] = ["F", "C", "G", "D", "A", "E", "B"];
+const flatOrder: readonly NaturalNoteName[] = ["B", "E", "A", "D", "G", "C", "F"];
+const sharpMajorKeys = ["G major", "D major", "A major", "E major", "B major", "F♯ major", "C♯ major"] as const;
+const flatMajorKeys = ["F major", "B♭ major", "E♭ major", "A♭ major", "D♭ major", "G♭ major", "C♭ major"] as const;
+
+export const majorKeySignatureLessons = Array.from({ length: 7 }, (_, index) => {
+  const accidentalCount = index + 1;
+  return [
+    {
+      lessonId: (18 + index * 2) as PianoLessonId,
+      keySignature: {
+        name: sharpMajorKeys[index],
+        accidental: "sharp" as const,
+        count: accidentalCount,
+        alteredNotes: sharpOrder.slice(0, accidentalCount),
+      },
+    },
+    {
+      lessonId: (19 + index * 2) as PianoLessonId,
+      keySignature: {
+        name: flatMajorKeys[index],
+        accidental: "flat" as const,
+        count: accidentalCount,
+        alteredNotes: flatOrder.slice(0, accidentalCount),
+      },
+    },
+  ];
+}).flat();
 
 export const majorChordLessonGroups = [
   { label: "C → F → G → D", chordIds: ["C4-major", "F4-major", "G4-major", "D4-major"] },
@@ -151,6 +186,49 @@ function createTrebleStaffCards(
   });
 }
 
+const naturalSemitoneByName: Record<NaturalNoteName, number> = {
+  C: 0,
+  D: 2,
+  E: 4,
+  F: 5,
+  G: 7,
+  A: 9,
+  B: 11,
+};
+
+function createKeySignatureCards(
+  lessonId: PianoLessonId,
+  keySignature: PianoKeySignature,
+) {
+  const writtenNotes = [3, 4, 5, 6].flatMap((octave) => (
+    naturalNoteNames
+      .filter((name) => octave < 6 || name === "C")
+      .map((name): StaffNotation => ({
+        name,
+        octave,
+        accidental: keySignature.alteredNotes.includes(name) ? keySignature.accidental : null,
+      }))
+  ));
+
+  return writtenNotes.flatMap((notation) => {
+    const accidentalOffset = notation.accidental === "sharp" ? 1 : notation.accidental === "flat" ? -1 : 0;
+    const midi = 12 * (notation.octave + 1) + naturalSemitoneByName[notation.name] + accidentalOffset;
+    const note = pianoNotes.find((candidate) => candidate.midi === midi);
+
+    // C3-C6 describes the physical keyboard range. Edge spellings such as
+    // C-flat 3 and C-sharp 6 sit just outside it and are intentionally omitted.
+    if (!note) return [];
+
+    const repeatCount = notation.accidental ? 6 : 3;
+    return Array.from({ length: repeatCount }, (_, repeatIndex) => ({
+      id: `lesson-${lessonId}-${formatNotation(notation, true)}-${repeatIndex + 1}`,
+      note,
+      clef: notation.octave < 4 ? "bass" as const : "treble" as const,
+      notation,
+    }));
+  });
+}
+
 function createChordCards(
   lessonId: PianoLessonId,
   chords: readonly PianoChord[],
@@ -170,45 +248,48 @@ function createChordCards(
 const majorChordGroups = majorChordLessonGroups.map((group) => chordsById(group.chordIds));
 const minorChordGroups = minorChordLessonGroups.map((group) => chordsById(group.chordIds));
 
-const lessonCards: Record<PianoLessonId, PianoLessonCard[]> = {
-  1: lessonOneCards,
-  2: repeatNoteNames(2, lessonTwoNoteNames, blackKeys, 4),
-  3: repeatNoteNames(3, lessonThreeNoteNames, pianoNotes, 3),
-  4: createTrebleStaffCards(4, lessonFourNoteIds),
-  5: createTrebleStaffCards(5, lessonFourNoteIds),
-  6: createTrebleStaffCards(6, lessonSixNoteIds),
-  7: createTrebleStaffCards(7, lessonSixNoteIds),
-  8: createTrebleStaffCards(8, lessonEightNoteIds),
-  9: createTrebleStaffCards(9, lessonEightNoteIds),
-  10: createTrebleStaffCards(10, lessonTenNoteIds),
-  11: createTrebleStaffCards(11, lessonTenNoteIds),
-  12: createTrebleStaffCards(12, lessonTwelveNoteIds),
-  13: createTrebleStaffCards(13, lessonTwelveNoteIds),
-  14: createTrebleStaffCards(14, lessonFourteenNoteIds),
-  15: createTrebleStaffCards(15, lessonFourteenNoteIds),
-  16: createTrebleStaffCards(16, lessonSixteenNoteIds),
-  17: createTrebleStaffCards(17, lessonSixteenNoteIds),
-  18: createChordCards(18, majorChordGroups[0], "chord-name"),
-  19: createChordCards(19, majorChordGroups[0], "chord-key"),
-  20: createChordCards(20, majorChordGroups[1], "chord-name"),
-  21: createChordCards(21, majorChordGroups[1], "chord-key"),
-  22: createChordCards(22, majorChordGroups[2], "chord-name"),
-  23: createChordCards(23, majorChordGroups[2], "chord-key"),
-  24: [
-    ...createChordCards(24, allMajorLessonChords, "chord-key", 1),
-    ...createChordCards(24, allMajorLessonChords, "chord-name", 1),
-  ],
-  25: createChordCards(25, minorChordGroups[0], "chord-name"),
-  26: createChordCards(26, minorChordGroups[0], "chord-key"),
-  27: createChordCards(27, minorChordGroups[1], "chord-name"),
-  28: createChordCards(28, minorChordGroups[1], "chord-key"),
-  29: createChordCards(29, minorChordGroups[2], "chord-name"),
-  30: createChordCards(30, minorChordGroups[2], "chord-key"),
-  31: [
-    ...createChordCards(31, allMinorLessonChords, "chord-key", 1),
-    ...createChordCards(31, allMinorLessonChords, "chord-name", 1),
-  ],
-};
+const lessonCards = Object.fromEntries([
+  [1, lessonOneCards],
+  [2, repeatNoteNames(2, lessonTwoNoteNames, blackKeys, 4)],
+  [3, repeatNoteNames(3, lessonThreeNoteNames, pianoNotes, 3)],
+  [4, createTrebleStaffCards(4, lessonFourNoteIds)],
+  [5, createTrebleStaffCards(5, lessonFourNoteIds)],
+  [6, createTrebleStaffCards(6, lessonSixNoteIds)],
+  [7, createTrebleStaffCards(7, lessonSixNoteIds)],
+  [8, createTrebleStaffCards(8, lessonEightNoteIds)],
+  [9, createTrebleStaffCards(9, lessonEightNoteIds)],
+  [10, createTrebleStaffCards(10, lessonTenNoteIds)],
+  [11, createTrebleStaffCards(11, lessonTenNoteIds)],
+  [12, createTrebleStaffCards(12, lessonTwelveNoteIds)],
+  [13, createTrebleStaffCards(13, lessonTwelveNoteIds)],
+  [14, createTrebleStaffCards(14, lessonFourteenNoteIds)],
+  [15, createTrebleStaffCards(15, lessonFourteenNoteIds)],
+  [16, createTrebleStaffCards(16, lessonSixteenNoteIds)],
+  [17, createTrebleStaffCards(17, lessonSixteenNoteIds)],
+  ...majorKeySignatureLessons.map(({ lessonId, keySignature }) => (
+    [lessonId, createKeySignatureCards(lessonId, keySignature)] as const
+  )),
+  [32, createChordCards(32, majorChordGroups[0], "chord-name")],
+  [33, createChordCards(33, majorChordGroups[0], "chord-key")],
+  [34, createChordCards(34, majorChordGroups[1], "chord-name")],
+  [35, createChordCards(35, majorChordGroups[1], "chord-key")],
+  [36, createChordCards(36, majorChordGroups[2], "chord-name")],
+  [37, createChordCards(37, majorChordGroups[2], "chord-key")],
+  [38, [
+    ...createChordCards(38, allMajorLessonChords, "chord-key", 1),
+    ...createChordCards(38, allMajorLessonChords, "chord-name", 1),
+  ]],
+  [39, createChordCards(39, minorChordGroups[0], "chord-name")],
+  [40, createChordCards(40, minorChordGroups[0], "chord-key")],
+  [41, createChordCards(41, minorChordGroups[1], "chord-name")],
+  [42, createChordCards(42, minorChordGroups[1], "chord-key")],
+  [43, createChordCards(43, minorChordGroups[2], "chord-name")],
+  [44, createChordCards(44, minorChordGroups[2], "chord-key")],
+  [45, [
+    ...createChordCards(45, allMinorLessonChords, "chord-key", 1),
+    ...createChordCards(45, allMinorLessonChords, "chord-name", 1),
+  ]],
+]) as Record<PianoLessonId, PianoLessonCard[]>;
 
 function createChordLessonDefinition(
   id: PianoLessonId,
@@ -248,21 +329,56 @@ function createChordLessonDefinition(
   };
 }
 
+function keySignatureLessonDefinition(
+  lessonId: PianoLessonId,
+  keySignature: PianoKeySignature,
+): PianoLessonDefinition {
+  const accidentalName = keySignature.accidental === "sharp" ? "sharp" : "flat";
+  const pluralAccidentalName = `${accidentalName}${keySignature.count === 1 ? "" : "s"}`;
+  const emphasizedNotes = keySignature.alteredNotes
+    .map((name) => `${name}${accidentalSymbol(keySignature.accidental)}`)
+    .join(", ");
+  const uniqueWrittenNotes = new Set(
+    lessonCards[lessonId].map((card) => card.notation && formatNotation(card.notation, true)),
+  ).size;
+
+  return {
+    id: lessonId,
+    title: `${keySignature.count} ${pluralAccidentalName}: ${keySignature.name}`,
+    description: `Read and play ${keySignature.name} across the C3-C6 keyboard range. ${emphasizedNotes} ${keySignature.alteredNotes.length === 1 ? "appears" : "appear"} six times per written pitch; every other note appears three times.`,
+    libraryDescription: `${lessonCards[lessonId].length} staff-to-key cards across C3-C6, emphasizing ${emphasizedNotes}.`,
+    completionDescription: `You read and played the complete ${keySignature.name} key signature across the C3-C6 range in Lesson ${lessonId}.`,
+    exerciseMode: "staff-key",
+    prompt: `Play the note in ${keySignature.name}.`,
+    answerChoices: pitchNames,
+    cardCount: lessonCards[lessonId].length,
+    focusLabel: "Written notes",
+    focusCount: uniqueWrittenNotes,
+    desktopChoiceColumns: 6,
+    mobileChoiceColumns: 4,
+    keySignature,
+  };
+}
+
+const keySignatureLessonDefinitions = majorKeySignatureLessons.map(({ lessonId, keySignature }) => (
+  keySignatureLessonDefinition(lessonId, keySignature)
+));
+
 const chordLessonDefinitions: readonly PianoLessonDefinition[] = [
-  createChordLessonDefinition(18, "Recognize major chords: C-F-G-D", "12 chord-to-name cards for C, F, G, and D major.", "chord-name", majorChordGroups[0]),
-  createChordLessonDefinition(19, "Build major chords: C-F-G-D", "12 name-to-chord cards for C, F, G, and D major.", "chord-key", majorChordGroups[0]),
-  createChordLessonDefinition(20, "Recognize major chords: A-E-B♭-E♭", "12 chord-to-name cards for A, E, B♭, and E♭ major.", "chord-name", majorChordGroups[1]),
-  createChordLessonDefinition(21, "Build major chords: A-E-B♭-E♭", "12 name-to-chord cards for A, E, B♭, and E♭ major.", "chord-key", majorChordGroups[1]),
-  createChordLessonDefinition(22, "Recognize major chords: B-D♭-A♭-G♭", "12 chord-to-name cards for B, D♭, A♭, and G♭ major.", "chord-name", majorChordGroups[2]),
-  createChordLessonDefinition(23, "Build major chords: B-D♭-A♭-G♭", "12 name-to-chord cards for B, D♭, A♭, and G♭ major.", "chord-key", majorChordGroups[2]),
-  createChordLessonDefinition(24, "All major chords", "24 mixed cards covering every major chord in both directions.", "chord-mixed", allMajorLessonChords),
-  createChordLessonDefinition(25, "Recognize minor chords: Am-Dm-Em-Cm", "12 chord-to-name cards for Am, Dm, Em, and Cm.", "chord-name", minorChordGroups[0]),
-  createChordLessonDefinition(26, "Build minor chords: Am-Dm-Em-Cm", "12 name-to-chord cards for Am, Dm, Em, and Cm.", "chord-key", minorChordGroups[0]),
-  createChordLessonDefinition(27, "Recognize minor chords: Gm-Fm-Bm-F♯m", "12 chord-to-name cards for Gm, Fm, Bm, and F♯m.", "chord-name", minorChordGroups[1]),
-  createChordLessonDefinition(28, "Build minor chords: Gm-Fm-Bm-F♯m", "12 name-to-chord cards for Gm, Fm, Bm, and F♯m.", "chord-key", minorChordGroups[1]),
-  createChordLessonDefinition(29, "Recognize minor chords: C♯m-G♯m-B♭m-E♭m", "12 chord-to-name cards for C♯m, G♯m, B♭m, and E♭m.", "chord-name", minorChordGroups[2]),
-  createChordLessonDefinition(30, "Build minor chords: C♯m-G♯m-B♭m-E♭m", "12 name-to-chord cards for C♯m, G♯m, B♭m, and E♭m.", "chord-key", minorChordGroups[2]),
-  createChordLessonDefinition(31, "All minor chords", "24 mixed cards covering every minor chord in both directions.", "chord-mixed", allMinorLessonChords),
+  createChordLessonDefinition(32, "Recognize major chords: C-F-G-D", "12 chord-to-name cards for C, F, G, and D major.", "chord-name", majorChordGroups[0]),
+  createChordLessonDefinition(33, "Build major chords: C-F-G-D", "12 name-to-chord cards for C, F, G, and D major.", "chord-key", majorChordGroups[0]),
+  createChordLessonDefinition(34, "Recognize major chords: A-E-B♭-E♭", "12 chord-to-name cards for A, E, B♭, and E♭ major.", "chord-name", majorChordGroups[1]),
+  createChordLessonDefinition(35, "Build major chords: A-E-B♭-E♭", "12 name-to-chord cards for A, E, B♭, and E♭ major.", "chord-key", majorChordGroups[1]),
+  createChordLessonDefinition(36, "Recognize major chords: B-D♭-A♭-G♭", "12 chord-to-name cards for B, D♭, A♭, and G♭ major.", "chord-name", majorChordGroups[2]),
+  createChordLessonDefinition(37, "Build major chords: B-D♭-A♭-G♭", "12 name-to-chord cards for B, D♭, A♭, and G♭ major.", "chord-key", majorChordGroups[2]),
+  createChordLessonDefinition(38, "All major chords", "24 mixed cards covering every major chord in both directions.", "chord-mixed", allMajorLessonChords),
+  createChordLessonDefinition(39, "Recognize minor chords: Am-Dm-Em-Cm", "12 chord-to-name cards for Am, Dm, Em, and Cm.", "chord-name", minorChordGroups[0]),
+  createChordLessonDefinition(40, "Build minor chords: Am-Dm-Em-Cm", "12 name-to-chord cards for Am, Dm, Em, and Cm.", "chord-key", minorChordGroups[0]),
+  createChordLessonDefinition(41, "Recognize minor chords: Gm-Fm-Bm-F♯m", "12 chord-to-name cards for Gm, Fm, Bm, and F♯m.", "chord-name", minorChordGroups[1]),
+  createChordLessonDefinition(42, "Build minor chords: Gm-Fm-Bm-F♯m", "12 name-to-chord cards for Gm, Fm, Bm, and F♯m.", "chord-key", minorChordGroups[1]),
+  createChordLessonDefinition(43, "Recognize minor chords: C♯m-G♯m-B♭m-E♭m", "12 chord-to-name cards for C♯m, G♯m, B♭m, and E♭m.", "chord-name", minorChordGroups[2]),
+  createChordLessonDefinition(44, "Build minor chords: C♯m-G♯m-B♭m-E♭m", "12 name-to-chord cards for C♯m, G♯m, B♭m, and E♭m.", "chord-key", minorChordGroups[2]),
+  createChordLessonDefinition(45, "All minor chords", "24 mixed cards covering every minor chord in both directions.", "chord-mixed", allMinorLessonChords),
 ];
 
 export const pianoLessons: readonly PianoLessonDefinition[] = [
@@ -521,6 +637,7 @@ export const pianoLessons: readonly PianoLessonDefinition[] = [
     desktopChoiceColumns: 6,
     mobileChoiceColumns: 4,
   },
+  ...keySignatureLessonDefinitions,
   ...chordLessonDefinitions,
 ];
 
@@ -589,16 +706,22 @@ const pianoLessonGroupSpecs = [
     lessonIds: [16, 17],
   },
   {
+    id: "key-signatures",
+    title: "Major key signatures",
+    description: "Learn every sharp and flat major key signature across the full C3-C6 keyboard range.",
+    lessonIds: [18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+  },
+  {
     id: "major-chords",
     title: "Major chords",
     description: "Build and recognize the complete set of 12 major triads.",
-    lessonIds: [18, 19, 20, 21, 22, 23, 24],
+    lessonIds: [32, 33, 34, 35, 36, 37, 38],
   },
   {
     id: "minor-chords",
     title: "Minor chords",
     description: "Build and recognize the complete set of 12 minor triads.",
-    lessonIds: [25, 26, 27, 28, 29, 30, 31],
+    lessonIds: [39, 40, 41, 42, 43, 44, 45],
   },
 ] as const satisfies ReadonlyArray<{
   id: string;
@@ -689,6 +812,7 @@ export function lessonCardExerciseMode(lessonId: PianoLessonId, card: PianoLesso
 
 export function lessonPerformanceKey(lessonId: PianoLessonId, card: PianoLessonCard) {
   if (card.chord) return card.chord.name;
+  if (getPianoLesson(lessonId).keySignature && card.notation) return formatNotation(card.notation, true);
   return lessonCardExerciseMode(lessonId, card) === "key-name" ? card.note.name : card.note.id;
 }
 

@@ -8,19 +8,33 @@ import {
   staffStepFor,
   type StaffClef,
   type StaffNotation,
+  type PianoKeySignature,
 } from "@/data/pianoNotes";
 import styles from "../PianoNoteTrainer.module.css";
 
-export function MusicStaff({ notation, clef }: { notation: StaffNotation; clef: StaffClef }) {
+type MusicStaffProps = {
+  notation: StaffNotation;
+  clef: StaffClef;
+  keySignature?: PianoKeySignature;
+};
+
+export function MusicStaff({ notation, clef, keySignature }: MusicStaffProps) {
   const step = staffStepFor(notation, clef);
   const ledgerSteps = ledgerStepsFor(notation, clef);
   const style = { "--note-step": step } as CSSProperties;
   const accidental = accidentalSymbol(notation.accidental);
 
   return (
-    <div className={styles.staffCard} role="img" aria-label={`${formatNotation(notation, true)} written in ${clef} clef`}>
+    <div
+      className={styles.staffCard}
+      role="img"
+      aria-label={`${formatNotation(notation, true)} written in ${clef} clef${keySignature ? ` in ${keySignature.name}` : ""}`}
+    >
       <div className={styles.staffHeader}>
-        <span className={styles.clefName}>{clef === "treble" ? "Treble clef" : "Bass clef"}</span>
+        <span className={styles.clefName}>
+          {clef === "treble" ? "Treble clef" : "Bass clef"}
+          {keySignature ? ` · ${keySignature.name}` : ""}
+        </span>
         <span className={styles.staffRange}>{clef === "treble" ? "C4-C6 range" : "C3-C4 range"}</span>
       </div>
       <div className={styles.staff} aria-hidden="true">

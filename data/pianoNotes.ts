@@ -37,6 +37,13 @@ export type StaffNotation = {
   accidental: Accidental;
 };
 
+export type PianoKeySignature = {
+  name: string;
+  accidental: Exclude<Accidental, null>;
+  count: number;
+  alteredNotes: readonly NaturalNoteName[];
+};
+
 export type PianoNote = {
   id: string;
   name: PitchName;

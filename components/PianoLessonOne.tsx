@@ -29,6 +29,7 @@ import {
   chordMatchesNoteIds,
   chordResultNotes,
   formatChordSymbol,
+  formatNotation,
   formatPianoKey,
   type PianoChord,
   type PianoNote,
@@ -395,7 +396,9 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
       : `That chord is ${formatChordSymbol(activeChord, true)}.`
     : activeMode === "key-name"
       ? `That key is ${currentCard.note.name}.`
-      : `That note is ${formatPianoKey(currentCard.note, true)}.`;
+      : `That note is ${currentCard.notation
+        ? formatNotation(currentCard.notation, true)
+        : formatPianoKey(currentCard.note, true)}.`;
 
   return (
     <section className={styles.lessonShell} aria-label={`Lesson ${lesson.id} in progress`}>
@@ -439,7 +442,11 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
                 <strong>{formatChordSymbol(activeChord, true)}</strong>
               </div>
             ) : currentCard.notation && currentCard.clef ? (
-              <MusicStaff notation={currentCard.notation} clef={currentCard.clef} />
+              <MusicStaff
+                notation={currentCard.notation}
+                clef={currentCard.clef}
+                keySignature={lesson.keySignature}
+              />
             ) : null}
           </div>
 
