@@ -12,6 +12,12 @@ type CurriculumPrompt = {
   text: string;
   romanization: string;
   meaning: string;
+  translations?: Partial<Record<LanguageId, CurriculumTranslation>>;
+};
+
+type CurriculumTranslation = {
+  text: string;
+  romanization?: string;
 };
 
 type CurriculumLesson = {
@@ -29,7 +35,8 @@ const prompt = (
   text: string,
   romanization: string,
   meaning: string,
-): CurriculumPrompt => ({ id, text, romanization, meaning });
+  translations?: CurriculumPrompt["translations"],
+): CurriculumPrompt => ({ id, text, romanization, meaning, translations });
 
 function curriculumUnit(
   lesson: CurriculumLesson,
@@ -37,8 +44,9 @@ function curriculumUnit(
 ): LearningUnit {
   const localizations = Object.fromEntries(curriculumLanguageIds.map((languageId) => {
     const isPracticeLanguage = languageId === lesson.practiceLanguageId;
-    const text = isPracticeLanguage ? item.text : item.meaning;
-    const romanization = isPracticeLanguage ? item.romanization : item.meaning;
+    const translation = item.translations?.[languageId];
+    const text = isPracticeLanguage ? item.text : translation?.text ?? item.meaning;
+    const romanization = isPracticeLanguage ? item.romanization : translation?.romanization ?? text;
     return [languageId, {
       text,
       natural: item.meaning,
@@ -80,7 +88,78 @@ export const modernHangulConsonants = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍ�
 export const modernHangulVowels = "ㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣㅐㅔㅚㅟㅢㅒㅖㅘㅙㅝㅞ";
 
 type KanaReading = readonly [slug: string, reading: string];
-type JapaneseWord = readonly [slug: string, text: string, reading: string, meaning: string];
+type JapaneseWord = readonly [slug: JapaneseWordMeaning, text: string, reading: string];
+
+type JapaneseWordSupportLanguage = Exclude<LanguageId, "ja">;
+type JapaneseWordTranslations = Record<JapaneseWordSupportLanguage, CurriculumTranslation>;
+
+function wordTranslations(
+  en: string,
+  zh: readonly [text: string, romanization: string],
+  zht: readonly [text: string, romanization: string],
+  yue: readonly [text: string, romanization: string],
+  ko: readonly [text: string, romanization: string],
+  ms: string,
+  fr: string,
+  es: string,
+  ta: readonly [text: string, romanization: string],
+): JapaneseWordTranslations {
+  return {
+    en: { text: en },
+    zh: { text: zh[0], romanization: zh[1] },
+    zht: { text: zht[0], romanization: zht[1] },
+    yue: { text: yue[0], romanization: yue[1] },
+    ko: { text: ko[0], romanization: ko[1] },
+    ms: { text: ms },
+    fr: { text: fr },
+    es: { text: es },
+    ta: { text: ta[0], romanization: ta[1] },
+  };
+}
+
+const japaneseWordTranslations = {
+  sea: wordTranslations("sea", ["海", "hǎi"], ["海", "hǎi"], ["海", "hoi2"], ["바다", "bada"], "laut", "mer", "mar", ["கடல்", "kaṭal"]),
+  house: wordTranslations("house", ["房子", "fángzi"], ["房子", "fángzi"], ["屋", "nguk1"], ["집", "jip"], "rumah", "maison", "casa", ["வீடு", "vīṭu"]),
+  cat: wordTranslations("cat", ["猫", "māo"], ["貓", "māo"], ["貓", "maau1"], ["고양이", "goyangi"], "kucing", "chat", "gato", ["பூனை", "pūṉai"]),
+  dog: wordTranslations("dog", ["狗", "gǒu"], ["狗", "gǒu"], ["狗", "gau2"], ["개", "gae"], "anjing", "chien", "perro", ["நாய்", "nāy"]),
+  sushi: wordTranslations("sushi", ["寿司", "shòusī"], ["壽司", "shòusī"], ["壽司", "sau6 si1"], ["스시", "seusi"], "sushi", "sushi", "sushi", ["சுஷி", "sushi"]),
+  sky: wordTranslations("sky", ["天空", "tiānkōng"], ["天空", "tiānkōng"], ["天空", "tin1 hung1"], ["하늘", "haneul"], "langit", "ciel", "cielo", ["வானம்", "vāṉam"]),
+  bird: wordTranslations("bird", ["鸟", "niǎo"], ["鳥", "niǎo"], ["鳥", "niu5"], ["새", "sae"], "burung", "oiseau", "pájaro", ["பறவை", "paṟavai"]),
+  flower: wordTranslations("flower", ["花", "huā"], ["花", "huā"], ["花", "faa1"], ["꽃", "kkot"], "bunga", "fleur", "flor", ["மலர்", "malar"]),
+  boat: wordTranslations("boat", ["船", "chuán"], ["船", "chuán"], ["船", "syun4"], ["배", "bae"], "bot", "bateau", "barco", ["படகு", "paṭaku"]),
+  mountain: wordTranslations("mountain", ["山", "shān"], ["山", "shān"], ["山", "saan1"], ["산", "san"], "gunung", "montagne", "montaña", ["மலை", "malai"]),
+  dream: wordTranslations("dream", ["梦", "mèng"], ["夢", "mèng"], ["夢", "mung6"], ["꿈", "kkum"], "mimpi", "rêve", "sueño", ["கனவு", "kaṉavu"]),
+  night: wordTranslations("night", ["夜晚", "yèwǎn"], ["夜晚", "yèwǎn"], ["夜晚", "je6 maan5"], ["밤", "bam"], "malam", "nuit", "noche", ["இரவு", "iravu"]),
+  ears: wordTranslations("ears", ["耳朵", "ěrduo"], ["耳朵", "ěrduo"], ["耳朵", "ji5 do2"], ["귀", "gwi"], "telinga", "oreilles", "orejas", ["காதுகள்", "kātukaḷ"]),
+  beans: wordTranslations("beans", ["豆子", "dòuzi"], ["豆子", "dòuzi"], ["豆", "dau6"], ["콩", "kong"], "kacang", "haricots", "frijoles", ["பீன்ஸ்", "pīṉs"]),
+  book: wordTranslations("book", ["书", "shū"], ["書", "shū"], ["書", "syu1"], ["책", "chaek"], "buku", "livre", "libro", ["புத்தகம்", "puttakam"]),
+  water: wordTranslations("water", ["水", "shuǐ"], ["水", "shuǐ"], ["水", "seoi2"], ["물", "mul"], "air", "eau", "agua", ["தண்ணீர்", "taṇṇīr"]),
+  bread: wordTranslations("bread", ["面包", "miànbāo"], ["麵包", "miànbāo"], ["麵包", "min6 baau1"], ["빵", "ppang"], "roti", "pain", "pan", ["ரொட்டி", "roṭṭi"]),
+  key: wordTranslations("key", ["钥匙", "yàoshi"], ["鑰匙", "yàoshi"], ["鎖匙", "so2 si4"], ["열쇠", "yeolsoe"], "kunci", "clé", "llave", ["சாவி", "cāvi"]),
+  shoes: wordTranslations("shoes", ["鞋子", "xiézi"], ["鞋子", "xiézi"], ["鞋", "haai4"], ["신발", "sinbal"], "kasut", "chaussures", "zapatos", ["காலணிகள்", "kālaṇikaḷ"]),
+  morning: wordTranslations("morning", ["早上", "zǎoshang"], ["早上", "zǎoshang"], ["朝早", "ziu1 zou2"], ["아침", "achim"], "pagi", "matin", "mañana", ["காலை", "kālai"]),
+  bus: wordTranslations("bus", ["公交车", "gōngjiāochē"], ["公交車", "gōngjiāochē"], ["巴士", "baa1 si2"], ["버스", "beoseu"], "bas", "bus", "autobús", ["பேருந்து", "pēruntu"]),
+  pen: wordTranslations("pen", ["笔", "bǐ"], ["筆", "bǐ"], ["筆", "bat1"], ["펜", "pen"], "pen", "stylo", "bolígrafo", ["பேனா", "pēṉā"]),
+  door: wordTranslations("door", ["门", "mén"], ["門", "mén"], ["門", "mun4"], ["문", "mun"], "pintu", "porte", "puerta", ["கதவு", "katavu"]),
+  camera: wordTranslations("camera", ["相机", "xiàngjī"], ["相機", "xiàngjī"], ["相機", "soeng2 gei1"], ["카메라", "kamera"], "kamera", "appareil photo", "cámara", ["கேமரா", "kēmarā"]),
+  television: wordTranslations("television", ["电视", "diànshì"], ["電視", "diànshì"], ["電視", "din6 si6"], ["텔레비전", "tellebijeon"], "televisyen", "télévision", "televisión", ["தொலைக்காட்சி", "tolaikkāṭci"]),
+  radio: wordTranslations("radio", ["收音机", "shōuyīnjī"], ["收音機", "shōuyīnjī"], ["收音機", "sau1 jam1 gei1"], ["라디오", "radio"], "radio", "radio", "radio", ["வானொலி", "vāṉoli"]),
+  hotel: wordTranslations("hotel", ["酒店", "jiǔdiàn"], ["酒店", "jiǔdiàn"], ["酒店", "zau2 dim3"], ["호텔", "hotel"], "hotel", "hôtel", "hotel", ["விடுதி", "viṭuti"]),
+  tomato: wordTranslations("tomato", ["西红柿", "xīhóngshì"], ["西紅柿", "xīhóngshì"], ["番茄", "faan1 ke2"], ["토마토", "tomato"], "tomato", "tomate", "tomate", ["தக்காளி", "takkāḷi"]),
+  piano: wordTranslations("piano", ["钢琴", "gāngqín"], ["鋼琴", "gāngqín"], ["鋼琴", "gong3 kam4"], ["피아노", "piano"], "piano", "piano", "piano", ["பியானோ", "piyāṉō"]),
+  memo: wordTranslations("memo", ["备忘录", "bèiwànglù"], ["備忘錄", "bèiwànglù"], ["備忘錄", "bei6 mong4 luk6"], ["메모", "memo"], "memo", "mémo", "nota", ["குறிப்பேடு", "kuṟippēṭu"]),
+  zero: wordTranslations("zero", ["零", "líng"], ["零", "líng"], ["零", "ling4"], ["영", "yeong"], "sifar", "zéro", "cero", ["பூஜ்ஜியம்", "pūjjiyam"]),
+  cocoa: wordTranslations("cocoa", ["可可", "kěkě"], ["可可", "kěkě"], ["可可", "ho2 ho2"], ["코코아", "kokoa"], "koko", "cacao", "cacao", ["கோகோ", "kōkō"]),
+  cake: wordTranslations("cake", ["蛋糕", "dàngāo"], ["蛋糕", "dàngāo"], ["蛋糕", "daan6 gou1"], ["케이크", "keikeu"], "kek", "gâteau", "pastel", ["கேக்", "kēk"]),
+  soup: wordTranslations("soup", ["汤", "tāng"], ["湯", "tāng"], ["湯", "tong1"], ["수프", "seupeu"], "sup", "soupe", "sopa", ["சூப்", "cūp"]),
+  shirt: wordTranslations("shirt", ["衬衫", "chènshān"], ["襯衫", "chènshān"], ["恤衫", "seot1 saam1"], ["셔츠", "syeocheu"], "kemeja", "chemise", "camisa", ["சட்டை", "caṭṭai"]),
+  chocolate: wordTranslations("chocolate", ["巧克力", "qiǎokèlì"], ["巧克力", "qiǎokèlì"], ["朱古力", "zyu1 gu1 lik6"], ["초콜릿", "chokollit"], "coklat", "chocolat", "chocolate", ["சாக்லேட்", "cākḷēṭ"]),
+  news: wordTranslations("news", ["新闻", "xīnwén"], ["新聞", "xīnwén"], ["新聞", "san1 man4"], ["뉴스", "nyuseu"], "berita", "actualités", "noticias", ["செய்திகள்", "ceytikaḷ"]),
+  notebook: wordTranslations("notebook", ["笔记本", "bǐjìběn"], ["筆記本", "bǐjìběn"], ["筆記簿", "bat1 gei3 bou2"], ["공책", "gongchaek"], "buku nota", "cahier", "cuaderno", ["குறிப்பேடு", "kuṟippēṭu"]),
+  taxi: wordTranslations("taxi", ["出租车", "chūzūchē"], ["出租車", "chūzūchē"], ["的士", "dik1 si2"], ["택시", "taeksi"], "teksi", "taxi", "taxi", ["டாக்ஸி", "ṭāksi"]),
+} as const;
+
+type JapaneseWordMeaning = keyof typeof japaneseWordTranslations;
 
 const basicKanaReadings: readonly KanaReading[] = [
   ["a", "a"], ["i", "i"], ["u", "u"], ["e", "e"], ["o", "o"],
@@ -120,29 +199,29 @@ export const hiraganaCurriculumCharacters = `${modernHiragana}がぎぐげござ
 export const katakanaCurriculumCharacters = `${modernKatakana}ガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォッャュョヮヵヶヴー`;
 
 const hiraganaWords: readonly JapaneseWord[] = [
-  ["sea", "うみ", "umi", "sea"], ["house", "いえ", "ie", "house"],
-  ["cat", "ねこ", "neko", "cat"], ["dog", "いぬ", "inu", "dog"],
-  ["sushi", "すし", "sushi", "sushi"], ["sky", "そら", "sora", "sky"],
-  ["bird", "とり", "tori", "bird"], ["flower", "はな", "hana", "flower"],
-  ["boat", "ふね", "fune", "boat"], ["mountain", "やま", "yama", "mountain"],
-  ["dream", "ゆめ", "yume", "dream"], ["night", "よる", "yoru", "night"],
-  ["ears", "みみ", "mimi", "ears"], ["beans", "まめ", "mame", "beans"],
-  ["book", "ほん", "hon", "book"], ["water", "みず", "mizu", "water"],
-  ["bread", "ぱん", "pan", "bread"], ["key", "かぎ", "kagi", "key"],
-  ["shoes", "くつ", "kutsu", "shoes"], ["morning", "あさ", "asa", "morning"],
+  ["sea", "うみ", "umi"], ["house", "いえ", "ie"],
+  ["cat", "ねこ", "neko"], ["dog", "いぬ", "inu"],
+  ["sushi", "すし", "sushi"], ["sky", "そら", "sora"],
+  ["bird", "とり", "tori"], ["flower", "はな", "hana"],
+  ["boat", "ふね", "fune"], ["mountain", "やま", "yama"],
+  ["dream", "ゆめ", "yume"], ["night", "よる", "yoru"],
+  ["ears", "みみ", "mimi"], ["beans", "まめ", "mame"],
+  ["book", "ほん", "hon"], ["water", "みず", "mizu"],
+  ["bread", "ぱん", "pan"], ["key", "かぎ", "kagi"],
+  ["shoes", "くつ", "kutsu"], ["morning", "あさ", "asa"],
 ];
 
 const katakanaWords: readonly JapaneseWord[] = [
-  ["bread", "パン", "pan", "bread"], ["bus", "バス", "basu", "bus"],
-  ["pen", "ペン", "pen", "pen"], ["door", "ドア", "doa", "door"],
-  ["camera", "カメラ", "kamera", "camera"], ["television", "テレビ", "terebi", "television"],
-  ["radio", "ラジオ", "rajio", "radio"], ["hotel", "ホテル", "hoteru", "hotel"],
-  ["tomato", "トマト", "tomato", "tomato"], ["piano", "ピアノ", "piano", "piano"],
-  ["memo", "メモ", "memo", "memo"], ["zero", "ゼロ", "zero", "zero"],
-  ["cocoa", "ココア", "kokoa", "cocoa"], ["cake", "ケーキ", "keeki", "cake"],
-  ["soup", "スープ", "suupu", "soup"], ["shirt", "シャツ", "shatsu", "shirt"],
-  ["chocolate", "チョコ", "choko", "chocolate"], ["news", "ニュース", "nyuusu", "news"],
-  ["notebook", "ノート", "nooto", "notebook"], ["taxi", "タクシー", "takushii", "taxi"],
+  ["bread", "パン", "pan"], ["bus", "バス", "basu"],
+  ["pen", "ペン", "pen"], ["door", "ドア", "doa"],
+  ["camera", "カメラ", "kamera"], ["television", "テレビ", "terebi"],
+  ["radio", "ラジオ", "rajio"], ["hotel", "ホテル", "hoteru"],
+  ["tomato", "トマト", "tomato"], ["piano", "ピアノ", "piano"],
+  ["memo", "メモ", "memo"], ["zero", "ゼロ", "zero"],
+  ["cocoa", "ココア", "kokoa"], ["cake", "ケーキ", "keeki"],
+  ["soup", "スープ", "suupu"], ["shirt", "シャツ", "shatsu"],
+  ["chocolate", "チョコ", "choko"], ["news", "ニュース", "nyuusu"],
+  ["notebook", "ノート", "nooto"], ["taxi", "タクシー", "takushii"],
 ];
 
 function kanaCharacterLesson(
@@ -184,7 +263,10 @@ function japaneseWordLesson(
     sectionId,
     practiceLanguageId: "ja",
     estimatedMinutes: Math.ceil(words.length / 4),
-    prompts: words.map(([slug, text, reading, meaning]) => prompt(slug, text, reading, meaning)),
+    prompts: words.map(([slug, text, reading]) => {
+      const translations = japaneseWordTranslations[slug];
+      return prompt(slug, text, reading, translations.en.text, translations);
+    }),
   };
 }
 

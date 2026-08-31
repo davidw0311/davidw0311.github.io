@@ -158,6 +158,39 @@ test("groups the complete Japanese scripts into focused 15-20 prompt lessons", (
   assert.deepEqual([...new Set(koreanItems.map((item) => item.sectionId))], ["ko-jamo", "ko-blocks", "ko-words"]);
 });
 
+test("localizes every Japanese vocabulary word instead of falling back to English", () => {
+  const wordItems = contentItems.filter((item) => ["ja-hiragana-words", "ja-katakana-words"].includes(item.sectionId ?? ""));
+  const wordUnits = wordItems.flatMap((item) => item.units);
+  const sky = wordUnits.find((unit) => unit.localizations.ja.text === "そら");
+  const bird = wordUnits.find((unit) => unit.localizations.ja.text === "とり");
+
+  assert.equal(wordUnits.length, 40);
+  assert.ok(sky);
+  assert.deepEqual(
+    Object.fromEntries(languageIds.map((languageId) => [languageId, sky.localizations[languageId].text])),
+    {
+      en: "sky", zh: "天空", zht: "天空", yue: "天空", ja: "そら",
+      ko: "하늘", ms: "langit", fr: "ciel", es: "cielo", ta: "வானம்",
+    },
+  );
+  assert.ok(bird);
+  assert.deepEqual(
+    Object.fromEntries(languageIds.map((languageId) => [languageId, bird.localizations[languageId].text])),
+    {
+      en: "bird", zh: "鸟", zht: "鳥", yue: "鳥", ja: "とり",
+      ko: "새", ms: "burung", fr: "oiseau", es: "pájaro", ta: "பறவை",
+    },
+  );
+
+  for (const unit of wordUnits) {
+    const english = unit.localizations.en.text;
+    for (const languageId of ["zh", "zht", "yue", "ko", "ta"] as const) {
+      assert.notEqual(unit.localizations[languageId].text, english, `${unit.id}:${languageId}`);
+      assert.ok(unit.localizations[languageId].romanization?.length, `${unit.id}:${languageId}:romanization`);
+    }
+  }
+});
+
 test("includes every language and Mandarin script option in the v1 scope", () => {
   assert.deepEqual(languageIds, ["en", "zh", "zht", "yue", "ja", "ko", "ms", "fr", "es", "ta"]);
 });
