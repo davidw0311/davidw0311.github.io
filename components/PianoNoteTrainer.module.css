@@ -350,7 +350,7 @@
 .keySignatureFlat {
   left: calc(21.5% + var(--signature-index) * 10px);
   /* The bowl sits low in the glyph box; align its widest point to the staff anchor. */
-  transform: translate(-50%, -63%);
+  transform: translate(-50%, -54%);
 }
 
 .note {
