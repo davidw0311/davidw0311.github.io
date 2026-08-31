@@ -16,6 +16,28 @@
   background: var(--trip-bg);
 }
 
+.page .langChinese {
+  display: none;
+}
+
+.page[data-trip-language="zh"] .langEnglish {
+  display: none;
+}
+
+.page[data-trip-language="zh"] .langChinese {
+  display: inline;
+}
+
+.page[data-trip-language="zh"] :is(h1, h2, h3) {
+  letter-spacing: -0.025em;
+  line-height: 1.14;
+}
+
+.page[data-trip-language="zh"] .eyebrow {
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
 .tripNav {
   position: relative;
   z-index: 4;
@@ -48,10 +70,50 @@
   transform: translateY(1px);
 }
 
-.tripNav > a:last-child {
+.tripNavActions {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tripNavActions > a {
   font-family: var(--font-display), sans-serif;
   letter-spacing: -0.04em;
+}
+
+.languageToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 7px 11px;
+  color: var(--trip-ink);
+  border: 1px solid var(--trip-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--trip-surface) 86%, transparent);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 850;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(14px) saturate(120%);
+  transition: color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.languageToggle:hover {
+  color: var(--trip-accent);
+  border-color: color-mix(in srgb, var(--trip-accent) 48%, transparent);
+}
+
+.languageToggle:active {
+  transform: scale(0.98);
+}
+
+.languageToggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--trip-accent) 40%, transparent);
+  outline-offset: 3px;
 }
 
 .tripNav .tripNavMark {
@@ -139,6 +201,10 @@
 
 .itineraryHeroCopy h1 span {
   display: block;
+}
+
+.itineraryHeroCopy h1 > span:last-child {
+  white-space: nowrap;
 }
 
 .hubHeroCopy h1 {
@@ -374,6 +440,14 @@
   gap: 6px;
   padding: 0 10px;
   text-align: center;
+  color: var(--trip-ink);
+  text-decoration: none;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.routeStop:hover {
+  color: var(--trip-accent);
+  transform: translateY(-2px);
 }
 
 .routeStop svg {
@@ -660,6 +734,39 @@
   line-height: 1.62;
 }
 
+.scheduleLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 11px;
+}
+
+.scheduleLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 6px 10px;
+  color: var(--trip-accent);
+  border: 1px solid color-mix(in srgb, var(--trip-accent) 28%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--trip-accent) 7%, transparent);
+  font-size: 0.7rem;
+  font-weight: 820;
+  line-height: 1.15;
+  text-decoration: none;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.scheduleLinks a:hover {
+  background: color-mix(in srgb, var(--trip-accent) 14%, transparent);
+  transform: translateY(-1px);
+}
+
+.scheduleLinks a:active {
+  transform: scale(0.98);
+}
+
 .scheduleWarning {
   padding: 13px 14px 13px 12px;
   border-radius: 14px;
@@ -847,6 +954,16 @@
     font-size: 0.72rem;
   }
 
+  .tripNavActions {
+    gap: 7px;
+  }
+
+  .languageToggle {
+    min-height: 36px;
+    padding-inline: 9px;
+    font-size: 0.66rem;
+  }
+
   .hubHero,
   .itineraryHero {
     grid-template-columns: 1fr;
@@ -1015,6 +1132,10 @@
     padding: 13px 12px;
   }
 
+  .scheduleLinks {
+    gap: 7px;
+  }
+
   .dayMediaPortrait {
     width: 84%;
   }
@@ -1052,7 +1173,8 @@
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .dayNav {
+  .dayNav,
+  .languageToggle {
     background: var(--trip-surface);
     backdrop-filter: none;
   }

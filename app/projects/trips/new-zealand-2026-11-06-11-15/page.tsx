@@ -6,6 +6,7 @@ import {
   CarProfile,
   Clock,
   CloudSun,
+  GlobeHemisphereEast,
   MapPin,
   MapTrifold,
   PersonSimpleHike,
@@ -21,7 +22,10 @@ import {
   type TripDay,
   type TripItemKind,
 } from "@/data/trips";
+import { newZealandTripZh, type TripDayTranslation } from "@/data/trips.zh";
+import { TripLanguageShell } from "../TripLanguage";
 import { TripNav } from "../TripNav";
+import { TripText } from "../TripText";
 import styles from "../trips.module.css";
 
 export const metadata: Metadata = {
@@ -47,23 +51,23 @@ export default function NewZealandTripPage() {
   const secondChapter = newZealandTrip.days.slice(5);
 
   return (
-    <main className={styles.page}>
+    <TripLanguageShell className={styles.page}>
       <a className="skip-link" href="#daily-plan">
-        Skip to daily plan
+        <TripText en="Skip to daily plan" zh="跳到每日行程" />
       </a>
 
-      <TripNav backHref="/projects/trips/" backLabel="Trips" />
+      <TripNav backHref="/projects/trips/" backLabel="Trips" backLabelZh="旅行" />
 
       <header className={styles.itineraryHero}>
         <Reveal className={styles.itineraryHeroCopy}>
-          <p className={styles.eyebrow}>{newZealandTrip.region}</p>
-          <h1 aria-label={newZealandTrip.title}>
-            <span aria-hidden="true">New Zealand</span>
+          <p className={styles.eyebrow}><TripText en={newZealandTrip.region} zh={newZealandTripZh.region} /></p>
+          <h1 aria-label={`${newZealandTrip.title} / ${newZealandTripZh.title}`}>
+            <span aria-hidden="true"><TripText en="New Zealand" zh="新西兰" /></span>
             <span aria-hidden="true">2026 11.06-11.15</span>
           </h1>
-          <p>{newZealandTrip.description}</p>
+          <p><TripText en={newZealandTrip.description} zh={newZealandTripZh.description} /></p>
           <a className={styles.primaryButton} href="#daily-plan">
-            View daily plan <CalendarBlank size={18} weight="bold" />
+            <TripText en="View daily plan" zh="查看每日行程" /> <CalendarBlank size={18} weight="bold" />
           </a>
         </Reveal>
 
@@ -80,26 +84,33 @@ export default function NewZealandTripPage() {
 
       <section className={styles.routeOverview} aria-labelledby="route-title">
         <Reveal className={styles.sectionIntro}>
-          <h2 id="route-title">The route, at a glance</h2>
-          <p>One overnight flight, three Queenstown nights, and a northbound alpine drive to Christchurch.</p>
+          <h2 id="route-title"><TripText en="The route, at a glance" zh="路线概览" /></h2>
+          <p><TripText en="One overnight flight, three Queenstown nights, and a northbound alpine drive to Christchurch." zh="一趟过夜航班，在皇后镇住三晚，然后沿高山公路向北前往基督城。" /></p>
         </Reveal>
 
         <Reveal className={styles.overviewStats} viewportAnchor>
-          {newZealandTrip.overview.map((item) => (
+          {newZealandTrip.overview.map((item, index) => (
             <div key={item.label}>
               <strong>{item.value}</strong>
-              <span>{item.label}</span>
+              <span><TripText en={item.label} zh={newZealandTripZh.overview[index].label} /></span>
             </div>
           ))}
         </Reveal>
 
         <Reveal className={styles.routeTrack} viewportAnchor>
-          {newZealandTrip.routeStops.map((stop) => (
-            <div className={styles.routeStop} key={stop.place}>
+          {newZealandTrip.routeStops.map((stop, index) => (
+            <a
+              className={styles.routeStop}
+              key={stop.place}
+              href={stop.mapUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${stop.place} map / ${newZealandTripZh.routeStops[index].place}地图`}
+            >
               <MapPin size={21} weight="fill" aria-hidden="true" />
-              <strong>{stop.place}</strong>
-              <span>{stop.nights}</span>
-            </div>
+              <strong><TripText en={stop.place} zh={newZealandTripZh.routeStops[index].place} /></strong>
+              <span><TripText en={stop.nights} zh={newZealandTripZh.routeStops[index].nights} /></span>
+            </a>
           ))}
         </Reveal>
       </section>
@@ -116,87 +127,97 @@ export default function NewZealandTripPage() {
 
         <Reveal className={styles.practicalCopy} delay={0.08} viewportAnchor>
           <Ticket size={30} weight="duotone" aria-hidden="true" />
-          <h2 id="confirm-title">Confirm before departure</h2>
-          <p>The schedule defines the journey, but it does not include booking references or confirmation status.</p>
+          <h2 id="confirm-title"><TripText en="Confirm before departure" zh="出发前请确认" /></h2>
+          <p><TripText en="The schedule defines the journey, but it does not include booking references or confirmation status." zh="行程已经确定路线，但没有包含预订编号或确认状态。" /></p>
           <ul>
-            {newZealandTrip.detailsMissing.map((detail) => (
-              <li key={detail}>{detail}</li>
+            {newZealandTrip.detailsMissing.map((detail, index) => (
+              <li key={detail}><TripText en={detail} zh={newZealandTripZh.detailsMissing[index]} /></li>
             ))}
           </ul>
           <div className={styles.practicalNotice}>
             <WarningCircle size={21} weight="bold" aria-hidden="true" />
-            <span>Reserve an early Milford Sound sailing if possible. The exact cruise time is still open.</span>
+            <span><TripText en="Reserve an early Milford Sound sailing if possible. The exact cruise time is still open." zh="如果可以，请预订较早的米尔福德峡湾船班。具体时间仍待确认。" /></span>
           </div>
         </Reveal>
       </section>
 
       <section id="daily-plan" className={styles.timelineSection} aria-labelledby="daily-plan-title">
         <Reveal className={styles.timelineHeader}>
-          <h2 id="daily-plan-title">Day by day</h2>
-          <p>Times stay exact where the source provides them. Weather-dependent options remain clearly marked.</p>
+          <h2 id="daily-plan-title"><TripText en="Day by day" zh="每日行程" /></h2>
+          <p><TripText en="Times stay exact where the source provides them. Weather-dependent options remain clearly marked." zh="原始行程提供的时间会保持不变，需要看天气的选项也会清楚标注。" /></p>
         </Reveal>
 
-        <nav className={styles.dayNav} aria-label="Jump to a day">
-          {newZealandTrip.days.map((day) => (
-            <a key={day.dayNumber} href={`#day-${day.dayNumber}`} aria-label={`Go to day ${day.dayNumber}, ${day.date}`}>
+        <nav className={styles.dayNav} aria-label="Jump to a day / 跳到指定日期">
+          {newZealandTrip.days.map((day, index) => (
+            <a key={day.dayNumber} href={`#day-${day.dayNumber}`} aria-label={`Go to day ${day.dayNumber}, ${day.date} / 前往第${day.dayNumber}天，${newZealandTripZh.days[index].date}`}>
               <span>{String(day.dayNumber).padStart(2, "0")}</span>
-              <small>{day.date}</small>
+              <small><TripText en={day.date} zh={newZealandTripZh.days[index].date} /></small>
             </a>
           ))}
         </nav>
 
-        <JourneyChapter title="Arrival and Fiordland" days={firstChapter} />
-        <JourneyChapter title="The alpine road north" days={secondChapter} />
+        <JourneyChapter title="Arrival and Fiordland" titleZh="抵达与峡湾地区" days={firstChapter} translations={newZealandTripZh.days.slice(0, 5)} />
+        <JourneyChapter title="The alpine road north" titleZh="沿高山公路向北" days={secondChapter} translations={newZealandTripZh.days.slice(5)} />
       </section>
 
       <section className={styles.sourceNotes} aria-labelledby="notes-title">
         <Reveal className={styles.sourceNotesInner} viewportAnchor>
           <MapTrifold size={34} weight="duotone" aria-hidden="true" />
-          <h2 id="notes-title">Use the schedule as a framework</h2>
-          <p>Local weather can change the best order around Aoraki and Tekapo. Keep the clear-sky options flexible.</p>
+          <h2 id="notes-title"><TripText en="Use the schedule as a framework" zh="把行程作为灵活框架" /></h2>
+          <p><TripText en="Local weather can change the best order around Aoraki and Tekapo. Keep the clear-sky options flexible." zh="当地天气可能改变奥拉基和蒂卡波周边的最佳顺序，请灵活安排需要晴天的活动。" /></p>
           <ul>
-            {newZealandTrip.sourceNotes.map((note) => (
-              <li key={note}>{note}</li>
+            {newZealandTrip.sourceNotes.map((note, index) => (
+              <li key={note}><TripText en={note} zh={newZealandTripZh.sourceNotes[index]} /></li>
             ))}
           </ul>
         </Reveal>
       </section>
 
       <footer className={styles.tripFooter}>
-        <Link href="/projects/trips/">Trips</Link>
-        <span>{newZealandTrip.dateRange}</span>
+        <Link href="/projects/trips/"><TripText en="Trips" zh="旅行" /></Link>
+        <span><TripText en={newZealandTrip.dateRange} zh={newZealandTripZh.dateRange} /></span>
         <Link href="/#about">DYW</Link>
       </footer>
-    </main>
+    </TripLanguageShell>
   );
 }
 
-function JourneyChapter({ title, days }: { title: string; days: readonly TripDay[] }) {
+function JourneyChapter({
+  title,
+  titleZh,
+  days,
+  translations,
+}: {
+  title: string;
+  titleZh: string;
+  days: readonly TripDay[];
+  translations: readonly TripDayTranslation[];
+}) {
   return (
     <div className={styles.journeyChapter}>
       <Reveal className={styles.chapterHeading}>
-        <h3>{title}</h3>
+        <h3><TripText en={title} zh={titleZh} /></h3>
       </Reveal>
-      {days.map((day) => (
-        <DayPlan key={day.dayNumber} day={day} />
+      {days.map((day, index) => (
+        <DayPlan key={day.dayNumber} day={day} translation={translations[index]} />
       ))}
     </div>
   );
 }
 
-function DayPlan({ day }: { day: TripDay }) {
+function DayPlan({ day, translation }: { day: TripDay; translation: TripDayTranslation }) {
   const image = day.dayNumber === 5
     ? {
         src: "/assets/generated/trips/new-zealand-2026/milford-sound.webp",
         alt: "Mitre Peak and waterfalls seen from the water at Milford Sound",
-        caption: "Milford Sound after rain",
+        caption: { en: "Milford Sound after rain", zh: "雨后的米尔福德峡湾" },
         portrait: true,
       }
     : day.dayNumber === 8
       ? {
           src: "/assets/generated/trips/new-zealand-2026/tekapo-night.webp",
           alt: "The Milky Way above a mountain lake near Lake Tekapo",
-          caption: "Clear-sky option at Lake Tekapo",
+          caption: { en: "Clear-sky option at Lake Tekapo", zh: "蒂卡波湖晴夜观星选项" },
           portrait: false,
         }
       : null;
@@ -205,20 +226,20 @@ function DayPlan({ day }: { day: TripDay }) {
     <Reveal className={styles.dayReveal} viewportAnchor>
       <article id={`day-${day.dayNumber}`} className={styles.day}>
         <div className={styles.dayStamp}>
-          <span>Day {day.dayNumber}</span>
-          <time dateTime={day.dateTime}>{day.date}</time>
-          <small>{day.weekday}</small>
+          <span><TripText en={`Day ${day.dayNumber}`} zh={`第${day.dayNumber}天`} /></span>
+          <time dateTime={day.dateTime}><TripText en={day.date} zh={translation.date} /></time>
+          <small><TripText en={day.weekday} zh={translation.weekday} /></small>
         </div>
 
         <div>
           <header className={styles.dayHeader}>
-            <h3>{day.route}</h3>
+            <h3><TripText en={day.route} zh={translation.route} /></h3>
             <div className={styles.dayMeta}>
               {day.stay && (
-                <span><Bed size={18} weight="duotone" /> {day.stay}</span>
+                <span><Bed size={18} weight="duotone" /> <TripText en={day.stay} zh={translation.stay ?? day.stay} /></span>
               )}
               {day.drive && (
-                <span><Clock size={18} weight="duotone" /> {day.drive}</span>
+                <span><Clock size={18} weight="duotone" /> <TripText en={day.drive} zh={translation.drive ?? day.drive} /></span>
               )}
             </div>
           </header>
@@ -231,8 +252,25 @@ function DayPlan({ day }: { day: TripDay }) {
                 </span>
                 {item.time && <time className={styles.scheduleTime}>{item.time}</time>}
                 <div>
-                  <strong>{item.title}</strong>
-                  {item.detail && <p>{item.detail}</p>}
+                  <strong><TripText en={item.title} zh={translation.items[index].title} /></strong>
+                  {item.detail && <p><TripText en={item.detail} zh={translation.items[index].detail ?? item.detail} /></p>}
+                  {item.links && (
+                    <div className={styles.scheduleLinks}>
+                      {item.links.map((link) => (
+                        <a
+                          key={`${link.kind}-${link.label}`}
+                          href={link.href}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {link.kind === "map"
+                            ? <MapPin size={15} weight="fill" aria-hidden="true" />
+                            : <GlobeHemisphereEast size={15} weight="bold" aria-hidden="true" />}
+                          <TripText en={link.label} zh={link.labelZh} />
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </li>
             ))}
@@ -243,7 +281,7 @@ function DayPlan({ day }: { day: TripDay }) {
               <div>
                 <Image src={image.src} alt={image.alt} fill sizes="(max-width: 767px) calc(100vw - 32px), 48vw" />
               </div>
-              <figcaption>{image.caption}</figcaption>
+              <figcaption><TripText en={image.caption.en} zh={image.caption.zh} /></figcaption>
             </figure>
           )}
         </div>
