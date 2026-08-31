@@ -57,7 +57,7 @@ export default function NewZealandTripPage() {
         <TripText en="Skip to daily plan" zh="跳到每日行程" />
       </a>
 
-      <TripNav backHref="/projects/trips/" backLabel="Trips" backLabelZh="旅行" />
+      <TripNav backHref="/projects/trips/" backLabel="Trips" backLabelZh="旅行" showLanguageToggle={false} />
 
       <header className={styles.itineraryHero}>
         <Reveal className={styles.itineraryHeroCopy}>

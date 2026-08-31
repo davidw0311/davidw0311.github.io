@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { TripLanguageToggle } from "./TripLanguage";
 import { TripText } from "./TripText";
 import styles from "./trips.module.css";
 
@@ -60,19 +61,22 @@ export function TripDayNav({ days }: { days: readonly TripDayNavItem[] }) {
   }, [activeDay]);
 
   return (
-    <nav ref={navRef} className={styles.dayNav} aria-label="Jump to a day / 跳到指定日期">
-      {days.map((day) => (
-        <a
-          key={day.dayNumber}
-          href={`#day-${day.dayNumber}`}
-          data-day={day.dayNumber}
-          aria-current={activeDay === day.dayNumber ? "step" : undefined}
-          aria-label={`Go to day ${day.dayNumber}, ${day.date} / 前往第${day.dayNumber}天，${day.dateZh}`}
-        >
-          <span>{String(day.dayNumber).padStart(2, "0")}</span>
-          <small><TripText en={day.date} zh={day.dateZh} /></small>
-        </a>
-      ))}
-    </nav>
+    <div className={styles.dayToolbar}>
+      <nav ref={navRef} className={styles.dayNav} aria-label="Jump to a day / 跳到指定日期">
+        {days.map((day) => (
+          <a
+            key={day.dayNumber}
+            href={`#day-${day.dayNumber}`}
+            data-day={day.dayNumber}
+            aria-current={activeDay === day.dayNumber ? "step" : undefined}
+            aria-label={`Go to day ${day.dayNumber}, ${day.date} / 前往第${day.dayNumber}天，${day.dateZh}`}
+          >
+            <span>{String(day.dayNumber).padStart(2, "0")}</span>
+            <small><TripText en={day.date} zh={day.dateZh} /></small>
+          </a>
+        ))}
+      </nav>
+      <TripLanguageToggle />
+    </div>
   );
 }

@@ -41,6 +41,10 @@ export function TripLanguageShell({
   }, []);
 
   function setLanguage(nextLanguage: TripLanguage) {
+    const activeDayHash = document
+      .querySelector<HTMLAnchorElement>('[aria-current="step"]')
+      ?.hash;
+
     setLanguageState(nextLanguage);
     document.documentElement.lang = nextLanguage === "zh" ? "zh-Hans" : "en";
     window.localStorage.setItem("trip-language", nextLanguage);
@@ -52,6 +56,12 @@ export function TripLanguageShell({
       url.searchParams.delete("lang");
     }
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+
+    if (activeDayHash) {
+      window.requestAnimationFrame(() => {
+        document.querySelector(activeDayHash)?.scrollIntoView({ block: "start" });
+      });
+    }
   }
 
   return (

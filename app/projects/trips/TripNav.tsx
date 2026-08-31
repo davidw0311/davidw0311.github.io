@@ -8,10 +8,12 @@ export function TripNav({
   backHref,
   backLabel,
   backLabelZh,
+  showLanguageToggle = true,
 }: {
   backHref: string;
   backLabel: string;
   backLabelZh: string;
+  showLanguageToggle?: boolean;
 }) {
   return (
     <nav className={styles.tripNav} aria-label="Trip navigation">
@@ -23,7 +25,7 @@ export function TripNav({
         <TripText en="Trips" zh="旅行" />
       </Link>
       <div className={styles.tripNavActions}>
-        <TripLanguageToggle />
+        {showLanguageToggle && <TripLanguageToggle />}
         <Link href="/#about">DYW</Link>
       </div>
     </nav>
