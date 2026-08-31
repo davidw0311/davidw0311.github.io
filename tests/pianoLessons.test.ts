@@ -192,10 +192,10 @@ test("every lesson presents the same complete set of answer labels", () => {
 
 test("focused chord lessons repeat each chord three times in the requested direction", () => {
   const focusedLessons = [
-    { ids: [18, 20, 22], groups: majorChordLessonGroups, mode: "chord-key", quality: "major" },
-    { ids: [19, 21, 23], groups: majorChordLessonGroups, mode: "chord-name", quality: "major" },
-    { ids: [25, 27, 29], groups: minorChordLessonGroups, mode: "chord-key", quality: "minor" },
-    { ids: [26, 28, 30], groups: minorChordLessonGroups, mode: "chord-name", quality: "minor" },
+    { ids: [18, 20, 22], groups: majorChordLessonGroups, mode: "chord-name", quality: "major" },
+    { ids: [19, 21, 23], groups: majorChordLessonGroups, mode: "chord-key", quality: "major" },
+    { ids: [25, 27, 29], groups: minorChordLessonGroups, mode: "chord-name", quality: "minor" },
+    { ids: [26, 28, 30], groups: minorChordLessonGroups, mode: "chord-key", quality: "minor" },
   ] as const;
 
   for (const lessonSet of focusedLessons) {
@@ -217,6 +217,21 @@ test("focused chord lessons repeat each chord three times in the requested direc
         assert.equal(deck.filter((card) => card.chord?.id === chordId).length, 3);
       }
     });
+  }
+});
+
+test("every chord recognition lesson offers all 12 chord names of its quality", () => {
+  const recognitionLessons = [18, 20, 22, 25, 27, 29] as const;
+
+  for (const lessonId of recognitionLessons) {
+    const lesson = getPianoLesson(lessonId);
+    const quality = lessonId < 25 ? "major" : "minor";
+
+    assert.equal(lesson.exerciseMode, "chord-name");
+    assert.equal(lesson.answerChords?.length, 12);
+    assert.equal(new Set(lesson.answerChords?.map((chord) => chord.id)).size, 12);
+    assert.ok(lesson.answerChords?.every((chord) => chord.quality === quality));
+    assert.ok(lesson.chords?.every((chord) => lesson.answerChords?.some((answer) => answer.id === chord.id)));
   }
 });
 

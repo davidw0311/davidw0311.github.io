@@ -440,16 +440,16 @@ export function PianoLesson({ lessonId }: PianoLessonProps) {
                   Check chord · {selectedChordKeyIds.length}/3 keys
                 </button>
               </div>
-            ) : activeMode === "chord-name" && activeChord && lesson.chords ? (
+            ) : activeMode === "chord-name" && activeChord && lesson.answerChords ? (
               <div className={styles.chordNameAnswer}>
                 <ChordSelector
-                  chords={lesson.chords}
+                  chords={lesson.answerChords}
                   qualities={[activeChord.quality]}
                   selectedId={selectedAnswer}
                   correctId={answered ? activeChord.id : null}
                   wrongId={answered && !answerIsCorrect ? selectedAnswer : null}
                   disabled={answered}
-                  columnCount={lesson.chords.length}
+                  columnCount={lesson.answerChords.length}
                   ariaLabel="Choose the highlighted chord's name"
                   onChoose={handleChordNameAnswer}
                 />

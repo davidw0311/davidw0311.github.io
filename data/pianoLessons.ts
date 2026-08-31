@@ -57,6 +57,7 @@ export type PianoLessonDefinition = {
   desktopChoiceColumns: number;
   mobileChoiceColumns: number;
   chords?: readonly PianoChord[];
+  answerChords?: readonly PianoChord[];
 };
 
 export type PianoLessonGroupDefinition = {
@@ -187,22 +188,22 @@ const lessonCards: Record<PianoLessonId, PianoLessonCard[]> = {
   15: createTrebleStaffCards(15, lessonFourteenNoteIds),
   16: createTrebleStaffCards(16, lessonSixteenNoteIds),
   17: createTrebleStaffCards(17, lessonSixteenNoteIds),
-  18: createChordCards(18, majorChordGroups[0], "chord-key"),
-  19: createChordCards(19, majorChordGroups[0], "chord-name"),
-  20: createChordCards(20, majorChordGroups[1], "chord-key"),
-  21: createChordCards(21, majorChordGroups[1], "chord-name"),
-  22: createChordCards(22, majorChordGroups[2], "chord-key"),
-  23: createChordCards(23, majorChordGroups[2], "chord-name"),
+  18: createChordCards(18, majorChordGroups[0], "chord-name"),
+  19: createChordCards(19, majorChordGroups[0], "chord-key"),
+  20: createChordCards(20, majorChordGroups[1], "chord-name"),
+  21: createChordCards(21, majorChordGroups[1], "chord-key"),
+  22: createChordCards(22, majorChordGroups[2], "chord-name"),
+  23: createChordCards(23, majorChordGroups[2], "chord-key"),
   24: [
     ...createChordCards(24, allMajorLessonChords, "chord-key", 1),
     ...createChordCards(24, allMajorLessonChords, "chord-name", 1),
   ],
-  25: createChordCards(25, minorChordGroups[0], "chord-key"),
-  26: createChordCards(26, minorChordGroups[0], "chord-name"),
-  27: createChordCards(27, minorChordGroups[1], "chord-key"),
-  28: createChordCards(28, minorChordGroups[1], "chord-name"),
-  29: createChordCards(29, minorChordGroups[2], "chord-key"),
-  30: createChordCards(30, minorChordGroups[2], "chord-name"),
+  25: createChordCards(25, minorChordGroups[0], "chord-name"),
+  26: createChordCards(26, minorChordGroups[0], "chord-key"),
+  27: createChordCards(27, minorChordGroups[1], "chord-name"),
+  28: createChordCards(28, minorChordGroups[1], "chord-key"),
+  29: createChordCards(29, minorChordGroups[2], "chord-name"),
+  30: createChordCards(30, minorChordGroups[2], "chord-key"),
   31: [
     ...createChordCards(31, allMinorLessonChords, "chord-key", 1),
     ...createChordCards(31, allMinorLessonChords, "chord-name", 1),
@@ -217,6 +218,7 @@ function createChordLessonDefinition(
   chords: readonly PianoChord[],
 ): PianoLessonDefinition {
   const qualityName = chords[0]?.quality ?? "chord";
+  const answerChords = pianoChords.filter((chord) => chord.quality === qualityName);
   const direction = exerciseMode === "chord-key"
     ? "Read each chord name, then build it on the keyboard."
     : exerciseMode === "chord-name"
@@ -242,23 +244,24 @@ function createChordLessonDefinition(
     desktopChoiceColumns: 6,
     mobileChoiceColumns: 4,
     chords,
+    answerChords,
   };
 }
 
 const chordLessonDefinitions: readonly PianoLessonDefinition[] = [
-  createChordLessonDefinition(18, "Build major chords: C-F-G-D", "12 name-to-chord cards for C, F, G, and D major.", "chord-key", majorChordGroups[0]),
-  createChordLessonDefinition(19, "Recognize major chords: C-F-G-D", "12 chord-to-name cards for C, F, G, and D major.", "chord-name", majorChordGroups[0]),
-  createChordLessonDefinition(20, "Build major chords: A-E-B♭-E♭", "12 name-to-chord cards for A, E, B♭, and E♭ major.", "chord-key", majorChordGroups[1]),
-  createChordLessonDefinition(21, "Recognize major chords: A-E-B♭-E♭", "12 chord-to-name cards for A, E, B♭, and E♭ major.", "chord-name", majorChordGroups[1]),
-  createChordLessonDefinition(22, "Build major chords: B-D♭-A♭-G♭", "12 name-to-chord cards for B, D♭, A♭, and G♭ major.", "chord-key", majorChordGroups[2]),
-  createChordLessonDefinition(23, "Recognize major chords: B-D♭-A♭-G♭", "12 chord-to-name cards for B, D♭, A♭, and G♭ major.", "chord-name", majorChordGroups[2]),
+  createChordLessonDefinition(18, "Recognize major chords: C-F-G-D", "12 chord-to-name cards for C, F, G, and D major.", "chord-name", majorChordGroups[0]),
+  createChordLessonDefinition(19, "Build major chords: C-F-G-D", "12 name-to-chord cards for C, F, G, and D major.", "chord-key", majorChordGroups[0]),
+  createChordLessonDefinition(20, "Recognize major chords: A-E-B♭-E♭", "12 chord-to-name cards for A, E, B♭, and E♭ major.", "chord-name", majorChordGroups[1]),
+  createChordLessonDefinition(21, "Build major chords: A-E-B♭-E♭", "12 name-to-chord cards for A, E, B♭, and E♭ major.", "chord-key", majorChordGroups[1]),
+  createChordLessonDefinition(22, "Recognize major chords: B-D♭-A♭-G♭", "12 chord-to-name cards for B, D♭, A♭, and G♭ major.", "chord-name", majorChordGroups[2]),
+  createChordLessonDefinition(23, "Build major chords: B-D♭-A♭-G♭", "12 name-to-chord cards for B, D♭, A♭, and G♭ major.", "chord-key", majorChordGroups[2]),
   createChordLessonDefinition(24, "All major chords", "24 mixed cards covering every major chord in both directions.", "chord-mixed", allMajorLessonChords),
-  createChordLessonDefinition(25, "Build minor chords: Am-Dm-Em-Cm", "12 name-to-chord cards for Am, Dm, Em, and Cm.", "chord-key", minorChordGroups[0]),
-  createChordLessonDefinition(26, "Recognize minor chords: Am-Dm-Em-Cm", "12 chord-to-name cards for Am, Dm, Em, and Cm.", "chord-name", minorChordGroups[0]),
-  createChordLessonDefinition(27, "Build minor chords: Gm-Fm-Bm-F♯m", "12 name-to-chord cards for Gm, Fm, Bm, and F♯m.", "chord-key", minorChordGroups[1]),
-  createChordLessonDefinition(28, "Recognize minor chords: Gm-Fm-Bm-F♯m", "12 chord-to-name cards for Gm, Fm, Bm, and F♯m.", "chord-name", minorChordGroups[1]),
-  createChordLessonDefinition(29, "Build minor chords: C♯m-G♯m-B♭m-E♭m", "12 name-to-chord cards for C♯m, G♯m, B♭m, and E♭m.", "chord-key", minorChordGroups[2]),
-  createChordLessonDefinition(30, "Recognize minor chords: C♯m-G♯m-B♭m-E♭m", "12 chord-to-name cards for C♯m, G♯m, B♭m, and E♭m.", "chord-name", minorChordGroups[2]),
+  createChordLessonDefinition(25, "Recognize minor chords: Am-Dm-Em-Cm", "12 chord-to-name cards for Am, Dm, Em, and Cm.", "chord-name", minorChordGroups[0]),
+  createChordLessonDefinition(26, "Build minor chords: Am-Dm-Em-Cm", "12 name-to-chord cards for Am, Dm, Em, and Cm.", "chord-key", minorChordGroups[0]),
+  createChordLessonDefinition(27, "Recognize minor chords: Gm-Fm-Bm-F♯m", "12 chord-to-name cards for Gm, Fm, Bm, and F♯m.", "chord-name", minorChordGroups[1]),
+  createChordLessonDefinition(28, "Build minor chords: Gm-Fm-Bm-F♯m", "12 name-to-chord cards for Gm, Fm, Bm, and F♯m.", "chord-key", minorChordGroups[1]),
+  createChordLessonDefinition(29, "Recognize minor chords: C♯m-G♯m-B♭m-E♭m", "12 chord-to-name cards for C♯m, G♯m, B♭m, and E♭m.", "chord-name", minorChordGroups[2]),
+  createChordLessonDefinition(30, "Build minor chords: C♯m-G♯m-B♭m-E♭m", "12 name-to-chord cards for C♯m, G♯m, B♭m, and E♭m.", "chord-key", minorChordGroups[2]),
   createChordLessonDefinition(31, "All minor chords", "24 mixed cards covering every minor chord in both directions.", "chord-mixed", allMinorLessonChords),
 ];
 
@@ -539,6 +542,13 @@ for (const lesson of pianoLessons) {
     !card.chord || !card.exerciseMode || !lesson.chords?.some((chord) => chord.id === card.chord?.id)
   ))) {
     throw new Error(`Lesson ${lesson.id} contains an invalid chord card`);
+  }
+
+  if (lesson.chords && (
+    !lesson.answerChords
+    || lesson.chords.some((chord) => !lesson.answerChords?.some((answer) => answer.id === chord.id))
+  )) {
+    throw new Error(`Lesson ${lesson.id} is missing chord answer choices`);
   }
 }
 
