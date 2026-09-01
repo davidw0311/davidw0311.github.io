@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://davidw0311.github.io";
   return [
     { url: baseUrl, changeFrequency: "monthly", priority: 1 },
+    { url: `${baseUrl}/my-carnivorous-garden/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/blackjack-trainer/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/language-lab/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/piano-party/`, changeFrequency: "monthly", priority: 0.8 },

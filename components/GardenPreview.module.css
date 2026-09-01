@@ -1,0 +1,202 @@
+.preview {
+  width: min(100%, var(--content));
+  margin: 72px auto 0;
+  overflow: hidden;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(circle at 88% -12%, rgb(121 228 197 / 0.13), transparent 33%),
+    rgb(7 35 50 / 0.84);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+}
+
+.header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  padding: clamp(26px, 4vw, 44px);
+}
+
+.header h3,
+.header p {
+  margin: 0;
+}
+
+.header h3 {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.8rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 1.08;
+}
+
+.header p {
+  max-width: 570px;
+  margin-top: 12px;
+  color: var(--paper-muted);
+  font-size: 0.94rem;
+}
+
+.openLink {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 9px 15px;
+  border: 1px solid rgb(121 228 197 / 0.5);
+  border-radius: var(--radius-control);
+  color: var(--paper);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: color 200ms ease, background-color 200ms ease, transform 220ms var(--ease-out);
+}
+
+.openLink:hover,
+.openLink:focus-visible {
+  color: var(--accent-ink);
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+.openLink:active {
+  transform: scale(0.98);
+}
+
+.track {
+  display: grid;
+  grid-auto-columns: minmax(238px, 292px);
+  grid-auto-flow: column;
+  gap: 12px;
+  padding: 6px clamp(26px, 4vw, 44px) 30px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-padding-inline: clamp(26px, 4vw, 44px);
+  scroll-snap-type: inline proximity;
+  scrollbar-color: rgb(121 228 197 / 0.72) rgb(232 249 246 / 0.08);
+  scrollbar-width: thin;
+}
+
+.track::-webkit-scrollbar {
+  height: 8px;
+}
+
+.track::-webkit-scrollbar-track {
+  margin-inline: clamp(26px, 4vw, 44px);
+  background: rgb(232 249 246 / 0.08);
+  border-radius: var(--radius-control);
+}
+
+.track::-webkit-scrollbar-thumb {
+  background: rgb(121 228 197 / 0.72);
+  border-radius: var(--radius-control);
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgb(226 245 242 / 0.16);
+  border-radius: var(--radius-card);
+  color: var(--paper);
+  background: rgb(9 45 61 / 0.9);
+  scroll-snap-align: start;
+  text-decoration: none;
+  transition: border-color 220ms ease, background-color 220ms ease, transform 260ms var(--ease-out);
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: rgb(121 228 197 / 0.7);
+  background: rgb(11 55 69 / 0.96);
+  transform: translateY(-4px);
+}
+
+.card:active {
+  transform: scale(0.985);
+}
+
+.image {
+  position: relative;
+  grid-column: 1 / -1;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #08283a;
+}
+
+.image img {
+  object-fit: cover;
+  transition: filter 300ms ease, transform 650ms var(--ease-out);
+}
+
+.card:hover .image img,
+.card:focus-visible .image img {
+  filter: saturate(1.06);
+  transform: scale(1.035);
+}
+
+.cardText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 18px 8px 19px 18px;
+}
+
+.cardText i {
+  overflow: hidden;
+  font-size: 1rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardText small {
+  overflow: hidden;
+  color: var(--paper-muted);
+  font-size: 0.72rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardArrow {
+  margin-right: 17px;
+  color: var(--accent);
+}
+
+@media (max-width: 767px) {
+  .preview {
+    margin-top: 42px;
+  }
+
+  .header {
+    align-items: start;
+    flex-direction: column;
+    padding: 24px 20px 20px;
+  }
+
+  .openLink {
+    align-self: start;
+  }
+
+  .track {
+    grid-auto-columns: min(80vw, 300px);
+    padding: 6px 20px 24px;
+    scroll-padding-inline: 20px;
+    scroll-snap-type: inline mandatory;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .image img,
+  .openLink {
+    transition: none;
+  }
+}

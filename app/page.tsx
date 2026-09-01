@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Atmosphere } from "@/components/Atmosphere";
+import { GardenPreview } from "@/components/GardenPreview";
 import { InitialLanding } from "@/components/InitialLanding";
 import { Navigation } from "@/components/Navigation";
 import { Reveal } from "@/components/Reveal";
@@ -255,6 +256,9 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+          <Reveal viewportAnchor>
+            <GardenPreview />
+          </Reveal>
           <Reveal className={styles.musicLink}>
             <YoutubeLogo size={28} weight="thin" />
             <div><h3>Music</h3><p>Recordings and experiments live on my YouTube channel.</p></div>
