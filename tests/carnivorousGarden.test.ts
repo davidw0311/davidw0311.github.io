@@ -23,7 +23,10 @@ test("garden IDs and slugs remain unique and every genus has a valid cover", () 
 
   gardenGenera.forEach((genus) => {
     assert.ok(genus.species.some((plant) => plant.id === genus.coverSpeciesId));
-    assert.equal(getGenusCover(genus).src, genus.species.find((plant) => plant.id === genus.coverSpeciesId)?.thumbnail.src);
+    const cover = getGenusCover(genus);
+    assert.match(cover.src, /^\/assets\/garden\//);
+    assert.ok(cover.alt.trim().length > 0);
+    assert.ok(existsSync(join(projectRoot, "public", cover.src)));
   });
 });
 

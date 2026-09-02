@@ -38,6 +38,7 @@ export type GardenGenus = {
   scientificName: string;
   commonName: string;
   description: string;
+  thumbnail?: GardenPhoto;
   coverSpeciesId: string;
   species: GardenSpecies[];
 };
@@ -138,15 +139,17 @@ export const gardenGenera: GardenGenus[] = [
         fact: "This accepted Japanese species combines genomes from Drosera rotundifolia and Drosera spatulata through an ancient hybrid origin.",
         identificationNote: "It is often confused with Drosera spatulata. Provenance and flower photographs can help if the identification is revisited.",
         thumbnail: {
-          src: "/assets/garden/drosera/drosera-tokaiensis/thumbnail.webp",
-          alt: placeholderAlt("sundew", "Drosera tokaiensis"),
-          placeholder: true,
+          src: "/assets/garden/drosera/drosera-tokaiensis/thumbnail/thumbnail.webp",
+          alt: "A Drosera tokaiensis rosette with round, dew-covered leaves growing in a small pot.",
         },
         photos: [
           {
-            src: "/assets/garden/drosera/drosera-tokaiensis/thumbnail.webp",
-            alt: placeholderAlt("sundew", "Drosera tokaiensis"),
-            placeholder: true,
+            src: "/assets/garden/drosera/drosera-tokaiensis/gallery/01-rosette.webp",
+            alt: "A Drosera tokaiensis rosette surrounded by glistening sundew leaves in the growing collection.",
+          },
+          {
+            src: "/assets/garden/drosera/drosera-tokaiensis/gallery/02-rosette-close-up.webp",
+            alt: "Top-down close-up of a green Drosera tokaiensis rosette with red, dew-covered tentacles.",
           },
         ],
         care: [
@@ -169,15 +172,13 @@ export const gardenGenera: GardenGenus[] = [
         commonName: "Paradox sundew",
         fact: "This Australian petiolaris-complex sundew can build an erect woody stem up to about 30 cm as older leaves accumulate below the crown.",
         thumbnail: {
-          src: "/assets/garden/drosera/drosera-paradoxa/thumbnail.webp",
-          alt: placeholderAlt("sundew", "Drosera paradoxa"),
-          placeholder: true,
+          src: "/assets/garden/drosera/drosera-paradoxa/thumbnail/thumbnail.webp",
+          alt: "A potted Drosera paradoxa with long narrow leaves radiating from its center and red, dew-covered tips.",
         },
         photos: [
           {
-            src: "/assets/garden/drosera/drosera-paradoxa/thumbnail.webp",
-            alt: placeholderAlt("sundew", "Drosera paradoxa"),
-            placeholder: true,
+            src: "/assets/garden/drosera/drosera-paradoxa/thumbnail/thumbnail.webp",
+            alt: "A potted Drosera paradoxa with long narrow leaves radiating from its center and red, dew-covered tips.",
           },
         ],
         care: [
@@ -201,6 +202,10 @@ export const gardenGenera: GardenGenus[] = [
     scientificName: "Sarracenia",
     commonName: "North American pitcher plants",
     description: "Rain-fed tubes with bold veins and seasonal growth.",
+    thumbnail: {
+      src: "/assets/garden/sarracenia/thumbnail/thumbnail.webp",
+      alt: "Several Sarracenia pitcher plants growing together in the carnivorous plant collection.",
+    },
     coverSpeciesId: "sarracenia-purpurea-venosa",
     species: [
       {
@@ -214,15 +219,17 @@ export const gardenGenera: GardenGenus[] = [
         commonName: "Southern purple pitcher plant",
         fact: "Its squat, open pitchers collect rainwater and can support a miniature aquatic food web, including mosquito and midge larvae in the wild.",
         thumbnail: {
-          src: "/assets/garden/sarracenia/sarracenia-purpurea-venosa/thumbnail.webp",
-          alt: placeholderAlt("North American pitcher plant", "Sarracenia purpurea subsp. venosa"),
-          placeholder: true,
+          src: "/assets/garden/sarracenia/sarracenia-purpurea-venosa/thumbnail/thumbnail.webp",
+          alt: "Top-down view of a Sarracenia purpurea subsp. venosa rosette with green and burgundy-veined pitchers.",
         },
         photos: [
           {
-            src: "/assets/garden/sarracenia/sarracenia-purpurea-venosa/thumbnail.webp",
-            alt: placeholderAlt("North American pitcher plant", "Sarracenia purpurea subsp. venosa"),
-            placeholder: true,
+            src: "/assets/garden/sarracenia/sarracenia-purpurea-venosa/gallery/01-pitcher-group.webp",
+            alt: "A group of compact Sarracenia purpurea subsp. venosa pitchers in shades of green and red.",
+          },
+          {
+            src: "/assets/garden/sarracenia/sarracenia-purpurea-venosa/gallery/02-rosette-close-up.webp",
+            alt: "Close top-down view into the open pitchers of Sarracenia purpurea subsp. venosa.",
           },
         ],
         care: [
@@ -250,15 +257,13 @@ export const gardenGenera: GardenGenus[] = [
         fact: "This naturally occurring hybrid combines the yellow pitcher plant, Sarracenia flava, with the purple pitcher plant, Sarracenia purpurea.",
         identificationNote: "Seed-grown plants from the same parental cross can look different. Clone, parent, and locality records are more reliable than pitcher shape alone.",
         thumbnail: {
-          src: "/assets/garden/sarracenia/sarracenia-catesbaei/thumbnail.webp",
-          alt: placeholderAlt("North American pitcher plant", "Sarracenia × catesbaei"),
-          placeholder: true,
+          src: "/assets/garden/sarracenia/sarracenia-catesbaei/thumbnail/thumbnail.webp",
+          alt: "A potted Sarracenia × catesbaei with upright green and red-veined pitchers.",
         },
         photos: [
           {
-            src: "/assets/garden/sarracenia/sarracenia-catesbaei/thumbnail.webp",
-            alt: placeholderAlt("North American pitcher plant", "Sarracenia × catesbaei"),
-            placeholder: true,
+            src: "/assets/garden/sarracenia/sarracenia-catesbaei/gallery/01-whole-plant.webp",
+            alt: "A young Sarracenia × catesbaei plant with several upright pitchers among neighboring carnivorous plants.",
           },
         ],
         care: [
@@ -282,6 +287,10 @@ export const gardenGenera: GardenGenus[] = [
     scientificName: "Pinguicula",
     commonName: "Butterworts",
     description: "Soft rosettes with deceptively sticky leaves.",
+    thumbnail: {
+      src: "/assets/garden/pinguicula/thumbnail/thumbnail.webp",
+      alt: "A green Mexican butterwort rosette growing in a terracotta-colored pot.",
+    },
     coverSpeciesId: "pinguicula-ehlersiae-moranensis",
     species: [
       {
@@ -296,15 +305,13 @@ export const gardenGenera: GardenGenus[] = [
         fact: "Its leaves act as living flypaper. This hybrid may alternate between broad carnivorous leaves and a smaller succulent dry-season rosette.",
         identificationNote: "This is a parentage formula rather than a registered cultivar name. Different seedlings from the same cross can vary.",
         thumbnail: {
-          src: "/assets/garden/pinguicula/pinguicula-ehlersiae-moranensis/thumbnail.webp",
-          alt: placeholderAlt("butterwort", "Pinguicula ehlersiae × P. moranensis"),
-          placeholder: true,
+          src: "/assets/garden/pinguicula/pinguicula-ehlersiae-moranensis/thumbnail/thumbnail.webp",
+          alt: "A Pinguicula ehlersiae × P. moranensis hybrid forming a broad green rosette in a small pot.",
         },
         photos: [
           {
-            src: "/assets/garden/pinguicula/pinguicula-ehlersiae-moranensis/thumbnail.webp",
-            alt: placeholderAlt("butterwort", "Pinguicula ehlersiae × P. moranensis"),
-            placeholder: true,
+            src: "/assets/garden/pinguicula/pinguicula-ehlersiae-moranensis/thumbnail/thumbnail.webp",
+            alt: "A Pinguicula ehlersiae × P. moranensis hybrid forming a broad green rosette in a small pot.",
           },
         ],
         care: [
@@ -329,6 +336,10 @@ export const gardenGenera: GardenGenus[] = [
     scientificName: "Nepenthes",
     commonName: "Tropical pitcher plants",
     description: "Tropical vines carrying pitchers at the ends of tendrils.",
+    thumbnail: {
+      src: "/assets/garden/nepenthes/thumbnail/thumbnail.webp",
+      alt: "Close-up of a mottled Nepenthes pitcher with a deep burgundy rim in the growing collection.",
+    },
     coverSpeciesId: "nepenthes-ampullaria",
     species: [
       {
@@ -338,15 +349,21 @@ export const gardenGenera: GardenGenus[] = [
         commonName: "Flask-shaped pitcher plant",
         fact: "Unusually for a pitcher plant, it is partly detritivorous. Ground pitchers collect fallen leaves and can obtain nitrogen from the litter.",
         thumbnail: {
-          src: "/assets/garden/nepenthes/nepenthes-ampullaria/thumbnail.webp",
-          alt: placeholderAlt("tropical pitcher plant", "Nepenthes ampullaria"),
-          placeholder: true,
+          src: "/assets/garden/nepenthes/nepenthes-ampullaria/thumbnail/thumbnail.webp",
+          alt: "Close-up of a rounded Nepenthes ampullaria pitcher with mottled sides and a burgundy rim.",
         },
         photos: [
           {
-            src: "/assets/garden/nepenthes/nepenthes-ampullaria/thumbnail.webp",
-            alt: placeholderAlt("tropical pitcher plant", "Nepenthes ampullaria"),
-            placeholder: true,
+            src: "/assets/garden/nepenthes/nepenthes-ampullaria/gallery/01-pitcher-close-up.webp",
+            alt: "A mottled Nepenthes ampullaria pitcher with a deep burgundy rim, viewed close up among other plants.",
+          },
+          {
+            src: "/assets/garden/nepenthes/nepenthes-ampullaria/gallery/02-pitcher-mouth.webp",
+            alt: "Close view into the open mouth of a rounded Nepenthes ampullaria pitcher.",
+          },
+          {
+            src: "/assets/garden/nepenthes/nepenthes-ampullaria/gallery/03-hanging-pitcher.webp",
+            alt: "A hanging Nepenthes ampullaria pitcher beneath broad green leaves in bright window light.",
           },
         ],
         care: [
@@ -374,15 +391,17 @@ export const gardenGenera: GardenGenus[] = [
         fact: "This vigorous horticultural cultivar can produce speckled pitchers around 30 cm long, although its exact parentage remains uncertain.",
         identificationNote: "The cultivar is written Nepenthes ‘Miranda’, not Nepenthes miranda. Seedlings would not automatically retain the cultivar name.",
         thumbnail: {
-          src: "/assets/garden/nepenthes/nepenthes-miranda/thumbnail.webp",
-          alt: placeholderAlt("tropical pitcher plant", "Nepenthes ‘Miranda’"),
-          placeholder: true,
+          src: "/assets/garden/nepenthes/nepenthes-miranda/thumbnail/thumbnail.webp",
+          alt: "A large hanging Nepenthes ‘Miranda’ pitcher with burgundy mottling and a flared rim.",
         },
         photos: [
           {
-            src: "/assets/garden/nepenthes/nepenthes-miranda/thumbnail.webp",
-            alt: placeholderAlt("tropical pitcher plant", "Nepenthes ‘Miranda’"),
-            placeholder: true,
+            src: "/assets/garden/nepenthes/nepenthes-miranda/gallery/01-hanging-pitcher.webp",
+            alt: "A large hanging Nepenthes ‘Miranda’ pitcher with burgundy mottling and a flared rim.",
+          },
+          {
+            src: "/assets/garden/nepenthes/nepenthes-miranda/gallery/02-whole-plant.webp",
+            alt: "A Nepenthes ‘Miranda’ rosette and developing pitchers growing among other carnivorous plants.",
           },
         ],
         care: [
@@ -435,6 +454,7 @@ export const gardenGenera: GardenGenus[] = [
 ];
 
 export function getGenusCover(genus: GardenGenus): GardenPhoto {
+  if (genus.thumbnail) return genus.thumbnail;
   const coverSpecies = genus.species.find((species) => species.id === genus.coverSpeciesId);
   if (!coverSpecies) {
     throw new Error(`Missing cover species ${genus.coverSpeciesId} for ${genus.id}`);
