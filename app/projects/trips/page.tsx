@@ -75,8 +75,8 @@ export default function TripsPage() {
               <div className={styles.tripFeatureRoute} aria-label="Trip route">
                 <Compass size={20} weight="duotone" />
                 <TripText
-                  en="Queenstown → Milford Sound → Wānaka → Aoraki → Tekapo → Christchurch"
-                  zh="皇后镇 → 米尔福德峡湾 → 瓦纳卡 → 奥拉基 → 蒂卡波 → 基督城"
+                  en="Queenstown → Te Anau → Wānaka → Twizel → Aoraki → Tekapo → Christchurch"
+                  zh="皇后镇 → 蒂阿瑙 → 瓦纳卡 → 特威泽尔 → 奥拉基 → 蒂卡波 → 基督城"
                 />
               </div>
               <span className={styles.textLink}>

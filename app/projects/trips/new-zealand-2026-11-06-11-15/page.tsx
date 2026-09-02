@@ -6,6 +6,7 @@ import {
   CarProfile,
   Clock,
   CloudSun,
+  ForkKnife,
   GlobeHemisphereEast,
   MapPin,
   MapTrifold,
@@ -86,7 +87,7 @@ export default function NewZealandTripPage() {
       <section className={styles.routeOverview} aria-labelledby="route-title">
         <Reveal className={styles.sectionIntro}>
           <h2 id="route-title"><TripText en="The route, at a glance" zh="路线概览" /></h2>
-          <p><TripText en="One overnight flight, three Queenstown nights, and a northbound alpine drive to Christchurch." zh="一趟过夜航班，在皇后镇住三晚，然后沿高山公路向北前往基督城。" /></p>
+          <p><TripText en="One overnight flight, two nights each in Queenstown and Te Anau, then an alpine drive north to Christchurch." zh="一趟过夜航班，在皇后镇和蒂阿瑙各住两晚，然后沿高山公路向北前往基督城。" /></p>
         </Reveal>
 
         <Reveal className={styles.overviewStats} viewportAnchor>
@@ -137,7 +138,7 @@ export default function NewZealandTripPage() {
           </ul>
           <div className={styles.practicalNotice}>
             <WarningCircle size={21} weight="bold" aria-hidden="true" />
-            <span><TripText en="Reserve an early Milford Sound sailing if possible. The exact cruise time is still open." zh="如果可以，请预订较早的米尔福德峡湾船班。具体时间仍待确认。" /></span>
+            <span><TripText en="Book Deer Park Heights, Skyline, the Milford Sound cruise, and the noted restaurants before departure." zh="出发前请预订鹿苑高地、Skyline、米尔福德峡湾游船和行程中标注的餐厅。" /></span>
           </div>
         </Reveal>
       </section>
@@ -164,7 +165,7 @@ export default function NewZealandTripPage() {
         <Reveal className={styles.sourceNotesInner} viewportAnchor>
           <MapTrifold size={34} weight="duotone" aria-hidden="true" />
           <h2 id="notes-title"><TripText en="Use the schedule as a framework" zh="把行程作为灵活框架" /></h2>
-          <p><TripText en="Local weather can change the best order around Aoraki and Tekapo. Keep the clear-sky options flexible." zh="当地天气可能改变奥拉基和蒂卡波周边的最佳顺序，请灵活安排需要晴天的活动。" /></p>
+          <p><TripText en="Weather and seasonal opening hours can change the best order around Aoraki and Tekapo. Keep the alpine days flexible." zh="天气和季节性营业时间可能改变奥拉基和蒂卡波周边的最佳顺序，请灵活安排高山路段。" /></p>
           <ul>
             {newZealandTrip.sourceNotes.map((note, index) => (
               <li key={note}><TripText en={note} zh={newZealandTripZh.sourceNotes[index]} /></li>
@@ -298,6 +299,8 @@ function TripItemIcon({ kind }: { kind: TripItemKind }) {
       return <AirplaneTilt {...props} />;
     case "drive":
       return <CarProfile {...props} />;
+    case "food":
+      return <ForkKnife {...props} />;
     case "stop":
       return <MapPin {...props} />;
     case "warning":

@@ -21,9 +21,9 @@ test("overnight bases match the source schedule", () => {
       "Queenstown",
       "Queenstown",
       "Te Anau",
-      "Queenstown",
+      "Te Anau",
       "Wānaka",
-      "Aoraki / Mt Cook",
+      "Twizel",
       "Lake Tekapo",
       "Christchurch",
       null,
@@ -38,9 +38,11 @@ test("flight times and key weather choices remain explicit", () => {
     .map((item) => item.time);
 
   assert.deepEqual(flightTimes, ["18:40", "09:35", "14:40", "16:35", "17:05", "22:40"]);
-  assert.ok(newZealandTrip.days[6].items.some((item) => item.title.includes("Tasman Glacier")));
+  assert.ok(newZealandTrip.days[7].items.some((item) => item.title.includes("Tasman Glacier")));
   assert.ok(newZealandTrip.days[7].items.some((item) => item.title.includes("stargazing")));
-  assert.equal(newZealandTrip.detailsMissing.length, 5);
+  assert.equal(newZealandTrip.detailsMissing.length, 7);
+  assert.equal(newZealandTrip.days[4].route, "Te Anau → Milford Sound → Te Anau");
+  assert.equal(newZealandTrip.days[7].route, "Twizel → Aoraki / Mt Cook → Lake Tekapo");
 });
 
 test("Chinese itinerary stays aligned with every English day and item", () => {
@@ -61,28 +63,54 @@ test("Chinese itinerary stays aligned with every English day and item", () => {
 test("named itinerary locations expose secure map or official website links", () => {
   const items: TripItem[] = newZealandTrip.days.flatMap((day) => day.items as TripItem[]);
   const linkedTitles = [
+    "Flame Bar & Grill",
+    "Patagonia Chocolates",
+    "Queenstown Gardens evening walk",
+    "Fergburger",
     "Deer Park Heights",
+    "Taco's Land",
     "Bob's Cove",
     "Bennett's Bluff",
     "Glenorchy Red Boat Shed",
     "Paradise",
     "Optional Isengard Lookout",
+    "Mapo88 Korean Dining Bar",
+    "Brunch at Odd Saint",
     "Skyline Gondola",
     "Skyline Luge",
+    "Jervois Steak House",
     "Milford Sound cruise",
+    "Panorama Terrace Reserve",
+    "Te Anau → Queenstown",
     "Queenstown → Arrowtown",
+    "Wolf Coffee Roasters",
+    "Brunch at Provisions of Arrowtown",
+    "Arrowtown town walk",
     "Crown Range Lookout",
-    "Cardrona",
     "Wānaka Lakefront",
     "That Wānaka Tree",
     "Lake Hāwea",
     "Lindis Pass Viewpoint",
     "Omarama",
     "Peter's Lookout at Lake Pukaki",
+    "Mt Cook Alpine Salmon Shop",
+    "Arrive in Twizel",
+    "Four Square Twizel closes at 19:00",
+    "Brunch at Mint Folk & Co",
+    "Twizel → Aoraki / Mt Cook",
     "Tasman Lake and Tasman Glacier Viewpoint",
     "Hooker Valley Track",
-    "Tekapo stargazing",
+    "Astro Café",
+    "Punatahu Visitor Centre",
+    "Four Square Tekapo",
+    "Tekapo stargazing and Church of the Good Shepherd",
+    "Fairlie Bakehouse",
+    "Geraldine Lookout",
+    "Christchurch city walk",
+    "Riverside Market",
+    "Brunch at Unknown Chapter Coffee Roasters",
     "Christchurch sightseeing and shopping",
+    "Bessie",
   ];
 
   linkedTitles.forEach((title) => {
