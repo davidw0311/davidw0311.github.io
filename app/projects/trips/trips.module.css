@@ -83,6 +83,10 @@
   letter-spacing: -0.04em;
 }
 
+.tripNav .languageToggle {
+  position: static;
+}
+
 .languageToggle {
   position: fixed;
   top: 15px;

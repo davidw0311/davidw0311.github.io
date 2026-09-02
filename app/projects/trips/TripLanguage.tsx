@@ -41,9 +41,14 @@ export function TripLanguageShell({
   }, []);
 
   function setLanguage(nextLanguage: TripLanguage) {
-    const activeDayHash = document
-      .querySelector<HTMLAnchorElement>('[aria-current="step"]')
-      ?.hash;
+    const dayNav = document.querySelector<HTMLElement>('[aria-label="Jump to a day / 跳到指定日期"]');
+    const dayToolbar = dayNav?.parentElement;
+    const anchoredDayHash = /^#day-\d+$/.test(window.location.hash)
+      ? window.location.hash
+      : undefined;
+    const activeDayHash = dayToolbar && dayToolbar.getBoundingClientRect().top <= 1
+      ? anchoredDayHash ?? dayToolbar.querySelector<HTMLAnchorElement>('[aria-current="step"]')?.hash
+      : undefined;
 
     setLanguageState(nextLanguage);
     document.documentElement.lang = nextLanguage === "zh" ? "zh-Hans" : "en";
@@ -58,9 +63,9 @@ export function TripLanguageShell({
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 
     if (activeDayHash) {
-      window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
         document.querySelector(activeDayHash)?.scrollIntoView({ block: "start" });
-      });
+      }, 100);
     }
   }
 
