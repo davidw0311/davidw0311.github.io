@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowsOut, MapTrifold, X } from "@phosphor-icons/react";
+import { ArrowsOut, CaretDown, MapPin, X } from "@phosphor-icons/react";
 import type { LayerGroup, Map as LeafletMap } from "leaflet";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { TripMapDay, TripMapPoint } from "@/data/trips.map";
@@ -15,6 +15,7 @@ type RouteMapProps = {
 type MapCanvasProps = RouteMapProps & {
   activeDay: number;
   expanded?: boolean;
+  focusedLocation?: { name: string; requestId: number } | null;
   language: "en" | "zh";
   overview?: boolean;
 };
@@ -172,7 +173,14 @@ function appendLocationPopup(
   return popup;
 }
 
-function MapCanvas({ days, activeDay, expanded = false, language, overview = false }: MapCanvasProps) {
+function MapCanvas({
+  days,
+  activeDay,
+  expanded = false,
+  focusedLocation,
+  language,
+  overview = false,
+}: MapCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const routesRef = useRef<LayerGroup | null>(null);
@@ -190,7 +198,7 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
         if (cancelled || !container) return;
 
         const map = L.map(container, {
-          attributionControl: true,
+          attributionControl: false,
           dragging: expanded,
           doubleClickZoom: expanded,
           scrollWheelZoom: expanded,
@@ -199,6 +207,8 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
           zoomControl: expanded,
           tapHold: expanded,
         });
+
+        L.control.attribution({ position: "topright", prefix: false }).addTo(map);
 
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -246,6 +256,7 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
 
       routeLayers.clearLayers();
       const active = days.find((day) => day.dayNumber === activeDay) ?? days[0];
+      let focusedMarker: ReturnType<typeof L.circleMarker> | null = null;
 
       days.forEach((day) => {
         const geometry = routeGeometry(day);
@@ -297,7 +308,7 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
           const dayNumber = firstDayForPoint.get(location.name) ?? 1;
           const isActive = [...active.points, ...(active.locations ?? [])]
             .some((point) => point.name === location.name);
-          L.circleMarker(location.coordinates, {
+          const marker = L.circleMarker(location.coordinates, {
             radius: isActive ? 6 : 4,
             color: isActive ? "#e8fff7" : "#d6e5df",
             weight: 1.5,
@@ -315,6 +326,8 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
               offset: [0, -4],
             })
             .addTo(routeLayers);
+
+          if (location.name === focusedLocation?.name) focusedMarker = marker;
         });
       } else {
         active.points.forEach((location, index) => {
@@ -335,23 +348,34 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
         return [...geometry.roads.flat(), ...geometry.flights.flat(), ...day.points.map((point) => point.coordinates)];
       });
 
-      map.fitBounds(L.latLngBounds(focusCoordinates), {
-        padding: expanded ? [42, 42] : [18, 18],
-        animate: !prefersReducedMotion,
-        duration: prefersReducedMotion ? undefined : 0.65,
-        maxZoom: expanded ? 10 : 11,
-      });
+      if (expanded && focusedMarker) {
+        const locationMarker = focusedMarker as ReturnType<typeof L.circleMarker>;
+        const destination = locationMarker.getLatLng();
+        if (prefersReducedMotion) {
+          map.setView(destination, 13, { animate: false });
+        } else {
+          map.flyTo(destination, 13, { animate: true, duration: 0.7 });
+        }
+        locationMarker.openPopup();
+      } else {
+        map.fitBounds(L.latLngBounds(focusCoordinates), {
+          padding: expanded ? [42, 42] : [18, 18],
+          animate: !prefersReducedMotion,
+          duration: prefersReducedMotion ? undefined : 0.65,
+          maxZoom: expanded ? 10 : 11,
+        });
+      }
     }
 
     void drawRoutes();
     return () => { cancelled = true; };
-  }, [activeDay, days, expanded, language, overview, ready]);
+  }, [activeDay, days, expanded, focusedLocation, language, overview, ready]);
 
   return (
     <div className={styles.routeMapCanvas} ref={containerRef}>
       {failed && (
         <div className={styles.routeMapError} role="status">
-          <MapTrifold size={24} weight="duotone" />
+          <MapPin size={24} weight="duotone" />
           <span>{language === "zh" ? "地图暂时无法加载" : "Map unavailable"}</span>
         </div>
       )}
@@ -364,6 +388,8 @@ export function TripRouteMap({ days }: RouteMapProps) {
   const [activeDay, setActiveDay] = useState(days[0]?.dayNumber ?? 1);
   const [expanded, setExpanded] = useState(false);
   const [overview, setOverview] = useState(true);
+  const [locationsOpen, setLocationsOpen] = useState(false);
+  const [focusedLocation, setFocusedLocation] = useState<{ name: string; requestId: number } | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const active = days.find((day) => day.dayNumber === activeDay) ?? days[0];
   const stopCount = useMemo(() => uniquePoints(days).length, [days]);
@@ -388,18 +414,41 @@ export function TripRouteMap({ days }: RouteMapProps) {
 
   function openMap() {
     setOverview(true);
+    setLocationsOpen(false);
+    setFocusedLocation(null);
     setExpanded(true);
     dialogRef.current?.showModal();
   }
 
   function closeMap() {
     dialogRef.current?.close();
+    setLocationsOpen(false);
+    setFocusedLocation(null);
     setExpanded(false);
   }
 
   const routeName = language === "zh" ? active.routeZh : active.route;
   const expandLabel = language === "zh" ? "展开完整行程地图" : "Expand the full trip map";
   const activeStopCount = useMemo(() => uniquePoints([active]).length, [active]);
+  const visibleLocations = useMemo(
+    () => uniquePoints(overview ? days : [active]),
+    [active, days, overview],
+  );
+  const locationDayNumbers = useMemo(() => {
+    const dayNumbers = new Map<string, number>();
+    days.forEach((day) => [...day.points, ...(day.locations ?? [])].forEach((location) => {
+      if (!dayNumbers.has(location.name)) dayNumbers.set(location.name, day.dayNumber);
+    }));
+    return dayNumbers;
+  }, [days]);
+
+  function focusLocation(location: TripMapPoint) {
+    setLocationsOpen(false);
+    setFocusedLocation((current) => ({
+      name: location.name,
+      requestId: (current?.requestId ?? 0) + 1,
+    }));
+  }
 
   return (
     <>
@@ -435,7 +484,49 @@ export function TripRouteMap({ days }: RouteMapProps) {
           </header>
 
           <div className={styles.routeMapStage}>
-            {expanded && <MapCanvas days={days} activeDay={activeDay} expanded language={language} overview={overview} />}
+            {expanded && (
+              <MapCanvas
+                days={days}
+                activeDay={activeDay}
+                expanded
+                focusedLocation={focusedLocation}
+                language={language}
+                overview={overview}
+              />
+            )}
+            {locationsOpen && (
+              <section
+                id="trip-map-location-list"
+                className={styles.routeMapLocationPanel}
+                aria-label={language === "zh" ? "地图地点列表" : "Map location list"}
+              >
+                <header>
+                  <div>
+                    <span>{overview ? (language === "zh" ? "完整路线" : "Full route") : (language === "zh" ? `第${activeDay}天` : `Day ${String(activeDay).padStart(2, "0")}`)}</span>
+                    <strong>{language === "zh" ? "选择一个地点" : "Choose a location"}</strong>
+                  </div>
+                  <button type="button" onClick={() => setLocationsOpen(false)} aria-label={language === "zh" ? "关闭地点列表" : "Close location list"}>
+                    <X size={18} weight="bold" aria-hidden="true" />
+                  </button>
+                </header>
+                <div className={styles.routeMapLocationList} role="list">
+                  {visibleLocations.map((location, index) => (
+                    <div key={location.name} role="listitem">
+                      <button
+                        type="button"
+                        onClick={() => focusLocation(location)}
+                        aria-label={language === "zh" ? `在地图上查看${location.nameZh}` : `View ${location.name} on the map`}
+                      >
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                        <strong>{language === "zh" ? location.nameZh : location.name}</strong>
+                        {overview && <small>{language === "zh" ? `第${locationDayNumbers.get(location.name)}天` : `Day ${locationDayNumbers.get(location.name)}`}</small>}
+                        <MapPin size={16} weight="fill" aria-hidden="true" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
 
           <div className={styles.routeMapSelection} aria-live="polite">
@@ -449,11 +540,18 @@ export function TripRouteMap({ days }: RouteMapProps) {
                 ? (language === "zh" ? "新加坡往返新西兰" : "Singapore to New Zealand and back")
                 : routeName}
             </strong>
-            <small>
+            <button
+              type="button"
+              className={styles.routeMapLocationToggle}
+              aria-expanded={locationsOpen}
+              aria-controls="trip-map-location-list"
+              onClick={() => setLocationsOpen((open) => !open)}
+            >
               {overview
                 ? (language === "zh" ? `${days.length}天，共${stopCount}个地图地点` : `${days.length} days, ${stopCount} mapped locations`)
                 : (language === "zh" ? `当日${activeStopCount}个地图地点` : `${activeStopCount} mapped locations this day`)}
-            </small>
+              <CaretDown size={14} weight="bold" aria-hidden="true" />
+            </button>
           </div>
 
           <nav className={styles.routeMapDays} aria-label={language === "zh" ? "地图日期" : "Map days"}>
@@ -461,7 +559,10 @@ export function TripRouteMap({ days }: RouteMapProps) {
               type="button"
               aria-current={overview ? "page" : undefined}
               title={language === "zh" ? "完整路线" : "Full route"}
-              onClick={() => setOverview(true)}
+              onClick={() => {
+                setOverview(true);
+                setFocusedLocation(null);
+              }}
             >
               <span>∞</span>
               <small>{language === "zh" ? "完整路线" : "Full route"}</small>
@@ -475,6 +576,7 @@ export function TripRouteMap({ days }: RouteMapProps) {
                 onClick={() => {
                   setActiveDay(day.dayNumber);
                   setOverview(false);
+                  setFocusedLocation(null);
                 }}
               >
                 <span>{String(day.dayNumber).padStart(2, "0")}</span>
