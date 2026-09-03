@@ -534,6 +534,241 @@
   font-weight: 700;
 }
 
+.flightTrackingSection {
+  width: min(calc(100% - 48px), 1240px);
+  margin: 0 auto clamp(110px, 14vw, 190px);
+}
+
+.flightTracker {
+  padding: clamp(24px, 4vw, 48px);
+  color: var(--trip-ink);
+  border: 1px solid var(--trip-line);
+  border-radius: var(--trip-radius);
+  background: var(--trip-surface);
+  box-shadow: var(--trip-shadow);
+}
+
+.flightTrackerHeader {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  max-width: 760px;
+}
+
+.flightTrackerHeader > svg {
+  margin-top: 7px;
+  color: var(--trip-accent);
+}
+
+.flightTrackerHeader h2 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.05;
+}
+
+.flightTrackerHeader p {
+  max-width: 650px;
+  margin: 14px 0 0;
+  color: var(--trip-muted);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.flightJourneyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.flightJourney {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--trip-line);
+  border-radius: calc(var(--trip-radius) - 6px);
+  background: color-mix(in srgb, var(--trip-surface-soft) 72%, transparent);
+}
+
+.flightJourney > h3 {
+  margin: 0;
+  padding: 14px 18px;
+  color: var(--trip-accent);
+  border-bottom: 1px solid var(--trip-line);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.flightJourney ol {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flightJourney li {
+  padding: 18px;
+}
+
+.flightJourney li + li {
+  border-top: 1px solid var(--trip-line);
+}
+
+.flightJourney li > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.flightNumber {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.flightNumber svg {
+  color: var(--trip-accent);
+}
+
+.flightStatus {
+  padding: 5px 8px;
+  color: var(--trip-muted);
+  border: 1px solid var(--trip-line);
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 820;
+  white-space: nowrap;
+}
+
+.flightStatus[data-phase="live"] {
+  color: var(--trip-accent-ink);
+  border-color: var(--trip-accent);
+  background: var(--trip-accent);
+}
+
+.flightRoute {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(34px, 0.22fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.flightRoute > span {
+  height: 1px;
+  background: color-mix(in srgb, var(--trip-accent) 45%, var(--trip-line));
+}
+
+.flightRoute > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 2px 10px;
+  min-width: 0;
+}
+
+.flightRoute > div:last-child {
+  text-align: right;
+}
+
+.flightRoute strong {
+  color: var(--trip-accent);
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 520;
+  letter-spacing: -0.04em;
+}
+
+.flightRoute time {
+  justify-self: end;
+  font-family: var(--font-display), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 520;
+}
+
+.flightRoute > div > span,
+.flightRoute small {
+  grid-column: 1 / -1;
+}
+
+.flightRoute > div > span {
+  color: var(--trip-muted);
+  font-size: 0.62rem;
+  font-weight: 760;
+}
+
+.flightRoute small {
+  min-width: 0;
+  color: var(--trip-ink);
+  font-size: 0.68rem;
+  font-weight: 720;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.flightMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 14px;
+  margin: 16px 0 0;
+  color: var(--trip-muted);
+  font-size: 0.65rem;
+  line-height: 1.4;
+}
+
+.flightMeta span + span {
+  padding-left: 14px;
+  border-left: 1px solid var(--trip-line-strong);
+}
+
+.flightActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 16px;
+}
+
+.flightActions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 7px 10px;
+  color: var(--trip-accent);
+  border: 1px solid color-mix(in srgb, var(--trip-accent) 32%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--trip-accent) 8%, transparent);
+  font-size: 0.63rem;
+  font-weight: 820;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.flightActions a:hover {
+  background: color-mix(in srgb, var(--trip-accent) 15%, transparent);
+  transform: translateY(-1px);
+}
+
+.flightActions a:active {
+  transform: scale(0.98);
+}
+
+.flightActions a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--trip-accent) 42%, transparent);
+  outline-offset: 2px;
+}
+
 .practical {
   display: grid;
   grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
@@ -1790,6 +2025,63 @@
   .routeOverview,
   .timelineSection {
     padding-inline: 16px;
+  }
+
+  .flightTrackingSection {
+    width: calc(100% - 32px);
+    margin-bottom: 120px;
+  }
+
+  .flightTracker {
+    padding: 22px 14px 14px;
+  }
+
+  .flightTrackerHeader {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .flightTrackerHeader > svg {
+    margin-top: 4px;
+  }
+
+  .flightTrackerHeader h2 {
+    font-size: clamp(1.85rem, 9vw, 2.8rem);
+  }
+
+  .flightTrackerHeader p {
+    font-size: 0.78rem;
+  }
+
+  .flightJourneyGrid {
+    grid-template-columns: 1fr;
+    margin-top: 26px;
+  }
+
+  .flightJourney li {
+    padding: 16px 14px;
+  }
+
+  .flightRoute {
+    grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr);
+    gap: 7px;
+  }
+
+  .flightRoute strong {
+    font-size: 1.15rem;
+  }
+
+  .flightRoute time {
+    font-size: 0.95rem;
+  }
+
+  .flightActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .flightActions a {
+    justify-content: space-between;
   }
 
   .tripList {

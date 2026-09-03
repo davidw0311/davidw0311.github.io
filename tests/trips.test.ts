@@ -41,7 +41,7 @@ test("flight times and key weather choices remain explicit", () => {
   assert.deepEqual(flightTimes, ["18:40", "09:35", "14:40", "16:35", "17:05", "22:40"]);
   assert.ok(newZealandTrip.days[7].items.some((item) => item.title.includes("Tasman Glacier")));
   assert.ok(newZealandTrip.days[7].items.some((item) => item.title.includes("stargazing")));
-  assert.equal(newZealandTrip.detailsMissing.length, 7);
+  assert.equal(newZealandTrip.detailsMissing.length, 6);
   assert.equal(newZealandTrip.days[4].route, "Te Anau → Milford Sound → Te Anau");
   assert.equal(newZealandTrip.days[7].route, "Twizel → Aoraki / Mt Cook → Lake Tekapo");
 });

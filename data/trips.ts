@@ -71,7 +71,6 @@ export const newZealandTrip = {
     { place: "Christchurch", nights: "1 night", mapUrl: mapLink("Christchurch map", "基督城地图", "Christchurch, New Zealand").href },
   ],
   detailsMissing: [
-    "Airlines and flight numbers",
     "Rental-car agency and pickup details",
     "Accommodation names and confirmations",
     "Deer Park Heights vehicle reservation",

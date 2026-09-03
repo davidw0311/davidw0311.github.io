@@ -26,6 +26,7 @@ import {
 import { newZealandTripZh, type TripDayTranslation } from "@/data/trips.zh";
 import { newZealandTripMapDays } from "@/data/trips.map";
 import { TripDayNav } from "../TripDayNav";
+import { TripFlightTracker } from "../TripFlightTracker";
 import { TripLanguageShell } from "../TripLanguage";
 import { TripNav } from "../TripNav";
 import { TripRouteMap } from "../TripRouteMap";
@@ -118,6 +119,12 @@ export default function NewZealandTripPage() {
           ))}
         </Reveal>
       </section>
+
+      <Reveal className={styles.flightTrackingSection} viewportAnchor>
+        <div id="flight-tracking">
+          <TripFlightTracker />
+        </div>
+      </Reveal>
 
       <section className={styles.practical} aria-labelledby="confirm-title">
         <Reveal className={styles.practicalImage} viewportAnchor>

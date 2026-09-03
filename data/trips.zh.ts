@@ -32,7 +32,6 @@ export const newZealandTripZh = {
     { place: "基督城", nights: "1晚" },
   ],
   detailsMissing: [
-    "航空公司和航班号",
     "租车公司和取车信息",
     "住宿名称和确认信息",
     "鹿苑高地车辆预约",
