@@ -144,7 +144,7 @@ test("route map follows the ten itinerary days using valid coordinates", () => {
     assert.ok(day.points.length >= 2, `day ${day.dayNumber} needs a route segment`);
     assert.ok(day.route.length > 0);
     assert.ok(day.routeZh.length > 0);
-    [...day.points, ...(day.locations ?? [])].forEach((location) => {
+    [...day.points, ...(day.roadPoints ?? []), ...(day.locations ?? [])].forEach((location) => {
       const [latitude, longitude] = location.coordinates;
       assert.ok(location.name.length > 0);
       assert.ok(location.nameZh.length > 0);
@@ -166,4 +166,21 @@ test("route map follows the ten itinerary days using valid coordinates", () => {
     "Riverside Market",
     "Bessie",
   ].forEach((name) => assert.ok(mappedNames.has(name), `missing expanded-map location: ${name}`));
+});
+
+test("route map separates curved flights from detailed driving paths", () => {
+  const flightDays = newZealandTripMapDays.filter((day) => day.flightLegs?.length);
+  assert.deepEqual(flightDays.map((day) => day.dayNumber), [1, 2, 10]);
+
+  flightDays.forEach((day) => {
+    day.flightLegs?.forEach(([startIndex, endIndex]) => {
+      assert.ok(day.points[startIndex], `day ${day.dayNumber} flight start must exist`);
+      assert.ok(day.points[endIndex], `day ${day.dayNumber} flight end must exist`);
+      assert.notEqual(startIndex, endIndex);
+    });
+  });
+
+  newZealandTripMapDays.slice(1).forEach((day) => {
+    assert.ok((day.roadPoints?.length ?? 0) >= 3, `day ${day.dayNumber} needs a shaped driving path`);
+  });
 });

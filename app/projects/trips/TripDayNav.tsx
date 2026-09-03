@@ -71,7 +71,7 @@ export function TripDayNav({ days }: { days: readonly TripDayNavItem[] }) {
             aria-current={activeDay === day.dayNumber ? "step" : undefined}
             aria-label={`Go to day ${day.dayNumber}, ${day.date} / 前往第${day.dayNumber}天，${day.dateZh}`}
           >
-            <span>{String(day.dayNumber).padStart(2, "0")}</span>
+            <span aria-hidden="true">{String(day.dayNumber).padStart(2, "0")}</span>
             <small><TripText en={day.date} zh={day.dateZh} /></small>
           </a>
         ))}

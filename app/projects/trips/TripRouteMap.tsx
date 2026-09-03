@@ -19,6 +19,68 @@ type MapCanvasProps = RouteMapProps & {
   overview?: boolean;
 };
 
+type LatLng = [latitude: number, longitude: number];
+
+function smoothRoadPath(points: readonly TripMapPoint[], samplesPerLeg = 10): LatLng[] {
+  const coordinates = points.map((point) => point.coordinates);
+  if (coordinates.length < 3) return coordinates;
+
+  const smoothed: LatLng[] = [];
+  for (let index = 0; index < coordinates.length - 1; index += 1) {
+    const previous = coordinates[Math.max(0, index - 1)];
+    const start = coordinates[index];
+    const end = coordinates[index + 1];
+    const next = coordinates[Math.min(coordinates.length - 1, index + 2)];
+
+    for (let sample = 0; sample < samplesPerLeg; sample += 1) {
+      const t = sample / samplesPerLeg;
+      const t2 = t * t;
+      const t3 = t2 * t;
+      const interpolate = (axis: 0 | 1) => 0.5 * (
+        (2 * start[axis])
+        + (-previous[axis] + end[axis]) * t
+        + (2 * previous[axis] - 5 * start[axis] + 4 * end[axis] - next[axis]) * t2
+        + (-previous[axis] + 3 * start[axis] - 3 * end[axis] + next[axis]) * t3
+      );
+      smoothed.push([interpolate(0), interpolate(1)]);
+    }
+  }
+  smoothed.push(coordinates.at(-1)!);
+  return smoothed;
+}
+
+function greatCircleArc(start: LatLng, end: LatLng, samples = 64): LatLng[] {
+  const toRadians = (degrees: number) => degrees * Math.PI / 180;
+  const toDegrees = (radians: number) => radians * 180 / Math.PI;
+  const [startLat, startLng] = start.map(toRadians);
+  const [endLat, endLng] = end.map(toRadians);
+  const startVector = [Math.cos(startLat) * Math.cos(startLng), Math.cos(startLat) * Math.sin(startLng), Math.sin(startLat)];
+  const endVector = [Math.cos(endLat) * Math.cos(endLng), Math.cos(endLat) * Math.sin(endLng), Math.sin(endLat)];
+  const dot = Math.min(1, Math.max(-1, startVector.reduce((sum, value, index) => sum + value * endVector[index], 0)));
+  const angle = Math.acos(dot);
+  if (angle < 0.000001) return [start, end];
+
+  return Array.from({ length: samples + 1 }, (_, index) => {
+    const fraction = index / samples;
+    const startWeight = Math.sin((1 - fraction) * angle) / Math.sin(angle);
+    const endWeight = Math.sin(fraction * angle) / Math.sin(angle);
+    const vector = startVector.map((value, axis) => value * startWeight + endVector[axis] * endWeight);
+    const longitude = Math.atan2(vector[1], vector[0]);
+    const latitude = Math.atan2(vector[2], Math.hypot(vector[0], vector[1]));
+    return [toDegrees(latitude), toDegrees(longitude)];
+  });
+}
+
+function routeGeometry(day: TripMapDay) {
+  const roads = day.roadPoints && day.roadPoints.length > 1
+    ? [smoothRoadPath(day.roadPoints)]
+    : [];
+  const flights = (day.flightLegs ?? []).map(([startIndex, endIndex]) => (
+    greatCircleArc(day.points[startIndex].coordinates, day.points[endIndex].coordinates)
+  ));
+  return { roads, flights };
+}
+
 function uniquePoints(days: readonly TripMapDay[]) {
   const seen = new Set<string>();
   return days.flatMap((day) => [...day.points, ...(day.locations ?? [])]).filter((location) => {
@@ -116,22 +178,44 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
       const active = days.find((day) => day.dayNumber === activeDay) ?? days[0];
 
       days.forEach((day) => {
-        L.polyline(day.points.map((location) => location.coordinates), {
+        const geometry = routeGeometry(day);
+        geometry.roads.forEach((coordinates) => L.polyline(coordinates, {
           color: "#55756c",
           weight: expanded ? 2.2 : 1.6,
           opacity: expanded ? 0.45 : 0.38,
-          dashArray: day.isFlight ? "5 8" : undefined,
           lineCap: "round",
-        }).addTo(routeLayers);
+          lineJoin: "round",
+          className: styles.tripRoadLine,
+        }).addTo(routeLayers));
+        geometry.flights.forEach((coordinates) => L.polyline(coordinates, {
+          color: "#55756c",
+          weight: expanded ? 2 : 1.5,
+          opacity: expanded ? 0.42 : 0.34,
+          dashArray: expanded ? "5 10" : "4 9",
+          lineCap: "round",
+          lineJoin: "round",
+          className: styles.tripFlightLine,
+        }).addTo(routeLayers));
       });
 
-      L.polyline(active.points.map((location) => location.coordinates), {
-        color: "#18a97f",
-        weight: expanded ? 5 : 4,
-        opacity: 0.96,
-        dashArray: active.isFlight ? "7 9" : undefined,
-        lineCap: "round",
-      }).addTo(routeLayers);
+      const activeGeometry = routeGeometry(active);
+      activeGeometry.roads.forEach((coordinates) => L.polyline(coordinates, {
+          color: "#18a97f",
+          weight: expanded ? 5 : 4,
+          opacity: 0.96,
+          lineCap: "round",
+          lineJoin: "round",
+          className: styles.tripRoadLine,
+        }).addTo(routeLayers));
+      activeGeometry.flights.forEach((coordinates) => L.polyline(coordinates, {
+          color: "#20c997",
+          weight: expanded ? 4.5 : 3.5,
+          opacity: 0.94,
+          dashArray: expanded ? "7 11" : "5 10",
+          lineCap: "round",
+          lineJoin: "round",
+          className: styles.tripFlightLine,
+        }).addTo(routeLayers));
 
       if (expanded) {
         const firstDayForPoint = new Map<string, number>();
@@ -169,9 +253,11 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
       }
 
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const focusCoordinates = expanded && overview
-        ? days.flatMap((day) => day.points.map((location) => location.coordinates))
-        : active.points.map((location) => location.coordinates);
+      const focusDays = expanded && overview ? days : [active];
+      const focusCoordinates = focusDays.flatMap((day) => {
+        const geometry = routeGeometry(day);
+        return [...geometry.roads.flat(), ...geometry.flights.flat(), ...day.points.map((point) => point.coordinates)];
+      });
 
       map.fitBounds(L.latLngBounds(focusCoordinates), {
         padding: expanded ? [42, 42] : [18, 18],

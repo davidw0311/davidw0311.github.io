@@ -61,7 +61,6 @@ export default function NewZealandTripPage() {
       </a>
 
       <TripNav backHref="/projects/trips/" backLabel="Trips" backLabelZh="旅行" />
-      <TripRouteMap days={newZealandTripMapDays} />
 
       <header className={styles.itineraryHero}>
         <Reveal className={styles.itineraryHeroCopy}>
@@ -152,13 +151,16 @@ export default function NewZealandTripPage() {
           <p><TripText en="Times stay exact where the source provides them. Weather-dependent options remain clearly marked." zh="原始行程提供的时间会保持不变，需要看天气的选项也会清楚标注。" /></p>
         </Reveal>
 
-        <TripDayNav
-          days={newZealandTrip.days.map((day, index) => ({
-            dayNumber: day.dayNumber,
-            date: day.date,
-            dateZh: newZealandTripZh.days[index].date,
-          }))}
-        />
+        <div className={styles.dayMapToolbar}>
+          <TripDayNav
+            days={newZealandTrip.days.map((day, index) => ({
+              dayNumber: day.dayNumber,
+              date: day.date,
+              dateZh: newZealandTripZh.days[index].date,
+            }))}
+          />
+          <TripRouteMap days={newZealandTripMapDays} />
+        </div>
 
         <JourneyChapter title="Arrival and Fiordland" titleZh="抵达与峡湾地区" days={firstChapter} translations={newZealandTripZh.days.slice(0, 5)} />
         <JourneyChapter title="The alpine road north" titleZh="沿高山公路向北" days={secondChapter} translations={newZealandTripZh.days.slice(5)} />
