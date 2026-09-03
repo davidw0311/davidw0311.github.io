@@ -133,7 +133,7 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
         L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           maxZoom: 19,
-          opacity: expanded ? 0.72 : 0.48,
+          opacity: 1,
         }).addTo(map);
 
         mapRef.current = map;

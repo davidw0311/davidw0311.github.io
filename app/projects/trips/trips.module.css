@@ -718,27 +718,31 @@
   opacity: 0.92;
 }
 
-.dayNav span {
+.dayNav a > span {
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 100%;
   font-family: var(--font-display), sans-serif;
-  font-size: 2.4rem;
+  font-size: clamp(1.35rem, 1.8vw, 1.85rem);
   line-height: 1;
-  opacity: 0.1;
+  opacity: 0.09;
   transform: translate(-50%, -49%);
+  white-space: nowrap;
 }
 
 .dayNav small {
   position: relative;
   z-index: 1;
-  font-size: 0.6rem;
-  font-weight: 820;
+  color: var(--trip-ink);
+  font-size: 0.64rem;
+  font-weight: 880;
   letter-spacing: 0.01em;
+  line-height: 1;
 }
 
-.dayNav a[aria-current="step"] span {
-  opacity: 0.17;
+.dayNav a[aria-current="step"] > span {
+  opacity: 0.13;
 }
 
 .routeLens {
@@ -750,14 +754,8 @@
   color: #effbf7;
   border-bottom: 1px solid rgb(226 244 237 / 0.26);
   background: #18302a;
-  opacity: 0.84;
+  opacity: 1;
   isolation: isolate;
-  transition: opacity 180ms ease;
-}
-
-.routeLens:hover,
-.routeLens:focus-within {
-  opacity: 0.98;
 }
 
 .routeMapCanvas {
@@ -1404,7 +1402,7 @@
     width: 100%;
     height: var(--trip-map-strip-height);
     border-radius: 0;
-    opacity: 0.82;
+    opacity: 1;
   }
 
   .routeLensCaption {
