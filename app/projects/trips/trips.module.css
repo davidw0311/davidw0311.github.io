@@ -715,6 +715,313 @@
   font-weight: 750;
 }
 
+.routeLens {
+  position: fixed;
+  top: 82px;
+  right: max(16px, calc((100vw - 1480px) / 2));
+  z-index: 3;
+  width: clamp(220px, 18vw, 292px);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  color: #effbf7;
+  border: 1px solid rgb(226 244 237 / 0.26);
+  border-radius: 16px;
+  background: #18302a;
+  box-shadow: 0 18px 52px rgb(4 25 19 / 0.24);
+  opacity: 0.78;
+  isolation: isolate;
+  transition: opacity 180ms ease, transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms ease;
+}
+
+.routeLens:hover,
+.routeLens:focus-within {
+  opacity: 0.96;
+  box-shadow: 0 22px 62px rgb(4 25 19 / 0.32);
+  transform: translateY(-2px);
+}
+
+.routeMapCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 74% 24%, rgb(73 137 116 / 0.42), transparent 36%),
+    #18302a;
+}
+
+.routeMapCanvas :global(.leaflet-tile-pane) {
+  filter: grayscale(0.72) saturate(0.62) brightness(0.66) contrast(0.92);
+}
+
+.routeMapCanvas :global(.leaflet-control-attribution) {
+  padding: 1px 4px;
+  color: rgb(235 247 243 / 0.72);
+  background: rgb(7 23 18 / 0.62);
+  font-size: 7px;
+}
+
+.routeMapCanvas :global(.leaflet-control-attribution a) {
+  color: inherit;
+}
+
+.routeMapCanvas :global(.leaflet-tooltip) {
+  color: #18302a;
+  border: 0;
+  border-radius: 7px;
+  background: #eff8f5;
+  box-shadow: 0 8px 24px rgb(4 25 19 / 0.2);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.routeLens::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(180deg, transparent 42%, rgb(6 22 17 / 0.83) 100%);
+}
+
+.routeLensCaption {
+  position: absolute;
+  right: 48px;
+  bottom: 12px;
+  left: 13px;
+  z-index: 2;
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  pointer-events: none;
+}
+
+.routeLensCaption span {
+  color: #75dfc1;
+  font-size: 0.58rem;
+  font-weight: 880;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.routeLensCaption strong {
+  overflow: hidden;
+  font-size: 0.72rem;
+  font-weight: 780;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.routeLensExpand {
+  position: absolute;
+  right: 9px;
+  bottom: 9px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  color: #effbf7;
+  border: 1px solid rgb(235 250 245 / 0.25);
+  border-radius: 10px;
+  background: rgb(9 35 27 / 0.72);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.routeLensExpand::before {
+  position: absolute;
+  inset: -180px -300px;
+  content: "";
+}
+
+.routeLensExpand:hover {
+  background: #13785c;
+  transform: scale(1.04);
+}
+
+.routeLensExpand:focus-visible,
+.routeMapHeader button:focus-visible,
+.routeMapDays button:focus-visible {
+  outline: 3px solid rgb(117 223 193 / 0.68);
+  outline-offset: 2px;
+}
+
+.routeMapError {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 7px;
+  color: #dcece7;
+  font-size: 0.7rem;
+  font-weight: 740;
+  background: #18302a;
+}
+
+.routeMapDialog {
+  width: min(1180px, calc(100vw - 40px));
+  max-width: none;
+  height: min(820px, calc(100dvh - 40px));
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: #e7f4ef;
+  border: 1px solid rgb(223 245 237 / 0.22);
+  border-radius: 22px;
+  background: #0b211a;
+  box-shadow: 0 42px 120px rgb(0 12 8 / 0.56);
+}
+
+.routeMapDialog::backdrop {
+  background: rgb(3 16 12 / 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.routeMapExpanded {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100%;
+}
+
+.routeMapHeader {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 88px;
+  padding: 15px 18px 15px 24px;
+  border-bottom: 1px solid rgb(223 245 237 / 0.12);
+  background: #0b211a;
+}
+
+.routeMapHeader > div {
+  display: grid;
+  gap: 3px;
+}
+
+.routeMapHeader span {
+  color: #75dfc1;
+  font-size: 0.64rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.routeMapHeader h2 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.55rem, 3vw, 2.3rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.routeMapHeader button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: #e7f4ef;
+  border: 1px solid rgb(223 245 237 / 0.18);
+  border-radius: 13px;
+  background: transparent;
+  cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.routeMapHeader button:hover {
+  color: #75dfc1;
+  background: rgb(117 223 193 / 0.1);
+}
+
+.routeMapStage {
+  position: relative;
+  min-height: 0;
+}
+
+.routeMapStage .routeMapCanvas {
+  position: absolute;
+}
+
+.routeMapStage .routeMapCanvas :global(.leaflet-tile-pane) {
+  filter: grayscale(0.45) saturate(0.76) brightness(0.74) contrast(0.94);
+}
+
+.routeMapStage .routeMapCanvas :global(.leaflet-control-zoom) {
+  overflow: hidden;
+  border: 1px solid rgb(223 245 237 / 0.2);
+  border-radius: 10px;
+  box-shadow: 0 8px 26px rgb(0 12 8 / 0.24);
+}
+
+.routeMapStage .routeMapCanvas :global(.leaflet-control-zoom a) {
+  color: #e7f4ef;
+  border-color: rgb(223 245 237 / 0.16);
+  background: rgb(11 33 26 / 0.9);
+}
+
+.routeMapDays {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(11, minmax(72px, 1fr));
+  overflow-x: auto;
+  border-top: 1px solid rgb(223 245 237 / 0.12);
+  background: #0b211a;
+  scrollbar-width: thin;
+}
+
+.routeMapDays button {
+  display: grid;
+  place-content: center;
+  gap: 2px;
+  min-height: 76px;
+  padding: 9px 8px;
+  overflow: hidden;
+  color: #9eb8af;
+  border: 0;
+  border-right: 1px solid rgb(223 245 237 / 0.1);
+  background: transparent;
+  cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+.routeMapDays button:last-child {
+  border-right: 0;
+}
+
+.routeMapDays button:hover {
+  color: #e7f4ef;
+  background: rgb(117 223 193 / 0.08);
+}
+
+.routeMapDays button[aria-current] {
+  color: #05231b;
+  background: #75dfc1;
+}
+
+.routeMapDays span {
+  font-family: var(--font-display), sans-serif;
+  font-size: 1rem;
+}
+
+.routeMapDays small {
+  overflow: hidden;
+  font-size: 0.55rem;
+  font-weight: 730;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .journeyChapter {
   width: min(100%, 1120px);
   margin: 110px auto 0;
@@ -995,6 +1302,10 @@
 }
 
 @media (max-width: 1023px) {
+  .routeLens {
+    width: clamp(188px, 23vw, 230px);
+  }
+
   .hubHero,
   .itineraryHero {
     grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
@@ -1054,6 +1365,56 @@
 }
 
 @media (max-width: 767px) {
+  .routeLens {
+    top: auto;
+    right: 10px;
+    bottom: 12px;
+    width: 126px;
+    border-radius: 13px;
+    opacity: 0.88;
+  }
+
+  .routeLensCaption {
+    right: 38px;
+    bottom: 8px;
+    left: 9px;
+  }
+
+  .routeLensCaption strong {
+    display: none;
+  }
+
+  .routeLensExpand {
+    right: 7px;
+    bottom: 7px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+
+  .routeMapDialog {
+    width: calc(100vw - 16px);
+    height: calc(100dvh - 16px);
+    border-radius: 16px;
+  }
+
+  .routeMapHeader {
+    min-height: 76px;
+    padding: 11px 11px 11px 16px;
+  }
+
+  .routeMapHeader h2 {
+    font-size: 1.45rem;
+  }
+
+  .routeMapDays {
+    grid-template-columns: repeat(11, 68px);
+  }
+
+  .routeMapDays button {
+    min-height: 64px;
+  }
+
   .tripNav {
     width: calc(100% - 28px);
     min-height: 62px;
@@ -1290,6 +1651,15 @@
 
   .tripFooter span {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .routeLens,
+  .routeLensExpand,
+  .routeMapHeader button,
+  .routeMapDays button {
+    transition: none;
   }
 }
 

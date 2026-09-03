@@ -24,9 +24,11 @@ import {
   type TripItemKind,
 } from "@/data/trips";
 import { newZealandTripZh, type TripDayTranslation } from "@/data/trips.zh";
+import { newZealandTripMapDays } from "@/data/trips.map";
 import { TripDayNav } from "../TripDayNav";
 import { TripLanguageShell } from "../TripLanguage";
 import { TripNav } from "../TripNav";
+import { TripRouteMap } from "../TripRouteMap";
 import { TripText } from "../TripText";
 import styles from "../trips.module.css";
 
@@ -59,6 +61,7 @@ export default function NewZealandTripPage() {
       </a>
 
       <TripNav backHref="/projects/trips/" backLabel="Trips" backLabelZh="旅行" />
+      <TripRouteMap days={newZealandTripMapDays} />
 
       <header className={styles.itineraryHero}>
         <Reveal className={styles.itineraryHeroCopy}>

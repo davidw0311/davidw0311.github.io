@@ -4,7 +4,7 @@ import { Translate } from "@phosphor-icons/react";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import styles from "./trips.module.css";
 
-type TripLanguage = "en" | "zh";
+export type TripLanguage = "en" | "zh";
 
 type TripLanguageContextValue = {
   language: TripLanguage;
@@ -12,6 +12,10 @@ type TripLanguageContextValue = {
 };
 
 const TripLanguageContext = createContext<TripLanguageContextValue | null>(null);
+
+export function useTripLanguage() {
+  return useContext(TripLanguageContext)?.language ?? "en";
+}
 
 export function TripLanguageShell({
   children,

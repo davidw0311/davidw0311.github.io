@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { newZealandTrip, type TripItem } from "../data/trips.ts";
 import { newZealandTripZh } from "../data/trips.zh.ts";
+import { newZealandTripMapDays } from "../data/trips.map.ts";
 
 test("New Zealand itinerary covers every day in order", () => {
   assert.equal(newZealandTrip.title, "New Zealand 2026 11.06-11.15");
@@ -131,4 +132,38 @@ test("named itinerary locations expose secure map or official website links", ()
   newZealandTrip.routeStops.forEach((stop) => {
     assert.match(stop.mapUrl, /^https:\/\/www\.google\.com\/maps\/search\/\?api=1&query=/);
   });
+});
+
+test("route map follows the ten itinerary days using valid coordinates", () => {
+  assert.deepEqual(
+    newZealandTripMapDays.map((day) => day.dayNumber),
+    newZealandTrip.days.map((day) => day.dayNumber),
+  );
+
+  newZealandTripMapDays.forEach((day) => {
+    assert.ok(day.points.length >= 2, `day ${day.dayNumber} needs a route segment`);
+    assert.ok(day.route.length > 0);
+    assert.ok(day.routeZh.length > 0);
+    [...day.points, ...(day.locations ?? [])].forEach((location) => {
+      const [latitude, longitude] = location.coordinates;
+      assert.ok(location.name.length > 0);
+      assert.ok(location.nameZh.length > 0);
+      assert.ok(latitude >= -90 && latitude <= 90);
+      assert.ok(longitude >= -180 && longitude <= 180);
+    });
+  });
+
+  const mappedNames = new Set(newZealandTripMapDays.flatMap((day) => [
+    ...day.points,
+    ...(day.locations ?? []),
+  ]).map((location) => location.name));
+  [
+    "Flame Bar & Grill",
+    "Deer Park Heights",
+    "Milford Sound Visitor Terminal",
+    "That Wānaka Tree",
+    "Church of the Good Shepherd",
+    "Riverside Market",
+    "Bessie",
+  ].forEach((name) => assert.ok(mappedNames.has(name), `missing expanded-map location: ${name}`));
 });
