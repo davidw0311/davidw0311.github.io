@@ -72,10 +72,7 @@ export function TripDayNav({ days }: { days: readonly TripDayNavItem[] }) {
             aria-label={`Go to day ${day.dayNumber}, ${day.date} / 前往第${day.dayNumber}天，${day.dateZh}`}
           >
             <span aria-hidden="true">
-              <TripText
-                en={`Day ${String(day.dayNumber).padStart(2, "0")}`}
-                zh={`第${day.dayNumber}天`}
-              />
+              #{String(day.dayNumber).padStart(2, "0")}
             </span>
             <small><TripText en={day.date} zh={day.dateZh} /></small>
           </a>
