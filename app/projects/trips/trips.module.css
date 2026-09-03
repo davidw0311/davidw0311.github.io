@@ -1691,8 +1691,23 @@
   transform: translateY(-1px);
 }
 
+.scheduleLinks a[data-kind="tracking"] {
+  color: var(--trip-accent-ink);
+  border-color: var(--trip-accent);
+  background: var(--trip-accent);
+}
+
+.scheduleLinks a[data-kind="tracking"]:hover {
+  background: color-mix(in srgb, var(--trip-accent) 88%, var(--trip-ink));
+}
+
 .scheduleLinks a:active {
   transform: scale(0.98);
+}
+
+.scheduleLinks a:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--trip-accent) 42%, transparent);
+  outline-offset: 2px;
 }
 
 .scheduleWarning {

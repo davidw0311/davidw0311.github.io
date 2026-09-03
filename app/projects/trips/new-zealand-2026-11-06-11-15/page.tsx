@@ -2,6 +2,7 @@ import {
   AirplaneTilt,
   Bed,
   Binoculars,
+  Broadcast,
   CalendarBlank,
   CarProfile,
   Clock,
@@ -275,10 +276,13 @@ function DayPlan({ day, translation }: { day: TripDay; translation: TripDayTrans
                           href={link.href}
                           target="_blank"
                           rel="noreferrer"
+                          data-kind={link.kind}
                         >
                           {link.kind === "map"
                             ? <MapPin size={15} weight="fill" aria-hidden="true" />
-                            : <GlobeHemisphereEast size={15} weight="bold" aria-hidden="true" />}
+                            : link.kind === "tracking"
+                              ? <Broadcast size={15} weight="bold" aria-hidden="true" />
+                              : <GlobeHemisphereEast size={15} weight="bold" aria-hidden="true" />}
                           <TripText en={link.label} zh={link.labelZh} />
                         </a>
                       ))}

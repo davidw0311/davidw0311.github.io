@@ -134,6 +134,23 @@ test("named itinerary locations expose secure map or official website links", ()
   });
 });
 
+test("every flight row links to its matching live tracker", () => {
+  const items: TripItem[] = newZealandTrip.days.flatMap((day) => day.items as TripItem[]);
+  const flightItems = items.filter((item) => item.kind === "flight");
+
+  assert.deepEqual(
+    flightItems.map((item) => item.links?.find((link) => link.kind === "tracking")?.href),
+    [
+      "https://www.flightaware.com/live/flight/ANZ283",
+      "https://www.flightaware.com/live/flight/ANZ283",
+      "https://www.flightaware.com/live/flight/ANZ623",
+      "https://www.flightaware.com/live/flight/ANZ623",
+      "https://www.flightaware.com/live/flight/ANZ64",
+      "https://www.flightaware.com/live/flight/ANZ64",
+    ],
+  );
+});
+
 test("route map follows the ten itinerary days using valid coordinates", () => {
   assert.deepEqual(
     newZealandTripMapDays.map((day) => day.dayNumber),

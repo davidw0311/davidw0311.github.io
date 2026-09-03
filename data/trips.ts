@@ -8,7 +8,7 @@ export type TripItemKind =
   | "weather";
 
 export type TripLink = {
-  kind: "map" | "website";
+  kind: "map" | "tracking" | "website";
   label: string;
   labelZh: string;
   href: string;
@@ -44,6 +44,15 @@ function mapLink(label: string, labelZh: string, query = label): TripLink {
 
 function websiteLink(label: string, labelZh: string, href: string): TripLink {
   return { kind: "website", label, labelZh, href };
+}
+
+function flightTrackingLink(flightNumber: string, trackerNumber = flightNumber): TripLink {
+  return {
+    kind: "tracking",
+    label: `Track ${flightNumber}`,
+    labelZh: `追踪 ${flightNumber}`,
+    href: `https://www.flightaware.com/live/flight/${trackerNumber}`,
+  };
 }
 
 export const newZealandTrip = {
@@ -99,6 +108,7 @@ export const newZealandTrip = {
           title: "Singapore (SIN) → Auckland (AKL)",
           detail: "Overnight international flight.",
           links: [
+            flightTrackingLink("NZ283", "ANZ283"),
             mapLink("Singapore Changi", "新加坡樟宜机场", "Singapore Changi Airport"),
             mapLink("Auckland Airport", "奥克兰机场", "Auckland Airport, New Zealand"),
           ],
@@ -117,7 +127,10 @@ export const newZealandTrip = {
           kind: "flight",
           time: "09:35",
           title: "Arrive in Auckland",
-          links: [mapLink("Auckland Airport", "奥克兰机场", "Auckland Airport, New Zealand")],
+          links: [
+            flightTrackingLink("NZ283", "ANZ283"),
+            mapLink("Auckland Airport", "奥克兰机场", "Auckland Airport, New Zealand"),
+          ],
         },
         {
           kind: "warning",
@@ -129,6 +142,7 @@ export const newZealandTrip = {
           time: "14:40",
           title: "Auckland → Queenstown",
           links: [
+            flightTrackingLink("NZ623", "ANZ623"),
             mapLink("Auckland Airport", "奥克兰机场", "Auckland Airport, New Zealand"),
             mapLink("Queenstown Airport", "皇后镇机场", "Queenstown Airport, New Zealand"),
           ],
@@ -137,7 +151,10 @@ export const newZealandTrip = {
           kind: "flight",
           time: "16:35",
           title: "Arrive in Queenstown",
-          links: [mapLink("Queenstown Airport", "皇后镇机场", "Queenstown Airport, New Zealand")],
+          links: [
+            flightTrackingLink("NZ623", "ANZ623"),
+            mapLink("Queenstown Airport", "皇后镇机场", "Queenstown Airport, New Zealand"),
+          ],
         },
         {
           kind: "drive",
@@ -641,6 +658,7 @@ export const newZealandTrip = {
           time: "17:05",
           title: "Christchurch → Singapore",
           links: [
+            flightTrackingLink("NZ064", "ANZ64"),
             mapLink("Christchurch Airport", "基督城机场", "Christchurch Airport, New Zealand"),
             mapLink("Singapore Changi", "新加坡樟宜机场", "Singapore Changi Airport"),
           ],
@@ -649,7 +667,10 @@ export const newZealandTrip = {
           kind: "flight",
           time: "22:40",
           title: "Arrive in Singapore",
-          links: [mapLink("Singapore Changi", "新加坡樟宜机场", "Singapore Changi Airport")],
+          links: [
+            flightTrackingLink("NZ064", "ANZ64"),
+            mapLink("Singapore Changi", "新加坡樟宜机场", "Singapore Changi Airport"),
+          ],
         },
       ],
     },
