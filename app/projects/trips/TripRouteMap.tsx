@@ -102,6 +102,76 @@ function appendLocationLabel(
   return label;
 }
 
+const diningStopPattern = /Astro Café|Bakehouse|Bessie|Chocolates|Coffee|Dining|Fergburger|Flame|Four Square|Jervois|Mapo88|Mint Folk|Patagonia|Provisions|Riverside Market|Salmon|Taco's Land|Unknown Chapter/i;
+const outdoorStopPattern = /Aoraki|Bluff|Botanic|Cove|Dark Sky|Deer Park|Eglinton|Gardens|Gondola|Hooker|Isengard|Lake|Luge|Milford|Paradise|Reserve|Skyline|Tasman|Track|Tree|Viewpoint/i;
+const culturalStopPattern = /Arts Centre|Boat Shed|Cathedral|Church|Visitor Centre/i;
+
+function locationDescription(
+  location: TripMapPoint,
+  dayNumber: number,
+  language: "en" | "zh",
+) {
+  if (/Airport/i.test(location.name)) {
+    return language === "zh"
+      ? `第${dayNumber}天抵达或出发时使用的机场。`
+      : `The airport used for an arrival or departure on Day ${dayNumber}.`;
+  }
+
+  if (diningStopPattern.test(location.name)) {
+    return language === "zh"
+      ? `第${dayNumber}天路线上安排的餐饮或采购地点。`
+      : `A planned food, coffee, or supply stop on Day ${dayNumber}.`;
+  }
+
+  if (outdoorStopPattern.test(location.name)) {
+    return language === "zh"
+      ? `第${dayNumber}天路线上的风景或户外体验地点。`
+      : `A scenic stop or outdoor experience on the Day ${dayNumber} route.`;
+  }
+
+  if (culturalStopPattern.test(location.name)) {
+    return language === "zh"
+      ? `第${dayNumber}天路线上的文化、建筑或城市观光地点。`
+      : `A cultural, architectural, or city sightseeing stop on Day ${dayNumber}.`;
+  }
+
+  return language === "zh"
+    ? `第${dayNumber}天行程中的城镇、社区或交通停靠点。`
+    : `A town, neighbourhood, or transport stop on the Day ${dayNumber} journey.`;
+}
+
+function googleMapsUrl(location: TripMapPoint) {
+  const [latitude, longitude] = location.coordinates;
+  return `https://www.google.com/maps/search/?api=1&query=${latitude}%2C${longitude}`;
+}
+
+function appendLocationPopup(
+  location: TripMapPoint,
+  dayNumber: number,
+  language: "en" | "zh",
+) {
+  const popup = document.createElement("article");
+  popup.className = styles.routeMapPopup;
+
+  const day = document.createElement("span");
+  day.textContent = language === "zh" ? `第${dayNumber}天` : `Day ${String(dayNumber).padStart(2, "0")}`;
+
+  const title = document.createElement("strong");
+  title.textContent = language === "zh" ? location.nameZh : location.name;
+
+  const description = document.createElement("p");
+  description.textContent = locationDescription(location, dayNumber, language);
+
+  const link = document.createElement("a");
+  link.href = googleMapsUrl(location);
+  link.target = "_blank";
+  link.rel = "noreferrer noopener";
+  link.textContent = language === "zh" ? "在 Google 地图中打开" : "Open in Google Maps";
+
+  popup.append(day, title, description, link);
+  return popup;
+}
+
 function MapCanvas({ days, activeDay, expanded = false, language, overview = false }: MapCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
@@ -238,6 +308,12 @@ function MapCanvas({ days, activeDay, expanded = false, language, overview = fal
               direction: "top",
               offset: [0, -6],
             })
+            .bindPopup(appendLocationPopup(location, dayNumber, language), {
+              closeButton: true,
+              maxWidth: 300,
+              minWidth: 240,
+              offset: [0, -4],
+            })
             .addTo(routeLayers);
         });
       } else {
@@ -323,6 +399,7 @@ export function TripRouteMap({ days }: RouteMapProps) {
 
   const routeName = language === "zh" ? active.routeZh : active.route;
   const expandLabel = language === "zh" ? "展开完整行程地图" : "Expand the full trip map";
+  const activeStopCount = useMemo(() => uniquePoints([active]).length, [active]);
 
   return (
     <>
@@ -361,10 +438,29 @@ export function TripRouteMap({ days }: RouteMapProps) {
             {expanded && <MapCanvas days={days} activeDay={activeDay} expanded language={language} overview={overview} />}
           </div>
 
+          <div className={styles.routeMapSelection} aria-live="polite">
+            <span>
+              {overview
+                ? (language === "zh" ? "完整路线" : "Full route")
+                : (language === "zh" ? `第${activeDay}天` : `Day ${String(activeDay).padStart(2, "0")}`)}
+            </span>
+            <strong>
+              {overview
+                ? (language === "zh" ? "新加坡往返新西兰" : "Singapore to New Zealand and back")
+                : routeName}
+            </strong>
+            <small>
+              {overview
+                ? (language === "zh" ? `${days.length}天，共${stopCount}个地图地点` : `${days.length} days, ${stopCount} mapped locations`)
+                : (language === "zh" ? `当日${activeStopCount}个地图地点` : `${activeStopCount} mapped locations this day`)}
+            </small>
+          </div>
+
           <nav className={styles.routeMapDays} aria-label={language === "zh" ? "地图日期" : "Map days"}>
             <button
               type="button"
               aria-current={overview ? "page" : undefined}
+              title={language === "zh" ? "完整路线" : "Full route"}
               onClick={() => setOverview(true)}
             >
               <span>∞</span>
@@ -375,6 +471,7 @@ export function TripRouteMap({ days }: RouteMapProps) {
                 key={day.dayNumber}
                 type="button"
                 aria-current={!overview && activeDay === day.dayNumber ? "step" : undefined}
+                title={language === "zh" ? day.routeZh : day.route}
                 onClick={() => {
                   setActiveDay(day.dayNumber);
                   setOverview(false);
