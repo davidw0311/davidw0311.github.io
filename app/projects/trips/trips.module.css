@@ -251,7 +251,7 @@
 
 .itineraryHeroCopy h1 {
   max-width: 650px;
-  font-size: clamp(2.9rem, 4.5vw, 4.75rem);
+  font-size: clamp(2.65rem, 4.1vw, 4.35rem);
 }
 
 .hubHeroCopy > p:not(.eyebrow),
@@ -315,7 +315,7 @@
 .practicalCopy h2,
 .sourceNotes h2 {
   margin: 0;
-  font-size: clamp(2.4rem, 5vw, 5.1rem);
+  font-size: clamp(2.3rem, 4.6vw, 4.65rem);
   text-wrap: balance;
 }
 
@@ -572,7 +572,7 @@
 }
 
 .practicalCopy h2 {
-  font-size: clamp(2.4rem, 4.8vw, 4.8rem);
+  font-size: clamp(2.3rem, 4.35vw, 4.4rem);
 }
 
 .practicalCopy ul {
@@ -1081,7 +1081,7 @@
 .dayHeader h3 {
   max-width: 780px;
   margin: 0;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(1.85rem, 3.6vw, 3.55rem);
   text-wrap: balance;
 }
 
@@ -1313,7 +1313,7 @@
   }
 
   .itineraryHeroCopy h1 {
-    font-size: clamp(2.7rem, 4.5vw, 4.1rem);
+    font-size: clamp(2.45rem, 4.1vw, 3.75rem);
   }
 
   .tripFeature {
@@ -1366,12 +1366,12 @@
 
 @media (max-width: 767px) {
   .routeLens {
-    top: auto;
+    top: 72px;
     right: 10px;
-    bottom: 12px;
-    width: 126px;
+    bottom: auto;
+    width: 104px;
     border-radius: 13px;
-    opacity: 0.88;
+    opacity: 0.74;
   }
 
   .routeLensCaption {
@@ -1463,7 +1463,7 @@
   }
 
   .itineraryHeroCopy h1 {
-    font-size: clamp(2.15rem, 10vw, 3.6rem);
+    font-size: clamp(1.9rem, 7.8vw, 3rem);
   }
 
   .hubHeroImage,
@@ -1490,7 +1490,7 @@
   .timelineHeader h2,
   .practicalCopy h2,
   .sourceNotes h2 {
-    font-size: clamp(2.35rem, 12vw, 3.7rem);
+    font-size: clamp(2.15rem, 10.5vw, 3.35rem);
   }
 
   .tripFeature {
@@ -1603,7 +1603,7 @@
   }
 
   .dayHeader h3 {
-    font-size: clamp(2rem, 10vw, 3.2rem);
+    font-size: clamp(1.8rem, 7.9vw, 2.7rem);
   }
 
   .schedule {
