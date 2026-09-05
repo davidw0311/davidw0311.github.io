@@ -26,6 +26,24 @@ import styles from "./page.module.css";
 
 const featuredProjects = projects.filter((project) => project.featured);
 
+const kddPublications = [
+  {
+    name: "MLT-Dedup",
+    title: "Efficient Large-Scale Online Video Deduplication via Multi-Level Representations and Spatial-Temporal Matching",
+    href: "https://arxiv.org/abs/2606.12215",
+  },
+  {
+    name: "MatchLM2Lite",
+    title: "A Scalable MLLM-to-Lite Framework for Reproduced Content Identification",
+    href: "https://arxiv.org/abs/2606.14786",
+  },
+  {
+    name: "Dynamic Content Moderation",
+    title: "Dynamic Content Moderation in Livestreams: Combining Supervised Classification with MLLM-Boosted Similarity Matching",
+    href: "https://arxiv.org/abs/2512.03553",
+  },
+];
+
 export default function Home() {
   return (
     <>
@@ -181,6 +199,30 @@ export default function Home() {
               <a href="https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_125.pdf" target="_blank" rel="noopener noreferrer">Read paper <ArrowUpRight size={17} /></a>
               <a href="https://slideslive.com/38971739" target="_blank" rel="noopener noreferrer">Watch talk <ArrowUpRight size={17} /></a>
               <Link href="/publications/accelerator-tuning-poster/" target="_blank" rel="noopener noreferrer">View poster <ArrowUpRight size={17} /></Link>
+            </div>
+          </Reveal>
+          <Reveal className={styles.publicationArchive} viewportAnchor>
+            <div className={styles.publicationArchiveIntro}>
+              <p>KDD 2026</p>
+              <h3>Video understanding and content intelligence.</h3>
+            </div>
+            <div className={styles.publicationList}>
+              {kddPublications.map((paper) => (
+                <a
+                  key={paper.name}
+                  className={styles.publicationItem}
+                  href={paper.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Read ${paper.name} on arXiv`}
+                >
+                  <span>{paper.name}</span>
+                  <strong>{paper.title}</strong>
+                  <span className={styles.publicationItemAction}>
+                    Read paper <ArrowUpRight size={18} weight="bold" />
+                  </span>
+                </a>
+              ))}
             </div>
           </Reveal>
         </section>
