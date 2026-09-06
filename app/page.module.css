@@ -124,9 +124,9 @@
 
 .missionIcons {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
-  max-width: 680px;
+  max-width: 840px;
   margin: 44px auto 38px;
 }
 
