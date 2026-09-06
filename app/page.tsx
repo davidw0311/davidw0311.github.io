@@ -1,6 +1,7 @@
 import {
   ArrowUpRight,
   CardsThree,
+  Cube,
   EnvelopeSimple,
   FacebookLogo,
   FileText,
@@ -73,6 +74,10 @@ export default function Home() {
               <Link href="/projects/piano-party/">
                 <PianoKeys size={34} weight="thin" />
                 <span>Piano Party</span>
+              </Link>
+              <Link href="/projects/infinite-granite/">
+                <Cube size={34} weight="thin" />
+                <span>InfiniteGranite</span>
               </Link>
               <Link href="/projects/trips/">
                 <MapTrifold size={34} weight="thin" />
