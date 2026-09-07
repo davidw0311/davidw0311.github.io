@@ -634,3 +634,9 @@
 .multiSelect,.multiList label {display:flex;gap:8px;align-items:center;min-height:36px;font-size:13px;}
 .multiSelect input,.multiList input {width:17px;height:17px;accent-color:#245c47;}
 .multiList {max-height:180px;overflow:auto;}
+
+.layoutGlyph[data-layout^=bath-] i:first-child {width:24px;height:14px;}
+.layoutGlyph[data-layout^=bath-] i:nth-child(2) {display:block;right:1px;top:0;width:11px;height:17px;border-radius:3px 3px 7px 7px;}
+.layoutGlyph[data-layout=bath-full] i:nth-child(3) {display:block;right:0;bottom:0;width:23px;height:21px;background:transparent;border:2px solid currentColor;}
+.layoutGlyph[data-layout=bath-double] i:first-child {width:38px;}
+.layoutGlyph[data-layout=bath-double] i:nth-child(3) {display:block;right:0;bottom:0;width:36px;height:16px;border-radius:7px;background:transparent;border:3px solid currentColor;}

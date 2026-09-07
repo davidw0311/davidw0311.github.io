@@ -1,3 +1,4 @@
+import { vicostoneMaterials } from './vicostone.ts';
 import { tceStoneMaterials } from './tceStone.ts';
 
 export interface CountertopMaterial {
@@ -30,7 +31,7 @@ const studioMaterials: CountertopMaterial[] = [
   { id:'terrazzo',company:'Studio collection',code:'T01',name:'Salt & pepper',family:'Terrazzo',color:'#e0ddd6',pattern:'chips',vein:'#52615c',note:'Warm white · contrasting stone chips',roughness:.45 },
 ];
 // Supplier records are kept separate so more catalogues can be added without changing the picker.
-export const MATERIALS: CountertopMaterial[] = [...tceStoneMaterials, ...studioMaterials];
+export const MATERIALS: CountertopMaterial[] = [...tceStoneMaterials, ...vicostoneMaterials, ...studioMaterials];
 export const MATERIAL_COMPANIES = Array.from(new Set(MATERIALS.map(m=>m.company))).sort((a,b)=>a==='Studio collection'?1:b==='Studio collection'?-1:a.localeCompare(b));
 export function filterMaterials(query: string, company = ''): CountertopMaterial[] {
   const words=query.trim().toLowerCase().split(/\s+/).map(w=>w.replace(/[^a-z0-9]/g,'')).filter(Boolean);

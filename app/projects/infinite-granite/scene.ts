@@ -39,7 +39,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .95;
   // Geometry changes invalidate shadows; orbiting and texture changes do not.
   renderer.shadowMap.autoUpdate = false;
-  renderer.domElement.setAttribute('aria-label', 'Interactive kitchen. Drag to orbit; pinch or scroll to zoom. Select components by clicking, or use the Components panel.');
+  renderer.domElement.setAttribute('aria-label', 'Interactive room. Drag to orbit; pinch or scroll to zoom. Select components by clicking, or use the Components panel.');
   renderer.domElement.tabIndex = 0;
   host.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
@@ -127,11 +127,6 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         record.texture.dispose();
         record.texture.image = loaded.image; record.texture.needsUpdate = true;
         loaded.dispose(); record.pending = undefined; record.state = 'ready';
-        for(const cell of options.placementCells??[]){
-      const tile=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1,cell.width-2),Math.max(1,cell.depth-2)),new THREE.MeshBasicMaterial({color:'#3aad87',transparent:true,opacity:.45,depthTest:false,depthWrite:false,side:THREE.DoubleSide}));
-      tile.rotation.x=-Math.PI/2;tile.position.set(cell.x,1,cell.z);tile.renderOrder=10;tile.userData.cell={row:cell.row,column:cell.column};model.add(tile);cellPickables.push(tile);
-    }
-    renderer.domElement.style.cursor=options.placementCells?'crosshair':'grab';
     trimTextureCache(); textureStatus(); startTextureLoads();
         if (activeTextureIds.has(id)) render();
       }, undefined, () => {
@@ -172,6 +167,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       envMapIntensity: enhancePattern ? .38 : 1, specularIntensity: enhancePattern ? .45 : 1,
     });
     material.onBeforeCompile = shader => {
+      shader.uniforms.stoneInset = {value:entry.company==='Vicostone'?new THREE.Vector2(.025,.09):new THREE.Vector2(0,0)};
       shader.uniforms.stonePatternContrast = { value: enhancePattern ? current.patternContrast??2 : 1 };
       shader.uniforms.stoneBaseColor = { value: new THREE.Color(entry.color) };
       shader.uniforms.stonePhysicalSize = { value: new THREE.Vector2(entry.textureWidth ?? 48, entry.textureHeight ?? 48) };
@@ -179,10 +175,10 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         .replace('#include <common>', '#include <common>\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
         .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvStonePosition = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvStoneNormal = normalize(mat3(modelMatrix) * normal);');
       shader.fragmentShader = shader.fragmentShader
-        .replace('#include <common>', '#include <common>\nuniform vec2 stonePhysicalSize;\nuniform float stonePatternContrast;\nuniform vec3 stoneBaseColor;\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
-        .replace('#include <map_fragment>', '#ifdef USE_MAP\nvec3 weights = pow(abs(normalize(vStoneNormal)), vec3(6.0));\nweights /= (weights.x + weights.y + weights.z);\nvec4 stoneSample = texture2D(map, vStonePosition.zy / stonePhysicalSize) * weights.x + texture2D(map, vStonePosition.xz / stonePhysicalSize) * weights.y + texture2D(map, vStonePosition.xy / stonePhysicalSize) * weights.z;\nfloat stoneLuma = dot(stoneSample.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat baseLuma = dot(stoneBaseColor, vec3(0.2126, 0.7152, 0.0722));\nfloat visibleLuma = clamp(baseLuma + (stoneLuma - baseLuma) * stonePatternContrast, stoneLuma * 0.4, 1.0);\nstoneSample.rgb = clamp(stoneSample.rgb * (visibleLuma / max(stoneLuma, 0.00001)), 0.0, 1.0);\ndiffuseColor *= stoneSample;\n#endif');
+        .replace('#include <common>', '#include <common>\nuniform vec2 stonePhysicalSize;\nuniform vec2 stoneInset;\nuniform float stonePatternContrast;\nuniform vec3 stoneBaseColor;\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
+        .replace('#include <map_fragment>', '#ifdef USE_MAP\nvec3 weights = pow(abs(normalize(vStoneNormal)), vec3(6.0));\nweights /= (weights.x + weights.y + weights.z);\nvec4 stoneSample = texture2D(map, fract(vStonePosition.zy / stonePhysicalSize) * (vec2(1.0) - 2.0 * stoneInset) + stoneInset) * weights.x + texture2D(map, fract(vStonePosition.xz / stonePhysicalSize) * (vec2(1.0) - 2.0 * stoneInset) + stoneInset) * weights.y + texture2D(map, fract(vStonePosition.xy / stonePhysicalSize) * (vec2(1.0) - 2.0 * stoneInset) + stoneInset) * weights.z;\nfloat stoneLuma = dot(stoneSample.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat baseLuma = dot(stoneBaseColor, vec3(0.2126, 0.7152, 0.0722));\nfloat visibleLuma = clamp(baseLuma + (stoneLuma - baseLuma) * stonePatternContrast, stoneLuma * 0.4, 1.0);\nstoneSample.rgb = clamp(stoneSample.rgb * (visibleLuma / max(stoneLuma, 0.00001)), 0.0, 1.0);\ndiffuseColor *= stoneSample;\n#endif');
     };
-    material.customProgramCacheKey = () => 'infinitegranite-world-stone-v4';
+    material.customProgramCacheKey = () => 'infinitegranite-world-stone-v5';
     return material;
   }
   function box(parent: THREE.Object3D, width: number, height: number, depth: number, x: number, y: number, z: number, material: THREE.Material, bevel = 0) {
@@ -271,6 +267,28 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     else { box(parent, 1.1, 13, 1.1, 0, y + 6.5, back, faucet); box(parent, 1.1, 1.1, 8, 0, y + 13, back + 3.5, faucet); box(parent, 1.1, 2, 1.1, 0, y + 12, back + 7, faucet); }
     box(parent, .5, 3.5, .6, 2, y + 2.7, back, faucet);
   }
+  function bathroomFixture(parent:THREE.Object3D,c:KitchenComponent){
+    const {width:w,depth:d,height:h}=c,ceramic=mat('#f4f3ef',.2),metal=mat(FINISHES.find(f=>f.id===current.hardware)!.color,.25,.8);
+    if(c.kind==='toilet'){
+      const pedestal=cylinder(parent,1,h*.48,0,h*.24,d*.05,ceramic);pedestal.scale.set(w*.26,1,d*.24);
+      const bowl=cylinder(parent,1,h*.2,0,h*.55,d*.12,ceramic);bowl.scale.set(w*.44,1,d*.34);
+      const water=cylinder(parent,1,.3,0,h*.655,d*.12,mat('#d0dfdf',.18));water.scale.set(w*.28,1,d*.24);
+      const rimShape=new THREE.Shape();rimShape.absellipse(0,0,w*.44,d*.34,0,Math.PI*2,false,0);const hole=new THREE.Path();hole.absellipse(0,0,w*.29,d*.25,0,Math.PI*2,true,0);rimShape.holes.push(hole);
+      const rim=new THREE.Mesh(new THREE.ExtrudeGeometry(rimShape,{depth:1,bevelEnabled:true,bevelThickness:.25,bevelSize:.25,bevelSegments:2,steps:1,curveSegments:32}),ceramic);rim.rotation.x=-Math.PI/2;rim.position.set(0,h*.66,d*.12);parent.add(rim);
+      box(parent,w*.7,h*.55,d*.22,0,h*.725,-d*.36,ceramic,1);box(parent,w*.74,1.2,d*.25,0,h-.6,-d*.36,ceramic,.5);box(parent,2,.5,.7,w*.2,h*.86,-d*.23,metal,.15);
+    }else if(c.kind==='tub'){
+      box(parent,w-1,h*.55,d-1,0,h*.275,0,ceramic,3);
+      const inner=mat('#d8e8e6',.18);box(parent,w-8,1,d-8,0,h*.64,0,inner,2);
+      for(const sign of [-1,1]){box(parent,w-1,h*.5,3,0,h*.75,sign*(d/2-2),ceramic,1.2);box(parent,3,h*.5,d-5,sign*(w/2-2),h*.75,0,ceramic,1.2);}
+      box(parent,1,5,1,-w*.3,h-2,-d/2+2,metal,.2);box(parent,1,1,5,-w*.3,h-.5,-d/2+4,metal,.2);
+    }else{
+      box(parent,w,3,d,0,1.5,0,ceramic,.6);cylinder(parent,1.5,.2,0,3.1,0,metal);
+      const glass=new THREE.MeshPhysicalMaterial({color:'#dcebe7',transparent:true,opacity:.2,roughness:.1,metalness:0,depthWrite:false,side:THREE.DoubleSide});
+      box(parent,.3,h-3,d-1,-w/2+.4,(h+3)/2,0,glass);box(parent,w-1,h-3,.3,0,(h+3)/2,-d/2+.4,glass);box(parent,w*.72,h-3,.3,w*.13,(h+3)/2,d/2-.4,glass);
+      for(const x of [-w/2+.4,w/2-.4])box(parent,.45,h-3,.45,x,(h+3)/2,d/2-.4,metal);
+      box(parent,.6,7,.7,w*.34,h*.5,d/2-.8,metal,.15);box(parent,.7,h*.6,.7,0,h*.48,-d/2+1.5,metal,.1);box(parent,.7,.7,7,0,h*.78,-d/2+5,metal,.1);cylinder(parent,4,.5,0,h*.78,-d/2+8,metal);
+    }
+  }
   function appliance(parent: THREE.Object3D, c: KitchenComponent) {
     const {width:w,depth:d} = c;
     const h = c.kind === 'dishwasher' ? c.height - current.counterThickness : c.height;
@@ -358,13 +376,14 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       if(options.hidden?.includes(c.id)||(options.hideUppers&&c.kind==='upper')||(options.hideAppliances&&['fridge','range','dishwasher'].includes(c.kind)))continue;
       const group=new THREE.Group();group.position.set(c.x,0,c.z);group.rotation.y=c.rotation*Math.PI/180;group.userData.componentId=c.id;model.add(group);
       const color=c.color ?? (c.kind==='upper'?design.upperColor:c.kind==='island'?design.islandColor:design.cabinetColor);
-      if(['fridge','range','dishwasher'].includes(c.kind)) {
+      if(['toilet','tub','shower'].includes(c.kind)){bathroomFixture(group,c);}else if(['fridge','range','dishwasher'].includes(c.kind)) {
         appliance(group,c);if(c.kind==='dishwasher')counter(group,c,stone(c.material??design.countertop));
       } else {
         const y=c.kind==='upper'?54:0;
         cupboard(group,c,color,y,c.kind==='upper'||c.kind==='pantry'?c.height:c.height-design.counterThickness);
-        if(!['upper','pantry'].includes(c.kind))counter(group,c,stone(c.material??design.countertop),c.kind==='sink');
-        if(c.kind==='sink')sink(group,c);
+        if(!['upper','pantry'].includes(c.kind))counter(group,c,stone(c.material??design.countertop),c.kind==='sink'||c.kind==='vanity');
+        if(c.kind==='sink'||c.kind==='vanity')sink(group,c);
+        if(c.kind==='vanity'){const frame=mat(FINISHES.find(f=>f.id===design.hardware)!.color,.3,.7);box(group,c.width-3,32,1,0,c.height+34,-c.depth/2+1,frame,.4);box(group,c.width-5,30,.2,0,c.height+34,-c.depth/2+1.6,mat('#c3d5d2',.08,.92),.2);}
       }
       group.traverse(o=>{o.userData.componentId=c.id;if(o instanceof THREE.Mesh)pickables.push(o);});
       if(options.selectedIds?options.selectedIds.includes(c.id):c.id===options.selected){

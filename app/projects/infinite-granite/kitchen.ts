@@ -1,10 +1,11 @@
+import { bathroomDesign } from './bathrooms.ts';
 import { reflowCells } from './cellLayout.ts';
 import type { RoomWalls, RoomOpening } from './room.ts';
 import { MATERIALS } from './materials.ts';
 export { MATERIALS } from './materials.ts';
 export const MAX_COMPONENTS = 200;
-export type LayoutId = 'custom' | 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
-export type ComponentKind = 'base' | 'upper' | 'island' | 'sink' | 'range' | 'fridge' | 'dishwasher' | 'pantry';
+export type LayoutId = 'bath-powder' | 'bath-full' | 'bath-double' | 'custom' | 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
+export type ComponentKind = 'base' | 'upper' | 'island' | 'sink' | 'range' | 'fridge' | 'dishwasher' | 'pantry' | 'vanity' | 'toilet' | 'shower' | 'tub';
 export type DoorStyle = 'shaker' | 'slab' | 'inset';
 export type SinkStyle = 'single' | 'double' | 'apron';
 export type Finish = 'steel' | 'black' | 'brass' | 'white';
@@ -14,7 +15,7 @@ export interface KitchenComponent {
   color?: string; material?: string; cell?: { row:number; column:number };
 }
 export interface KitchenDesign {
-  version: 1; layout: LayoutId; roomWidth: number; roomDepth: number;
+  version: 1; roomType?:'kitchen'|'bathroom'; layout: LayoutId; roomWidth: number; roomDepth: number;
   independentSizes?: boolean; gridSize?: number; gridCellSize?: number; gridColumns?:number[]; gridRows?:number[];
   patternContrast?: number;
   roomWalls?: RoomWalls; openings?: RoomOpening[];
@@ -32,6 +33,7 @@ export const LAYOUTS: { id: LayoutId; name: string; detail: string; footprint: s
   { id: 'u-shape', name: 'U-shaped', detail: 'Three working sides', footprint: 'u' },
   { id: 'peninsula', name: 'Peninsula', detail: 'A connected bar', footprint: 'peninsula' },
 ];
+export const BATHROOM_LAYOUTS:typeof LAYOUTS=[{id:'bath-powder',name:'Powder room',detail:'Vanity & toilet',footprint:'powder'},{id:'bath-full',name:'Full bathroom',detail:'Vanity, toilet & shower',footprint:'full'},{id:'bath-double',name:'Double vanity',detail:'Two basins & a bathtub',footprint:'double'}];
 export const COLORS = [
   { name: 'Chalk', value: '#e8e7df' }, { name: 'Linen', value: '#cfc6b7' },
   { name: 'Sage', value: '#8b9a88' }, { name: 'Forest', value: '#314c43' },
@@ -46,13 +48,14 @@ export const FINISHES: { id: Finish; name: string; color: string }[] = [
 ];
 export const KIND_NAMES: Record<ComponentKind, string> = {
   base: 'Base cupboard', upper: 'Wall cupboard', island: 'Island', sink: 'Sink cabinet',
-  range: 'Range & hood', fridge: 'Refrigerator', dishwasher: 'Dishwasher', pantry: 'Tall pantry',
+  range: 'Range & hood', fridge: 'Refrigerator', dishwasher: 'Dishwasher', pantry: 'Tall pantry', vanity:'Bathroom vanity', toilet:'Toilet', shower:'Shower enclosure', tub:'Bathtub',
 };
 export const DEFAULT_SIZES: Record<ComponentKind, [number, number, number]> = {
   base: [30, 24, 36], upper: [30, 12, 30], island: [66, 36, 36], sink: [36, 24, 36],
-  range: [30, 26, 36], fridge: [36, 30, 72], dishwasher: [24, 24, 36], pantry: [24, 24, 84],
+  range: [30, 26, 36], fridge: [36, 30, 72], dishwasher: [24, 24, 36], pantry: [24, 24, 84], vanity:[30,24,36], toilet:[24,30,30], shower:[36,36,80], tub:[60,30,24],
 };
 export const SIZE_LIMITS: Record<ComponentKind, { width: [number, number]; depth: [number, number]; height: [number, number] }> = {
+  vanity:{width:[24,72],depth:[20,36],height:[30,42]}, toilet:{width:[18,36],depth:[24,42],height:[26,36]}, shower:{width:[30,72],depth:[30,72],height:[72,96]}, tub:{width:[36,84],depth:[24,48],height:[20,30]},
   base: {width:[12,60],depth:[18,36],height:[30,42]}, upper: {width:[12,60],depth:[10,24],height:[18,42]},
   island: {width:[36,120],depth:[24,48],height:[30,42]}, sink: {width:[30,60],depth:[20,36],height:[30,42]},
   range: {width:[24,48],depth:[22,36],height:[30,42]}, fridge: {width:[24,48],depth:[24,36],height:[60,96]},
@@ -84,6 +87,7 @@ export function presetComponents(layout: LayoutId): KitchenComponent[] {
   return parts;
 }
 export function defaultDesign(layout: LayoutId = 'island'): KitchenDesign {
+  if(layout.startsWith('bath-'))return bathroomDesign(layout,defaultDesign());
   return { version: 1, layout, roomWidth: 216, roomDepth: 192, countertop: 'calacatta', patternContrast: 2, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', doorStyle: 'shaker', hardware: 'brass', sinkStyle: 'single', sinkFinish: 'steel', faucet: 'arc', wallColor: '#e5e7e3', floor: 'oak', backsplash: 'subway', counterThickness: 1.25, waterfall: false, components: presetComponents(layout) };
 }
 export function footprint(c: KitchenComponent) {
@@ -104,8 +108,8 @@ export function collisionPairs(components: KitchenComponent[]): [string, string]
   for (let i = 0; i < components.length; i++) for (let j = i + 1; j < components.length; j++) {
     const a = components[i], b = components[j];
     const ay = a.kind === 'upper' ? 54 : 0, by = b.kind === 'upper' ? 54 : 0;
-    const aHeight = a.kind === 'range' ? a.height + 60 : a.kind === 'sink' ? a.height + 15 : a.height;
-    const bHeight = b.kind === 'range' ? b.height + 60 : b.kind === 'sink' ? b.height + 15 : b.height;
+    const aHeight = a.kind === 'range' ? a.height + 60 : a.kind === 'vanity' ? a.height + 54 : a.kind === 'sink' ? a.height + 15 : a.height;
+    const bHeight = b.kind === 'range' ? b.height + 60 : b.kind === 'vanity' ? b.height + 54 : b.kind === 'sink' ? b.height + 15 : b.height;
     if (ay >= by + bHeight - 1e-6 || by >= ay + aHeight - 1e-6) continue;
     const af = footprint(a), bf = footprint(b);
     if (Math.abs(a.x - b.x) < (af.width + bf.width) / 2 - 1e-6 && Math.abs(a.z - b.z) < (af.depth + bf.depth) / 2 - 1e-6) pairs.push([a.id, b.id]);
@@ -113,6 +117,7 @@ export function collisionPairs(components: KitchenComponent[]): [string, string]
   return pairs;
 }
 export function sinkOpening(c: KitchenComponent, style: SinkStyle) {
+  if(c.kind==='vanity'&&style!=='double')return {width:Math.max(12,Math.min(18,c.width-8)),depth:Math.min(c.depth-6,14)};
   return { width: Math.max(12,c.width - (style === 'double' ? 6 : 8)), depth: Math.min(c.depth - 6, 18) };
 }
 export function colorName(color: string): string { return COLORS.find(c => c.value === color)?.name ?? color.toUpperCase(); }
@@ -123,8 +128,10 @@ const kinds = Object.keys(KIND_NAMES);
 export function parseDesign(input: unknown): KitchenDesign | null {
   if (!input || typeof input !== 'object') return null;
   const d = input as KitchenDesign;
-  if (d.version !== 1 || (d.layout !== 'custom' && !LAYOUTS.some(l => l.id === d.layout)) || !Array.isArray(d.components) || d.components.length > MAX_COMPONENTS) return null;
-  if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= 144 && v <= 720)) return null;
+  if (d.version !== 1 || (d.layout !== 'custom' && ![...LAYOUTS,...BATHROOM_LAYOUTS].some(l => l.id === d.layout)) || !Array.isArray(d.components) || d.components.length > MAX_COMPONENTS) return null;
+  if(d.roomType!==undefined&&!['kitchen','bathroom'].includes(d.roomType))return null;
+  if(d.layout.startsWith('bath-')&&d.roomType!=='bathroom')return null;
+  if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= (d.roomType==='bathroom'?72:144) && v <= 720)) return null;
   if (!MATERIALS.some(m => m.id === d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
   if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !['oak', 'walnut', 'tile'].includes(d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;
@@ -148,4 +155,4 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   return { ...d, components: d.components.map(c => clampComponent(c, d.roomWidth, d.roomDepth)) };
 }
 
-export function layoutName(layout: LayoutId): string { return layout === 'custom' ? 'Custom kitchen' : LAYOUTS.find(l => l.id === layout)?.name ?? 'Kitchen'; }
+export function layoutName(layout: LayoutId): string { return layout === 'custom' ? 'Custom room' : [...LAYOUTS,...BATHROOM_LAYOUTS].find(l => l.id === layout)?.name ?? 'Kitchen'; }

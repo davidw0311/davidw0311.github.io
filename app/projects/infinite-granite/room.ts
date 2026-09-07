@@ -22,7 +22,7 @@ export function cutOpenings(rect:WallRect,openings:RoomOpening[]):WallRect[] {
 export function backsplashRects(d:KitchenDesign,side:WallSide):WallRect[] {
   const length=wallLength(d,side),wall=(d.roomWalls??defaultWalls())[side];if(!wall.enabled||d.backsplash==='none')return [];
   const openings=fitOpenings(d).filter(o=>o.wall===side);
-  return d.components.filter(c=>['base','sink','dishwasher'].includes(c.kind)).flatMap(c=>{
+  return d.components.filter(c=>['base','sink','vanity','dishwasher'].includes(c.kind)).flatMap(c=>{
     const f=footprint(c),along=side==='back'||side==='front'?c.x:c.z,span=side==='back'||side==='front'?f.width:f.depth;
     const gap=side==='back'?c.z-f.depth/2+d.roomDepth/2:side==='front'?d.roomDepth/2-c.z-f.depth/2:side==='left'?c.x-f.width/2+d.roomWidth/2:d.roomWidth/2-c.x-f.width/2;
     if(Math.abs(gap)>3)return [];

@@ -2,7 +2,7 @@ import { collisionPairs, DEFAULT_SIZES, footprint, KIND_NAMES, makeComponent, pr
 export interface Cell { row:number; column:number; }
 export interface CellTarget extends Cell { x:number; z:number; width:number; depth:number; }
 const sum=(values:number[])=>values.reduce((a,b)=>a+b,0);
-const flat=(kind:ComponentKind)=>['base','sink','dishwasher','island','range'].includes(kind);
+const flat=(kind:ComponentKind)=>['base','sink','vanity','dishwasher','island','range'].includes(kind);
 const upper=(c:KitchenComponent)=>c.kind==='upper';
 export function hasCellLayout(d:KitchenDesign):boolean {return !!d.gridColumns&&!!d.gridRows&&d.components.every(c=>!!c.cell);}
 export function validCellLayout(d:KitchenDesign):boolean {
@@ -17,7 +17,7 @@ export function reflowCells(d:KitchenDesign):KitchenDesign|null {
   const columns=[...d.gridColumns!],rows=[...d.gridRows!];
   for(const c of d.independentSizes?[]:d.components){const turned=c.rotation%180!==0;columns[c.cell!.column]=Math.max(columns[c.cell!.column],SIZE_LIMITS[c.kind][turned?'depth':'width'][0]);rows[c.cell!.row]=Math.max(rows[c.cell!.row],SIZE_LIMITS[c.kind][turned?'width':'depth'][0]);}
   if(sum(columns)>720||sum(rows)>720)return null;
-  const roomWidth=Math.max(144,sum(columns)),roomDepth=Math.max(144,sum(rows));
+  const roomWidth=Math.max(d.roomType==='bathroom'?72:144,sum(columns)),roomDepth=Math.max(d.roomType==='bathroom'?72:144,sum(rows));
   const components=d.components.map(c=>{
     const {row,column}=c.cell!,rotation=((Math.round(c.rotation/90)*90)%360+360)%360,turned=rotation%180!==0;
     return {...c,rotation,x:-roomWidth/2+sum(columns.slice(0,column))+columns[column]/2,z:-roomDepth/2+sum(rows.slice(0,row))+rows[row]/2,width:d.independentSizes?c.width:turned?rows[row]:columns[column],depth:d.independentSizes?c.depth:turned?columns[column]:rows[row],height:flat(c.kind)?36:DEFAULT_SIZES[c.kind][2]};
@@ -48,7 +48,7 @@ export function ensureCells(d:KitchenDesign):KitchenDesign|null {
     // Keep wall cupboards over their original supporting module where possible.
     if(upper(c)&&!match&&!isPreset){const support=d.components.filter(p=>!upper(p)&&!['fridge','pantry','range'].includes(p.kind)).sort((a,b)=>(a.x-c.x)**2+(a.z-c.z)**2-((b.x-c.x)**2+(b.z-c.z)**2))[0];const mapped=components.find(p=>p.id===support?.id);if(mapped?.cell){preferred.row=mapped.cell.row;preferred.column=mapped.cell.column;}}
     const candidates=Array.from({length:count*count},(_,i)=>({row:Math.floor(i/count),column:i%count})).sort((a,b)=>(a.row-preferred.row)**2+(a.column-preferred.column)**2-((b.row-preferred.row)**2+(b.column-preferred.column)**2));
-    const cell=candidates.find(cell=>!slots.has(`${cell.row}:${cell.column}:${upper(c)}`)&&(!upper(c)||!components.some(p=>p.cell?.row===cell.row&&p.cell.column===cell.column&&['fridge','range','pantry'].includes(p.kind))));
+    const cell=candidates.find(cell=>!slots.has(`${cell.row}:${cell.column}:${upper(c)}`)&&(!upper(c)||!components.some(p=>p.cell?.row===cell.row&&p.cell.column===cell.column&&['fridge','range','pantry','shower','vanity'].includes(p.kind))));
     if(!cell)return null;slots.add(`${cell.row}:${cell.column}:${upper(c)}`);components.push({...c,cell});
   }
   const columns=Array.from({length:count},(_,column)=>Math.max(12,...components.filter(c=>c.cell!.column===column).map(c=>footprint(c).width))),rows=Array.from({length:count},(_,row)=>Math.max(12,...components.filter(c=>c.cell!.row===row).map(c=>footprint(c).depth)));
@@ -117,7 +117,7 @@ export function availableCells(d:KitchenDesign,kind:ComponentKind):CellTarget[] 
   const grid=ensureCells(d);if(!grid||grid.components.length>=MAX_COMPONENTS)return [];
   const targets:CellTarget[]=[];
   for(let row=0;row<grid.gridRows!.length;row++)for(let column=0;column<grid.gridColumns!.length;column++){
-    if(grid.components.some(c=>c.cell!.row===row&&c.cell!.column===column&&(upper(c)===(kind==='upper')||['fridge','range','pantry'].includes(kind)||['fridge','range','pantry'].includes(c.kind))))continue;
+    if(grid.components.some(c=>c.cell!.row===row&&c.cell!.column===column&&(upper(c)===(kind==='upper')||['fridge','range','pantry','shower','vanity'].includes(kind)||['fridge','range','pantry','shower','vanity'].includes(c.kind))))continue;
     if(!addCell(grid,kind,'__placement-preview__',{row,column}))continue;
     targets.push({row,column,x:-grid.roomWidth/2+sum(grid.gridColumns!.slice(0,column))+grid.gridColumns![column]/2,z:-grid.roomDepth/2+sum(grid.gridRows!.slice(0,row))+grid.gridRows![row]/2,width:grid.gridColumns![column],depth:grid.gridRows![row]});
   }return targets;
