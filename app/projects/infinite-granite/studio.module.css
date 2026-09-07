@@ -624,3 +624,13 @@
 @media(max-width:600px) { .stageTop {flex-wrap:wrap;gap:8px;} .history .addCellButton {font-size:11px;} }
 
 .directBody .directActions button { min-height:44px; }
+
+.sizeControl {display:grid;gap:6px;}
+.sizeControl>label {display:flex;align-items:center;justify-content:space-between;font-size:13px;}
+.sizeControl>label>span {display:flex;align-items:center;gap:5px;}
+.sizeControl input[type=number] {width:90px;min-height:40px;border:1px solid var(--ig-line);border-radius:6px;background:white;padding:6px 8px;font-size:16px;text-align:right;}
+.sizeControl input[type=range] {width:100%;min-height:24px;accent-color:#245c47;}
+.sizeControl small {font-size:10px;color:var(--ig-muted);}
+.multiSelect,.multiList label {display:flex;gap:8px;align-items:center;min-height:36px;font-size:13px;}
+.multiSelect input,.multiList input {width:17px;height:17px;accent-color:#245c47;}
+.multiList {max-height:180px;overflow:auto;}

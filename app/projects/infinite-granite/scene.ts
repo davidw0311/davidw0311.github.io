@@ -9,7 +9,7 @@ import { defaultWalls, fitOpenings, WALL_SIDES, wallLength, cutOpenings, backspl
 import { countertopGeometry } from './sceneGeometry';
 
 export type ViewMode = 'perspective' | 'top' | 'front';
-export interface SceneOptions { placementCells?: CellTarget[]; selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
+export interface SceneOptions { selectedIds?:string[]; placementCells?: CellTarget[]; selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
 export interface KitchenScene {
   update: (design: KitchenDesign, options: SceneOptions) => void;
   view: (mode: ViewMode) => void;
@@ -367,7 +367,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         if(c.kind==='sink')sink(group,c);
       }
       group.traverse(o=>{o.userData.componentId=c.id;if(o instanceof THREE.Mesh)pickables.push(o);});
-      if(c.id===options.selected){
+      if(options.selectedIds?options.selectedIds.includes(c.id):c.id===options.selected){
         const outline=new THREE.Box3Helper(new THREE.Box3().setFromObject(group),new THREE.Color('#218966'));model.add(outline);
       }
     }
