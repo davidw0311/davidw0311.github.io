@@ -1,3 +1,4 @@
+import { gridDirection } from './editActions';
 import type { Cell, CellTarget } from './cellLayout';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -425,7 +426,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   renderer.domElement.addEventListener('pointercancel',pointerCancel);renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('pointerup',pointerUp);renderer.domElement.addEventListener('keydown',keyDown);renderer.domElement.addEventListener('webglcontextlost',lost);
   initializationCleanup.push(() => { disposed = true; });
   resize();view('perspective');
-  return {update,view,zoom,orbit,shiftVector:(horizontal,vertical)=>{const forward=controls.target.clone().sub(camera.position);forward.y=0;if(forward.length()<.01)forward.set(0,0,-1);forward.normalize();const right=new THREE.Vector3(-forward.z,0,forward.x);const delta=right.multiplyScalar(horizontal).add(forward.multiplyScalar(vertical));return Math.abs(delta.x)>=Math.abs(delta.z)?{x:Math.sign(delta.x)*Math.hypot(horizontal,vertical),z:0}:{x:0,z:Math.sign(delta.z)*Math.hypot(horizontal,vertical)};},screenshot:()=>{if(disposed)return '';render();return renderer.domElement.toDataURL('image/png');},dispose:()=>{
+  return {update,view,zoom,orbit,shiftVector:(horizontal,vertical)=>{const forward=controls.target.clone().sub(camera.position);forward.y=0;if(forward.length()<.01)forward.set(0,0,-1);forward.normalize();return gridDirection(forward.x,forward.z,horizontal,vertical);},screenshot:()=>{if(disposed)return '';render();return renderer.domElement.toDataURL('image/png');},dispose:()=>{
     if(disposed)return;
     disposed=true;observer.disconnect();controls.removeEventListener('change',render);controls.dispose();
     renderer.domElement.removeEventListener('pointercancel',pointerCancel);renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('keydown',keyDown);renderer.domElement.removeEventListener('webglcontextlost',lost);

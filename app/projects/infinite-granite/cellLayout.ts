@@ -13,7 +13,7 @@ export function validCellLayout(d:KitchenDesign):boolean {
   return d.components.every(c=>{const align=c.cellAlign;if(align!==undefined&&(!align||![-1,0,1].includes(align.x)||![-1,0,1].includes(align.z)))return false;const cell=c.cell;if(!cell||!Number.isInteger(cell.row)||!Number.isInteger(cell.column)||cell.row<0||cell.row>=d.gridRows!.length||cell.column<0||cell.column>=d.gridColumns!.length)return false;const key=`${cell.row}:${cell.column}:${upper(c)}`;if(occupied.has(key))return false;occupied.add(key);return true;});
 }
 /** Legacy layouts fill their cells; independently sized pieces retain their own dimensions. */
-export function reflowCells(d:KitchenDesign):KitchenDesign|null {
+export function reflowCells(d:KitchenDesign,onBlocked?:(message:string)=>void):KitchenDesign|null {
   if(!validCellLayout(d))return null;
   const columns=[...d.gridColumns!],rows=[...d.gridRows!];
   for(const c of d.independentSizes?[]:d.components){const turned=c.rotation%180!==0;columns[c.cell!.column]=Math.max(columns[c.cell!.column],SIZE_LIMITS[c.kind][turned?'depth':'width'][0]);rows[c.cell!.row]=Math.max(rows[c.cell!.row],SIZE_LIMITS[c.kind][turned?'width':'depth'][0]);}
@@ -26,8 +26,10 @@ export function reflowCells(d:KitchenDesign):KitchenDesign|null {
     return {...c,rotation,cellAlign,x:-roomWidth/2+sum(columns.slice(0,column))+columns[column]/2+cellAlign.x*(columns[column]-worldWidth)/2,z:-roomDepth/2+sum(rows.slice(0,row))+rows[row]/2+cellAlign.z*(rows[row]-worldDepth)/2,width,depth,height:flat(c.kind)?36:DEFAULT_SIZES[c.kind][2]};
   });
   const result={...d,gridColumns:columns,gridRows:rows,roomWidth,roomDepth,components};
-  if(d.independentSizes&&components.some(c=>!withinCellReach(result,c)))return null;
-  if(collisionPairs(components).length)return null;
+  const outside=d.independentSizes?components.find(c=>!withinCellReach(result,c)):undefined;
+  if(outside){onBlocked?.(`${outside.name} would exceed the room edge, size limits, or one extra grid cell. Shorten it or move it inward first.`);return null;}
+  const collision=collisionPairs(components)[0];
+  if(collision){const names=collision.map(id=>components.find(c=>c.id===id)!.name);onBlocked?.(`${names[0]} and ${names[1]} would overlap. Shorten one of them or move it to an empty cell first.`);return null;}
   return {...d,gridColumns:columns,gridRows:rows,roomWidth,roomDepth,components};
 }
 /** Adopt legacy square-grid assignments; older free layouts get nearest unoccupied cells. */
@@ -73,11 +75,11 @@ function independent(d:KitchenDesign):KitchenDesign|null {
   const grid=ensureCells(d);return grid?{...grid,independentSizes:true}:null;
 }
 /** Atomic equal-dimension edits: unselected pieces and grid tracks never move. */
-export function resizeCells(d:KitchenDesign,ids:string[],dimension:'width'|'depth',value:number):KitchenDesign|null {
+export function resizeCells(d:KitchenDesign,ids:string[],dimension:'width'|'depth',value:number,onBlocked?:(message:string)=>void):KitchenDesign|null {
   if(!Number.isFinite(value)||!Number.isInteger(value*2)||!ids.length)return null;
   const grid=independent(d);if(!grid||ids.some(id=>!grid.components.some(c=>c.id===id)))return null;
   const selected=new Set(ids);
-  return reflowCells({...grid,components:grid.components.map(c=>selected.has(c.id)?{...c,[dimension]:value}:c)});
+  return reflowCells({...grid,components:grid.components.map(c=>selected.has(c.id)?{...c,[dimension]:value}:c)},onBlocked);
 }
 export function selectionLimits(d:KitchenDesign,ids:string[],dimension:'width'|'depth'):[number,number]|null {
   const grid=independent(d),parts=grid?.components.filter(c=>ids.includes(c.id));if(!grid||!parts?.length)return null;
@@ -91,20 +93,20 @@ export function selectionLimits(d:KitchenDesign,ids:string[],dimension:'width'|'
 export function cellLimits(d:KitchenDesign,id:string,dimension:'width'|'depth'):[number,number] {
   return selectionLimits(d,[id],dimension)??[0,0];
 }
-export function editCell(d:KitchenDesign,id:string,patch:Partial<KitchenComponent>):KitchenDesign|null {
+export function editCell(d:KitchenDesign,id:string,patch:Partial<KitchenComponent>,onBlocked?:(message:string)=>void):KitchenDesign|null {
   const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
   let cellAlign=c.cellAlign!;
   if(patch.rotation!==undefined){let turns=((Math.round((patch.rotation-c.rotation)/90)%4)+4)%4;while(turns--){cellAlign={x:cellAlign.z,z:(-cellAlign.x||0) as -1|0|1};}}
-  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,...patch,cellAlign,cell:p.cell}:p)});
+  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,...patch,cellAlign,cell:p.cell}:p)},onBlocked);
 }
-export function replaceCell(d:KitchenDesign,id:string,kind:ComponentKind):KitchenDesign|null {
+export function replaceCell(d:KitchenDesign,id:string,kind:ComponentKind,onBlocked?:(message:string)=>void):KitchenDesign|null {
   if(!Object.hasOwn(KIND_NAMES,kind))return null;
   const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
   const components=grid.components.map(p=>{if(p.id!==id)return p;const replacement={...p,kind,name:KIND_NAMES[kind],width:Math.max(p.width,SIZE_LIMITS[kind].width[0]),depth:Math.max(p.depth,SIZE_LIMITS[kind].depth[0])};delete replacement.color;delete replacement.material;return replacement;});
-  return reflowCells({...grid,components});
+  return reflowCells({...grid,components},onBlocked);
 }
 
-export function moveCell(d:KitchenDesign,id:string,rowDelta:number,columnDelta:number):KitchenDesign|null {
+export function moveCell(d:KitchenDesign,id:string,rowDelta:number,columnDelta:number,onBlocked?:(message:string)=>void):KitchenDesign|null {
   if(![rowDelta,columnDelta].every(Number.isInteger)||Math.abs(rowDelta)+Math.abs(columnDelta)!==1)return null;
   const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
   const axis=columnDelta?'x':'z',direction=(columnDelta||rowDelta) as -1|1;
@@ -112,12 +114,12 @@ export function moveCell(d:KitchenDesign,id:string,rowDelta:number,columnDelta:n
   const track=columnDelta?grid.gridColumns![c.cell!.column]:grid.gridRows![c.cell!.row];
   // A short piece reaches this cell's edge first; the following press crosses the grid boundary.
   if(span<track-1e-6&&c.cellAlign![axis]!==direction){
-    return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,cellAlign:{...p.cellAlign!,[axis]:direction}}:p)});
+    return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,cellAlign:{...p.cellAlign!,[axis]:direction}}:p)},onBlocked);
   }
   const target={row:c.cell!.row+rowDelta,column:c.cell!.column+columnDelta};
-  if(target.row<0||target.column<0||target.row>=grid.gridRows!.length||target.column>=grid.gridColumns!.length)return null;
+  if(target.row<0||target.column<0||target.row>=grid.gridRows!.length||target.column>=grid.gridColumns!.length){onBlocked?.('This piece is at the grid boundary. Choose another direction.');return null;}
   const neighbor=grid.components.find(p=>upper(p)===upper(c)&&p.cell!.row===target.row&&p.cell!.column===target.column);
-  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,cell:target}:p.id===neighbor?.id?{...p,cell:{...c.cell!}}:p)});
+  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,cell:target}:p.id===neighbor?.id?{...p,cell:{...c.cell!}}:p)},onBlocked);
 }
 export function addCell(d:KitchenDesign,kind:ComponentKind,id:string,cell:Cell):KitchenDesign|null {
   const grid=independent(d);if(!grid||grid.components.length>=MAX_COMPONENTS||!Object.hasOwn(KIND_NAMES,kind))return null;
