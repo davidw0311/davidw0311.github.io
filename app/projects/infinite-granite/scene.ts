@@ -156,20 +156,25 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   function stone(id: string) {
     const entry: SceneMaterial = MATERIALS.find(m => m.id === id) ?? MATERIALS[0];
     const polished = entry.roughness < .45;
+    const enhancePattern = entry.family !== 'Wood';
     const material = new THREE.MeshPhysicalMaterial({
-      map: textureFor(entry), roughness: entry.roughness, metalness: 0,
-      clearcoat: polished ? .24 : 0, clearcoatRoughness: Math.max(.16, entry.roughness),
+      map: textureFor(entry), roughness: enhancePattern ? Math.max(.34, entry.roughness) : entry.roughness, metalness: 0,
+      clearcoat: polished ? (enhancePattern ? .06 : .24) : 0, clearcoatRoughness: Math.max(.3, entry.roughness),
+      // Softer stone reflections keep the supplier pattern visible under the showroom lights.
+      envMapIntensity: enhancePattern ? .38 : 1, specularIntensity: enhancePattern ? .45 : 1,
     });
     material.onBeforeCompile = shader => {
+      shader.uniforms.stonePatternContrast = { value: enhancePattern ? current.patternContrast??2 : 1 };
+      shader.uniforms.stoneBaseColor = { value: new THREE.Color(entry.color) };
       shader.uniforms.stonePhysicalSize = { value: new THREE.Vector2(entry.textureWidth ?? 48, entry.textureHeight ?? 48) };
       shader.vertexShader = shader.vertexShader
         .replace('#include <common>', '#include <common>\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
         .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvStonePosition = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvStoneNormal = normalize(mat3(modelMatrix) * normal);');
       shader.fragmentShader = shader.fragmentShader
-        .replace('#include <common>', '#include <common>\nuniform vec2 stonePhysicalSize;\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
-        .replace('#include <map_fragment>', '#ifdef USE_MAP\nvec3 weights = pow(abs(normalize(vStoneNormal)), vec3(6.0));\nweights /= (weights.x + weights.y + weights.z);\nvec4 stoneSample = texture2D(map, vStonePosition.zy / stonePhysicalSize) * weights.x + texture2D(map, vStonePosition.xz / stonePhysicalSize) * weights.y + texture2D(map, vStonePosition.xy / stonePhysicalSize) * weights.z;\ndiffuseColor *= stoneSample;\n#endif');
+        .replace('#include <common>', '#include <common>\nuniform vec2 stonePhysicalSize;\nuniform float stonePatternContrast;\nuniform vec3 stoneBaseColor;\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
+        .replace('#include <map_fragment>', '#ifdef USE_MAP\nvec3 weights = pow(abs(normalize(vStoneNormal)), vec3(6.0));\nweights /= (weights.x + weights.y + weights.z);\nvec4 stoneSample = texture2D(map, vStonePosition.zy / stonePhysicalSize) * weights.x + texture2D(map, vStonePosition.xz / stonePhysicalSize) * weights.y + texture2D(map, vStonePosition.xy / stonePhysicalSize) * weights.z;\nfloat stoneLuma = dot(stoneSample.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat baseLuma = dot(stoneBaseColor, vec3(0.2126, 0.7152, 0.0722));\nfloat visibleLuma = clamp(baseLuma + (stoneLuma - baseLuma) * stonePatternContrast, stoneLuma * 0.4, 1.0);\nstoneSample.rgb = clamp(stoneSample.rgb * (visibleLuma / max(stoneLuma, 0.00001)), 0.0, 1.0);\ndiffuseColor *= stoneSample;\n#endif');
     };
-    material.customProgramCacheKey = () => 'infinitegranite-world-stone-v3';
+    material.customProgramCacheKey = () => 'infinitegranite-world-stone-v4';
     return material;
   }
   function box(parent: THREE.Object3D, width: number, height: number, depth: number, x: number, y: number, z: number, material: THREE.Material, bevel = 0) {

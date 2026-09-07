@@ -14,6 +14,7 @@ export interface KitchenComponent {
 export interface KitchenDesign {
   version: 1; layout: LayoutId; roomWidth: number; roomDepth: number;
   gridSize?: number; gridCellSize?: number;
+  patternContrast?: number;
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
   doorStyle: DoorStyle; hardware: Finish; sinkStyle: SinkStyle; sinkFinish: Finish;
   faucet: 'arc' | 'square'; wallColor: string; floor: 'oak' | 'walnut' | 'tile';
@@ -80,7 +81,7 @@ export function presetComponents(layout: LayoutId): KitchenComponent[] {
   return parts;
 }
 export function defaultDesign(layout: LayoutId = 'island'): KitchenDesign {
-  return { version: 1, layout, roomWidth: 216, roomDepth: 192, countertop: 'calacatta', cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', doorStyle: 'shaker', hardware: 'brass', sinkStyle: 'single', sinkFinish: 'steel', faucet: 'arc', wallColor: '#e5e7e3', floor: 'oak', backsplash: 'subway', counterThickness: 1.25, waterfall: false, components: presetComponents(layout) };
+  return { version: 1, layout, roomWidth: 216, roomDepth: 192, countertop: 'calacatta', patternContrast: 2, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', doorStyle: 'shaker', hardware: 'brass', sinkStyle: 'single', sinkFinish: 'steel', faucet: 'arc', wallColor: '#e5e7e3', floor: 'oak', backsplash: 'subway', counterThickness: 1.25, waterfall: false, components: presetComponents(layout) };
 }
 export function footprint(c: KitchenComponent) {
   const rotated = Math.round(c.rotation / 90) % 2 !== 0;
@@ -125,6 +126,7 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !['oak', 'walnut', 'tile'].includes(d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;
   if (!Number.isFinite(d.counterThickness) || d.counterThickness < 0.75 || d.counterThickness > 3 || typeof d.waterfall !== 'boolean') return null;
+  if (d.patternContrast !== undefined && (![1,2,3].includes(d.patternContrast))) return null;
   if (d.gridSize !== undefined && (!Number.isInteger(d.gridSize) || d.gridSize < 4 || d.gridSize > 10)) return null;
   if (d.gridCellSize !== undefined && d.gridCellSize !== 36) return null;
   const ids = new Set<string>();

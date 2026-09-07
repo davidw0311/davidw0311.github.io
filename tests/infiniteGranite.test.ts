@@ -56,3 +56,13 @@ test('appliance bounds preserve usable geometry and upper cabinets remain below 
   assert.equal(upper.height,42);
   assert.deepEqual(collisionPairs([makeComponent('range','r'),makeComponent('upper','u')]),[['r','u']]);
 });
+
+
+test('pattern visibility preserves old designs and round-trips supported preview settings', () => {
+  const d=defaultDesign();
+  assert.equal(d.patternContrast,2);
+  for(const patternContrast of [1,2,3])assert.equal(parseDesign({...d,patternContrast})?.patternContrast,patternContrast);
+  const legacy={...d};delete legacy.patternContrast;
+  assert.ok(parseDesign(legacy));
+  for(const patternContrast of [0,4,NaN,Infinity,'2'])assert.equal(parseDesign({...d,patternContrast}),null);
+});
