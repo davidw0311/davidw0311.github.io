@@ -4,15 +4,17 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { FINISHES, MATERIALS, sinkOpening, type KitchenDesign, type KitchenComponent } from './kitchen';
 import { materialTexture } from './textures';
+import { defaultWalls, fitOpenings, WALL_SIDES, wallLength, cutOpenings, backsplashRects } from './room';
 import { countertopGeometry } from './sceneGeometry';
 
 export type ViewMode = 'perspective' | 'top' | 'front';
-export interface SceneOptions { selected: string | null; walls: boolean; dimensions: boolean; }
+export interface SceneOptions { selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
 export interface KitchenScene {
   update: (design: KitchenDesign, options: SceneOptions) => void;
   view: (mode: ViewMode) => void;
   zoom: (factor: number) => void;
   orbit: (angle: number) => void;
+  shiftVector: (horizontal:number,vertical:number) => {x:number;z:number};
   screenshot: () => string;
   dispose: () => void;
 }
@@ -297,26 +299,38 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       const seam=mat(current.floor==='walnut'?'#675244':'#bdac91'); box(model,w,.3,d,0,.1,0,seam);
       for(let z=-d/2;z<d/2;z+=6) { const depth=Math.min(5.88,d/2-z); box(model,w-.15,.25,depth,0,.4,z+depth/2,wood); }
     }
-    if (options.walls) {
-      const wall=mat(current.wallColor,.9);
-      // Back wall contains a real window opening; its position is part of this reference room.
-      box(model,w,54,2,0,27,-d/2-1,wall);
-      box(model,w,17,2,0,99.5,-d/2-1,wall);
-      box(model,(w-34)/2,37,2,-(w+34)/4,72.5,-d/2-1,wall);
-      box(model,(w-34)/2,37,2,(w+34)/4,72.5,-d/2-1,wall);
-      const windowMat=new THREE.MeshStandardMaterial({color:'#d6e8e8',roughness:.22,emissive:'#a2cbd3',emissiveIntensity:.3}); box(model,33,36,.5,0,72.5,-d/2-1.2,windowMat);
-      const trim=mat('#f7f8f4');
-      for(const x of [-17.5,0,17.5]) box(model,1.3,38,3,x,72.5,-d/2+.2,trim);
-      for(const y of [54,72.5,91]) box(model,37,1.3,3,0,y,-d/2+.2,trim);
-      box(model,39,1,6,0,53.5,-d/2+1.8,trim);
-      box(model,2,108,d,-w/2-1,54,0,wall);
-      box(model,1,5,d,-w/2+.2,2.5,0,trim);
-      if (current.backsplash !== 'none') {
-        const tile=current.backsplash==='slab'?stone(current.countertop):mat('#f0f1ea',.3);
-        box(model,w-.5,17,.4,0,44.8,-d/2+.3,tile);
-        if(current.backsplash==='subway') {
-          const grout=mat('#c3cbc4',.9);
-          for(let y=37;y<54;y+=3) {box(model,w,.10,.08,0,y,-d/2+.56,grout); for(let x=-w/2+(y%2)*4;x<w/2;x+=9) box(model,.1,3,.08,x,y+1.5,-d/2+.56,grout);}
+    const walls=current.roomWalls??defaultWalls(),openings=fitOpenings(current);
+    for(const side of WALL_SIDES){
+      if(!walls[side].enabled)continue;
+      const group=new THREE.Group();model.add(group);
+      if(side==='back'||side==='front')group.position.z=(side==='back'?-1:1)*d/2;
+      else {group.position.x=(side==='left'?-1:1)*w/2;group.rotation.y=-Math.PI/2;}
+      const inward=side==='back'||side==='right'?1:-1,length=wallLength(current,side),height=walls[side].height;
+      const cuts=openings.filter(o=>o.wall===side),wallMat=mat(current.wallColor,.9),trim=mat('#f7f8f4');
+      const mark=(object:THREE.Object3D,id:string)=>{object.updateWorldMatrix(true,true);object.traverse(o=>{o.userData.componentId=id;if(o instanceof THREE.Mesh)pickables.push(o);});if(options.selected===id)model.add(new THREE.Box3Helper(new THREE.Box3().setFromObject(object),new THREE.Color('#218966')));};
+      if(options.walls&&!options.hidden?.includes(`wall:${side}`)){
+        const wallGroup=new THREE.Group();group.add(wallGroup);
+        for(const r of cutOpenings({left:-length/2,right:length/2,bottom:0,top:height},cuts))box(wallGroup,r.right-r.left,r.top-r.bottom,2,(r.left+r.right)/2,(r.bottom+r.top)/2,-inward,wallMat);
+        mark(wallGroup,`wall:${side}`);
+      }
+      if(!options.hideWindows)for(const o of cuts){
+        if(options.hidden?.includes(o.id))continue;
+        const opening=new THREE.Group();group.add(opening);
+        const glass=new THREE.MeshStandardMaterial({color:o.kind==='window'?'#d6e8e8':'#c1b4a0',roughness:.35,emissive:'#a2cbd3',emissiveIntensity:o.kind==='window'?.15:0});
+        box(opening,o.width-1,o.height-1,.5,o.offset,o.bottom+o.height/2,0,glass);
+        for(const x of [o.offset-o.width/2,o.offset+o.width/2])box(opening,1.3,o.height,3,x,o.bottom+o.height/2,inward*.2,trim);
+        for(const y of [o.bottom,o.bottom+o.height])box(opening,o.width,1.3,3,o.offset,y,inward*.2,trim);
+        if(o.kind==='window')box(opening,1,o.height,1,o.offset,o.bottom+o.height/2,inward*.5,trim);
+        mark(opening,o.id);
+      }
+      if(!options.hideBacksplash){
+        const tile=current.backsplash==='slab'?stone(current.countertop):mat('#f0f1ea',.3),grout=mat('#c3cbc4',.9);
+        for(const r of backsplashRects(current,side)){
+          box(group,r.right-r.left,r.top-r.bottom,.4,(r.left+r.right)/2,(r.top+r.bottom)/2,inward*.3,tile);
+          if(current.backsplash==='subway')for(let y=r.bottom;y<r.top;y+=3){
+            const top=Math.min(y+3,r.top);box(group,r.right-r.left,.08,.08,(r.left+r.right)/2,Math.min(y+.04,r.top-.04),inward*.56,grout);
+            for(let x=r.left+((Math.round((y-r.bottom)/3)%2)*4.5);x<r.right;x+=9){const left=Math.max(r.left,x),right=Math.min(r.right,x+.1);box(group,right-left,top-y,.08,(left+right)/2,(y+top)/2,inward*.56,grout);}
+          }
         }
       }
     }
@@ -335,6 +349,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     sun.shadow.camera.updateProjectionMatrix();
     room();
     for(const c of design.components) {
+      if(options.hidden?.includes(c.id)||(options.hideUppers&&c.kind==='upper')||(options.hideAppliances&&['fridge','range','dishwasher'].includes(c.kind)))continue;
       const group=new THREE.Group();group.position.set(c.x,0,c.z);group.rotation.y=c.rotation*Math.PI/180;group.userData.componentId=c.id;model.add(group);
       const color=c.color ?? (c.kind==='upper'?design.upperColor:c.kind==='island'?design.islandColor:design.cabinetColor);
       if(['fridge','range','dishwasher'].includes(c.kind)) {
@@ -380,7 +395,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   renderer.domElement.addEventListener('pointercancel',pointerCancel);renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('pointerup',pointerUp);renderer.domElement.addEventListener('keydown',keyDown);renderer.domElement.addEventListener('webglcontextlost',lost);
   initializationCleanup.push(() => { disposed = true; });
   resize();view('perspective');
-  return {update,view,zoom,orbit,screenshot:()=>{if(disposed)return '';render();return renderer.domElement.toDataURL('image/png');},dispose:()=>{
+  return {update,view,zoom,orbit,shiftVector:(horizontal,vertical)=>{const forward=controls.target.clone().sub(camera.position);forward.y=0;if(forward.length()<.01)forward.set(0,0,-1);forward.normalize();const right=new THREE.Vector3(-forward.z,0,forward.x);const delta=right.multiplyScalar(horizontal).add(forward.multiplyScalar(vertical));return Math.abs(delta.x)>=Math.abs(delta.z)?{x:Math.sign(delta.x)*Math.hypot(horizontal,vertical),z:0}:{x:0,z:Math.sign(delta.z)*Math.hypot(horizontal,vertical)};},screenshot:()=>{if(disposed)return '';render();return renderer.domElement.toDataURL('image/png');},dispose:()=>{
     if(disposed)return;
     disposed=true;observer.disconnect();controls.removeEventListener('change',render);controls.dispose();
     renderer.domElement.removeEventListener('pointercancel',pointerCancel);renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('keydown',keyDown);renderer.domElement.removeEventListener('webglcontextlost',lost);
