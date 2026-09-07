@@ -425,3 +425,6 @@
   .viewerExpanded[data-finishes-open=true] .stageBottom { display:none; }
   .viewerExpanded[data-finishes-open=true] .textureStatus,.viewerExpanded[data-finishes-open=true] .collisionNote { top:86px; left:16px; max-width:calc(100% - 32px); }
 }
+
+.contrastControl { margin:0 0 20px; }
+.contrastControl>.field { margin-top:0; }
