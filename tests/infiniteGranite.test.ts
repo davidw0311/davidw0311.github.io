@@ -45,7 +45,7 @@ test('invalid saved data cannot produce broken geometry or unsupported textures'
   assert.equal(parseDesign({...d,components:[d.components[0],d.components[0]]}),null);
   assert.equal(parseDesign({...d,countertop:'missing'}),null);
   assert.equal(parseDesign({...d,cabinetColor:'url(https://example.com)'}),null);
-  assert.equal(parseDesign({...d,components:Array(61).fill(d.components[0])}),null);
+  assert.equal(parseDesign({...d,components:Array(201).fill(d.components[0])}),null);
   assert.equal(parseDesign({...d,components:[{...d.components[0],material:'missing'}]}),null);
 });
 

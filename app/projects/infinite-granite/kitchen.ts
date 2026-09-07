@@ -1,4 +1,7 @@
-export type LayoutId = 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
+import { MATERIALS } from './materials.ts';
+export { MATERIALS } from './materials.ts';
+export const MAX_COMPONENTS = 200;
+export type LayoutId = 'custom' | 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
 export type ComponentKind = 'base' | 'upper' | 'island' | 'sink' | 'range' | 'fridge' | 'dishwasher' | 'pantry';
 export type DoorStyle = 'shaker' | 'slab' | 'inset';
 export type SinkStyle = 'single' | 'double' | 'apron';
@@ -10,6 +13,7 @@ export interface KitchenComponent {
 }
 export interface KitchenDesign {
   version: 1; layout: LayoutId; roomWidth: number; roomDepth: number;
+  gridSize?: number; gridCellSize?: number;
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
   doorStyle: DoorStyle; hardware: Finish; sinkStyle: SinkStyle; sinkFinish: Finish;
   faucet: 'arc' | 'square'; wallColor: string; floor: 'oak' | 'walnut' | 'tile';
@@ -24,16 +28,6 @@ export const LAYOUTS: { id: LayoutId; name: string; detail: string; footprint: s
   { id: 'u-shape', name: 'U-shaped', detail: 'Three working sides', footprint: 'u' },
   { id: 'peninsula', name: 'Peninsula', detail: 'A connected bar', footprint: 'peninsula' },
 ];
-export const MATERIALS = [
-  { id: 'calacatta', name: 'Calacatta', family: 'Quartz', color: '#f0eee7', pattern: 'vein', vein: '#958a77', note: 'Warm white · broad gold-grey veining', roughness: 0.24 },
-  { id: 'carrara', name: 'Carrara', family: 'Marble', color: '#e2e5e4', pattern: 'vein', vein: '#8c979b', note: 'Cool white · fine grey veining', roughness: 0.3 },
-  { id: 'alaska', name: 'Alaska white', family: 'Granite', color: '#d6d0c5', pattern: 'speckle', vein: '#575751', note: 'Ivory · varied mineral flecks', roughness: 0.27 },
-  { id: 'absolute', name: 'Absolute black', family: 'Granite', color: '#25282a', pattern: 'speckle', vein: '#787d7b', note: 'Deep charcoal · subtle crystalline grain', roughness: 0.2 },
-  { id: 'soapstone', name: 'Charcoal', family: 'Soapstone', color: '#454e4d', pattern: 'vein', vein: '#99a6a0', note: 'Soft charcoal · pale, flowing veins', roughness: 0.7 },
-  { id: 'concrete', name: 'Cloud grey', family: 'Concrete', color: '#a6a6a0', pattern: 'cloud', vein: '#787b77', note: 'Mid grey · quiet, matte texture', roughness: 0.9 },
-  { id: 'butcher', name: 'Butcher block', family: 'Wood', color: '#b8844c', pattern: 'wood', vein: '#6d4529', note: 'Honey oak · continuous wood grain', roughness: 0.6 },
-  { id: 'terrazzo', name: 'Salt & pepper', family: 'Terrazzo', color: '#e0ddd6', pattern: 'chips', vein: '#52615c', note: 'Warm white · contrasting stone chips', roughness: 0.45 },
-] as const;
 export const COLORS = [
   { name: 'Chalk', value: '#e8e7df' }, { name: 'Linen', value: '#cfc6b7' },
   { name: 'Sage', value: '#8b9a88' }, { name: 'Forest', value: '#314c43' },
@@ -65,6 +59,7 @@ export function makeComponent(kind: ComponentKind, id: string, x = 0, z = 0, rot
   return { id, kind, name: KIND_NAMES[kind], x, z, rotation, width: width ?? w, depth, height };
 }
 export function presetComponents(layout: LayoutId): KitchenComponent[] {
+  if (layout === 'custom') return [];
   const parts: KitchenComponent[] = [];
   const add = (kind: ComponentKind, x: number, z: number, rotation = 0, width?: number) => {
     const c = makeComponent(kind, `${kind}-${parts.length + 1}`, x, z, rotation, width); parts.push(c); return c;
@@ -93,11 +88,11 @@ export function footprint(c: KitchenComponent) {
 }
 export function clampComponent(c: KitchenComponent, roomWidth: number, roomDepth: number): KitchenComponent {
   const limits = SIZE_LIMITS[c.kind];
-  const bound = (key: 'width' | 'depth' | 'height') => Math.max(limits[key][0], Math.min(limits[key][1], c[key]));
+  const bound = (key: 'width' | 'depth' | 'height') => Math.round(Math.max(limits[key][0], Math.min(limits[key][1], c[key])) * 2) / 2;
   const next = { ...c, width: bound('width'), depth: bound('depth'), height: bound('height'), rotation: ((Math.round(c.rotation / 90) * 90) % 360 + 360) % 360 };
   const size = footprint(next);
-  next.x = Math.round(Math.max((-roomWidth + size.width) / 2, Math.min((roomWidth - size.width) / 2, c.x)) * 2) / 2;
-  next.z = Math.round(Math.max((-roomDepth + size.depth) / 2, Math.min((roomDepth - size.depth) / 2, c.z)) * 2) / 2;
+  next.x = Math.round(Math.max((-roomWidth + size.width) / 2, Math.min((roomWidth - size.width) / 2, c.x)) * 4) / 4;
+  next.z = Math.round(Math.max((-roomDepth + size.depth) / 2, Math.min((roomDepth - size.depth) / 2, c.z)) * 4) / 4;
   return next;
 }
 export function collisionPairs(components: KitchenComponent[]): [string, string][] {
@@ -105,11 +100,11 @@ export function collisionPairs(components: KitchenComponent[]): [string, string]
   for (let i = 0; i < components.length; i++) for (let j = i + 1; j < components.length; j++) {
     const a = components[i], b = components[j];
     const ay = a.kind === 'upper' ? 54 : 0, by = b.kind === 'upper' ? 54 : 0;
-    const aHeight = a.kind === 'range' ? Math.max(a.height, 96) : a.height;
-    const bHeight = b.kind === 'range' ? Math.max(b.height, 96) : b.height;
-    if (ay >= by + bHeight - 0.2 || by >= ay + aHeight - 0.2) continue;
+    const aHeight = a.kind === 'range' ? a.height + 60 : a.kind === 'sink' ? a.height + 15 : a.height;
+    const bHeight = b.kind === 'range' ? b.height + 60 : b.kind === 'sink' ? b.height + 15 : b.height;
+    if (ay >= by + bHeight - 1e-6 || by >= ay + aHeight - 1e-6) continue;
     const af = footprint(a), bf = footprint(b);
-    if (Math.abs(a.x - b.x) < (af.width + bf.width) / 2 - 0.25 && Math.abs(a.z - b.z) < (af.depth + bf.depth) / 2 - 0.25) pairs.push([a.id, b.id]);
+    if (Math.abs(a.x - b.x) < (af.width + bf.width) / 2 - 1e-6 && Math.abs(a.z - b.z) < (af.depth + bf.depth) / 2 - 1e-6) pairs.push([a.id, b.id]);
   }
   return pairs;
 }
@@ -124,12 +119,14 @@ const kinds = Object.keys(KIND_NAMES);
 export function parseDesign(input: unknown): KitchenDesign | null {
   if (!input || typeof input !== 'object') return null;
   const d = input as KitchenDesign;
-  if (d.version !== 1 || !LAYOUTS.some(l => l.id === d.layout) || !Array.isArray(d.components) || d.components.length > 60) return null;
+  if (d.version !== 1 || (d.layout !== 'custom' && !LAYOUTS.some(l => l.id === d.layout)) || !Array.isArray(d.components) || d.components.length > MAX_COMPONENTS) return null;
   if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= 144 && v <= 360)) return null;
   if (!MATERIALS.some(m => m.id === d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
   if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !['oak', 'walnut', 'tile'].includes(d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;
   if (!Number.isFinite(d.counterThickness) || d.counterThickness < 0.75 || d.counterThickness > 3 || typeof d.waterfall !== 'boolean') return null;
+  if (d.gridSize !== undefined && (!Number.isInteger(d.gridSize) || d.gridSize < 4 || d.gridSize > 10)) return null;
+  if (d.gridCellSize !== undefined && d.gridCellSize !== 36) return null;
   const ids = new Set<string>();
   for (const c of d.components) {
     if (!c || !kinds.includes(c.kind) || typeof c.id !== 'string' || c.id.length > 80 || ids.has(c.id) || typeof c.name !== 'string' || c.name.length > 80) return null;
@@ -140,3 +137,5 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   }
   return { ...d, components: d.components.map(c => clampComponent(c, d.roomWidth, d.roomDepth)) };
 }
+
+export function layoutName(layout: LayoutId): string { return layout === 'custom' ? 'Custom kitchen' : LAYOUTS.find(l => l.id === layout)?.name ?? 'Kitchen'; }
