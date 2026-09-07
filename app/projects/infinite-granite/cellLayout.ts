@@ -3,13 +3,14 @@ export interface Cell { row:number; column:number; }
 export interface CellTarget extends Cell { x:number; z:number; width:number; depth:number; }
 const sum=(values:number[])=>values.reduce((a,b)=>a+b,0);
 const flat=(kind:ComponentKind)=>['base','sink','vanity','dishwasher','island','range'].includes(kind);
+const backAlignment=(rotation:number):NonNullable<KitchenComponent['cellAlign']>=>rotation===90?{x:-1,z:0}:rotation===180?{x:0,z:1}:rotation===270?{x:1,z:0}:{x:0,z:-1};
 const upper=(c:KitchenComponent)=>c.kind==='upper';
 export function hasCellLayout(d:KitchenDesign):boolean {return !!d.gridColumns&&!!d.gridRows&&d.components.every(c=>!!c.cell);}
 export function validCellLayout(d:KitchenDesign):boolean {
   if(!d.gridColumns||!d.gridRows)return false;
   if(![d.gridColumns,d.gridRows].every(a=>Array.isArray(a)&&a.length>=1&&a.length<=20&&a.every(n=>Number.isFinite(n)&&n>=12&&n<=120&&Number.isInteger(n*2))&&sum(a)<=720))return false;
   const occupied=new Set<string>();
-  return d.components.every(c=>{const cell=c.cell;if(!cell||!Number.isInteger(cell.row)||!Number.isInteger(cell.column)||cell.row<0||cell.row>=d.gridRows!.length||cell.column<0||cell.column>=d.gridColumns!.length)return false;const key=`${cell.row}:${cell.column}:${upper(c)}`;if(occupied.has(key))return false;occupied.add(key);return true;});
+  return d.components.every(c=>{const align=c.cellAlign;if(align!==undefined&&(!align||![-1,0,1].includes(align.x)||![-1,0,1].includes(align.z)))return false;const cell=c.cell;if(!cell||!Number.isInteger(cell.row)||!Number.isInteger(cell.column)||cell.row<0||cell.row>=d.gridRows!.length||cell.column<0||cell.column>=d.gridColumns!.length)return false;const key=`${cell.row}:${cell.column}:${upper(c)}`;if(occupied.has(key))return false;occupied.add(key);return true;});
 }
 /** Legacy layouts fill their cells; independently sized pieces retain their own dimensions. */
 export function reflowCells(d:KitchenDesign):KitchenDesign|null {
@@ -20,7 +21,9 @@ export function reflowCells(d:KitchenDesign):KitchenDesign|null {
   const roomWidth=Math.max(d.roomType==='bathroom'?72:144,sum(columns)),roomDepth=Math.max(d.roomType==='bathroom'?72:144,sum(rows));
   const components=d.components.map(c=>{
     const {row,column}=c.cell!,rotation=((Math.round(c.rotation/90)*90)%360+360)%360,turned=rotation%180!==0;
-    return {...c,rotation,x:-roomWidth/2+sum(columns.slice(0,column))+columns[column]/2,z:-roomDepth/2+sum(rows.slice(0,row))+rows[row]/2,width:d.independentSizes?c.width:turned?rows[row]:columns[column],depth:d.independentSizes?c.depth:turned?columns[column]:rows[row],height:flat(c.kind)?36:DEFAULT_SIZES[c.kind][2]};
+    const width=d.independentSizes?c.width:turned?rows[row]:columns[column],depth=d.independentSizes?c.depth:turned?columns[column]:rows[row];
+    const cellAlign=c.cellAlign??backAlignment(rotation),worldWidth=turned?depth:width,worldDepth=turned?width:depth;
+    return {...c,rotation,cellAlign,x:-roomWidth/2+sum(columns.slice(0,column))+columns[column]/2+cellAlign.x*(columns[column]-worldWidth)/2,z:-roomDepth/2+sum(rows.slice(0,row))+rows[row]/2+cellAlign.z*(rows[row]-worldDepth)/2,width,depth,height:flat(c.kind)?36:DEFAULT_SIZES[c.kind][2]};
   });
   const result={...d,gridColumns:columns,gridRows:rows,roomWidth,roomDepth,components};
   if(d.independentSizes&&components.some(c=>!withinCellReach(result,c)))return null;
@@ -90,7 +93,9 @@ export function cellLimits(d:KitchenDesign,id:string,dimension:'width'|'depth'):
 }
 export function editCell(d:KitchenDesign,id:string,patch:Partial<KitchenComponent>):KitchenDesign|null {
   const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
-  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,...patch,cell:p.cell}:p)});
+  let cellAlign=c.cellAlign!;
+  if(patch.rotation!==undefined){let turns=((Math.round((patch.rotation-c.rotation)/90)%4)+4)%4;while(turns--){cellAlign={x:cellAlign.z,z:(-cellAlign.x||0) as -1|0|1};}}
+  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,...patch,cellAlign,cell:p.cell}:p)});
 }
 export function replaceCell(d:KitchenDesign,id:string,kind:ComponentKind):KitchenDesign|null {
   if(!Object.hasOwn(KIND_NAMES,kind))return null;
@@ -102,6 +107,13 @@ export function replaceCell(d:KitchenDesign,id:string,kind:ComponentKind):Kitche
 export function moveCell(d:KitchenDesign,id:string,rowDelta:number,columnDelta:number):KitchenDesign|null {
   if(![rowDelta,columnDelta].every(Number.isInteger)||Math.abs(rowDelta)+Math.abs(columnDelta)!==1)return null;
   const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
+  const axis=columnDelta?'x':'z',direction=(columnDelta||rowDelta) as -1|1;
+  const span=columnDelta?footprint(c).width:footprint(c).depth;
+  const track=columnDelta?grid.gridColumns![c.cell!.column]:grid.gridRows![c.cell!.row];
+  // A short piece reaches this cell's edge first; the following press crosses the grid boundary.
+  if(span<track-1e-6&&c.cellAlign![axis]!==direction){
+    return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,cellAlign:{...p.cellAlign!,[axis]:direction}}:p)});
+  }
   const target={row:c.cell!.row+rowDelta,column:c.cell!.column+columnDelta};
   if(target.row<0||target.column<0||target.row>=grid.gridRows!.length||target.column>=grid.gridColumns!.length)return null;
   const neighbor=grid.components.find(p=>upper(p)===upper(c)&&p.cell!.row===target.row&&p.cell!.column===target.column);
