@@ -6,7 +6,8 @@ import { ArrowLeft, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Came
 import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, BATHROOM_LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
 import DirectEditor, { RoomControls } from './DirectEditor';
 import { moveBoundary } from './connectedEdit';
-import { addCell, availableCells, editCell, ensureCells, moveCell, replaceCell, resizeCells, type Cell } from './cellLayout';
+import { applyPieceAction, type PieceAction } from './editActions';
+import { addCell, availableCells, ensureCells, type Cell } from './cellLayout';
 import type { WallSide } from './room';
 import { bathroomDesign } from './bathrooms';
 import GridBuilder from './GridBuilder';
@@ -57,7 +58,7 @@ export default function InfiniteGranite() {
   const [storageStatus, setStorageStatus] = useState('Saving on this device…');
   const stageRef = useRef<HTMLDivElement>(null), hostRef = useRef<HTMLDivElement>(null), sceneRef = useRef<KitchenScene | null>(null);
   const latest = useRef({ design, selected, walls, dimensions, ...visibility, addingKind, placementCells, multiSelect, selectedIds });
-  const selectedComponent = design.components.find(c => c.id === selected);
+  const selectedComponent = design.components.find(c => c.id === (multiSelect?selectedIds[0]:selected));
   const material = MATERIALS.find(m => m.id === design.countertop)!;
   const overlaps = collisionPairs(design.components);
   function revealEditor(){requestAnimationFrame(()=>{if(stageRef.current?.getAttribute('role')!=='dialog'&&window.matchMedia('(max-width:900px)').matches)document.querySelector<HTMLElement>('[aria-label="Room customization"]')?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});}
@@ -111,35 +112,40 @@ export default function InfiniteGranite() {
   }, [reload]);
   useEffect(() => { if (compareOpen) document.getElementById('infinitegranite-comparisons')?.scrollIntoView({ behavior: 'instant', block: 'start' }); }, [compareOpen, saved.length]);
   useEffect(() => { if (!message) return; const timer = setTimeout(() => setMessage(''), 5500); return () => clearTimeout(timer); }, [message]);
+  const pendingDesign = useRef(design);
+  useEffect(()=>{pendingDesign.current=design;},[design]);
   const commit = useCallback((next: KitchenDesign | ((current: KitchenDesign) => KitchenDesign), group?: string) => {
-    dispatch({type:'change', next, group, time:Date.now()});
+    const resolved=typeof next==='function'?next(pendingDesign.current):next;
+    pendingDesign.current=resolved;
+    dispatch({type:'change', next:resolved, group, time:Date.now()});
   }, []);
   function change<K extends keyof KitchenDesign>(key: K, value: KitchenDesign[K]) { commit(d => ({ ...d, [key]: value })); }
   function matchCupboards() { commit(d=>({...d,upperColor:d.cabinetColor,islandColor:d.cabinetColor})); }
   function arrangeSink() { const sink=design.components.find(c=>c.kind==='sink'||c.kind==='vanity');if(sink){selectElement(sink.id);setTab('components');}else addComponent(design.roomType==='bathroom'?'vanity':'sink'); }
   function toggleFinishes() { if(finishesOpen)finishToggle.current?.focus({preventScroll:true});setFinishesOpen(open=>!open); }
+  function resolvePiece(action:PieceAction){let reason='This edit does not fit in the available space.';const next=applyPieceAction(pendingDesign.current,action,message=>{reason=message;});if(!next)setPlacementNotice(reason);return next;}
   function editComponent(patch: Partial<KitchenComponent>): KitchenComponent | null {
     if (!selectedComponent) return null;
     const dimension=patch.width!==undefined?'width':patch.depth!==undefined?'depth':null;
-    const next=dimension?resizeCells(design,selectedIds,dimension,patch[dimension]!):editCell(design,selectedComponent.id,patch);
-    if(!next){setPlacementNotice('This size is blocked by another piece, the grid edge, or the one-cell extension limit.');return selectedComponent;}
+    const next=resolvePiece(dimension?{type:'resize',ids:selectedIds,dimension,value:patch[dimension]!}:{type:'edit',id:selectedComponent.id,patch});
+    if(!next)return null;
     setPlacementNotice('');
     commit(next,`component:${selectedIds.join()}:${Object.keys(patch).join()}`);
-    return next.components.find(c=>c.id===selected)??null;
+    return next.components.find(c=>c.id===selectedComponent.id)??null;
   }
   function selectElement(id:string|null){if(multiSelect&&id&&design.components.some(c=>c.id===id))setMultiIds(ids=>ids.includes(id)?ids.filter(p=>p!==id):[...ids,id]);setAddingKind(null);setSelected(id);setInspectorMode('edit');setInspectorOpen(!!id);setPlacementNotice('');if(id){setFullscreenTab('edit');setFinishesOpen(true);revealEditor();}}
   function shiftElement(x:number,y:number){
     if(!selectedComponent)return;
     const delta=sceneRef.current?.shiftVector(x,y)??{x,z:-y};
-    const next=moveCell(design,selectedComponent.id,Math.sign(delta.z),Math.sign(delta.x));
+    const next=resolvePiece({type:'move',id:selectedComponent.id,row:Math.sign(delta.z),column:Math.sign(delta.x)});
     if(next){commit(next);setPlacementNotice('');}
-    else setPlacementNotice('That alignment or move is blocked by another piece or the grid boundary.');
+
   }
   function replaceSelected(kind:ComponentKind){
     if(!selectedComponent)return;
-    const next=replaceCell(design,selectedComponent.id,kind);
+    const next=resolvePiece({type:'replace',id:selectedComponent.id,kind});
     if(next){commit(next);setPlacementNotice('');}
-    else setPlacementNotice('This replacement needs more space. Move any wall cupboard or appliance occupying its height, then try again.');
+
   }
 
   function hideElement(id:string){setVisibility(v=>({...v,hidden:[...new Set([...v.hidden,id])]}));setInspectorOpen(false);setSelected(null);}
