@@ -1,3 +1,4 @@
+import type { RoomWalls, RoomOpening } from './room.ts';
 import { MATERIALS } from './materials.ts';
 export { MATERIALS } from './materials.ts';
 export const MAX_COMPONENTS = 200;
@@ -15,6 +16,7 @@ export interface KitchenDesign {
   version: 1; layout: LayoutId; roomWidth: number; roomDepth: number;
   gridSize?: number; gridCellSize?: number;
   patternContrast?: number;
+  roomWalls?: RoomWalls; openings?: RoomOpening[];
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
   doorStyle: DoorStyle; hardware: Finish; sinkStyle: SinkStyle; sinkFinish: Finish;
   faucet: 'arc' | 'square'; wallColor: string; floor: 'oak' | 'walnut' | 'tile';
@@ -110,7 +112,7 @@ export function collisionPairs(components: KitchenComponent[]): [string, string]
   return pairs;
 }
 export function sinkOpening(c: KitchenComponent, style: SinkStyle) {
-  return { width: Math.min(c.width - 6, style === 'double' ? 32 : 28), depth: Math.min(c.depth - 6, 18) };
+  return { width: Math.max(12,c.width - (style === 'double' ? 6 : 8)), depth: Math.min(c.depth - 6, 18) };
 }
 export function colorName(color: string): string { return COLORS.find(c => c.value === color)?.name ?? color.toUpperCase(); }
 export function inches(value: number): string { const feet = Math.floor(value / 12); const rest = Math.round((value - feet * 12) * 2) / 2; return `${feet}′ ${rest}″`; }
@@ -121,7 +123,7 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   if (!input || typeof input !== 'object') return null;
   const d = input as KitchenDesign;
   if (d.version !== 1 || (d.layout !== 'custom' && !LAYOUTS.some(l => l.id === d.layout)) || !Array.isArray(d.components) || d.components.length > MAX_COMPONENTS) return null;
-  if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= 144 && v <= 360)) return null;
+  if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= 144 && v <= 720)) return null;
   if (!MATERIALS.some(m => m.id === d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
   if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !['oak', 'walnut', 'tile'].includes(d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;
@@ -129,6 +131,8 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   if (d.patternContrast !== undefined && (![1,2,3].includes(d.patternContrast))) return null;
   if (d.gridSize !== undefined && (!Number.isInteger(d.gridSize) || d.gridSize < 4 || d.gridSize > 10)) return null;
   if (d.gridCellSize !== undefined && d.gridCellSize !== 36) return null;
+  if (d.roomWalls !== undefined && (!d.roomWalls || typeof d.roomWalls !== 'object' || !['back','right','front','left'].every(side => {const w=d.roomWalls![side as keyof RoomWalls];return w && typeof w.enabled==='boolean' && Number.isFinite(w.height) && w.height>=96 && w.height<=144;}))) return null;
+  if (d.openings !== undefined && (!Array.isArray(d.openings) || d.openings.length>24 || d.openings.some(o=>!o || typeof o.id!=='string' || o.id.length>80 || !['back','right','front','left'].includes(o.wall) || !['window','door'].includes(o.kind) || ![o.offset,o.bottom,o.width,o.height].every(Number.isFinite) || Math.abs(o.offset)>720 || o.bottom<0 || o.bottom>144 || o.width<12 || o.width>144 || o.height<12 || o.height>140) || new Set(d.openings.map(o=>o.id)).size!==d.openings.length)) return null;
   const ids = new Set<string>();
   for (const c of d.components) {
     if (!c || !kinds.includes(c.kind) || typeof c.id !== 'string' || c.id.length > 80 || ids.has(c.id) || typeof c.name !== 'string' || c.name.length > 80) return null;

@@ -1,3 +1,4 @@
+import { fitOpenings, openingsOverlap } from './room.ts';
 import { clampComponent, defaultDesign, footprint, makeComponent, SIZE_LIMITS, type ComponentKind, type KitchenComponent, type KitchenDesign } from './kitchen.ts';
 
 const EPSILON = 1e-6;
@@ -166,10 +167,13 @@ export function findPlacement(proposed: KitchenComponent, components: KitchenCom
 
 /** Room edits are atomic: either all clamped pieces fit, or the room stays unchanged. */
 export function resizeRoom(design: KitchenDesign, roomWidth: number, roomDepth: number): KitchenDesign | null {
-  if (![roomWidth, roomDepth].every(n => Number.isFinite(n) && n >= 144 && n <= 360)) return null;
+  if (![roomWidth, roomDepth].every(n => Number.isFinite(n) && n >= 144 && n <= 720)) return null;
   const components = design.components.map(c => clampComponent(c, roomWidth, roomDepth));
   if (components.some(c => !isPlacementValid(c, components, roomWidth, roomDepth))) return null;
-  return { ...design, roomWidth, roomDepth, components };
+  const next = { ...design, roomWidth, roomDepth, components };
+  const openings=fitOpenings(next);
+  if(openings.some(a=>openings.some(b=>openingsOverlap(a,b))))return null;
+  return { ...next, openings };
 }
 
 /** Place a part inside a grid cell, with its back aligned to that cell's chosen edge. */
