@@ -1,16 +1,17 @@
 'use client';
 
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Cube, FloppyDisk, Minus, Plus, SquaresFour, Stack, SlidersHorizontal, Trash, X } from '@phosphor-icons/react';
-import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, makeComponent, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
+import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
 import DirectEditor, { RoomControls } from './DirectEditor';
-import { connectedEdit, moveBoundary, swapAdjacent, replaceComponent } from './connectedEdit';
+import { moveBoundary } from './connectedEdit';
+import { addCell, availableCells, editCell, ensureCells, moveCell, replaceCell, type Cell } from './cellLayout';
 import type { WallSide } from './room';
 import GridBuilder from './GridBuilder';
 import FinishControls, { Field, Range, Choices, ColorPicker, type FinishTab } from './FinishControls';
 import { materialLabel } from './materials';
-import { findPlacement, resizeRoom as resizeKitchenRoom } from './placement';
+import { resizeRoom as resizeKitchenRoom } from './placement';
 import { editorHistory } from './history';
 import type { KitchenScene, ViewMode } from './scene';
 import styles from './studio.module.css';
@@ -26,7 +27,7 @@ function LayoutGlyph({ layout }: { layout: LayoutId }) {
 }
 
 export default function InfiniteGranite() {
-  const [state, dispatch] = useReducer(editorHistory, undefined, () => ({design:defaultDesign(),past:[],future:[],time:0}));
+  const [state, dispatch] = useReducer(editorHistory, undefined, () => ({design:ensureCells(defaultDesign())??defaultDesign(),past:[],future:[],time:0}));
   const design = state.design, undoCount = state.past.length, redoCount = state.future.length;
   const [tab, setTab] = useState<Tab>('surfaces');
   const [selected, setSelected] = useState<string | null>(null);
@@ -40,17 +41,19 @@ export default function InfiniteGranite() {
   const [finishesOpen, setFinishesOpen] = useState(true);
   const [fullscreenTab, setFullscreenTab] = useState<FinishTab|'edit'|'room'|'view'|'layout'>('surfaces');
   const [inspectorMode,setInspectorMode]=useState<'edit'|'view'>('edit');
-  const [inspectorOpen,setInspectorOpen]=useState(false),[flow,setFlow]=useState(true);
+  const [inspectorOpen,setInspectorOpen]=useState(false);
   const [visibility,setVisibility]=useState({hidden:[] as string[],hideUppers:false,hideAppliances:false,hideBacksplash:false,hideWindows:false});
   const finishToggle = useRef<HTMLButtonElement>(null);
   const [textureStatus, setTextureStatus] = useState<string|null>(null);
   const [placementNotice, setPlacementNotice] = useState('');
+  const [addingKind,setAddingKind]=useState<ComponentKind|null>(null);
+  const placementCells=useMemo(()=>addingKind?availableCells(design,addingKind):undefined,[design,addingKind]);
   const nativeFullscreen = useRef(false);
   const pendingViewReset = useRef(false);
   const fullscreenTrigger = useRef<HTMLButtonElement>(null);
   const [storageStatus, setStorageStatus] = useState('Saving on this device…');
   const stageRef = useRef<HTMLDivElement>(null), hostRef = useRef<HTMLDivElement>(null), sceneRef = useRef<KitchenScene | null>(null);
-  const latest = useRef({ design, selected, walls, dimensions, ...visibility });
+  const latest = useRef({ design, selected, walls, dimensions, ...visibility, addingKind, placementCells });
   const selectedComponent = design.components.find(c => c.id === selected);
   const material = MATERIALS.find(m => m.id === design.countertop)!;
   const overlaps = collisionPairs(design.components);
@@ -64,7 +67,7 @@ export default function InfiniteGranite() {
         const raw = localStorage.getItem(STORAGE);
         if (raw) {
           const stored = JSON.parse(raw); const recovered = parseDesign(stored.design);
-          if (recovered) dispatch({type:'restore',design:recovered});
+          if (recovered) dispatch({type:'restore',design:ensureCells(recovered)??recovered});
           if (Array.isArray(stored.saved)) setSaved(stored.saved.slice(0, 4).flatMap((option: SavedOption) => { const d = parseDesign(option.design); return d && typeof option.name === 'string' && typeof option.id === 'string' ? [{ id: option.id.slice(0,80), name: option.name.slice(0,60), design: d }] : []; }));
         }
       } catch { setMessage('Browser storage is unavailable. You can still design in this session.'); }
@@ -84,15 +87,20 @@ export default function InfiniteGranite() {
     window.addEventListener('pagehide', flush);
     return () => { active = false; window.removeEventListener('pagehide',flush); };
   }, [design, saved, hydrated, persist]);
-  useEffect(() => { latest.current = { design, selected, walls, dimensions, ...visibility }; sceneRef.current?.update(design, { selected, walls, dimensions }); if(pendingViewReset.current){pendingViewReset.current=false;sceneRef.current?.view('perspective');setViewMode('perspective');} }, [design, selected, walls, dimensions, visibility]);
+  useEffect(() => { latest.current = { design, selected, walls, dimensions, ...visibility, addingKind, placementCells }; sceneRef.current?.update(design, { selected, walls, dimensions, ...visibility, placementCells }); if(pendingViewReset.current){pendingViewReset.current=false;sceneRef.current?.view('perspective');setViewMode('perspective');} }, [design, selected, walls, dimensions, visibility, addingKind, placementCells]);
   useEffect(() => {
     let active = true;
     import('./scene').then(({ createKitchenScene }) => {
       if (!active || !hostRef.current) return;
       try {
-        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if(id){setInspectorMode('edit');setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);revealEditor();} }, setError, setTextureStatus);
+        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if(id){setInspectorMode('edit');setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);revealEditor();} }, setError, setTextureStatus, cell=>{
+          const current=latest.current;if(!current.addingKind)return;
+          const id=componentId(current.addingKind),next=addCell(current.design,current.addingKind,id,cell);
+          if(!next){setPlacementNotice('This cell is occupied or too small for the room limit.');return;}
+          dispatch({type:'change',next,time:Date.now()});setAddingKind(null);setSelected(id);setInspectorMode('edit');setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);setPlacementNotice('');revealEditor();
+        });
         sceneRef.current = scene; const current = latest.current;
-        scene.update(current.design, { selected: current.selected, walls: current.walls, dimensions: current.dimensions, hidden:current.hidden,hideUppers:current.hideUppers,hideAppliances:current.hideAppliances,hideBacksplash:current.hideBacksplash,hideWindows:current.hideWindows });
+        scene.update(current.design, { selected: current.selected, walls: current.walls, dimensions: current.dimensions, hidden:current.hidden,hideUppers:current.hideUppers,hideAppliances:current.hideAppliances,hideBacksplash:current.hideBacksplash,hideWindows:current.hideWindows,placementCells:current.placementCells });
         scene.view('perspective'); setViewMode('perspective'); setReady(true); setError('');
       } catch { setError('This browser could not start the 3D view. Enable hardware acceleration or try a browser with WebGL 2 support. Your design controls are still available.'); }
     }).catch(() => { if (active) setError('The 3D viewer could not load. Check your connection and reload the view.'); });
@@ -109,25 +117,24 @@ export default function InfiniteGranite() {
   function toggleFinishes() { if(finishesOpen)finishToggle.current?.focus({preventScroll:true});setFinishesOpen(open=>!open); }
   function editComponent(patch: Partial<KitchenComponent>): KitchenComponent | null {
     if (!selectedComponent) return null;
-    const next=connectedEdit(design,selectedComponent.id,patch,flow);
+    const next=editCell(design,selectedComponent.id,patch);
     if(!next){setPlacementNotice('This edit is blocked by another piece or the 60 ft room limit. Try a different direction or size.');return selectedComponent;}
-    const expanded=next.roomWidth!==design.roomWidth||next.roomDepth!==design.roomDepth;
-    setPlacementNotice(expanded?'Connected pieces moved; room expanded to fit.':'Updated with overlap protection.');
+    setPlacementNotice('');
     commit(next,`component:${selected}:${Object.keys(patch).join()}`);
     return next.components.find(c=>c.id===selected)??null;
   }
-  function selectElement(id:string|null){setSelected(id);setInspectorMode('edit');setInspectorOpen(!!id);setPlacementNotice('');if(id){setFullscreenTab('edit');setFinishesOpen(true);revealEditor();}}
+  function selectElement(id:string|null){setAddingKind(null);setSelected(id);setInspectorMode('edit');setInspectorOpen(!!id);setPlacementNotice('');if(id){setFullscreenTab('edit');setFinishesOpen(true);revealEditor();}}
   function shiftElement(x:number,y:number){
     if(!selectedComponent)return;
     const delta=sceneRef.current?.shiftVector(x,y)??{x,z:-y};
-    const next=swapAdjacent(design,selectedComponent.id,delta.x?'x':'z',delta.x||delta.z);
-    if(next){commit(next);setPlacementNotice('Swapped adjacent pieces. The connected run keeps its length.');}
-    else setPlacementNotice('No clear adjacent piece to swap in that direction. Check wall cupboards or use Position for free movement.');
+    const next=moveCell(design,selectedComponent.id,Math.sign(delta.z),Math.sign(delta.x));
+    if(next){commit(next);setPlacementNotice('');}
+    else setPlacementNotice('That cell is outside the grid or blocked by a tall piece or wall cupboard.');
   }
   function replaceSelected(kind:ComponentKind){
     if(!selectedComponent)return;
-    const next=replaceComponent(design,selectedComponent.id,kind);
-    if(next){commit(next);setPlacementNotice(`Changed to ${KIND_NAMES[kind].toLowerCase()}.`);}
+    const next=replaceCell(design,selectedComponent.id,kind);
+    if(next){commit(next);setPlacementNotice('');}
     else setPlacementNotice('This replacement needs more space. Move any wall cupboard or appliance occupying its height, then try again.');
   }
 
@@ -136,21 +143,29 @@ export default function InfiniteGranite() {
   function loadLayout(layout: LayoutId) {
     if(layout==='custom'){setGridOpen(true);return;}
     pendingViewReset.current=true;
-    commit(d=>({...d,layout,gridSize:undefined,gridCellSize:undefined,roomWidth:216,roomDepth:192,components:presetComponents(layout)}));
+    commit(d=>ensureCells({...d,layout,gridSize:undefined,gridCellSize:undefined,gridColumns:undefined,gridRows:undefined,roomWidth:216,roomDepth:192,components:presetComponents(layout)})??d);setAddingKind(null);
     setGridOpen(false);setSelected(null);setMessage(`${layoutName(layout)} loaded. Your finish selections are retained.`);
   }
   function resizeRoom(key:'roomWidth'|'roomDepth',value:number) {
     const next=resizeKitchenRoom(design,key==='roomWidth'?value:design.roomWidth,key==='roomDepth'?value:design.roomDepth);
     if(next)commit(next,`room:${key}`);else setMessage('That room size would overlap components. Rearrange the pieces before making it smaller.');
   }
-  function undo() { dispatch({type:'undo'}); }
-  function redo() { dispatch({type:'redo'}); }
+  function undo() { setAddingKind(null);dispatch({type:'undo'}); }
+  function redo() { setAddingKind(null);dispatch({type:'redo'}); }
   function addComponent(kind:ComponentKind) {
     if(design.components.length>=MAX_COMPONENTS){setMessage(`This kitchen can contain up to ${MAX_COMPONENTS} components.`);return;}
-    const part=findPlacement(makeComponent(kind,componentId(kind)),design.components,design.roomWidth,design.roomDepth);
-    if(!part){setPlacementNotice('There is no clear space for that component. Remove a piece or enlarge the room first.');return;}
-    commit(d=>({...d,components:[...d.components,part]}));selectElement(part.id);setTab('components');setPlacementNotice('Placed in the nearest available space.');
+    const grid=ensureCells(design);
+    if(!grid){setPlacementNotice('This saved layout cannot fit in a grid. Choose a layout to start again.');return;}
+    commit(grid);setSelected(null);setAddingKind(kind);setTab('components');setInspectorOpen(true);setInspectorMode('edit');setFullscreenTab('edit');setFinishesOpen(true);setPlacementNotice('');
+    changeView('top');
   }
+  function placeInCell(cell:Cell){
+    if(!addingKind)return;
+    const id=componentId(addingKind),next=addCell(design,addingKind,id,cell);
+    if(next){commit(next);selectElement(id);}
+    else setPlacementNotice('This cell is no longer available.');
+  }
+
   function saveOption() {
     if (saved.length >= 4) { setCompareOpen(true); setMessage('Four options are saved. Remove an option to make room for another.'); return; }
     const name = ['Option A','Option B','Option C','Option D'].find(label=>!saved.some(option=>option.name===label)) ?? `Option ${saved.length + 1}`;
@@ -201,14 +216,14 @@ export default function InfiniteGranite() {
     // iPhone browsers without the Fullscreen API still get an edge-to-edge viewport viewer.
     if(stageRef.current?.requestFullscreen)try{await stageRef.current.requestFullscreen();}catch{/* Keep the viewport-filling fallback. */}
   }
-  const directEditor=<DirectEditor design={design} selected={selected} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onReplace={replaceSelected} onAdd={addComponent} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} flow={flow} onFlow={setFlow} notice={placementNotice}/>;
+  const directEditor=addingKind?<div className={styles.directBody}><div className={styles.pieceHeading}><h3>Add a component</h3><p>Click a green cell in the kitchen to place it.</p></div><label className={styles.selectLabel}>Component<select aria-label="Component to add" value={addingKind} onChange={e=>setAddingKind(e.target.value as ComponentKind)}>{Object.entries(KIND_NAMES).map(([kind,name])=><option key={kind} value={kind}>{name}</option>)}</select></label><button onClick={()=>setAddingKind(null)}>Cancel placement</button>{!placementCells?.length&&<p role="status">No available cells. Delete a piece or choose another component.</p>}<details className={styles.simpleDetails}><summary>Choose a cell from a list</summary><div className={styles.cellList}>{placementCells?.map(cell=><button key={`${cell.row}:${cell.column}`} onClick={()=>placeInCell(cell)}>Row {cell.row+1}, column {cell.column+1}</button>)}</div></details>{placementNotice&&<p role="status">{placementNotice}</p>}</div>:<DirectEditor design={design} selected={selected} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onReplace={replaceSelected} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} notice={placementNotice}/>;
   const roomEditor=<><RoomControls design={design} onChange={d=>commit(d)} onSelect={selectElement} onBoundary={boundary}/>{placementNotice&&<p className={styles.placementNotice} role="status">{placementNotice}</p>}</>;
-  const layoutEditor=(gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;commit(next);setGridOpen(false);setSelected(null);navigatePanel('edit');setPlacementNotice('Custom kitchen created. Select any piece to resize or move it.');}}/>:<>
+  const layoutEditor=(gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;setAddingKind(null);commit(next);setGridOpen(false);setSelected(null);navigatePanel('edit');setPlacementNotice('Custom kitchen created. Select any piece to resize or move it.');}}/>:<>
             <div className={styles.panelHeading}><h3>Choose your layout</h3></div><p className={styles.panelDescription}>Pick the closest match to your kitchen. You can adjust every piece later.</p>
 
             <div className={styles.layoutGrid}>{LAYOUTS.map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
             <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom kitchen</strong><small>Build your own floor plan</small></span><Plus size={18}/></button>
-            <details className={styles.simpleDetails}><summary>Room size & floor</summary><Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>
+            <details className={styles.simpleDetails}><summary>Room size & floor</summary>{!design.gridColumns&&<Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>}
             <Field label="Floor"><Choices label="Floor" value={design.floor} items={[{id:'oak',name:'Light oak'},{id:'walnut',name:'Walnut'},{id:'tile',name:'Stone tile'}]} onChange={v=>change('floor',v)}/></Field>
             </details><details className={styles.simpleDetails}><summary>Walls, windows & doors</summary>{roomEditor}<ColorPicker label="Walls" value={design.wallColor} onChange={v=>change('wallColor',v)}/></details>
           </>);
@@ -216,6 +231,7 @@ export default function InfiniteGranite() {
   const activePanel=viewerExpanded?fullscreenTab:inspectorOpen?(inspectorMode==='view'?'view':'edit'):tab==='components'?'edit':tab;
   const finishPanel=activePanel==='surfaces'||activePanel==='cupboards'||activePanel==='sink';
   function navigatePanel(next:typeof fullscreenTab){
+    if(next!=='edit')setAddingKind(null);
     setFullscreenTab(next);setFinishesOpen(true);
     if(next==='view'){setInspectorMode('view');setInspectorOpen(true);}
     else if(next==='edit'){setInspectorMode('edit');setInspectorOpen(true);}
@@ -233,7 +249,7 @@ export default function InfiniteGranite() {
     </header>
     <div className={styles.workspace}>
       <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={false} aria-label="Kitchen preview" role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
-        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Controls</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
+        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button className={styles.addCellButton} disabled={!!addingKind||design.components.length>=MAX_COMPONENTS} onClick={()=>addComponent('base')}><Plus size={18}/><span>Add Component</span></button>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Controls</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
         <div className={styles.canvasHost} ref={hostRef} />
         {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your kitchen</strong><span>Preparing materials and lighting…</span></div>}
         {error && <div className={styles.error}><Cube size={34} /><p>{error}</p><button onClick={() => { setReady(false); setError(''); setReload(v => v + 1); }}>Reload 3D view</button></div>}

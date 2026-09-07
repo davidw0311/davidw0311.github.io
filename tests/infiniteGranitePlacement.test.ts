@@ -221,6 +221,9 @@ test('many move, rotation and size edits never introduce collisions or leave the
     { row: 0, column: 2, kind: 'fridge' }, { row: 2, column: 2, kind: 'island' },
     { row: 0, column: 0, kind: 'upper' },
   ])!;
+  // Exercise the legacy free-placement engine without the new cell constraints.
+  design = {...design,gridColumns:undefined,gridRows:undefined,components:design.components.map(c=>{const legacy={...c,depth:c.kind==='upper'?12:c.depth};delete legacy.cell;return legacy;})};
+  delete design.gridColumns;delete design.gridRows;
   let seed = 41;
   const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   for (let i = 0; i < 300; i++) {

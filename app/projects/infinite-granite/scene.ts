@@ -1,3 +1,4 @@
+import type { Cell, CellTarget } from './cellLayout';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -8,7 +9,7 @@ import { defaultWalls, fitOpenings, WALL_SIDES, wallLength, cutOpenings, backspl
 import { countertopGeometry } from './sceneGeometry';
 
 export type ViewMode = 'perspective' | 'top' | 'front';
-export interface SceneOptions { selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
+export interface SceneOptions { placementCells?: CellTarget[]; selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
 export interface KitchenScene {
   update: (design: KitchenDesign, options: SceneOptions) => void;
   view: (mode: ViewMode) => void;
@@ -28,7 +29,7 @@ type CachedTexture = {
   touched: number;
 };
 
-export function createKitchenScene(host: HTMLElement, onSelect: (id: string | null) => void, onError: (message: string) => void, onTextureStatus: (message: string | null) => void = () => {}): KitchenScene {
+export function createKitchenScene(host: HTMLElement, onSelect: (id: string | null) => void, onError: (message: string) => void, onTextureStatus: (message: string | null) => void = () => {}, onPlaceCell: (cell: Cell) => void = () => {}): KitchenScene {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true, powerPreference: 'low-power' });
   // Initialization can fail after WebGL allocates its context; return every acquired resource.
   const initializationCleanup: (() => void)[] = [() => renderer.dispose(), () => renderer.domElement.remove()];
@@ -72,7 +73,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   let activeLoads = 0;
   let lastTextureStatus: string | null = null;
   let current: KitchenDesign; let options: SceneOptions; let viewMode: ViewMode = 'perspective'; let disposed = false;
-  let pickables: THREE.Object3D[] = [];
+  let pickables: THREE.Object3D[] = []; let cellPickables: THREE.Object3D[] = [];
   const render = () => { if (!disposed) renderer.render(scene, camera); };
   controls.addEventListener('change', render);
   let previousAspect: number | null = null;
@@ -126,7 +127,12 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         record.texture.dispose();
         record.texture.image = loaded.image; record.texture.needsUpdate = true;
         loaded.dispose(); record.pending = undefined; record.state = 'ready';
-        trimTextureCache(); textureStatus(); startTextureLoads();
+        for(const cell of options.placementCells??[]){
+      const tile=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1,cell.width-2),Math.max(1,cell.depth-2)),new THREE.MeshBasicMaterial({color:'#3aad87',transparent:true,opacity:.45,depthTest:false,depthWrite:false,side:THREE.DoubleSide}));
+      tile.rotation.x=-Math.PI/2;tile.position.set(cell.x,1,cell.z);tile.renderOrder=10;tile.userData.cell={row:cell.row,column:cell.column};model.add(tile);cellPickables.push(tile);
+    }
+    renderer.domElement.style.cursor=options.placementCells?'crosshair':'grab';
+    trimTextureCache(); textureStatus(); startTextureLoads();
         if (activeTextureIds.has(id)) render();
       }, undefined, () => {
         activeLoads--;
@@ -200,7 +206,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) { geometries.add(o.geometry); (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => materials.add(m)); }
       if (o instanceof THREE.Sprite) { o.material.map?.dispose(); materials.add(o.material); }
     });
-    geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); model.clear(); pickables = []; activeTextureIds.clear();
+    geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); model.clear(); pickables = []; cellPickables=[]; activeTextureIds.clear();
   }
   function label(text: string, x: number, y: number, z: number) {
     const canvas = document.createElement('canvas'); canvas.width = 384; canvas.height = 80;
@@ -365,6 +371,11 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         const outline=new THREE.Box3Helper(new THREE.Box3().setFromObject(group),new THREE.Color('#218966'));model.add(outline);
       }
     }
+    for(const cell of options.placementCells??[]){
+      const tile=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1,cell.width-2),Math.max(1,cell.depth-2)),new THREE.MeshBasicMaterial({color:'#3aad87',transparent:true,opacity:.45,depthTest:false,depthWrite:false,side:THREE.DoubleSide}));
+      tile.rotation.x=-Math.PI/2;tile.position.set(cell.x,1,cell.z);tile.renderOrder=10;tile.userData.cell={row:cell.row,column:cell.column};model.add(tile);cellPickables.push(tile);
+    }
+    renderer.domElement.style.cursor=options.placementCells?'crosshair':'grab';
     trimTextureCache(); textureStatus(); startTextureLoads();
     renderer.shadowMap.needsUpdate = true; render();
   }
@@ -386,7 +397,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     pointers.delete(event.pointerId);
     if(!down||down.id!==event.pointerId||pointers.size>0||Math.hypot(event.clientX-down.x,event.clientY-down.y)>5){down=null;return;}down=null;
     const rect=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);
-    raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(pickables,false)[0];onSelect(hit?.object.userData.componentId??null);
+    raycaster.setFromCamera(pointer,camera);if(options.placementCells){const hit=raycaster.intersectObjects(cellPickables,false)[0];if(hit)onPlaceCell(hit.object.userData.cell);return;}const hit=raycaster.intersectObjects(pickables,false)[0];onSelect(hit?.object.userData.componentId??null);
   };
   const zoom=(factor:number)=>{if(disposed)return;const delta=camera.position.clone().sub(controls.target);delta.multiplyScalar(factor).clampLength(controls.minDistance,controls.maxDistance);camera.position.copy(controls.target).add(delta);controls.update();render();};
   const orbit=(angle:number)=>{if(disposed)return;const delta=camera.position.clone().sub(controls.target);delta.applyAxisAngle(new THREE.Vector3(0,1,0),angle);camera.position.copy(controls.target).add(delta);controls.update();render();};

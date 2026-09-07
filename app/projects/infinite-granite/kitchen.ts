@@ -1,3 +1,4 @@
+import { reflowCells } from './cellLayout.ts';
 import type { RoomWalls, RoomOpening } from './room.ts';
 import { MATERIALS } from './materials.ts';
 export { MATERIALS } from './materials.ts';
@@ -10,11 +11,11 @@ export type Finish = 'steel' | 'black' | 'brass' | 'white';
 export interface KitchenComponent {
   id: string; kind: ComponentKind; name: string;
   x: number; z: number; rotation: number; width: number; depth: number; height: number;
-  color?: string; material?: string;
+  color?: string; material?: string; cell?: { row:number; column:number };
 }
 export interface KitchenDesign {
   version: 1; layout: LayoutId; roomWidth: number; roomDepth: number;
-  gridSize?: number; gridCellSize?: number;
+  gridSize?: number; gridCellSize?: number; gridColumns?:number[]; gridRows?:number[];
   patternContrast?: number;
   roomWalls?: RoomWalls; openings?: RoomOpening[];
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
@@ -141,6 +142,7 @@ export function parseDesign(input: unknown): KitchenDesign | null {
     if (c.color !== undefined && (typeof c.color !== 'string' || !hex.test(c.color))) return null;
     if (c.material !== undefined && !MATERIALS.some(m => m.id === c.material)) return null;
   }
+  if(d.gridColumns!==undefined||d.gridRows!==undefined||d.components.some(c=>c.cell!==undefined))return reflowCells(d);
   return { ...d, components: d.components.map(c => clampComponent(c, d.roomWidth, d.roomDepth)) };
 }
 
