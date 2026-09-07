@@ -27,7 +27,7 @@ function intersects(a0: number, a1: number, b0: number, b1: number, tolerance = 
 /** The range includes its hood. Uppers can share floor area with low cabinetry. */
 export function sharesHeight(a: KitchenComponent, b: KitchenComponent): boolean {
   const bottom = (c: KitchenComponent) => c.kind === 'upper' ? 54 : 0;
-  const top = (c: KitchenComponent) => c.kind === 'range' ? c.height + 60 : c.kind === 'sink' ? c.height + 15 : bottom(c) + c.height;
+  const top = (c: KitchenComponent) => c.kind === 'range' ? c.height + 60 : c.kind === 'vanity' ? c.height + 54 : c.kind === 'sink' ? c.height + 15 : bottom(c) + c.height;
   return intersects(bottom(a), top(a), bottom(b), top(b));
 }
 export function componentsOverlap(a: KitchenComponent, b: KitchenComponent): boolean {

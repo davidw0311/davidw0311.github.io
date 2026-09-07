@@ -3,11 +3,12 @@
 import { useCallback, useEffect, useReducer, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Cube, FloppyDisk, Minus, Plus, SquaresFour, Stack, SlidersHorizontal, Trash, X } from '@phosphor-icons/react';
-import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
+import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, BATHROOM_LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
 import DirectEditor, { RoomControls } from './DirectEditor';
 import { moveBoundary } from './connectedEdit';
 import { addCell, availableCells, editCell, ensureCells, moveCell, replaceCell, resizeCells, type Cell } from './cellLayout';
 import type { WallSide } from './room';
+import { bathroomDesign } from './bathrooms';
 import GridBuilder from './GridBuilder';
 import FinishControls, { Field, Range, Choices, ColorPicker, type FinishTab } from './FinishControls';
 import { materialLabel } from './materials';
@@ -59,7 +60,7 @@ export default function InfiniteGranite() {
   const selectedComponent = design.components.find(c => c.id === selected);
   const material = MATERIALS.find(m => m.id === design.countertop)!;
   const overlaps = collisionPairs(design.components);
-  function revealEditor(){requestAnimationFrame(()=>{if(stageRef.current?.getAttribute('role')!=='dialog'&&window.matchMedia('(max-width:900px)').matches)document.querySelector<HTMLElement>('[aria-label="Kitchen customization"]')?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});}
+  function revealEditor(){requestAnimationFrame(()=>{if(stageRef.current?.getAttribute('role')!=='dialog'&&window.matchMedia('(max-width:900px)').matches)document.querySelector<HTMLElement>('[aria-label="Room customization"]')?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});}
 
   useEffect(() => {
     let active = true;
@@ -115,7 +116,7 @@ export default function InfiniteGranite() {
   }, []);
   function change<K extends keyof KitchenDesign>(key: K, value: KitchenDesign[K]) { commit(d => ({ ...d, [key]: value })); }
   function matchCupboards() { commit(d=>({...d,upperColor:d.cabinetColor,islandColor:d.cabinetColor})); }
-  function arrangeSink() { const sink=design.components.find(c=>c.kind==='sink');if(sink){selectElement(sink.id);setTab('components');}else addComponent('sink'); }
+  function arrangeSink() { const sink=design.components.find(c=>c.kind==='sink'||c.kind==='vanity');if(sink){selectElement(sink.id);setTab('components');}else addComponent(design.roomType==='bathroom'?'vanity':'sink'); }
   function toggleFinishes() { if(finishesOpen)finishToggle.current?.focus({preventScroll:true});setFinishesOpen(open=>!open); }
   function editComponent(patch: Partial<KitchenComponent>): KitchenComponent | null {
     if (!selectedComponent) return null;
@@ -145,8 +146,9 @@ export default function InfiniteGranite() {
   function boundary(side:WallSide,delta:number){const next=moveBoundary(design,side,delta);if(next){commit(next);setPlacementNotice('Boundary moved.');}else setPlacementNotice('That boundary would overlap or exclude a component. Move the piece first.');}
   function loadLayout(layout: LayoutId) {
     if(layout==='custom'){setGridOpen(true);return;}
+    if(layout.startsWith('bath-')){pendingViewReset.current=true;commit(bathroomDesign(layout,design));setMultiSelect(false);setMultiIds([]);setGridOpen(false);setSelected(null);setAddingKind(null);setMessage(`${layoutName(layout)} loaded.`);return;}
     pendingViewReset.current=true;setMultiSelect(false);setMultiIds([]);
-    commit(d=>ensureCells({...d,layout,independentSizes:undefined,gridSize:undefined,gridCellSize:undefined,gridColumns:undefined,gridRows:undefined,roomWidth:216,roomDepth:192,components:presetComponents(layout)})??d);setAddingKind(null);
+    commit(d=>ensureCells({...d,layout,roomType:'kitchen',independentSizes:undefined,gridSize:undefined,gridCellSize:undefined,gridColumns:undefined,gridRows:undefined,roomWidth:216,roomDepth:192,components:presetComponents(layout)})??d);setAddingKind(null);
     setGridOpen(false);setSelected(null);setMessage(`${layoutName(layout)} loaded. Your finish selections are retained.`);
   }
   function resizeRoom(key:'roomWidth'|'roomDepth',value:number) {
@@ -157,7 +159,7 @@ export default function InfiniteGranite() {
   function redo() { setAddingKind(null);dispatch({type:'redo'}); }
   function addComponent(kind:ComponentKind) {
     setMultiSelect(false);setMultiIds([]);
-    if(design.components.length>=MAX_COMPONENTS){setMessage(`This kitchen can contain up to ${MAX_COMPONENTS} components.`);return;}
+    if(design.components.length>=MAX_COMPONENTS){setMessage(`This room can contain up to ${MAX_COMPONENTS} components.`);return;}
     const grid=ensureCells(design);
     if(!grid){setPlacementNotice('This saved layout cannot fit in a grid. Choose a layout to start again.');return;}
     commit(grid);setSelected(null);setAddingKind(kind);setTab('components');setInspectorOpen(true);setInspectorMode('edit');setFullscreenTab('edit');setFinishesOpen(true);setPlacementNotice('');
@@ -180,7 +182,7 @@ export default function InfiniteGranite() {
   function changeView(mode: ViewMode) { setViewMode(mode); sceneRef.current?.view(mode); }
   function snapshot() {
     if (!sceneRef.current || error) return;
-    const link = document.createElement('a'); link.href = sceneRef.current.screenshot(); link.download = 'InfiniteGranite-kitchen.png'; link.click(); setMessage('Kitchen image downloaded.');
+    const link = document.createElement('a'); link.href = sceneRef.current.screenshot(); link.download = 'InfiniteGranite-room.png'; link.click(); setMessage('Room image downloaded.');
   }
   const exitFullscreen = useCallback(() => {
     setViewerExpanded(false);
@@ -220,13 +222,13 @@ export default function InfiniteGranite() {
     // iPhone browsers without the Fullscreen API still get an edge-to-edge viewport viewer.
     if(stageRef.current?.requestFullscreen)try{await stageRef.current.requestFullscreen();}catch{/* Keep the viewport-filling fallback. */}
   }
-  const directEditor=addingKind?<div className={styles.directBody}><div className={styles.pieceHeading}><h3>Add a component</h3><p>Click a green cell in the kitchen to place it.</p></div><label className={styles.selectLabel}>Component<select aria-label="Component to add" value={addingKind} onChange={e=>setAddingKind(e.target.value as ComponentKind)}>{Object.entries(KIND_NAMES).map(([kind,name])=><option key={kind} value={kind}>{name}</option>)}</select></label><button onClick={()=>setAddingKind(null)}>Cancel placement</button>{!placementCells?.length&&<p role="status">No available cells. Delete a piece or choose another component.</p>}<details className={styles.simpleDetails}><summary>Choose a cell from a list</summary><div className={styles.cellList}>{placementCells?.map(cell=><button key={`${cell.row}:${cell.column}`} onClick={()=>placeInCell(cell)}>Row {cell.row+1}, column {cell.column+1}</button>)}</div></details>{placementNotice&&<p role="status">{placementNotice}</p>}</div>:<DirectEditor design={design} selected={multiSelect?selectedIds[0]??null:selected} selectedIds={selectedIds} multiSelect={multiSelect} onMultiSelect={value=>{setMultiSelect(value);setMultiIds(selectedIds);if(!value)setSelected(selectedIds[0]??null);setPlacementNotice('');}} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onReplace={replaceSelected} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} notice={placementNotice}/>;
+  const directEditor=addingKind?<div className={styles.directBody}><div className={styles.pieceHeading}><h3>Add a component</h3><p>Click a green cell in the room to place it.</p></div><label className={styles.selectLabel}>Component<select aria-label="Component to add" value={addingKind} onChange={e=>setAddingKind(e.target.value as ComponentKind)}>{Object.entries(KIND_NAMES).map(([kind,name])=><option key={kind} value={kind}>{name}</option>)}</select></label><button onClick={()=>setAddingKind(null)}>Cancel placement</button>{!placementCells?.length&&<p role="status">No available cells. Delete a piece or choose another component.</p>}<details className={styles.simpleDetails}><summary>Choose a cell from a list</summary><div className={styles.cellList}>{placementCells?.map(cell=><button key={`${cell.row}:${cell.column}`} onClick={()=>placeInCell(cell)}>Row {cell.row+1}, column {cell.column+1}</button>)}</div></details>{placementNotice&&<p role="status">{placementNotice}</p>}</div>:<DirectEditor design={design} selected={multiSelect?selectedIds[0]??null:selected} selectedIds={selectedIds} multiSelect={multiSelect} onMultiSelect={value=>{setMultiSelect(value);setMultiIds(selectedIds);if(!value)setSelected(selectedIds[0]??null);setPlacementNotice('');}} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onReplace={replaceSelected} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} notice={placementNotice}/>;
   const roomEditor=<><RoomControls design={design} onChange={d=>commit(d)} onSelect={selectElement} onBoundary={boundary}/>{placementNotice&&<p className={styles.placementNotice} role="status">{placementNotice}</p>}</>;
-  const layoutEditor=(gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;setMultiSelect(false);setMultiIds([]);setAddingKind(null);commit(next);setGridOpen(false);setSelected(null);navigatePanel('edit');setPlacementNotice('Custom kitchen created. Select any piece to resize or move it.');}}/>:<>
-            <div className={styles.panelHeading}><h3>Choose your layout</h3></div><p className={styles.panelDescription}>Pick the closest match to your kitchen. You can adjust every piece later.</p>
+  const layoutEditor=(gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;setMultiSelect(false);setMultiIds([]);setAddingKind(null);commit(next);setGridOpen(false);setSelected(null);navigatePanel('edit');setPlacementNotice('Custom room created. Select any piece to resize or move it.');}}/>:<>
+            <div className={styles.panelHeading}><h3>Choose your layout</h3></div><Choices label="Room type" value={design.roomType??'kitchen'} items={[{id:'kitchen',name:'Kitchen'},{id:'bathroom',name:'Bathroom'}]} onChange={value=>loadLayout(value==='bathroom'?'bath-full':'island')}/><p className={styles.panelDescription}>Pick the closest match to your room. You can adjust every piece later.</p>
 
-            <div className={styles.layoutGrid}>{LAYOUTS.map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
-            <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom kitchen</strong><small>Build your own floor plan</small></span><Plus size={18}/></button>
+            <div className={styles.layoutGrid}>{(design.roomType==='bathroom'?BATHROOM_LAYOUTS:LAYOUTS).map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
+            <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom room</strong><small>Build your own floor plan</small></span><Plus size={18}/></button>
             <details className={styles.simpleDetails}><summary>Room size & floor</summary>{!design.gridColumns&&<Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>}
             <Field label="Floor"><Choices label="Floor" value={design.floor} items={[{id:'oak',name:'Light oak'},{id:'walnut',name:'Walnut'},{id:'tile',name:'Stone tile'}]} onChange={v=>change('floor',v)}/></Field>
             </details><details className={styles.simpleDetails}><summary>Walls, windows & doors</summary>{roomEditor}<ColorPicker label="Walls" value={design.wallColor} onChange={v=>change('wallColor',v)}/></details>
@@ -252,17 +254,17 @@ export default function InfiniteGranite() {
       <div className={styles.headerActions}><span className={styles.localNote}>{storageStatus}</span><button className={styles.saveButton} aria-label="Save option" onClick={saveOption}><FloppyDisk size={17} /><span>Save look</span></button><button className={styles.compareButton} aria-label={`Compare ${saved.length} saved options`} onClick={() => setCompareOpen(!compareOpen)} aria-expanded={compareOpen}><Stack size={18} /><span>Compare</span><small>{saved.length}</small></button></div>
     </header>
     <div className={styles.workspace}>
-      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={false} aria-label="Kitchen preview" role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
-        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button className={styles.addCellButton} disabled={!!addingKind||design.components.length>=MAX_COMPONENTS} onClick={()=>addComponent('base')}><Plus size={18}/><span>Add Component</span></button>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Controls</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
+      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={false} aria-label={design.roomType==='bathroom'?'Bathroom preview':'Kitchen preview'} role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
+        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR ROOM / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button className={styles.addCellButton} disabled={!!addingKind||design.components.length>=MAX_COMPONENTS} onClick={()=>addComponent(design.roomType==='bathroom'?'vanity':'base')}><Plus size={18}/><span>Add Component</span></button>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Room finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Controls</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
         <div className={styles.canvasHost} ref={hostRef} />
-        {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your kitchen</strong><span>Preparing materials and lighting…</span></div>}
+        {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your room</strong><span>Preparing materials and lighting…</span></div>}
         {error && <div className={styles.error}><Cube size={34} /><p>{error}</p><button onClick={() => { setReady(false); setError(''); setReload(v => v + 1); }}>Reload 3D view</button></div>}
         <div className={styles.sceneControls}>
           <div className={styles.viewButtons} role="group" aria-label="Camera view"><button aria-pressed={viewMode === 'perspective'} onClick={() => changeView('perspective')}><Cube size={17} />3D</button><button aria-pressed={viewMode === 'top'} onClick={() => changeView('top')}><SquaresFour size={17} />Top</button><button aria-pressed={viewMode === 'front'} onClick={() => changeView('front')}>Front</button></div>
-          <div className={styles.tools}><button aria-label="Zoom out" onClick={() => sceneRef.current?.zoom(1.15)}><Minus size={18}/></button><button aria-label="Zoom in" onClick={() => sceneRef.current?.zoom(.87)}><Plus size={18}/></button><button ref={fullscreenTrigger} aria-label={viewerExpanded?'Return to editor':'Full screen kitchen'} aria-pressed={viewerExpanded} onClick={fullscreen}><ArrowsOut size={19}/></button></div>
+          <div className={styles.tools}><button aria-label="Zoom out" onClick={() => sceneRef.current?.zoom(1.15)}><Minus size={18}/></button><button aria-label="Zoom in" onClick={() => sceneRef.current?.zoom(.87)}><Plus size={18}/></button><button ref={fullscreenTrigger} aria-label={viewerExpanded?'Return to editor':'Full screen room'} aria-pressed={viewerExpanded} onClick={fullscreen}><ArrowsOut size={19}/></button></div>
         </div>
         {viewerExpanded&&<aside id="fullscreen-finish-controls" className={styles.fullscreenFinishes} aria-label="Full screen finish controls" hidden={!finishesOpen} inert={!finishesOpen}>
-          <header className={styles.finishPanelHeading}><h3>Your kitchen</h3><button aria-label="Close finish panel" onClick={toggleFinishes}><X size={18}/></button></header>
+          <header className={styles.finishPanelHeading}><h3>Your room</h3><button aria-label="Close finish panel" onClick={toggleFinishes}><X size={18}/></button></header>
           {panelNavigation}
           <div className={styles.finishPanelBody} key={activePanel}>{panelContent}</div>
           <p className={styles.finishPanelStatus}>{storageStatus}</p>
@@ -271,7 +273,7 @@ export default function InfiniteGranite() {
         <div className={styles.stageBottom}><p>Drag to look around · Click a piece to edit</p><button className={styles.viewSettings} onClick={()=>navigatePanel('view')}>View options</button></div>
         {overlaps.length > 0 && <div className={styles.collisionNote} role="status">{overlaps.length} overlapping {overlaps.length === 1 ? 'pair' : 'pairs'} · Adjust placement in Arrange.</div>}
       </section>
-      <aside className={styles.editor} inert={viewerExpanded} aria-label="Kitchen customization">{!viewerExpanded&&<>
+      <aside className={styles.editor} inert={viewerExpanded} aria-label="Room customization">{!viewerExpanded&&<>
         {panelNavigation}
         <div className={styles.panel} key={activePanel}>{panelContent}
           <p className={styles.editorFootnote}>An approximate design preview. Confirm dimensions and material samples before renovating.</p>

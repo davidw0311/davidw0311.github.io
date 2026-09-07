@@ -40,7 +40,7 @@ export default function FinishControls({ tab, design, onChange, onMatchCupboards
   return <>
     {tab === 'surfaces' && <>
       <div className={styles.panelHeading}><h3>Countertops</h3><span>{MATERIALS.length} finishes</span></div>
-      <p className={styles.panelDescription}>Choose a surface to see it in your kitchen.</p>
+      <p className={styles.panelDescription}>Choose a surface to see it in your room.</p>
       <details className={styles.simpleDetails}><summary>Edges, backsplash & pattern</summary>      <div className={styles.contrastControl}><Field label="Pattern visibility" note="Enhance veins and grain in the 3D preview."><Choices label="Pattern visibility" value={String(design.patternContrast??2)} items={[{id:'1',name:'Natural'},{id:'2',name:'Enhanced'},{id:'3',name:'Bold'}]} onChange={value=>onChange('patternContrast',Number(value))}/></Field></div>
       <Field label="Countertop thickness"><Choices label="Countertop thickness" value={String(design.counterThickness)} items={[{ id: '0.75', name: '¾ inch' }, { id: '1.25', name: '1¼ inch' }, { id: '2', name: '2 inch' }]} onChange={v => onChange('counterThickness', Number(v))} /></Field>
       <label className={styles.toggle}><span><strong>Waterfall island</strong><small>Carry the stone down the sides</small></span><input type="checkbox" checked={design.waterfall} onChange={e => onChange('waterfall', e.target.checked)} /></label>
