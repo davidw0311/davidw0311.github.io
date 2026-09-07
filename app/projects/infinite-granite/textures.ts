@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { MATERIALS } from './kitchen';
 
-export function materialTexture(id: string): THREE.CanvasTexture {
+export function materialTexture(id: string, neutral = false): THREE.CanvasTexture {
   const entry = MATERIALS.find(m => m.id === id) ?? MATERIALS[0];
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512;
   const ctx = canvas.getContext('2d')!;
@@ -49,6 +49,7 @@ export function materialTexture(id: string): THREE.CanvasTexture {
     ctx.fillStyle = random() > .5 ? 'rgba(0,0,0,.025)' : 'rgba(255,255,255,.04)';
     ctx.fillRect(random() * 512, random() * 512, 1, 1);
   }
+  if(neutral){const pixels=ctx.getImageData(0,0,512,512),base=parseInt(entry.color.slice(1),16),light=((base>>16)*.2126+((base>>8)&255)*.7152+(base&255)*.0722);for(let i=0;i<pixels.data.length;i+=4){const shade=Math.min(255,255*(pixels.data[i]*.2126+pixels.data[i+1]*.7152+pixels.data[i+2]*.0722)/Math.max(1,light));pixels.data[i]=pixels.data[i+1]=pixels.data[i+2]=shade;}ctx.putImageData(pixels,0,0);}
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping; texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;

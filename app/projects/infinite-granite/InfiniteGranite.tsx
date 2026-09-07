@@ -3,12 +3,14 @@
 import { useCallback, useEffect, useReducer, useRef, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Cube, FloppyDisk, Minus, Plus, SquaresFour, Stack, SlidersHorizontal, Trash, X } from '@phosphor-icons/react';
-import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, BATHROOM_LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
+import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, BATHROOM_LAYOUTS, MATERIALS, collisionPairs, colorName, inches, parseDesign, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
 import DirectEditor, { RoomControls } from './DirectEditor';
 import { moveBoundary } from './connectedEdit';
 import { applyPieceAction, type PieceAction } from './editActions';
 import { addCell, availableCells, ensureCells, type Cell } from './cellLayout';
 import type { WallSide } from './room';
+import { kitchenPresetDesign } from './kitchenPresets';
+import { FLOOR_FINISHES, WALL_FINISHES } from './roomFinishes';
 import { bathroomDesign } from './bathrooms';
 import GridBuilder from './GridBuilder';
 import FinishControls, { Field, Range, Choices, ColorPicker, type FinishTab } from './FinishControls';
@@ -29,7 +31,7 @@ function LayoutGlyph({ layout }: { layout: LayoutId }) {
 }
 
 export default function InfiniteGranite() {
-  const [state, dispatch] = useReducer(editorHistory, undefined, () => ({design:ensureCells(defaultDesign())??defaultDesign(),past:[],future:[],time:0}));
+  const [state, dispatch] = useReducer(editorHistory, undefined, () => ({design:kitchenPresetDesign('island'),past:[],future:[],time:0}));
   const design = state.design, undoCount = state.past.length, redoCount = state.future.length;
   const [tab, setTab] = useState<Tab>('surfaces');
   const [selected, setSelected] = useState<string | null>(null);
@@ -154,7 +156,7 @@ export default function InfiniteGranite() {
     if(layout==='custom'){setGridOpen(true);return;}
     if(layout.startsWith('bath-')){pendingViewReset.current=true;commit(bathroomDesign(layout,design));setMultiSelect(false);setMultiIds([]);setGridOpen(false);setSelected(null);setAddingKind(null);setMessage(`${layoutName(layout)} loaded.`);return;}
     pendingViewReset.current=true;setMultiSelect(false);setMultiIds([]);
-    commit(d=>ensureCells({...d,layout,roomType:'kitchen',independentSizes:undefined,gridSize:undefined,gridCellSize:undefined,gridColumns:undefined,gridRows:undefined,roomWidth:216,roomDepth:192,components:presetComponents(layout)})??d);setAddingKind(null);
+    commit(d=>kitchenPresetDesign(layout,d));setAddingKind(null);
     setGridOpen(false);setSelected(null);setMessage(`${layoutName(layout)} loaded. Your finish selections are retained.`);
   }
   function resizeRoom(key:'roomWidth'|'roomDepth',value:number) {
@@ -235,8 +237,8 @@ export default function InfiniteGranite() {
 
             <div className={styles.layoutGrid}>{(design.roomType==='bathroom'?BATHROOM_LAYOUTS:LAYOUTS).map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
             <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom room</strong><small>Build your own floor plan</small></span><Plus size={18}/></button>
-            <details className={styles.simpleDetails}><summary>Room size & floor</summary>{!design.gridColumns&&<Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>}
-            <Field label="Floor"><Choices label="Floor" value={design.floor} items={[{id:'oak',name:'Light oak'},{id:'walnut',name:'Walnut'},{id:'tile',name:'Stone tile'}]} onChange={v=>change('floor',v)}/></Field>
+            <details className={styles.simpleDetails}><summary>Floor, walls & background</summary>{!design.gridColumns&&<Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>}
+            <Field label="Floor"><Choices label="Floor" value={design.floor} items={[...FLOOR_FINISHES]} onChange={v=>commit(d=>({...d,floor:v,floorColor:undefined}))}/></Field><ColorPicker label="Floor colour" value={design.floorColor??FLOOR_FINISHES.find(f=>f.id===design.floor)!.color} onChange={v=>change('floorColor',v)}/><Field label="Wall material"><Choices label="Wall material" value={design.wallMaterial??'paint'} items={[...WALL_FINISHES]} onChange={v=>change('wallMaterial',v)}/></Field><ColorPicker label="Wall colour" value={design.wallColor} onChange={v=>change('wallColor',v)}/><ColorPicker label="Background colour" value={design.backgroundColor??'#e7ece6'} onChange={v=>change('backgroundColor',v)}/>
             </details><details className={styles.simpleDetails}><summary>Walls, windows & doors</summary>{roomEditor}<ColorPicker label="Walls" value={design.wallColor} onChange={v=>change('wallColor',v)}/></details>
           </>);
   const visibilityEditor=<div className={styles.directBody}><h3>Show / hide</h3><label className={styles.flowToggle}><input type="checkbox" checked={walls} onChange={e=>setWalls(e.target.checked)}/>Walls</label>{([{key:'hideUppers',name:'Wall cupboards'},{key:'hideAppliances',name:'Appliances'},{key:'hideBacksplash',name:'Backsplash'},{key:'hideWindows',name:'Windows & doors'}] as const).map(({key,name})=><label className={styles.flowToggle} key={key}><input type="checkbox" checked={!visibility[key]} onChange={e=>setVisibility(v=>({...v,[key]:!e.target.checked}))}/>{name}</label>)}<button className={styles.showAll} onClick={()=>{setWalls(true);setVisibility({hidden:[],hideUppers:false,hideAppliances:false,hideBacksplash:false,hideWindows:false});}}>Show all{visibility.hidden.length?` (${visibility.hidden.length} hidden)`:''}</button></div>;
@@ -254,13 +256,13 @@ export default function InfiniteGranite() {
     {finishPanel&&<nav className={styles.finishSubtabs} aria-label="Choose a finish">{TABS.filter(t=>t.id==='surfaces'||t.id==='cupboards'||t.id==='sink').map(t=><button key={t.id} aria-pressed={activePanel===t.id} onClick={()=>navigatePanel(t.id as FinishTab)}>{t.id==='surfaces'?'Countertops':t.label}</button>)}</nav>}
   </div>;
   const panelContent=finishPanel?<FinishControls tab={activePanel} design={design} onChange={change} onMatchCupboards={matchCupboards} onArrangeSink={arrangeSink}/>:activePanel==='edit'?directEditor:activePanel==='view'?<><button className={styles.backToFinishes} onClick={()=>navigatePanel('surfaces')}>← Back to finishes</button>{visibilityEditor}<details className={styles.directDetails}><summary>Camera & image</summary><div className={styles.directActions}><button onClick={()=>sceneRef.current?.orbit(-Math.PI/8)}>Rotate view left</button><button onClick={()=>sceneRef.current?.orbit(Math.PI/8)}>Rotate view right</button><button aria-pressed={dimensions} onClick={()=>setDimensions(!dimensions)}>Room dimensions</button><button disabled={!ready||!!error} onClick={snapshot}><Camera size={16}/>Save image</button></div></details></>:activePanel==='room'?roomEditor:layoutEditor;
-  return <main className={styles.studio}>
+  return <main className={styles.studio} data-custom-background={!!design.backgroundColor} style={{backgroundColor:design.backgroundColor}}>
     <header className={styles.header} inert={viewerExpanded}>
       <div className={styles.brand}><Link href="/#space" aria-label="Back to David’s projects" className={styles.back}><ArrowLeft size={19} /></Link><span className={styles.brandMark}><Cube size={28} weight="light" /></span><div><h1>Infinite<span>Granite</span></h1><p>KITCHEN DESIGN STUDIO</p></div></div>
       <div className={styles.headerActions}><span className={styles.localNote}>{storageStatus}</span><button className={styles.saveButton} aria-label="Save option" onClick={saveOption}><FloppyDisk size={17} /><span>Save look</span></button><button className={styles.compareButton} aria-label={`Compare ${saved.length} saved options`} onClick={() => setCompareOpen(!compareOpen)} aria-expanded={compareOpen}><Stack size={18} /><span>Compare</span><small>{saved.length}</small></button></div>
     </header>
     <div className={styles.workspace}>
-      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={false} aria-label={design.roomType==='bathroom'?'Bathroom preview':'Kitchen preview'} role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
+      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} style={{background:design.backgroundColor}} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={false} aria-label={design.roomType==='bathroom'?'Bathroom preview':'Kitchen preview'} role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
         <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR ROOM / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button className={styles.addCellButton} disabled={!!addingKind||design.components.length>=MAX_COMPONENTS} onClick={()=>addComponent(design.roomType==='bathroom'?'vanity':'base')}><Plus size={18}/><span>Add Component</span></button>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Room finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Controls</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
         <div className={styles.canvasHost} ref={hostRef} />
         {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your room</strong><span>Preparing materials and lighting…</span></div>}
