@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowCounterClockwise, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Check, Cube, FloppyDisk, Minus, Plus, Ruler, SquaresFour, Stack, SlidersHorizontal, Trash, X } from '@phosphor-icons/react';
 import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, makeComponent, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
 import DirectEditor, { RoomControls } from './DirectEditor';
-import { connectedEdit, moveBoundary } from './connectedEdit';
+import { connectedEdit, moveBoundary, swapAdjacent, replaceComponent } from './connectedEdit';
 import type { WallSide } from './room';
 import GridBuilder from './GridBuilder';
 import FinishControls, { Field, Range, Choices, ColorPicker, type FinishTab } from './FinishControls';
@@ -39,6 +39,7 @@ export default function InfiniteGranite() {
   const [viewerExpanded, setViewerExpanded] = useState(false);
   const [finishesOpen, setFinishesOpen] = useState(true);
   const [fullscreenTab, setFullscreenTab] = useState<FinishTab|'edit'|'room'|'view'>('surfaces');
+  const [inspectorMode,setInspectorMode]=useState<'edit'|'view'>('edit');
   const [inspectorOpen,setInspectorOpen]=useState(false),[flow,setFlow]=useState(true);
   const [visibility,setVisibility]=useState({hidden:[] as string[],hideUppers:false,hideAppliances:false,hideBacksplash:false,hideWindows:false});
   const finishToggle = useRef<HTMLButtonElement>(null);
@@ -88,7 +89,7 @@ export default function InfiniteGranite() {
     import('./scene').then(({ createKitchenScene }) => {
       if (!active || !hostRef.current) return;
       try {
-        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if(id){setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);} }, setError, setTextureStatus);
+        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if(id){setInspectorMode('edit');setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);} }, setError, setTextureStatus);
         sceneRef.current = scene; const current = latest.current;
         scene.update(current.design, { selected: current.selected, walls: current.walls, dimensions: current.dimensions, hidden:current.hidden,hideUppers:current.hideUppers,hideAppliances:current.hideAppliances,hideBacksplash:current.hideBacksplash,hideWindows:current.hideWindows });
         scene.view('perspective'); setViewMode('perspective'); setReady(true); setError('');
@@ -114,8 +115,21 @@ export default function InfiniteGranite() {
     commit(next,`component:${selected}:${Object.keys(patch).join()}`);
     return next.components.find(c=>c.id===selected)??null;
   }
-  function selectElement(id:string|null){setSelected(id);setInspectorOpen(!!id);if(id){setFullscreenTab('edit');setFinishesOpen(true);}}
-  function shiftElement(x:number,y:number){if(!selectedComponent)return;const delta=sceneRef.current?.shiftVector(x,y)??{x,z:-y};editComponent({x:selectedComponent.x+delta.x,z:selectedComponent.z+delta.z});}
+  function selectElement(id:string|null){setSelected(id);setInspectorMode('edit');setInspectorOpen(!!id);setPlacementNotice('');if(id){setFullscreenTab('edit');setFinishesOpen(true);}}
+  function shiftElement(x:number,y:number){
+    if(!selectedComponent)return;
+    const delta=sceneRef.current?.shiftVector(x,y)??{x,z:-y};
+    const next=swapAdjacent(design,selectedComponent.id,delta.x?'x':'z',delta.x||delta.z);
+    if(next){commit(next);setPlacementNotice('Swapped adjacent pieces. The connected run keeps its length.');}
+    else setPlacementNotice('No clear adjacent piece to swap in that direction. Check wall cupboards or use Position for free movement.');
+  }
+  function replaceSelected(kind:ComponentKind){
+    if(!selectedComponent)return;
+    const next=replaceComponent(design,selectedComponent.id,kind);
+    if(next){commit(next);setPlacementNotice(`Changed to ${KIND_NAMES[kind].toLowerCase()}.`);}
+    else setPlacementNotice('This replacement needs more space. Move any wall cupboard or appliance occupying its height, then try again.');
+  }
+  function openControls(mode:'edit'|'view'){setInspectorMode(mode);setInspectorOpen(true);setFullscreenTab(mode);setFinishesOpen(true);}
   function hideElement(id:string){setVisibility(v=>({...v,hidden:[...new Set([...v.hidden,id])]}));setInspectorOpen(false);setSelected(null);}
   function boundary(side:WallSide,delta:number){const next=moveBoundary(design,side,delta);if(next){commit(next);setPlacementNotice('Boundary moved.');}else setPlacementNotice('That boundary would overlap or exclude a component. Move the piece first.');}
   function loadLayout(layout: LayoutId) {
@@ -133,7 +147,7 @@ export default function InfiniteGranite() {
   function addComponent(kind:ComponentKind) {
     if(design.components.length>=MAX_COMPONENTS){setMessage(`This kitchen can contain up to ${MAX_COMPONENTS} components.`);return;}
     const part=findPlacement(makeComponent(kind,componentId(kind)),design.components,design.roomWidth,design.roomDepth);
-    if(!part){setMessage('There is no clear space for that component. Remove a piece or enlarge the room first.');return;}
+    if(!part){setPlacementNotice('There is no clear space for that component. Remove a piece or enlarge the room first.');return;}
     commit(d=>({...d,components:[...d.components,part]}));selectElement(part.id);setTab('components');setPlacementNotice('Placed in the nearest available space.');
   }
   function saveOption() {
@@ -186,7 +200,7 @@ export default function InfiniteGranite() {
     // iPhone browsers without the Fullscreen API still get an edge-to-edge viewport viewer.
     if(stageRef.current?.requestFullscreen)try{await stageRef.current.requestFullscreen();}catch{/* Keep the viewport-filling fallback. */}
   }
-  const directEditor=<DirectEditor design={design} selected={selected} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} flow={flow} onFlow={setFlow} notice={placementNotice}/>;
+  const directEditor=<DirectEditor design={design} selected={selected} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onReplace={replaceSelected} onAdd={addComponent} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} flow={flow} onFlow={setFlow} notice={placementNotice}/>;
   const roomEditor=<><RoomControls design={design} onChange={d=>commit(d)} onSelect={selectElement} onBoundary={boundary}/>{placementNotice&&<p className={styles.placementNotice} role="status">{placementNotice}</p>}</>;
   const visibilityEditor=<div className={styles.directBody}><h3>Show / hide</h3><label className={styles.flowToggle}><input type="checkbox" checked={walls} onChange={e=>setWalls(e.target.checked)}/>Walls</label>{([{key:'hideUppers',name:'Wall cupboards'},{key:'hideAppliances',name:'Appliances'},{key:'hideBacksplash',name:'Backsplash'},{key:'hideWindows',name:'Windows & doors'}] as const).map(({key,name})=><label className={styles.flowToggle} key={key}><input type="checkbox" checked={!visibility[key]} onChange={e=>setVisibility(v=>({...v,[key]:!e.target.checked}))}/>{name}</label>)}<button className={styles.showAll} onClick={()=>{setWalls(true);setVisibility({hidden:[],hideUppers:false,hideAppliances:false,hideBacksplash:false,hideWindows:false});}}>Show all{visibility.hidden.length?` (${visibility.hidden.length} hidden)`:''}</button></div>;
   return <main className={styles.studio}>
@@ -196,7 +210,7 @@ export default function InfiniteGranite() {
     </header>
     <div className={styles.workspace}>
       <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={!viewerExpanded&&inspectorOpen} aria-label="Kitchen preview" role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
-        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Finishes</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
+        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button className={styles.sceneAction} aria-label="Add component" onClick={()=>openControls('edit')}><Plus size={17}/><span>Add</span></button><button className={styles.sceneAction} aria-label="Show or hide kitchen elements" onClick={()=>openControls('view')}><SlidersHorizontal size={17}/><span>View</span></button>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Finishes</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
         <div className={styles.canvasHost} ref={hostRef} />
         {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your kitchen</strong><span>Preparing materials and lighting…</span></div>}
         {error && <div className={styles.error}><Cube size={34} /><p>{error}</p><button onClick={() => { setReady(false); setError(''); setReload(v => v + 1); }}>Reload 3D view</button></div>}
@@ -210,10 +224,10 @@ export default function InfiniteGranite() {
           <div className={styles.finishPanelBody} key={fullscreenTab}>{fullscreenTab==='edit'?directEditor:fullscreenTab==='room'?roomEditor:fullscreenTab==='view'?visibilityEditor:<FinishControls tab={fullscreenTab} design={design} onChange={change} onMatchCupboards={matchCupboards}/>}</div>
           <p className={styles.finishPanelStatus}>{storageStatus}</p>
         </aside>}
-        {!viewerExpanded&&inspectorOpen&&<aside className={styles.directPanel} aria-label="Edit selected element"><header><strong>Edit element</strong><button aria-label="Hide element controls" onClick={()=>setInspectorOpen(false)}><X size={17}/></button></header>{directEditor}</aside>}
+        {!viewerExpanded&&inspectorOpen&&<aside className={styles.directPanel} aria-label={inspectorMode==='view'?'Kitchen visibility':'Edit selected element'}><header><strong>{inspectorMode==='view'?'Show / hide':'Edit elements'}</strong><button aria-label="Hide element controls" onClick={()=>setInspectorOpen(false)}><X size={17}/></button></header>{inspectorMode==='view'?visibilityEditor:directEditor}</aside>}
         {!viewerExpanded&&selected&&!inspectorOpen&&<button className={styles.reopenEditor} onClick={()=>setInspectorOpen(true)}>Edit selected</button>}
         {textureStatus&&<div className={styles.textureStatus} role="status">{textureStatus}</div>}
-        <div className={styles.stageBottom}><p>Drag to orbit <span>·</span> Pinch or scroll to zoom <span>·</span> Tap a component to edit</p><details className={styles.viewMenu}><summary>Show / hide</summary>{visibilityEditor}</details></div>
+        <div className={styles.stageBottom}><p>Drag to orbit <span>·</span> Pinch or scroll to zoom <span>·</span> Tap a component to edit</p></div>
         {overlaps.length > 0 && <div className={styles.collisionNote} role="status">{overlaps.length} overlapping {overlaps.length === 1 ? 'pair' : 'pairs'} · Adjust placement in Arrange.</div>}
       </section>
       <aside className={styles.editor} inert={viewerExpanded} aria-label="Kitchen customization">

@@ -1,4 +1,4 @@
-import { clampComponent, footprint, type KitchenDesign, type KitchenComponent } from './kitchen.ts';
+import { clampComponent, footprint, makeComponent, type KitchenDesign, type KitchenComponent } from './kitchen.ts';
 import { componentsOverlap, isPlacementValid, resolvePlacement, sharesHeight } from './placement.ts';
 import { fitOpenings, openingsOverlap } from './room.ts';
 const EPS=1e-6;
@@ -66,4 +66,28 @@ export function moveBoundary(d:KitchenDesign,side:import('./room.ts').WallSide,d
   if(components.some(c=>!isPlacementValid(c,components,roomWidth,roomDepth)))return null;
   const next={...d,roomWidth,roomDepth,components,openings:fitOpenings(d).map(o=>({...o,offset:o.offset-((o.wall==='back'||o.wall==='front')===horizontal?sign*delta/2:0)}))};
   next.openings=fitOpenings(next);if(next.openings.some(a=>next.openings.some(b=>openingsOverlap(a,b))))return null;return next;
+}
+
+/** Exchange adjacent modules, preserving the run's outer edges even for unequal widths. */
+export function swapAdjacent(d:KitchenDesign,id:string,axis:'x'|'z',direction:number):KitchenDesign|null {
+  const a=d.components.find(c=>c.id===id);if(!a||!Number.isFinite(direction)||direction===0)return null;
+  const sign=Math.sign(direction),size=axis==='x'?'width':'depth',cross=axis==='x'?'z':'x',crossSize=axis==='x'?'depth':'width',af=footprint(a);
+  const candidates=d.components.filter(b=>{
+    if(b.id===id||(a.kind==='upper')!==(b.kind==='upper'))return false;
+    const bf=footprint(b),gap=sign*(b[axis]-a[axis])-(af[size]+bf[size])/2;
+    return gap>=-EPS&&gap<=3+EPS&&Math.abs(a[cross]-b[cross])<(af[crossSize]+bf[crossSize])/2-EPS;
+  }).sort((b,c)=>Math.abs(a[cross]-b[cross])-Math.abs(a[cross]-c[cross]));
+  for(const b of candidates){
+    const bf=footprint(b),gap=Math.max(0,sign*(b[axis]-a[axis])-(af[size]+bf[size])/2);
+    const components=d.components.map(c=>c.id===a.id?{...c,[axis]:a[axis]+sign*(bf[size]+gap)}:c.id===b.id?{...c,[axis]:b[axis]-sign*(af[size]+gap)}:c);
+    if(components.every(c=>isPlacementValid(c,components,d.roomWidth,d.roomDepth)))return {...d,components};
+  }
+  return null;
+}
+
+/** Replacement keeps identity/width, uses the new kind's usable dimensions, and refits the run. */
+export function replaceComponent(d:KitchenDesign,id:string,kind:import('./kitchen.ts').ComponentKind):KitchenDesign|null {
+  const old=d.components.find(c=>c.id===id);if(!old)return null;
+  const replacement=makeComponent(kind,id,old.x,old.z,old.rotation,old.width);
+  return connectedEdit(d,id,{kind:replacement.kind,name:replacement.name,width:replacement.width,depth:replacement.depth,height:replacement.height,color:undefined,material:undefined});
 }
