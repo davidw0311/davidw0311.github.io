@@ -3,7 +3,11 @@
 import { useCallback, useEffect, useReducer, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowCounterClockwise, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Check, Copy, Cube, FloppyDisk, Minus, Plus, Ruler, SquaresFour, Stack, Trash, X } from '@phosphor-icons/react';
-import { COLORS, FINISHES, KIND_NAMES, SIZE_LIMITS, LAYOUTS, MATERIALS, clampComponent, collisionPairs, colorName, defaultDesign, footprint, inches, makeComponent, parseDesign, presetComponents, type ComponentKind, type DoorStyle, type Finish, type KitchenComponent, type KitchenDesign, type LayoutId, type SinkStyle } from './kitchen';
+import { COLORS, FINISHES, KIND_NAMES, SIZE_LIMITS, MAX_COMPONENTS, layoutName, LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, footprint, inches, makeComponent, parseDesign, presetComponents, type ComponentKind, type DoorStyle, type Finish, type KitchenComponent, type KitchenDesign, type LayoutId, type SinkStyle } from './kitchen';
+import MaterialPicker from './MaterialPicker';
+import GridBuilder from './GridBuilder';
+import { materialLabel } from './materials';
+import { resolvePlacement, findPlacement, resizeRoom as resizeKitchenRoom } from './placement';
 import { editorHistory } from './history';
 import type { KitchenScene, ViewMode } from './scene';
 import styles from './studio.module.css';
@@ -11,6 +15,7 @@ import styles from './studio.module.css';
 type Tab = 'surfaces' | 'cupboards' | 'sink' | 'layout' | 'components';
 interface SavedOption { id: string; name: string; design: KitchenDesign; }
 const STORAGE = 'infinitegranite.studio.v1';
+function componentId(kind:ComponentKind) { return `${kind}-${crypto.randomUUID()}`; }
 const TABS: { id: Tab; label: string }[] = [{ id: 'surfaces', label: 'Counters' }, { id: 'cupboards', label: 'Cupboards' }, { id: 'sink', label: 'Sink' }, { id: 'layout', label: 'Layout' }, { id: 'components', label: 'Arrange' }];
 
 function Field({ label, children, note }: { label: string; children: ReactNode; note?: string }) {
@@ -42,6 +47,13 @@ export default function InfiniteGranite() {
   const [saved, setSaved] = useState<SavedOption[]>([]), [compareOpen, setCompareOpen] = useState(false);
   const [message, setMessage] = useState(''), [error, setError] = useState(''), [ready, setReady] = useState(false), [hydrated, setHydrated] = useState(false);
   const [reload, setReload] = useState(0);
+  const [gridOpen, setGridOpen] = useState(false);
+  const [viewerExpanded, setViewerExpanded] = useState(false);
+  const [textureStatus, setTextureStatus] = useState<string|null>(null);
+  const [placementNotice, setPlacementNotice] = useState('');
+  const nativeFullscreen = useRef(false);
+  const pendingViewReset = useRef(false);
+  const fullscreenTrigger = useRef<HTMLButtonElement>(null);
   const [storageStatus, setStorageStatus] = useState('Saving on this device…');
   const stageRef = useRef<HTMLDivElement>(null), hostRef = useRef<HTMLDivElement>(null), sceneRef = useRef<KitchenScene | null>(null);
   const latest = useRef({ design, selected, walls, dimensions });
@@ -77,13 +89,13 @@ export default function InfiniteGranite() {
     window.addEventListener('pagehide', flush);
     return () => { active = false; window.removeEventListener('pagehide',flush); };
   }, [design, saved, hydrated, persist]);
-  useEffect(() => { latest.current = { design, selected, walls, dimensions }; sceneRef.current?.update(design, { selected, walls, dimensions }); }, [design, selected, walls, dimensions]);
+  useEffect(() => { latest.current = { design, selected, walls, dimensions }; sceneRef.current?.update(design, { selected, walls, dimensions }); if(pendingViewReset.current){pendingViewReset.current=false;sceneRef.current?.view('perspective');setViewMode('perspective');} }, [design, selected, walls, dimensions]);
   useEffect(() => {
     let active = true;
     import('./scene').then(({ createKitchenScene }) => {
       if (!active || !hostRef.current) return;
       try {
-        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if (id) setTab('components'); }, setError);
+        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if (id) setTab('components'); }, setError, setTextureStatus);
         sceneRef.current = scene; const current = latest.current;
         scene.update(current.design, { selected: current.selected, walls: current.walls, dimensions: current.dimensions });
         scene.view('perspective'); setViewMode('perspective'); setReady(true); setError('');
@@ -97,28 +109,39 @@ export default function InfiniteGranite() {
     dispatch({type:'change', next, group, time:Date.now()});
   }, []);
   function change<K extends keyof KitchenDesign>(key: K, value: KitchenDesign[K]) { commit(d => ({ ...d, [key]: value })); }
-  function editComponent(patch: Partial<KitchenComponent>) {
-    if (!selected) return;
-    commit(d => ({ ...d, components: d.components.map(c => c.id === selected ? clampComponent({ ...c, ...patch }, d.roomWidth, d.roomDepth) : c) }), `component:${selected}:${Object.keys(patch).join()}`);
+  function editComponent(patch: Partial<KitchenComponent>): KitchenComponent | null {
+    if (!selectedComponent) return null;
+    const geometric=Object.keys(patch).some(key=>['x','z','width','depth','height','rotation'].includes(key));
+    const proposed={...selectedComponent,...patch};
+    const result=geometric?resolvePlacement(proposed,design.components,design.roomWidth,design.roomDepth):{component:proposed,accepted:true,snapped:false};
+    if(!result.accepted) {setPlacementNotice('That change does not fit without overlap. Move a neighbouring piece or choose a smaller size.');return selectedComponent;}
+    setPlacementNotice(result.snapped?'Snapped to the nearest clear edge.':'');
+    commit(d=>({...d,components:d.components.map(c=>c.id===selected?result.component:c)}),`component:${selected}:${Object.keys(patch).join()}`);
+    return result.component;
   }
   function loadLayout(layout: LayoutId) {
-    commit(d => ({ ...d, layout, roomWidth: 216, roomDepth: 192, components: presetComponents(layout) }));
-    setSelected(null); setMessage(`${LAYOUTS.find(l => l.id === layout)!.name} loaded. Your finish selections are retained.`);
+    if(layout==='custom'){setGridOpen(true);return;}
+    pendingViewReset.current=true;
+    commit(d=>({...d,layout,gridSize:undefined,gridCellSize:undefined,roomWidth:216,roomDepth:192,components:presetComponents(layout)}));
+    setGridOpen(false);setSelected(null);setMessage(`${layoutName(layout)} loaded. Your finish selections are retained.`);
   }
-  function resizeRoom(key: 'roomWidth' | 'roomDepth', value: number) {
-    commit(d => { const next = { ...d, [key]: value }; return { ...next, components: next.components.map(c => clampComponent(c, next.roomWidth, next.roomDepth)) }; });
+  function resizeRoom(key:'roomWidth'|'roomDepth',value:number) {
+    const next=resizeKitchenRoom(design,key==='roomWidth'?value:design.roomWidth,key==='roomDepth'?value:design.roomDepth);
+    if(next)commit(next,`room:${key}`);else setMessage('That room size would overlap components. Rearrange the pieces before making it smaller.');
   }
   function undo() { dispatch({type:'undo'}); }
   function redo() { dispatch({type:'redo'}); }
-  function addComponent(kind: ComponentKind) {
-    if (design.components.length >= 60) { setMessage('This kitchen can contain up to 60 components. Remove one to add another.'); return; }
-    let part = makeComponent(kind, `${kind}-${Date.now()}`);
-    // Find a free footprint before falling back to a visible, editable position.
-    search: for (let z = 0; z <= design.roomDepth / 2 - 24; z += 12) for (let x = -design.roomWidth / 2 + 30; x <= design.roomWidth / 2 - 30; x += 12) {
-      const candidate = clampComponent({ ...part, x, z }, design.roomWidth, design.roomDepth);
-      if (!collisionPairs([...design.components, candidate]).some(pair => pair.includes(part.id))) { part = candidate; break search; }
-    }
-    commit(d => ({ ...d, components: [...d.components, part] })); setSelected(part.id); setTab('components');
+  function addComponent(kind:ComponentKind) {
+    if(design.components.length>=MAX_COMPONENTS){setMessage(`This kitchen can contain up to ${MAX_COMPONENTS} components.`);return;}
+    const part=findPlacement(makeComponent(kind,componentId(kind)),design.components,design.roomWidth,design.roomDepth);
+    if(!part){setMessage('There is no clear space for that component. Remove a piece or enlarge the room first.');return;}
+    commit(d=>({...d,components:[...d.components,part]}));setSelected(part.id);setTab('components');setPlacementNotice('Placed in the nearest available space.');
+  }
+  function duplicateComponent() {
+    if(!selectedComponent||design.components.length>=MAX_COMPONENTS)return;
+    const part=findPlacement({...selectedComponent,id:componentId(selectedComponent.kind),x:selectedComponent.x+footprint(selectedComponent).width},design.components,design.roomWidth,design.roomDepth);
+    if(!part){setMessage('There is no clear space for a duplicate. Enlarge the room or remove another piece.');return;}
+    commit(d=>({...d,components:[...d.components,part]}));setSelected(part.id);setPlacementNotice('Duplicate placed without overlap.');
   }
   function saveOption() {
     if (saved.length >= 4) { setCompareOpen(true); setMessage('Four options are saved. Remove an option to make room for another.'); return; }
@@ -132,36 +155,65 @@ export default function InfiniteGranite() {
     if (!sceneRef.current || error) return;
     const link = document.createElement('a'); link.href = sceneRef.current.screenshot(); link.download = 'InfiniteGranite-kitchen.png'; link.click(); setMessage('Kitchen image downloaded.');
   }
+  const exitFullscreen = useCallback(() => {
+    setViewerExpanded(false);
+    if(document.fullscreenElement)void document.exitFullscreen().catch(()=>{});
+  }, []);
+  useEffect(()=>{
+    const sync=()=>{if(document.fullscreenElement===stageRef.current){nativeFullscreen.current=true;setViewerExpanded(true);}else if(nativeFullscreen.current){nativeFullscreen.current=false;setViewerExpanded(false);}};
+    document.addEventListener('fullscreenchange',sync);
+    return()=>document.removeEventListener('fullscreenchange',sync);
+  },[]);
+  useEffect(()=>{
+    if(!viewerExpanded)return;
+    const trigger=fullscreenTrigger.current;
+    const overflow=document.body.style.overflow;document.body.style.overflow='hidden';
+    const stage=stageRef.current;stage?.querySelector<HTMLButtonElement>('[data-fullscreen-close]')?.focus({preventScroll:true});
+    const keys=(event:KeyboardEvent)=>{
+      if(event.key==='Escape'){event.preventDefault();exitFullscreen();}
+      if(event.key==='Tab'&&stage){
+        const items=Array.from(stage.querySelectorAll<HTMLElement>('button:not(:disabled),input,select,[tabindex="0"]')).filter(el=>el.getClientRects().length>0);
+        const first=items[0],last=items.at(-1);
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+      }
+    };
+    document.addEventListener('keydown',keys);
+    return()=>{document.body.style.overflow=overflow;document.removeEventListener('keydown',keys);trigger?.focus({preventScroll:true});};
+  },[viewerExpanded,exitFullscreen]);
   async function fullscreen() {
-    try { if (document.fullscreenElement) await document.exitFullscreen(); else if (stageRef.current?.requestFullscreen) await stageRef.current.requestFullscreen(); else setMessage('Use landscape orientation for a larger kitchen view on this device.'); } catch { setMessage('Full-screen view is unavailable in this browser.'); }
+    if(viewerExpanded){exitFullscreen();return;}
+    setViewerExpanded(true);
+    // iPhone browsers without the Fullscreen API still get an edge-to-edge viewport viewer.
+    if(stageRef.current?.requestFullscreen)try{await stageRef.current.requestFullscreen();}catch{/* Keep the viewport-filling fallback. */}
   }
   return <main className={styles.studio}>
-    <header className={styles.header}>
+    <header className={styles.header} inert={viewerExpanded}>
       <div className={styles.brand}><Link href="/#space" aria-label="Back to David’s projects" className={styles.back}><ArrowLeft size={19} /></Link><span className={styles.brandMark}><Cube size={28} weight="light" /></span><div><h1>Infinite<span>Granite</span></h1><p>KITCHEN DESIGN STUDIO</p></div></div>
       <div className={styles.headerActions}><span className={styles.localNote}><span />Your own space, reimagined.</span><button className={styles.saveButton} aria-label="Save option" onClick={saveOption}><FloppyDisk size={17} /><span>Save option</span></button><button className={styles.compareButton} aria-label={`Compare ${saved.length} saved options`} onClick={() => setCompareOpen(!compareOpen)} aria-expanded={compareOpen}><Stack size={18} /><span>Compare</span><small>{saved.length}</small></button></div>
     </header>
     <div className={styles.workspace}>
-      <section className={styles.stage} ref={stageRef} aria-label="Kitchen preview">
-        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{LAYOUTS.find(l => l.id === design.layout)!.name}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
+      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} aria-label="Kitchen preview" role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
+        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}>{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
         <div className={styles.canvasHost} ref={hostRef} />
         {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your kitchen</strong><span>Preparing materials and lighting…</span></div>}
         {error && <div className={styles.error}><Cube size={34} /><p>{error}</p><button onClick={() => { setReady(false); setError(''); setReload(v => v + 1); }}>Reload 3D view</button></div>}
         <div className={styles.sceneControls}>
           <div className={styles.viewButtons} role="group" aria-label="Camera view"><button aria-pressed={viewMode === 'perspective'} onClick={() => changeView('perspective')}><Cube size={17} />3D</button><button aria-pressed={viewMode === 'top'} onClick={() => changeView('top')}><SquaresFour size={17} />Plan</button><button aria-pressed={viewMode === 'front'} onClick={() => changeView('front')}>Front</button></div>
-          <div className={styles.tools}><button aria-label="Rotate view left" onClick={() => sceneRef.current?.orbit(-Math.PI/8)}><ArrowCounterClockwise size={18}/></button><button aria-label="Rotate view right" onClick={() => sceneRef.current?.orbit(Math.PI/8)}><ArrowClockwise size={18}/></button><span/><button aria-label="Zoom out" onClick={() => sceneRef.current?.zoom(1.15)}><Minus size={18}/></button><button aria-label="Zoom in" onClick={() => sceneRef.current?.zoom(.87)}><Plus size={18}/></button><span/><button aria-label="Show room dimensions" aria-pressed={dimensions} onClick={() => setDimensions(!dimensions)}><Ruler size={19}/></button><button aria-label="Download kitchen image" disabled={!ready || !!error} onClick={snapshot}><Camera size={19}/></button><button aria-label="Full screen kitchen" onClick={fullscreen}><ArrowsOut size={19}/></button></div>
+          <div className={styles.tools}><button aria-label="Rotate view left" onClick={() => sceneRef.current?.orbit(-Math.PI/8)}><ArrowCounterClockwise size={18}/></button><button aria-label="Rotate view right" onClick={() => sceneRef.current?.orbit(Math.PI/8)}><ArrowClockwise size={18}/></button><span/><button aria-label="Zoom out" onClick={() => sceneRef.current?.zoom(1.15)}><Minus size={18}/></button><button aria-label="Zoom in" onClick={() => sceneRef.current?.zoom(.87)}><Plus size={18}/></button><span/><button aria-label="Show room dimensions" aria-pressed={dimensions} onClick={() => setDimensions(!dimensions)}><Ruler size={19}/></button><button aria-label="Download kitchen image" disabled={!ready || !!error} onClick={snapshot}><Camera size={19}/></button><button ref={fullscreenTrigger} aria-label={viewerExpanded?'Return to editor':'Full screen kitchen'} aria-pressed={viewerExpanded} onClick={fullscreen}><ArrowsOut size={19}/></button></div>
         </div>
+        {textureStatus&&<div className={styles.textureStatus} role="status">{textureStatus}</div>}
         <div className={styles.stageBottom}><p>Drag to orbit <span>·</span> Pinch or scroll to zoom <span>·</span> Tap a component to edit</p><label><input type="checkbox" checked={walls} onChange={e => setWalls(e.target.checked)} />Show room</label></div>
         {overlaps.length > 0 && <div className={styles.collisionNote} role="status">{overlaps.length} overlapping {overlaps.length === 1 ? 'pair' : 'pairs'} · Adjust placement in Arrange.</div>}
       </section>
-      <aside className={styles.editor} aria-label="Kitchen customization">
+      <aside className={styles.editor} inert={viewerExpanded} aria-label="Kitchen customization">
         <div className={styles.editorIntro}><span className={styles.eyebrow}>MAKE IT YOURS</span><h2>A change of surface.<br />A whole new feeling.</h2></div>
         <nav className={styles.tabs} aria-label="Customization categories">{TABS.map(t => <button key={t.id} aria-pressed={tab === t.id} onClick={() => setTab(t.id)}>{t.label}</button>)}</nav>
         <div className={styles.panel}>
           {tab === 'surfaces' && <>
             <div className={styles.panelHeading}><h3>Countertop library</h3><span>{MATERIALS.length} finishes</span></div>
-            <p className={styles.panelDescription}>Find your starting point. Every surface updates together.</p>
-            <div className={styles.materialGrid} role="group" aria-label="Countertop material">{MATERIALS.map(m => <button key={m.id} className={styles.materialCard} aria-pressed={design.countertop === m.id} onClick={() => change('countertop', m.id)}><span className={styles.materialSample} data-material={m.id} style={{ '--stone': m.color, '--vein': m.vein } as CSSProperties}>{design.countertop === m.id && <span className={styles.materialCheck}><Check size={15} weight="bold" /></span>}</span><strong>{m.name}</strong><small>{m.family}</small></button>)}</div>
-            <div className={styles.materialDetail}><strong>{material.family} / {material.name}</strong><p>{material.note}</p></div>
+            <p className={styles.panelDescription}>Compare supplier colours by code. Individual piece overrides stay in place.</p>
+            <MaterialPicker value={design.countertop} onChange={id=>change('countertop',id)}/>
             <Field label="Countertop thickness"><Choices label="Countertop thickness" value={String(design.counterThickness)} items={[{id:'0.75',name:'¾ inch'},{id:'1.25',name:'1¼ inch'},{id:'2',name:'2 inch'}]} onChange={v => change('counterThickness',Number(v))}/></Field>
             <label className={styles.toggle}><span><strong>Waterfall island</strong><small>Carry the stone down the sides</small></span><input type="checkbox" checked={design.waterfall} onChange={e => change('waterfall',e.target.checked)}/></label>
             <Field label="Backsplash"><Choices label="Backsplash" value={design.backsplash} items={[{id:'subway',name:'Subway tile'},{id:'slab',name:'Match counter'},{id:'none',name:'None'}]} onChange={v => change('backsplash',v)}/></Field>
@@ -183,15 +235,18 @@ export default function InfiniteGranite() {
             <FinishPicker label="Faucet & handles" value={design.hardware} onChange={v=>change('hardware',v)}/>
             <button className={styles.textButton} onClick={()=>{const sink=design.components.find(c=>c.kind==='sink');if(sink){setSelected(sink.id);setTab('components');}else addComponent('sink');}}>Adjust sink placement & cabinet size →</button>
           </>}
-          {tab === 'layout' && <>
-            <div className={styles.panelHeading}><h3>A space that fits</h3></div><p className={styles.panelDescription}>Six familiar starting points. Choosing a layout resets placement and room size; finishes stay yours.</p>
+          {tab === 'layout' && (gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;commit(next);setGridOpen(false);setSelected(null);setTab('components');setPlacementNotice('Custom kitchen created. Select any piece to resize or move it.');}}/>:<>
+            <div className={styles.panelHeading}><h3>A space that fits</h3></div><p className={styles.panelDescription}>Start with a familiar plan, or create your own square-by-square layout. Finishes stay yours.</p>
+            <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom kitchen</strong><small>Start with a blank n × n grid</small></span><Plus size={18}/></button>
             <div className={styles.layoutGrid}>{LAYOUTS.map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
-            <Field label="Room dimensions" note="Room resizing keeps components inside. Review overlaps in Arrange."><Range label="Width" value={design.roomWidth} min={144} max={360} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={360} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>
+            <Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={360} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={360} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>
             <Field label="Floor"><Choices label="Floor" value={design.floor} items={[{id:'oak',name:'Light oak'},{id:'walnut',name:'Walnut'},{id:'tile',name:'Stone tile'}]} onChange={v=>change('floor',v)}/></Field>
             <ColorPicker label="Walls" value={design.wallColor} onChange={v=>change('wallColor',v)}/>
-          </>}
+          </>)}
           {tab === 'components' && <>
-            <div className={styles.panelHeading}><h3>Make room for your ideas</h3><span>{design.components.length} pieces</span></div><p className={styles.panelDescription}>Select a piece in the scene or below. Position is measured from the centre of the room.</p>
+            <div className={styles.panelHeading}><h3>Make room for your ideas</h3><span>{design.components.length} pieces</span></div><p className={styles.panelDescription}>Select a piece in the scene or below. Position is measured from the centre of the room. Nearby edges snap together; overlaps are prevented.</p>
+            <p className={styles.snappingNote}><Check size={14}/>Edge snapping & overlap protection on</p>
+            {placementNotice&&<p className={styles.placementNotice} role="status">{placementNotice}</p>}
             <label className={styles.selectLabel}>Selected component<select value={selected??''} onChange={e=>setSelected(e.target.value||null)}><option value="">Choose a component</option>{design.components.map((c,i)=><option key={c.id} value={c.id}>{String(i+1).padStart(2,'0')} · {c.name}</option>)}</select></label>
             {selectedComponent ? <div className={styles.componentEditor}>
               <div className={styles.componentTitle}><strong>{selectedComponent.name}</strong><button aria-label="Deselect component" onClick={()=>setSelected(null)}><X size={17}/></button></div>
@@ -200,12 +255,12 @@ export default function InfiniteGranite() {
               </div>
               <Range label="Left / right" value={selectedComponent.x} min={(-design.roomWidth+footprint(selectedComponent).width)/2} max={(design.roomWidth-footprint(selectedComponent).width)/2} onChange={v=>editComponent({x:v})}/>
               <Range label="Back / front" value={selectedComponent.z} min={(-design.roomDepth+footprint(selectedComponent).depth)/2} max={(design.roomDepth-footprint(selectedComponent).depth)/2} onChange={v=>editComponent({z:v})}/>
-              <div className={styles.numberGrid}>{(['width','depth','height'] as const).map(key=><label key={key}>{key[0].toUpperCase()+key.slice(1)}<span><input type="number" aria-label={`Component ${key} in inches`} key={`${selectedComponent.id}-${key}-${selectedComponent[key]}`} min={SIZE_LIMITS[selectedComponent.kind][key][0]} max={SIZE_LIMITS[selectedComponent.kind][key][1]} step="1" defaultValue={selectedComponent[key]} onKeyDown={e=>{if(e.key==='Enter')e.currentTarget.blur();}} onBlur={e=>{const limits=SIZE_LIMITS[selectedComponent.kind][key];const next=Number.isFinite(e.target.valueAsNumber)?Math.max(limits[0],Math.min(limits[1],e.target.valueAsNumber)):selectedComponent[key];e.target.value=String(next);if(next!==selectedComponent[key])editComponent({[key]:next});}}/>″</span></label>)}</div>
+              <div className={styles.numberGrid}>{(['width','depth','height'] as const).map(key=><label key={key}>{key[0].toUpperCase()+key.slice(1)}<span><input type="number" aria-label={`Component ${key} in inches`} key={`${selectedComponent.id}-${key}-${selectedComponent[key]}`} min={SIZE_LIMITS[selectedComponent.kind][key][0]} max={SIZE_LIMITS[selectedComponent.kind][key][1]} step="1" defaultValue={selectedComponent[key]} onKeyDown={e=>{if(e.key==='Enter')e.currentTarget.blur();}} onBlur={e=>{const limits=SIZE_LIMITS[selectedComponent.kind][key];const next=Number.isFinite(e.target.valueAsNumber)?Math.max(limits[0],Math.min(limits[1],e.target.valueAsNumber)):selectedComponent[key];e.target.value=String(next);if(next!==selectedComponent[key]){const placed=editComponent({[key]:next});e.target.value=String(placed?.[key]??selectedComponent[key]);}}}/>″</span></label>)}</div>
               <Field label="Facing"><Choices label="Component rotation" value={String(selectedComponent.rotation)} items={[{id:'0',name:'Front'},{id:'90',name:'Right'},{id:'180',name:'Back'},{id:'270',name:'Left'}]} onChange={v=>editComponent({rotation:Number(v)})}/></Field>
               {!['fridge','range','dishwasher'].includes(selectedComponent.kind)&&<ColorPicker label="This piece only" value={selectedComponent.color??(selectedComponent.kind==='upper'?design.upperColor:selectedComponent.kind==='island'?design.islandColor:design.cabinetColor)} onChange={v=>editComponent({color:v})}/>}
-              {!['upper','pantry','fridge','range'].includes(selectedComponent.kind)&&<label className={styles.selectLabel}>This countertop only<select value={selectedComponent.material??''} onChange={e=>editComponent({material:e.target.value||undefined})}><option value="">Use kitchen countertop</option>{MATERIALS.map(m=><option key={m.id} value={m.id}>{m.family} · {m.name}</option>)}</select></label>}
+              {!['upper','pantry','fridge','range'].includes(selectedComponent.kind)&&<details className={styles.pieceMaterial}><summary>This countertop: {MATERIALS.find(m=>m.id===(selectedComponent.material??design.countertop))?.code}</summary><button className={styles.textButton} onClick={()=>editComponent({material:undefined})}>Use kitchen-wide finish</button><MaterialPicker value={selectedComponent.material??design.countertop} onChange={id=>editComponent({material:id})} label="This countertop"/></details>}
               {(selectedComponent.color||selectedComponent.material)&&<button className={styles.textButton} onClick={()=>editComponent({color:undefined,material:undefined})}>Reset this piece to kitchen finishes</button>}
-              <div className={styles.componentActions}><button onClick={()=>{if(design.components.length>=60){setMessage('Remove a piece before duplicating.');return;}const copy=clampComponent({...selectedComponent,id:`${selectedComponent.kind}-${Date.now()}`,x:selectedComponent.x+selectedComponent.width+3},design.roomWidth,design.roomDepth);commit(d=>({...d,components:[...d.components,copy]}));setSelected(copy.id);}}><Copy size={16}/>Duplicate</button><button onClick={()=>{commit(d=>({...d,components:d.components.filter(c=>c.id!==selected)}));setSelected(null);}}><Trash size={16}/>Remove</button></div>
+              <div className={styles.componentActions}><button onClick={duplicateComponent} disabled={design.components.length>=MAX_COMPONENTS}><Copy size={16}/>Duplicate</button><button onClick={()=>{commit(d=>({...d,components:d.components.filter(c=>c.id!==selected)}));setSelected(null);}}><Trash size={16}/>Remove</button></div>
               {overlaps.some(pair=>pair.includes(selectedComponent.id))&&<p className={styles.inlineWarning}>This piece overlaps another component. Move it using the position controls above.</p>}
             </div> : <div className={styles.emptySelection}><Cube size={32} weight="thin"/><p>Tap a cupboard, counter, or appliance to start arranging.</p></div>}
             <Field label="Add a component"><div className={styles.addGrid}>{(Object.keys(KIND_NAMES) as ComponentKind[]).map(kind=><button key={kind} onClick={()=>addComponent(kind)}><Plus size={14}/>{KIND_NAMES[kind]}</button>)}</div></Field>
@@ -214,8 +269,8 @@ export default function InfiniteGranite() {
         </div>
       </aside>
     </div>
-    <footer className={styles.designStrip}><div><span className={styles.miniStone} data-material={material.id} style={{background:material.color}}/><span><small>COUNTERTOP</small><strong>{material.name}</strong></span></div><div><i style={{background:design.cabinetColor}}/><span><small>CUPBOARDS</small><strong>{colorName(design.cabinetColor)}</strong></span></div><div><i style={{background:FINISHES.find(f=>f.id===design.sinkFinish)!.color}}/><span><small>SINK</small><strong>{design.sinkStyle==='apron'?'Apron front':design.sinkStyle==='double'?'Double bowl':'Single bowl'}</strong></span></div><p>Designed by you.<span>{storageStatus}</span></p></footer>
-    {compareOpen&&<section id="infinitegranite-comparisons" className={styles.comparePanel} aria-label="Saved design comparisons"><header><div><span className={styles.eyebrow}>SAVE. SWITCH. COMPARE.</span><h2>Your shortlist</h2><p>Switch between saved designs. The camera stays in place.</p></div><button aria-label="Close comparisons" onClick={()=>setCompareOpen(false)}><X size={21}/></button></header>{saved.length===0?<div className={styles.compareEmpty}><Stack size={32}/><p>Find a combination you like, then save it as an option.</p><button onClick={saveOption}>Save current design</button></div>:<div className={styles.savedGrid}>{saved.map(option=>{const m=MATERIALS.find(m=>m.id===option.design.countertop)!;return <article key={option.id}><div className={styles.optionPalette}><span style={{background:m.color}}/><span style={{background:option.design.cabinetColor}}/><span style={{background:option.design.islandColor}}/></div><div className={styles.optionTitle}><input aria-label={`Rename ${option.name}`} value={option.name} maxLength={40} onChange={e=>setSaved(items=>items.map(o=>o.id===option.id?{...o,name:e.target.value}:o))}/><button aria-label={`Remove ${option.name}`} onClick={()=>setSaved(items=>items.filter(o=>o.id!==option.id))}><Trash size={17}/></button></div><p>{m.name} · {colorName(option.design.cabinetColor)}</p><small>{LAYOUTS.find(l=>l.id===option.design.layout)!.name} · {option.design.sinkStyle} sink</small><button className={styles.applyOption} onClick={()=>{commit(structuredClone(option.design));setSelected(null);setMessage(`${option.name} applied.`);stageRef.current?.scrollIntoView({behavior:'instant',block:'start'});}}>View this option <ArrowClockwise size={16}/></button></article>;})}</div>}</section>}
+    <footer className={styles.designStrip} inert={viewerExpanded}><div><span className={styles.miniStone} data-material={material.id} style={{backgroundColor:material.color,backgroundImage:material.thumbnailUrl?`url(${material.thumbnailUrl})`:undefined,backgroundSize:'cover'}}/><span><small>COUNTERTOP</small><strong>{material.company==='Studio collection'?material.name:material.code}</strong></span></div><div><i style={{background:design.cabinetColor}}/><span><small>CUPBOARDS</small><strong>{colorName(design.cabinetColor)}</strong></span></div><div><i style={{background:FINISHES.find(f=>f.id===design.sinkFinish)!.color}}/><span><small>SINK</small><strong>{design.sinkStyle==='apron'?'Apron front':design.sinkStyle==='double'?'Double bowl':'Single bowl'}</strong></span></div><p>Designed by you.<span>{storageStatus}</span></p></footer>
+    {compareOpen&&<section id="infinitegranite-comparisons" className={styles.comparePanel} inert={viewerExpanded} aria-label="Saved design comparisons"><header><div><span className={styles.eyebrow}>SAVE. SWITCH. COMPARE.</span><h2>Your shortlist</h2><p>Switch between saved designs. The camera stays in place.</p></div><button aria-label="Close comparisons" onClick={()=>setCompareOpen(false)}><X size={21}/></button></header>{saved.length===0?<div className={styles.compareEmpty}><Stack size={32}/><p>Find a combination you like, then save it as an option.</p><button onClick={saveOption}>Save current design</button></div>:<div className={styles.savedGrid}>{saved.map(option=>{const m=MATERIALS.find(m=>m.id===option.design.countertop)!;return <article key={option.id}><div className={styles.optionPalette}><span style={{backgroundColor:m.color,backgroundImage:m.thumbnailUrl?`url(${m.thumbnailUrl})`:undefined,backgroundSize:'cover'}}/><span style={{background:option.design.cabinetColor}}/><span style={{background:option.design.islandColor}}/></div><div className={styles.optionTitle}><input aria-label={`Rename ${option.name}`} value={option.name} maxLength={40} onChange={e=>setSaved(items=>items.map(o=>o.id===option.id?{...o,name:e.target.value}:o))}/><button aria-label={`Remove ${option.name}`} onClick={()=>setSaved(items=>items.filter(o=>o.id!==option.id))}><Trash size={17}/></button></div><p>{materialLabel(m)} · {colorName(option.design.cabinetColor)}</p><small>{layoutName(option.design.layout)} · {option.design.sinkStyle} sink</small><button className={styles.applyOption} onClick={()=>{commit(structuredClone(option.design));setSelected(null);setMessage(`${option.name} applied.`);stageRef.current?.scrollIntoView({behavior:'instant',block:'start'});}}>View this option <ArrowClockwise size={16}/></button></article>;})}</div>}</section>}
     <div className={styles.toast} role="status" aria-live="polite" data-visible={!!message}>{message}</div>
   </main>;
 }

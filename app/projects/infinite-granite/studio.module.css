@@ -202,7 +202,7 @@
   .history button { width:32px; } .canvasHost { inset:15px -10px 65px; }
   .sceneControls { bottom:39px; flex-direction:row; gap:6px; max-width:calc(100% - 16px); }
   .viewButtons,.tools { padding:3px; border-radius:6px; } .viewButtons button { padding:6px 8px; min-height:34px; font-size:11px; } .viewButtons button>svg { display:none; }
-  .tools button { width:28px; height:34px; } .tools>span { display:none; } .tools button[aria-label="Rotate view right"],.tools button[aria-label="Full screen kitchen"] { display:none; }
+  .tools button { width:28px; height:34px; } .tools>span { display:none; } .tools button[aria-label="Rotate view right"] { display:none; }
   .stageBottom { bottom:9px; left:16px; right:16px; gap:5px; } .stageBottom p { max-width:none; font-size:8px; } .stageBottom label { font-size:9px; gap:2px; } .stageBottom input[type=checkbox] { width:12px; height:12px; }
   .collisionNote { top:96px; left:18px; font-size:10px; padding:6px 9px; }
   .editor { z-index:1; border:0; min-height:470px; } .editorIntro { display:none; }
@@ -238,4 +238,117 @@
   .stage { min-height:400px; }
   .colorRow .colorSwatch,.customColor { width:34px; height:34px; }
   .colorRow { gap:12px; }
+}
+
+/* Supplier library */
+.srOnly { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+.catalogueSearch { display:flex; align-items:center; gap:9px; border:1px solid var(--ig-line); border-radius:6px; padding:0 11px; color:var(--ig-muted); background:var(--ig-bg); }
+.catalogueSearch input { min-width:0; width:100%; height:43px; background:none; border:0; font:inherit; font-size:13px; }
+.catalogueSearch input::-webkit-search-cancel-button { display:none; }
+.catalogueSearch button { border:0; background:none; width:30px; height:34px; display:grid; place-items:center; flex-shrink:0; }
+.supplierFilter { display:flex; align-items:center; justify-content:space-between; gap:14px; color:var(--ig-muted); font-size:11px; margin-top:10px; }
+.supplierFilter select { min-width:0; flex:1; height:36px; padding:5px 8px; border:1px solid var(--ig-line); border-radius:4px; background:var(--ig-surface); font:inherit; color:var(--ig-ink); }
+.catalogueCount { color:var(--ig-muted); font-size:10px; margin:9px 0 14px!important; }
+.selectedMaterial { padding:12px 14px; border-left:2px solid var(--ig-accent); background:var(--ig-soft); margin:0 0 24px; }
+.selectedMaterial>span { display:block; font-size:8px; letter-spacing:1.6px; color:var(--ig-muted); }
+.selectedMaterial>strong { display:block; font-size:12px; margin-top:4px; }
+.selectedMaterial p { font-size:11px; margin-top:2px; }
+.selectedMaterial a { color:var(--ig-accent); display:inline-block; font-size:10px; margin-top:7px; text-underline-offset:3px; }
+.supplierGroup + .supplierGroup { margin-top:30px; }
+.supplierHeading { display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--ig-line); margin-bottom:7px; padding-bottom:8px; }
+.supplierHeading h4 { font-size:14px; letter-spacing:-.3px; margin:0; font-weight:650; }
+.supplierHeading>span { color:var(--ig-muted); font-size:11px; font-variant-numeric:tabular-nums; }
+.supplierNote { font-size:10px; line-height:1.6; margin:0 0 15px!important; color:var(--ig-muted); }
+.supplierHeading + .materialGrid { margin-top:15px; }
+.materialSample img { width:100%; height:100%; object-fit:cover; display:block; }
+.materialCode { letter-spacing:.4px; }
+.materialName { display:block; font-size:11px; margin-top:2px; line-height:1.4; }
+.imageUnavailable { display:grid; place-items:center; height:100%; font-size:10px; color:#263b33; background:#e7ece6cc; }
+.showCatalogue { width:100%; min-height:42px; font-size:11px!important; margin-top:20px; padding:8px; }
+.catalogueEmpty { padding:24px 0; color:var(--ig-muted); font-size:12px; }
+.catalogueEmpty button { margin-top:12px; padding:8px 14px; }
+.pieceMaterial { border-top:1px solid var(--ig-line); border-bottom:1px solid var(--ig-line); padding:12px 0; margin-top:22px; }
+.pieceMaterial summary { cursor:pointer; font-size:12px; font-weight:600; padding:5px 0; }
+.pieceMaterial .catalogue { margin-top:15px; }
+.pieceMaterial summary:focus-visible { outline:3px solid #4a9e7b; outline-offset:3px; }
+
+/* A compact drafting surface, with independent floor and wall layers. */
+.customLayoutButton { display:flex; align-items:center; gap:12px; width:100%; padding:15px 12px; margin-bottom:18px; background:var(--ig-active)!important; border-color:var(--ig-accent)!important; text-align:left; }
+.customLayoutButton>span { flex:1; }
+.customLayoutButton strong,.customLayoutButton small { display:block; }
+.customLayoutButton strong { font-size:12px; font-weight:650; }
+.customLayoutButton small { font-size:10px; margin-top:3px; color:var(--ig-muted); }
+.gridBuilder>header { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.gridBuilder h3 { font-size:19px; font-weight:550; line-height:1.35; letter-spacing:-.5px; margin-top:8px; }
+.gridBuilder>header button { display:grid; place-items:center; flex-shrink:0; width:32px; height:32px; }
+.gridBuilder>p { font-size:12px; color:var(--ig-muted); margin-top:12px; line-height:1.65; }
+.gridLayer { display:flex; gap:6px; margin:16px 0 2px; }
+.gridLayer button { flex:1; min-height:40px; padding:7px; font-size:11px; }
+.gridLayer button[aria-pressed=true] { background:var(--ig-active); border-color:var(--ig-accent); color:var(--ig-accent); }
+.gridPaintControls { display:grid; grid-template-columns:1.35fr 1fr; gap:10px; }
+.gridPaintControls .selectLabel { margin:12px 0 17px; }
+.gridLegend { display:flex; justify-content:space-between; gap:8px; color:var(--ig-muted); font-size:9px; margin-bottom:7px; }
+.gridLegend>span:first-child { letter-spacing:1px; }
+.gridScroll { overflow-x:auto; padding:3px; margin:-3px; scrollbar-width:thin; scrollbar-color:var(--ig-line) transparent; }
+.cellGrid { display:grid; gap:3px; padding:5px; background:var(--ig-line); border-radius:5px; }
+.cellGrid button { aspect-ratio:1; position:relative; display:flex; align-items:center; justify-content:center; flex-direction:column; min-width:0; padding:1px; border:0; border-radius:2px; color:var(--ig-muted); background:var(--ig-surface); font-size:15px; }
+.cellGrid button[data-filled=true] { background:var(--ig-active); color:var(--ig-accent); box-shadow:inset 0 0 0 1px var(--ig-accent); }
+.cellGrid button strong { font-size:8px; font-weight:700; letter-spacing:.1px; }
+.cellGrid button[data-filled=true]>span { font-size:13px; line-height:1; }
+.cellGrid button>i { position:absolute; width:4px; height:4px; right:3px; bottom:3px; border-radius:50%; background:var(--ig-accent); }
+.cellGrid button:hover { box-shadow:inset 0 0 0 2px var(--ig-accent); }
+.gridSummary { display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:11px; font-size:10px; color:var(--ig-muted); }
+.gridSummary button { display:flex; align-items:center; gap:5px; border:0; padding:6px; background:none; font-size:10px; }
+.gridBuilder .gridNotice { font-size:10px; min-height:34px; margin-top:6px; }
+.buildGridButton { width:100%; display:flex; align-items:center; gap:8px; justify-content:center; min-height:44px; padding:10px; margin-top:15px; background:var(--ig-accent)!important; color:var(--ig-surface)!important; border-color:var(--ig-accent)!important; font-size:12px!important; font-weight:600!important; }
+.gridBuilder .textButton { display:flex; gap:7px; align-items:center; }
+.snappingNote { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--ig-accent); margin-top:-9px!important; }
+.placementNotice { background:var(--ig-soft); padding:9px 11px; border-radius:4px; margin-top:12px!important; font-size:11px; }
+.textureStatus { position:absolute; z-index:1; left:30px; top:121px; padding:7px 11px; max-width:calc(100% - 60px); border:1px solid #dce3dc; background:#f8faf5ed; color:#43594a; border-radius:5px; font-size:11px; }
+
+/* Fullscreen API on supporting browsers; viewport fallback on iPhone. */
+.stage.viewerExpanded { position:fixed; inset:0; width:100%; height:100dvh; min-height:0; max-height:none; z-index:100; border:0; }
+.viewerExpanded .canvasHost { inset:20px 0 100px; }
+.viewerExpanded .stageTop { top:max(20px,env(safe-area-inset-top)); left:max(22px,env(safe-area-inset-left)); right:max(22px,env(safe-area-inset-right)); }
+.history .closeFullscreen { display:flex; align-items:center; gap:5px; width:auto; padding:0 10px; min-height:38px; background:#f8faf5e8; color:#263b33; border:1px solid #cdd8cd; font-size:12px; }
+.viewerExpanded .sceneControls { bottom:calc(45px + env(safe-area-inset-bottom)); }
+.viewerExpanded .stageBottom { bottom:max(12px,env(safe-area-inset-bottom)); left:max(22px,env(safe-area-inset-left)); right:max(22px,env(safe-area-inset-right)); }
+@media(max-width:767px) {
+  .catalogueSearch input,.supplierFilter select { font-size:16px; }
+  .supplierHeading h4 { font-size:16px; }
+  .supplierNote,.catalogueCount { font-size:11px; }
+  .materialName,.selectedMaterial p { font-size:12px; }
+  .selectedMaterial>strong { font-size:14px; }
+  .selectedMaterial a { font-size:12px; padding:3px 0; }
+  .showCatalogue { min-height:46px; font-size:12px!important; }
+  .customLayoutButton strong { font-size:14px; }
+  .customLayoutButton small { font-size:12px; }
+  .gridBuilder>p,.gridBuilder .gridNotice { font-size:12px; }
+  .gridLayer button { min-height:44px; font-size:12px; }
+  .gridSummary,.gridSummary button,.gridLegend { font-size:11px; }
+  .cellGrid button strong { font-size:9px; }
+  .gridBuilder .buildGridButton { min-height:48px; font-size:14px!important; }
+  .snappingNote,.placementNotice { font-size:12px; }
+  .textureStatus { top:98px; left:18px; max-width:calc(100% - 36px); font-size:10px; }
+  .viewerExpanded .canvasHost { inset:65px 0 135px; }
+  .viewerExpanded .sceneControls { bottom:calc(42px + env(safe-area-inset-bottom)); }
+  .viewerExpanded .tools button { min-width:40px; height:44px; }
+}
+@media(orientation:landscape) and (max-height:600px) {
+  .viewerExpanded .canvasHost { inset:0 90px 40px; }
+  .viewerExpanded .stageTop { top:max(12px,env(safe-area-inset-top)); }
+  .viewerExpanded .stageTop h2 { font-size:17px; }
+  .viewerExpanded .stageTop .eyebrow { font-size:8px; }
+  .viewerExpanded .sceneControls { bottom:calc(34px + env(safe-area-inset-bottom)); flex-direction:row; }
+  .viewerExpanded .tools button { width:34px; min-width:34px; height:36px; }
+  .viewerExpanded .viewButtons button { min-height:36px; }
+  .viewerExpanded .stageBottom p { font-size:9px; max-width:none; }
+  .viewerExpanded .textureStatus { top:85px; }
+}
+
+@media(max-width:767px) {
+  .studio { --ig-preview-height:clamp(320px,48svh,480px); }
+  .stage { height:var(--ig-preview-height); min-height:0; }
+  .tabs { position:sticky; top:var(--ig-preview-height); z-index:3; background:var(--ig-surface); }
+  .stage.viewerExpanded { height:100dvh; }
 }
