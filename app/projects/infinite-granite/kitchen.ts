@@ -15,7 +15,7 @@ export interface KitchenComponent {
 }
 export interface KitchenDesign {
   version: 1; layout: LayoutId; roomWidth: number; roomDepth: number;
-  gridSize?: number; gridCellSize?: number; gridColumns?:number[]; gridRows?:number[];
+  independentSizes?: boolean; gridSize?: number; gridCellSize?: number; gridColumns?:number[]; gridRows?:number[];
   patternContrast?: number;
   roomWalls?: RoomWalls; openings?: RoomOpening[];
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
@@ -130,6 +130,8 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;
   if (!Number.isFinite(d.counterThickness) || d.counterThickness < 0.75 || d.counterThickness > 3 || typeof d.waterfall !== 'boolean') return null;
   if (d.patternContrast !== undefined && (![1,2,3].includes(d.patternContrast))) return null;
+  if(d.independentSizes!==undefined&&typeof d.independentSizes!=='boolean')return null;
+  if(d.independentSizes&&(!d.gridColumns||!d.gridRows))return null;
   if (d.gridSize !== undefined && (!Number.isInteger(d.gridSize) || d.gridSize < 4 || d.gridSize > 10)) return null;
   if (d.gridCellSize !== undefined && d.gridCellSize !== 36) return null;
   if (d.roomWalls !== undefined && (!d.roomWalls || typeof d.roomWalls !== 'object' || !['back','right','front','left'].every(side => {const w=d.roomWalls![side as keyof RoomWalls];return w && typeof w.enabled==='boolean' && Number.isFinite(w.height) && w.height>=96 && w.height<=144;}))) return null;

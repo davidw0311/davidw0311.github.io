@@ -11,17 +11,19 @@ export function validCellLayout(d:KitchenDesign):boolean {
   const occupied=new Set<string>();
   return d.components.every(c=>{const cell=c.cell;if(!cell||!Number.isInteger(cell.row)||!Number.isInteger(cell.column)||cell.row<0||cell.row>=d.gridRows!.length||cell.column<0||cell.column>=d.gridColumns!.length)return false;const key=`${cell.row}:${cell.column}:${upper(c)}`;if(occupied.has(key))return false;occupied.add(key);return true;});
 }
-/** Cell sizes own the occupied footprint. Adjacent occupied cells therefore share an edge. */
+/** Legacy layouts fill their cells; independently sized pieces retain their own dimensions. */
 export function reflowCells(d:KitchenDesign):KitchenDesign|null {
   if(!validCellLayout(d))return null;
   const columns=[...d.gridColumns!],rows=[...d.gridRows!];
-  for(const c of d.components){const turned=c.rotation%180!==0;columns[c.cell!.column]=Math.max(columns[c.cell!.column],SIZE_LIMITS[c.kind][turned?'depth':'width'][0]);rows[c.cell!.row]=Math.max(rows[c.cell!.row],SIZE_LIMITS[c.kind][turned?'width':'depth'][0]);}
+  for(const c of d.independentSizes?[]:d.components){const turned=c.rotation%180!==0;columns[c.cell!.column]=Math.max(columns[c.cell!.column],SIZE_LIMITS[c.kind][turned?'depth':'width'][0]);rows[c.cell!.row]=Math.max(rows[c.cell!.row],SIZE_LIMITS[c.kind][turned?'width':'depth'][0]);}
   if(sum(columns)>720||sum(rows)>720)return null;
   const roomWidth=Math.max(144,sum(columns)),roomDepth=Math.max(144,sum(rows));
   const components=d.components.map(c=>{
     const {row,column}=c.cell!,rotation=((Math.round(c.rotation/90)*90)%360+360)%360,turned=rotation%180!==0;
-    return {...c,rotation,x:-roomWidth/2+sum(columns.slice(0,column))+columns[column]/2,z:-roomDepth/2+sum(rows.slice(0,row))+rows[row]/2,width:turned?rows[row]:columns[column],depth:turned?columns[column]:rows[row],height:flat(c.kind)?36:DEFAULT_SIZES[c.kind][2]};
+    return {...c,rotation,x:-roomWidth/2+sum(columns.slice(0,column))+columns[column]/2,z:-roomDepth/2+sum(rows.slice(0,row))+rows[row]/2,width:d.independentSizes?c.width:turned?rows[row]:columns[column],depth:d.independentSizes?c.depth:turned?columns[column]:rows[row],height:flat(c.kind)?36:DEFAULT_SIZES[c.kind][2]};
   });
+  const result={...d,gridColumns:columns,gridRows:rows,roomWidth,roomDepth,components};
+  if(d.independentSizes&&components.some(c=>!withinCellReach(result,c)))return null;
   if(collisionPairs(components).length)return null;
   return {...d,gridColumns:columns,gridRows:rows,roomWidth,roomDepth,components};
 }
@@ -53,39 +55,62 @@ export function ensureCells(d:KitchenDesign):KitchenDesign|null {
   for(let i=0;i<count;i++){if(!components.some(c=>c.cell!.column===i))columns[i]=36;if(!components.some(c=>c.cell!.row===i))rows[i]=36;}
   return reflowCells({...d,gridColumns:columns,gridRows:rows,components});
 }
+/** A piece may extend into the immediately neighbouring cell, but never past it. */
+function withinCellReach(d:KitchenDesign,c:KitchenComponent):boolean {
+  if(!c.cell)return false;
+  const f=footprint(c),{row,column}=c.cell,columns=d.gridColumns!,rows=d.gridRows!;
+  if(!(['width','depth'] as const).every(k=>Number.isFinite(c[k])&&c[k]>=SIZE_LIMITS[c.kind][k][0]&&c[k]<=120&&Number.isInteger(c[k]*2)))return false;
+  const left=-d.roomWidth/2+sum(columns.slice(0,Math.max(0,column-1)));
+  const right=-d.roomWidth/2+sum(columns.slice(0,column+2));
+  const back=-d.roomDepth/2+sum(rows.slice(0,Math.max(0,row-1)));
+  const front=-d.roomDepth/2+sum(rows.slice(0,row+2));
+  return c.x-f.width/2>=left-1e-6&&c.x+f.width/2<=right+1e-6&&c.z-f.depth/2>=back-1e-6&&c.z+f.depth/2<=front+1e-6;
+}
+function independent(d:KitchenDesign):KitchenDesign|null {
+  const grid=ensureCells(d);return grid?{...grid,independentSizes:true}:null;
+}
+/** Atomic equal-dimension edits: unselected pieces and grid tracks never move. */
+export function resizeCells(d:KitchenDesign,ids:string[],dimension:'width'|'depth',value:number):KitchenDesign|null {
+  if(!Number.isFinite(value)||!Number.isInteger(value*2)||!ids.length)return null;
+  const grid=independent(d);if(!grid||ids.some(id=>!grid.components.some(c=>c.id===id)))return null;
+  const selected=new Set(ids);
+  return reflowCells({...grid,components:grid.components.map(c=>selected.has(c.id)?{...c,[dimension]:value}:c)});
+}
+export function selectionLimits(d:KitchenDesign,ids:string[],dimension:'width'|'depth'):[number,number]|null {
+  const grid=independent(d),parts=grid?.components.filter(c=>ids.includes(c.id));if(!grid||!parts?.length)return null;
+  const min=Math.max(...parts.map(c=>SIZE_LIMITS[c.kind][dimension][0]));
+  if(!resizeCells(grid,ids,dimension,min))return null;
+  // Increasing a shared dimension only expands footprints, so feasibility is monotonic.
+  let low=min*2,high=240;
+  while(low<high){const mid=Math.ceil((low+high)/2);if(resizeCells(grid,ids,dimension,mid/2))low=mid;else high=mid-1;}
+  return [min,low/2];
+}
 export function cellLimits(d:KitchenDesign,id:string,dimension:'width'|'depth'):[number,number] {
-  const c=d.components.find(c=>c.id===id);if(!c?.cell)return [12,120];
-  const column=(dimension==='width')===(c.rotation%180===0),index=column?c.cell.column:c.cell.row;
-  let min=12;
-  for(const item of d.components){if(!item.cell||(column?item.cell.column:item.cell.row)!==index)continue;const localDimension=column?(item.rotation%180===0?'width':'depth'):(item.rotation%180===0?'depth':'width');min=Math.max(min,SIZE_LIMITS[item.kind][localDimension][0]);}
-  const tracks=column?d.gridColumns!:d.gridRows!;
-  return [min,Math.min(120,720-sum(tracks)+tracks[index])];
+  return selectionLimits(d,[id],dimension)??[0,0];
 }
 export function editCell(d:KitchenDesign,id:string,patch:Partial<KitchenComponent>):KitchenDesign|null {
-  const grid=ensureCells(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
-  const next={...grid,gridColumns:[...grid.gridColumns!],gridRows:[...grid.gridRows!],components:grid.components.map(p=>p.id===id?{...p,...patch,cell:p.cell}:p)};
-  for(const dimension of ['width','depth'] as const){if(patch[dimension]===undefined)continue;const [min,max]=cellLimits(next,id,dimension),value=patch[dimension]!;if(!Number.isFinite(value)||value<min||value>max)return null;const column=(dimension==='width')===((patch.rotation??c.rotation)%180===0);(column?next.gridColumns:next.gridRows)[column?c.cell!.column:c.cell!.row]=Math.round(value*2)/2;}
-  return reflowCells(next);
+  const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
+  return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,...patch,cell:p.cell}:p)});
 }
 export function replaceCell(d:KitchenDesign,id:string,kind:ComponentKind):KitchenDesign|null {
   if(!Object.hasOwn(KIND_NAMES,kind))return null;
-  const grid=ensureCells(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
-  const changed={...grid,components:grid.components.map(p=>{if(p.id!==id)return p;const replacement={...p,kind,name:KIND_NAMES[kind]};delete replacement.color;delete replacement.material;return replacement;})};
-  const next={...changed,gridColumns:[...changed.gridColumns!],gridRows:[...changed.gridRows!]};
-  for(const dimension of ['width','depth'] as const){const column=(dimension==='width')===(c.rotation%180===0),tracks=column?next.gridColumns:next.gridRows,index=column?c.cell!.column:c.cell!.row;tracks[index]=Math.max(tracks[index],cellLimits(changed,id,dimension)[0]);}
-  return reflowCells(next);
+  const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
+  const components=grid.components.map(p=>{if(p.id!==id)return p;const replacement={...p,kind,name:KIND_NAMES[kind],width:Math.max(p.width,SIZE_LIMITS[kind].width[0]),depth:Math.max(p.depth,SIZE_LIMITS[kind].depth[0])};delete replacement.color;delete replacement.material;return replacement;});
+  return reflowCells({...grid,components});
 }
+
 export function moveCell(d:KitchenDesign,id:string,rowDelta:number,columnDelta:number):KitchenDesign|null {
   if(![rowDelta,columnDelta].every(Number.isInteger)||Math.abs(rowDelta)+Math.abs(columnDelta)!==1)return null;
-  const grid=ensureCells(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
+  const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
   const target={row:c.cell!.row+rowDelta,column:c.cell!.column+columnDelta};
   if(target.row<0||target.column<0||target.row>=grid.gridRows!.length||target.column>=grid.gridColumns!.length)return null;
   const neighbor=grid.components.find(p=>upper(p)===upper(c)&&p.cell!.row===target.row&&p.cell!.column===target.column);
   return reflowCells({...grid,components:grid.components.map(p=>p.id===id?{...p,cell:target}:p.id===neighbor?.id?{...p,cell:{...c.cell!}}:p)});
 }
 export function addCell(d:KitchenDesign,kind:ComponentKind,id:string,cell:Cell):KitchenDesign|null {
-  const grid=ensureCells(d);if(!grid||grid.components.length>=MAX_COMPONENTS||!Object.hasOwn(KIND_NAMES,kind))return null;
-  const c={...makeComponent(kind,id),cell:{row:cell.row,column:cell.column}};
+  const grid=independent(d);if(!grid||grid.components.length>=MAX_COMPONENTS||!Object.hasOwn(KIND_NAMES,kind))return null;
+  if(!Number.isInteger(cell.row)||!Number.isInteger(cell.column)||cell.row<0||cell.column<0||cell.row>=grid.gridRows!.length||cell.column>=grid.gridColumns!.length)return null;
+  const c={...makeComponent(kind,id),width:Math.max(grid.gridColumns![cell.column],SIZE_LIMITS[kind].width[0]),depth:Math.max(grid.gridRows![cell.row],SIZE_LIMITS[kind].depth[0]),cell:{row:cell.row,column:cell.column}};
   return reflowCells({...grid,components:[...grid.components,c]});
 }
 export function availableCells(d:KitchenDesign,kind:ComponentKind):CellTarget[] {
@@ -93,8 +118,7 @@ export function availableCells(d:KitchenDesign,kind:ComponentKind):CellTarget[] 
   const targets:CellTarget[]=[];
   for(let row=0;row<grid.gridRows!.length;row++)for(let column=0;column<grid.gridColumns!.length;column++){
     if(grid.components.some(c=>c.cell!.row===row&&c.cell!.column===column&&(upper(c)===(kind==='upper')||['fridge','range','pantry'].includes(kind)||['fridge','range','pantry'].includes(c.kind))))continue;
-    const requiredWidth=Math.max(grid.gridColumns![column],SIZE_LIMITS[kind].width[0]),requiredDepth=Math.max(grid.gridRows![row],SIZE_LIMITS[kind].depth[0]);
-    if(sum(grid.gridColumns!)-grid.gridColumns![column]+requiredWidth>720||sum(grid.gridRows!)-grid.gridRows![row]+requiredDepth>720)continue;
+    if(!addCell(grid,kind,'__placement-preview__',{row,column}))continue;
     targets.push({row,column,x:-grid.roomWidth/2+sum(grid.gridColumns!.slice(0,column))+grid.gridColumns![column]/2,z:-grid.roomDepth/2+sum(grid.gridRows!.slice(0,row))+grid.gridRows![row]/2,width:grid.gridColumns![column],depth:grid.gridRows![row]});
   }return targets;
 }

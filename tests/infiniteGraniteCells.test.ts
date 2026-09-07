@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { addCell, availableCells, editCell, ensureCells, moveCell, replaceCell } from '../app/projects/infinite-granite/cellLayout.ts';
+import { addCell, availableCells, editCell, ensureCells, moveCell, replaceCell, resizeCells, selectionLimits } from '../app/projects/infinite-granite/cellLayout.ts';
 import { createCustomDesign } from '../app/projects/infinite-granite/placement.ts';
 import { collisionPairs, defaultDesign, footprint, LAYOUTS, parseDesign } from '../app/projects/infinite-granite/kitchen.ts';
 const kitchen=()=>createCustomDesign(4,[{row:0,column:0,kind:'sink'},{row:0,column:1,kind:'dishwasher'},{row:0,column:2,kind:'base'}])!;
@@ -22,21 +22,22 @@ test('arrows swap occupied cells and move into empty cells; deletion leaves a ga
   const removed={...d,components:d.components.filter(c=>c.id!==dishwasher.id)};
   assert.equal(removed.components[1].x-removed.components[1].width/2-(sink.x+sink.width/2),36);
 });
-test('width and length resize shared tracks while preserving neighbours and room boundaries',()=>{
-  let d=kitchen();const id=d.components[0].id;
-  d=editCell(d,id,{width:48})!;
-  assert.equal(d.roomWidth,156);
-  assert.equal(d.components[0].x+24,d.components[1].x-18);
-  d=editCell(d,id,{depth:42})!;
-  assert.ok(d.components.every(c=>c.depth===42&&c.height===36));
-  assert.equal(d.roomDepth,150);
+test('individual sizing leaves neighbouring components, tracks, and room unchanged',()=>{
+  const original=kitchen(),id=original.components[0].id;
+  let d=editCell(original,id,{width:32})!;
+  d=editCell(d,id,{depth:24})!;
+  assert.deepEqual(d.components.slice(1),original.components.slice(1));
+  assert.deepEqual(d.gridColumns,original.gridColumns);assert.deepEqual(d.gridRows,original.gridRows);
+  assert.equal(d.roomWidth,original.roomWidth);assert.equal(d.roomDepth,original.roomDepth);
+  assert.equal(d.components[0].x,original.components[0].x);assert.equal(d.components[0].width,32);assert.equal(d.components[0].depth,24);
   assert.deepEqual(parseDesign(JSON.parse(JSON.stringify(d))),d);
+  assert.equal(editCell(d,id,{width:37}),null);
 });
-test('rotation remains in its cell and uses local width/length axes',()=>{
-  let d=editCell(kitchen(),'grid-0-0-floor',{width:48})!;
-  d=editCell(d,'grid-0-0-floor',{rotation:90})!;
-  const c=d.components[0];assert.equal(c.rotation,90);assert.deepEqual(footprint(c),{width:48,depth:36});
-  d=editCell(d,c.id,{width:40})!;assert.equal(d.gridRows![0],40);assert.deepEqual(collisionPairs(d.components),[]);
+test('rotation preserves local sizes and rejects rotations through neighbours',()=>{
+  const d=editCell(kitchen(),'grid-0-0-floor',{width:32,depth:24})!;
+  const turned=editCell(d,'grid-0-0-floor',{rotation:90})!;
+  assert.deepEqual(footprint(turned.components[0]),{width:24,depth:32});
+  assert.deepEqual(turned.components.slice(1),d.components.slice(1));
 });
 test('type replacement, available-cell placement, and blocked upper/tall combinations',()=>{
   let d=kitchen();const id=d.components[0].id;
@@ -47,10 +48,9 @@ test('type replacement, available-cell placement, and blocked upper/tall combina
   assert.equal(addCell(d,'sink','occupied',target),null);
   d=addCell(d,'upper','upper',{row:0,column:2})!;assert.equal(replaceCell(d,'grid-0-2-floor','fridge'),null);
 });
-test('placing a larger kind grows a small empty track to its safe minimum',()=>{
+test('adding into a narrow edge cell cannot expand the grid to force a fit',()=>{
   const d={...kitchen(),gridColumns:[36,36,36,12]};
-  const next=addCell(d,'island','island',{row:2,column:3})!;
-  assert.equal(next.gridColumns![3],36);assert.equal(next.components.at(-1)!.width,36);
+  assert.equal(addCell(d,'island','island',{row:2,column:3}),null);
 });
 test('legacy presets retain a single connected back run after migration',()=>{
   for(const layout of LAYOUTS){const d=ensureCells(defaultDesign(layout.id))!;assert.ok(d);for(let i=0;i<6;i++)assert.deepEqual(d.components.find(c=>c.id===defaultDesign(layout.id).components[i].id)!.cell,{row:0,column:i});assert.deepEqual(collisionPairs(d.components),[]);assert.deepEqual(parseDesign(JSON.parse(JSON.stringify(d))),d);}
@@ -69,4 +69,44 @@ test('repeated cell edits preserve grid occupancy, collision protection, and sav
     if(next)d=next;
     assert.deepEqual(collisionPairs(d.components),[]);assert.deepEqual(parseDesign(JSON.parse(JSON.stringify(d))),d);
   }
+});
+
+test('empty space permits only one extra cell on each side, including unequal tracks',()=>{
+  const d=createCustomDesign(6,[{row:2,column:2,kind:'base'}])!,id=d.components[0].id;
+  assert.deepEqual(selectionLimits(d,[id],'width'),[12,108]);
+  assert.ok(resizeCells(d,[id],'width',108));assert.equal(resizeCells(d,[id],'width',108.5),null);
+  const uneven={...d,gridColumns:[36,24,36,48,36,36]};
+  assert.deepEqual(selectionLimits(uneven,[id],'width'),[12,84]);
+  assert.equal(resizeCells(uneven,[id],'width',84.5),null);
+  assert.equal(resizeCells(d,[id],'depth',108.5),null);
+});
+test('multiple selection resizes atomically and includes collisions between selected pieces',()=>{
+  const original=kitchen(),ids=original.components.slice(1).map(c=>c.id);
+  const next=resizeCells(original,ids,'width',24)!;
+  assert.deepEqual(next.components[0],original.components[0]);assert.ok(next.components.slice(1).every(c=>c.width===24));
+  assert.deepEqual(selectionLimits(next,ids,'width'),[18,36]);
+  assert.equal(resizeCells(next,ids,'width',36.5),null);
+  assert.ok(resizeCells(next,ids,'width',36));
+  assert.deepEqual(parseDesign(JSON.parse(JSON.stringify(next))),next);
+});
+test('actual overhanging footprints block add, replacement, and moves',()=>{
+  let d=createCustomDesign(6,[{row:2,column:2,kind:'base'},{row:4,column:3,kind:'base'}])!;
+  d=resizeCells(d,[d.components[0].id],'width',108)!;
+  assert.ok(!availableCells(d,'base').some(c=>c.row===2&&c.column===3));
+  assert.equal(addCell(d,'base','blocked',{row:2,column:3}),null);
+  d=moveCell(d,d.components[1].id,-1,0)!;
+  assert.equal(moveCell(d,d.components[1].id,-1,0),null);
+});
+test('wall cupboards use vertical clearance while range hoods block resize',()=>{
+  const d=createCustomDesign(6,[{row:2,column:2,kind:'upper'},{row:2,column:3,kind:'range'}])!;
+  assert.equal(resizeCells(d,[d.components[0].id],'width',37),null);
+  const floor=createCustomDesign(6,[{row:2,column:2,kind:'upper'},{row:2,column:3,kind:'base'}])!;
+  assert.ok(resizeCells(floor,[floor.components[0].id],'width',72));
+});
+test('invalid dimensions and oversized persisted footprints are rejected',()=>{
+  const d=kitchen(),id=d.components[0].id;
+  for(const value of [NaN,Infinity,-1,0,36.25,121])assert.equal(resizeCells(d,[id],'width',value),null);
+  assert.equal(resizeCells(d,[],'width',30),null);assert.equal(resizeCells(d,['missing'],'width',30),null);
+  assert.equal(parseDesign({...d,independentSizes:'yes'}),null);
+  assert.equal(parseDesign({...d,independentSizes:true,components:d.components.map(c=>({...c,width:108}))}),null);
 });

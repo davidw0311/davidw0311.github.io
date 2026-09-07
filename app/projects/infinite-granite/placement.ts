@@ -208,5 +208,5 @@ export function createCustomDesign(gridSize: number, cells: GridCell[], settings
     if (!c || !isPlacementValid(c, components, gridSize * cellSize, gridSize * cellSize)) return null;
     components.push({...c,cell:{row:cell.row,column:cell.column}});
   }
-  return reflowCells({ ...settings, layout: 'custom', gridSize, gridCellSize: cellSize, roomWidth: gridSize * cellSize, roomDepth: gridSize * cellSize, gridColumns:Array(gridSize).fill(cellSize),gridRows:Array(gridSize).fill(cellSize), components });
+  return reflowCells({ ...settings, independentSizes:false, layout: 'custom', gridSize, gridCellSize: cellSize, roomWidth: gridSize * cellSize, roomDepth: gridSize * cellSize, gridColumns:Array(gridSize).fill(cellSize),gridRows:Array(gridSize).fill(cellSize), components });
 }
