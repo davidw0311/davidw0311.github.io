@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowCounterClockwise, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Check, Cube, FloppyDisk, Minus, Plus, Ruler, SquaresFour, Stack, SlidersHorizontal, Trash, X } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowClockwise, ArrowUUpLeft, ArrowUUpRight, ArrowsOut, Camera, Cube, FloppyDisk, Minus, Plus, SquaresFour, Stack, SlidersHorizontal, Trash, X } from '@phosphor-icons/react';
 import { FINISHES, KIND_NAMES, MAX_COMPONENTS, layoutName, LAYOUTS, MATERIALS, collisionPairs, colorName, defaultDesign, inches, makeComponent, parseDesign, presetComponents, type ComponentKind, type KitchenComponent, type KitchenDesign, type LayoutId } from './kitchen';
 import DirectEditor, { RoomControls } from './DirectEditor';
 import { connectedEdit, moveBoundary, swapAdjacent, replaceComponent } from './connectedEdit';
@@ -38,7 +38,7 @@ export default function InfiniteGranite() {
   const [gridOpen, setGridOpen] = useState(false);
   const [viewerExpanded, setViewerExpanded] = useState(false);
   const [finishesOpen, setFinishesOpen] = useState(true);
-  const [fullscreenTab, setFullscreenTab] = useState<FinishTab|'edit'|'room'|'view'>('surfaces');
+  const [fullscreenTab, setFullscreenTab] = useState<FinishTab|'edit'|'room'|'view'|'layout'>('surfaces');
   const [inspectorMode,setInspectorMode]=useState<'edit'|'view'>('edit');
   const [inspectorOpen,setInspectorOpen]=useState(false),[flow,setFlow]=useState(true);
   const [visibility,setVisibility]=useState({hidden:[] as string[],hideUppers:false,hideAppliances:false,hideBacksplash:false,hideWindows:false});
@@ -54,6 +54,7 @@ export default function InfiniteGranite() {
   const selectedComponent = design.components.find(c => c.id === selected);
   const material = MATERIALS.find(m => m.id === design.countertop)!;
   const overlaps = collisionPairs(design.components);
+  function revealEditor(){requestAnimationFrame(()=>{if(stageRef.current?.getAttribute('role')!=='dialog'&&window.matchMedia('(max-width:900px)').matches)document.querySelector<HTMLElement>('[aria-label="Kitchen customization"]')?.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});});}
 
   useEffect(() => {
     let active = true;
@@ -89,7 +90,7 @@ export default function InfiniteGranite() {
     import('./scene').then(({ createKitchenScene }) => {
       if (!active || !hostRef.current) return;
       try {
-        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if(id){setInspectorMode('edit');setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);} }, setError, setTextureStatus);
+        const scene = createKitchenScene(hostRef.current, id => { setSelected(id); if(id){setInspectorMode('edit');setInspectorOpen(true);setFullscreenTab('edit');setFinishesOpen(true);revealEditor();} }, setError, setTextureStatus);
         sceneRef.current = scene; const current = latest.current;
         scene.update(current.design, { selected: current.selected, walls: current.walls, dimensions: current.dimensions, hidden:current.hidden,hideUppers:current.hideUppers,hideAppliances:current.hideAppliances,hideBacksplash:current.hideBacksplash,hideWindows:current.hideWindows });
         scene.view('perspective'); setViewMode('perspective'); setReady(true); setError('');
@@ -115,7 +116,7 @@ export default function InfiniteGranite() {
     commit(next,`component:${selected}:${Object.keys(patch).join()}`);
     return next.components.find(c=>c.id===selected)??null;
   }
-  function selectElement(id:string|null){setSelected(id);setInspectorMode('edit');setInspectorOpen(!!id);setPlacementNotice('');if(id){setFullscreenTab('edit');setFinishesOpen(true);}}
+  function selectElement(id:string|null){setSelected(id);setInspectorMode('edit');setInspectorOpen(!!id);setPlacementNotice('');if(id){setFullscreenTab('edit');setFinishesOpen(true);revealEditor();}}
   function shiftElement(x:number,y:number){
     if(!selectedComponent)return;
     const delta=sceneRef.current?.shiftVector(x,y)??{x,z:-y};
@@ -129,7 +130,7 @@ export default function InfiniteGranite() {
     if(next){commit(next);setPlacementNotice(`Changed to ${KIND_NAMES[kind].toLowerCase()}.`);}
     else setPlacementNotice('This replacement needs more space. Move any wall cupboard or appliance occupying its height, then try again.');
   }
-  function openControls(mode:'edit'|'view'){setInspectorMode(mode);setInspectorOpen(true);setFullscreenTab(mode);setFinishesOpen(true);}
+
   function hideElement(id:string){setVisibility(v=>({...v,hidden:[...new Set([...v.hidden,id])]}));setInspectorOpen(false);setSelected(null);}
   function boundary(side:WallSide,delta:number){const next=moveBoundary(design,side,delta);if(next){commit(next);setPlacementNotice('Boundary moved.');}else setPlacementNotice('That boundary would overlap or exclude a component. Move the piece first.');}
   function loadLayout(layout: LayoutId) {
@@ -195,65 +196,66 @@ export default function InfiniteGranite() {
   },[viewerExpanded,exitFullscreen]);
   async function fullscreen() {
     if(viewerExpanded){exitFullscreen();return;}
-    setFullscreenTab(tab==='surfaces'||tab==='cupboards'||tab==='sink'?tab:'surfaces');setFinishesOpen(true);
+    setFullscreenTab(inspectorOpen?(inspectorMode==='view'?'view':'edit'):tab==='components'?'edit':tab);setFinishesOpen(true);
     setViewerExpanded(true);
     // iPhone browsers without the Fullscreen API still get an edge-to-edge viewport viewer.
     if(stageRef.current?.requestFullscreen)try{await stageRef.current.requestFullscreen();}catch{/* Keep the viewport-filling fallback. */}
   }
   const directEditor=<DirectEditor design={design} selected={selected} onSelect={selectElement} onChange={d=>commit(d)} onEdit={editComponent} onReplace={replaceSelected} onAdd={addComponent} onShift={shiftElement} onHide={hideElement} onBoundary={boundary} flow={flow} onFlow={setFlow} notice={placementNotice}/>;
   const roomEditor=<><RoomControls design={design} onChange={d=>commit(d)} onSelect={selectElement} onBoundary={boundary}/>{placementNotice&&<p className={styles.placementNotice} role="status">{placementNotice}</p>}</>;
+  const layoutEditor=(gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;commit(next);setGridOpen(false);setSelected(null);navigatePanel('edit');setPlacementNotice('Custom kitchen created. Select any piece to resize or move it.');}}/>:<>
+            <div className={styles.panelHeading}><h3>Choose your layout</h3></div><p className={styles.panelDescription}>Pick the closest match to your kitchen. You can adjust every piece later.</p>
+
+            <div className={styles.layoutGrid}>{LAYOUTS.map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
+            <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom kitchen</strong><small>Build your own floor plan</small></span><Plus size={18}/></button>
+            <details className={styles.simpleDetails}><summary>Room size & floor</summary><Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>
+            <Field label="Floor"><Choices label="Floor" value={design.floor} items={[{id:'oak',name:'Light oak'},{id:'walnut',name:'Walnut'},{id:'tile',name:'Stone tile'}]} onChange={v=>change('floor',v)}/></Field>
+            </details><details className={styles.simpleDetails}><summary>Walls, windows & doors</summary>{roomEditor}<ColorPicker label="Walls" value={design.wallColor} onChange={v=>change('wallColor',v)}/></details>
+          </>);
   const visibilityEditor=<div className={styles.directBody}><h3>Show / hide</h3><label className={styles.flowToggle}><input type="checkbox" checked={walls} onChange={e=>setWalls(e.target.checked)}/>Walls</label>{([{key:'hideUppers',name:'Wall cupboards'},{key:'hideAppliances',name:'Appliances'},{key:'hideBacksplash',name:'Backsplash'},{key:'hideWindows',name:'Windows & doors'}] as const).map(({key,name})=><label className={styles.flowToggle} key={key}><input type="checkbox" checked={!visibility[key]} onChange={e=>setVisibility(v=>({...v,[key]:!e.target.checked}))}/>{name}</label>)}<button className={styles.showAll} onClick={()=>{setWalls(true);setVisibility({hidden:[],hideUppers:false,hideAppliances:false,hideBacksplash:false,hideWindows:false});}}>Show all{visibility.hidden.length?` (${visibility.hidden.length} hidden)`:''}</button></div>;
+  const activePanel=viewerExpanded?fullscreenTab:inspectorOpen?(inspectorMode==='view'?'view':'edit'):tab==='components'?'edit':tab;
+  const finishPanel=activePanel==='surfaces'||activePanel==='cupboards'||activePanel==='sink';
+  function navigatePanel(next:typeof fullscreenTab){
+    setFullscreenTab(next);setFinishesOpen(true);
+    if(next==='view'){setInspectorMode('view');setInspectorOpen(true);}
+    else if(next==='edit'){setInspectorMode('edit');setInspectorOpen(true);}
+    else {setInspectorOpen(false);setTab(next==='room'?'layout':next);}
+  }
+  const panelNavigation=<div className={styles.simpleNavigation}>
+    <nav className={styles.taskTabs} aria-label="Design tasks">{[{id:'surfaces',label:'Finishes'},{id:'layout',label:'Layout'},{id:'edit',label:'Pieces'}].map(item=><button key={item.id} aria-pressed={item.id==='surfaces'?finishPanel:item.id==='layout'?activePanel==='layout'||activePanel==='room':activePanel==='edit'} onClick={()=>navigatePanel(item.id as typeof fullscreenTab)}>{item.label}</button>)}</nav>
+    {finishPanel&&<nav className={styles.finishSubtabs} aria-label="Choose a finish">{TABS.filter(t=>t.id==='surfaces'||t.id==='cupboards'||t.id==='sink').map(t=><button key={t.id} aria-pressed={activePanel===t.id} onClick={()=>navigatePanel(t.id as FinishTab)}>{t.id==='surfaces'?'Countertops':t.label}</button>)}</nav>}
+  </div>;
+  const panelContent=finishPanel?<FinishControls tab={activePanel} design={design} onChange={change} onMatchCupboards={matchCupboards} onArrangeSink={arrangeSink}/>:activePanel==='edit'?directEditor:activePanel==='view'?<><button className={styles.backToFinishes} onClick={()=>navigatePanel('surfaces')}>← Back to finishes</button>{visibilityEditor}<details className={styles.directDetails}><summary>Camera & image</summary><div className={styles.directActions}><button onClick={()=>sceneRef.current?.orbit(-Math.PI/8)}>Rotate view left</button><button onClick={()=>sceneRef.current?.orbit(Math.PI/8)}>Rotate view right</button><button aria-pressed={dimensions} onClick={()=>setDimensions(!dimensions)}>Room dimensions</button><button disabled={!ready||!!error} onClick={snapshot}><Camera size={16}/>Save image</button></div></details></>:activePanel==='room'?roomEditor:layoutEditor;
   return <main className={styles.studio}>
     <header className={styles.header} inert={viewerExpanded}>
       <div className={styles.brand}><Link href="/#space" aria-label="Back to David’s projects" className={styles.back}><ArrowLeft size={19} /></Link><span className={styles.brandMark}><Cube size={28} weight="light" /></span><div><h1>Infinite<span>Granite</span></h1><p>KITCHEN DESIGN STUDIO</p></div></div>
-      <div className={styles.headerActions}><span className={styles.localNote}><span />Your own space, reimagined.</span><button className={styles.saveButton} aria-label="Save option" onClick={saveOption}><FloppyDisk size={17} /><span>Save option</span></button><button className={styles.compareButton} aria-label={`Compare ${saved.length} saved options`} onClick={() => setCompareOpen(!compareOpen)} aria-expanded={compareOpen}><Stack size={18} /><span>Compare</span><small>{saved.length}</small></button></div>
+      <div className={styles.headerActions}><span className={styles.localNote}>{storageStatus}</span><button className={styles.saveButton} aria-label="Save option" onClick={saveOption}><FloppyDisk size={17} /><span>Save look</span></button><button className={styles.compareButton} aria-label={`Compare ${saved.length} saved options`} onClick={() => setCompareOpen(!compareOpen)} aria-expanded={compareOpen}><Stack size={18} /><span>Compare</span><small>{saved.length}</small></button></div>
     </header>
     <div className={styles.workspace}>
-      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={!viewerExpanded&&inspectorOpen} aria-label="Kitchen preview" role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
-        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}><button className={styles.sceneAction} aria-label="Add component" onClick={()=>openControls('edit')}><Plus size={17}/><span>Add</span></button><button className={styles.sceneAction} aria-label="Show or hide kitchen elements" onClick={()=>openControls('view')}><SlidersHorizontal size={17}/><span>View</span></button>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Finishes</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
+      <section className={`${styles.stage} ${viewerExpanded?styles.viewerExpanded:''}`} ref={stageRef} data-finishes-open={viewerExpanded&&finishesOpen} data-inspector-open={false} aria-label="Kitchen preview" role={viewerExpanded?'dialog':undefined} aria-modal={viewerExpanded?true:undefined}>
+        <div className={styles.stageTop}><div><span className={styles.eyebrow}>YOUR KITCHEN / LIVE PREVIEW</span><h2>{layoutName(design.layout)}<span>{inches(design.roomWidth)} × {inches(design.roomDepth)}</span></h2></div><div className={styles.history}>{viewerExpanded&&<button ref={finishToggle} className={styles.finishToggle} aria-label={finishesOpen?'Hide finish controls':'Show finish controls'} aria-expanded={finishesOpen} aria-controls="fullscreen-finish-controls" title="Kitchen finishes" onClick={toggleFinishes}><SlidersHorizontal size={19}/><span>Controls</span></button>}{viewerExpanded&&<button className={styles.closeFullscreen} data-fullscreen-close aria-label="Exit full screen" onClick={exitFullscreen}><X size={18}/>Exit</button>}<button aria-label="Undo last change" disabled={!undoCount} onClick={undo}><ArrowUUpLeft size={19} /></button><button aria-label="Redo change" disabled={!redoCount} onClick={redo}><ArrowUUpRight size={19} /></button></div></div>
         <div className={styles.canvasHost} ref={hostRef} />
         {!ready && !error && <div className={styles.loading}><Cube size={42} weight="thin" /><strong>Setting up your kitchen</strong><span>Preparing materials and lighting…</span></div>}
         {error && <div className={styles.error}><Cube size={34} /><p>{error}</p><button onClick={() => { setReady(false); setError(''); setReload(v => v + 1); }}>Reload 3D view</button></div>}
         <div className={styles.sceneControls}>
-          <div className={styles.viewButtons} role="group" aria-label="Camera view"><button aria-pressed={viewMode === 'perspective'} onClick={() => changeView('perspective')}><Cube size={17} />3D</button><button aria-pressed={viewMode === 'top'} onClick={() => changeView('top')}><SquaresFour size={17} />Plan</button><button aria-pressed={viewMode === 'front'} onClick={() => changeView('front')}>Front</button></div>
-          <div className={styles.tools}><button aria-label="Rotate view left" onClick={() => sceneRef.current?.orbit(-Math.PI/8)}><ArrowCounterClockwise size={18}/></button><button aria-label="Rotate view right" onClick={() => sceneRef.current?.orbit(Math.PI/8)}><ArrowClockwise size={18}/></button><span/><button aria-label="Zoom out" onClick={() => sceneRef.current?.zoom(1.15)}><Minus size={18}/></button><button aria-label="Zoom in" onClick={() => sceneRef.current?.zoom(.87)}><Plus size={18}/></button><span/><button aria-label="Show room dimensions" aria-pressed={dimensions} onClick={() => setDimensions(!dimensions)}><Ruler size={19}/></button><button aria-label="Download kitchen image" disabled={!ready || !!error} onClick={snapshot}><Camera size={19}/></button><button ref={fullscreenTrigger} aria-label={viewerExpanded?'Return to editor':'Full screen kitchen'} aria-pressed={viewerExpanded} onClick={fullscreen}><ArrowsOut size={19}/></button></div>
+          <div className={styles.viewButtons} role="group" aria-label="Camera view"><button aria-pressed={viewMode === 'perspective'} onClick={() => changeView('perspective')}><Cube size={17} />3D</button><button aria-pressed={viewMode === 'top'} onClick={() => changeView('top')}><SquaresFour size={17} />Top</button><button aria-pressed={viewMode === 'front'} onClick={() => changeView('front')}>Front</button></div>
+          <div className={styles.tools}><button aria-label="Zoom out" onClick={() => sceneRef.current?.zoom(1.15)}><Minus size={18}/></button><button aria-label="Zoom in" onClick={() => sceneRef.current?.zoom(.87)}><Plus size={18}/></button><button ref={fullscreenTrigger} aria-label={viewerExpanded?'Return to editor':'Full screen kitchen'} aria-pressed={viewerExpanded} onClick={fullscreen}><ArrowsOut size={19}/></button></div>
         </div>
         {viewerExpanded&&<aside id="fullscreen-finish-controls" className={styles.fullscreenFinishes} aria-label="Full screen finish controls" hidden={!finishesOpen} inert={!finishesOpen}>
-          <header className={styles.finishPanelHeading}><h3>Kitchen studio</h3><button aria-label="Close finish panel" onClick={toggleFinishes}><X size={18}/></button></header>
-          <nav className={styles.finishTabs} aria-label="Full screen finish categories">{[...TABS.filter(t=>t.id==='surfaces'||t.id==='cupboards'||t.id==='sink'),{id:'edit',label:'Edit'},{id:'room',label:'Room'},{id:'view',label:'View'}].map(t=><button key={t.id} aria-pressed={fullscreenTab===t.id} onClick={()=>setFullscreenTab(t.id as typeof fullscreenTab)}>{t.label}</button>)}</nav>
-          <div className={styles.finishPanelBody} key={fullscreenTab}>{fullscreenTab==='edit'?directEditor:fullscreenTab==='room'?roomEditor:fullscreenTab==='view'?visibilityEditor:<FinishControls tab={fullscreenTab} design={design} onChange={change} onMatchCupboards={matchCupboards}/>}</div>
+          <header className={styles.finishPanelHeading}><h3>Your kitchen</h3><button aria-label="Close finish panel" onClick={toggleFinishes}><X size={18}/></button></header>
+          {panelNavigation}
+          <div className={styles.finishPanelBody} key={activePanel}>{panelContent}</div>
           <p className={styles.finishPanelStatus}>{storageStatus}</p>
         </aside>}
-        {!viewerExpanded&&inspectorOpen&&<aside className={styles.directPanel} aria-label={inspectorMode==='view'?'Kitchen visibility':'Edit selected element'}><header><strong>{inspectorMode==='view'?'Show / hide':'Edit elements'}</strong><button aria-label="Hide element controls" onClick={()=>setInspectorOpen(false)}><X size={17}/></button></header>{inspectorMode==='view'?visibilityEditor:directEditor}</aside>}
-        {!viewerExpanded&&selected&&!inspectorOpen&&<button className={styles.reopenEditor} onClick={()=>setInspectorOpen(true)}>Edit selected</button>}
         {textureStatus&&<div className={styles.textureStatus} role="status">{textureStatus}</div>}
-        <div className={styles.stageBottom}><p>Drag to orbit <span>·</span> Pinch or scroll to zoom <span>·</span> Tap a component to edit</p></div>
+        <div className={styles.stageBottom}><p>Drag to look around · Click a piece to edit</p><button className={styles.viewSettings} onClick={()=>navigatePanel('view')}>View options</button></div>
         {overlaps.length > 0 && <div className={styles.collisionNote} role="status">{overlaps.length} overlapping {overlaps.length === 1 ? 'pair' : 'pairs'} · Adjust placement in Arrange.</div>}
       </section>
-      <aside className={styles.editor} inert={viewerExpanded} aria-label="Kitchen customization">
-        <div className={styles.editorIntro}><span className={styles.eyebrow}>MAKE IT YOURS</span><h2>Your kitchen, your way.</h2></div>
-        <nav className={styles.tabs} aria-label="Customization categories">{TABS.map(t => <button key={t.id} aria-pressed={tab === t.id} onClick={() => setTab(t.id)}>{t.label}</button>)}</nav>
-        <div className={styles.panel}>
-          {(tab==='surfaces'||tab==='cupboards'||tab==='sink')&&<FinishControls tab={tab} design={design} onChange={change} onMatchCupboards={matchCupboards} onArrangeSink={arrangeSink}/>}
-          {tab === 'layout' && (gridOpen?<GridBuilder design={design} onCancel={()=>setGridOpen(false)} onBuild={next=>{pendingViewReset.current=true;commit(next);setGridOpen(false);setSelected(null);setTab('components');setPlacementNotice('Custom kitchen created. Select any piece to resize or move it.');}}/>:<>
-            <div className={styles.panelHeading}><h3>A space that fits</h3></div><p className={styles.panelDescription}>Start with a familiar plan, or create your own square-by-square layout. Finishes stay yours.</p>
-            <button className={styles.customLayoutButton} onClick={()=>setGridOpen(true)}><SquaresFour size={24}/><span><strong>Create a custom kitchen</strong><small>Start with a blank n × n grid</small></span><Plus size={18}/></button>
-            <div className={styles.layoutGrid}>{LAYOUTS.map(l=><button key={l.id} aria-pressed={design.layout===l.id} onClick={()=>loadLayout(l.id)}><LayoutGlyph layout={l.id}/><strong>{l.name}</strong><small>{l.detail}</small></button>)}</div>
-            <Field label="Room dimensions" note="Room resizing is blocked when it would cause overlaps."><Range label="Width" value={design.roomWidth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomWidth',v)}/><Range label="Depth" value={design.roomDepth} min={144} max={720} step={6} onChange={v=>resizeRoom('roomDepth',v)}/></Field>
-            <Field label="Floor"><Choices label="Floor" value={design.floor} items={[{id:'oak',name:'Light oak'},{id:'walnut',name:'Walnut'},{id:'tile',name:'Stone tile'}]} onChange={v=>change('floor',v)}/></Field>
-            <details className={styles.directDetails}><summary>Walls, windows & doors</summary>{roomEditor}</details><ColorPicker label="Walls" value={design.wallColor} onChange={v=>change('wallColor',v)}/>
-          </>)}
-          {tab === 'components' && <>
-            <div className={styles.panelHeading}><h3>Make room for your ideas</h3><span>{design.components.length} pieces</span></div><p className={styles.panelDescription}>Select a piece in the scene or below. Position is measured from the centre of the room. Nearby edges snap together; overlaps are prevented.</p>
-            <p className={styles.snappingNote}><Check size={14}/>Edge snapping & overlap protection on</p>
-            {placementNotice&&<p className={styles.placementNotice} role="status">{placementNotice}</p>}
-            <label className={styles.selectLabel}>Selected component<select value={selected??''} onChange={e=>selectElement(e.target.value||null)}><option value="">Choose a component</option>{design.components.map((c,i)=><option key={c.id} value={c.id}>{String(i+1).padStart(2,'0')} · {c.name}</option>)}</select></label>
-            <button className={styles.showAll} disabled={!selected} onClick={()=>setInspectorOpen(true)}>Edit selected in 3D</button>
-            <details className={styles.directDetails}><summary>Walls, windows & doors</summary>{roomEditor}</details>
-            <Field label="Add a component"><div className={styles.addGrid}>{(Object.keys(KIND_NAMES) as ComponentKind[]).map(kind=><button key={kind} onClick={()=>addComponent(kind)}><Plus size={14}/>{KIND_NAMES[kind]}</button>)}</div></Field>
-          </>}
+      <aside className={styles.editor} inert={viewerExpanded} aria-label="Kitchen customization">{!viewerExpanded&&<>
+        {panelNavigation}
+        <div className={styles.panel} key={activePanel}>{panelContent}
           <p className={styles.editorFootnote}>An approximate design preview. Confirm dimensions and material samples before renovating.</p>
-        </div>
+        </div></>}
       </aside>
     </div>
     <footer className={styles.designStrip} inert={viewerExpanded}><div><span className={styles.miniStone} data-material={material.id} style={{backgroundColor:material.color,backgroundImage:material.thumbnailUrl?`url(${material.thumbnailUrl})`:undefined,backgroundSize:'cover'}}/><span><small>COUNTERTOP</small><strong>{material.company==='Studio collection'?material.name:material.code}</strong></span></div><div><i style={{background:design.cabinetColor}}/><span><small>CUPBOARDS</small><strong>{colorName(design.cabinetColor)}</strong></span></div><div><i style={{background:FINISHES.find(f=>f.id===design.sinkFinish)!.color}}/><span><small>SINK</small><strong>{design.sinkStyle==='apron'?'Apron front':design.sinkStyle==='double'?'Double bowl':'Single bowl'}</strong></span></div><p>Designed by you.<span>{storageStatus}</span></p></footer>
