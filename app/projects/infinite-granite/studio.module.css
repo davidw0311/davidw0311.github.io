@@ -609,3 +609,18 @@
   .headerActions .saveButton span,.headerActions .compareButton span { display:inline; }
   .headerActions button>svg { display:none; }
 }
+
+/* Compact cell editor: one action row, a direction pad, and two dimensions. */
+.cellArrows { display:grid;grid-template-columns:44px 44px 44px;grid-template-rows:44px 44px 44px;gap:5px;justify-content:center;margin:2px 0 8px; }
+.cellArrows button { padding:0;display:grid;place-items:center;min-height:44px; }
+.cellArrows button:first-child { grid-column:2; }
+.cellArrows button:nth-child(2) { grid-column:1;grid-row:2; }
+.cellArrows span { grid-column:2;grid-row:2;align-self:center;text-align:center;font-size:11px;color:#69766f; }
+.cellArrows button:nth-child(4) { grid-column:3;grid-row:2; }
+.cellArrows button:last-child { grid-column:2;grid-row:3; }
+.cellList { display:grid;grid-template-columns:1fr 1fr;gap:6px;max-height:200px;overflow:auto; }
+.cellList button { font-size:11px; }
+.stage .history .addCellButton { display:flex;align-items:center;justify-content:center;min-height:38px;width:auto;gap:6px;padding:0 10px;white-space:nowrap;background:#245c47;color:white;border-color:#245c47; }
+@media(max-width:600px) { .stageTop {flex-wrap:wrap;gap:8px;} .history .addCellButton {font-size:11px;} }
+
+.directBody .directActions button { min-height:44px; }

@@ -1,3 +1,4 @@
+import { reflowCells } from './cellLayout.ts';
 import { fitOpenings, openingsOverlap } from './room.ts';
 import { clampComponent, defaultDesign, footprint, makeComponent, SIZE_LIMITS, type ComponentKind, type KitchenComponent, type KitchenDesign } from './kitchen.ts';
 
@@ -205,7 +206,7 @@ export function createCustomDesign(gridSize: number, cells: GridCell[], settings
     occupied.add(key);
     const c = createGridComponent(cell.kind, `grid-${key}`, cell.row, cell.column, gridSize, cell.rotation, cellSize);
     if (!c || !isPlacementValid(c, components, gridSize * cellSize, gridSize * cellSize)) return null;
-    components.push(c);
+    components.push({...c,cell:{row:cell.row,column:cell.column}});
   }
-  return { ...settings, layout: 'custom', gridSize, gridCellSize: cellSize, roomWidth: gridSize * cellSize, roomDepth: gridSize * cellSize, components };
+  return reflowCells({ ...settings, layout: 'custom', gridSize, gridCellSize: cellSize, roomWidth: gridSize * cellSize, roomDepth: gridSize * cellSize, gridColumns:Array(gridSize).fill(cellSize),gridRows:Array(gridSize).fill(cellSize), components });
 }
