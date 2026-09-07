@@ -133,7 +133,7 @@ export default function InfiniteGranite() {
     const delta=sceneRef.current?.shiftVector(x,y)??{x,z:-y};
     const next=moveCell(design,selectedComponent.id,Math.sign(delta.z),Math.sign(delta.x));
     if(next){commit(next);setPlacementNotice('');}
-    else setPlacementNotice('That cell is outside the grid or blocked by a tall piece or wall cupboard.');
+    else setPlacementNotice('That alignment or move is blocked by another piece or the grid boundary.');
   }
   function replaceSelected(kind:ComponentKind){
     if(!selectedComponent)return;
