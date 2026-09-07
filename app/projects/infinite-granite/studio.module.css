@@ -640,3 +640,17 @@
 .layoutGlyph[data-layout=bath-full] i:nth-child(3) {display:block;right:0;bottom:0;width:23px;height:21px;background:transparent;border:2px solid currentColor;}
 .layoutGlyph[data-layout=bath-double] i:first-child {width:38px;}
 .layoutGlyph[data-layout=bath-double] i:nth-child(3) {display:block;right:0;bottom:0;width:36px;height:16px;border-radius:7px;background:transparent;border:3px solid currentColor;}
+
+/* Room finish options remain readable in narrow inspectors. */
+.choices:is([aria-label="Floor"],[aria-label="Wall material"]) {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+.studio[data-custom-background=true] .stageTop>div:first-child {background:var(--ig-surface);border-radius:6px;padding:4px 8px;}
+.layoutGlyph[data-layout=single-island] i:nth-child(3) {display:block;left:25px;top:27px;width:31px;height:14px;}
+.layoutGlyph[data-layout=family-island] i:nth-child(2) {display:block;left:0;top:0;width:9px;height:43px;}
+.layoutGlyph[data-layout=family-island] i:nth-child(3) {display:block;left:25px;top:24px;width:31px;height:19px;}
+.layoutGlyph[data-layout=galley-pantry] i:nth-child(3) {display:block;left:0;bottom:0;width:60px;height:9px;}
+.layoutGlyph[data-layout=bath-tub] i:nth-child(3),.layoutGlyph[data-layout=bath-ensuite] i:nth-child(3) {display:block;left:0;bottom:0;width:32px;height:16px;border-radius:7px;background:transparent;border:3px solid currentColor;}
+.layoutGlyph[data-layout=bath-shared] i:first-child,.layoutGlyph[data-layout=bath-ensuite] i:first-child {width:38px;}
+.layoutGlyph[data-layout=bath-shared] i:nth-child(3),.layoutGlyph[data-layout=bath-ensuite] i:nth-child(4) {display:block;right:0;bottom:0;width:20px;height:21px;background:transparent;border:2px solid currentColor;}
+
+.studio[data-custom-background=true] .stageBottom>*,.studio[data-custom-background=true] .history button:not(.addCellButton) {background:var(--ig-surface);border-radius:5px;}
+.studio[data-custom-background=true] .stageBottom p {padding:3px 6px;}

@@ -1,3 +1,4 @@
+import { FLOOR_FINISHES } from './roomFinishes';
 import { gridDirection } from './editActions';
 import type { Cell, CellTarget } from './cellLayout';
 import * as THREE from 'three';
@@ -203,7 +204,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) { geometries.add(o.geometry); (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => materials.add(m)); }
       if (o instanceof THREE.Sprite) { o.material.map?.dispose(); materials.add(o.material); }
     });
-    geometries.forEach(g => g.dispose()); materials.forEach(m => m.dispose()); model.clear(); pickables = []; cellPickables=[]; activeTextureIds.clear();
+    geometries.forEach(g => g.dispose()); materials.forEach(m => {if(m.userData.roomTexture)(m as THREE.MeshStandardMaterial).map?.dispose();m.dispose();}); model.clear(); pickables = []; cellPickables=[]; activeTextureIds.clear();
   }
   function label(text: string, x: number, y: number, z: number) {
     const canvas = document.createElement('canvas'); canvas.width = 384; canvas.height = 80;
@@ -214,6 +215,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   }
   function cupboard(parent: THREE.Object3D, c: KitchenComponent, color: string, yBase: number, height: number) {
     const { width: w, depth: d } = c;
+    if(c.closedCorner){box(parent,w-.3,height,d-.3,0,yBase+height/2,0,mat(color,.48));return;}
     const body = color === '#b78d60' ? stone('butcher') : mat(color, .48); const inner = mat(new THREE.Color(color).multiplyScalar(.8).getStyle(), .6);
     const metal = mat(FINISHES.find(f => f.id === current.hardware)!.color, .28, current.hardware === 'black' ? .25 : .8);
     const toe = c.kind === 'upper' ? 0 : 4;
@@ -313,15 +315,19 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       box(parent,w-.5,h-5,1,0,(h-5)/2+3,d/2-1.8,surface,.15); box(parent,w*.7,.8,1.3,0,h-5,d/2-.7,dark,.12);
     }
   }
+  function roomSurface(id:string,color:string,roughness=.7){const material=new THREE.MeshStandardMaterial({map:materialTexture(id,true),color,roughness});material.userData.roomTexture=true;return material;}
   function room() {
     const w=current.roomWidth,d=current.roomDepth;
     box(model,w+4,4,d+4,0,-2.2,0,mat('#c9cfcb'));
-    if (current.floor === 'tile') {
-      const material = mat('#ccceca',.85), grout=mat('#aeb3af'); box(model,w,.2,d,0,.01,0,grout);
-      for(let x=-w/2;x<w/2;x+=24) for(let z=-d/2;z<d/2;z+=24) { const tw=Math.min(23.75,w/2-x),td=Math.min(23.75,d/2-z); box(model,tw,.22,td,x+tw/2,.2,z+td/2,material); }
+    const floorFinish=FLOOR_FINISHES.find(f=>f.id===current.floor)!;
+    const floorColor=current.floorColor??floorFinish.color;
+    if (floorFinish.format === 'tile') {
+      const material=current.floor==='marble'?roomSurface('carrara',floorColor,.4):current.floor==='slate'?roomSurface('soapstone',floorColor):mat(floorColor,.65);material.color.set(floorColor);
+      const alternate=current.floor==='checker'?mat(new THREE.Color(floorColor).multiplyScalar(.25).getStyle(),.65):material,grout=mat('#aeb3af'); box(model,w,.2,d,0,.01,0,grout);
+      for(let x=-w/2;x<w/2;x+=24) for(let z=-d/2;z<d/2;z+=24) { const tw=Math.min(23.75,w/2-x),td=Math.min(23.75,d/2-z); box(model,tw,.22,td,x+tw/2,.2,z+td/2,current.floor==='checker'&&(Math.round((x+w/2)/24)+Math.round((z+d/2)/24))%2?alternate:material); }
     } else {
-      const wood=stone('butcher'); wood.color.set(current.floor==='walnut'?'#746158':'#d4c7b0');
-      const seam=mat(current.floor==='walnut'?'#675244':'#bdac91'); box(model,w,.3,d,0,.1,0,seam);
+      const wood=roomSurface('butcher',floorColor); wood.color.set(floorColor);
+      const seam=mat(new THREE.Color(floorColor).multiplyScalar(.75).getStyle()); box(model,w,.3,d,0,.1,0,seam);
       for(let z=-d/2;z<d/2;z+=6) { const depth=Math.min(5.88,d/2-z); box(model,w-.15,.25,depth,0,.4,z+depth/2,wood); }
     }
     const walls=current.roomWalls??defaultWalls(),openings=fitOpenings(current);
@@ -331,11 +337,22 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       if(side==='back'||side==='front')group.position.z=(side==='back'?-1:1)*d/2;
       else {group.position.x=(side==='left'?-1:1)*w/2;group.rotation.y=-Math.PI/2;}
       const inward=side==='back'||side==='right'?1:-1,length=wallLength(current,side),height=walls[side].height;
-      const cuts=openings.filter(o=>o.wall===side),wallMat=mat(current.wallColor,.9),trim=mat('#f7f8f4');
+      const cuts=openings.filter(o=>o.wall===side),trim=mat('#f7f8f4');
       const mark=(object:THREE.Object3D,id:string)=>{object.updateWorldMatrix(true,true);object.traverse(o=>{o.userData.componentId=id;if(o instanceof THREE.Mesh)pickables.push(o);});if(options.selected===id)model.add(new THREE.Box3Helper(new THREE.Box3().setFromObject(object),new THREE.Color('#218966')));};
       if(options.walls&&!options.hidden?.includes(`wall:${side}`)){
         const wallGroup=new THREE.Group();group.add(wallGroup);
-        for(const r of cutOpenings({left:-length/2,right:length/2,bottom:0,top:height},cuts))box(wallGroup,r.right-r.left,r.top-r.bottom,2,(r.left+r.right)/2,(r.bottom+r.top)/2,-inward,wallMat);
+        const wallMat=current.wallMaterial==='plaster'?roomSurface('concrete',current.wallColor,.95):mat(current.wallColor,current.wallMaterial==='tile'?.4:.9);
+        const rectangles=cutOpenings({left:-length/2,right:length/2,bottom:0,top:height},cuts);
+        for(const r of rectangles)box(wallGroup,r.right-r.left,r.top-r.bottom,2,(r.left+r.right)/2,(r.bottom+r.top)/2,-inward,wallMat);
+        if(current.wallMaterial==='tile'||current.wallMaterial==='panel'){
+          const points:number[]=[],tiled=current.wallMaterial==='tile',spacing=tiled?12:8;
+          const line=(x1:number,y1:number,x2:number,y2:number)=>points.push(x1,y1,inward*.03,x2,y2,inward*.03);
+          for(const r of rectangles){
+            if(tiled)for(let y=Math.ceil(r.bottom/6)*6;y<=r.top;y+=6)line(r.left,y,r.right,y);
+            for(let y=tiled?Math.floor(r.bottom/6)*6:r.bottom;y<r.top;y+=tiled?6:height){const offset=tiled&&(Math.round(y/6)%2)?6:0;for(let x=Math.ceil((r.left-offset)/spacing)*spacing+offset;x<r.right;x+=spacing)line(x,Math.max(y,r.bottom),x,Math.min(y+(tiled?6:height),r.top));}
+          }
+          const seams=new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(points,3)),new THREE.LineBasicMaterial({color:new THREE.Color(current.wallColor).multiplyScalar(.72)}));wallGroup.add(seams);
+        }
         mark(wallGroup,`wall:${side}`);
       }
       if(!options.hideWindows)for(const o of cuts){
@@ -366,7 +383,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   }
   function update(design: KitchenDesign, nextOptions: SceneOptions) {
     if (disposed) return;
-    current=design;options=nextOptions;disposeModel();
+    current=design;options=nextOptions;scene.background=design.backgroundColor?new THREE.Color(design.backgroundColor):null;disposeModel();
     controls.maxDistance = Math.max(1100, Math.max(design.roomWidth, design.roomDepth) * 5);
     const shadowExtent = Math.max(design.roomWidth, design.roomDepth) * .8 + 60;
     sun.shadow.camera.left = -shadowExtent; sun.shadow.camera.right = shadowExtent;

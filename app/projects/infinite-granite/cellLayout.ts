@@ -102,7 +102,7 @@ export function editCell(d:KitchenDesign,id:string,patch:Partial<KitchenComponen
 export function replaceCell(d:KitchenDesign,id:string,kind:ComponentKind,onBlocked?:(message:string)=>void):KitchenDesign|null {
   if(!Object.hasOwn(KIND_NAMES,kind))return null;
   const grid=independent(d),c=grid?.components.find(c=>c.id===id);if(!grid||!c)return null;
-  const components=grid.components.map(p=>{if(p.id!==id)return p;const replacement={...p,kind,name:KIND_NAMES[kind],width:Math.max(p.width,SIZE_LIMITS[kind].width[0]),depth:Math.max(p.depth,SIZE_LIMITS[kind].depth[0])};delete replacement.color;delete replacement.material;return replacement;});
+  const components=grid.components.map(p=>{if(p.id!==id)return p;const replacement={...p,kind,name:KIND_NAMES[kind],width:Math.max(p.width,SIZE_LIMITS[kind].width[0]),depth:Math.max(p.depth,SIZE_LIMITS[kind].depth[0])};delete replacement.closedCorner;delete replacement.color;delete replacement.material;return replacement;});
   return reflowCells({...grid,components},onBlocked);
 }
 

@@ -1,10 +1,11 @@
+import { FLOOR_FINISHES, WALL_FINISHES, type FloorFinish, type WallFinish } from './roomFinishes.ts';
 import { bathroomDesign } from './bathrooms.ts';
 import { reflowCells } from './cellLayout.ts';
 import type { RoomWalls, RoomOpening } from './room.ts';
 import { MATERIALS } from './materials.ts';
 export { MATERIALS } from './materials.ts';
 export const MAX_COMPONENTS = 200;
-export type LayoutId = 'bath-powder' | 'bath-full' | 'bath-double' | 'custom' | 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
+export type LayoutId = 'single-island' | 'galley-pantry' | 'family-island' | 'bath-tub' | 'bath-ensuite' | 'bath-shared' | 'bath-powder' | 'bath-full' | 'bath-double' | 'custom' | 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
 export type ComponentKind = 'base' | 'upper' | 'island' | 'sink' | 'range' | 'fridge' | 'dishwasher' | 'pantry' | 'vanity' | 'toilet' | 'shower' | 'tub';
 export type DoorStyle = 'shaker' | 'slab' | 'inset';
 export type SinkStyle = 'single' | 'double' | 'apron';
@@ -12,7 +13,7 @@ export type Finish = 'steel' | 'black' | 'brass' | 'white';
 export interface KitchenComponent {
   id: string; kind: ComponentKind; name: string;
   x: number; z: number; rotation: number; width: number; depth: number; height: number;
-  color?: string; material?: string; cellAlign?: {x:-1|0|1;z:-1|0|1}; cell?: { row:number; column:number };
+  closedCorner?:boolean; color?: string; material?: string; cellAlign?: {x:-1|0|1;z:-1|0|1}; cell?: { row:number; column:number };
 }
 export interface KitchenDesign {
   version: 1; roomType?:'kitchen'|'bathroom'; layout: LayoutId; roomWidth: number; roomDepth: number;
@@ -21,7 +22,7 @@ export interface KitchenDesign {
   roomWalls?: RoomWalls; openings?: RoomOpening[];
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
   doorStyle: DoorStyle; hardware: Finish; sinkStyle: SinkStyle; sinkFinish: Finish;
-  faucet: 'arc' | 'square'; wallColor: string; floor: 'oak' | 'walnut' | 'tile';
+  faucet: 'arc' | 'square'; wallColor: string; floor: FloorFinish; floorColor?:string; wallMaterial?:WallFinish; backgroundColor?:string;
   backsplash: 'subway' | 'slab' | 'none'; counterThickness: number; waterfall: boolean;
   components: KitchenComponent[];
 }
@@ -33,7 +34,9 @@ export const LAYOUTS: { id: LayoutId; name: string; detail: string; footprint: s
   { id: 'u-shape', name: 'U-shaped', detail: 'Three working sides', footprint: 'u' },
   { id: 'peninsula', name: 'Peninsula', detail: 'A connected bar', footprint: 'peninsula' },
 ];
+LAYOUTS.push({id:'single-island',name:'Single wall + island',detail:'Open-plan cooking',footprint:'island'},{id:'galley-pantry',name:'Galley + pantry',detail:'Parallel runs & storage',footprint:'galley'},{id:'family-island',name:'Family kitchen',detail:'L run & deep prep island',footprint:'island'});
 export const BATHROOM_LAYOUTS:typeof LAYOUTS=[{id:'bath-powder',name:'Powder room',detail:'Vanity & toilet',footprint:'powder'},{id:'bath-full',name:'Full bathroom',detail:'Vanity, toilet & shower',footprint:'full'},{id:'bath-double',name:'Double vanity',detail:'Two basins & a bathtub',footprint:'double'}];
+BATHROOM_LAYOUTS.push({id:'bath-tub',name:'Hall bath with tub',detail:'Vanity, toilet & soaking tub',footprint:'full'},{id:'bath-ensuite',name:'Primary ensuite',detail:'Double vanity, shower & tub',footprint:'double'},{id:'bath-shared',name:'Shared bathroom',detail:'Two vanities & shower',footprint:'double'});
 export const COLORS = [
   { name: 'Chalk', value: '#e8e7df' }, { name: 'Linen', value: '#cfc6b7' },
   { name: 'Sage', value: '#8b9a88' }, { name: 'Forest', value: '#314c43' },
@@ -133,7 +136,9 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   if(d.layout.startsWith('bath-')&&d.roomType!=='bathroom')return null;
   if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= (d.roomType==='bathroom'?72:144) && v <= 720)) return null;
   if (!MATERIALS.some(m => m.id === d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
-  if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !['oak', 'walnut', 'tile'].includes(d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
+  if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !FLOOR_FINISHES.some(f=>f.id===d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
+  if(d.wallMaterial!==undefined&&!WALL_FINISHES.some(f=>f.id===d.wallMaterial))return null;
+  if([d.floorColor,d.backgroundColor].some(v=>v!==undefined&&(typeof v!=='string'||!hex.test(v))))return null;
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;
   if (!Number.isFinite(d.counterThickness) || d.counterThickness < 0.75 || d.counterThickness > 3 || typeof d.waterfall !== 'boolean') return null;
   if (d.patternContrast !== undefined && (![1,2,3].includes(d.patternContrast))) return null;
@@ -148,6 +153,7 @@ export function parseDesign(input: unknown): KitchenDesign | null {
     if (!c || !kinds.includes(c.kind) || typeof c.id !== 'string' || c.id.length > 80 || ids.has(c.id) || typeof c.name !== 'string' || c.name.length > 80) return null;
     ids.add(c.id);
     if (![c.x, c.z, c.rotation, c.width, c.depth, c.height].every(Number.isFinite)) return null;
+    if(c.closedCorner!==undefined&&(typeof c.closedCorner!=='boolean'||c.kind!=='base'))return null;
     if (c.color !== undefined && (typeof c.color !== 'string' || !hex.test(c.color))) return null;
     if (c.material !== undefined && !MATERIALS.some(m => m.id === c.material)) return null;
   }

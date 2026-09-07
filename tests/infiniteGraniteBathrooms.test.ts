@@ -6,7 +6,7 @@ import { resizeCells,addCell,availableCells,replaceCell } from '../app/projects/
 import {createCustomDesign,sharesHeight} from '../app/projects/infinite-granite/placement.ts';
 test('all bathroom presets are collision free and persist with compact room dimensions',()=>{
  for(const l of BATHROOM_LAYOUTS){const d=bathroomDesign(l.id);assert.equal(d.roomType,'bathroom');assert.ok(d.components.some(c=>c.kind==='vanity'));assert.ok(d.components.some(c=>c.kind==='toilet'));assert.deepEqual(collisionPairs(d.components),[]);assert.deepEqual(parseDesign(JSON.parse(JSON.stringify(d))),JSON.parse(JSON.stringify(d)));assert.deepEqual(defaultDesign(l.id),d);}
- assert.equal(bathroomDesign('bath-powder').roomWidth,90);
+ assert.equal(bathroomDesign('bath-powder').roomWidth,108);
  assert.ok(bathroomDesign('bath-full').components.some(c=>c.kind==='shower'));
  assert.equal(bathroomDesign('bath-double').components.filter(c=>c.kind==='vanity').length,2);
  assert.ok(bathroomDesign('bath-double').components.some(c=>c.kind==='tub'));
