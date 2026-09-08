@@ -55,7 +55,7 @@ export function QuartzCarousel({ children, paused }: { children: ReactNode; paus
   };
 
   return <div className={s.carousel}>
-    <div ref={track} id="quartz-carousel" className={s.track} role="region" aria-roledescription="carousel" aria-label="Quartz selections. Swipe or use the arrow buttons to explore." tabIndex={0}
+    <div ref={track} id="quartz-carousel" className={s.track} role="region" aria-roledescription="carousel" aria-label="Material selections. Swipe or use the arrow buttons to explore." tabIndex={0}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}
       onPointerDown={() => setPlaying(false)} onWheel={() => setPlaying(false)}
@@ -64,8 +64,8 @@ export function QuartzCarousel({ children, paused }: { children: ReactNode; paus
     </div>
     <div className={s.carouselControls}>
         {!reducedMotion && scrollable && <button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause automatic rotation' : 'Start automatic rotation'}>{playing ? <Pause size={18} /> : <Play size={18} />}</button>}
-        <button onClick={() => navigate(-1)} disabled={!scrollable} aria-label="Previous quartz" aria-controls="quartz-carousel"><ArrowLeft size={22} /></button>
-        <button onClick={() => navigate(1)} disabled={!scrollable} aria-label="Next quartz" aria-controls="quartz-carousel"><ArrowRight size={22} /></button>
+        <button onClick={() => navigate(-1)} disabled={!scrollable} aria-label="Previous surface" aria-controls="quartz-carousel"><ArrowLeft size={22} /></button>
+        <button onClick={() => navigate(1)} disabled={!scrollable} aria-label="Next surface" aria-controls="quartz-carousel"><ArrowRight size={22} /></button>
     </div>
   </div>;
 }

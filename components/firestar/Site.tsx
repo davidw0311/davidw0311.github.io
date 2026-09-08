@@ -50,7 +50,7 @@ const materialCards = [
 ];
 function Materials({ version, full = false }: { version: Version; full?: boolean }) {
   return <section className={`${styles.section} ${styles.materials}`}>
-    <div className={styles.sectionTitle}><p className={styles.eyebrow}>Quartz comes first</p><h2>Quartz, made for you.</h2><p>Explore custom quartz countertops for kitchens and bathrooms, with colors and designs to suit your space. Granite, marble, and onyx are also available.</p><Action version={version} page="p1" quiet>Explore quartz</Action></div>
+    <div className={styles.sectionTitle}><p className={styles.eyebrow}>Our materials</p><h2>Choose your material.</h2><p>Start with our quartz collection for kitchens and bathrooms, or explore granite, marble and onyx.</p><Action version={version} page="p1" quiet>View the guide</Action></div>
     <div className={styles.materialGrid}>{materialCards.map((material, index) => <Link className={`${styles.materialCard} ${index === 0 ? styles.featuredQuartz : ''}`} href={href(version, material.key)} key={material.title}>
       <Photo src={material.src} alt="Stone surface from the original Firestar Granite project gallery" />
       <div><span className={styles.materialNumber}>0{index + 1}</span><h3>{material.title}</h3><ArrowUpRight size={25} /><p>{material.sub}</p></div>
@@ -113,7 +113,7 @@ function Testimonials() {
   return <section className={`${styles.section} ${styles.testimonials}`}>{testimonials.map((item, index) => <article key={item.author}><span className={styles.quoteMark} aria-hidden="true">“</span><blockquote><p>{item.quote}</p><cite>{item.author}</cite></blockquote><span className={styles.testimonialIndex}>{String(index + 1).padStart(2, '0')}</span></article>)}</section>;
 }
 function PageHeading({ current, version }: { current: PageKey; version: Version }) {
-  const titles: Partial<Record<PageKey, string>> = { services: 'Made for the way you live.', products: 'Begin with quartz.', showroom: 'Get closer to your stone.', gallery: 'The work speaks for itself.', contact: 'Your next project starts here.', testimonials: 'In our customers’ words.' };
+  const titles: Partial<Record<PageKey, string>> = { services: 'Made for the way you live.', products: 'Explore the possibilities.', showroom: 'Get closer to your stone.', gallery: 'The work speaks for itself.', contact: 'Your next project starts here.', testimonials: 'In our customers’ words.' };
   return <section className={styles.pageHeading}><Link href={href(version)}>Home</Link><span>/ {routes[current].title}</span><h1>{titles[current] || routes[current].title}</h1></section>;
 }
 function Footer({ version }: { version: Version }) {

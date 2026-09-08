@@ -54,3 +54,7 @@ The opening Kasa gallery is a horizontal scroll-snap carousel: three cards on de
 ## V1 simplified landing screen
 
 The landing screen now places the quartz carousel directly beneath a compact, centered heading. Colour filters, search, the saved-count toolbar, selection count, introductory paragraph, and showroom CTA were removed from above the images. Card overlays were removed; visitors can still save selections from the product detail view. Product cards show only the name and code, with larger imagery scaled to the viewport. Rotation and navigation controls sit centered below the gallery. The portfolio preview reflects this simpler layout. This supersedes the earlier filter/search description; all thirteen selections, automatic rotation, detailed views, and enquiries remain available.
+
+## V1 copy refinement
+
+Reduced repeated material names in the V1 gallery, product actions, and materials section. The landing headline is now “Find your surface.”, followed by “Our materials” / “Choose your material.” further down the page. Product actions use selection-specific language, and carousel labels use “surface”. The Kasa Quartz brand, the main collection description, material category names, technical guides, and source company content retain their accurate terminology. The homepage V1 preview uses the updated headline.
