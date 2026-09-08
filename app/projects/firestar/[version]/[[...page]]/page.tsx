@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FirestarSite } from '@/components/firestar/Site';
-import { href, routes, themes, versions, type PageKey, type Version } from '@/data/firestar/content';
+import { brandName, href, routes, themes, versions, type PageKey, type Version } from '@/data/firestar/content';
 
 type Params = { version: string; page?: string[] };
 function resolve(params: Params) {
@@ -15,8 +15,8 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { version, current } = resolve(await params);
-  const title = `Firestar Granite | ${routes[current].title} | ${themes[version].short}`;
-  return { title: { absolute: title }, description: 'Custom quartz, granite, marble, and onyx. Firestar Granite in Nanaimo proudly serves all of Vancouver Island.', alternates: { canonical: href(version, current) }, openGraph: { title, url: href(version, current), siteName: 'Firestar Granite', images: [{ url: '/assets/firestar/photo-005.jpg', width: 800, height: 530, alt: 'Firestar Granite custom kitchen' }] } };
+  const title = `${brandName} | ${routes[current].title} | ${themes[version].short}`;
+  return { title: { absolute: title }, description: `${brandName}: custom quartz countertops for kitchens and bathrooms, crafted in Nanaimo for Vancouver Island. Also offering granite, marble, and onyx.`, alternates: { canonical: href(version, current) }, openGraph: { title, url: href(version, current), siteName: brandName, images: [{ url: '/assets/firestar/photo-005.jpg', width: 800, height: 530, alt: 'Firestar Granite custom kitchen' }] } };
 }
 export default async function Page({ params }: { params: Promise<Params> }) {
   return <FirestarSite {...resolve(await params)} />;

@@ -28,3 +28,7 @@ There are 96 original images under `public/assets/firestar/`, along with optimiz
 ## Delivery
 
 Built on `Firestar-website-revamp` (Git does not allow spaces in branch names). Work was performed in an isolated checkout to preserve unrelated generated output and garden photographs in the main checkout. GitHub Pages publishes the production export through the existing workflow on a push to `main`.
+
+## Quartz emphasis and display name
+
+The public display name is “Firestar（infinite） granite” across the header, footer, browser metadata, and homepage project previews. Original legal names and attributed source text remain intact. Each design leads with quartz in its hero headline, description, and primary action. The material section now follows the hero, highlights quartz, and retains the other stone options and product guides.

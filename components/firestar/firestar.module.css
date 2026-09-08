@@ -39,3 +39,33 @@
 @media(max-width:400px){.previewBar> a{max-width:115px;line-height:1.2}.heroActions{gap:13px}.heroActions .button{padding:10px 13px;gap:10px}.heroPhoto{height:290px}.v3 .hero h1{font-size:11.6vw}.heroDescription{font-size:13px}.previewGrid .photo,.v2 .previewGrid .photo{height:170px}.galleryGrid{grid-template-columns:1fr}.galleryPhoto img,.v2 .galleryPhoto img,.v3 .galleryPhoto img{height:260px}.footerTop{grid-template-columns:1fr}.v2 .hero{min-height:620px}.v2 .heroCopy{padding-top:40px}.v3 .heroPhoto{height:270px}.quoteChecklist{padding:20px}.quoteChecklist .button{font-size:11px}.previewGrid h3{font-size:19px}}
 @media(prefers-reduced-motion:reduce){.site *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(min-width:768px){.v3 .hero{min-height:0;align-content:start;grid-template-rows:auto auto auto auto auto;gap:24px 30px;padding-bottom:65px}.v3 .heroDescription{grid-row:3;margin-top:12px!important}.v3 .heroActions{grid-row:4}.v3 .studioNote{grid-row:5;padding-top:0}.v3 .heroPhoto{grid-row:3/6;height:360px;margin-top:-42px;align-self:start}}
+
+/* Keep the expanded business name legible without crowding navigation. */
+.site .wordmark {
+  font-size: 24px;
+  letter-spacing: -1.2px;
+  text-transform: none;
+  white-space: nowrap;
+}
+.site .wordmark span { text-transform: none; }
+.sectionTitle > .textLink { margin-top: 18px; }
+.materialCard.featuredQuartz > div:last-child {
+  border-top: 3px solid var(--accent);
+  margin-top: 12px;
+}
+.v2 .materialGrid, .v3 .materialGrid { grid-template-columns: 1.35fr 1fr 1fr; }
+@media (min-width: 768px) and (max-width: 1000px) {
+  .header { gap: 20px; }
+  .site .wordmark { font-size: 20px; }
+  .navigation { gap: 14px; font-size: 12px; }
+  .navigation a:last-child { padding: 10px 12px; }
+}
+@media (max-width: 767px) {
+  .site .wordmark { font-size: 21px; letter-spacing: -1px; }
+  .v2 .materialGrid, .v3 .materialGrid { grid-template-columns: 1fr; }
+  .heroNote { flex-wrap: wrap; gap: 6px 15px; }
+}
+@media (max-width: 767px) {
+  .v1 .hero h1 { font-size: clamp(46px, 13vw, 96px); }
+  .footerTop > .wordmark { grid-column: 1 / -1; }
+}

@@ -1,5 +1,8 @@
 import source from './source.json';
 
+export const brandName = 'Firestar（infinite） granite';
+export const brandWordmark = 'Firestar（infinite）';
+
 export type Version = 'v1' | 'v2' | 'v3';
 export const versions: Version[] = ['v1', 'v2', 'v3'];
 export const themes = {
