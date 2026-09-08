@@ -4,6 +4,7 @@ import { ArrowUpRight, Phone, MapPin, EnvelopeSimple } from '@phosphor-icons/rea
 import { brandName, brandWordmark, href, routes, pages, photos, services, guideKeys, locations, quoteItems, quoteEmail, testimonials, type PageKey, type Version } from '@/data/firestar/content';
 import { Header } from './Header';
 import { Gallery } from './Gallery';
+import { QuartzGallery } from './quartz/QuartzGallery';
 import styles from './firestar.module.css';
 
 function Photo({ src, alt, className = '', priority = false }: { src: string; alt: string; className?: string; priority?: boolean }) {
@@ -123,7 +124,7 @@ export function FirestarSite({ version, current }: { version: Version; current: 
   return <div className={`${styles.site} ${styles[version]}`}>
     <a href="#firestar-content" className={styles.skip}>Skip to content</a><Header key={`${version}-${current}`} version={version} current={current} />
     <main id="firestar-content">
-      {current === 'home' ? <><Hero version={version} /><Materials version={version} />{version === 'v2' ? <><GalleryPreview version={version} /><About version={version} /><ServiceContent version={version} /></> : version === 'v3' ? <><ServiceContent version={version} /><GalleryPreview version={version} /><About version={version} /></> : <><About version={version} /><GalleryPreview version={version} /><ServiceContent version={version} /></>}<Quote version={version} /><Showroom version={version} /></> : <><PageHeading version={version} current={current} />
+      {current === 'home' ? <>{version === 'v1' ? <QuartzGallery /> : <Hero version={version} />}<Materials version={version} />{version === 'v2' ? <><GalleryPreview version={version} /><About version={version} /><ServiceContent version={version} /></> : version === 'v3' ? <><ServiceContent version={version} /><GalleryPreview version={version} /><About version={version} /></> : <><About version={version} /><GalleryPreview version={version} /><ServiceContent version={version} /></>}<Quote version={version} /><Showroom version={version} /></> : <><PageHeading version={version} current={current} />
         {current === 'services' && <><ServiceContent version={version} full /><Photo src={photos['1.jpg']} alt="A completed Firestar Granite kitchen" className={styles.serviceBanner} /><Quote version={version} /></>}
         {current === 'products' && <Materials version={version} full />}
         {current === 'showroom' && <Showroom version={version} full />}

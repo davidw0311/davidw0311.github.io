@@ -40,3 +40,7 @@ All three versions use 250-619-9968 as the sole office/showroom phone number, in
 ## Readability and contact cleanup
 
 The retired fax number is removed from all three designs and the contact source text. Quote checklists and email templates request phone/email only. Supporting text now uses a 14px minimum, with navigation and body copy generally 16px. Responsive navigation, wrapping labels, showroom hours, and footers accommodate the larger type.
+
+## V1 gallery landing page
+
+V1 opens into a quartz lookbook with colour filters, nine project references, a favourites shortlist, and an enlarged detail view. Images are identified as style references from original stone projects, with enquiries for matching quartz samples. These are not named supplier products or inventory claims. Existing company content follows the gallery, and all original project galleries remain available. V2 and V3 are unchanged.
