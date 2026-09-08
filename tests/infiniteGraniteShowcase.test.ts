@@ -81,3 +81,17 @@ test('photographed rear corner and island rim receive stone while adjacent walls
  for(const [x,y] of [[405,285],[420,277],[460,273],[100,405],[200,385],[600,356],[1000,390],[1400,430]])
   assert.equal(masks[(y*WIDTH+x)*8],SAMPLE_COUNT,`Outline spills onto background at ${x},${y}`);
 });
+
+
+test('cupboard colors stay off the hood and floor and include the complete recessed cabinet base',()=>{
+ const masks=surfaceCoverage(WIDTH,HEIGHT,[...LOWERS.map(polygon=>({polygon,id:2})),...UPPERS.map(polygon=>({polygon,id:1}))],3);
+ const weight=(x:number,y:number,id:number)=>masks[(y*WIDTH+x)*3+id];
+ // The old upper rectangle incorrectly tinted this section of the range hood.
+ for(const [x,y] of [[670,10],[700,30],[680,50],[720,90],[600,160]])assert.equal(weight(x,y,0),SAMPLE_COUNT);
+ // Cabinet face, outer frame, and the visible side below the hood all recolor.
+ for(const [x,y] of [[500,70],[440,30],[670,60],[700,140],[665,153]])assert.equal(weight(x,y,1),SAMPLE_COUNT);
+ // Previously unpainted toe-kick pixels must match the lower cupboards.
+ for(const [x,y] of [[300,804],[400,838],[500,879],[600,915],[700,950],[800,991],[860,1017],[1486,810]])assert.equal(weight(x,y,2),SAMPLE_COUNT);
+ // Preserve the wood grain and cast shadow immediately beyond every contact edge.
+ for(const [x,y] of [[100,750],[150,761],[300,814],[500,887],[700,962],[800,1001],[1400,1010],[1431,950],[1480,850]])assert.equal(weight(x,y,0),SAMPLE_COUNT);
+});
