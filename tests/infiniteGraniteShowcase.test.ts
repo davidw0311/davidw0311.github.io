@@ -131,3 +131,15 @@ test('floor patterns remain finite and deterministic in perspective, and lightin
 });
 
 test('tile lighting retains contact shadows without the photographic wood pattern',()=>{assert.ok(floorLight(500,885)<floorLight(500,950));assert.ok(floorLight(10,800)>floorLight(1200,800));});
+
+
+test('stone reaches stove and sink edges without recoloring the metal fixtures',()=>{
+ const masks=surfaceCoverage(WIDTH,HEIGHT,[...SURFACES.map((s,i)=>({polygon:s.outline??s.quad,id:i+3})),...OCCLUDERS.map(polygon=>({polygon,id:0}))],8);
+ // Previously preserved neutral stone below the stove and around the faucet/knob.
+ for(const [x,y] of [[930,312],[940,310],[960,305],[1498,320],[1501,325],[1528,328],[1470,319],[1488,323],[1405,323],[1450,327]]){
+  const w=masks.subarray((y*WIDTH+x)*8,(y*WIDTH+x+1)*8);
+  assert.equal(w.slice(3).reduce((a,b)=>a+b,0),SAMPLE_COUNT,`Neutral slab remains at ${x},${y}`);
+ }
+ for(const [x,y] of [[700,292],[800,290],[920,305],[970,296],[1400,332],[1510,340],[1510,322],[1478,319]])
+  assert.equal(masks[(y*WIDTH+x)*8],SAMPLE_COUNT,`Fixture recolored at ${x},${y}`);
+});
