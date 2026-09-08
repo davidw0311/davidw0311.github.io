@@ -36,3 +36,7 @@ The public display name is “Firestar（infinite） granite” across the heade
 ## Current phone number
 
 All three versions use 250-619-9968 as the sole office/showroom phone number, including tap-to-call links, navigation, contact pages, footers, and the contact text in the source data. This user-requested update supersedes the original source contact numbers.
+
+## Readability and contact cleanup
+
+The retired fax number is removed from all three designs and the contact source text. Quote checklists and email templates request phone/email only. Supporting text now uses a 14px minimum, with navigation and body copy generally 16px. Responsive navigation, wrapping labels, showroom hours, and footers accommodate the larger type.

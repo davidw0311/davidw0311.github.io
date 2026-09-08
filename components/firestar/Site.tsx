@@ -86,7 +86,7 @@ function Quote({ version }: { version: Version }) {
 }
 function Contact() {
   return <section className={`${styles.section} ${styles.contact}`}>
-    <div className={styles.contactDetails}><h2>Let’s talk stone.</h2><p>Office/Showroom</p><a className={styles.phone} href="tel:+12506199968">250-619-9968 <Phone size={26} /></a><a className={styles.email} href="mailto:sales@infinitegranite.ca">sales@infinitegranite.ca <EnvelopeSimple size={22} /></a><p>Fax: 250-740-1046</p></div>
+    <div className={styles.contactDetails}><h2>Let’s talk stone.</h2><p>Office/Showroom</p><a className={styles.phone} href="tel:+12506199968">250-619-9968 <Phone size={26} /></a><a className={styles.email} href="mailto:sales@infinitegranite.ca">sales@infinitegranite.ca <EnvelopeSimple size={22} /></a></div>
     <div className={styles.quoteChecklist}><h2>Start with a quote.</h2><p>To receive an accurate quote please supply:</p><ul>{quoteItems.map(item => <li key={item}>{item}</li>)}</ul><a className={styles.button} href={quoteEmail}>Prepare quote email <ArrowUpRight size={20} /></a><p className={styles.emailHelp}>Opens your email app with a project checklist. Attach your plans before sending.</p></div>
     <Locations />
   </section>;
@@ -116,7 +116,7 @@ function PageHeading({ current, version }: { current: PageKey; version: Version 
   return <section className={styles.pageHeading}><Link href={href(version)}>Home</Link><span>/ {routes[current].title}</span><h1>{titles[current] || routes[current].title}</h1></section>;
 }
 function Footer({ version }: { version: Version }) {
-  return <footer className={styles.footer}><div className={styles.footerTop}><Link className={styles.wordmark} href={href(version)} aria-label={brandName}>{brandWordmark}<span>granite</span></Link><p>Individual service.<br />Superior craftsmanship.<br />Attention to detail.</p><div><a href="tel:+12506199968">250-619-9968</a><a href="mailto:sales@infinitegranite.ca">sales@infinitegranite.ca</a></div><address>2156 Akenhead Road<br />Nanaimo, BC V9X 1T9<br /><span>Fax: 250-740-1046</span></address></div><div className={styles.footerBottom}><span>Copyright 2023 Infinitegranite.ca</span><span>Firestar Enterprises Ltd., formerly Infinite Granite Ltd.</span><Link href="/#projects">Back to projects <ArrowUpRight size={15} /></Link></div></footer>;
+  return <footer className={styles.footer}><div className={styles.footerTop}><Link className={styles.wordmark} href={href(version)} aria-label={brandName}>{brandWordmark}<span>granite</span></Link><p>Individual service.<br />Superior craftsmanship.<br />Attention to detail.</p><div><a href="tel:+12506199968">250-619-9968</a><a href="mailto:sales@infinitegranite.ca">sales@infinitegranite.ca</a></div><address>2156 Akenhead Road<br />Nanaimo, BC V9X 1T9</address></div><div className={styles.footerBottom}><span>Copyright 2023 Infinitegranite.ca</span><span>Firestar Enterprises Ltd., formerly Infinite Granite Ltd.</span><Link href="/#projects">Back to projects <ArrowUpRight size={15} /></Link></div></footer>;
 }
 export function FirestarSite({ version, current }: { version: Version; current: PageKey }) {
   const isGallery = ['gallery', 'kitchen', 'bathroom', 'other'].includes(current);

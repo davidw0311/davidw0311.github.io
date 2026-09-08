@@ -38,8 +38,8 @@ export const locations = [
   { name: 'South Nanaimo', type: 'Showroom & Shop', address: '2156 Akenhead Road', city: 'Nanaimo B.C. V9X 1T9', hours: [['Monday - Friday', '9:00am - 5:00pm'], ['Saturday', '10:30am - 4:00pm'], ['Sunday', 'By Appointment']] },
   { name: 'North Nanaimo', type: 'Self-service Showroom', address: '6120 Kirsten Drive', city: 'Nanaimo B.C. V9V 1J7', hours: [['Monday - Sunday', '9:00am - 8:00pm']] },
 ];
-export const quoteItems = ['Plans & Measurements', 'Site Address', 'Type of sink (under mount/top mount/vessel)', 'Contact Information (phone/email/fax)'];
-export const quoteEmail = 'mailto:sales@infinitegranite.ca?subject=' + encodeURIComponent('Custom stone project quote') + '&body=' + encodeURIComponent('Hello Firestar Granite,\n\nI would like a quote for my project.\n\nPlans & Measurements:\n[Please attach plans and measurements]\n\nSite Address:\n\nType of sink (under mount/top mount/vessel):\n\nContact Information (phone/email/fax):\n');
+export const quoteItems = ['Plans & Measurements', 'Site Address', 'Type of sink (under mount/top mount/vessel)', 'Contact Information (phone/email)'];
+export const quoteEmail = 'mailto:sales@infinitegranite.ca?subject=' + encodeURIComponent('Custom stone project quote') + '&body=' + encodeURIComponent('Hello Firestar Granite,\n\nI would like a quote for my project.\n\nPlans & Measurements:\n[Please attach plans and measurements]\n\nSite Address:\n\nType of sink (under mount/top mount/vessel):\n\nContact Information (phone/email):\n');
 export const testimonials: { quote: string; author: string }[] = [];
 let pending: string[] = [];
 for (const paragraph of pages.testimonials.slice(1)) {

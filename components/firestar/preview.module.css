@@ -16,3 +16,9 @@
 .homesteadVisual>img { width: 100%; height: 140px; object-fit: cover; border-radius: 15px; }
 @media(max-width: 1000px) { .catalogueVisual,.homesteadVisual { height:260px; }.catalogueVisual { grid-template-columns:50px 1fr; }.miniRail { padding:20px 6px; }.miniRail b { font-size:8px; }.miniExhibit strong { font-size:33px; }.homesteadVisual>strong { font-size:27px; }.homesteadVisual { padding:15px; } }
 @media(max-width:767px) { .catalogueVisual,.homesteadVisual { height:300px; }.catalogueVisual { grid-template-columns:75px 1fr; }.miniExhibit strong { font-size:50px; }.miniExhibit img { height:228px; }.miniRail { padding:25px 13px; }.miniRail b { font-size:12px; }.miniRail>span { font-size:8px; }.homesteadVisual>strong { font-size:38px; }.homesteadVisual>img { height:150px; }.miniRooms { font-size:8px; }.homesteadVisual>span { font-size:8px; } }
+
+.intro>span, .caption span { font-size: 14px; }
+.intro p, .caption h4 { font-size: 16px; }
+.caption { gap: 12px; }
+.caption>div { min-width: 0; }
+.caption>svg { flex-shrink: 0; }
