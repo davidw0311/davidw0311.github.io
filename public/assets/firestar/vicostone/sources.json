@@ -1,0 +1,66 @@
+{
+  "verified": "2026-09-08",
+  "note": "Official supplier catalogue images; sample availability and pricing are confirmed by Firestar.",
+  "products": [
+    {
+      "supplier": "Vicostone",
+      "code": "BQ6716",
+      "title": "Vitoria Regia",
+      "source": "https://vicostone.ca/en/product/BQ6716?detectedGeoLocation=CA",
+      "imageSource": "https://vicostone.ca/-/media/map-da-t10-2024/bq6716-fullslab.jpg",
+      "roomSource": "https://vicostone.ca/-/media/ng-images/update-anh-sp/bq6716/bq6716---app1.jpg",
+      "image": "vicostone/bq6716",
+      "roomImage": "vicostone/bq6716-room"
+    },
+    {
+      "supplier": "Vicostone",
+      "code": "BQ6984",
+      "title": "Beryl",
+      "source": "https://vicostone.ca/en/product/BQ6984?detectedGeoLocation=CA",
+      "imageSource": "https://vicostone.ca/-/media/spm-global-2025/bq6984/bq6984-fullslab.jpg",
+      "roomSource": "https://vicostone.ca/-/media/ng-images/update-anh-sp/bq6984/bq-6984-15012025-app-1.jpg",
+      "image": "vicostone/bq6984",
+      "roomImage": "vicostone/bq6984-room"
+    },
+    {
+      "supplier": "Vicostone",
+      "code": "BQ8815",
+      "title": "Misterio",
+      "source": "https://vicostone.ca/en/product/BQ8815?detectedGeoLocation=CA",
+      "imageSource": "https://vicostone.ca/-/media/map-da-t10-2024/bq8815-fullslab.jpg",
+      "roomSource": "https://vicostone.ca/-/media/ng-images/update-anh-sp/bq8815/8815-1.jpg",
+      "image": "vicostone/bq8815",
+      "roomImage": "vicostone/bq8815-room"
+    },
+    {
+      "supplier": "Vicostone",
+      "code": "BQ8820",
+      "title": "Misterio Gold",
+      "source": "https://vicostone.ca/en/product/BQ8820?detectedGeoLocation=CA",
+      "imageSource": "https://vicostone.ca/-/media/map-da-t10-2024/bq8820-fullslab.jpg",
+      "roomSource": "https://vicostone.ca/-/media/ng-images/update-anh-sp/bq8820/b-bq8820---app3.jpg",
+      "image": "vicostone/bq8820",
+      "roomImage": "vicostone/bq8820-room"
+    },
+    {
+      "supplier": "Vicostone",
+      "code": "BQ6803",
+      "title": "Lacus",
+      "source": "https://vicostone.ca/en/product/BQ6803?detectedGeoLocation=CA",
+      "imageSource": "https://vicostone.ca/-/media/map-da-t10-2024/bq6803-fullslab.jpg",
+      "roomSource": "https://vicostone.ca/-/media/spm-global-2025/bq6803/bq6803--1-12092024.jpg",
+      "image": "vicostone/bq6803",
+      "roomImage": "vicostone/bq6803-room"
+    },
+    {
+      "supplier": "Vicostone",
+      "code": "BQ2616",
+      "title": "Golden Polaris",
+      "source": "https://vicostone.ca/en/product/BQ2616?detectedGeoLocation=CA",
+      "imageSource": "https://vicostone.ca/-/media/map-da-new-2025/bq2616-fullslab.jpg",
+      "roomSource": "https://vicostone.ca/-/media/anh-ung-dung-2025/bq2616/bq2616_27062025_app_-(1).jpg",
+      "image": "vicostone/bq2616",
+      "roomImage": "vicostone/bq2616-room"
+    }
+  ]
+}

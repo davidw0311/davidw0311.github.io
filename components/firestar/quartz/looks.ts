@@ -1,15 +1,16 @@
-export type Tone = 'all' | 'light' | 'warm' | 'dark';
+export type Tone = 'all' | 'light' | 'warm' | 'dark' | 'green';
 export const tones: { key: Tone; label: string; color: string }[] = [
   { key: 'all', label: 'All quartz', color: 'transparent' },
   { key: 'light', label: 'Light & bright', color: '#e7e5de' },
   { key: 'warm', label: 'Warm neutrals', color: '#b99d7a' },
+  { key: 'green', label: 'Natural greens', color: '#7d8b78' },
   { key: 'dark', label: 'Dark & dramatic', color: '#363b37' },
 ];
 export type Look = {
-  id: string; code: string; title: string; series: string; tone: Exclude<Tone, 'all'>;
+  id: string; code: string; title: string; supplier: 'Kasa' | 'TCE Stone' | 'Vicostone'; series: string; tone: Exclude<Tone, 'all'>;
   pattern: string; image: string; roomImage: string | null; imageKind: 'slab' | 'room'; description: string; source: string;
 };
-// Names and codes verified against Kasa's catalogue. Image provenance is in public/assets/firestar/kasa/sources.json.
+// Official catalogue names and codes. Image provenance is in each supplier's public/assets/firestar folder.
 export const looks: readonly Look[] = [
   {
     "id": "ksv5101",
@@ -22,7 +23,36 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksv5101-room",
     "imageKind": "slab",
     "description": "Branching grey and golden veins cross a bright white background.",
-    "source": "https://en.kasaquartz.cn/product/400.html"
+    "source": "https://en.kasaquartz.cn/product/400.html",
+    "supplier": "Kasa"
+  },
+  {
+    "id": "tce-2049",
+    "code": "TCE 2049",
+    "title": "Calacatta Dorato",
+    "supplier": "TCE Stone",
+    "series": "TCE",
+    "tone": "warm",
+    "pattern": "Fine golden veining",
+    "image": "tce/2049",
+    "roomImage": null,
+    "imageKind": "slab",
+    "description": "A bright white base traced with fine gold-brown and grey veins.",
+    "source": "https://tcestone.com/products/tce-2049-calacatta-dorato/"
+  },
+  {
+    "id": "vicostone-bq6716",
+    "code": "BQ6716",
+    "title": "Vitoria Regia",
+    "supplier": "Vicostone",
+    "series": "BQ",
+    "tone": "green",
+    "pattern": "Sage green layers",
+    "image": "vicostone/bq6716",
+    "roomImage": "vicostone/bq6716-room",
+    "imageKind": "slab",
+    "description": "White veins flow through a muted sage-green background with softly layered tones.",
+    "source": "https://vicostone.ca/en/product/BQ6716?detectedGeoLocation=CA"
   },
   {
     "id": "ksl6015",
@@ -35,7 +65,36 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksl6015-room",
     "imageKind": "slab",
     "description": "An airy white surface with a delicate, cloud-like pattern.",
-    "source": "https://en.kasaquartz.cn/products_detail/135.html"
+    "source": "https://en.kasaquartz.cn/products_detail/135.html",
+    "supplier": "Kasa"
+  },
+  {
+    "id": "tce-2050",
+    "code": "TCE 2050",
+    "title": "Nero Dorato",
+    "supplier": "TCE Stone",
+    "series": "TCE",
+    "tone": "dark",
+    "pattern": "Gold on black",
+    "image": "tce/2050",
+    "roomImage": null,
+    "imageKind": "slab",
+    "description": "Golden lines and fine white accents stand out against a deep black base.",
+    "source": "https://tcestone.com/products/tce-2050-nero-dorato/"
+  },
+  {
+    "id": "vicostone-bq6984",
+    "code": "BQ6984",
+    "title": "Beryl",
+    "supplier": "Vicostone",
+    "series": "BQ",
+    "tone": "light",
+    "pattern": "Blue-grey movement",
+    "image": "vicostone/bq6984",
+    "roomImage": "vicostone/bq6984-room",
+    "imageKind": "slab",
+    "description": "Pale blue and grey tones meet in a flowing, cloud-like pattern.",
+    "source": "https://vicostone.ca/en/product/BQ6984?detectedGeoLocation=CA"
   },
   {
     "id": "ksl6005",
@@ -48,7 +107,36 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksl6005-room",
     "imageKind": "slab",
     "description": "Warm sand and gold tones with long, flowing mineral-like lines.",
-    "source": "https://en.kasaquartz.cn/products_detail/82.html"
+    "source": "https://en.kasaquartz.cn/products_detail/82.html",
+    "supplier": "Kasa"
+  },
+  {
+    "id": "tce-4048",
+    "code": "TCE 4048",
+    "title": "Bianco Blu",
+    "supplier": "TCE Stone",
+    "series": "TCE",
+    "tone": "light",
+    "pattern": "Soft blue veining",
+    "image": "tce/4048",
+    "roomImage": null,
+    "imageKind": "slab",
+    "description": "Pale blue lines and soft white layers give this light surface a sense of depth.",
+    "source": "https://tcestone.com/products/tce-4048-bianco-blu/"
+  },
+  {
+    "id": "vicostone-bq8815",
+    "code": "BQ8815",
+    "title": "Misterio",
+    "supplier": "Vicostone",
+    "series": "BQ",
+    "tone": "light",
+    "pattern": "Fine branching veins",
+    "image": "vicostone/bq8815",
+    "roomImage": "vicostone/bq8815-room",
+    "imageKind": "slab",
+    "description": "A white background threaded with delicate grey and brown veins.",
+    "source": "https://vicostone.ca/en/product/BQ8815?detectedGeoLocation=CA"
   },
   {
     "id": "ksv1105",
@@ -61,7 +149,36 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksv1105-room",
     "imageKind": "slab",
     "description": "A white background crossed by fine, lightly branching grey veins.",
-    "source": "https://en.kasaquartz.cn/products_detail/81.html"
+    "source": "https://en.kasaquartz.cn/products_detail/81.html",
+    "supplier": "Kasa"
+  },
+  {
+    "id": "tce-1220",
+    "code": "TCE 1220",
+    "title": "Carrara Velo",
+    "supplier": "TCE Stone",
+    "series": "TCE",
+    "tone": "light",
+    "pattern": "Delicate Carrara veins",
+    "image": "tce/1220",
+    "roomImage": null,
+    "imageKind": "slab",
+    "description": "A luminous white base with subtle, gently flowing veins.",
+    "source": "https://tcestone.com/products/tce-1220-carrara-velo/"
+  },
+  {
+    "id": "vicostone-bq8820",
+    "code": "BQ8820",
+    "title": "Misterio Gold",
+    "supplier": "Vicostone",
+    "series": "BQ",
+    "tone": "warm",
+    "pattern": "Golden branching veins",
+    "image": "vicostone/bq8820",
+    "roomImage": "vicostone/bq8820-room",
+    "imageKind": "slab",
+    "description": "Warm golden veins branch across a soft white background.",
+    "source": "https://vicostone.ca/en/product/BQ8820?detectedGeoLocation=CA"
   },
   {
     "id": "ksl6030",
@@ -74,7 +191,36 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksl6030-room",
     "imageKind": "slab",
     "description": "Soft grey and white layers create gentle movement across the slab.",
-    "source": "https://en.kasaquartz.cn/products_detail/137.html"
+    "source": "https://en.kasaquartz.cn/products_detail/137.html",
+    "supplier": "Kasa"
+  },
+  {
+    "id": "tce-4060",
+    "code": "TCE 4060",
+    "title": "Botticino Crema",
+    "supplier": "TCE Stone",
+    "series": "TCE",
+    "tone": "warm",
+    "pattern": "Layered cream tones",
+    "image": "tce/4060",
+    "roomImage": null,
+    "imageKind": "slab",
+    "description": "Warm cream tones and softly layered lines create a calm, understated pattern.",
+    "source": "https://tcestone.com/products/tce-4060-botticino-crema/"
+  },
+  {
+    "id": "vicostone-bq6803",
+    "code": "BQ6803",
+    "title": "Lacus",
+    "supplier": "Vicostone",
+    "series": "BQ",
+    "tone": "light",
+    "pattern": "Bold grey veining",
+    "image": "vicostone/bq6803",
+    "roomImage": "vicostone/bq6803-room",
+    "imageKind": "slab",
+    "description": "Broad grey veins and fine branching lines cross a pale white background.",
+    "source": "https://vicostone.ca/en/product/BQ6803?detectedGeoLocation=CA"
   },
   {
     "id": "ksl6010",
@@ -87,7 +233,36 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksl6010-room",
     "imageKind": "slab",
     "description": "A light base with subtle warm detail for a gentle hint of colour.",
-    "source": "https://en.kasaquartz.cn/products_detail/78.html"
+    "source": "https://en.kasaquartz.cn/products_detail/78.html",
+    "supplier": "Kasa"
+  },
+  {
+    "id": "tce-4062",
+    "code": "TCE 4062",
+    "title": "Dolce Crema",
+    "supplier": "TCE Stone",
+    "series": "TCE",
+    "tone": "warm",
+    "pattern": "Flowing ivory veins",
+    "image": "tce/4062",
+    "roomImage": null,
+    "imageKind": "slab",
+    "description": "Ivory, cream and soft grey meet in long veins with subtle brown accents.",
+    "source": "https://tcestone.com/products/tce-4062-dolce-crema/"
+  },
+  {
+    "id": "vicostone-bq2616",
+    "code": "BQ2616",
+    "title": "Golden Polaris",
+    "supplier": "Vicostone",
+    "series": "BQ",
+    "tone": "warm",
+    "pattern": "Subtle golden texture",
+    "image": "vicostone/bq2616",
+    "roomImage": "vicostone/bq2616-room",
+    "imageKind": "slab",
+    "description": "A snowy white base with scattered warm brown and golden detail.",
+    "source": "https://vicostone.ca/en/product/BQ2616?detectedGeoLocation=CA"
   },
   {
     "id": "ksv1106",
@@ -100,7 +275,8 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksv1106-room",
     "imageKind": "slab",
     "description": "Fine, sweeping warm veins bring delicate movement to a white base.",
-    "source": "https://en.kasaquartz.cn/product/399.html"
+    "source": "https://en.kasaquartz.cn/product/399.html",
+    "supplier": "Kasa"
   },
   {
     "id": "ksl6016",
@@ -113,7 +289,8 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksl6016-room",
     "imageKind": "slab",
     "description": "A pale, softly textured surface with subtle grey detail.",
-    "source": "https://en.kasaquartz.cn/products_detail/136.html"
+    "source": "https://en.kasaquartz.cn/products_detail/136.html",
+    "supplier": "Kasa"
   },
   {
     "id": "ksl6011",
@@ -126,7 +303,8 @@ export const looks: readonly Look[] = [
     "roomImage": "kasa/ksl6011-room",
     "imageKind": "slab",
     "description": "Fine grey detail gives this light surface a softly textured character.",
-    "source": "https://en.kasaquartz.cn/products_detail/79.html"
+    "source": "https://en.kasaquartz.cn/products_detail/79.html",
+    "supplier": "Kasa"
   },
   {
     "id": "ksl8601",
@@ -139,7 +317,8 @@ export const looks: readonly Look[] = [
     "roomImage": null,
     "imageKind": "room",
     "description": "A deep black surface with expressive white veining and dramatic contrast.",
-    "source": "https://en.kasaquartz.cn/products_detail/163.html"
+    "source": "https://en.kasaquartz.cn/products_detail/163.html",
+    "supplier": "Kasa"
   },
   {
     "id": "ksl8602",
@@ -152,7 +331,8 @@ export const looks: readonly Look[] = [
     "roomImage": null,
     "imageKind": "room",
     "description": "Silver-grey movement across a pale surface, shown on a statement island.",
-    "source": "https://en.kasaquartz.cn/products_detail/75.html"
+    "source": "https://en.kasaquartz.cn/products_detail/75.html",
+    "supplier": "Kasa"
   },
   {
     "id": "ksl6032",
@@ -165,7 +345,8 @@ export const looks: readonly Look[] = [
     "roomImage": null,
     "imageKind": "room",
     "description": "A bright white palette with quiet detail for a clean, understated space.",
-    "source": "https://en.kasaquartz.cn/products_detail/139.html"
+    "source": "https://en.kasaquartz.cn/products_detail/139.html",
+    "supplier": "Kasa"
   },
   {
     "id": "ksl6031",
@@ -178,9 +359,10 @@ export const looks: readonly Look[] = [
     "roomImage": null,
     "imageKind": "room",
     "description": "Long, soft grey lines bring a flowing rhythm to a light surface.",
-    "source": "https://en.kasaquartz.cn/products_detail/138.html"
+    "source": "https://en.kasaquartz.cn/products_detail/138.html",
+    "supplier": "Kasa"
   }
 ];
 export function lookEmail(items: readonly Look[]) {
-  return 'mailto:sales@infinitegranite.ca?subject=' + encodeURIComponent('Kasa Quartz samples for my project') + '&body=' + encodeURIComponent('Hello Firestar Granite,\n\nI am interested in these Kasa Quartz selections:\n' + items.map(item => '- ' + item.code + ' — ' + item.title).join('\n') + '\n\nPlease let me know about samples, availability and pricing.\n\nPlans & Measurements:\nSite Address:\nType of sink:\nContact Information (phone/email):\n');
+  return 'mailto:sales@infinitegranite.ca?subject=' + encodeURIComponent('Surface samples for my project') + '&body=' + encodeURIComponent('Hello Firestar Granite,\n\nI am interested in these selections:\n' + items.map(item => '- ' + item.supplier + ' · ' + item.code + ' — ' + item.title).join('\n') + '\n\nPlease let me know about samples, availability and pricing.\n\nPlans & Measurements:\nSite Address:\nType of sink:\nContact Information (phone/email):\n');
 }

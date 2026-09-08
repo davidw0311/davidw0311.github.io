@@ -62,3 +62,9 @@ Reduced repeated material names in the V1 gallery, product actions, and material
 ## Seamless carousel swiping
 
 V1 renders a complete buffer copy on either side of the main collection so the last and first products sit next to each other during native horizontal swipes. After scrolling settles, the track recenters to an identical position in the middle copy without reversing or visibly jumping. Touch/pointer gestures and swipe momentum finish before recentering, with scrollend and a debounced fallback. Resize measurement preserves the current product position. Arrow navigation and autoplay use the same continuous track. Duplicate copies are hidden from screen readers and excluded from keyboard tab order, while their product buttons still open the correct details.
+
+## TCE Stone and Vicostone selections
+
+V1 now includes 25 selections: the existing 13 Kasa patterns, six TCE Stone patterns (Calacatta Dorato, Nero Dorato, Bianco Blu, Carrara Velo, Botticino Crema, Dolce Crema), and six Vicostone patterns (Vitoria Regia, Beryl, Misterio, Misterio Gold, Lacus, Golden Polaris). The suppliers are interleaved so each appears at the start of the continuous carousel. The homepage preview reflects those opening selections.
+
+Names, codes, slab images and Vicostone room images were verified against the official Canadian catalogues on 2026-09-08: https://tcestone.com/products/ and https://vicostone.ca/product?detectedGeoLocation=CA. Optimized images are served locally; each supplier folder contains a `sources.json` with exact product and image URLs. Cards, detail views, and single or mixed-brand enquiry emails identify the correct supplier. The gallery heading is “Quartz collection”; no extra filter controls were added. Catalogue imagery remains distinct from Firestar's project photographs, and samples, availability, and pricing are confirmed through Firestar.

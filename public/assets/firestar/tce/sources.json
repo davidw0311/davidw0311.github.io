@@ -1,0 +1,60 @@
+{
+  "verified": "2026-09-08",
+  "note": "Official supplier catalogue images; sample availability and pricing are confirmed by Firestar.",
+  "products": [
+    {
+      "supplier": "TCE Stone",
+      "code": "TCE 2049",
+      "title": "Calacatta Dorato",
+      "source": "https://tcestone.com/products/tce-2049-calacatta-dorato/",
+      "imageSource": "https://tcestone.com/wp-content/uploads/2025/11/2049-Full-Slab-VS.png",
+      "image": "tce/2049",
+      "roomImage": null
+    },
+    {
+      "supplier": "TCE Stone",
+      "code": "TCE 2050",
+      "title": "Nero Dorato",
+      "source": "https://tcestone.com/products/tce-2050-nero-dorato/",
+      "imageSource": "https://tcestone.com/wp-content/uploads/2025/11/2050-Full-Slab.png",
+      "image": "tce/2050",
+      "roomImage": null
+    },
+    {
+      "supplier": "TCE Stone",
+      "code": "TCE 4048",
+      "title": "Bianco Blu",
+      "source": "https://tcestone.com/products/tce-4048-bianco-blu/",
+      "imageSource": "https://tcestone.com/wp-content/uploads/2025/12/4048-Full-Slab.jpg",
+      "image": "tce/4048",
+      "roomImage": null
+    },
+    {
+      "supplier": "TCE Stone",
+      "code": "TCE 1220",
+      "title": "Carrara Velo",
+      "source": "https://tcestone.com/products/tce-1220-carrara-velo/",
+      "imageSource": "https://tcestone.com/wp-content/uploads/2025/11/1220-Full-Slab-VS-Scaled.png",
+      "image": "tce/1220",
+      "roomImage": null
+    },
+    {
+      "supplier": "TCE Stone",
+      "code": "TCE 4060",
+      "title": "Botticino Crema",
+      "source": "https://tcestone.com/products/tce-4060-botticino-crema/",
+      "imageSource": "https://tcestone.com/wp-content/uploads/2025/12/4060-Full-Slab-2-Scaled.jpg",
+      "image": "tce/4060",
+      "roomImage": null
+    },
+    {
+      "supplier": "TCE Stone",
+      "code": "TCE 4062",
+      "title": "Dolce Crema",
+      "source": "https://tcestone.com/products/tce-4062-dolce-crema/",
+      "imageSource": "https://tcestone.com/wp-content/uploads/2026/01/4062-Full-Slab-Scaled.jpg",
+      "image": "tce/4062",
+      "roomImage": null
+    }
+  ]
+}
