@@ -22,7 +22,7 @@ function advance(track: HTMLDivElement, direction: number, reducedMotion: boolea
   track.scrollTo({ left: wrap ? (direction > 0 ? 0 : end) : Math.max(0, Math.min(end, next * step)), behavior: reducedMotion || wrap ? 'instant' : 'smooth' });
 }
 
-export function QuartzCarousel({ children, caption, paused }: { children: ReactNode; caption: string; paused: boolean }) {
+export function QuartzCarousel({ children, paused }: { children: ReactNode; paused: boolean }) {
   const track = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(true);
   const [hovered, setHovered] = useState(false);
@@ -55,20 +55,17 @@ export function QuartzCarousel({ children, caption, paused }: { children: ReactN
   };
 
   return <div className={s.carousel}>
-    <div className={s.galleryMeta}>
-      <p role="status">{caption}</p>
-      <div className={s.carouselControls}>
-        {!reducedMotion && scrollable && <button className={s.rotation} onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause automatic rotation' : 'Start automatic rotation'}>{playing ? <Pause size={18} /> : <Play size={18} />}<span>{playing ? 'Pause' : 'Play'}</span></button>}
-        <button onClick={() => navigate(-1)} disabled={!scrollable} aria-label="Previous quartz" aria-controls="quartz-carousel"><ArrowLeft size={22} /></button>
-        <button onClick={() => navigate(1)} disabled={!scrollable} aria-label="Next quartz" aria-controls="quartz-carousel"><ArrowRight size={22} /></button>
-      </div>
-    </div>
     <div ref={track} id="quartz-carousel" className={s.track} role="region" aria-roledescription="carousel" aria-label="Quartz selections. Swipe or use the arrow buttons to explore." tabIndex={0}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}
       onPointerDown={() => setPlaying(false)} onWheel={() => setPlaying(false)}
       onKeyDown={event => { if (event.target !== event.currentTarget) return; if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); navigate(event.key === 'ArrowRight' ? 1 : -1); } }}>
       {children}
+    </div>
+    <div className={s.carouselControls}>
+        {!reducedMotion && scrollable && <button onClick={() => setPlaying(!playing)} aria-label={playing ? 'Pause automatic rotation' : 'Start automatic rotation'}>{playing ? <Pause size={18} /> : <Play size={18} />}</button>}
+        <button onClick={() => navigate(-1)} disabled={!scrollable} aria-label="Previous quartz" aria-controls="quartz-carousel"><ArrowLeft size={22} /></button>
+        <button onClick={() => navigate(1)} disabled={!scrollable} aria-label="Next quartz" aria-controls="quartz-carousel"><ArrowRight size={22} /></button>
     </div>
   </div>;
 }

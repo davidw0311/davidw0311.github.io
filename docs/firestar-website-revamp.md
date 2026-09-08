@@ -50,3 +50,7 @@ Product names/codes were verified against https://en.kasaquartz.cn/product/33/ o
 ## V1 rotating quartz carousel
 
 The opening Kasa gallery is a horizontal scroll-snap carousel: three cards on desktop, two on tablets, and one with a preview of the next card on phones. It advances every 4.5 seconds and wraps to the start. Arrow buttons, touch/trackpad scrolling, and keyboard arrows provide manual browsing. Manual interaction stops rotation; Play restarts it. Hover, focus, an open product detail, a hidden browser tab, or an offscreen carousel suspend advancement. Reduced-motion preferences disable automatic rotation and smooth scrolling. Filtering/searching resets the carousel to the matching selections. The existing product details, favourites, and enquiry links are preserved.
+
+## V1 simplified landing screen
+
+The landing screen now places the quartz carousel directly beneath a compact, centered heading. Colour filters, search, the saved-count toolbar, selection count, introductory paragraph, and showroom CTA were removed from above the images. Card overlays were removed; visitors can still save selections from the product detail view. Product cards show only the name and code, with larger imagery scaled to the viewport. Rotation and navigation controls sit centered below the gallery. The portfolio preview reflects this simpler layout. This supersedes the earlier filter/search description; all thirteen selections, automatic rotation, detailed views, and enquiries remain available.

@@ -25,9 +25,7 @@
 
 .lookbookVisual { height: 290px; padding: 20px; background: #f3f0e9; color: #292e29; overflow: hidden; }
 .lookbookVisual>span { font-size: 9px; }
-.lookbookVisual>strong { display: block; font: 400 33px/1.1 Georgia, serif; letter-spacing: -.055em; margin: 24px 0 18px; }
-.miniFilters { display: flex; gap: 13px; padding: 10px 0; border-top: 1px solid #cdcec3; border-bottom: 1px solid #cdcec3; font-size: 9px; }
-.miniFilters>span:first-child { color: #465342; font-weight: 700; }
+.lookbookVisual>strong { display: block; font: 400 33px/1.1 Georgia, serif; letter-spacing: -.055em; margin: 24px 0 18px; text-align: center; }
 .miniGallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 13px; }
 .miniGallery img { display: block; width: 100%; height: 128px; object-fit: cover; }
 @media (max-width: 1000px) { .lookbookVisual { height: 260px; padding: 15px; } .lookbookVisual>strong { font-size: 28px; } }
