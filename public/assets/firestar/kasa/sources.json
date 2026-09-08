@@ -1,0 +1,133 @@
+{
+  "verifiedOn": "2026-09-08",
+  "supplier": "https://en.kasaquartz.cn",
+  "note": "Kasa product names and codes from supplier catalogue. Matching catalogue imagery retrieved from Eternal Interiors public Kasa catalogue because the supplier image CDN returned errors. These are supplier catalogue illustrations, not Firestar installations or inventory claims. Local WebP copies resized without changing colour or pattern.",
+  "products": [
+    {
+      "code": "KSL8602",
+      "name": "Silver Mist",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/75.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/dbbf2621-b109-470c-9213-371781da771f.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/8c8e962bb485.jpg"
+      ]
+    },
+    {
+      "code": "KSL8601",
+      "name": "Nero Portoro Grande",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/163.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/d4539d88-41a2-436a-85b3-7078e632afef.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/3710bd024001.jpg"
+      ]
+    },
+    {
+      "code": "KSL6032",
+      "name": "White Castle",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/139.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/0a1020bd-31fe-4427-8f26-38164617022b.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/ef3c3d45bf9d.jpg"
+      ]
+    },
+    {
+      "code": "KSL6031",
+      "name": "Silver Sands",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/138.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/1a2b8cc4-0706-486a-add4-c06498bf5ede.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/fc86eee5554b.jpg"
+      ]
+    },
+    {
+      "code": "KSL6030",
+      "name": "Spiez White",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/137.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/fe4e9333-bbb2-42d1-99d6-a4bef3194820.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/9cf8c4d117c5.jpg",
+        "https://eternalinteriors.ca/kasa/72680ed4a9b2.jpg"
+      ]
+    },
+    {
+      "code": "KSL6016",
+      "name": "Volakano White",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/136.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/b2323997-1396-4002-91eb-9fb4ce8b2c07.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/3f8adec71c5f.jpg",
+        "https://eternalinteriors.ca/kasa/2de8ec552c5e.jpg"
+      ]
+    },
+    {
+      "code": "KSL6015",
+      "name": "Blizzard",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/135.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/a8462ddf-22b7-4d09-87c2-c84ddbb4af41.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/ddf374dde4a7.jpg",
+        "https://eternalinteriors.ca/kasa/9e660c0c22cd.jpg"
+      ]
+    },
+    {
+      "code": "KSL6011",
+      "name": "Alabaster Vein",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/79.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/327b919f-349d-4212-84db-d6fa3c29acda.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/57699b96f1aa.jpg",
+        "https://eternalinteriors.ca/kasa/6d427942611b.jpg"
+      ]
+    },
+    {
+      "code": "KSL6010",
+      "name": "Glacier Gold",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/78.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/52760556-57cc-4bae-8f11-7e0b05dc9494.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/7cf81ba19ee7.jpg",
+        "https://eternalinteriors.ca/kasa/2288f7bba2c8.jpg"
+      ]
+    },
+    {
+      "code": "KSL6005",
+      "name": "Sahara Dune",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/82.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/dd18471d-6a4a-4001-8b91-3d2f91353f42.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/6561f880f791.jpg",
+        "https://eternalinteriors.ca/kasa/8d2f67e888c6.jpg"
+      ]
+    },
+    {
+      "code": "KSV5101",
+      "name": "Lightning Gold",
+      "supplierPage": "https://en.kasaquartz.cn/product/400.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/b1992f0d-e316-4457-99bc-5b8ddc6522e5.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/328105ac07f6.jpg",
+        "https://eternalinteriors.ca/kasa/2dee1a565caa.jpg"
+      ]
+    },
+    {
+      "code": "KSV1106",
+      "name": "Sunlit Vein",
+      "supplierPage": "https://en.kasaquartz.cn/product/399.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/28bc8c40-8b39-4476-805e-2e2e45ff9da6.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/8770329bcca5.jpg",
+        "https://eternalinteriors.ca/kasa/1c1bb758a702.jpg"
+      ]
+    },
+    {
+      "code": "KSV1105",
+      "name": "Calacatta Silk",
+      "supplierPage": "https://en.kasaquartz.cn/products_detail/81.html",
+      "supplierCatalogueImage": "https://omo-oss-image.thefastimg.com/portal-saas/pg2025103018090498934/cms/image/09467fc3-cccb-49c4-b771-8e3ca335c7d2.jpg",
+      "imageMirrorUrls": [
+        "https://eternalinteriors.ca/kasa/cfa46080b96d.jpg",
+        "https://eternalinteriors.ca/kasa/9e87f98c1176.jpg"
+      ]
+    }
+  ]
+}
