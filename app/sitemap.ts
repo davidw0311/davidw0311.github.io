@@ -17,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/projects/piano-party/lessons/1/`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/projects/piano-party/lessons/2/`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${baseUrl}/projects/piano-party/lessons/3/`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/projects/infinite-granite/showcase/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/infinite-granite/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/trips/`, changeFrequency: "monthly", priority: 0.7 },
     {

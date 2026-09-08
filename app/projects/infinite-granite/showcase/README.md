@@ -1,0 +1,9 @@
+# Slab Studio
+
+Separate fixed-view showcase at `/projects/infinite-granite/showcase/`, linked from the room planner. The generated neutral kitchen photograph prioritizes an uninterrupted foreground slab, with upper, rear lower, and island cupboards. This is a photo-based finish simulation with one permanently fixed viewpoint, not an orbitable reconstruction.
+
+`model.ts` records five perspective-mapped countertop planes in the photograph's native 1536 × 1024 coordinates, cupboard masks, preserved objects/hardware, validated saved settings, and the projective transform solver. Slab texture coordinates continue across the main top/front edge. `render.ts` composites supplier imagery and cupboard colors while retaining the plate's illumination and joinery; a small highlight contribution preserves the daylight sheen on dark stone. Masks, coordinate maps, and base pixels are prepared once. Textures load on demand with a four-entry cache; stale asynchronous loads cannot replace a newer completed choice, and resources are released on unmount.
+
+The full supplier-grouped catalogue supports code search. Pattern scale and 90-degree orientation are optional, upper/lower cupboard colors are independent, and the final 1536 × 1024 image can be downloaded as PNG. Settings persist separately from the room planner. Export is disabled during texture loading or errors. Asset failure leaves the previous render visible with an explicit error and Retry action. Pattern scale, colour accuracy, reflectivity, and perspective remain approximate; the page recommends physical material samples.
+
+Tests cover perspective corner mapping, slab-edge UV continuity, all material IDs, invalid saved options, image dimensions and mask bounds. Browser QA covers photographic masks with black and veined slabs, upper/lower recoloring, rapid selection, reload persistence, mobile portrait/landscape, and image export. The static host requires no API keys or backend.

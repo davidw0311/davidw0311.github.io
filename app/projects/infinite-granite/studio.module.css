@@ -654,3 +654,6 @@
 
 .studio[data-custom-background=true] .stageBottom>*,.studio[data-custom-background=true] .history button:not(.addCellButton) {background:var(--ig-surface);border-radius:5px;}
 .studio[data-custom-background=true] .stageBottom p {padding:3px 6px;}
+
+.showcaseLink {font-size:12px;color:var(--ig-accent);text-decoration:none;border:1px solid var(--ig-line);border-radius:6px;padding:10px 12px;white-space:nowrap;}
+@media(max-width:600px){.showcaseLink{font-size:10px;padding:8px;}}
