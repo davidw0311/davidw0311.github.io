@@ -2,18 +2,21 @@ import {MATERIALS,type CountertopMaterial} from '../materials';
 import {materialTexture} from '../textures';
 import {BASE_IMAGE,WIDTH,HEIGHT,SURFACES,UPPERS,LOWERS,OCCLUDERS,HARDWARE,slabProjections,type ShowcaseDesign} from './model';
 import {surfaceCoverage,SAMPLE_COUNT} from './coverage';
+import {FLOOR,floorProjection,floorVariation,floorLight,nightLight} from './environment';
 const readImage=(url:string)=>new Promise<HTMLImageElement>((resolve,reject)=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>reject(new Error('Image unavailable'));image.src=url;});
 const canvas=()=>{const c=document.createElement('canvas');c.width=WIDTH;c.height=HEIGHT;return c;};
 const rgb=(hex:string)=>[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16));
 const mirror=(v:number)=>{const t=((v%2)+2)%2;return t<=1?t:2-t;};
 export async function createShowcase(canvasElement:HTMLCanvasElement){
  const base=await readImage(BASE_IMAGE),plate=canvas(),ctx=plate.getContext('2d',{willReadFrequently:true})!;ctx.drawImage(base,0,0,WIDTH,HEIGHT);
- const source=ctx.getImageData(0,0,WIDTH,HEIGHT),layers=SURFACES.length+3;
+ const source=ctx.getImageData(0,0,WIDTH,HEIGHT),stoneEnd=SURFACES.length+3,floorId=stoneEnd,layers=stoneEnd+1;
+
  const masks=surfaceCoverage(WIDTH,HEIGHT,[
+  {polygon:FLOOR,id:floorId},
   ...LOWERS.map(polygon=>({polygon,id:2})),...UPPERS.map(polygon=>({polygon,id:1})),
   ...SURFACES.map((s,i)=>({polygon:s.outline??s.quad,id:i+3})),...OCCLUDERS.map(polygon=>({polygon,id:0})),
  ],layers),maps=slabProjections();
- const uv=new Float32Array(WIDTH*HEIGHT*2),dominant=new Uint8Array(WIDTH*HEIGHT);
+ const uv=new Float32Array(WIDTH*HEIGHT*2),dominant=new Uint8Array(WIDTH*HEIGHT),floorUV=new Float32Array(WIDTH*HEIGHT*2),night=new Float32Array(WIDTH*HEIGHT*3),floorMap=floorProjection(),floorShade=new Float32Array(WIDTH*HEIGHT);
  for(let p=0;p<WIDTH*HEIGHT;p++){
   const i=p*4,m=p*layers,x=p%WIDTH,y=Math.floor(p/WIDTH);
   if(source.data[i]>source.data[i+2]*1.35&&source.data[i+1]>source.data[i+2]*1.12&&HARDWARE.some(([l,t,r,b])=>x>=l&&x<=r&&y>=t&&y<=b)){
@@ -21,7 +24,9 @@ export async function createShowcase(canvasElement:HTMLCanvasElement){
   }
   let id=0;for(let j=1;j<layers;j++)if(masks[m+j]>masks[m+id])id=j;
   dominant[p]=id;
-  if(id>=3){const [u,v]=maps[id-3](x+.5,y+.5);uv[p*2]=u;uv[p*2+1]=v;}
+  if(id>=3&&id<stoneEnd){const [u,v]=maps[id-3](x+.5,y+.5);uv[p*2]=u;uv[p*2+1]=v;}
+  if(masks[m+floorId]){const [u,v]=floorMap(x+.5,y+.5);floorUV[p*2]=u;floorUV[p*2+1]=v;floorShade[p]=floorLight(x+.5,y+.5);}
+  night.set(nightLight(x,y),p*3);
  }
  canvasElement.width=WIDTH;canvasElement.height=HEIGHT;const output=canvasElement.getContext('2d')!;
  const cache=new Map<string,ImageData>();let disposed=false,request=0;
@@ -37,9 +42,9 @@ export async function createShowcase(canvasElement:HTMLCanvasElement){
  return {
   async draw(design:ShowcaseDesign){
    const token=++request,entry=MATERIALS.find(m=>m.id===design.material)!;const t=await texture(entry);if(disposed||token!==request)return false;
-   const result=new ImageData(new Uint8ClampedArray(source.data),WIDTH,HEIGHT),upper=rgb(design.upper),lower=rgb(design.lower),physicalWidth=entry.textureWidth??60,physicalHeight=entry.textureHeight??40;
+   const result=new ImageData(new Uint8ClampedArray(source.data),WIDTH,HEIGHT),upper=rgb(design.upper),lower=rgb(design.lower),floorColor=rgb(design.floorColor),woodBase=rgb('#b99b77'),physicalWidth=entry.textureWidth??60,physicalHeight=entry.textureHeight??40;
    for(let p=0;p<WIDTH*HEIGHT;p++){
-    const i=p*4,m=p*layers;if(masks[m]===SAMPLE_COUNT)continue;
+    const i=p*4,m=p*layers;if(masks[m]===SAMPLE_COUNT&&design.lighting==='day')continue;
     const r=source.data[i],g=source.data[i+1],b=source.data[i+2],light=r*.2126+g*.7152+b*.0722;
     const blended=[r,g,b].map(c=>c*masks[m]/SAMPLE_COUNT);
     for(let id=1;id<layers;id++){
@@ -48,6 +53,14 @@ export async function createShowcase(canvasElement:HTMLCanvasElement){
       // Keep brass hardware and the deep joinery shadows from the photographic plate.
       const color=id===1?upper:lower,shade=Math.min(1.35,light/183);
       for(let k=0;k<3;k++)blended[k]+=Math.min(255,color[k]*shade)*a;
+     }else if(id===floorId){
+      if(design.floor==='wood'){
+       for(let k=0;k<3;k++)blended[k]+=source.data[i+k]*floorColor[k]/woodBase[k]*a;
+      }else{
+       const shade=floorShade[p];
+       const variation=floorVariation(design.floor,floorUV[p*2],floorUV[p*2+1]);
+       for(let k=0;k<3;k++)blended[k]+=floorColor[k]*variation*shade*a;
+      }
      }else{
       let [u,v]=id===dominant[p]?[uv[p*2],uv[p*2+1]]:maps[id-3](p%WIDTH+.5,Math.floor(p/WIDTH)+.5);
       if(design.rotation===90)[u,v]=[v,120-u];
@@ -56,7 +69,7 @@ export async function createShowcase(canvasElement:HTMLCanvasElement){
       for(let k=0;k<3;k++){const at=(xx:number,yy:number)=>t.data[(yy*t.width+xx)*4+k];const color=(at(x0,y0)*(1-fx)+at(Math.min(x0+1,t.width-1),y0)*fx)*(1-fy)+(at(x0,Math.min(y0+1,t.height-1))*(1-fx)+at(Math.min(x0+1,t.width-1),Math.min(y0+1,t.height-1))*fx)*fy;blended[k]+=(color*shade+reflection)*a;}
      }
     }
-    for(let k=0;k<3;k++)result.data[i+k]=blended[k];
+    for(let k=0;k<3;k++)result.data[i+k]=Math.min(255,blended[k])*(design.lighting==='night'?night[p*3+k]:1);
    }
    output.putImageData(result,0,0);return true;
   },

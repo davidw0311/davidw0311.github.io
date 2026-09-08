@@ -40,3 +40,25 @@
 @media(max-height:550px) and (min-width:761px){.header{height:64px;}.preview{min-height:0;padding:12px 16px;}.inspector{height:calc(100dvh - 64px);}.caption{padding-top:12px;}.caption h2{font-size:21px;}}
 
 @media(max-height:550px) and (min-width:761px){.picture{max-height:calc(100dvh - 180px);}}
+
+.lightToggle {display:flex;align-items:center;justify-content:center;gap:7px;min-width:44px;min-height:44px;padding:9px 12px;background:transparent;font-size:12px;margin-left:auto;flex-shrink:0;}
+.header .lightToggle[aria-pressed=true] {background:#263c50;color:#fff;border-color:#263c50;}
+.plannerLink {margin-left:0;}
+.floorGrid {display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.floorGrid button {position:relative;text-align:left;padding:8px;background:transparent;}
+.floorGrid button[aria-pressed=true] {border-color:var(--ig-accent);box-shadow:0 0 0 1px var(--ig-accent);}
+.floorGrid strong,.floorGrid small {display:block;font-size:12px;margin-top:8px;}
+.floorGrid small {font-size:10px;font-weight:400;color:#74796e;margin:4px 0;}
+.floorSample {display:block;height:60px;border-radius:2px;background:repeating-linear-gradient(6deg,#ab8a65 0 2px,#b99b77 3px 8px,#c0a480 9px 11px);}
+.floorSample[data-finish=porcelain] {background:repeating-linear-gradient(0deg,transparent 0 28px,#aaa69e 29px 30px),repeating-linear-gradient(90deg,#cdcac2 0 38px,#aaa69e 39px 40px);}
+.floorSample[data-finish=limestone] {background:repeating-linear-gradient(0deg,transparent 0 28px,#a99e8a 29px 30px),repeating-linear-gradient(90deg,#c2b49c 0 52px,#a99e8a 53px 54px);}
+.floorSample[data-finish=terrazzo] {background:radial-gradient(ellipse at 20% 30%,#858076 0 2px,transparent 3px),radial-gradient(ellipse at 60% 70%,#f0e9dc 0 3px,transparent 4px),#d0cbc0;background-size:17px 23px,29px 19px;}
+.floorCheck {position:absolute;right:13px;top:13px;background:#fcfbf8;border-radius:50%;padding:2px;box-sizing:content-box;}
+.floorColors {display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.floorColors button {display:flex;align-items:center;gap:8px;font-size:11px;padding:9px 6px;text-align:left;background:transparent;}
+.floorColors span {width:20px;height:20px;border-radius:50%;border:1px solid #0002;flex-shrink:0;}
+.floorColors button[aria-pressed=true] {border-color:var(--ig-accent);background:var(--ig-active);}
+.customFloor {display:flex;align-items:center;justify-content:space-between;font-size:12px;margin-top:18px;}
+.customFloor input {width:44px;height:36px;border:1px solid var(--ig-line);padding:3px;background:transparent;cursor:pointer;}
+@media(max-width:760px){.header{gap:12px;}.title{padding-left:12px;}.title h1{font-size:21px;white-space:nowrap;}.lightToggle{padding:8px;}.lightToggle span{display:none;}.tabs{padding-left:12px;padding-right:12px;}.tabs button{font-size:11px;}}
+@media(max-width:380px){.header{padding:0 12px;gap:8px;}.title{padding-left:8px;}.title h1{font-size:19px;}}

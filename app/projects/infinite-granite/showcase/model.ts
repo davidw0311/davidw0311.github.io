@@ -1,11 +1,12 @@
+import {FLOOR_FINISHES,type FloorFinish} from './environment.ts';
 import {MATERIALS} from '../materials.ts';
 export const BASE_IMAGE='/assets/infinite-granite/showcase/kitchen-base.png';
 export const WIDTH=1536,HEIGHT=1024;
-export interface ShowcaseDesign {material:string;upper:string;lower:string;scale:number;rotation:0|90;}
-export const INITIAL:ShowcaseDesign={material:'vicostone-bq8788',upper:'#d8d3c9',lower:'#a8aaa0',scale:1,rotation:0};
+export interface ShowcaseDesign {material:string;upper:string;lower:string;scale:number;rotation:0|90;floor:FloorFinish;floorColor:string;lighting:'day'|'night';}
+export const INITIAL:ShowcaseDesign={material:'vicostone-bq8788',upper:'#d8d3c9',lower:'#a8aaa0',scale:1,rotation:0,floor:'wood',floorColor:'#b99b77',lighting:'day'};
 export function restoreShowcase(value:unknown):ShowcaseDesign|null {
- if(!value||typeof value!=='object')return null;const d=value as ShowcaseDesign;
- return MATERIALS.some(m=>m.id===d.material)&&[d.upper,d.lower].every(v=>typeof v==='string'&&/^#[\da-f]{6}$/i.test(v))&&Number.isFinite(d.scale)&&d.scale>=.7&&d.scale<=1.5&&[0,90].includes(d.rotation)?{material:d.material,upper:d.upper,lower:d.lower,scale:d.scale,rotation:d.rotation}:null;
+ if(!value||typeof value!=='object')return null;const raw=value as Partial<ShowcaseDesign>;const d={...raw,floor:raw.floor===undefined?INITIAL.floor:raw.floor,floorColor:raw.floorColor===undefined?INITIAL.floorColor:raw.floorColor,lighting:raw.lighting===undefined?INITIAL.lighting:raw.lighting} as ShowcaseDesign;
+ return MATERIALS.some(m=>m.id===d.material)&&[d.upper,d.lower,d.floorColor].every(v=>typeof v==='string'&&/^#[\da-f]{6}$/i.test(v))&&Number.isFinite(d.scale)&&d.scale>=.7&&d.scale<=1.5&&[0,90].includes(d.rotation)&&FLOOR_FINISHES.some(f=>f.id===d.floor)&&['day','night'].includes(d.lighting)?{material:d.material,upper:d.upper,lower:d.lower,scale:d.scale,rotation:d.rotation,floor:d.floor,floorColor:d.floorColor,lighting:d.lighting}:null;
 }
 export type Point=readonly[number,number];
 export type Quad=readonly[Point,Point,Point,Point];
