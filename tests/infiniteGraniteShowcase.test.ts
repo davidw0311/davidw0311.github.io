@@ -1,3 +1,4 @@
+import {FLOOR,FLOOR_FINISHES,floorProjection,floorVariation,floorLight,nightLight} from '../app/projects/infinite-granite/showcase/environment.ts';
 import {surfaceCoverage,SAMPLE_COUNT} from '../app/projects/infinite-granite/showcase/coverage.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -95,3 +96,38 @@ test('cupboard colors stay off the hood and floor and include the complete reces
  // Preserve the wood grain and cast shadow immediately beyond every contact edge.
  for(const [x,y] of [[100,750],[150,761],[300,814],[500,887],[700,962],[800,1001],[1400,1010],[1431,950],[1480,850]])assert.equal(weight(x,y,0),SAMPLE_COUNT);
 });
+
+test('existing saved kitchens gain daytime and original wood defaults without losing their finishes',()=>{
+ const {floor,floorColor,lighting,...legacy}=INITIAL;
+ assert.deepEqual(restoreShowcase(legacy),INITIAL);
+ for(const finish of FLOOR_FINISHES)for(const lighting of ['day','night'] as const){
+  const design={...INITIAL,floor:finish.id,floorColor:'#314159',lighting};
+  assert.deepEqual(restoreShowcase(design),design);
+ }
+ for(const patch of [{floor:'carpet'},{floor:null},{floorColor:'invalid'},{floorColor:null},{lighting:'dusk'},{lighting:null}])assert.equal(restoreShowcase({...INITIAL,...patch}),null);
+ assert.ok(floor&&floorColor&&lighting);
+});
+
+test('floor finishes cover the visible floor with complementary coverage at cabinet contact edges',()=>{
+ const masks=surfaceCoverage(WIDTH,HEIGHT,[{polygon:FLOOR,id:3},...LOWERS.map(polygon=>({polygon,id:2}))],4);
+ for(const [x,y] of [[10,550],[200,850],[600,1000],[1500,900]])assert.equal(masks[(y*WIDTH+x)*4+3],SAMPLE_COUNT);
+ for(const [x,y] of [[20,480],[500,879],[700,950],[1450,800]])assert.equal(masks[(y*WIDTH+x)*4+3],0);
+ let shared=0;
+ for(let p=0;p<WIDTH*HEIGHT;p++)if(Math.floor(p/WIDTH)>700&&masks[p*4+2]&&masks[p*4+3]){
+  assert.equal(masks[p*4+2]+masks[p*4+3],SAMPLE_COUNT);shared++;
+ }
+ assert.ok(shared>500);
+});
+
+test('floor patterns remain finite and deterministic in perspective, and lighting preserves readable interior pools',()=>{
+ const map=floorProjection();
+ for(let y=650;y<HEIGHT;y+=23)for(let x=0;x<WIDTH;x+=47){
+  const uv=map(x,y);assert.ok(uv.every(Number.isFinite));
+  for(const f of FLOOR_FINISHES){const value=floorVariation(f.id,...uv);assert.ok(value>.3&&value<1.4);assert.equal(value,floorVariation(f.id,...uv));}
+ }
+ const window=nightLight(20,200),room=nightLight(900,700),lamp=nightLight(1260,220);
+ assert.ok(window.every((v,k)=>v<room[k]));assert.ok(lamp[0]>room[0]);assert.ok(lamp[0]>lamp[2]);
+ for(let y=0;y<HEIGHT;y+=31)for(let x=0;x<WIDTH;x+=41)assert.ok(nightLight(x,y).every(v=>Number.isFinite(v)&&v>0&&v<1));
+});
+
+test('tile lighting retains contact shadows without the photographic wood pattern',()=>{assert.ok(floorLight(500,885)<floorLight(500,950));assert.ok(floorLight(10,800)>floorLight(1200,800));});
