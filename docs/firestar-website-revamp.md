@@ -32,3 +32,7 @@ Built on `Firestar-website-revamp` (Git does not allow spaces in branch names). 
 ## Quartz emphasis and display name
 
 The public display name is “Firestar（infinite） granite” across the header, footer, browser metadata, and homepage project previews. Original legal names and attributed source text remain intact. Each design highlights quartz in its opening copy and primary action, while retaining the other stone options and product guides.
+
+## Current phone number
+
+All three versions use 250-619-9968 as the sole office/showroom phone number, including tap-to-call links, navigation, contact pages, footers, and the contact text in the source data. This user-requested update supersedes the original source contact numbers.
