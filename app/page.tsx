@@ -16,6 +16,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Atmosphere } from "@/components/Atmosphere";
+import { FirestarProjectPreview } from "@/components/firestar/ProjectPreview";
 import { GardenPreview } from "@/components/GardenPreview";
 import { InitialLanding } from "@/components/InitialLanding";
 import { Navigation } from "@/components/Navigation";
@@ -139,6 +140,8 @@ export default function Home() {
             <h2 id="projects-title">Selected projects</h2>
             <p>Research, machines, and software built to leave the diagram and work in the real world.</p>
           </Reveal>
+
+          <FirestarProjectPreview />
 
           <div className={styles.featuredGrid}>
             {featuredProjects.map((project, index) => (
