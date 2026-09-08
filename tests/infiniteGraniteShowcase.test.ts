@@ -19,7 +19,7 @@ test('showcase selections roundtrip independently for every supplier and reject 
 });
 test('photographic plate and surface masks use the same pixel coordinate system',()=>{
  const png=readFileSync(new URL('../public/assets/infinite-granite/showcase/kitchen-base.png',import.meta.url));assert.equal(png.readUInt32BE(16),WIDTH);assert.equal(png.readUInt32BE(20),HEIGHT);
- for(const polygon of [...UPPERS,...LOWERS,...OCCLUDERS,...SURFACES.map(s=>s.quad)])for(const [x,y] of polygon)assert.ok(x>=0&&x<=WIDTH&&y>=0&&y<=HEIGHT);
+ for(const polygon of [...UPPERS,...LOWERS,...OCCLUDERS,...SURFACES.flatMap(s=>[s.quad,...(s.outline?[s.outline]:[])])])for(const [x,y] of polygon)assert.ok(x>=0&&x<=WIDTH&&y>=0&&y<=HEIGHT);
 });
 
 test('every point along a shared slab seam continues the same texture, not just its corners',()=>{
@@ -35,7 +35,7 @@ test('every point along a shared slab seam continues the same texture, not just 
 });
 
 test('antialiased touching faces retain full stone coverage without phantom cupboard or background pixels',()=>{
- const regions=SURFACES.slice(0,3).map((s,i)=>({polygon:s.quad,id:i+3}));
+ const regions=SURFACES.slice(0,3).map((s,i)=>({polygon:s.outline??s.quad,id:i+3}));
  const coverage=surfaceCoverage(WIDTH,HEIGHT,regions,8);
  let shared=0;
  for(let p=0;p<WIDTH*HEIGHT;p++){
@@ -66,4 +66,18 @@ test('occluder edges blend only the actual object and stone, without interpolati
   if(w[0]&&w[7])partial++;
  }
  assert.ok(partial>0);
+});
+
+
+test('photographed rear corner and island rim receive stone while adjacent walls stay untouched',()=>{
+ const masks=surfaceCoverage(WIDTH,HEIGHT,SURFACES.map((s,i)=>({polygon:s.outline??s.quad,id:i+3})),8);
+ // These actual plate pixels were outside the old outlines and remained white on black stone.
+ for(const [x,y] of [[412,285],[415,290],[425,286],[440,287],[460,286],
+  [30,423],[100,409],[200,390],[300,370],[434,345],[600,360],[800,377],[1000,394],[1200,414],[1400,434]]){
+  const w=masks.subarray((y*WIDTH+x)*8,(y*WIDTH+x+1)*8);
+  assert.equal(w[0],0,`Uncovered countertop at ${x},${y}`);
+  assert.equal(w.slice(3).reduce((a,b)=>a+b,0),SAMPLE_COUNT);
+ }
+ for(const [x,y] of [[405,285],[420,277],[460,273],[100,405],[200,385],[600,356],[1000,390],[1400,430]])
+  assert.equal(masks[(y*WIDTH+x)*8],SAMPLE_COUNT,`Outline spills onto background at ${x},${y}`);
 });

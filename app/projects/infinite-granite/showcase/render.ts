@@ -11,7 +11,7 @@ export async function createShowcase(canvasElement:HTMLCanvasElement){
  const source=ctx.getImageData(0,0,WIDTH,HEIGHT),layers=SURFACES.length+3;
  const masks=surfaceCoverage(WIDTH,HEIGHT,[
   ...LOWERS.map(polygon=>({polygon,id:2})),...UPPERS.map(polygon=>({polygon,id:1})),
-  ...SURFACES.map((s,i)=>({polygon:s.quad,id:i+3})),...OCCLUDERS.map(polygon=>({polygon,id:0})),
+  ...SURFACES.map((s,i)=>({polygon:s.outline??s.quad,id:i+3})),...OCCLUDERS.map(polygon=>({polygon,id:0})),
  ],layers),maps=slabProjections();
  const uv=new Float32Array(WIDTH*HEIGHT*2),dominant=new Uint8Array(WIDTH*HEIGHT);
  for(let p=0;p<WIDTH*HEIGHT;p++){
