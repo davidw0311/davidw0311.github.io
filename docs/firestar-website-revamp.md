@@ -58,3 +58,7 @@ The landing screen now places the quartz carousel directly beneath a compact, ce
 ## V1 copy refinement
 
 Reduced repeated material names in the V1 gallery, product actions, and materials section. The landing headline is now “Find your surface.”, followed by “Our materials” / “Choose your material.” further down the page. Product actions use selection-specific language, and carousel labels use “surface”. The Kasa Quartz brand, the main collection description, material category names, technical guides, and source company content retain their accurate terminology. The homepage V1 preview uses the updated headline.
+
+## Seamless carousel swiping
+
+V1 renders a complete buffer copy on either side of the main collection so the last and first products sit next to each other during native horizontal swipes. After scrolling settles, the track recenters to an identical position in the middle copy without reversing or visibly jumping. Touch/pointer gestures and swipe momentum finish before recentering, with scrollend and a debounced fallback. Resize measurement preserves the current product position. Arrow navigation and autoplay use the same continuous track. Duplicate copies are hidden from screen readers and excluded from keyboard tab order, while their product buttons still open the correct details.

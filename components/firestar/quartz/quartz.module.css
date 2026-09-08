@@ -2,7 +2,7 @@
 .intro { text-align: center; padding-bottom: 28px; }
 .eyebrow { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--accent)!important; margin-bottom: 13px!important; }
 .intro h1 { font-size: clamp(40px, 4.5vw, 64px); line-height: 1.05; }
-.track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 3); gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: var(--accent) var(--line); padding: 4px 0 16px; }
+.track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 3); gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 4px 0 16px; }
 .track:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .carouselControls { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 12px; }
 .carouselControls button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--line); background: transparent; color: var(--fg); }
@@ -76,3 +76,6 @@
 .viewToggle button { min-height: 44px; border: 1px solid var(--line); padding: 10px 14px; background: transparent; color: var(--fg); font-size: 16px; }
 .viewToggle button[aria-pressed=true] { background: var(--accent); color: white; }
 .source { display: inline-flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--line); padding: 10px 0 5px; font-size: 14px; }
+
+.slideSet { display: contents; }
+.track::-webkit-scrollbar { display: none; }
