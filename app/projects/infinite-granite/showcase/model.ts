@@ -29,3 +29,18 @@ export const OCCLUDERS:Point[][]=[[[665,294],[732,276],[964,278],[989,294],[940,
 
 // Hardware exclusion regions are kept small so warm shadows on painted panels still recolor.
 export const HARDWARE:readonly[number,number,number,number][]=[[257,218,289,271],[526,111,573,140],[1145,112,1194,143],[1454,114,1500,146],[178,484,232,529],[515,551,581,596],[962,645,1035,696],[451,312,511,337],[585,321,650,346],[959,350,1031,379],[1157,365,1224,393],[1424,382,1480,429]];
+
+/** Thin edge quads are hand fitted to the photograph. Reuse the top's coordinate
+ * along each shared seam, rather than fitting a second, incompatible perspective. */
+export function slabProjections(){
+ const maps=SURFACES.map(s=>projection(s.quad,s.uv));
+ for(const [edge,top,axis,seam] of [[1,0,0,42],[2,0,1,120],[4,3,0,24]]){
+  const original=maps[edge],toPhoto=projection(SURFACES[edge].uv,SURFACES[edge].quad),topMap=maps[top];
+  maps[edge]=(x,y)=>{
+   const uv=original(x,y),onSeam=axis===0?toPhoto(uv[0],seam):toPhoto(seam,uv[1]);
+   const along=topMap(...onSeam);
+   return axis===0?[along[0],uv[1]]:[uv[0],along[1]];
+  };
+ }
+ return maps;
+}
