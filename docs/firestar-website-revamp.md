@@ -3,10 +3,10 @@
 Three complete design concepts live at `/projects/firestar/v1/`, `/projects/firestar/v2/`, and `/projects/firestar/v3/`. Their separate links appear under Selected projects on the portfolio homepage.
 
 - V1: an architectural editorial design with warm paper, serif typography, and asymmetric photography.
-- V2: a dark gallery design with a photographic hero, mineral colors, and restrained sans-serif typography.
-- V3: a contemporary studio design with cobalt, bold typography, and graphic image compositions.
+- V2: a dark material catalogue with a fixed numbered side rail, oversized lime typography, full-frame photography, horizontal material rows, and a single-image exhibition with a thumbnail filmstrip.
+- V3: a welcoming neighbourhood studio with forest green and terracotta, rounded cards, centered typography, an interactive room selector, navigation tiles, and a masonry inspiration gallery.
 
-The concepts use different home compositions and shared source content. The existing InfiniteGranite room-planning project is independent.
+V2 and V3 have independent page renderers, navigation, galleries, and styles, including their product guides, services, showrooms, contact pages, and testimonials. Only source content and content-only helpers are shared. The existing InfiniteGranite room-planning project is independent.
 
 ## Source and content
 
@@ -18,9 +18,9 @@ There are 96 original images under `public/assets/firestar/`, along with optimiz
 
 ## Behavior
 
-- Version navigation preserves the current page when switching designs.
+- The version-switching strip is removed. The portfolio homepage provides three separate previews and links.
 - Mobile navigation supports keyboard access and Escape.
-- The gallery filters by category, loads additional images, and uses a native modal with focus management, Escape dismissal, and arrow-key navigation.
+- V1 keeps its filtered grid; V2 presents one project with previous/next controls and a complete thumbnail filmstrip; V3 filters a masonry grid and loads more photographs on request. Each gallery uses a native modal with focus management, Escape dismissal, and arrow-key navigation.
 - Phone links and map directions use the source business details.
 - The quote action opens the visitor's email client with the source's requested information. This static site does not send or store submissions.
 - Page metadata and sitemap include all variants. Gallery media is lazy loaded; hero imagery is prioritized. Reduced-motion preferences are respected.
@@ -31,4 +31,4 @@ Built on `Firestar-website-revamp` (Git does not allow spaces in branch names). 
 
 ## Quartz emphasis and display name
 
-The public display name is “Firestar（infinite） granite” across the header, footer, browser metadata, and homepage project previews. Original legal names and attributed source text remain intact. Each design leads with quartz in its hero headline, description, and primary action. The material section now follows the hero, highlights quartz, and retains the other stone options and product guides.
+The public display name is “Firestar（infinite） granite” across the header, footer, browser metadata, and homepage project previews. Original legal names and attributed source text remain intact. Each design highlights quartz in its opening copy and primary action, while retaining the other stone options and product guides.

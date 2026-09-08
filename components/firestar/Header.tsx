@@ -3,17 +3,13 @@
 import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { List, X, ArrowUpRight } from '@phosphor-icons/react';
-import { brandName, brandWordmark, href, nav, routes, themes, versions, type PageKey, type Version } from '@/data/firestar/content';
+import { brandName, brandWordmark, href, nav, routes, type PageKey, type Version } from '@/data/firestar/content';
 import styles from './firestar.module.css';
 
 export function Header({ version, current }: { version: Version; current: PageKey }) {
   const [open, setOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   return <>
-    <div className={styles.previewBar}>
-      <Link href="/#projects">David Wang / Projects</Link>
-      <nav aria-label="Design versions">{versions.map(v => <Link href={href(v, current)} key={v} aria-current={v === version ? 'page' : undefined}><span>{v.toUpperCase()}</span><span className={styles.versionName}>{themes[v].short}</span></Link>)}</nav>
-    </div>
     <header className={styles.header}>
       <Link className={styles.wordmark} href={href(version)} aria-label={`${brandName} home`}>{brandWordmark}<span>granite</span></Link>
       <button ref={menuButton} className={styles.menuButton} aria-label={open ? 'Close navigation' : 'Open navigation'} aria-expanded={open} aria-controls="firestar-navigation" onClick={() => setOpen(!open)}>{open ? <X size={25} /> : <List size={25} />}</button>

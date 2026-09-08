@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { CatalogueSite } from '@/components/firestar/catalogue/Site';
+import { HomesteadSite } from '@/components/firestar/homestead/Site';
 import { FirestarSite } from '@/components/firestar/Site';
 import { brandName, href, routes, themes, versions, type PageKey, type Version } from '@/data/firestar/content';
 
@@ -19,5 +21,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return { title: { absolute: title }, description: `${brandName}: custom quartz countertops for kitchens and bathrooms, crafted in Nanaimo for Vancouver Island. Also offering granite, marble, and onyx.`, alternates: { canonical: href(version, current) }, openGraph: { title, url: href(version, current), siteName: brandName, images: [{ url: '/assets/firestar/photo-005.jpg', width: 800, height: 530, alt: 'Firestar Granite custom kitchen' }] } };
 }
 export default async function Page({ params }: { params: Promise<Params> }) {
-  return <FirestarSite {...resolve(await params)} />;
+  const { version, current } = resolve(await params);
+  if (version === 'v2') return <CatalogueSite current={current} />;
+  if (version === 'v3') return <HomesteadSite current={current} />;
+  return <FirestarSite version={version} current={current} />;
 }

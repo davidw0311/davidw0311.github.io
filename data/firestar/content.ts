@@ -7,8 +7,8 @@ export type Version = 'v1' | 'v2' | 'v3';
 export const versions: Version[] = ['v1', 'v2', 'v3'];
 export const themes = {
   v1: { name: 'The architectural edition', short: 'Architectural', description: 'Warm paper, expressive serif typography, and an editorial approach to stone.' },
-  v2: { name: 'The stone gallery', short: 'Stone gallery', description: 'A cinematic dark palette, expansive photographs, and quiet, precise details.' },
-  v3: { name: 'The contemporary studio', short: 'Contemporary', description: 'Cobalt blue, bold typography, and a fresh, graphic approach to custom stone.' },
+  v2: { name: 'The material catalogue', short: 'Material catalogue', description: 'A dark showroom catalogue with side navigation, an immersive project viewer, and a material library.' },
+  v3: { name: 'The neighbourhood studio', short: 'Neighbourhood studio', description: 'A welcoming home-design experience with a room picker, rounded navigation tiles, and a masonry gallery.' },
 };
 export const routes = {
   home: { slug: '', title: 'Home' }, services: { slug: 'Services.htm', title: 'Services' },
