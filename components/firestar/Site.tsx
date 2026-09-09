@@ -5,6 +5,7 @@ import { brandName, brandWordmark, href, routes, pages, photos, services, guideK
 import { Header } from './Header';
 import { Gallery } from './Gallery';
 import { QuartzGallery } from './quartz/QuartzGallery';
+import { GoogleReviews } from './GoogleReviews';
 import styles from './firestar.module.css';
 
 function Photo({ src, alt, className = '', priority = false }: { src: string; alt: string; className?: string; priority?: boolean }) {
@@ -83,6 +84,7 @@ function Showroom({ version, full = false }: { version: Version; full?: boolean 
   </section>;
 }
 function Quote({ version }: { version: Version }) {
+  if (version === 'v1') return <GoogleReviews />;
   return <section className={`${styles.section} ${styles.quote}`}><div className={styles.quoteMark} aria-hidden="true">“</div><blockquote><p>Our Sincere thanks for the excellent service and beautiful countertops. Working with you has been a great experience!</p><cite>Tina & Greg Valliere</cite></blockquote><Action version={version} page="testimonials" quiet>Read testimonials</Action></section>;
 }
 function Contact() {
@@ -130,7 +132,7 @@ export function FirestarSite({ version, current }: { version: Version; current: 
         {current === 'showroom' && <Showroom version={version} full />}
         {current === 'contact' && <Contact />}
         {isGallery && <section className={styles.section}><Gallery key={current} initial={current === 'gallery' ? 'all' : current as 'kitchen' | 'bathroom' | 'other'} /></section>}
-        {current === 'testimonials' && <Testimonials />}
+        {current === 'testimonials' && (version === 'v1' ? <GoogleReviews /> : <Testimonials />)}
         {guideKeys.includes(current) && <Guide current={current} version={version} />}
       </>}
     </main><Footer version={version} />
