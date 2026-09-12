@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -32,10 +33,22 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
         <p className={styles.originalTitle} lang="non">{story.title}</p>
       </header>
       {story.image && <figure className={styles.storyArt}><Image src={story.image} alt={story.imageAlt ?? "Illustration from the original booklet"} width={1122} height={1402} priority sizes="(max-width: 767px) calc(100vw - 44px), 480px" /></figure>}
-      {story.excerpt && <aside className={styles.excerpt} aria-label="Selected Old Norse"><span>In the original language</span><blockquote lang="non">{story.excerpt}</blockquote></aside>}
-      <div className={styles.prose}>{story.paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)}</div>
+      <div className={styles.prose}>{story.paragraphs.map((paragraph, i) => <Fragment key={i}>
+        <p>{paragraph}</p>
+        {story.quotes.filter(quote => quote.after === i + 1).map(quote => <figure className={styles.excerpt} key={quote.stanza}>
+          <figcaption>Old Norse · {quote.stanza.startsWith("Prose") ? quote.stanza : `Stanza ${quote.stanza}`}</figcaption>
+          <blockquote lang="non">{quote.norse}</blockquote>
+          <div className={styles.translation}><span>English</span><p lang="en">{quote.english}</p></div>
+        </figure>)}
+      </Fragment>)}</div>
       <div className={styles.storyEnd} aria-hidden="true">⁂</div>
-      <p className={styles.sourceNote}>Modern retelling · Original booklet, page {story.sourcePage}<br />{story.kind}</p>
+      <section className={styles.sourceNote} aria-labelledby="retelling-note">
+        <h2 id="retelling-note">About this retelling</h2>
+        <p>{story.note}</p>
+        <p>The Old Norse follows a normalized edition, rather than the manuscript’s exact spelling. The English beneath each quotation is a new rendering for this reader. Stanza numbers follow the linked Norse text.</p>
+        <div className={styles.sourceLinks}><a href={story.norseSource} target="_blank" rel="noopener noreferrer">Old Norse text ↗</a><a href={story.translationSource} target="_blank" rel="noopener noreferrer">Bellows’s 1923 translation ↗</a></div>
+        <p>{story.kind} · {story.wordCount.toLocaleString("en")} English words · Reading time at 170 words per minute</p>
+      </section>
     </article>
     <nav className={styles.chapterNav} aria-label="Story navigation">
       {previous ? <Link href={`/projects/codex-regius/${previous.slug}/`}><span><ArrowLeft size={16} /> Previous story</span><strong>{previous.subtitle}</strong></Link> : <Link href="/projects/codex-regius/#contents"><span><ListBullets size={16} /> The collection</span><strong>Browse all stories</strong></Link>}

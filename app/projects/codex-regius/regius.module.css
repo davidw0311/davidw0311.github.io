@@ -1,5 +1,5 @@
 /* Editorial manuscript reader. Design variance 6 / motion 2 / density 3.
-   Existing booklet artwork and wording are preserved, including source punctuation. */
+   Original booklet artwork accompanies expanded, source-checked prose. */
 .book { font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif; }
 .frame { --sheet: #f4f5f0; --text: #252f2b; --muted: #626c65; --rule: #cdd3ca; --tint: #e8ece4; --book-accent: #315d4f; --reading-size: 1.42rem; min-height: 100dvh; background: var(--sheet); color: var(--text); color-scheme: light; }
 .frame[data-theme="night"] { --sheet: #17221f; --text: #e4e9de; --muted: #a9b7ad; --rule: #42534a; --tint: #24352d; --book-accent: #b8d8c5; color-scheme: dark; }
@@ -88,13 +88,20 @@
 .storyArt { width: min(100%, 480px); margin: 40px auto !important; }
 .storyArt img { display: block; width: 100%; height: auto; }
 .excerpt { margin: 36px 0; padding: 23px 27px; background: var(--tint); border-left: 2px solid var(--book-accent); }
-.excerpt > span { color: var(--muted); font-size: .65rem; }
-.excerpt blockquote { font-family: var(--font-regius), Georgia, serif; font-size: calc(var(--reading-size) * .94); line-height: 1.5; margin: 10px 0 0; }
+.excerpt figcaption, .translation > span { font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif; color: var(--muted); font-size: .75rem; line-height: 1.5; display: block; }
+.excerpt blockquote { font-family: var(--font-regius), Georgia, serif; font-size: calc(var(--reading-size) * .94); line-height: 1.5; margin: 14px 0 0; white-space: pre-line; }
+.translation { margin-top: 22px; padding-top: 17px; border-top: 1px solid var(--rule); }
+.translation p { white-space: pre-line; font-size: calc(var(--reading-size) * .94); line-height: 1.5; margin: 9px 0 0; }
+.prose .translation p { margin-bottom: 0; }
 .prose { font-family: var(--font-regius), Georgia, serif; font-size: var(--reading-size); line-height: 1.65; }
 .prose p { margin-bottom: 1.35em; }
-.prose p:first-child::first-letter { float: left; font-size: 3.6em; line-height: .79; padding: .12em .1em 0 0; color: var(--book-accent); }
+.prose > p:first-child::first-letter { float: left; font-size: 3.6em; line-height: .79; padding: .12em .1em 0 0; color: var(--book-accent); }
 .storyEnd { text-align: center; font-family: var(--font-regius), Georgia, serif; color: var(--book-accent); font-size: 2rem; padding: 10px 0 25px; }
-.sourceNote { text-align: center; color: var(--muted); font-size: .66rem; line-height: 1.8; }
+.sourceNote { color: var(--muted); font-size: .85rem; line-height: 1.8; }
+.sourceNote h2 { font-family: var(--font-regius), Georgia, serif; font-size: 1.55rem; color: var(--text); font-weight: 500; margin-bottom: 14px; }
+.sourceNote p { margin: 14px 0; }
+.sourceNote a { text-underline-offset: 4px; text-decoration: underline; }
+.about .bookletNote { font-size: .8rem; color: var(--muted); }
 .chapterNav { max-width: 800px; margin: 50px auto 80px; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--rule); gap: 24px; padding-top: 25px; }
 .chapterNav a { text-decoration: none; padding: 20px; border-radius: 4px; }
 .chapterNav a:hover { background: var(--tint); }
@@ -153,4 +160,4 @@
 }
 @media (max-width: 359px) { .header { padding-inline: 14px; } .readingPage { padding-inline: 20px; } .filters button { font-size: .6rem; } .storyHeading h1 { font-size: 2.5rem; } }
 @media (prefers-reduced-motion: reduce) { .frame * { scroll-behavior: auto !important; } }
-@media print { .header,.footer,.readingNav,.chapterNav { display: none; } .frame { --sheet: white; --text: black; --muted: #444; --book-accent: #222; } .readingPage { padding: 0; } .storyArt { width: 200px; } .prose { font-size: 12pt; } }
+@media print { .header,.footer,.readingNav,.chapterNav { display: none; } .frame { --sheet: white; --text: black; --muted: #444; --book-accent: #222; --reading-size: 12pt; } .readingPage { padding: 0; } .storyArt { width: 200px; } .prose { font-size: 12pt; } .excerpt { break-inside: avoid; } }

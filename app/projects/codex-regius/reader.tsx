@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
 import { ArrowLeft, BookOpen, Moon, Sun, TextAa } from "@phosphor-icons/react";
-import { regiusStories } from "@/data/codexRegius";
 import styles from "./regius.module.css";
 
 const lastStoryKey = "regius-last-story";
@@ -57,9 +56,9 @@ export function RememberStory({ slug }: { slug: string }) {
   return null;
 }
 
-export function ContinueReading() {
+export function ContinueReading({ stories }: { stories: { slug: string; subtitle: string }[] }) {
   const slug = useSyncExternalStore(subscribe, lastStory, () => "");
-  const story = regiusStories.find(story => story.slug === slug);
+  const story = stories.find(story => story.slug === slug);
   if (!story) return null;
   return <Link className={styles.resume} href={`/projects/codex-regius/${story.slug}/`}>
     <BookOpen size={21} /><span>Last opened<strong>{story.subtitle}</strong></span><span aria-hidden="true">↗</span>

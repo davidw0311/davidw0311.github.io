@@ -3,15 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 import { MagnifyingGlass, ArrowUpRight } from "@phosphor-icons/react";
-import { regiusStories } from "@/data/codexRegius";
+import type { RegiusStory } from "@/data/codexRegius";
 import styles from "./regius.module.css";
 
 const fold = (text: string) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/þ/g, "th").replace(/ð/g, "d").replace(/æ/g, "ae").replace(/ǫ/g, "o");
 
-export function StoryLibrary() {
+type LibraryStory = Pick<RegiusStory, "slug" | "number" | "title" | "subtitle" | "group" | "minutes"> & { searchText: string };
+
+export function StoryLibrary({ stories }: { stories: LibraryStory[] }) {
   const [search, setSearch] = useState("");
   const [group, setGroup] = useState("all");
-  const matched = regiusStories.filter(story => (group === "all" || story.group === group) && fold(`${story.title} ${story.subtitle} ${story.paragraphs.join(" ")}`).includes(fold(search.trim())));
+  const matched = stories.filter(story => (group === "all" || story.group === group) && fold(`${story.title} ${story.subtitle} ${story.searchText}`).includes(fold(search.trim())));
   return <section id="contents" className={styles.library} aria-labelledby="contents-title">
     <h2 id="contents-title">Choose a story.</h2>
     <p className={styles.libraryIntro}>Read in manuscript order, or follow your curiosity.</p>
