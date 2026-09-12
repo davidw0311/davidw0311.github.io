@@ -1,0 +1,187 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Eftir dauða Brynhildar váru gör bál tvau, annat Sigurði, ok brann þat fyrr, enn Brynhildr var á öðru brennd, ok var hon í reið þeiri, er guðvefjum var tjölduð. Svá er sagt, at Brynhildr ók með reiðinni á helveg ok fór um tún, þar er gýgr nökkur bjó. Gýgrin kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Skaltu í gögnum\nganga eigi\ngrjóti studda\ngarða mína,\nbetr semði þér\nborða at rekja\nheldr en vitja\nvers annarrar.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Hvat skaltu vitja\naf Vallandi,\nhvarfúst höfuð,\nhúsa minna?\nÞú hefir, Vár gulls,\nef þik vita lystir,\nmild af höndum\nmanns blóð þvegit.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhildr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bregðu eigi mér,\nbrúðr ór steini,\nþótt ek værak\ní víkingu;\nek mun okkur\næðri þykkja,\nhvars menn eðli\nokkart kunna.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Gýgrin kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú vart, Brynhildr\nBuðla dóttir,\nheilli verstu\ní heim borin;\nþú hefir Gjúka\nof glatat börnum\nok búi þeira\nbrugðit góðu.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhildr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek mun segja þér\nsvinn ór reiðu\nvitlaussi mjök,\nef þik vita lystir,\nhvé gerðu mik\nGjúka arfar\nástalausa\nok eiðrofa.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Hétu mik allir\ní Hlymdölum\nHildi undir hjalmi\nhverr er kunni.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Annar hét Agnarr,\nAuðu bróðir,\ner véttr engi\nvildi týja.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Lét hami vára\nhugfullr konungr\nátta systra\nundir eik borit;\nvar ek vetra tolf,\nef þik vita lystir,\ner ek ungum gram\neiða seldak.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá lét ek gamlan\ná Goðþjóðu\nHjalmgunnar næst\nheljar ganga;\ngaf ek ungum sigr\nAuðu bróður;\nþar varð mér Óðinn\nofreiðr of þat.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Lauk hann mik skjöldum\ní Skatalundi\nrauðum ok hvítum,\nrandir snurtu;\nþann bað hann slíta\nsvefni mínum,\ner hvergi lands\nhræðask kynni.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Lét hann um sal minn\nsunnanverðan\nhávan brenna\nher alls viðar;\nþar bað hann einn þegn\nyfir at ríða,\nþanns mér færði gull,\nþats und Fáfni lá.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Reið góðr Grana\ngullmiðlandi,\nþars fóstri minn\nfletjum stýrði;\neinn þótti hann þar\nöllum betri\nvíkingr Dana\ní verðungu.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Sváfu við ok unðum\ní sæing einni,\nsem hann minn bróðir\nof borinn væri;\nhvárki knátti\nhönd yfir annat\nátta nóttum\nokkart leggja.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Því brá mér Guðrún\nGjúka dóttir,\nat ek Sigurði\nsvæfak á armi,\nþar varð ek þess vís,\ner ek vildig-a-k,\nat þau véltu mik\ní verfangi.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Munu við ofstríð\nalls til lengi\nkonur ok karlar\nkvikvir fæðask;\nvið skulum okkrum\naldri slíta\nSigurðr saman.\nSökkstu, gýgjar kyn.\"",
+      "stanza": "15"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "After the death of Brynhild there were made two bale-fires, the one for Sigurth, and that burned first, and on the other was Brynhild burned, and she was on a wagon which was covered with a rich cloth. Thus it is told, that Brynhild went in the wagon on Hel-way, and passed by a house where dwelt a certain giantess. The giantess spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou shalt not further | forward fare,\nMy dwelling ribbed | with rocks across;\nMore seemly it were | at thy weaving to stay,\nThan another's husband | here to follow.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What wouldst thou have | from Valland here,\nFickle of heart, | in this my house?\nGold-goddess, now, | if thou wouldst know,\nHeroes' blood | from thy hands hast washed.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhild spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Chide me not, woman | from rocky walls,\nThough to battle once | I was wont to go;\nBetter than thou | I shall seem to be,\nWhen men us two | shall truly know.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "The giantess spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou wast, Brynhild, | Buthli's daughter,\nFor the worst of evils | born in the world;\nTo death thou hast given | Gjuki's children,\nAnd laid their lofty | house full low.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhild spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Truth from the wagon | here I tell thee,\nWitless one, | if know thou wilt\nHow the heirs of Gjuki | gave me to be\njoyless ever, | a breaker of oaths.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hild the helmed | in Hlymdalir\nThey named me of old, | all they who knew me.\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The monarch bold | the swan-robes bore\nOf the sisters eight | beneath an oak;\nTwelve winters I was, | if know thou wilt,\nWhen oaths I yielded | the king so young.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Next I let | the leader of Goths,\nHjalmgunnar the old, | go down to hell,\nAnd victory brought | to Autha's brother;\nFor this was Othin's | anger mighty.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "\"He beset me with shields | in Skatalund,\nRed and white, | their rims o'erlapped;\nHe bade that my sleep | should broken be\nBy him who fear | had nowhere found.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"He let round my hall, | that southward looked,\nThe branches' foe | high-leaping burn;\nAcross it he bade | the hero come\nWho brought me the gold | that Fafnir guarded",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "On Grani rode | the giver of gold,\nWhere my foster-father | ruled his folk;\nBest of all | he seemed to be,\nThe prince of the Danes, | when the people met.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Happy we slept, | one bed we had,\nAs he my brother | born had been;\nEight were the nights | when neither there\nLoving hand | on the other laid.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Yet Guthrun reproached me, | Gjuki's daughter,\nThat I in Sigurth's | arms had slept;\nThen did I hear | what I would were hid,\nThat they had betrayed me | in taking a mate.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ever with grief | and all too long\nAre men and women | born in the world;\nBut yet we shall live | our lives together,\nSigurth and I. | Sink down, Giantess!\"",
+      "stanza": "14"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Helreið_Brynhildar",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe29.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

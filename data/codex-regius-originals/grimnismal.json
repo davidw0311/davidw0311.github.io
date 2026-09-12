@@ -1,0 +1,610 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Hrauðungr konungr átti tvá sonu. Hét annarr Agnarr, en annarr Geirröðr. Agnarr var tíu vetra, en Geirröðr átta vetra. Þeir reru tveir á báti með dorgar sínar at smáfiski. Vindr rak þá í haf út. Í náttmyrkri brutu þeir við land ok gengu upp, fundu kotbónda einn. Þar váru þeir um vetrinn. Kerling fóstraði Agnar, en karl fóstraði Geirröð ok kenndi honum ráð. At vári fekk karl þeim skip."
+    },
+    {
+      "kind": "prose",
+      "text": "En er þau kerling leiddu þá til strandar, þá mælti karl einmæli við Geirröð."
+    },
+    {
+      "kind": "prose",
+      "text": "Þeir fengu byr ok kómu til stöðva föður síns. Geirröðr var fram í skipi. Hann hljóp upp á land, en hratt út skipinu ok mælti: \"Farðu nú, þar er smyl hafi þik.\""
+    },
+    {
+      "kind": "prose",
+      "text": "Skipit rak í haf út, en Geirröðr gekk upp til bæjar. Honum var þar vel fagnat, en faðir hans þá andaðr. Var þá Geirröðr til konungs tekinn ok varð maðr ágætr."
+    },
+    {
+      "kind": "prose",
+      "text": "Óðinn ok Frigg sátu í Hliðskjálfu ok sáu um heima alla. Óðinn mælti: \"Sér þú Agnar, fóstra þinn, hvar hann elr börn við gýgi í hellinum, en Geirröðr, fóstri minn, er konungr ok sitr nú at landi?\""
+    },
+    {
+      "kind": "prose",
+      "text": "Frigg segir: \"Hann er matníðingr sá, at hann kvelr gesti sína, ef honum þykkja of margir koma.\""
+    },
+    {
+      "kind": "prose",
+      "text": "Óðinn segir, at þat er in mesta lygi. Þau veðja um þetta mál. Frigg sendi eskimey sína Fullu til Geirröðar. Hon bað konung varast, at eigi fyrirgerði honum fjölkunnigr maðr, sá er þar var kominn í land, ok sagði þat mark á, at engi hundr var svá ólmr, at á hann mundi hlaupa."
+    },
+    {
+      "kind": "prose",
+      "text": "En þat var inn mesti hégómi, at Geirröðr konungr væri eigi matgóðr, ok þó lætr hann handtaka þann mann, er eigi vildu hundar á ráða. Sá var í feldi blám ok nefndist Grímnir og sagði ekki fleira frá sér, þótt hann væri at spurðr. Konungr lét hann pína til sagna ok setja milli elda tveggja, ok sat hann þar átta nætr."
+    },
+    {
+      "kind": "prose",
+      "text": "Geirröðr konungr átti þá son tíu vetra gamlan, ok hét Agnarr eftir bróður hans. Agnarr gekk at Grímni ok gaf honum horn fullt at drekka ok sagði, at faðir hans gerði illa, er hann píndi þenna mann saklausan. Grímnir drakk af. Þá var eldrinn svá kominn, at feldrinn brann af Grímni. Hann kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "Heitr ertu, hripuðr,\nok heldr til mikill;\ngöngumk firr, funi!\nloði sviðnar,\nþótt ek á loft berak;\nbrennumk feldr fyr.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Átta nætr sat ek\nmilli elda hér,\nsvá at mér manngi\nmat né bauð\nnema einn Agnarr,\ner einn skal ráða,\nGeirröðar sonr,\nGotna landi.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Heill skaltu, Agnarr,\nalls þik heilan biðr\nVeratýr vera;\neins drykkjar\nþú skalt aldrigi\nbetri gjöld geta.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Land er heilagt,\ner ek liggja sé\násum ok alfum nær;\nen í Þrúðheimi\nskal Þórr vera\nunz of rjúfask regin.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Ýdalir heita,\nþar er Ullr hefir\nsér of görva sali;\nAlfheim Frey\ngáfu í árdaga\ntívar at tannféi.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Bær er sá inn þriði,\ner blíð regin\nsilfri þökðu sali;\nValaskjalf heitir,\ner vélti sér\náss í árdaga.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Sökkvabekkr heitir inn fjórði,\nen þar svalar knegu\nunnir yfir glymja;\nþar þau Óðinn ok Sága\ndrekka um alla daga\nglöð ór gullnum kerum.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Glaðsheimr heitir inn fimmti,\nþars in gullbjarta\nValhöll víð of þrumir;\nen þar Hroftr kýss\nhverjan dag\nvápndauða vera.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Mjök er auðkennt,\nþeim er til Óðins koma\nsalkynni at séa;\nsköftum er rann reft,\nskjöldum er salr þakiðr,\nbrynjum um bekki strát.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Mjök er auðkennt,\nþeir er til Óðins koma\nsalkynni at séa:\nvargr hangir\nfyr vestan dyrr,\nok drúpir örn yfir.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Þrymheimr heitir inn sétti,\ner Þjazi bjó,\nsá inn ámáttki jötunn;\nen nú Skaði byggvir,\nskír brúðr goða,\nfornar tóftir föður.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Breiðablik eru in sjaundu,\nen þar Baldr hefir\nsér of gerva sali,\ná því landi,\ner ek liggja veit\nfæsta feiknstafi.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Himinbjörg eru in áttu,\nen þar Heimdall\nkveða valda véum;\nþar vörðr goða\ndrekkr í væru ranni\nglaðr inn góða mjöð.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Fólkvangr er inn níundi,\nen þar Freyja ræðr\nsessa kostum í sal;\nhalfan val\nhon kýss hverjan dag,\nen halfan Óðinn á.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Glitnir er inn tíundi,\nhann er gulli studdr\nok silfri þakðr it sama;\nen þar Forseti\nbyggir flestan dag\nok svæfir allar sakir.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Nóatún eru in elliftu,\nen þar Njörðr hefir,\nsér of görva sali;\nmanna þengill\ninn meins vani\nhátimbruðum hörgi ræðr.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrísi vex\nok háu grasi\nVíðars land viði;\nen þar mögr of læzt\naf mars baki\nfrækn at hefna föður.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Andhrímnir\nlætr í Eldhrímni\nSæhrímni soðinn,\nfleska bezt;\nen þat fáir vitu,\nvið hvat einherjar alask.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Gera ok Freka\nseðr gunntamiðr\nhróðigr Herjaföður;\nen við vín eitt\nvápngöfugr\nÓðinn æ lifir.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Huginn ok Muninn\nfljúga hverjan dag\nJörmungrund yfir;\nóumk ek of Hugin,\nat hann aftr né komi-t,\nþó sjámk meir of Munin.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Þýtr Þund,\nunir Þjóðvitnis\nfiskr flóði í;\nárstraumr þykkir\nofmikill\nValglaumni at vaða.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Valgrind heitir,\ner stendr velli á\nheilög fyr helgum dyrum;\nforn er sú grind,\nen þat fáir vitu,\nhvé hon er í lás of lokin.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Fimm hundruð dura\nok umb fjórum tögum,\nsvá hygg ek á Valhöllu vera;\nátta hundruð Einherja\nganga senn ór einum durum,\nþá er þeir fara við vitni at vega.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Fimm hundruð golfa\nok umb fjórum tögum,\nsvá hygg ek Bilskirrni með bugum;\nranna þeira,\ner ek reft vita,\nmíns veit ek mest magar.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Heiðrún heitir geit,\ner stendr höllu á\nok bítr af Læraðs limum;\nskapker fylla\nhon skal ins skíra mjaðar;\nkná-at sú veig vanask.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Eikþyrnir heitir hjörtr,\ner stendr höllu á\nok bítr af Læraðs limum;\nen af hans hornum\ndrýpr í Hvergelmi,\nþaðan eigu vötn öll vega.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Síð ok Víð,\nSækin ok Eikin,\nSvöl ok Gunnþró,\nFjörm ok Fimbulþul,\nRín ok Rennandi,\nGipul ok Göpul,\nGömul ok Geirvimul,\nþær hverfa um hodd goða,\nÞyn ok Vín,\nÞöll ok Höll,\nGráð ok Gunnþorin.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Vína heitir ein,\nönnur Vegsvinn,\nþriðja Þjóðnuma,\nNyt ok Nöt,\nNönn ok Hrönn,\nSlíð ok Hríð,\nSylgr ok Ylgr,\nVíð ok Ván,\nVönd ok Strönd,\nGjöll ok Leiftr,\nþær falla gumnum nær,\ner falla til Heljar heðan.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Körmt ok Örmt\nok Kerlaugar tvær,\nþær skal Þórr vaða\ndag hvern,\ner hann dæma ferr\nat aski Yggdrasils,\nþví at ásbrú\nbrenn öll loga,\nheilög vötn hlóa.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Glaðr ok Gyllir,\nGlær ok Skeiðbrimir,\nSilfrintoppr ok Sinir,\nGísl ok Falhófnir,\nGulltoppr ok Léttfeti,\nþeim ríða æsir jóm\ndag hvern,\ner þeir dæma fara\nat aski Yggdrasils.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Þríar rætr\nstanda á þría vega\nundan aski Yggdrasils;\nHel býr und einni,\nannarri hrímþursar,\nþriðju mennskir menn.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Ratatoskr heitir íkorni,\ner renna skal\nat aski Yggdrasils,\narnar orð\nhann skal ofan bera\nok segja Niðhöggvi niðr.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Hirtir eru ok fjórir,\nþeirs af hæfingar\ngaghalsir gnaga:\nDáinn ok Dvalinn,\nDuneyrr ok Duraþrór.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Ormar fleiri liggja\nund aski Yggdrasils,\nen þat of hyggi hverr ósviðra apa:\nGóinn ok Móinn,\nþeir ro Grafvitnis synir,\nGrábakr ok Grafvölluðr,\nÓfnir ok Sváfnir,\nhygg ek, at æ skyli\nmeiðs kvistu má.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Askr Yggdrasils\ndrýgir erfiði\nmeira en menn um viti:\nhjörtr bítr ofan,\nen á hliðu fúnar,\nskerðir Niðhöggr neðan.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrist ok Mist\nvil ek, at mér horn beri,\nSkeggjöld ok Skögul,\nHildr ok Þrúðr,\nHlökk ok Herfjötur,\nGöll ok Geirönul,\nRandgríðr ok Ráðgríðr\nok Reginleif,\nþær bera Einherjum öl.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Árvakr ok Alsviðr\nþeir skulu upp heðan\nsvangir sól draga;\nen und þeira bógum\nfálu blíð regin,\næsir, ísarnkol.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Svalinn heitir,\nhann stendr sólu fyrir,\nskjöldr, skínanda goði;\nbjörg ok brim,\nek veit, at brenna skulu,\nef hann fellr í frá.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Sköll heitir ulfr,\ner fylgir inu skírleita goði\ntil varna viðar,\nen annarr Hati,\nhann er Hróðvitnis sonr,\nsá skal fyr heiða brúði himins.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Ór Ymis holdi\nvar jörð of sköpuð,\nen ór sveita sær,\nbjörg ór beinum,\nbaðmr ór hári,\nen ór hausi himinn.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "En ór hans brám\ngerðu blíð regin\nMiðgarð manna sonum,\nen ór hans heila\nváru þau in harðmóðgu\nský öll of sköpuð.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Ullar hylli\nhefr ok allra goða\nhverr er tekr fyrstr á funa,\nþví at opnir heimar\nverða of ása sonum,\nþá er hefja af hvera.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "Ívalda synir\ngengu í árdaga\nSkíðblaðni at skapa,\nskipa bezt,\nskírum Frey,\nnýtum Njarðar bur.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Askr Yggdrasils,\nhann er æðstr viða,\nen Skíðblaðnir skipa,\nÓðinn ása,\nen jóa Sleipnir,\nBilröst brúa,\nen Bragi skalda,\nHábrók hauka,\nen hunda Garmr.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "Svipum hef ek nú yppt\nfyr sigtíva sonum,\nvið þat skal vilbjörg vaka;\nöllum ásum\nþat skal inn koma\nÆgis bekki á,\nÆgis drekku at.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Hétumk Grímr,\nhétumk Gangleri,\nHerjann ok Hjalmberi,\nÞekkr ok Þriði,\nÞundr ok Uðr,\nHerblindi ok Hár.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Saðr ok Svipall\nok Sanngetall,\nHerteitr ok Hnikarr,\nBileygr, Báleygr,\nBölverkr, Fjölnir,\nGrímr ok Grímnir,\nGlapsviðr ok Fjölsviðr;",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "Síðhöttr, Síðskeggr,\nSigföðr, Hnikuðr,\nAlföðr, Valföðr,\nAtríðr ok Farmatýr;\neinu nafni\nhétumk aldregi,\nsíz ek með folkum fór.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Grímni mik hétu\nat Geirröðar,\nen Jalk at Ásmundar,\nen þá Kjalar,\ner ek kjálka dró,\nÞrór þingum at,\nViðurr at vígum,\nÓski ok Ómi,\nJafnhár ok Biflindi,\nGöndlir ok Hárbarðr með goðum.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "Sviðurr ok Sviðrir\ner ek hét at Sökkmímis,\nok dulðak þann inn aldna jötun,\nþá er ek Miðvitnis vark\nins mæra burar\norðinn einbani.",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "Ölr ertu, Geirröðr,\nhefr þú ofdrukkit;\nmiklu ertu hnugginn,\ner þú ert mínu gengi,\nöllum Einherjum\nok Óðins hylli.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Fjölð ek þér sagðak,\nen þú fátt of mant;\nof þik véla vinir;\nmæki liggja\nek sé míns vinar\nallan í dreyra drifinn.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "Eggmóðan val\nnú mun Yggr hafa,\nþitt veit ek líf of liðit;\núfar ro dísir,\nnú knáttu Óðin sjá,\nnálgasktu mik, ef þú megir.",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "Óðinn ek nú heiti,\nYggr ek áðan hét,\nhétumk Þundr fyr þat,\nVakr ok Skilfingr,\nVáfuðr ok Hroftatýr,\nGautr ok Jalkr með goðum,\nÓfnir ok Sváfnir,\ner ek hygg, at orðnir sé\nallir af einum mér.",
+      "stanza": "54"
+    },
+    {
+      "kind": "prose",
+      "text": "Geirröðr konungr sat ok hafði sverð um kné sér ok brugðit til miðs. En er hann heyrði, at Óðinn var þar kominn, þá stóð hann upp ok vildi taka Óðin frá eldinum. Sverðit slapp ór hendi honum, ok vissu hjöltin niðr. Konungr drap fæti ok steypðist áfram, en sverðit stóð í gögnum hann, ok fekk hann bana. Óðinn hvarf þá, en Agnarr var þar konungr lengi síðan."
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "King Hrauthung had two sons: one was called Agnar, and the other Geirröth. Agnar was ten winters old, and Geirröth eight. Once they both rowed in a boat with their fishing-gear to catch little fish; and the wind drove them out into the sea. In the darkness of the night they were wrecked on the shore; and going up, they found a poor peasant, with whom they stayed through the winter. The housewife took care of Agnar, and the peasant cared for Geirröth, and taught him wisdom. In the spring the peasant gave him a boat; and when the couple led them to the shore, the peasant spoke secretly with Geirröth. They had a fair wind, and came to their father's landing-place. Geirröth was forward in the boat; he leaped up on land, but pushed out the boat and said, \"Go thou now where evil may have thee!\" The boat drifted out to sea. Geirröth, however, went up to the house, and was well received, but his father was dead."
+    },
+    {
+      "kind": "prose",
+      "text": "Then Geirröth was made king, and became a renowned man."
+    },
+    {
+      "kind": "prose",
+      "text": "Othin and Frigg sat in Hlithskjolf and looked over all the worlds. Othin said: \"Seest thou Agnar, thy foster ling, how he begets children with a giantess in the cave? But Geirröth, my fosterling, is a king, and now rules over his land.\" Frigg said: \"He is so miserly that he tortures his guests if he thinks that too many of them come to him.\" Othin replied that this was the greatest of lies; and they made a wager about this matter. Frigg sent her maid-servant, Fulla, to Geirröth."
+    },
+    {
+      "kind": "prose",
+      "text": "She bade the king beware lest a magician who was come thither to his land should bewitch him, and told this sign concerning him, that no dog was so fierce as to leap at him. Now it was a very great slander that King Geirröth was not hospitable; but nevertheless he had them take the man whom the dogs would not attack. He wore a dark-blue mantle and called himself Grimnir, but said no more about himself, though he was questioned. The king had him tortured to make him speak, and set him between two fires, and he sat there eight nights. King Geirröth had a son ten winters old, and called Agnar after his father's brother. Agnar went to Grimnir, and gave him a full horn to drink from, and said that the king did ill in letting him be tormented with out cause. Grimnir drank from the horn; the fire had come so near that the mantle burned on Grimnir's back. He spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "Hot art thou, fire! | too fierce by far;\nGet ye now gone, ye flames!\nThe mantle is burnt, | though I bear it aloft,\nAnd the fire scorches the fur.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "'Twixt the fires now | eight nights have I sat,\nAnd no man brought meat to me,\nSave Agnar alone, | and alone shall rule\nGeirröth's son o'er the Goths.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Hail to thee, Agnar! | for hailed thou art\nBy the voice of Veratyr;\nFor a single drink | shalt thou never receive\nA greater gift as reward.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "The land is holy | that lies hard by\nThe gods and the elves together;\nAnd Thor shall ever | in Thruthheim dwell,\nTill the gods to destruction go.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Ydalir call they | the place where Ull\nA hall for himself hath set;\nAnd Alfheim the gods | to Freyr once gave\nAs a tooth-gift in ancient times.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "A third home is there, | with silver thatched\nBy the hands of the gracious gods:\nValaskjolf is it, | in days of old\nSet by a god for himself.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Sökkvabekk is the fourth, | where cool waves flow,\nAnd amid their murmur it stands;\nThere daily do Othin | and Saga drink\nIn gladness from cups of gold.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "The fifth is Glathsheim, | and gold-bright there\nStands Valhall stretching wide;\nAnd there does Othin | each day choose\nThe men who have fallen in fight.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Easy is it to know | for him who to Othin\nComes and beholds the hall;\nIts rafters are spears, | with shields is it roofed,\nOn its benches are breastplates strewn.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Easy is it to know | for him who to Othin\nComes and beholds the hall;\nThere hangs a wolf | by the western door,\nAnd o'er it an eagle hovers.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "The sixth is Thrymheim, | where Thjazi dwelt,\nThe giant of marvelous might;\nNow Skathi abides, | the god's fair bride,\nIn the home that her father had.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "The seventh is Breithablik; | Baldr has there\nFor himself a dwelling set,\nIn the land I know | that lies so fair,\nAnd from evil fate is free.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Himinbjorg is the eighth, | and Heimdall there\nO'er men holds sway, it is said;\nIn his well-built house | does the warder of heaven\nThe good mead gladly drink.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "The ninth is Folkvang, | where Freyja decrees\nWho shall have seats in the hall;\nThe half of the dead | each day does she choose,\nAnd half does Othin have.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "The tenth is Glitnir; | its pillars are gold,\nAnd its roof with silver is set;\nThere most of his days | does Forseti dwell,\nAnd sets all strife at end.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "The eleventh is Noatun; | there has Njorth\nFor himself a dwelling set;\nThe sinless ruler | of men there sits\nIn his temple timbered high.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Filled with growing trees | and high-standing grass\nIs Vithi, Vithar's land;\nBut there did the son | from his steed leap down,\nWhen his father he fain would avenge.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "In Eldhrimnir | Andhrimnir cooks\nSæhrimnir's seething flesh,--\nThe best of food, | but few men know\nOn what fare the warriors feast.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Freki and Geri | does Heerfather feed,\nThe far-famed fighter of old:\nBut on wine alone | does the weapon-decked god,\nOthin, forever live.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "O'er Mithgarth Hugin | and Munin both\nEach day set forth to fly;\nFor Hugin I fear | lest he come not home,\nBut for Munin my care is more.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Loud roars Thund, | and Thjothvitnir's fish\njoyously fares in the flood;\nHard does it seem | to the host of the slain\nTo wade the torrent wild.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "There Valgrind stands, | the sacred gate,\nAnd behind are the holy doors;\nOld is the gate, | but few there are\nWho can tell how it tightly is locked.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Five hundred doors | and forty there are,\nI ween, in Valhall's walls;\nEight hundred fighters | through one door fare\nWhen to war with the wolf they go.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Five hundred rooms | and forty there are\nI ween, in Bilskirnir built;\nOf all the homes | whose roofs I beheld,\nMy son's the greatest meseemed.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Heithrun is the goat | who stands by Heerfather's hall,\nAnd the branches of Lærath she bites;\nThe pitcher she fills | with the fair, clear mead,\nNe'er fails the foaming drink.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Eikthyrnir is the hart | who stands by Heerfather's hall\nAnd the branches of Lærath he bites;\nFrom his horns a stream | into Hvergelmir drops,\nThence all the rivers run.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Sith and Vith, | Sækin and Ækin,\nSvol and Fimbulthul, | Gunnthro, and Fjorm,\nRin and Rinnandi,\nGipul and Gopul, | Gomul and Geirvimul,\nThat flow through the fields of the gods;\nThyn and Vin, | Thol and Hol,\nGroth and Gunnthorin.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Vino is one, | Vegsvin another,\nAnd Thjothnuma a third;\nNyt and Not, | Non and Hron,\nSlith and Hrith, | Sylg and Ylg,\nVith and Von, | Vond and Strond,\nGjol and Leipt, | that go among men,\nAnd hence they fall to Hel.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Kormt and Ormt | and the Kerlaugs twain\nShall Thor each day wade through,\n(When dooms to give | he forth shall go\nTo the ash-tree Yggdrasil;)\nFor heaven's bridge | burns all in flame,\nAnd the sacred waters seethe.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Glath and Gyllir, | Gler and Skeithbrimir,\nSilfrintopp and Sinir,\nGisl and Falhofnir, | Golltopp and Lettfeti,\nOn these steeds the gods shall go\nWhen dooms to give | each day they ride\nTo the ash-tree Yggdrasil.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Three roots there are | that three ways run\n'Neath the ash-tree Yggdrasil;\n'Neath the first lives Hel, | 'neath the second the frost-giants,\n'Neath the last are the lands of men.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Ratatosk is the squirrel | who there shall run\nOn the ash-tree Yggdrasil;\nFrom above the words | of the eagle he bears,\nAnd tells them to Nithhogg beneath.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Four harts there are, | that the highest twigs\nNibble with necks bent back;\nDain and Dvalin, | . . . . . .\nDuneyr and Dyrathror.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "More serpents there are | beneath the ash\nThan an unwise ape would think;\nGoin and Moin, | Grafvitnir's sons,\nGrabak and Grafvolluth,\nOfnir and Svafnir | shall ever, methinks,\nGnaw at the twigs of the tree.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Yggdrasil's ash | great evil suffers,\nFar more than men do know;\nThe hart bites its top, | its trunk is rotting,\nAnd Nithhogg gnaws beneath.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrist and Mist | bring the horn at my will,\nSkeggjold and Skogul;\nHild and Thruth, | Hlok and Herfjotur,\nGol and Geironul,\nRandgrith and Rathgrith | and Reginleif\nBeer to the warriors bring.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Arvak and Alsvith | up shall drag\nWeary the weight of the sun;\nBut an iron cool | have the kindly gods\nOf yore set under their yokes.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "In front of the sun | does Svalin stand,\nThe shield for the shining god;\nMountains and sea | would be set in flames\nIf it fell from before the sun.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Skoll is the wolf | that to Ironwood\nFollows the glittering god,\nAnd the son of Hrothvitnir, | Hati, awaits\nThe burning bride of heaven.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Out of Ymir's flesh | was fashioned the earth,\nAnd the ocean out of his blood;\nOf his bones the hills, | of his hair the trees,\nOf his skull the heavens high.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Mithgarth the gods | from his eyebrows made,\nAnd set for the sons of men;\nAnd out of his brain | the baleful clouds\nThey made to move on high.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "His the favor of Ull | and of all the gods\nWho first in the flames will reach;\nFor the house can be seen | by the sons of the gods\nIf the kettle aside were cast.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "In days of old | did Ivaldi's sons\nSkithblathnir fashion fair,\nThe best of ships | for the bright god Freyr,\nThe noble son of Njorth.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "The best of trees | must Yggdrasil be,\nSkithblathnir best of boats;\nOf all the gods | is Othin the greatest,\nAnd Sleipnir the best of steeds;\nBifrost of bridges, | Bragi of skalds,\nHobrok of hawks, | and Garm of hounds.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "To the race of the gods | my face have I raised,\nAnd the wished-for aid have I waked;\nFor to all the gods | has the message gone\nThat sit in Ægir's seats,\nThat drink within Ægir's doors.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Grim is my name, | Gangleri am 1,\nHerjan and Hjalmberi,\nThekk and Thrithi, | Thuth and Uth,\nHelblindi and Hor;",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Sath and Svipal | and Sanngetal,\nHerteit and Hnikar,\nBileyg, Baleyg, | Bolverk, Fjolnir,\nGrim and Grimnir, | Glapsvith, Fjolsvith.",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "Sithhott, Sithskegg, | Sigfather, Hnikuth,\nAllfather, Valfather, | Atrith, Farmatyr:\nA single name | have I never had\nSince first among men I fared.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Grimnir they call me | in Geirröth's hall,\nWith Asmund Jalk am I;\nKjalar I was | when I went in a sledge,\nAt the council Thror am I called,\nAs Vithur I fare to the fight;\nOski, Biflindi, | Jafnhor and Omi,\nGondlir and Harbarth midst gods.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "I deceived the giant | Sokkmimir old\nAs Svithur and Svithrir of yore;\nOf Mithvitnir's son | the slayer I was\nWhen the famed one found his doom.",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "Drunk art thou, Geirröth, | too much didst thou drink,\n. . . . . . . . . .\nMuch hast thou lost, | for help no more\nFrom me or my heroes thou hast.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Small heed didst thou take | to all that I told,\nAnd false were the words of thy friends;\nFor now the sword | of my friend I see,\nThat waits all wet with blood.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "Thy sword-pierced body | shall Ygg have soon,\nFor thy life is ended at last;\nThe maids are hostile; | now Othin behold!\nNow come to me if thou canst!",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "Now am I Othin, | Ygg was I once,\nEre that did they call me Thund;\nVak and Skilfing, | Vofuth and Hroptatyr,\nGaut and Jalk midst the gods;\nOfnir and Svafnir, | and all, methinks,\nAre names for none but me.",
+      "stanza": "54"
+    },
+    {
+      "kind": "prose",
+      "text": "King Geirröth sat and had his sword on his knee, half drawn from its sheath. But when he heard that Othin was come thither, then he rose up and sought to take Othin from the fire. The sword slipped from his hand, and fell with the hilt down. The king stumbled and fell forward, and the sword pierced him through, and slew him. Then Othin vanished, but Agnar long ruled there as king."
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Grímnismál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe06.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

@@ -1,0 +1,485 @@
+{
+  "norse": [
+    {
+      "kind": "verse",
+      "text": "Ár valtívar\nveiðar námu\nok sumblsamir,\náðr saðir yrði,\nhristu teina\nok á hlaut sáu;\nfundu þeir at Ægis\nörkost hvera.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat bergbúi\nbarnteitr fyr\nmjök glíkr megi\nmiskorblinda;\nleit í augu\nYggs barn í þrá:\n\"Þú skalt ásum\noft sumbl gera.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Önn fekk jötni\norðbæginn halr,\nhugði at hefndum\nhann næst við goð,\nbað hann Sifjar ver\nsér færa hver, -\n\"þanns ek öllum öl\nyðr of heita.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Né þat máttu\nmærir tívar\nok ginnregin\nof geta hvergi,\nunz af tryggðum\nTýr Hlórriða\nástráð mikit",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "einum sagði:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Býr fyr austan\nÉlivága\nhundvíss Hymir\nat himins enda;\ná minn faðir\nmóðugr ketil,\nrúmbrugðinn hver,\nrastar djúpan.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Veiztu ef þiggjum\nþann lögvelli?\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Týr kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Ef, vinr, vélar vit gervum til.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Fóru drjúgum\ndag þann fram\nÁsgarði frá,\nunz til Egils kvámu;\nhirði hann hafra\nhorngöfgasta;\nhurfu at höllu,\ner Hymir átti.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Mögr fann ömmu\nmjök leiða sér,\nhafði höfða\nhundruð níu,\nen önnur gekk\nalgullin fram\nbrúnhvít bera\nbjórveig syni:",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Áttniðr jötna,\nek viljak ykkr\nhugfulla tvá\nund hvera setja;\ner minn fríi\nmörgu sinni\nglöggr við gesti,\ngörr ills hugar.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "En váskapaðr\nvarð síðbúinn\nharðráðr Hymir\nheim af veiðum,\ngekk inn í sal,\nglumðu jöklar,\nvar karls, en kom,\nkinnskógr frörinn.",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Frilla kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ver þú heill, Hymir,\ní hugum góðum,\nnú er sonr kominn\ntil sala þinna,\nsá er vit vættum\naf vegi löngum;\nfylgir hánum\nhróðrs andskoti,\nvinr verliða;\nVéurr heitir sá.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Sé þú, hvar sitja\nund salar gafli,\nsvá forða sér,\nstendr súl fyrir.\"\nSundr stökk súla\nfyr sjón jötuns,\nen áðr í tvau\náss brotnaði.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Stukku átta,\nen einn af þeim\nhverr harðsleginn\nheill af þolli;\nfram gengu þeir,\nen forn jötunn\nsjónum leiddi\nsinn andskota.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Sagði-t hánum\nhugr vel þá,\ner hann sá gýgjar græti\ná golf kominn,\nþar váru þjórar\nþrír of teknir,\nbað senn jötunn\nsjóða ganga.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Hvern létu þeir\nhöfði skemmra\nok á seyði\nsíðan báru;\nát Sifjar verr,\náðr sofa gengi,\neinn með öllu\nöxn tvá Hymis.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Þótti hárum\nHrungnis spjalla\nverðr Hlórriða\nvel fullmikill:\n\"Munum at aftni\nöðrum verða\nvið veiðimat\nvér þrír lifa.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Véurr kvaðzk vilja\ná vág róa,\nef ballr jötunn\nbeitr gæfi.",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Hverf þú til hjarðar, ef þú hug trúir, brjótr berg - Dana, beitur sækja."
+    },
+    {
+      "kind": "verse",
+      "text": "Þess vænti ek,\nat þér myni-t\nögn af oxa\nauðfeng vera.\"\nSveinn sýsliga\nsveif til skógar,\nþar er uxi stóð\nalsvartr fyrir.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Braut af þjóri\nþurs ráðbani\nhátún ofan\nhorna tveggja.",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Verk þykkja þín verri miklu kjóla valdi en þú kyrr sitir.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Bað hlunngota\nhafra dróttinn\náttrunn apa\nútar færa,\nen sá jötunn\nsína talði\nlítla fýsi\nat róa lengra.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Dró meir Hymir\nmóðugr hvali\neinn á öngli\nupp senn tváa,\nen aftr í skut\nÓðni sifjaðr\nVéurr við vélar\nvað gerði sér.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Egndi á öngul,\nsá er öldum bergr,\norms einbani\nuxa höfði;\ngein við agni,\nsú er goð fía,\numgjörð neðan\nallra landa.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Dró djarfliga\ndáðrakkr Þórr\norm eitrfáan\nupp at borði;\nhamri kníði\nháfjall skarar\nofljótt ofan\nulfs hnitbróður.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Hraungalkn hlumðu,\nen hölkn þutu,\nfór in forna\nfold öll saman;\nsökkðisk síðan\nsá fiskr í mar.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Óteitr jötunn,\ner aftr reru,\nsvá at ár Hymir\nekki mælti,\nveifði hann ræði\nveðrs annars til.",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mundu of vinna\nverk halft við mik,\nat þú heim hvali\nhaf til bæjar\neða flotbrúsa\nfestir okkarn.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Gekk Hlórriði,\ngreip á stafni\nvatt með austri\nupp lögfáki,\neinn með árum\nok með austskotu\nbar hann til bæjar\nbrimsvín jötuns\nok holtriða\nhver í gegnum.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Ok enn jötunn\num afrendi,\nþrágirni vanr,\nvið Þór sennti,\nkvað-at mann ramman,\nþótt róa kynni\nkröfturligan,\nnema kálk bryti.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "En Hlórriði,\ner at höndum kom,\nbrátt lét bresta\nbrattstein gleri;\nsló hann sitjandi\nsúlur í gögnum;\nbáru þó heilan\nfyr Hymi síðan.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Unz þat in fríða\nfrilla kenndi\nástráð mikit,\neitt er vissi:\n\"Drep við haus Hymis,\nhann er harðari,\nkostmóðs jötuns\nkálki hverjum.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Harðr reis á kné\nhafra dróttinn,\nfærðisk allra\ní ásmegin;\nheill var karli\nhjalmstofn ofan,\nen vínferill\nvalr rifnaði.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mörg veit ek mæti\nmér gengin frá,\ner ek kálki sé\nór knéum hrundit;\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "karl orð of kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"knákat ek segja aftr ævagi, þú ert, ölðr, of heitt."
+    },
+    {
+      "kind": "verse",
+      "text": "Þat er til kostar,\nef koma mættið\nút ór óru\nölkjól hofi.\"\nTýr leitaði\ntysvar hræra;\nstóð at hváru\nhverr kyrr fyrir.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Faðir Móða\nfekk á þremi\nok í gegnum steig\ngolf niðr í sal;\nhóf sér á höfuð upp\nhver Sifjar verr,\nen á hælum\nhringar skullu.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Fóru-t lengi,\náðr líta nam\naftr Óðins sonr\neinu sinni;\nsá hann ór hreysum\nmeð Hymi austan\nfolkdrótt fara\nfjölhöfðaða.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Hóf hann sér af herðum\nhver standanda,\nveifði hann Mjöllni\nmorðgjörnum fram,\nok hraunhvala\nhann alla drap.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Fóru-t lengi,\náðr liggja nam\nhafr Hlórriða\nhalfdauðr fyrir;\nvar skær skökuls\nskakkr á beini,\nen því inn lævísi\nLoki of olli.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "En ér heyrt hafið, -\nhverr kann of þat\ngoðmálugra\ngörr at skilja? -\nhver af hraunbúa\nhann laun of fekk,\ner hann bæði galt\nbörn sín fyrir.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Þróttöflugr kom\ná þing goða\nok hafði hver,\nþanns Hymir átti;\nen véar hverjan\nvel skulu drekka\nölðr at Ægis\neitt hörmeitið.",
+      "stanza": "39"
+    }
+  ],
+  "english": [
+    {
+      "kind": "verse",
+      "text": "Of old the gods | made feast together,\nAnd drink they sought | ere sated they were;\nTwigs they shook, | and blood they tried:\nRich fare in Ægir's | hall they found.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "The mountain-dweller | sat merry as boyhood,\nBut soon like a blinded | man he seemed;\nThe son of Ygg | gazed in his eyes:\n\"For the gods a feast | shalt thou forthwith get.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "The word-wielder toil | for the giant worked,\nAnd so revenge | on the gods he sought;\nHe bade Sif's mate | the kettle bring:\n\"Therein for ye all | much ale shall I brew.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "The far-famed ones | could find it not,\nAnd the holy gods | could get it nowhere;\nTill in truthful wise | did Tyr speak forth,\nAnd helpful counsel | to Hlorrithi gave.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "\"There dwells to the east | of Elivagar\nHymir the wise | at the end of heaven;\nA kettle my father | fierce doth own,\nA mighty vessel | a mile in depth.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake"
+    },
+    {
+      "kind": "heading",
+      "text": ":"
+    },
+    {
+      "kind": "verse",
+      "text": "\"May we win, dost thou think, | this whirler of water?\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Tyr spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Aye, friend, we can, | if cunning we are.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Forward that day | with speed they fared,\nFrom Asgarth came they | to Egil's home;\nThe goats with horns | bedecked he guarded;\nThen they sped to the hall | where Hymir dwelt.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "The youth found his grandam, | that greatly he loathed,\nAnd full nine hundred | heads she had;\nBut the other fair | with gold came forth,\nAnd the bright-browed one | brought beer to her son.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Kinsman of giants, | beneath the kettle\nWill I set ye both, | ye heroes bold;\nFor many a time | my dear-loved mate\nTo guests is wrathful | and grim of mind.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Late to his home | the misshapen Hymir,\nThe giant harsh, | from his hunting came;\nThe icicles rattled | as in he came,\nFor the fellow's chin-forest | frozen was.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hail to thee, Hymir! | good thoughts mayst thou have;\nHere has thy son | to thine hall now come;\n(For him have we waited, | his way was long;)\nAnd with him fares | the foeman of Hroth,\nThe friend of mankind, | and Veur they call him.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "\"See where under | the gable they sit!\nBehind the beam | do they hide themselves.\"\nThe beam at the glance | of the giant broke,\nAnd the mighty pillar | in pieces fell.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Eight fell from the ledge, | and one alone,\nThe hard-hammered kettle, | of all was whole;\nForth came they then, | and his foes he sought,\nThe giant old, | and held with his eyes.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Much sorrow his heart | foretold when he saw\nThe giantess' foeman | come forth on the floor;\nThen of the steers | did they bring in three;\nTheir flesh to boil | did the giant bid.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "By a head was each | the shorter hewed,\nAnd the beasts to the fire | straight they bore;\nThe husband of Sif, | ere to sleep he went,\nAlone two oxen | of Hymir's ate.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "To the comrade hoary | of Hrungnir then\nDid Hlorrithi's meal | full mighty seem;\n\"Next time at eve | we three must eat\nThe food we have | s the hunting's spoil.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nFain to row on the sea | was Veur, he said,\nIf the giant bold | would give him bait.",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Go to the herd, | if thou hast it in mind,\nThou slayer of giants, | thy bait to seek;\nFor there thou soon | mayst find, methinks,\nBait from the oxen | easy to get.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Swift to the wood | the hero went,\nTill before him an ox | all black he found;\nFrom the beast the slayer | of giants broke\nThe fortress high | of his double horns.",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy works, methinks, | are worse by far,\nThou steerer of ships, | than when still thou sittest.\"\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "The lord of the goats | bade the ape-begotten\nFarther to steer | the steed of the rollers;\nBut the giant said | that his will, forsooth,\nLonger to row | was little enough.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Two whales on his hook | did the mighty Hymir\nSoon pull up | on a single cast;\nIn the stern the kinsman | of Othin sat,\nAnd Veur with cunning | his cast prepared.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "The warder of men, | the worm's destroyer,\nFixed on his hook | the head of the ox;\nThere gaped at the bait | the foe of the gods,\nThe girdler of all | the earth beneath.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "The venomous serpent | swiftly up\nTo the boat did Thor, | the bold one, pull;\nWith his hammer the loathly | hill of the hair\nOf the brother of Fenrir | he smote from above.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "The monsters roared, | and the rocks resounded,\nAnd all the earth | so old was shaken;\n. . . . . . . . . .\nThen sank the fish | in the sea forthwith.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nJoyless as back | they rowed was the giant;\nSpeechless did Hymir | sit at the oars,\nWith the rudder he sought | a second wind.",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The half of our toil | wilt thou have with me,\nAnd now make fast | our goat of the flood;\nOr home wilt thou bear | the whales to the house,\nAcross the gorge | of the wooded glen?\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Hlorrithi stood | and the stem he gripped,\nAnd the sea-horse with water | awash he lifted;\nOars and bailer | and all he bore\nWith the surf-swine home | to the giant's house.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "His might the giant | again would match,\nFor stubborn he was, | with the strength of Thor;\nNone truly strong, | though stoutly he rowed,\nWould he call save one | who could break the cup.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Hlorrithi then, | when the cup he held,\nStruck with the glass | the pillars of stone;\nAs he sat the posts | in pieces he shattered,\nYet the glass to Hymir whole they brought.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "But the loved one fair | of the giant found\nA counsel true, | and told her thought:\n\"Smite the skull of Hymir, | heavy with food,\nFor harder it is | than ever was glass.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "The goats' mighty ruler | then rose on his knee,\nAnd with all the strength | of a god he struck;\nWhole was the fellow's | helmet-stem,\nBut shattered the wine-cup | rounded was.",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Hymir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fair is the treasure | that from me is gone,\nSince now the cup | on my knees lies shattered;\"\nSo spake the giant: | \"No more can I say\nIn days to be, | 'Thou art brewed, mine ale.'",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Enough shall it be | if out ye can bring\nForth from our house | the kettle here.\"\nTyr then twice | to move it tried,\nBut before him the kettle | twice stood fast.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "The father of Mothi | the rim seized firm,\nAnd before it stood | on the floor below;\nUp on his head | Sif's husband raised it,\nAnd about his heels | the handles clattered.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Not long had they fared, | ere backwards looked\nThe son of Othin, | once more to see;\nFrom their caves in the east | beheld he coming\nWith Hymir the throng | of the many-headed.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "He stood and cast | from his back the kettle,\nAnd Mjollnir, the lover | of murder, he wielded;\n. . . . . . . . . .\nSo all the whales | of the waste he slew.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Not long had they fared | ere one there lay\nOf Hlorrithi's goats | half-dead on the ground;\nIn his leg the pole-horse | there was lame;\nThe deed the evil | Loki had done.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "But ye all have heard,-- | for of them who have\nThe tales of the gods, | who better can tell?\nWhat prize he won | from the wilderness-dweller,\nWho both his children | gave him to boot.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "The mighty one came | to the council of gods,\nAnd the kettle he had | that Hymir's was;\nSo gladly their ale | the gods could drink\nIn Ægir's hall | at the autumn-time.",
+      "stanza": "40"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Hymiskviða",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe09.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

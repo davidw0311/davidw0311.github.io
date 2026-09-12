@@ -1,0 +1,237 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Guðrún gekk þá til sævar, er hon hafði drepit Atla. Gekk hon út á sæinn ok vildi fara sér. Hon mátti eigi sökkva. Rak hana yfir fjörðinn á land Jónakrs konungs. Hann fekk hennar. Þeira synir váru þeir Sörli ok Erpr ok Hamðir. Þar fæddist upp Svanhildr Sigurðardóttir. Hon var gift Jörmunrekk inum ríkja. Með honom var Bikki. Hann réð þat, at Randvér konungs son skyldi taka hana. Þat sagði Bikki konungi. Konungr lét hengja Randvé, en troða Svanhildi undir hrossa fótum."
+    },
+    {
+      "kind": "prose",
+      "text": "En er þat spurði Guðrún, þá kvaddi hon sonu sína."
+    },
+    {
+      "kind": "verse",
+      "text": "Þá frá ek sennu\nslíðrfengligsta,\ntrauð mál, talið\naf trega stórum,\ner harðhuguð\nhvatti at vígi\ngrimmum orðum\nGuðrún sonu:",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hví sitið ér,\nhví sofið lífi,\nhví tregr-at ykkr\nteiti at mæla,\ner Jörmunrekkr\nyðra systur,\nunga at aldri,\njóm of traddi,\nhvítum ok svörtum,\ná hervegi,\ngrám, gangtömum\nGotna hrossum?",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Urðu-a it glíkir\nþeim Gunnari\nné in heldr hugðir\nsem var Högni;\nhennar munduð it\nhefna leita,\nef móð ættið\nminna bræðra\neða harðan hug\nHúnkonunga.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Hamðir\ninn hugumstóri:\n\"Lítt myndir þú\nleyfa dáð Högna,\nþá er Sigurð vökðu\nsvefni ór;\nbækr váru þínar\nenar bláhvítu\nroðnar í vers dreyra,\nfolgnar í valblóði.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Urðu þér beggja\nbræðra hefndir\nslíðrar ok sárar,\ner þú sonu myrðir;\nknættim allir\nJörmunrekki\nsamhyggjendr\nsystur hefna.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Berið hnossir fram\nHúnkonunga;\nhefir þú okkr hvatta\nat hjörþingi.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Hlæjandi Guðrún\nhvarf til skemmu,\nkumbl konunga\nór kerum valði,\nsíðar brynjur,\nok sonum færði,\nhlóðusk móðgir\ná mara bógu.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Hamðir\ninn hugumstóri:\n\"Svá kemsk meir aftr\nmóður at vitja\ngeir-Njörðr hniginn\ná Goðþjóðu,\nat þú erfi\nat öll oss drykkir,\nat Svanhildi\nok sonu þína.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Guðrún grátandi,\nGjúka dóttir,\ngekk hon tregliga\ná tái sitja\nok at telja\ntárughlýra\nmóðug spjöll\ná margan veg:",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þrjá vissa ek elda,\nþrjá vissa ek arna,\nvar ek þrimr verum\nvegin at húsi;\neinn var mér Sigurðr\nöllum betri,\ner bræðr mínir\nat bana urðu.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Svárra sára\nsák-at ek né kunna,\nmeir þóttusk\nmér of stríða,\ner mik öðlingar\nAtla gáfu.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Húna hvassa\nhét ek mér at rúnum;\nmáttig-a-k bölva\nbetr of vinna,\náðr ek hnóf höfuð\naf Hniflungum.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Gekk ek til strandar,\ngröm vark nornum,\nvilda ek hrinda\nstríð grið þeira;\nhófu mik, né drekkðu,\nhávar bárur,\nþví ek land of sték,\nat lifa skyldak.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Gekk ek á beð,\nhugðak mér fyr betra,\nþriðja sinni\nþjóðkonungi;\nól ek mér jóð,\nerfivörðu,\nerfivörðu,\nJónakrs sonum.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "En um Svanhildi\nsátu þýjar,\ner ek minna barna\nbazt fullhugðak;\nsvá var Svanhildr\ní sal mínum\nsem væri sæmleitr\nsólar geisli.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Gædda ek gulli\nok guðvefjum,\náðr ek gæfak\nGoðþjóðar til;\nþat er mér harðast\nharma minna\nof þann inn hvíta\nhadd Svanhildar,\nauri tröddu\nund jóa fótum.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "En sá sárastr,\ner þeir Sigurð minn,\nsigri ræntan,\ní sæing vágu,\nen sá grimmastr,\ner þeir Gunnari\nfránir ormar\ntil fjörs skriðu,\nen sá hvassastr,\ner til hjarta\nkonung óblauðan\nkvikvan skáru.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Fjölð man ek bölva,\nBeittu, Siguðr,\ninn blakka mar,\nhest inn hraðfæra\nláttu hinig renna;\nsitr eigi hér\nsnör né dóttir,\nsú er Guðrúnu\ngæfi hnossir.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Minnsktu, Sigurðr,\nhvat vit mæltum,\nþá er vit á beð\nbæði sátum,\nat þú myndir mín,\nmóðugr, vitja,\nhalr, ór helju,\nen ek þín ór heimi.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Hlaðið ér, jarlar,\neikiköstinn,\nlátið þann und hilmi\nhæstan verða;\nmegi brenna brjóst\nbölvafullt eldr,\nþrungit um hjarta\nþiðni sorgir.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Jörlum öllum\nóðal batni,\nsnótum öllum\nsorg at minni,\nat þetta tregróf\nof talit væri.",
+      "stanza": "21"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Guthrun went forth to the sea after she had slain Atli. She went out into the sea and fain would drown herself, but she could not sink. The waves bore her across the fjord to the land of King Jonak; he took her as wife; their sons were Sorli and Erp and Hamther. There was brought up Svanhild, Sigurth's daughter; she was married to the mighty Jormunrek. With him was Bikki, who counselled that Randver, the king's son, should have her. This Bikki told to the king. The king had Randver hanged, and Svanhild trodden to death under horses' feet. And when Guthrun learned this, she spake with her sons."
+    },
+    {
+      "kind": "verse",
+      "text": "A word-strife I learned, | most woeful of all,\nA speech from the fullness | of sorrow spoken,\nWhen fierce of heart | her sons to the fight\nDid Guthrun whet | with words full grim.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Why sit ye idle, | why sleep out your lives,\nWhy grieve ye not | in gladness to speak?\nSince Jormunrek | your sister young\nBeneath the hoofs | of horses hath trodden,\n(White and black | on the battle-way,\nGray, road-wonted, | the steeds of the Goths.)",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Not like are ye | to Gunnar of yore,\nNor have ye hearts | such as Hogni's was;\nVengeance for her | ye soon would have\nIf brave ye were | as my brothers of old,\nOr hard your hearts | as the Hunnish kings'.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hamther spake, | the high of heart:\n\"Little the deed | of Hogni didst love,\nWhen Sigurth they wakened | from his sleep;\nThy bed-covers white | were red with blood\nOf thy husband, drenched | with gore from his heart.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bloody revenge | didst have for thy brothers,\nEvil and sore, | when thy sons didst slay;\nElse yet might we all | on Jormunrek\nTogether our sister's | slaying avenge.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nThe gear of the Hunnish | kings now give us!\nThou hast whetted us so | to the battle of swords.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Laughing did Guthrun | go to her chamber,\nThe helms of the kings | from the cupboards she took,\nAnd mail-coats broad, | to her sons she bore them;\nOn their horses' backs | the heroes leaped.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hamther spake, | the high of heart:\n\"Homeward no more | his mother to see\nComes the spear-god, | fallen mid Gothic folk;\nOne death-draught thou | for us all shalt drink,\nFor Svanhild then | and thy sons as well.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Weeping Guthrun, | Gjuki's daughter,\nWent sadly before | the gate to sit,\nAnd with tear-stained cheeks | to tell the tale\nOf her mighty griefs, | so many in kind.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Three home-fires knew I, | three hearths I knew,\nHome was I brought | by husbands three;\nBut Sigurth only | of all was dear,\nHe whom my brothers | brought to his death.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A greater sorrow | I saw not nor knew,\nYet more it seemed | I must suffer yet\nWhen the princes great | to Atli gave me.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The brave boys I summoned | to secret speech;\nFor my woes requital | I might not win\nTill off the heads | of the Hniflungs I hewed.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To the sea I went, | my heart full sore\nFor the Norns, whose wrath | I would now escape;\nBut the lofty billows | bore me undrowned,\nTill to land I came, | so I longer must live.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Then to the bed-- | of old was it better!--\nOf a king of the folk | a third time I came;\nBoys I bore | his heirs to be,\nHeirs so young, | the sons of Jonak.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "\"But round Svanhild | handmaidens sat,\nShe was dearest ever | of all my children;\nSo did Svanhild | seem in my hall\nAs the ray of the sun | is fair to see.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gold I gave her | and garments bright,\nEre I let her go | to the Gothic folk;\nOf my heavy woes | the hardest it was\nWhen Svanhild's tresses | fair were trodden\nIn the mire by hoofs | of horses wild.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The sorest it was | when Sigurth mine\nOn his couch, of victory | robbed, they killed;\nAnd grimmest of all | when to Gunnar's heart\nThere crept the bright-hued | crawling snakes.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "\"And keenest of all | when they cut the heart\nFrom the living breast | of the king so brave;\nMany woes I remember, | . . . . .\n. . . . . . . . . .",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bridle, Sigurth, | thy steed so black,\nHither let run | thy swift-faring horse;\nHere there sits not | son or daughter\nWho yet to Guthrun | gifts shall give.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Remember, Sigurth, | what once we said,\nWhen together both | on the bed we sat,\nThat mightily thou | to me wouldst come\nFrom hell and I | from earth to thee.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Pile ye up, jarls, | the pyre of oak,\nMake it the highest | a hero e'er had;\nLet the fire burn | my grief-filled breast,\nMy sore-pressed heart, | till my sorrows melt.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "May nobles all | less sorrow know,\nAnd less the woes | of women become,\nSince the tale of this | lament is told.",
+      "stanza": "22"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Guðrúnarhvöt",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe36.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

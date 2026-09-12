@@ -1,0 +1,1687 @@
+{
+  "norse": [
+    {
+      "kind": "verse",
+      "text": "Gáttir allar,\náðr gangi fram,\num skoðask skyli,\num skyggnast skyli,\nþví at óvíst er at vita,\nhvar óvinir\nsitja á fleti fyrir.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Gefendr heilir!\nGestr er inn kominn,\nhvar skal sitja sjá?\nMjök er bráðr,\nsá er á bröndum skal\nsíns of freista frama.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Elds er þörf,\nþeims inn er kominn\nok á kné kalinn;\nmatar ok váða\ner manni þörf,\nþeim er hefr um fjall farit.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Vatns er þörf,\nþeim er til verðar kemr,\nþerru ok þjóðlaðar,\ngóðs of æðis,\nef sér geta mætti,\norðs ok endrþögu.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Vits er þörf,\nþeim er víða ratar;\ndælt er heima hvat;\nat augabragði verðr,\nsá er ekki kann\nok með snotrum sitr.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "At hyggjandi sinni\nskyli-t maðr hræsinn vera,\nheldr gætinn at geði;\nþá er horskr ok þögull\nkemr heimisgarða til,\nsjaldan verðr víti vörum,\nþví at óbrigðra vin\nfær maðr aldregi\nen mannvit mikit.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Inn vari gestr,\ner til verðar kemr,\nþunnu hljóði þegir,\neyrum hlýðir,\nen augum skoðar;\nsvá nýsisk fróðra hverr fyrir.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Hinn er sæll,\ner sér of getr\nlof ok líknstafi;\nódælla er við þat,\ner maðr eiga skal\nannars brjóstum í.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Sá er sæll,\ner sjalfr of á\nlof ok vit, meðan lifir;\nþví at ill ráð\nhefr maðr oft þegit\nannars brjóstum ór.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Byrði betri\nberr-at maðr brautu at\nen sé mannvit mikit;\nauði betra\nþykkir þat í ókunnum stað;\nslíkt er válaðs vera.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Byrði betri\nberr-at maðr brautu at\nen sé mannvit mikit;\nvegnest verra\nvegr-a hann velli at\nen sé ofdrykkja öls.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Er-a svá gótt\nsem gótt kveða\nöl alda sona,\nþví at færa veit,\ner fleira drekkr\nsíns til geðs gumi.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Óminnishegri heitir\nsá er yfir ölðrum þrumir,\nhann stelr geði guma;\nþess fugls fjöðrum\nek fjötraðr vark\ní garði Gunnlaðar.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Ölr ek varð,\nvarð ofrölvi\nat ins fróða Fjalars;\nþví er ölðr bazt,\nat aftr of heimtir\nhverr sitt geð gumi.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Þagalt ok hugalt\nskyli þjóðans barn\nok vígdjarft vera;\nglaðr ok reifr\nskyli gumna hverr,\nunz sinn bíðr bana.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósnjallr maðr\nhyggsk munu ey lifa,\nef hann við víg varask;\nen elli gefr\nhánum engi frið,\nþótt hánum geirar gefi.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Kópir afglapi\ner til kynnis kemr,\nþylsk hann um eða þrumir;\nallt er senn,\nef hann sylg of getr,\nuppi er þá geð guma.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Sá einn veit\ner víða ratar\nok hefr fjölð of farit,\nhverju geði\nstýrir gumna hverr,\nsá er vitandi er vits.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Haldi-t maðr á keri,\ndrekki þó at hófi mjöð,\nmæli þarft eða þegi,\nókynnis þess\nvár þik engi maðr,\nat þú gangir snemma at sofa.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Gráðugr halr,\nnema geðs viti,\netr sér aldrtrega;\noft fær hlægis,\ner með horskum kemr,\nmanni heimskum magi.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Hjarðir þat vitu,\nnær þær heim skulu,\nok ganga þá af grasi;\nen ósviðr maðr\nkann ævagi\nsíns of mál maga.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Vesall maðr\nok illa skapi\nhlær at hvívetna;\nhittki hann veit,\ner hann vita þyrfti,\nat hann er-a vamma vanr.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósviðr maðr\nvakir um allar nætr\nok hyggr at hvívetna;\nþá er móðr,\ner at morgni kemr,\nallt er víl sem var.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósnotr maðr\nhyggr sér alla vera\nviðhlæjendr vini;\nhittki hann fiðr,\nþótt þeir um hann fár lesi,\nef hann með snotrum sitr.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósnotr maðr\nhyggr sér alla vera\nviðhlæjendr vini;\nþá þat finnr,\ner at þingi kemr,\nat hann á formælendr fáa.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósnotr maðr\nþykkisk allt vita,\nef hann á sér í vá veru;\nhittki hann veit,\nhvat hann skal við kveða,\nef hans freista firar.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósnotr maðr,\ner með aldir kemr,\nþat er bazt, at hann þegi;\nengi þat veit,\nat hann ekki kann,\nnema hann mæli til margt;\nveit-a maðr,\nhinn er vettki veit,\nþótt hann mæli til margt.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Fróðr sá þykkisk,\ner fregna kann\nok segja it sama;\neyvitu leyna\nmegu ýta synir,\nþví er gengr um guma.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Ærna mælir,\nsá er æva þegir,\nstaðlausu stafi;\nhraðmælt tunga,\nnema haldendr eigi,\noft sér ógótt of gelr.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "At augabragði\nskal-a maðr annan hafa,\nþótt til kynnis komi;\nmargr þá fróðr þykkisk,\nef hann freginn er-at\nok nái hann þurrfjallr þruma.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Fróðr þykkisk,\nsá er flótta tekr,\ngestr at gest hæðinn;\nveit-a görla,\nsá er of verði glissir,\nþótt hann með grömum glami.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Gumnar margir\nerusk gagnhollir,\nen at virði vrekask;\naldar róg\nþat mun æ vera,\nórir gestr við gest.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Árliga verðar\nskyli maðr oft fáa,\nnema til kynnis komi:\nstr ok snópir,\nlætr sem solginn sé\nok kann fregna at fáu.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Afhvarf mikit\ner til ills vinar,\nþótt á brautu búi,\nen til góðs vinar\nliggja gagnvegir,\nþótt hann sé firr farinn.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Ganga skal,\nskal-a gestr vera\ney í einum stað;\nljúfr verðr leiðr,\nef lengi sitr\nannars fletjum á.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Bú er betra,\nþótt lítit sé,\nhalr er heima hverr;\nþótt tvær geitr eigi\nok taugreftan sal,\nþat er þó betra en bæn.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Bú er betra,\nþótt lítit sé,\nhalr er heima hverr;\nblóðugt er hjarta,\nþeim er biðja skal\nsér í mál hvert matar.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Vápnum sínum\nskal-a maðr velli á\nfeti ganga framar,\nþví at óvíst er at vita,\nnær verðr á vegum úti\ngeirs of þörf guma.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Fannk-a ek mildan mann\neða svá matar góðan,\nat væri-t þiggja þegit,\neða síns féar\nsvági [glöggvan],\nat leið sé laun, ef þægi.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Féar síns,\ner fengit hefr,\nskyli-t maðr þörf þola;\noft sparir leiðum,\nþats hefr ljúfum hugat;\nmargt gengr verr en varir.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Vápnum ok váðum\nskulu vinir gleðjask;\nþat er á sjalfum sýnst;\nviðrgefendr ok endrgefendr\nerusk lengst vinir,\nef þat bíðr at verða vel.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Vin sínum\nskal maðr vinr vera\nok gjalda gjöf við gjöf;\nhlátr við hlátri\nskyli hölðar taka\nen lausung við lygi.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "Vin sínum\nskal maðr vinr vera,\nþeim ok þess vin;\nen óvinar síns\nskyli engi maðr\nvinar vinr vera.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Veiztu, ef þú vin átt,\nþann er þú vel trúir,\nok vill þú af hánum gótt geta,\ngeði skaltu við þann blanda\nok gjöfum skipta,\nfara at finna oft.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "Ef þú átt annan,\nþanns þú illa trúir,\nvildu af hánum þó gótt geta,\nfagrt skaltu við þann mæla\nen flátt hyggja\nok gjalda lausung við lygi.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Það er enn of þann\ner þú illa trúir\nok þér er grunr at hans geði,\nhlæja skaltu við þeim\nok um hug mæla;\nglík skulu gjöld gjöfum.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Ungr var ek forðum,\nfór ek einn saman,\nþá varð ek villr vega;\nauðigr þóttumk,\ner ek annan fann,\nmaðr er manns gaman.",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "Mildir, fræknir\nmenn bazt lifa,\nsjaldan sút ala;\nen ósnjallr maðr\nuggir hotvetna,\nsýtir æ glöggr við gjöfum.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Váðir mínar\ngaf ek velli at\ntveim trémönnum;\nrekkar þat þóttusk,\ner þeir rift höfðu;\nneiss er nökkviðr halr.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrörnar þöll,\nsú er stendr þorpi á,\nhlýr-at henni börkr né barr;\nsvá er maðr,\nsá er manngi ann.\nHvat skal hann lengi lifa?",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "Eldi heitari\nbrennr með illum vinum\nfriðr fimm daga,\nen þá sloknar,\ner inn sétti kemr,\nok versnar allr vinskapr.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Mikit eitt\nskal-a manni gefa;\noft kaupir sér í litlu lof,\nmeð halfum hleif\nok með höllu keri\nfekk ek mér félaga.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "Lítilla sanda\nlítilla sæva\nlítil eru geð guma;\nþví allir menn\nurðu-t jafnspakir;\nhalf er öld hvar.",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "Meðalsnotr\nskyli manna hverr;\næva til snotr sé;\nþeim er fyrða\nfegrst at lifa,\ner vel margt vitu.",
+      "stanza": "54"
+    },
+    {
+      "kind": "verse",
+      "text": "Meðalsnotr\nskyli manna hverr,\næva til snotr sé;\nþví at snotrs manns hjarta\nverðr sjaldan glatt,\nef sá er alsnotr, er á.",
+      "stanza": "55"
+    },
+    {
+      "kind": "verse",
+      "text": "Meðalsnotr\nskyli manna hverr,\næva til snotr sé;\nörlög sín\nviti engi fyrir,\nþeim er sorgalausastr sefi.",
+      "stanza": "56"
+    },
+    {
+      "kind": "verse",
+      "text": "Brandr af brandi\nbrenn, unz brunninn er,\nfuni kveikisk af funa;\nmaðr af manni\nverðr at máli kuðr,\nen til dælskr af dul.",
+      "stanza": "57"
+    },
+    {
+      "kind": "verse",
+      "text": "Ár skal rísa,\nsá er annars vill\nfé eða fjör hafa;\nsjaldan liggjandi ulfr\nlær of getr\nné sofandi maðr sigr.",
+      "stanza": "58"
+    },
+    {
+      "kind": "verse",
+      "text": "Ár skal rísa,\nsá er á yrkjendr fáa,\nok ganga síns verka á vit;\nmargt of dvelr,\nþann er um morgin sefr,\nhálfr er auðr und hvötum.",
+      "stanza": "59"
+    },
+    {
+      "kind": "verse",
+      "text": "Þurra skíða\nok þakinna næfra,\nþess kann maðr mjöt,\nþess viðar,\ner vinnask megi\nmál ok misseri.",
+      "stanza": "60"
+    },
+    {
+      "kind": "verse",
+      "text": "Þveginn ok mettr\nríði maðr þingi at,\nþótt hann sé-t væddr til vel;\nskúa ok bróka\nskammisk engi maðr\nné hests in heldr,\nþótt hann hafi-t góðan",
+      "stanza": "61"
+    },
+    {
+      "kind": "verse",
+      "text": "Snapir ok gnapir,\ner til sævar kemr,\nörn á aldinn mar;\nsvá er maðr,\ner með mörgum kemr\nok á formælendr fáa.",
+      "stanza": "62"
+    },
+    {
+      "kind": "verse",
+      "text": "Fregna ok segja\nskal fróðra hverr,\nsá er vill heitinn horskr;\neinn vita\nné annarr skal,\nþjóð veit, ef þrír ro.",
+      "stanza": "63"
+    },
+    {
+      "kind": "verse",
+      "text": "Ríki sitt\nskyli ráðsnotra\nhverr í hófi hafa;\nþá hann þat finnr,\ner með fræknum kemr\nat engi er einna hvatastr.",
+      "stanza": "64"
+    },
+    {
+      "kind": "verse",
+      "text": "orða þeira,",
+      "stanza": "65"
+    },
+    {
+      "kind": "heading",
+      "text": "er maðr öðrum segir"
+    },
+    {
+      "kind": "prose",
+      "text": "oft hann gjöld of getr."
+    },
+    {
+      "kind": "verse",
+      "text": "Mikilsti snemma\nkom ek í marga staði,\nen til síð í suma;\nöl var drukkit,\nsumt var ólagat,\nsjaldan hittir leiðr í líð.",
+      "stanza": "66"
+    },
+    {
+      "kind": "verse",
+      "text": "Hér ok hvar\nmyndi mér heim of boðit,\nef þyrftak at málungi mat,\neða tvau lær hengi\nat ins tryggva vinar,\nþars ek hafða eitt etit.",
+      "stanza": "67"
+    },
+    {
+      "kind": "verse",
+      "text": "Eldr er beztr\nmeð ýta sonum\nok sólar sýn,\nheilyndi sitt,\nef maðr hafa náir,\nán við löst at lifa.",
+      "stanza": "68"
+    },
+    {
+      "kind": "verse",
+      "text": "Er-at maðr alls vesall,\nþótt hann sé illa heill;\nsumr er af sonum sæll,\nsumr af frændum,\nsumr af fé ærnu,\nsumr af verkum vel.",
+      "stanza": "69"
+    },
+    {
+      "kind": "verse",
+      "text": "Betra er lifðum\nen sé ólifðum,\ney getr kvikr kú;\neld sá ek upp brenna\nauðgum manni fyrir,\nen úti var dauðr fyr durum.",
+      "stanza": "70"
+    },
+    {
+      "kind": "verse",
+      "text": "Haltr ríðr hrossi,\nhjörð rekr handar vanr,\ndaufr vegr ok dugir,\nblindr er betri\nen brenndr séi,\nnýtr manngi nás.",
+      "stanza": "71"
+    },
+    {
+      "kind": "verse",
+      "text": "Sonr er betri,\nþótt sé síð of alinn\neftir genginn guma;\nsjaldan bautarsteinar\nstanda brautu nær,\nnema reisi niðr at nið.",
+      "stanza": "72"
+    },
+    {
+      "kind": "verse",
+      "text": "Tveir ro eins herjar,\ntunga er höfuðs bani;\ner mér í heðin hvern\nhandar væni.",
+      "stanza": "73"
+    },
+    {
+      "kind": "verse",
+      "text": "Nótt verðr feginn\nsá er nesti trúir,\nskammar ro skips ráar;\nhverf er haustgríma;\nfjölð of viðrir\ná fimm dögum\nen meira á mánuði.",
+      "stanza": "74"
+    },
+    {
+      "kind": "verse",
+      "text": "Veit-a hinn,\ner vettki veit,\nmargr verðr af aurum api;\nmaðr er auðigr,\nannar óauðigr,\nskyli-t þann vítka váar.",
+      "stanza": "75"
+    },
+    {
+      "kind": "verse",
+      "text": "Deyr fé,\ndeyja frændr,\ndeyr sjalfr it sama,\nen orðstírr\ndeyr aldregi,\nhveim er sér góðan getr.",
+      "stanza": "76"
+    },
+    {
+      "kind": "verse",
+      "text": "Deyr fé,\ndeyja frændr,\ndeyr sjalfr it sama,\nek veit einn,\nat aldrei deyr:\ndómr um dauðan hvern.",
+      "stanza": "77"
+    },
+    {
+      "kind": "verse",
+      "text": "Fullar grindr\nsá ek fyr Fitjungs sonum,\nnú bera þeir vánar völ;\nsvá er auðr\nsem augabragð,\nhann er valtastr vina.",
+      "stanza": "78"
+    },
+    {
+      "kind": "verse",
+      "text": "Ósnotr maðr,\nef eignask getr\nfé eða fljóðs munuð,\nmetnaðr hánum þróask,\nen mannvit aldregi,\nfram gengr hann drjúgt í dul.",
+      "stanza": "79"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat er þá reynt,\ner þú að rúnum spyrr\ninum reginkunnum,\nþeim er gerðu ginnregin\nok fáði fimbulþulr,\nþá hefir hann bazt, ef hann þegir.",
+      "stanza": "80"
+    },
+    {
+      "kind": "verse",
+      "text": "At kveldi skal dag leyfa,\nkonu, er brennd er,\nmæki, er reyndr er,\nmey, er gefin er,\nís, er yfir kemr,\nöl, er drukkit er.",
+      "stanza": "81"
+    },
+    {
+      "kind": "verse",
+      "text": "Í vindi skal við höggva,\nveðri á sjó róa,\nmyrkri við man spjalla,\nmörg eru dags augu;\ná skip skal skriðar orka,\nen á skjöld til hlífar,\nmæki höggs,\nen mey til kossa.",
+      "stanza": "82"
+    },
+    {
+      "kind": "verse",
+      "text": "Við eld skal öl drekka,\nen á ísi skríða,\nmagran mar kaupa,\nen mæki saurgan,\nheima hest feita,\nen hund á búi.",
+      "stanza": "83"
+    },
+    {
+      "kind": "heading",
+      "text": "II."
+    },
+    {
+      "kind": "verse",
+      "text": "Meyjar orðum\nskyli manngi trúa\nné því, er kveðr kona,\nþví at á hverfanda hvéli\nváru þeim hjörtu sköpuð,\nbrigð í brjóst of lagið.",
+      "stanza": "84"
+    },
+    {
+      "kind": "verse",
+      "text": "Brestanda boga,\nbrennanda loga,\ngínanda ulfi,\ngalandi kráku,\nrýtanda svíni,\nrótlausum viði,\nvaxanda vági,\nvellanda katli,",
+      "stanza": "85"
+    },
+    {
+      "kind": "verse",
+      "text": "Fljúganda fleini,\nfallandi báru,\nísi einnættum,\normi hringlegnum,\nbrúðar beðmálum\neða brotnu sverði,\nbjarnar leiki\neða barni konungs.",
+      "stanza": "86"
+    },
+    {
+      "kind": "verse",
+      "text": "Sjúkum kalfi,\nsjalfráða þræli,\nvölu vilmæli,\nval nýfelldum.",
+      "stanza": "87"
+    },
+    {
+      "kind": "verse",
+      "text": "Akri ársánum\ntrúi engi maðr\nné til snemma syni,\n- veðr ræðr akri.\nen vit syni;\nhætt er þeira hvárt.",
+      "stanza": "88"
+    },
+    {
+      "kind": "verse",
+      "text": "Bróðurbana sínum\nþótt á brautu mæti,\nhúsi hálfbrunnu,\nhesti alskjótum,\n- þá er jór ónýtr,\nef einn fótr brotnar -,\nverði-t maðr svá tryggr\nat þessu trúi öllu.",
+      "stanza": "89"
+    },
+    {
+      "kind": "verse",
+      "text": "Svá er friðr kvenna,\nþeira er flátt hyggja,\nsem aki jó óbryddum\ná ísi hálum,\nteitum, tvévetrum\nok sé tamr illa,\neða í byr óðum\nbeiti stjórnlausu,\neða skyli haltr henda\nhrein í þáfjalli.",
+      "stanza": "90"
+    },
+    {
+      "kind": "verse",
+      "text": "Bert ek nú mæli,\nþví at ek bæði veit,\nbrigðr er karla hugr konum;\nþá vér fegrst mælum,\ner vér flást hyggjum:\nþat tælir horska hugi.",
+      "stanza": "91"
+    },
+    {
+      "kind": "verse",
+      "text": "Fagrt skal mæla\nok fé bjóða,\nsá er vill fljóðs ást fá,\nlíki leyfa\nins ljósa mans,\nsá fær, er fríar.",
+      "stanza": "92"
+    },
+    {
+      "kind": "verse",
+      "text": "Ástar firna\nskyli engi maðr\nannan aldregi;\noft fá á horskan,\ner á heimskan né fá,\nlostfagrir litir.",
+      "stanza": "93"
+    },
+    {
+      "kind": "verse",
+      "text": "Eyvitar firna\ner maðr annan skal,\nþess er um margan gengr guma;\nheimska ór horskum\ngerir hölða sonu\nsá inn máttki munr.",
+      "stanza": "94"
+    },
+    {
+      "kind": "verse",
+      "text": "Hugr einn þat veit,\ner býr hjarta nær,\neinn er hann sér of sefa;\nöng er sótt verri\nhveim snotrum manni\nen sér engu at una.",
+      "stanza": "95"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ek þá reynda,\ner ek í reyri sat,\nok vættak míns munar;\nhold ok hjarta\nvar mér in horska mær;\nþeygi ek hana at heldr hefik.",
+      "stanza": "96"
+    },
+    {
+      "kind": "verse",
+      "text": "Billings mey\nek fann beðjum á\nsólhvíta sofa;\njarls ynði\nþótti mér ekki vera\nnema við þat lík at lifa.",
+      "stanza": "97"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Auk nær aftni\nskaltu, Óðinn, koma,\nef þú vilt þér mæla man;\nallt eru ósköp,\nnema einir viti\nslíkan löst saman.\"",
+      "stanza": "98"
+    },
+    {
+      "kind": "verse",
+      "text": "Aftr ek hvarf\nok unna þóttumk\nvísum vilja frá;\nhitt ek hugða,\nat ek hafa mynda\ngeð hennar allt ok gaman.",
+      "stanza": "99"
+    },
+    {
+      "kind": "verse",
+      "text": "Svá kom ek næst,\nat in nýta var\nvígdrótt öll of vakin\nmeð brennandum ljósum\nok bornum viði,\nsvá var mér vílstígr of vitaðr.",
+      "stanza": "100"
+    },
+    {
+      "kind": "verse",
+      "text": "Auk nær morgni,\ner ek var enn of kominn,\nþá var saldrótt of sofin;\ngrey eitt ek þá fann\ninnar góðu konu\nbundit beðjum á.",
+      "stanza": "101"
+    },
+    {
+      "kind": "verse",
+      "text": "Mörg er góð mær,\nef görva kannar,\nhugbrigð við hali;\nþá ek þat reynda,\ner it ráðspaka\nteygða ek á flærðir fljóð;\nháðungar hverrar\nleitaði mér it horska man,\nok hafða ek þess vettki vífs.",
+      "stanza": "102"
+    },
+    {
+      "kind": "heading",
+      "text": "III."
+    },
+    {
+      "kind": "verse",
+      "text": "Heima glaðr gumi\nok við gesti reifr,\nsviðr skal um sig vera,\nminnigr ok málugr,\nef hann vill margfróðr vera,\noft skal góðs geta;\nfimbulfambi heitir,\nsá er fátt kann segja,\nþat er ósnotrs aðal.",
+      "stanza": "103"
+    },
+    {
+      "kind": "verse",
+      "text": "Inn aldna jötun ek sótta,\nnú em ek aftr of kominn:\nfátt gat ek þegjandi þar;\nmörgum orðum\nmælta ek í minn frama\ní Suttungs sölum.",
+      "stanza": "104"
+    },
+    {
+      "kind": "verse",
+      "text": "Gunnlöð mér of gaf\ngullnum stóli á\ndrykk ins dýra mjaðar;\nill iðgjöld\nlét ek hana eftir hafa\nsíns ins heila hugar,\nsíns ins svára sefa.",
+      "stanza": "105"
+    },
+    {
+      "kind": "verse",
+      "text": "Rata munn\nlétumk rúms of fá\nok um grjót gnaga;\nyfir ok undir\nstóðumk jötna vegir,\nsvá hætta ek höfði til.",
+      "stanza": "106"
+    },
+    {
+      "kind": "verse",
+      "text": "Vel keypts litar\nhefi ek vel notit,\nfás er fróðum vant,\nþví at Óðrerir\ner nú upp kominn\ná alda vés jaðar.",
+      "stanza": "107"
+    },
+    {
+      "kind": "verse",
+      "text": "Ifi er mér á,\nat ek væra enn kominn\njötna görðum ór,\nef ek Gunnlaðar né nytak,\ninnar góðu konu,\nþeirar er lögðumk arm yfir.",
+      "stanza": "108"
+    },
+    {
+      "kind": "verse",
+      "text": "Ins hindra dags\ngengu hrímþursar\nHáva ráðs at fregna\nHáva höllu í;\nat Bölverki þeir spurðu,\nef hann væri með böndum kominn\neða hefði hánum Suttungr of sóit.",
+      "stanza": "109"
+    },
+    {
+      "kind": "verse",
+      "text": "Baugeið Óðinn,\nhygg ek, at unnit hafi;\nhvat skal hans tryggðum trúa?\nSuttung svikinn\nhann lét sumbli frá\nok grætta Gunnlöðu.",
+      "stanza": "110"
+    },
+    {
+      "kind": "heading",
+      "text": "IV."
+    },
+    {
+      "kind": "verse",
+      "text": "Mál er at þylja\nþular stóli á\nUrðarbrunni at,\nsá ek ok þagðak,\nsá ek ok hugðak,\nhlýdda ek á manna mál;\nof rúnar heyrða ek dæma,\nné of ráðum þögðu\nHáva höllu at,\nHáva höllu í,\nheyrða ek segja svá:",
+      "stanza": "111"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nnótt þú rís-at\nnema á njósn séir\neða þú leitir þér innan út staðar.",
+      "stanza": "112"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nfjölkunnigri konu\nskal-at-tu í faðmi sofa,\nsvá at hon lyki þik liðum.",
+      "stanza": "113"
+    },
+    {
+      "kind": "verse",
+      "text": "Hon svá gerir,\nat þú gáir eigi\nþings né þjóðans máls;\nmat þú vill-at\nné mannskis gaman,\nferr þú sorgafullr at sofa.",
+      "stanza": "114"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nannars konu\nteygðu þér aldregi\neyrarúnu at.",
+      "stanza": "115"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\ná fjalli eða firði,\nef þik fara tíðir,\nfásktu at virði vel.",
+      "stanza": "116"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nillan mann\nláttu aldregi\nóhöpp at þér vita,\nþví at af illum manni\nfær þú aldregi\ngjöld ins góða hugar.",
+      "stanza": "117"
+    },
+    {
+      "kind": "verse",
+      "text": "Ofarla bíta\nek sá einum hal\norð illrar konu;\nfláráð tunga\nvarð hánum at fjörlagi\nok þeygi of sanna sök.",
+      "stanza": "118"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nveistu, ef þú vin átt,\nþann er þú vel trúir,\nfar þú at finna oft,\nþví at hrísi vex\nok hávu grasi\nvegr, er vættki treðr.",
+      "stanza": "119"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\ngóðan mann\nteygðu þér at gamanrúnum\nok nem líknargaldr, meðan þú lifir.",
+      "stanza": "120"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nvin þínum\nver þú aldregi\nfyrri at flaumslitum;\nsorg etr hjarta,\nef þú segja né náir\neinhverjum allan hug.",
+      "stanza": "121"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\norðum skipta\nþú skalt aldregi\nvið ósvinna apa,",
+      "stanza": "122"
+    },
+    {
+      "kind": "verse",
+      "text": "Því at af illum manni\nmundu aldregi\ngóðs laun of geta,\nen góðr maðr\nmun þik gerva mega\nlíknfastan at lofi.",
+      "stanza": "123"
+    },
+    {
+      "kind": "verse",
+      "text": "Sifjum er þá blandat,\nhver er segja ræðr\neinum allan hug;\nallt er betra\nen sé brigðum at vera;\ner-a sá vinr öðrum, er vilt eitt segir.",
+      "stanza": "124"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk, þér Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nþrimr orðum senna\nskal-at-tu þér við verra mann\noft inn betri bilar,\nþá er inn verri vegr.",
+      "stanza": "125"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nskósmiðr þú verir\nné skeftismiðr,\nnema þú sjalfum þér séir:\nskór er skapaðr illa\neða skaft sé rangt,\nþá er þér böls beðit.",
+      "stanza": "126"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nhvars þú böl kannt,\nkveð þú þér bölvi at\nok gef-at þínum fjándum frið.",
+      "stanza": "127"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nillu feginn\nver þú aldregi,\nen lát þér at góðu getit.",
+      "stanza": "128"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nupp líta\nskal-at-tu í orrustu,\n- gjalti glíkir\nverða gumna synir, -\nsíðr þitt of heilli halir.",
+      "stanza": "129"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nef þú vilt þér góða konu\nkveðja at gamanrúnum\nok fá fögnuð af,\nfögru skaltu heita\nok láta fast vera;\nleiðisk manngi gótt, ef getr.",
+      "stanza": "130"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nvaran bið ek þik vera\nok eigi ofvaran;\nver þú við öl varastr\nok við annars konu\nok við þat it þriðja,\nat þjófar né leiki.",
+      "stanza": "131"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nat háði né hlátri\nhafðu aldregi\ngest né ganganda.",
+      "stanza": "132"
+    },
+    {
+      "kind": "verse",
+      "text": "Oft vitu ógörla,\nþeir er sitja inni fyrir,\nhvers þeir ro kyns, er koma;\ner-at maðr svá góðr\nat galli né fylgi,\nné svá illr, at einugi dugi.",
+      "stanza": "133"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nat hárum þul\nhlæ þú aldregi,\noft er gótt, þat er gamlir kveða;\noft ór skörpum belg\nskilin orð koma\nþeim er hangir með hám\nok skollir með skrám\nok váfir með vílmögum.",
+      "stanza": "134"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\ngest þú né geyja\nné á grind hrekir;\nget þú váluðum vel.",
+      "stanza": "135"
+    },
+    {
+      "kind": "verse",
+      "text": "Rammt er þat tré,\ner ríða skal\nöllum at upploki;\nbaug þú gef,\neða þat biðja mun\nþér læs hvers á liðu.",
+      "stanza": "136"
+    },
+    {
+      "kind": "verse",
+      "text": "Ráðumk þér, Loddfáfnir,\nen þú ráð nemir, -\nnjóta mundu, ef þú nemr,\nþér munu góð, ef þú getr -:\nhvars þú öl drekkir,\nkjós þér jarðar megin,\nþví at jörð tekr við ölðri,\nen eldr við sóttum,\neik við abbindi,\nax við fjölkynngi,\nhöll við hýrógi,\n- heiftum skal mána kveðja, -\nbeiti við bitsóttum,\nen við bölvi rúnar,\nfold skal við flóði taka.",
+      "stanza": "137"
+    },
+    {
+      "kind": "heading",
+      "text": "V."
+    },
+    {
+      "kind": "verse",
+      "text": "Veit ek, at ek hekk\nvindga meiði á\nnætr allar níu,\ngeiri undaðr\nok gefinn Óðni,\nsjalfr sjalfum mér,\ná þeim meiði,\ner manngi veit\nhvers af rótum renn.",
+      "stanza": "138"
+    },
+    {
+      "kind": "verse",
+      "text": "Við hleifi mik sældu\nné við hornigi;\nnýsta ek niðr,\nnam ek upp rúnar,\næpandi nam,\nfell ek aftr þaðan.",
+      "stanza": "139"
+    },
+    {
+      "kind": "verse",
+      "text": "Fimbulljóð níu\nnam ek af inum frægja syni\nBölþorns, Bestlu föður,\nok ek drykk of gat\nins dýra mjaðar,\nausinn Óðreri.",
+      "stanza": "140"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá nam ek frævask\nok fróðr vera\nok vaxa ok vel hafask,\norð mér af orði\norðs leitaði,\nverk mér af verki\nverks leitaði.",
+      "stanza": "141"
+    },
+    {
+      "kind": "verse",
+      "text": "Rúnar munt þú finna\nok ráðna stafi,\nmjök stóra stafi,\nmjök stinna stafi,\ner fáði fimbulþulr\nok gerðu ginnregin\nok reist hroftr rögna.",
+      "stanza": "142"
+    },
+    {
+      "kind": "verse",
+      "text": "Óðinn með ásum,\nen fyr alfum Dáinn,\nDvalinn ok dvergum fyrir,\nÁsviðr jötnum fyrir,\nek reist sjalfr sumar.",
+      "stanza": "143"
+    },
+    {
+      "kind": "verse",
+      "text": "Veistu, hvé rísta skal?\nVeistu, hvé ráða skal?\nVeistu, hvé fáa skal?\nVeistu, hvé freista skal?\nVeistu, hvé biðja skal?\nVeistu, hvé blóta skal?\nVeistu, hvé senda skal?\nVeistu, hvé sóa skal?",
+      "stanza": "144"
+    },
+    {
+      "kind": "verse",
+      "text": "Betra er óbeðit\nen sé ofblótit,\ney sér til gildis gjöf;\nbetra er ósent\nen sé ofsóit.\nSvá Þundr of reist\nfyr þjóða rök,\nþar hann upp of reis,\ner hann aftr of kom.",
+      "stanza": "145"
+    },
+    {
+      "kind": "heading",
+      "text": "VI."
+    },
+    {
+      "kind": "verse",
+      "text": "Ljóð ek þau kann,\ner kann-at þjóðans kona\nok mannskis mögr.\nHjalp heitir eitt,\nen þat þér hjalpa mun\nvið sökum ok sorgum\nok sútum görvöllum.",
+      "stanza": "146"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek annat,\ner þurfu ýta synir,\nþeir er vilja læknar lifa.",
+      "stanza": "147"
+    },
+    {
+      "kind": "verse",
+      "text": "Það kann ek þriðja:\nef mér verðr þörf mikil\nhafts við mína heiftmögu,\neggjar ek deyfi\nminna andskota,\nbíta-t þeim vápn né velir.",
+      "stanza": "148"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it fjórða:\nef mér fyrðar bera\nbönd að boglimum,\nsvá ek gel,\nat ek ganga má,\nsprettr mér af fótum fjöturr,\nen af höndum haft.",
+      "stanza": "149"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it fimmta:\nef ek sé af fári skotinn\nflein í folki vaða,\nfýgr-a hann svá stinnt,\nat ek stöðvig-a-k,\nef ek hann sjónum of sék.",
+      "stanza": "150"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it sétta:\nef mik særir þegn\ná vrótum hrás viðar,\nok þann hal\ner mik heifta kveðr,\nþann eta mein heldr en mik.",
+      "stanza": "151"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it sjaunda:\nef ek sé hávan loga\nsal of sessmögum,\nbrennr-at svá breitt,\nat ek hánum bjargig-a-k;\nþann kann ek galdr at gala.",
+      "stanza": "152"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it átta,\ner öllum er\nnytsamligt at nema:\nhvars hatr vex\nmeð hildings sonum\nþat má ek bæta brátt.",
+      "stanza": "153"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it níunda:\nef mik nauðr of stendr\nat bjarga fari mínu á floti,\nvind ek kyrri\nvági á\nok svæfik allan sæ.",
+      "stanza": "154"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it tíunda:\nef ek sé túnriður\nleika lofti á,\nek svá vinnk,\nat þær villar fara\nsinna heimhama,\nsinna heimhuga.",
+      "stanza": "155"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it ellifta:\nef ek skal til orrostu\nleiða langvini,\nund randir ek gel,\nen þeir með ríki fara\nheilir hildar til,\nheilir hildi frá,\nkoma þeir heilir hvaðan.",
+      "stanza": "156"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it tolfta:\nef ek sé á tré uppi\nváfa virgilná,\nsvá ek ríst\nok í rúnum fák,\nat sá gengr gumi\nok mælir við mik.",
+      "stanza": "157"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it þrettánda:\nef ek skal þegn ungan\nverpa vatni á,\nmun-at hann falla,\nþótt hann í folk komi,\nhnígr-a sá halr fyr hjörum.",
+      "stanza": "158"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it fjögurtánda:\nef ek skal fyrða liði\ntelja tíva fyrir,\nása ok alfa\nek kann allra skil;\nfár kann ósnotr svá.",
+      "stanza": "159"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it fimmtánda\ner gól Þjóðrerir\ndvergr fyr Dellings durum:\nafl gól hann ásum,\nen alfum frama,\nhyggju Hroftatý.",
+      "stanza": "160"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it sextánda:\nef ek vil ins svinna mans\nhafa geð allt ok gaman,\nhugi ek hverfi\nhvítarmri konu,\nok sný ek hennar öllum sefa.",
+      "stanza": "161"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it sjautjánda\nat mik mun seint firrask\nit manunga man.\nLjóða þessa\nmun þú, Loddfáfnir,\nlengi vanr vera;\nþó sé þér góð, ef þú getr,\nnýt ef þú nemr,\nþörf ef þú þiggr.",
+      "stanza": "162"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat kann ek it átjánda,\ner ek æva kennik\nmey né manns konu,\n- allt er betra,\ner einn of kann;\nþat fylgir ljóða lokum, -\nnema þeiri einni,\ner mik armi verr,\neða mín systir sé.",
+      "stanza": "163"
+    },
+    {
+      "kind": "heading",
+      "text": "VII."
+    },
+    {
+      "kind": "verse",
+      "text": "Nú eru Háva mál\nkveðin Háva höllu í,\nallþörf ýta sonum,\nóþörf jötna sonum;\nheill sá, er kvað,\nheill sá, er kann,\nnjóti sá, er nam,\nheilir, þeirs hlýddu.",
+      "stanza": "164"
+    }
+  ],
+  "english": [
+    {
+      "kind": "verse",
+      "text": "Within the gates | ere a man shall go,\n(Full warily let him watch,)\nFull long let him look about him;\nFor little he knows | where a foe may lurk,\nAnd sit in the seats within.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Hail to the giver! | a guest has come;\nWhere shall the stranger sit?\nSwift shall he be who, | with swords shall try\nThe proof of his might to make.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Fire he needs | who with frozen knees\nHas come from the cold without;\nFood and clothes | must the farer have,\nThe man from the mountains come.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Water and towels | and welcoming speech\nShould he find who comes, to the feast;\nIf renown he would get, | and again be greeted,\nWisely and well must he act.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Wits must he have | who wanders wide,\nBut all is easy at home;\nAt the witless man | the wise shall wink\nWhen among such men he sits.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "A man shall not boast | of his keenness of mind,\nBut keep it close in his breast;\nTo the silent and wise | does ill come seldom\nWhen he goes as guest to a house;\n(For a faster friend | one never finds\nThan wisdom tried and true.)",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "The knowing guest | who goes to the feast,\nIn silent attention sits;\nWith his ears he hears, | with his eyes he watches,\nThus wary are wise men all.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Happy the one | who wins for himself\nFavor and praises fair;\nLess safe by far | is the wisdom found\nThat is hid in another's heart.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Happy the man | who has while he lives\nWisdom and praise as well,\nFor evil counsel | a man full oft\nHas from another's heart.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "A better burden | may no man bear\nFor wanderings wide than wisdom;\nIt is better than wealth | on unknown ways,\nAnd in grief a refuge it gives.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "A better burden | may no man bear\nFor wanderings wide than wisdom;\nWorse food for the journey | he brings not afield\nThan an over-drinking of ale.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Less good there lies | than most believe\nIn ale for mortal men;\nFor the more he drinks | the less does man\nOf his mind the mastery hold.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Over beer the bird | of forgetfulness broods,\nAnd steals the minds of men;\nWith the heron's feathers | fettered I lay\nAnd in Gunnloth's house was held.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Drunk I was, | I was dead-drunk,\nWhen with Fjalar wise I was;\n'Tis the best of drinking | if back one brings\nHis wisdom with him home.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "The son of a king | shall be silent and wise,\nAnd bold in battle as well;\nBravely and gladly | a man shall go,\nTill the day of his death is come.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "The sluggard believes | he shall live forever,\nIf the fight he faces not;\nBut age shall not grant him | the gift of peace,\nThough spears may spare his life.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "The fool is agape | when he comes to the feast,\nHe stammers or else is still;\nBut soon if he gets | a drink is it seen\nWhat the mind of the man is like.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "He alone is aware | who has wandered wide,\nAnd far abroad has fared,\nHow great a mind | is guided by him\nThat wealth of wisdom has.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Shun not the mead, | but drink in measure;\nSpeak to the point or be still;\nFor rudeness none | shall rightly blame thee\nIf soon thy bed thou seekest.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "The greedy man, | if his mind be vague,\nWill eat till sick he is;\nThe vulgar man, | when among the wise,\nTo scorn by his belly is brought.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "The herds know well | when home they shall fare,\nAnd then from the grass they go;\nBut the foolish man | his belly's measure\nShall never know aright.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "A paltry man | and poor of mind\nAt all things ever mocks;\nFor never he knows, | what he ought to know,\nThat he is not free from faults.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "The witless man | is awake all night,\nThinking of many things;\nCare-worn he is | when the morning comes,\nAnd his woe is just as it was.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "The foolish man | for friends all those\nWho laugh at him will hold;\nWhen among the wise | he marks it not\nThough hatred of him they speak.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "The foolish man | for friends all those\nWho laugh at him will hold;\nBut the truth when he comes | to the council he learns,\nThat few in his favor will speak.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "An ignorant man | thinks that all he knows,\nWhen he sits by himself in a corner;\nBut never what answer | to make he knows,\nWhen others with questions come.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "A witless man, | when he meets with men,\nHad best in silence abide;\nFor no one shall find | that nothing he knows,\nIf his mouth is not open too much.\n(But a man knows not, | if nothing he knows,\nWhen his mouth has been open too much.)",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Wise shall he seem | who well can question,\nAnd also answer well;\nNought is concealed | that men may say\nAmong the sons of men.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Often he speaks | who never is still\nWith words that win no faith;\nThe babbling tongue, | if a bridle it find not,\nOft for itself sings ill.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "In mockery no one | a man shall hold,\nAlthough he fare to the feast;\nWise seems one oft, | if nought he is asked,\nAnd safely he sits dry-skinned.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Wise a guest holds it | to take to his heels,\nWhen mock of another he makes;\nBut little he knows | who laughs at the feast,\nThough he mocks in the midst of his foes.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Friendly of mind | are many men,\nTill feasting they mock at their friends;\nTo mankind a bane | must it ever be\nWhen guests together strive.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Oft should one make | an early meal,\nNor fasting come to the feast;\nElse he sits and chews | as if he would choke,\nAnd little is able to ask.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Crooked and far | is the road to a foe,\nThough his house on the highway be;\nBut wide and straight | is the way to a friend,\nThough far away he fare.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Forth shall one go, | nor stay as a guest\nIn a single spot forever;\nLove becomes loathing | if long one sits\nBy the hearth in another's home.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Better a house, | though a hut it be,\nA man is master at home;\nA pair of goats | and a patched-up roof\nAre better far than begging.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Better a house, | though a hut it be,\nA man is master at home;\nHis heart is bleeding | who needs must beg\nWhen food he fain would have.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Away from his arms | in the open field\nA man should fare not a foot;\nFor never he knows | when the need for a spear\nShall arise on the distant road.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "If wealth a man | has won for himself,\nLet him never suffer in need;\nOft he saves for a foe | what he plans for a friend,\nFor much goes worse than we wish.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "None so free with gifts | or food have I found\nThat gladly he took not a gift,\nNor one who so widely | scattered his wealth\nThat of recompense hatred he had.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Friends shall gladden each other | with arms and garments,\nAs each for himself can see;\nGift-givers' friendships | are longest found,\nIf fair their fates may be.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "To his friend a man | a friend shall prove,\nAnd gifts with gifts requite;\nBut men shall mocking | with mockery answer,\nAnd fraud with falsehood meet.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "To his friend a man | a friend shall prove,\nTo him and the friend of his friend;\nBut never a man | shall friendship make\nWith one of his foeman's friends.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "If a friend thou hast | whom thou fully wilt trust,\nAnd good from him wouldst get,\nThy thoughts with his mingle, | and gifts shalt thou make,\nAnd fare to find him oft.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "If another thou hast | whom thou hardly wilt trust,\nYet good from him wouldst get,\nThou shalt speak him fair, | but falsely think,\nAnd fraud with falsehood requite.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "So is it with him | whom thou hardly wilt trust,\nAnd whose mind thou mayst not know;\nLaugh with him mayst thou, | but speak not thy mind,\nLike gifts to his shalt thou give.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Young was I once, | and wandered alone,\nAnd nought of the road I knew;\nRich did I feel | when a comrade I found,\nFor man is man's delight.",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "The lives of the brave | and noble are best,\nSorrows they seldom feed;\nBut the coward fear | of all things feels,\nAnd not gladly the niggard gives.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "My garments once | in a field I gave\nTo a pair of carven poles;\nHeroes they seemed | when clothes they had,\nBut the naked man is nought.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "On the hillside drear | the fir-tree dies,\nAll bootless its needles and bark;\nIt is like a man | whom no one loves,--\nWhy should his life be long?",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "Hotter than fire | between false friends\nDoes friendship five days burn;\nWhen the sixth day comes | the fire cools,\nAnd ended is all the love.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "No great thing needs | a man to give,\nOft little will purchase praise;\nWith half a loaf | and a half-filled cup\nA friend full fast I made.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "A little sand | has a little sea,\nAnd small are the minds of men;\nThough all men are not | equal in wisdom,\nYet half-wise only are all.",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "A measure of wisdom | each man shall have,\nBut never too much let him know;\nThe fairest lives | do those men live\nWhose wisdom wide has grown.",
+      "stanza": "54"
+    },
+    {
+      "kind": "verse",
+      "text": "A measure of wisdom | each man shall have,\nBut never too much let him know;\nFor the wise man's heart | is seldom happy,\nIf wisdom too great he has won.",
+      "stanza": "55"
+    },
+    {
+      "kind": "verse",
+      "text": "A measure of wisdom | each man shall have,\nBut never too much let him know;\nLet no man the fate | before him see,\nFor so is he freest from sorrow.",
+      "stanza": "56"
+    },
+    {
+      "kind": "verse",
+      "text": "A brand from a brand | is kindled and burned,\nAnd fire from fire begotten;\nAnd man by his speech | is known to men,\nAnd the stupid by their stillness.",
+      "stanza": "57"
+    },
+    {
+      "kind": "verse",
+      "text": "He must early go forth | who fain the blood\nOr the goods of another would get;\nThe wolf that lies idle | shall win little meat,\nOr the sleeping man success.",
+      "stanza": "58"
+    },
+    {
+      "kind": "verse",
+      "text": "He must early go forth | whose workers are few,\nHimself his work to seek;\nMuch remains undone | for the morning-sleeper,\nFor the swift is wealth half won.",
+      "stanza": "59"
+    },
+    {
+      "kind": "verse",
+      "text": "Of seasoned shingles | and strips of bark\nFor the thatch let one know his need,\nAnd how much of wood | he must have for a month,\nOr in half a year he will use.",
+      "stanza": "60"
+    },
+    {
+      "kind": "verse",
+      "text": "Washed and fed | to the council fare,\nBut care not too much for thy clothes;\nLet none be ashamed | of his shoes and hose,\nLess still of the steed he rides,\n(Though poor be the horse he has.)",
+      "stanza": "61"
+    },
+    {
+      "kind": "verse",
+      "text": "When the eagle comes | to the ancient sea,\nHe snaps and hangs his head;\nSo is a man | in the midst of a throng,\nWho few to speak for him finds.",
+      "stanza": "62"
+    },
+    {
+      "kind": "verse",
+      "text": "To question and answer | must all be ready\nWho wish to be known as wise;\nTell one thy thoughts, | but beware of two,--\nAll know what is known to three.",
+      "stanza": "63"
+    },
+    {
+      "kind": "verse",
+      "text": "The man who is prudent | a measured use\nOf the might he has will make;\nHe finds when among | the brave he fares\nThat the boldest he may not be.",
+      "stanza": "64"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . .\n. . . . . . . . . .\nOft for the words | that to others one speaks\nHe will get but an evil gift.",
+      "stanza": "65"
+    },
+    {
+      "kind": "verse",
+      "text": "Too early to many | a meeting I came,\nAnd some too late have I sought;\nThe beer was all drunk, | or not yet brewed;\nLittle the loathed man finds.",
+      "stanza": "66"
+    },
+    {
+      "kind": "verse",
+      "text": "To their homes men would bid | me hither and yon,\nIf at meal-time I needed no meat,\nOr would hang two hams | in my true friend's house,\nWhere only one I had eaten.",
+      "stanza": "67"
+    },
+    {
+      "kind": "verse",
+      "text": "Fire for men | is the fairest gift,\nAnd power to see the sun;\nHealth as well, | if a man may have it,\nAnd a life not stained with sin.",
+      "stanza": "68"
+    },
+    {
+      "kind": "verse",
+      "text": "All wretched is no man, | though never so sick;\nSome from their sons have joy,\nSome win it from kinsmen, | and some from their wealth,\nAnd some from worthy works.",
+      "stanza": "69"
+    },
+    {
+      "kind": "verse",
+      "text": "It is better to live | than to lie a corpse,\nThe live man catches the cow;\nI saw flames rise | for the rich man's pyre,\nAnd before his door he lay dead.",
+      "stanza": "70"
+    },
+    {
+      "kind": "verse",
+      "text": "The lame rides a horse, | the handless is herdsman,\nThe deaf in battle is bold;\nThe blind man is better | than one that is burned,\nNo good can come of a corpse.",
+      "stanza": "71"
+    },
+    {
+      "kind": "verse",
+      "text": "A son is better, | though late he be born,\nAnd his father to death have fared;\nMemory-stones | seldom stand by the road\nSave when kinsman honors his kin.",
+      "stanza": "72"
+    },
+    {
+      "kind": "verse",
+      "text": "Two make a battle, | the tongue slays the head;\nIn each furry coat | a fist I look for.",
+      "stanza": "73"
+    },
+    {
+      "kind": "verse",
+      "text": "He welcomes the night | whose fare is enough,\n(Short are the yards of a ship,)\nUneasy are autumn nights;\nFull oft does the weather | change in a week,\nAnd more in a month's time.",
+      "stanza": "74"
+    },
+    {
+      "kind": "verse",
+      "text": "A man knows not, | if nothing he knows,\nThat gold oft apes begets;\nOne man is wealthy | and one is poor,\nYet scorn for him none should know.",
+      "stanza": "75"
+    },
+    {
+      "kind": "verse",
+      "text": "Among Fitjung's sons | saw I well-stocked folds,--\nNow bear they the beggar's staff;\nWealth is as swift | as a winking eye,\nOf friends the falsest it is.",
+      "stanza": "76"
+    },
+    {
+      "kind": "verse",
+      "text": "Cattle die, | and kinsmen die,\nAnd so one dies one's self;\nBut a noble name | will never die,\nIf good renown one gets.",
+      "stanza": "77"
+    },
+    {
+      "kind": "verse",
+      "text": "Cattle die, | and kinsmen die,\nAnd so one dies one's self;\nOne thing now | that never dies,\nThe fame of a dead man's deeds.",
+      "stanza": "78"
+    },
+    {
+      "kind": "verse",
+      "text": "Certain is that | which is sought from runes,\nThat the gods so great have made,\nAnd the Master-Poet painted;\n. . . . . . . . . .\n. . . . . of the race of gods:\nSilence is safest and best.",
+      "stanza": "79"
+    },
+    {
+      "kind": "verse",
+      "text": "An unwise man, | if a maiden's love\nOr wealth he chances to win,\nHis pride will wax, but his wisdom never,\nStraight forward he fares in conceit.",
+      "stanza": "80"
+    },
+    {
+      "kind": "verse",
+      "text": "Give praise to the day at evening, | to a woman on her pyre,\nTo a weapon which is tried, | to a maid at wed lock,\nTo ice when it is crossed, | to ale that is drunk.",
+      "stanza": "81"
+    },
+    {
+      "kind": "verse",
+      "text": "When the gale blows hew wood, | in fair winds seek the water;\nSport with maidens at dusk, | for day's eyes are many;\nFrom the ship seek swiftness, | from the shield protection,\nCuts from the sword, | from the maiden kisses.",
+      "stanza": "82"
+    },
+    {
+      "kind": "verse",
+      "text": "By the fire drink ale, | over ice go on skates;\nBuy a steed that is lean, | and a sword when tarnished,\nThe horse at home fatten, | the hound in thy dwelling.",
+      "stanza": "83"
+    },
+    {
+      "kind": "verse",
+      "text": "A man shall trust not | the oath of a maid,\nNor the word a woman speaks;\nFor their hearts on a whirling | wheel were fashioned,\nAnd fickle their breasts were formed.",
+      "stanza": "84"
+    },
+    {
+      "kind": "verse",
+      "text": "In a breaking bow | or a burning flame,\nA ravening wolf | or a croaking raven,\nIn a grunting boar, | a tree with roots broken,\nIn billowy seas | or a bubbling kettle,",
+      "stanza": "85"
+    },
+    {
+      "kind": "verse",
+      "text": "In a flying arrow | or falling waters,\nIn ice new formed | or the serpent's folds,\nIn a bride's bed-speech | or a broken sword,\nIn the sport of bears | or in sons of kings,",
+      "stanza": "86"
+    },
+    {
+      "kind": "verse",
+      "text": "In a calf that is sick | or a stubborn thrall,\nA flattering witch | or a foe new slain.",
+      "stanza": "87"
+    },
+    {
+      "kind": "verse",
+      "text": "In a brother's slayer, | if thou meet him abroad,\nIn a half-burned house, | in a horse full swift--\nOne leg is hurt | and the horse is useless--\nNone had ever such faith | as to trust in them all.",
+      "stanza": "88"
+    },
+    {
+      "kind": "verse",
+      "text": "Hope not too surely | for early harvest,\nNor trust too soon in thy son;\nThe field needs good weather, | the son needs wisdom,\nAnd oft is either denied.",
+      "stanza": "89"
+    },
+    {
+      "kind": "verse",
+      "text": "The love of women | fickle of will\nIs like starting o'er ice | with a steed unshod,\nA two-year-old restive | and little tamed,\nOr steering a rudderless | ship in a storm,\nOr, lame, hunting reindeer | on slippery rocks.",
+      "stanza": "90"
+    },
+    {
+      "kind": "verse",
+      "text": "Clear now will I speak, | for I know them both,\nMen false to women are found;\nWhen fairest we speak, | then falsest we think,\nAgainst wisdom we work with deceit.",
+      "stanza": "91"
+    },
+    {
+      "kind": "verse",
+      "text": "Soft words shall he speak | and wealth shall he offer\nWho longs for a maiden's love,\nAnd the beauty praise | of the maiden bright;\nHe wins whose wooing is best.",
+      "stanza": "92"
+    },
+    {
+      "kind": "verse",
+      "text": "Fault for loving | let no man find\nEver with any other;\nOft the wise are fettered, | where fools go free,\nBy beauty that breeds desire.",
+      "stanza": "93"
+    },
+    {
+      "kind": "verse",
+      "text": "Fault with another | let no man find\nFor what touches many a man;\nWise men oft | into witless fools\nAre made by mighty love.",
+      "stanza": "94"
+    },
+    {
+      "kind": "verse",
+      "text": "The head alone knows | what dwells near the heart,\nA man knows his mind alone;\nNo sickness is worse | to one who is wise\nThan to lack the longed-for joy.",
+      "stanza": "95"
+    },
+    {
+      "kind": "verse",
+      "text": "This found I myself, | when I sat in the reeds,\nAnd long my love awaited;\nAs my life the maiden | wise I loved,\nYet her I never had.",
+      "stanza": "96"
+    },
+    {
+      "kind": "verse",
+      "text": "Billing's daughter | I found on her bed,\nIn slumber bright as the sun;\nEmpty appeared | an earl's estate\nWithout that form so fair.",
+      "stanza": "97"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Othin, again | at evening come,\nIf a woman thou wouldst win;\nEvil it were | if others than we\nShould know of such a sin.\"",
+      "stanza": "98"
+    },
+    {
+      "kind": "verse",
+      "text": "Away I hastened, | hoping for joy,\nAnd careless of counsel wise;\nWell I believed | that soon I should win\nMeasureless joy with the maid.",
+      "stanza": "99"
+    },
+    {
+      "kind": "verse",
+      "text": "So came I next | when night it was,\nThe warriors all were awake;\nWith burning lights | and waving brands\nI learned my luckess way.",
+      "stanza": "100"
+    },
+    {
+      "kind": "verse",
+      "text": "At morning then, | when once more I came,\nAnd all were sleeping still,\nA dog found | in the fair one's place,\nBound there upon her bed.",
+      "stanza": "101"
+    },
+    {
+      "kind": "verse",
+      "text": "Many fair maids, | if a man but tries them,\nFalse to a lover are found;\nThat did I learn | when I longed to gain\nWith wiles the maiden wise;\nFoul scorn was my meed | from the crafty maid,\nAnd nought from the woman I won.",
+      "stanza": "102"
+    },
+    {
+      "kind": "verse",
+      "text": "Though glad at home, | and merry with guests,\nA man shall be wary and wise;\nThe sage and shrewd, | wide wisdom seeking,\nMust see that his speech be fair;\nA fool is he named | who nought can say,\nFor such is the way of the witless.",
+      "stanza": "103"
+    },
+    {
+      "kind": "verse",
+      "text": "I found the old giant, | now back have I fared,\nSmall gain from silence I got;\nFull many a word, | my will to get,\nI spoke in Suttung's hall.",
+      "stanza": "104"
+    },
+    {
+      "kind": "verse",
+      "text": "The mouth of Rati | made room for my passage,\nAnd space in the stone he gnawed;\nAbove and below | the giants' paths lay,\nSo rashly I risked my head.",
+      "stanza": "105"
+    },
+    {
+      "kind": "verse",
+      "text": "Gunnloth gave | on a golden stool\nA drink of the marvelous mead;\nA harsh reward | did I let her have\nFor her heroic heart,\nAnd her spirit troubled sore.",
+      "stanza": "106"
+    },
+    {
+      "kind": "verse",
+      "text": "The well-earned beauty | well I enjoyed,\nLittle the wise man lacks;\nSo Othrörir now | has up been brought\nTo the midst of the men of earth.",
+      "stanza": "107"
+    },
+    {
+      "kind": "verse",
+      "text": "Hardly, methinks, | would I home have come,\nAnd left the giants' land,\nHad not Gunnloth helped me, | the maiden good,\nWhose arms about me had been.",
+      "stanza": "108"
+    },
+    {
+      "kind": "verse",
+      "text": "The day that followed, | the frost-giants came,\nSome word of Hor to win,\n(And into the hall of Hor;)\nOf Bolverk they asked, | were he back midst the gods,\nOr had Suttung slain him there?",
+      "stanza": "109"
+    },
+    {
+      "kind": "verse",
+      "text": "On his ring swore Othin | the oath, methinks;\nWho now his troth shall trust?\nSuttung's betrayal | he sought with drink,\nAnd Gunnloth to grief he left.",
+      "stanza": "110"
+    },
+    {
+      "kind": "verse",
+      "text": "It is time to chant | from the chanter's stool;\nBy the wells of Urth I was,\nI saw and was silent, | I saw and thought,\nAnd heard the speech of Hor.\n(Of runes heard I words, | nor were counsels wanting,\nAt the hall of Hor,\nIn the hall of Hor;\nSuch was the speech I heard.)",
+      "stanza": "111"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,---\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nRise not at night, | save if news thou seekest,\nOr fain to the outhouse wouldst fare.",
+      "stanza": "112"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nBeware of sleep | on a witch's bosom,\nNor let her limbs ensnare thee.",
+      "stanza": "113"
+    },
+    {
+      "kind": "verse",
+      "text": "Such is her might | that thou hast no mind\nFor the council or meeting of men;\nMeat thou hatest, | joy thou hast not,\nAnd sadly to slumber thou farest.",
+      "stanza": "114"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nSeek never to win | the wife of another,\nOr long for her secret love.",
+      "stanza": "115"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nIf o'er mountains or gulfs | thou fain wouldst go,\nLook well to thy food for the way.",
+      "stanza": "116"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nAn evil man | thou must not let\nBring aught of ill to thee;\nFor an evil man | will never make\nReward for a worthy thought.",
+      "stanza": "117"
+    },
+    {
+      "kind": "verse",
+      "text": "I saw a man | who was wounded sore\nBy an evil woman's word;\nA lying tongue | his death-blow launched,\nAnd no word of truth there was.",
+      "stanza": "118"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nIf a friend thou hast | whom thou fully wilt trust,\nThen fare to find him oft;\nFor brambles grow | and waving grass\nOn the rarely trodden road.",
+      "stanza": "119"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nA good man find | to hold in friendship,\nAnd give heed to his healing charms.",
+      "stanza": "120"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,-\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nBe never the first | to break with thy friend\nThe bond that holds you both;\nCare eats the heart | if thou canst not speak\nTo another all thy thought.",
+      "stanza": "121"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nExchange of words | with a witless ape\nThou must not ever make.",
+      "stanza": "122"
+    },
+    {
+      "kind": "verse",
+      "text": "For never thou mayst | from an evil man\nA good requital get;\nBut a good man oft | the greatest love\nThrough words of praise will win thee.",
+      "stanza": "123"
+    },
+    {
+      "kind": "verse",
+      "text": "Mingled is love | when a man can speak\nTo another all his thought;\nNought is so bad | as false to be,\nNo friend speaks only fair.",
+      "stanza": "124"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nWith a worse man speak not | three words in dispute,\nIll fares the better oft\nWhen the worse man wields a sword.",
+      "stanza": "125"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,-\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nA shoemaker be, | or a maker of shafts,\nFor only thy single self;\nIf the shoe is ill made, | or the shaft prove false,\nThen evil of thee men think.",
+      "stanza": "126"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nIf evil thou knowest, | as evil proclaim it,\nAnd make no friendship with foes.",
+      "stanza": "127"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nIn evil never | joy shalt thou know,\nBut glad the good shall make thee.",
+      "stanza": "128"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nLook not up | when the battle is on,--\n(Like madmen the sons | of men become,--)\nLest men bewitch thy wits.",
+      "stanza": "129"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,-\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nIf thou fain wouldst win | a woman's love,\nAnd gladness get from her,\nFair be thy promise | and well fulfilled;\nNone loathes what good he gets.",
+      "stanza": "130"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,-\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nI bid thee be wary, | but be not fearful;\n(Beware most with ale or another's wife,\nAnd third beware | lest a thief outwit thee.)",
+      "stanza": "131"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,-\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nScorn or mocking | ne'er shalt thou make\nOf a guest or a journey-goer.",
+      "stanza": "132"
+    },
+    {
+      "kind": "verse",
+      "text": "Oft scarcely he knows | who sits in the house\nWhat kind is the man who comes;\nNone so good is found | that faults he has not,\nNor so wicked that nought he is worth.",
+      "stanza": "133"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nScorn not ever | the gray-haired singer,\nOft do the old speak good;\n(Oft from shrivelled skin | come skillful counsels,\nThough it hang with the hides,\nAnd flap with the pelts,\nAnd is blown with the bellies.)",
+      "stanza": "134"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nCurse not thy guest, | nor show him thy gate,\nDeal well with a man in want.",
+      "stanza": "135"
+    },
+    {
+      "kind": "verse",
+      "text": "Strong is the beam | that raised must be\nTo give an entrance to all;\nGive it a ring, | or grim will be\nThe wish it would work on thee.",
+      "stanza": "136"
+    },
+    {
+      "kind": "verse",
+      "text": "I rede thee, Loddfafnir! | and hear thou my rede,--\nProfit thou hast if thou hearest,\nGreat thy gain if thou learnest:\nWhen ale thou drinkest) | seek might of earth,\n(For earth cures drink, | and fire cures ills,\nThe oak cures tightness, | the ear cures magic,\nRye cures rupture, | the moon cures rage,\nGrass cures the scab, | and runes the sword-cut;)\nThe field absorbs the flood.",
+      "stanza": "137"
+    },
+    {
+      "kind": "verse",
+      "text": "Now are Hor's words | spoken in the hall,\nKind for the kindred of men,\nCursed for the kindred of giants:\nHail to the speaker, | and to him who learns!\nProfit be his who has them!\nHail to them who hearken!",
+      "stanza": "138"
+    },
+    {
+      "kind": "verse",
+      "text": "I ween that I hung | on the windy tree,\nHung there for nights full nine;\nWith the spear I was wounded, | and offered I was\nTo Othin, myself to myself,\nOn the tree that none | may ever know\nWhat root beneath it runs.",
+      "stanza": "139"
+    },
+    {
+      "kind": "verse",
+      "text": "None made me happy | with loaf or horn,\nAnd there below I looked;\nI took up the runes, | shrieking I took them,\nAnd forthwith back I fell.",
+      "stanza": "140"
+    },
+    {
+      "kind": "verse",
+      "text": "Nine mighty songs | I got from the son\nOf Bolthorn, Bestla's father;\nAnd a drink I got | of the goodly mead\nPoured out from Othrörir.",
+      "stanza": "141"
+    },
+    {
+      "kind": "verse",
+      "text": "Then began I to thrive, | and wisdom to get,\nI grew and well I was;\nEach word led me on | to another word,\nEach deed to another deed.",
+      "stanza": "142"
+    },
+    {
+      "kind": "verse",
+      "text": "Runes shalt thou find, | and fateful signs,\nThat the king of singers colored,\nAnd the mighty gods have made;\nFull strong the signs, | full mighty the signs\nThat the ruler of gods doth write.",
+      "stanza": "143"
+    },
+    {
+      "kind": "verse",
+      "text": "Othin for the gods, | Dain for the elves,\nAnd Dvalin for the dwarfs,\nAlsvith for giants | and all mankind,\nAnd some myself I wrote.",
+      "stanza": "144"
+    },
+    {
+      "kind": "verse",
+      "text": "Knowest how one shall write, | knowest how one shall rede?\nKnowest how one shall tint, | knowest how one makes trial?\nKnowest how one shall ask, | knowest how one shall offer?\nKnowest how one shall send, | knowest how one shall sacrifice?",
+      "stanza": "145"
+    },
+    {
+      "kind": "verse",
+      "text": "Better no prayer | than too big an offering,\nBy thy getting measure thy gift;\nBetter is none | than too big a sacrifice,\n. . . . . . . . . .\nSo Thund of old wrote | ere man's race began,\nWhere he rose on high | when home he came.",
+      "stanza": "146"
+    },
+    {
+      "kind": "verse",
+      "text": "The songs I know | that king's wives know not,\nNor men that are sons of men;\nThe first is called help, | and help it can bring thee\nIn sorrow and pain and sickness.",
+      "stanza": "147"
+    },
+    {
+      "kind": "verse",
+      "text": "A second I know, | that men shall need\nWho leechcraft long to use;\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "148"
+    },
+    {
+      "kind": "verse",
+      "text": "A third I know, | if great is my need\nOf fetters to hold my foe;\nBlunt do I make | mine enemy's blade,\nNor bites his sword or staff.",
+      "stanza": "149"
+    },
+    {
+      "kind": "verse",
+      "text": "A fourth I know, | if men shall fasten\nBonds on my bended legs;\nSo great is the charm | that forth I may go,\nThe fetters spring from my feet,\nBroken the bonds from my hands.",
+      "stanza": "150"
+    },
+    {
+      "kind": "verse",
+      "text": "A fifth I know, | if I see from afar\nAn arrow fly 'gainst the folk;\nIt flies not so swift | that I stop it not,\nIf ever my eyes behold it.",
+      "stanza": "151"
+    },
+    {
+      "kind": "verse",
+      "text": "A sixth I know, | if harm one seeks\nWith a sapling's roots to send me;\nThe hero himself | who wreaks his hate\nShall taste the ill ere I.",
+      "stanza": "152"
+    },
+    {
+      "kind": "verse",
+      "text": "A seventh I know, | if I see in flames\nThe hall o'er my comrades' heads;\nIt burns not so wide | that I will not quench it,\nI know that song to sing.",
+      "stanza": "153"
+    },
+    {
+      "kind": "verse",
+      "text": "An eighth I know, | that is to all\nOf greatest good to learn;\nWhen hatred grows | among heroes' sons,\nI soon can set it right.",
+      "stanza": "154"
+    },
+    {
+      "kind": "verse",
+      "text": "A ninth I know, | if need there comes\nTo shelter my ship on the flood;\nThe wind I calm | upon the waves,\nAnd the sea I put to sleep.",
+      "stanza": "155"
+    },
+    {
+      "kind": "verse",
+      "text": "A tenth I know, | what time I see\nHouse-riders flying on high;\nSo can I work | that wildly they go,\nShowing their true shapes,\nHence to their own homes.",
+      "stanza": "156"
+    },
+    {
+      "kind": "verse",
+      "text": "An eleventh I know, | if needs I must lead\nTo the fight my long-loved friends;\nI sing in the shields, | and in strength they go\nWhole to the field of fight,\nWhole from the field of fight,\nAnd whole they come thence home.",
+      "stanza": "157"
+    },
+    {
+      "kind": "verse",
+      "text": "A twelfth I know, | if high on a tree\nI see a hanged man swing;\nSo do I write | and color the runes\nThat forth he fares,\nAnd to me talks.",
+      "stanza": "158"
+    },
+    {
+      "kind": "verse",
+      "text": "A thirteenth I know, | if a thane full young\nWith water I sprinkle well;\nHe shall not fall, | though he fares mid the host,\nNor sink beneath the swords.",
+      "stanza": "159"
+    },
+    {
+      "kind": "verse",
+      "text": "A fourteenth I know, | if fain I would name\nTo men the mighty gods;\nAll know I well | of the gods and elves,\nFew be the fools know this.",
+      "stanza": "160"
+    },
+    {
+      "kind": "verse",
+      "text": "A fifteenth I know, | that before the doors\nOf Delling sang Thjothrörir the dwarf;\nMight he sang for the gods, | and glory for elves,\nAnd wisdom for Hroptatyr wise.",
+      "stanza": "161"
+    },
+    {
+      "kind": "verse",
+      "text": "A sixteenth I know, | if I seek delight\nTo win from a maiden wise;\nThe mind I turn | of the white-armed maid,\nAnd thus change all her thoughts.",
+      "stanza": "162"
+    },
+    {
+      "kind": "verse",
+      "text": "A seventeenth I know, | so that seldom shall go\nA maiden young from me;\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "163"
+    },
+    {
+      "kind": "verse",
+      "text": "Long these songs | thou shalt, Loddfafnir,\nSeek in vain to sing;\nYet good it were | if thou mightest get them,\nWell, if thou wouldst them learn,\nHelp, if thou hadst them.",
+      "stanza": "164"
+    },
+    {
+      "kind": "verse",
+      "text": "An eighteenth I know, | that ne'er will I tell\nTo maiden or wife of man,--\nThe best is what none | but one's self doth know,\nSo comes the end of the songs,--\nSave only to her | in whose arms I lie,\nOr who else my sister is.",
+      "stanza": "165"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Hávamál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe04.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

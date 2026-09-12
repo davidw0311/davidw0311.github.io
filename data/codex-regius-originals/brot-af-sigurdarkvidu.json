@@ -1,0 +1,285 @@
+{
+  "norse": [
+    {
+      "kind": "verse",
+      "text": "Eldr nam at æsask\nen jörð at skjalfa\nok hár logi\nvið himni gnæfa;\nfár treystisk þar\nfylkis rekka\neld at ríða\nné yfir stíga.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Sigurðr Grana\nsverði keyrði;\neldr sloknaði\nfyrir öðlingi,\nlogi allr lægðisk\nfyrir lofgjörnum,\nbliku reiði\ner Reginn átti",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhildr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sigurðr vá at ormi,\nen þat síðan mun\nengum fyrnask,\nmeðan öld lifir;\nen hlýri þinn\nhvárki þorði\neld at ríða\nné yfir stíga.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Út gekk Sigurðr\nandspjalli frá,\nhollvinr lofða,\nok hnipnaði,\nsvá at ganga nam\ngunnarfúsum\nsundr of síður\nserkr járnofinn.",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"[hvat hefir Sigurðr\ntil] saka unnit,\ner þú fræknan vill\nfjörvi næma?\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnar kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mér hefir Sigurðr\nselda eiða,\neiða selda,\nalla logna;\nþá vélti hann mik,\ner hann vera skyldi\nallra eiða\neinn fulltrúi.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þik hefir Brynhildr\nböl at gerva\nheiftar hvattan\nharm at vinna;\nfyrman hon Guðrúnu\ngóðra ráða,\nen síðan þér\nsín at njóta.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Sumir ulf sviðu,\nsumir orm sniðu,\nsumir Gotþormi\naf gera deildu;\náðr þeir mætti\nmeins of lystir\ná horskum hal\nhendr of leggja.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Soltinn varð Sigurðr\nsunnan Rínar;\nhrafn af meiði\nhátt kallaði:\n\"Ykkr mun Atli\neggjar rjóða,\nmunu vígskáum\nof viða eiðar.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Úti stóð Guðrún\nGjúka dóttir,\nok hon þat orða",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "alls fyrst of kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Hvar er nú Sigurðr, seggja dróttinn, er frændr mínir fyrri ríða?\""
+    },
+    {
+      "kind": "verse",
+      "text": "Einn því Högni\nandsvör veitti:\n\"Sundr höfum Sigurð\nsverði höggvinn;\ngnapir æ grár jór\nyfir gram dauðum.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Brynhildr\nBuðla dóttir:\n\"Vel skuluð njóta\nvápna ok landa;\neinn mundi Sigurðr\nöllu ráða,\nef hann lengr litlu\nlífi heldi.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Væri-a þat sæmt,\nat hann svá réði\nGjúka arfi\nok Gota mengi,\ner hann fimm sonu\nat folkræði,\ngunnarfúsa,\ngetna hafði.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Hló þá Brynhildr\n- bær allr dunði -\neinu sinni\naf öllum hug:\n\"Lengi skuluð njóta\nlanda ok þegna,\ner þér fræknan gram\nfalla létuð.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Guðrún\nGjúka dóttir:\n\"Mjök mælir þú\nmiklar firnar;\ngramir hafi Gunnar,\ngötvað Sigurðar;\nheiftgjarns hugar\nhefnt skal verða.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Fram var kvelda,\nfjölð var drukkit,\nþá var hvívetna\nvilmál talið,\nsofnuðu allir,\ner i sæing kómu,\neinn vakði Gunnarr\nöllum lengr.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Fót nam-at hræra,\nfjölð nam-at spjalla,\nhitt herglötuðr\nhyggja téði,\nhvat þeir í bölvi\nbáðir sögðu\nhrafn ey ok örn,\ner þeir heim riðu.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Vaknaði Brynhildr\nBuðla dóttir,\ndís skjöldunga,\nfyr dag litlu:\n\"Hvetið mik eða letið mik\n- harmr er unninn -\nsorg at segja\neða svá láta.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Þögðu allir\nvið því orði,\nfár kunni þeim\nfljóða látum,\ner hon grátandi\ngerðisk at segja\nþat er hlæjandi\nhölða beiddi:",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hugða ek mér, Gunnarr,\ngrimmt í svefni,\nsvalt allt í sal,\nætta sæing kalda;\nenn þú, gramr, riðir\nglaums andvani,\nfjötri fatlaðr,\ní fjánda lið;\nsvá mun öll yður\nætt Niflunga\nafli gengin,\neruð eiðrofa.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Mant-at-tu, Gunnarr,\ntil görva þat,\ner þit blóði í spor\nbáðir rennduð;\nnú hefir þú hánum þat allt\nillu launat,\ner hann fremstan þik\nfinna vildi.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá reyndi þat,\ner riðit hafði\nmóðigr á vit\nmín at biðja,\nhvé herglötuðr\nhafði fyrri\neiðum haldit\nvið inn unga gram.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Benvönd of lét,\nbrugðinn gulli,\nmargdýrr konungr\ná meðal okkar;\neldi váru eggjar\nútan görvar,\nen eitrdropum\ninnan fáðar.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Frá dauða Sigurðar"
+    },
+    {
+      "kind": "prose",
+      "text": "Hér er sagt í þessi kviðu frá dauða Sigurðar, ok víkr hér svá til sem þeir dræpi hann úti, en sumir segja svá, at þeir dræpi hann inni í rekkju sinni sofanda. En þýðverskir menn segja svá, at þeir dræpi hann úti í skógi, ok svá segir í  , at Sigurðr ok Gjúkasynir hefði til þings riðit, þá er hann var drepinn. En þat segja allir einnig, at þeir sviku hann í tryggð ok vógu at hánum liggjanda ok óbúnum."
+    }
+  ],
+  "english": [
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"(What evil deed | has Sigurth) done,\nThat the hero's life | thou fain wouldst have?\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnar spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sigurth oaths | to me hath sworn,\nOaths hath sworn, | and all hath broken;\nHe betrayed me there | where truest all\nHis oaths, methinks, | he ought to have kept.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy heart hath Brynhild | whetted to hate,\nEvil to work | and harm to win,\nShe grudges the honor | that Guthrun has,\nAnd that joy of herself | thou still dost have.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "They cooked a wolf, | they cut up a snake,\nThey gave to Gotthorm | the greedy one's flesh,\nBefore the men, | to murder minded,\nLaid their hands | on the hero bold.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Slain was Sigurth | south of the Rhine;\nFrom a limb a raven | called full loud:\n\"Your blood shall redden | Atli's blade,\nAnd your oaths shall bind | you both in chains.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Without stood Guthrun, | Gjuki's daughter,",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Hear now the speech | that first she spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Where is Sigurth now, | the noble king, That my kinsmen riding | before him come?\""
+    },
+    {
+      "kind": "verse",
+      "text": "Only this | did Hogni answer:\n\"Sigurth we | with our swords have slain;\nThe gray horse mourns | by his master dead.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Brynhild spake, | the daughter of Buthli:\n\"Well shall ye joy | in weapons and lands;\nSigurth alone | of all had been lord,\nIf a little longer | his life had been.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Right were it not | that so he should rule\nO'er Gjuki's wealth | and the race of the Goths;\nFive are the sons | for ruling the folk,\nAnd greedy of fight, | that he hath fathered.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Brynhild laughed-- | and the building echoed--\nOnly once, | with all her heart;\n\"Long shall ye joy | in lands and men,\nNow ye have slain | the hero noble.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Guthrun spake, | the daughter of Gjuki:\n\"Much thou speakest | in evil speech;\nAccursed be Gunnar, | Sigurth's killer,\nVengeance shall come | for his cruel heart.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Early came evening, | and ale was drunk,\nAnd among them long | and loud they talked.;\nThey slumbered all | when their beds they sought,\nBut Gunnar alone | was long awake.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "His feet were tossing, | he talked to himself,\nAnd the slayer of hosts | began to heed\nWhat the twain from the tree | had told him then,\nThe raven and eagle, | as home they rode.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Brynhild awoke, | the daughter of Buthli,\nThe warrior's daughter, | ere dawn of day:\n\"Love me or hate me, | the harm is done,\nAnd my grief cries out, | or else I die.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Silent were all | who heard her speak,\nAnd nought of the heart | of the queen they knew,\nWho wept such tears | the thing to tell\nThat laughing once | of the men she had won.",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhild spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gunnar, I dreamed | a dream full grim:\nIn the hall were corpses; | cold was my bed;\nAnd, ruler, thou | didst joyless ride,\nWith fetters bound | in the foemen's throng.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "\". . . . . . . . . .\n. . . . . . . . . .\nUtterly now your | Niflung race\nAll shall die; | your oaths ye have broken.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou hast, Gunnar, | the deed forgot,\nWhen blood in your footprints | both ye mingled;\nAll to him | hast repaid with ill\nWho fain had made thee | the foremost of kings.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Well did he prove, | when proud he rode\nTo win me then | thy wife to be,\nHow true the host-slayer | ever had held\nThe oaths he had made | with the monarch young.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The wound-staff then, | all wound with gold,\nThe hero let | between us lie;\nWith fire the edge | was forged full keen,\nAnd with drops of venom | the blade was damp.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "prose",
+      "text": "Here it is told in this poem about the death of Sigurth, and the story goes here that they slew him out of doors, but some say that they slew him in the house, on his bed while he was sleeping. But German men say that they killed him out of doors in the forest; and so it is told in the old Guthrun lay, that Sigurth and Gjuki's sons had ridden to the council-place, and that he was slain there. But in this they are all agreed, that they deceived him in his trust of them, and fell upon him when he was lying down and unprepared."
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Sigurðarkviða_in_meiri",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe26.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary. The Norse edition places four verses recovered from the saga before the surviving Regius fragment; its fragment therefore begins at stanza 5, while Bellows begins there with stanza 1."
+}

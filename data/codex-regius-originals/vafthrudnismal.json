@@ -1,0 +1,988 @@
+{
+  "norse": [
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ráð þú mér nú, Frigg,\nalls mik fara tíðir\nat vitja Vafþrúðnis;\nforvitni mikla\nkveð ek mér á fornum stöfum\nvið þann inn alsvinna jötun.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Frigg kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heima letja\nek mynda Herjaföðr\ní görðum goða;\nþví at engi jötun\nek hugða jafnramman\nsem Vafþrúðni vera.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaða,\nfjölð ek reynda regin;\nhitt vil ek vita,\nhvé Vafþrúðnis\nsalakynni sé.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Frigg kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heill þú farir!\nheill þú aftr komir!\nheill þú á sinnum sér!\næði þér dugi,\nhvars þú skalt, Aldaföðr,\norðum mæla jötun.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Fór þá Óðinn\nat freista orðspeki\nþess ins alsvinna jötuns;\nat höllu hann kom,\nok átti Íms faðir;\ninn gekk Yggr þegar.",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heill þú nú, Vafþrúðnir,\nnú em ek í höll kominn\ná þik sjalfan sjá;\nhitt vil ek fyrst vita,\nef þú fróðr sér\neða alsviðr jötunn.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þat manna\ner í mínum sal\nverpumk orði á?\nÚt þú né komir\nórum höllum frá,\nnema þú inn snotrari sér.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gagnráðr ek heiti,\nnú emk af göngu kominn,\nþyrstr til þinna sala;\nlaðar þurfi -\nhef ek lengi farit -\nok þinna andfanga, jötunn.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hví þú þá, Gagnráðr,\nmælisk af golfi fyr?\nFar þú í sess í sal!\nÞá skal freista,\nhvárr fleira viti,\ngestr eða inn gamli þulr.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Óauðigr maðr,\ner til auðigs kemr,\nmæli þarft eða þegi;\nofrmælgi mikil,\nhygg ek, at illa geti\nhveim er við kaldrifjaðan kemr.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú mér, Gagnráðr,\nalls þú á golfi vill\nþíns of freista frama,\nhvé sá hestr heitir,\ner hverjan dregr\ndag of dróttmögu.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Skinfaxi heitir,\ner inn skíra dregr\ndag of dróttmögu;\nhesta beztr\nþykkir hann með Hreiðgotum;\ney lýsir mön af mari.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat, Gagnráðr,\nalls þú á golfi vill\nþíns of freista frama,\nhvé sá jór heitir,\ner austan dregr\nnótt of nýt regin.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hrímfaxi heitir,\ner hverja dregr\nnótt of nýt regin;\nméldropa fellir hann\nmorgin hvern;\nþaðan kemr dögg um dala.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "Seg þú þat, Gagnráðr,\nalls þú á golfi vill\nþíns of freista frama,\nhvé sú á heitir,\ner deilir með jötna sonum\ngrund ok með goðum.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ífing heitir á,\ner deilir með jötna sonum\ngrund ok með goðum;\nopin renna\nhon skal of aldrdaga;\nverðr-at íss á á.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "Seg þú þat, Gagnráðr,\nalls þú á golfi vill\nþíns of freista frama,\nhvé sá völlr heitir,\ner finnask vígi at\nSurtr ok in svásu goð.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vígriðr heitir völlr,\ner finnask vígi at\nSurtr ok in svásu goð;\nhundrað rasta\nhann er á hverjan veg;\nsá er þeim völlr vitaðr.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fróðr ertu nú, gestr,\nfar þú á bekk jötuns,\nok mælumk í sessi saman;\nhöfði veðja\nvit skulum höllu í,\ngestr, of geðspeki.",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it eina,\nef þitt æði dugir\nok þú, Vafþrúðnir, vitir,\nhvaðan jörð of kom\neða upphiminn\nfyrst, inn fróði jötunn.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ór Ymis holdi\nvar jörð of sköpuð,\nen ór beinum björg,\nhiminn ór hausi\nins hrímkalda jötuns,\nen ór sveita sær.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat annat,\nef þitt æði dugir\nok þú, Vafþrúðnir, vitir,\nhvaðan máni kom,\nsá er ferr menn yfir,\neða sól it sama.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mundilfari heitir,\nhann er mána faðir\nok svá Sólar it sama;\nhimin hverfa\nþau skulu hverjan dag\nöldum at ártali.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it þriðja,\nalls þik svinnan kveða\nok þú, Vafþrúðnir, vitir,\nhvaðan dagr of kom,\nsá er ferr drótt yfir,\neða nótt með niðum.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Dellingr heitir,\nhann er Dags faðir,\nen Nótt var Nörvi borin;\nný ok nið\nskópu nýt regin\nöldum at ártali.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it fjórða,\nalls þik fróðan kveða,\nok þú, Vafþrúðnir, vitir,\nhvaðan vetr of kom\neða varmt sumar\nfyrst með fróð regin.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vindsvalr heitir,\nhann er Vetrar faðir,\nen Svásuðr sumars.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it fimmta,\nalls þik fróðan kveða,\nok þú, Vafþrúðnir, vitir,\nhverr ása ellztr\neða Ymis niðja\nyrði í árdaga.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Örófi vetra\náðr væri jörð of sköpuð,\nþá var Bergelmir borinn,\nÞrúðgelmir\nvar þess faðir,\nen Aurgelmir afi.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it sétta,\nalls þik svinnan kveða,\nok þú, Vafþrúðnir, vitir,\nhvaðan Aurgelmir kom\nmeð jötna sonum\nfyrst, inn fróði jötunn.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ór Élivágum\nstukku eitrdropar,\nsvá óx, unz varð jötunn;\nþar eru órar ættir\nkomnar allar saman;\nþví er þat æ allt til atalt.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it sjaunda,\nalls þik svinnan kveða,\nok þú, Vafþrúðnir, vitir,\nhvé sá börn gat,\ninn baldni jötunn,\ner hann hafði-t gýgjar gaman.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Undir hendi vaxa\nkváðu hrímþursi\nmey ok mög saman;\nfótr við fæti\ngat ins fróða jötuns\nsexhöfðaðan son.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it átta,\nalls þik svinnan kveða,\nok þú, Vafþrúðnir, vitir,\nhvat þú fyrst of mant\neða fremst of veizt,\nþú ert alsviðr, jötunn.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "Örófi vetra\náðr væri jörð of sköpuð,\nþá var Bergelmir borinn;\nþat ek fyrst of man,\ner sá inn fróði jötunn\ná var lúðr of lagiðr.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it níunda,\nalls þik svinnan kveða,\nok þú, Vafþrúðnir, vitir,\nhvaðan vindr of kemr,\nsvá at ferr vág yfir;\næ menn han sjalfan of sjá.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hræsvelgr heitir,\ner sitr á himins enda,\njötunn í arnar ham;\naf hans vængjum\nkvæða vind koma\nalla menn yfir.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it tíunda,\nalls þú tíva rök\nöll, Vafþrúðnir, vitir,\nhvaðan Njörðr of kom\nmeð ása sonum -\nhofum ok hörgum\nhann ræðr hundmörgum -\nok varð-at hann ásum alinn.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Í Vanaheimi\nskópu hann vís regin\nok seldu at gíslingu goðum,\ní aldar rök\nhann mun aftr koma\nheim með vísum vönum.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat et ellifta,\nhvar ýtar túnum í\nhöggvask hverjan dag;\nval þeir kjósa\nok ríða vígi frá,\nsitja meir of sáttir saman.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Allir einherjar\nÓðins túnum í\nhöggvask hverjan dag,\nval þeir kjósa\nok ríða vígi frá,\nsitja meirr of sáttir saman.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seg þú þat it tolfta,\nhví þú tíva rök\nöll, Vafþrúðnir, vitir,\nfrá jötna rúnum\nok allra goða\nsegir þú it sannasta,\ninn alsvinni jötunn.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Frá jötna rúnum\nok allra goða\nek kann segja satt,\nþví at hvern hef ek\nheim of komit;\nníu kom ek heima\nfyr Niflhel neðan;\nhinig deyja ór helju halir.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaðak,\nfjölð ek of reynda regin:\nHvat lifir manna,\nþá er inn mæra líðr\nfimbulvetr með firum?\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Líf ok Lifþrasir,\nen þau leynask munu\ní holti Hoddmímis;\nmorgindöggvar\nþau sér at mat hafa,\nen þaðan af aldir alask.\"",
+      "stanza": "45"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaðak,\nfjölð ek of reynda regin:\nHvaðan kemr sól\ná inn slétta himin,\ner þessa hefr fenrir farit?\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eina dóttur\nberr alfröðull,\náðr hana fenrir fari;\nsú skal ríða,\nþá er regin deyja,\nmóður brautir, mær.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaðak,\nfjölð ek of reynda regin:\nHverjar ro þær meyjar,\ner líða mar yfir,\nfróðgeðjaðar fara?\"",
+      "stanza": "48"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þríar þjóðár\nfalla þorp yfir\nmeyja Mögþrasis;\nhamingjur einar\nþær er í heimi eru,\nþó þær með jötnum alask.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaðak,\nfjölð ek of reynda regin:\nHverir ráða æsir\neignum goða,\nþá er sloknar Surta logi?\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Víðarr ok Váli\nbyggja vé goða,\nþá er sloknar Surta logi,\nMóði ok Magni\nskulu Mjöllni hafa\nVingnis at vígþroti.\"",
+      "stanza": "51"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaðak,\nfjölð ek of reynda regin;\nHvat verðr Óðni\nat aldrlagi,\nþá er of rjúfask regin?\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ulfr gleypa\nmun Aldaföðr,\nþess mun Víðarr vreka;\nkalda kjafta\nhann klyfja mun\nvitnis vígi at.\"",
+      "stanza": "53"
+    },
+    {
+      "kind": "heading",
+      "text": "Óðinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjölð ek fór,\nfjölð ek freistaðak,\nfjölð ek of reynda regin;\nHvat mælti Óðinn,\náðr á bál stigi,\nsjalfr í eyra syni?\"",
+      "stanza": "54"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafþrúðnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ey manni þat veit,\nhvat þú í árdaga\nsagðir í eyra syni;\nfeigum munni\nmælta ek mína forna stafi\nok of ragnarök.\nNú ek við Óðin\ndeildak mína orðspeki;\nþú ert æ vísastr vera.\"",
+      "stanza": "55"
+    }
+  ],
+  "english": [
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Counsel me, Frigg, for I long to fare,\nAnd Vafthruthnir fain would find;\nfit wisdom old with the giant wise\nMyself would I seek to match.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Frigg spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heerfather here at home would I keep,\nWhere the gods together dwell;\nAmid all the giants an equal in might\nTo Vafthruthnir know I none.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, much have I found.\nMuch have I got from the gods;\nAnd fain would I know how Vafthruthnir now\nLives in his lofty hall.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Frigg spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Safe mayst thou go, safe come again,\nAnd safe be the way thou wendest!\nFather of men, let thy mind be keen\nWhen speech with the giant thou seekest.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "The wisdom then of the giant wise\nForth did he fare to try;\nHe found the hall | of the father of Im,\nAnd in forthwith went Ygg.",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vafthruthnir, hail! | to thy hall am I come,\nFor thyself I fain would see;\nAnd first would I ask | if wise thou art,\nOr, giant, all wisdom hast won.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Who is the man | that speaks to me,\nHere in my lofty hall?\nForth from our dwelling | thou never shalt fare,\nUnless wiser than I thou art.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gagnrath they call me, | and thirsty I come\nFrom a journey hard to thy hall;\nWelcome I look for, | for long have I fared,\nAnd gentle greeting, giant.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Why standest thou there | on the floor whilst thou speakest?\nA seat shalt thou have in my hall;\nThen soon shall we know | whose knowledge is more,\nThe guest's or the sage's gray.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"If a poor man reaches | the home of the rich,\nLet him wisely speak or be still;\nFor to him who speaks | with the hard of heart\nWill chattering ever work ill.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Speak forth now, Gagnrath, | if there from the floor\nThou wouldst thy wisdom make known:\nWhat name has the steed | that each morn anew\nThe day for mankind doth draw?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Skinfaxi is he, | the steed who for men\nThe glittering day doth draw;\nThe best of horses | to heroes he seems,\nAnd brightly his mane doth burn.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Speak forth now, Gagnrath, | if there from the floor\nThou wouldst thy wisdom make known:\nWhat name has the steed | that from East anew\nBrings night for the noble gods?\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hrimfaxi name they | the steed that anew\nBrings night for the noble gods;\nEach morning foam | from his bit there falls,\nAnd thence come the dews in the dales.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Speak forth now, Gagnrath, | if there from the floor\nThou wouldst thy wisdom make known:\nWhat name has the river | that 'twixt the realms\nOf the gods and the giants goes?\"\nOthin spoke:",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ifing is the river | that 'twixt the realms\nOf the gods and the giants goes;\nFor all time ever | open it flows,\nNo ice on the river there is.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Speak forth now, Gagnrath, | if there from the floor\nThou wouldst thy wisdom make known:\nWhat name has the field | where in fight shall meet\nSurt and the gracious gods?\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vigrith is the field | where in fight shall meet\nSurt and the gracious gods;\nA hundred miles | each way does it measure.\nAnd so are its boundaries set.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Wise art thou, guest! | To my bench shalt thou go,\nIn our seats let us speak together;\nHere in the hall | our heads, O guest,\nShall we wager our wisdom upon.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First answer me well, | if thy wisdom avails,\nAnd thou knowest it, Vafthruthnir, now:\nIn earliest time | whence came the earth,\nOr the sky, thou giant sage?\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Out of Ymir's flesh | was fashioned the earth,\nAnd the mountains were made of his bones;\nThe sky from the frost-cold | giant's skull,\nAnd the ocean out of his blood.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Next answer me well, | if thy wisdom avails,\nAnd thou knowest it, Vafthruthnir, now:\nWhence came the moon, | o'er the world of men\nThat fares, and the flaming sun?\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mundilferi is he | who begat the moon,\nAnd fathered the flaming sun;\nThe round of heaven | each day they run,\nTo tell the time for men.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Third answer me well, | if wise thou art called,\nIf thou knowest it, Vafthruthnir, now:\nWhence came the day, | o'er mankind that fares,\nOr night with the narrowing moon?\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The father of day | is Delling called,\nAnd the night was begotten by Nor;\nFull moon and old | by the gods were fashioned,\nTo tell the time for men.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fourth answer me well, | if wise thou art called,\nIf thou knowest it, Vafthruthnir, now:\nWhence did winter come, | or the summer warm,\nFirst with the gracious gods?\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vindsval he was | who was winter's father,\nAnd Svosuth summer begat;\"\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fifth answer me well, | if wise thou art called,\nIf thou knowest it, Vafthruthnir, now:\nWhat giant first | was fashioned of old,\nAnd the eldest of Ymir's kin?\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Winters unmeasured | ere earth was made\nWas the birth of Bergelmir;\nThruthgelmir's son | was the giant strong,\nAnd Aurgelmir's grandson of old.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sixth answer me well, | if wise thou art called,\nIf thou knowest it, Vafthruthnir, now:\nWhence did Aurgelmir come | with the giants' kin,\nLong since, thou giant sage?\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Down from Elivagar | did venom drop,\nAnd waxed till a giant it was;\nAnd thence arose | our giants' race,\nAnd thus so fierce are we found.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seventh answer me well, | if wise thou art called,\nIf thou knowest it, Vafthruthnir, now:\nHow begat he children, | the giant grim,\nWho never a giantess knew?\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"They say 'neath the arms | of the giant of ice\nGrew man-child and maid together;\nAnd foot with foot | did the wise one fashion\nA son that six heads bore.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eighth answer me well, | if wise thou art called,\nIf thou knowest it, Vafthruthnir, now:\nWhat farthest back | dost thou bear in mind?\nFor wide is thy wisdom, giant!\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Winters unmeasured | ere earth was made\nWas the birth of Bergelmir;\nThis first knew I well, | when the giant wise\nIn a boat of old was borne.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ninth answer me well, | if wise thou art called\nIf thou knowest it, Vafthruthnir, now:\nWhence comes the wind | that fares o'er the waves\nYet never itself is seen?\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In an eagle's guise | at the end of heaven\nHræsvelg sits, they say;\nAnd from his wings | does the wind come forth\nTo move o'er the world of men.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tenth answer me now, | if thou knowest all\nThe fate that is fixed for the gods:\nWhence came up Njorth | to the kin of the gods,--\n(Rich in temples | and shrines he rules,--)\nThough of gods he was never begot?\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In the home of the Wanes | did the wise ones create him,\nAnd gave him as pledge to the gods;\nAt the fall of the world | shall he fare once more\nHome to the Wanes so wise.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eleventh answer me well, | . . . . . . .\n. . . . . . . . . . . .\nWhat men . . . . . . | in . . . . . . home\nEach day to fight go forth?\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The heroes all | in Othin's hall\nEach day to fight go forth;\nThey fell each other, | and fare from the fight\nAll healed full soon to sit.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Twelfth answer me now | how all thou knowest\nOf the fate that is fixed for the gods;\nOf the runes of the gods | and the giants' race\nThe truth indeed dost thou tell,\n(And wide is thy wisdom, giant!)\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of the runes of the gods | and the giants' race\nThe truth indeed can I tell,\n(For to every world have I won;)\nTo nine worlds came I, | to Niflhel beneath,\nThe home where dead men dwell.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, | much have I found,\nMuch have I got of the gods:\nWhat shall live of mankind | when at last there comes\nThe mighty winter to men?\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In Hoddmimir's wood | shall hide themselves\nLif and Lifthrasir then;\nThe morning dews | for meat shall they have,\nSuch food shall men then find.\"",
+      "stanza": "45"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, | much have I found,\nMuch have I got of the gods:\nWhence comes the sun | to the smooth sky back,\nWhen Fenrir has snatched it forth?\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A daughter bright | Alfrothul bears\nEre Fenrir snatches her forth;\nHer mother's paths | shall the maiden tread\nWhen the gods to death have gone.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, | much have I found,\nMuch have I got of the gods:\nWhat maidens are they, | so wise of mind.\nThat forth o'er the sea shall fare?\"",
+      "stanza": "48"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"O'er Mogthrasir's hill | shall the maidens pass,\nAnd three are their throngs that come;\nThey all shall protect | the dwellers on earth,\nThough they come of the giants' kin.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, | much have I found,\nMuch have I got of the gods:\nWho then shall rule | the realm of the gods,\nWhen the fires of Surt have sunk?\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In the gods' home Vithar | and Vali shall dwell,\nWhen the fires of Surt have sunk;\nMothi and Magni | shall Mjollnir have\nWhen Vingnir falls in fight.\"",
+      "stanza": "51"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, | much have I found,\nMuch have I got of the gods:\nWhat shall bring the doom | of death to Othin,\nWhen the gods to destruction go?\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The wolf shall fell | the father of men,\nAnd this shall Vithar avenge;\nThe terrible jaws | shall he tear apart,\nAnd so the wolf shall he slay.\"",
+      "stanza": "53"
+    },
+    {
+      "kind": "heading",
+      "text": "Othin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much have I fared, | much have I found,\nMuch have I got from the gods:\nWhat spake Othin himself | in the ears of his son,\nEre in the bale-fire he burned?\"",
+      "stanza": "54"
+    },
+    {
+      "kind": "heading",
+      "text": "Vafthruthnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"No man can tell | what in olden time\nThou spak'st in the ears of thy son;\nWith fated mouth | the fall of the gods\nAnd mine olden tales have I told;\nWith Othin in knowledge | now have I striven,\nAnd ever the wiser thou art.\"",
+      "stanza": "55"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Vafþrúðnismál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe05.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

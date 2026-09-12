@@ -1,0 +1,1082 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Þórr fór ór Austrvegi ok kom at sundi einu. Öðrum megin sundsins var ferjukarlinn með skipit. Þórr kallaði:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hverr er sá sveinn sveina,\ner stendr fyr sundit handan?\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Ferjukarlinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hverr er sá karl karla,\ner kallar of váginn?\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fer þú mik um sundit,\nfæði ek þik á morgun;\nmeis hef ek á baki,\nverðr-a matr in betri;\nát ek í hvíld,\náðr ek heiman fór,\nsíldr ok hafra;\nsaðr em ek enn þess.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Ferjukarlinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Árligum verkum\nhrósar þú, verðinum;\nveizt-at-tu fyrir görla,\ndöpr eru þín heimkynni,\ndauð, hygg ek, at þín móðir sé.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þat segir þú nú,\ner hverjum þykkir\nmest at vita,\nat mín móðir dauð sé.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Ferjukarlinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þeygi er sem þú\nþrjú bú góð eigir;\nberbeinn þú stendr\nok hefr brautinga gervi,\nþatki, at þú hafir brækr þínar.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Stýrðu hingat eikjunni,\nek mun þér stöðna kenna, -\neða hverr á skipit,\ner þú heldr við landit?\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Ferjukarlinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hildolfr sá heitir,\ner mik halda bað,\nrekkr inn ráðsvinni,\ner býr í Ráðseyjarsundi;\nbað-at hann hlennimenn flytja\neða hrossaþjófa,\ngóða eina\nok þá, er ek görva kunna;\nsegðu til nafns þíns,\nef þú vill um sundit fara!\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segja mun ek til nafns míns,\nþótt ek sekr séak,\nok til alls eðlis:\nEk em Óðins sonr,\nMeila bróðir,\nen Magna faðir,\nþrúðvaldr goða,\nvið Þór knáttu hér dæma!\nHins vil ek nú spyrja,\nhvat þú heitir.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Ferjukarlinn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hárbarðr ek heiti,\nhylk um nafn sjaldan.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat skaltu of nafn hylja,\nnema þú sakar eigir?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"En þótt ek sakar eiga,\nþá mun ek forða fjörvi mínu\nfyr slíkum sem þú ert,\nnema ek feigr sé.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Harm ljótan\nmér þykkir í því\nat vaða um váginn til þín\nok væta ögur minn;\nskylda ek launa\nkögursveini þínum\nkanginyrði,\nef ek kæmumk yfir sundit.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hér mun ek standa\nok þín heðan bíða;\nfannt-a þú mann in harðara\nat Hrungni dauðan.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hins viltu nú geta,\ner vit Hrungnir deildum,\nsá inn stórúðgi jötunn,\ner ór steini var höfuðit á;\nþó lét ek hann falla\nok fyrir hníga.\nHvat vanntu þá meðan, Hárbarðr?\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Var ek með Fjölvari\nfimm vetr alla\ní ey þeiri,\ner Algræn heitir;\nvega vér þar knáttum\nok val fella,\nmargs at freista,\nmans at kosta.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hversu snúnuðu yðr konur yðrar?\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sparkar áttu vér konur,\nef oss at spökum yrði;\nhorskar áttu vér konur,\nef oss hollar væri;\nþær ór sandi\nsíma undu,\nok ór dali djúpum\ngrund of grófu;\nvarð ek þeim einn öllum\nefri at ráðum;\nhvílda ek hjá þeim systrum sjau,\nok hafða ek geð þeira allt ok gaman.\nHvat vanntu þá meðan, Þórr?\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek drap Þjaza,\ninn þrúðmóðga jötun,\nupp ek varp augum\nAlvalda sonar\ná þann inn heiða himin;\nþau eru merki mest\nminna verka,\nþau er allir menn síðan of séa.\nHvat vanntu þá meðan, Hárbarðr?\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Miklar manvélar\nek hafða við myrkriður,\nþá er ek vélta þær frá verum;\nharðan jötun\nek hugða Hlébarð vera,\ngaf hann mér gambantein,\nen ek vélta hann ór viti.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Illum huga\nlaunaðir þú þá góðar gjafar.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þat hefr eik,\ner af annarri skefr,\nof sik er hverr í slíku.\nHvat vanntu þá meðan Þórr?\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek var austr\nok jötna barðak\nbrúðir bölvísar,\ner til bjargs gengu;\nmikil myndi ætt jötna,\nef allir lifði\nvætr myndi manna\nundir Miðgarði.\nHvat vanntu þá meðan, Hárbarðr?\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Var ek á Vallandi\nok vígum fylgdak,\natta ek jöfrum,\nen aldri sættak;\nÓðinn á jarla,\nþá er í val falla,\nen Þórr á þrælakyn.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ójafnt skipta\ner þú myndir með ásum liði,\nef þú ættir vilgi mikils vald.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þórr á afl ærit,\nen ekki hjarta;\naf hræðslu ok hugbleyði\nþér var í hanzka troðit,\nok þóttisk-a þú þá Þórr vera;\nhvárki þú þá þorðir\nfyr hræðslu þinni\nhnjósa né físa,\nsvá at Fjalarr heyrði.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hárbarðr inn ragi,\nek mynda þik í hel drepa,\nef ek mætta seilask um sund.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat skyldir um sund seilask,\ner sakir ro alls engar?\nHvat vanntu þá, Þórr?\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek var austr\nok ána varðak,\nþá er mik sóttu\nþeir Svárangs synir;\ngrjóti þeir mik börðu,\ngagni urðu þeir þó lítt fegnir,\nþó urðu þeir mik fyrri\nfriðar at biðja.\nHvat vanntu þá meðan, Hárbarðr?\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek var austr\nok við einhverja dæmðak,\nlék ek við ina línhvítu\nok launþing háðak;\ngladdak ina gullbjörtu,\ngamni mær unði.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Góð átt þú þér mankynni þar þá.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Liðs þíns\nværa ek þá þurfi, Þórr,\nat ek helda þeiri inni línhvítu mey.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek munda þér þá þat veita,\nef ek viðr of kæmumk.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek mynda þér þá trúa,\nnema þú mik í tryggð véltir.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Emk-at ek sá hælbítr\nsem húðskór forn á vár.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat vanntu þá meðan, Þórr?\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Brúðir berserkja\nbarðak í Hléseyju;\nþær höfðu verst unnit,\nvélta þjóð alla.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Klæki vanntu þá, Þórr,\ner þú á konum barðir.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vargynjur þat váru,\nen varla konur,\nskelldu skip mitt,\ner ek skorðat hafðak,\nægðu mér járnlurki\nen eltu Þjalfa.\nHvat vanntu meðan, Hárbarðr?\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek vark í hernum,\ner hingat gerðisk\ngnæfa gunnfana,\ngeir at rjóða.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þess viltu nú geta,\ner þú fórt oss óljúfan at bjóða.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bæta skal þér þat þá\nmunda baugi,\nsem jafnendr unnu,\nþeir er okkr vilja sætta.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvar namtu þessi\nin hnæfiligu orð,\ner ek heyrða aldregi\nin hnæfiligri?\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nam ek at mönnum\nþeim inum aldrænum,\ner búa í heimis skógum.\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þó gefr þú gott nafn dysjum,\ner þú kallar þær heimis skóga.\"",
+      "stanza": "45"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Svá dæmi ek of slíkt far.\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Orðkringi þín\nmun þér illa koma,\nef ek ræð á vág at vaða;\nulfi hæra\nhygg ek þik æpa munu,\nef þú hlýtr af hamri högg.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sif á hó heima,\nhans muntu fund vilja,\nþann muntu þrek drýgja,\nþat er þér skyldara.\"",
+      "stanza": "48"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mælir þú at munns ráði,\nsvá at mér skyldi verst þykkja,\nhalr inn hugblauði,\nhygg ek, at þú ljúgir.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Satt hygg ek mik segja;\nseinn ertu at för þinni,\nlangt myndir þú nú kominn, Þórr,\nef þú litum færir.\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hárbarðr inn ragi,\nheldr hefr þú nú mik dvalðan.\"",
+      "stanza": "51"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ása-þórs hugða ek\naldregi mundu\nglepja féhirði farar.\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ráð mun ek þér nú ráða;\nró þú hingat bátinum,\nhættum hætingi,\nhittu föður Magna.\"",
+      "stanza": "53"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Farðu firr sundi,\nþér skal fars synja.\"",
+      "stanza": "54"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vísa þú mér nú leiðina,\nalls þú vill mik eigi um váginn ferja.\"",
+      "stanza": "55"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "Lítit er at synja,\nlangt er at fara;\nstund er til stokksins,\nönnur til steinsins,\nhaltu svá til vinstra vegsins,\nunz þú hittir Verland;\nþar mun Fjörgyn\nhitta Þór, son sinn,\nok mun hon kenna hánum áttunga brautir\ntil Óðins landa.\"",
+      "stanza": "56"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun ek taka þangat í dag?\"",
+      "stanza": "57"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Taka við víl ok erfiði,\nat upprennandi sólu,\ner ek get þána.\"",
+      "stanza": "58"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Skammt mun nú mál okkat,\nalls þú mér skætingu einni svarar;\nlauna mun ek þér farsynjun,\nef vit finnumk í sinn annat.\"",
+      "stanza": "59"
+    },
+    {
+      "kind": "heading",
+      "text": "Hárbarðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Far þú nú,\nþars þik hafi allan gramir.\"",
+      "stanza": "60"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Thor was on his way back from a journey in the East, and came to a sound; on the other side of the sound was a ferryman with a boat. Thor called out:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Who is the fellow yonder, | on the farther shore of the sound?\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "The ferryman spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What kind of a peasant is yon, | that calls o'er the bay?\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ferry me over the sound; | I will feed thee therefor in the morning;\nA basket I have on my back, | and food therein, none better;\nAt leisure I ate, | ere the house I left,\nOf herrings and porridge, | so plenty I had.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "The ferryman spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of thy morning feats art thou proud, | but the future thou knowest not wholly;\nDoleful thine home-coming is: | thy mother, me thinks, is dead.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now hast thou said | what to each must seem\nThe mightiest grief, | that my mother is dead.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "The ferryman spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Three good dwellings, | methinks, thou hast not;\nBarefoot thou standest, | and wearest a beggar's dress;\nNot even hose dost thou have.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Steer thou hither the boat; | the landing here shall I show thee;\nBut whose the craft | that thou keepest on the shore?\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "The ferryman spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hildolf is he | who bade me have it,\nA hero wise; | his home is at Rathsey's sound.\nHe bade me no robbers to steer, | nor stealers of steeds,\nBut worthy men, | and those whom well do I know.\nSay now thy name, | if over the sound thou wilt fare.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"My name indeed shall I tell, | though in danger I am,\nAnd all my race; | I am Othin's son,\nMeili's brother, | and Magni's father,\nThe strong one of the gods; | with Thor now speech canst thou get.\nAnd now would I know | what name thou hast.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "The ferryman spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Harbarth am I, | and seldom I hide my name.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Why shouldst thou hide thy name, | if quarrel thou hast not?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"And though I had a quarrel, | from such as thou art\nYet none the less | my life would I guard,\nUnless I be doomed to die.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Great trouble, methinks, | would it be to come to thee,\nTo wade the waters across, | and wet my middle;\nWeakling, well shall I pay | thy mocking words,\nif across the sound I come.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Here shall I stand | and await thee here;\nThou hast found since Hrungnir died | no fiercer man.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fain art thou to tell | how with Hrungnir I fought,\nThe haughty giant, | whose head of stone was made;\nAnd yet I felled him, | and stretched him before me.\nWhat, Harbarth, didst thou the while?\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Five full winters | with Fjolvar was I,\nAnd dwelt in the isle | that is Algrön called;\nThere could we fight, | and fell the slain,\nMuch could we seek, | and maids could master.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"How won ye success with your women?\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lively women we had, | if they wise for us were;\nWise were the women we had, | if they kind for us were;\nFor ropes of sand | they would seek to wind,\nAnd the bottom to dig | from the deepest dale.\nWiser than all | in counsel I was,\nAnd there I slept | by the sisters seven,\nAnd joy full great | did I get from each.\nWhat, Thor, didst thou the while?\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thjazi I felled, | the giant fierce,\nAnd I hurled the eyes | of Alvaldi's son\nTo the heavens hot above;\nOf my deeds the mightiest | marks are these,\nThat all men since can see.\nWhat, Harbarth, didst thou the while?\"\nHarbarth spoke:",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Much love-craft I wrought | with them who ride by night,\nWhen I stole them by stealth from their husbands;\nA giant hard | was Hlebarth, methinks:\nHis wand he gave me as gift,\nAnd I stole his wits away.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou didst repay good gifts with evil mind.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The oak must have | what it shaves from another;\nIn such things each for himself.\nWhat, Thor, didst thou the while?\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eastward I fared, | of the giants I felled\nTheir ill-working women | who went to the mountain;\nAnd large were the giants' throng | if all were alive;\nNo men would there be | in Mithgarth more.\nWhat, Harbarth, didst thou the while?\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In Valland I was, | and wars I raised,\nPrinces I angered, | and peace brought never;\nThe noble who fall | in the fight hath Othin,\nAnd Thor hath the race of the thralls.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Unequal gifts | of men wouldst thou give to the gods,\nIf might too much thou shouldst have.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thor has might enough, | but never a heart;\nFor cowardly fear | in a glove wast thou fain to crawl,\nAnd there forgot thou wast Thor;\nAfraid there thou wast, | thy fear was such,\nTo fart or sneeze | lest Fjalar should hear.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou womanish Harbarth, | to hell would I smite thee straight,\nCould mine arm reach over the sound.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Wherefore reach over the sound, | since strife we have none?\nWhat, Thor, didst thou do then?\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eastward I was, | and the river I guarded well,\nWhere the sons of Svarang | sought me there;\nStones did they hurl; | small joy did they have of winning;\nBefore me there | to ask for peace did they fare.\nWhat, Harbarth, didst thou the while?\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eastward I was, | and spake with a certain one,\nI played with the linen-white maid, | and met her by stealth;\nI gladdened the gold-decked one, | and she granted me joy.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Full fair was thy woman-finding.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy help did I need then, Thor, | to hold the white maid fast.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gladly, had I been there, | my help to thee had been given.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I might have trusted thee then, | didst thou not betray thy troth.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"No heel-biter am I, in truth, | like an old leather shoe in spring.\"\nHarbarth spoke:",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What, Thor, didst thou the while?\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In Hlesey the brides | of the Berserkers slew I;\nMost evil they were, | and all they betrayed.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Shame didst thou win, | that women thou slewest, Thor.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"She-wolves they were like, | and women but little;\nMy ship, which well | I had trimmed, did they shake;\nWith clubs of iron they threatened, | and Thjalfi they drove off.\nWhat, Harbarth, didst thou the while?\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In the host I was | that hither fared,\nThe banners to raise, | and the spear to redden.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Wilt thou now say | that hatred thou soughtest to bring us?\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A ring for thy hand | shall make all right for thee,\nAs the judge decides | who sets us two at peace.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Where foundest thou | so foul and scornful a speech?\nMore foul a speech | I never before have heard.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I learned it from men, | the men so old,\nWho dwell in the hills of home.\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A name full good | to heaps of stones thou givest\nWhen thou callest them hills of home.\"",
+      "stanza": "45"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of such things speak I so.\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ill for thee comes | thy keenness of tongue,\nIf the water I choose to wade;\nLouder, I ween, | than a wolf thou cryest,\nIf a blow of my hammer thou hast.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sif has a lover at home, | and him shouldst thou meet;\nMore fitting it were | on him to put forth thy strength.\"",
+      "stanza": "48"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy tongue still makes thee say | what seems most ill to me,\nThou witless man! Thou liest, I ween.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Truth do I speak, | but slow on thy way thou art;\nFar hadst thou gone | if now in the boat thou hadst fared.\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou womanish Harbarth! | here hast thou held me too long.\"",
+      "stanza": "51"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I thought not ever | that Asathor would be hindered\nBy a ferryman thus from faring.\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"One counsel I bring thee now: | row hither thy boat;\nNo more of scoffing; | set Magni's father across.\"",
+      "stanza": "53"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"From the sound go hence; | the passage thou hast not.\"",
+      "stanza": "54"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The way now show me, since thou takest me not o'er the water.\"",
+      "stanza": "55"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To refuse it is little, to fare it is long;\nA while to the stock, and a while to the stone;\nThen the road to thy left, till Verland thou reachest;\nAnd there shall Fjorgyn her son Thor find,\nAnd the road of her children she shows him to Othin's realm.\"",
+      "stanza": "56"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"May I come so far in a day?\"",
+      "stanza": "57"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"With toil and trouble perchance,\nWhile the sun still shines, or so I think.\"",
+      "stanza": "58"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Short now shall be our speech, for thou speakest in mockery only;\nThe passage thou gavest me not I shall pay thee if ever we meet.\"",
+      "stanza": "59"
+    },
+    {
+      "kind": "heading",
+      "text": "Harbarth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Get hence where every evil thing shall have thee!\"",
+      "stanza": "60"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Hárbarðsljóð",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe08.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

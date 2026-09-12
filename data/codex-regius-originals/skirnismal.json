@@ -1,0 +1,643 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Freyr, sonr Njarðar, hafði einn dag setzt í Hliðskjálf, ok sá um heima alla. Hann sá í Jötunheima ok sá þar mey fagra, þá er hon gekk frá skála föður síns til skemmu. Þar af fekk hann hugsóttir miklar. Skírnir hét skósveinn Freys. Njörðr bað hann kveðja Frey máls. Þá mælti Skaði:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Rístu nú, Skírnir,\nok gakk skjótt at beiða\nokkarn mála mög\nok þess at fregna,\nhveim inn fróði sé\nofreiði afi.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Illra orða\ner mér ón at ykkrum syni,\nef ek geng at mæla við mög\nok þess at fregna,\nhveim inn fróði sé\nofreiði afi.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Freyr,\nfolkvaldi goða,\nok ek vilja vita:\nHví þú einn sitr\nendlanga sali,\nminn dróttinn, um daga?\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hví um segjak þér,\nseggr inn ungi,\nmikinn móðtrega?\nÞví at álfröðull\nlýsir um alla daga\nok þeygi at mínum munum.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Muni þína\nhykk-a ek svá mikla vera,\nat þú mér, seggr, né segir,\nþví at ungir saman\nvárum í árdaga,\nvel mættim tveir trúask.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Í Gymis görðum\nek ganga sá\nmér tíða mey;\narmar lýstu,\nen af þaðan\nallt loft ok lögr.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mær er mér tíðari\nen manna hveim\nungum í árdaga;\nása ok alfa\nþat vill engi maðr\nat vit samt séim.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mar gefðu mér þá\nþann er mik um myrkvan beri\nvísan vafrloga,\nok þat sverð,\ner sjalft vegisk\nvið jötna ætt.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mar ek þér þann gef,\ner þik um myrkvan berr\nvísan vafrloga,\nok þat sverð,\ner sjalft mun vegask\nef sá er horskr, er hefr.\"\nSkírnir mælti við hestinn:",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Myrkt er úti,\nmál kveð ek okkr fara\núrig fjöll yfir,\nþursa þjóð yfir;\nbáðir vit komumk,\neða okkr báða tekr\nsá inn ámáttki jötunn.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "prose",
+      "text": "Skírnir reið í Jötunheima til Gymisgarða. Þar váru hundar ólmir ok bundnir fyrir skíðgarðs hliði, þess er um sal Gerðar var. Hann reið at þar, er féhirðir sat á haugi, og kvaddi hann:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu þat, hirðir,\ner þú á haugi sitr\nok varðar alla vega:\nHvé ek at andspilli\nkomumk ins unga mans\nfyr greyjum Gymis?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Hirðir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvárt ertu feigr,\neða ertu framgenginn?\nAndspillis vanr\nþú skalt æ vera\ngóðrar meyjar Gymis.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Kostir ro betri\nheldr en at klökkva sé,\nhveim er fúss er fara;\neinu dægri\nmér var aldr of skapaðr\nof allt líf of lagit.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þat hlym hlymja,\ner ek heyri nú til\nossum rönnum í?\nJörð bifask,\nen allir fyrir\nskjalfa garðar Gymis.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Ambátt kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Maðr er hér úti,\nstiginn af mars baki,\njó lætr til jarðar taka.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Inn bið þú hann ganga\ní okkarn sal\nok drekka inn mæra mjöð;\nþó ek hitt óumk,\nat hér úti sé\nminn bróðurbani.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Hvat er þat alfa\nné ása sona\nné víssa vana?\nHví þú einn of komt\neikinn fúr yfir\nór salkynni at séa?\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Emk-at ek alfa\nné ása sona\nné víssa vana;\nþó ek einn of komk\neikinn fúr yfir\nyður salkynni at séa.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Epli ellifu\nhér hef ek algullin,\nþau mun ek þér, Gerðr, gefa,\nfrið at kaupa,\nat þú þér Frey kveðir\nóleiðastan lifa.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Epli ellifu\nek þigg aldregi\nat mannskis munum,\nné vit Freyr,\nmeðan okkart fjör lifir,\nbyggjum bæði saman.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Baug ek þér þá gef,\nþann er brenndr var\nmeð ungum Óðins syni;\nátta eru jafnhöfðir,\ner af drjúpa\nina níundu hverja nótt.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Baug ek þikk-a-k,\nþótt brenndr séi\nmeð ungum Óðins syni;\ner-a mér gulls vant\ní görðum Gymis,\nat deila fé föður.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sér þú þenna mæki, mær,\nmjóvan, málfáan,\ner ek hef í hendi hér?\nHöfuð höggva\nek mun þér hálsi af,\nnema þú mér sætt segir.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ánauð þola\nek vil aldregi\nat mannskis munum;\nþó ek hins get,\nef it Gymir finnizk,\nvígs ótrauðir,\nat ykkr vega tíði.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sér þú þenna mæki, mær,\nmjóvan, málfáan,\ner ek hef í hendi hér?\nFyr þessum eggjum\nhnígr sá inn aldni jötunn,\nverðr þinn feigr faðir.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Tamsvendi ek þik drep,\nen ek þik temja mun,\nmær, at mínum munum;\nþar skaltu ganga,\ner þik gumna synir\nsíðan æva séi.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Ara þúfu á\nskaltu ár sitja\nhorfa heimi ór,\nsnugga heljar til;\nmatr né þér meir leiðr\nen manna hveim\ninnfráni ormr með firum.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "At undrsjónum þú verðir,\ner þú út kemr;\ná þik Hrímnir hari,\ná þik hotvetna stari;\nvíðkunnari þú verðir\nen vörðr með goðum,\ngapi þú grindum frá.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Tópi ok ópi,\ntjösull ok óþoli,\nvaxi þér tár með trega;\nsezk þú niðr,\nen ek mun segja þér\nsváran súsbreka\nok tvennan trega:",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Tramar gneypa\nþik skulu gerstan dag\njötna görðum í;\ntil hrímþursa hallar\nþú skalt hverjan dag\nkranga kostalaus,\nkranga kostavön;\ngrát at gamni\nskaltu í gögn hafa\nok leiða með tárum trega.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Með þursi þríhöfðuðum\nþú skalt æ nara,\neða verlaus vera;\nþitt geð grípi,\nþik morn morni;\nver þú sem þistill,\nsá er var þrunginn\ní önn ofanverða.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Til holts ek gekk\nok til hrás viðar,\ngambantein at geta,\ngambantein ek gat.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Reiðr er þér Óðinn,\nreiðr er þér Ásabragr,\nþik skal Freyr fíask,\nin firinilla mær,\nen þú fengit hefr\ngambanreiði goða.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Heyri jötnar,\nheyri hrímþursar,\nsynir Suttungs,\nsjalfir ásliðar,\nhvé ek fyrbýð,\nhvé ek fyrirbanna\nmanna glaum mani,\nmanna nyt mani.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrímgrímnir heitir þurs,\ner þik hafa skal\nfyr nágrindr neðan;\nþar þér vílmegir\ná viðarrótum\ngeitahland gefi;\næðri drykkju\nfá þú aldregi,\nmær, af þínum munum,\nmær, at mínum munum.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Þurs ríst ek þér\nok þría stafi,\nergi ok æði ok óþola;\nsvá ek þat af ríst,\nsem ek þat á reist,\nef gerask þarfar þess.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heill ver þú nú heldr, sveinn,\nok tak við hrímkálki\nfullum forns mjaðar;\nþó hafðak ek þat ætlat,\nat myndak aldregi\nunna vaningja vel.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Örendi mín\nvil ek öll vita,\náðr ek ríða heim heðan,\nnær þú á þingi\nmunt inum þroska\nnenna Njarðar syni.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Barri heitir,\ner vit bæði vitum,\nlundr lognfara;\nen eft nætr níu\nþar mun Njarðar syni\nGerðr unna gamans.\"\nÞá reið Skírnir heim. Freyr stóð úti ok kvaddi hann ok spurði tíðenda:",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Skírnir,\náðr þú verpir söðli af mar\nok þú stígir feti framar:\nHvat þú árnaðir\ní Jötunheima\nþíns eða míns munar?\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Skírnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Barri heitir,\ner vit báðir vitum,\nlundr lognfara;\nen eft nætr níu\nþar mun Njarðar syni\nGerðr unna gamans.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Löng er nótt,\nlangar ro tvær,\nhvé of þreyjak þrjár?\nOft mér mánaðr\nminni þótti\nen sjá half hýnótt.\"",
+      "stanza": "42"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Freyr, the son of Njorth, had sat one day in Hlithskjolf, and looked over all the worlds. He looked into Jotunheim, and saw there a fair maiden, as she went from her father's house to her bower. Forthwith he felt a mighty"
+    },
+    {
+      "kind": "heading",
+      "text": "love-sickness. Skirnir was the name of Freyr's servant; Njorth bade him ask speech of Freyr. He said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Go now, Skirnir! | and seek to gain\nSpeech from my son;\nAnd answer to win, | for whom the wise one\nIs mightily moved.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake"
+    },
+    {
+      "kind": "heading",
+      "text": ":"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ill words do I now | await from thy son,\nIf I seek to get speech with him,\nAnd answer to win, | for whom the wise one\nIs mightily moved.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Speak prithee, Freyr, | foremost of the gods,\nFor now I fain would know;\nWhy sittest thou here | in the wide halls,\nDays long, my prince, alone?\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"How shall I tell thee, | thou hero young,\nOf all my grief so great?\nThough every day | the elfbeam dawns,\nIt lights my longing never.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy longings, methinks, | are not so large\nThat thou mayst not tell them to me;\nSince in days of yore | we were young together,\nWe two might each other trust.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"From Gymir's house | I beheld go forth\nA maiden dear to me;\nHer arms glittered, | and from their gleam\nShone all the sea and sky.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To me more dear | than in days of old\nWas ever maiden to man;\nBut no one of gods | or elves will grant\nThat we both together should be.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Then give me the horse | that goes through the dark\nAnd magic flickering flames;\nAnd the sword as well | that fights of itself\nAgainst the giants grim.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The horse will I give thee | that goes through the dark\nAnd magic flickering flames,\nAnd the sword as well | that will fight of itself\nIf a worthy hero wields it.\"\nSkirnir spake to the horse\n:",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Dark is it without, | and I deem it time\nTo fare through the wild fells,\n(To fare through the giants' fastness;)\nWe shall both come back, | or us both together\nThe terrible giant will take.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "prose",
+      "text": "Skirnir rode into Jotunheim to Gymir's house. There were fierce dogs bound before the gate of the fence which was around Gerth's hall. He rode to where a herdsman sat on a hill, and said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tell me, herdsman, | sitting on the hill,\nAnd watching all the ways,\nHow may I win | a word with the maid\nPast the hounds of Gymir here?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "The herdsman spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Art thou doomed to die | or already dead,\nThou horseman that ridest hither?\nBarred from speech | shalt thou ever be\nWith Gymir's daughter good.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Boldness is better | than plaints can be\nFor him whose feet must fare;\nTo a destined day has mine age been doomed,\nAnd my life's span thereto laid.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What noise is that which now so loud\nI hear within our house?\nThe ground shakes, and the home of Gymir\nAround me trembles too.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "The Serving-Maid spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"One stands without who has leapt from his steed,\nAnd lets his horse loose to graze;\"\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bid the man come in, and drink good mead\nHere within our hall;\nThough this I fear, that there without\nMy brother's slayer stands.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Art thou of the elves | or the offspring of gods,\nOr of the wise Wanes?\nHow camst thou alone | through the leaping flame\nThus to behold our home?\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I am not of the elves, | nor the offspring of gods,\nNor of the wise Wanes;\nThough I came alone | through the leaping flame\nThus to behold thy home.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eleven apples, | all of gold,\nHere will I give thee, Gerth,\nTo buy thy troth | that Freyr shall be\nDeemed to be dearest to you.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I will not take | at any man's wish\nThese eleven apples ever;\nNor shall Freyr and I | one dwelling find\nSo long as we two live.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Then do I bring thee | the ring that was burned\nOf old with Othin's son;\nFrom it do eight | of like weight fall\nOn every ninth night.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The ring I wish not, | though burned it was\nOf old with Othin's son;\nIn Gymir's home | is no lack of gold\nIn the wealth my father wields.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seest thou, maiden, | this keen, bright sword\nThat I hold here in my hand?\nThy head from thy neck | shall I straightway hew,\nIf thou wilt not do my will.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"For no man's sake | will I ever suffer\nTo be thus moved by might;\nBut gladly, methinks, | will Gymir seek\nTo fight if he finds thee here.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seest thou, maiden, | this keen, bright sword\nThat I hold here in my hand?\nBefore its blade the | old giant bends,--\nThy father is doomed to die.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I strike thee, maid, | with my magic staff,\nTo tame thee to work my will;\nThere shalt thou go | where never again\nThe sons of men shall see thee.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "\"On the eagle's hill | shalt thou ever sit,\nAnd gaze on the gates of Hel;\nMore loathsome to thee | than the light-hued snake\nTo men, shall thy meat become.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fearful to see, | if thou comest forth,\nHrimnir will stand and stare,\n(Men will marvel at thee;)\nMore famed shalt thou grow | than the watchman of the gods!\nPeer forth, then, from thy prison,",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Rage and longing, | fetters and wrath,\nTears and torment are thine;\nWhere thou sittest down | my doom is on thee\nOf heavy heart\nAnd double dole.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In the giants' home | shall vile things harm thee\nEach day with evil deeds;\nGrief shalt thou get | instead of gladness,\nAnd sorrow to suffer with tears.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "\"With three-headed giants | thou shalt dwell ever,\nOr never know a husband;\n(Let longing grip thee, | let wasting waste thee,--)\nBe like to the thistle | that in the loft\nWas cast and there was crushed.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I go to the wood, | and to the wet forest,\nTo win a magic wand;\n. . . . . . . . . .\nI won a magic wand.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Othin grows angry, | angered is the best of the gods,\nFreyr shall be thy foe,\nMost evil maid, | who the magic wrath\nOf gods hast got for thyself.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Give heed, frost-rulers, | hear it, giants.\nSons of Suttung,\nAnd gods, ye too,\nHow I forbid | and how I ban\nThe meeting of men with the maid,\n(The joy of men with the maid.)",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hrimgrimnir is he, | the giant who shall have thee\nIn the depth by the doors of Hel;\nTo the frost-giants' halls | each day shalt thou fare,\nCrawling and craving in vain,\n(Crawling and having no hope.)",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Base wretches there | by the root of the tree\nWill hold for thee horns of filth;\nA fairer drink | shalt thou never find,\nMaid, to meet thy wish,\n(Maid, to meet my wish.)",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I write thee a charm | and three runes therewith,\nLonging and madness and lust;\nBut what I have writ | I may yet unwrite\nIf I find a need therefor.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Find welcome rather, | and with it take\nThe frost-cup filled with mead;\nThough I did not believe | that I should so love\nEver one of the Wanes.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Skirnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"My tidings all | must I truly learn\nEre homeward hence I ride:\nHow soon thou wilt | with the mighty son\nOf Njorth a meeting make.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Gerth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "Barri there is, | which we both know well,\nA forest fair and still;\nAnd nine nights hence | to the son of Njorth\nWill Gerth there grant delight.\"\nThen Skirnir rode home. Freyr stood without, and spoke to him, and asked for tidings:",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tell me, Skimir, | ere thou take off the saddle,\nOr farest forward a step:\nWhat hast thou done | in the giants' dwelling\nTo make glad thee or me?\"\nSkirnir spoke:",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Barri there is, | which we both know well,\nA forest fair and still;\nAnd nine nights hence | to the son of Njorth\nWill Gerth there grant delight.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Freyr spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Long is one night, | longer are two;\nHow then shall I bear three?\nOften to me | has a month seemed less\nThan now half a night of desire.\"",
+      "stanza": "43"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Skírnismál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe07.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

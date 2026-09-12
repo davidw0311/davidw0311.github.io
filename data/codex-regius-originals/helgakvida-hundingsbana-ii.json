@@ -1,0 +1,823 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Sigmundr konungr Völsungsson átti Borghildi af Brálundi. Þau hétu son sinn Helga ok eftir Helga Hjörvarðssyni. Helga fóstraði Hagall. Hundingr hét ríkr konungr. Við hann er Hundland kennt. Hann var hermaðr mikill ok átti marga sonu, þá er í hernaði váru. Ófriðr ok dylgjur váru á milli þeira Hundings konungs ok Sigmundar konungs. Drápu hvárir annarra frændr. Sigmundr konungr ok hans ættmenn hétu Völsungar ok Ylfingar. Helgi fór ok njósnaði til hirðar Hundings konungs á laun."
+    },
+    {
+      "kind": "heading",
+      "text": "Hemingr, son Hundings konungs, var heima. En er Helgi fór í brott, þá hitti hann hjarðarsvein ok kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu Hemingi\nat Helgi man,\nhvern i brynju\nbragnar felldu;\nér ulf gráan\ninni höfðuð,\nþar er Hamal hugði\nHundingr konungr.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "prose",
+      "text": "Hamall hét son Hagals. Hundingr konungr sendi menn til Hagals at leita Helga, en Helgi mátti eigi forðast annan veg en tók klæði ambáttar ok gekk at mala. Þeir leituðu ok fundu eigi Helga. Þá kvað Blindr inn bölvísi:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvöss eru augu\ní Hagals þýju;\ner-a þat karls ætt,\ner á kvernum stendr;\nsteinar rifna\nstökk lúðr fyrir.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Nú hefir hörð dæmi\nhildingr þegit,\ner vísi skal\nvalbygg mala;\nheldr er sæmri\nhendi þeiri\nmeðalkafli\nen möndultré.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Hagall svaraði ok kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þat er lítil vá,\nþótt lúðr þrumi\ner mær konungs\nmöndul hrærir;\nhon skævaði\nskýjum efri\nok vega þorði\nsem víkingar,\náðr hana Helgi\nhöftu gerði;\nsystir er hon þeira\nSigars ok Högna;\nþví hefir ötul augu\nYlfinga man.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "prose",
+      "text": "Undan komst Helgi ok fór á herskip. Hann felldi Hunding konung ok var síðan kallaðr Helgi Hundingsbani. Hann lá með her sinn í Brunavágum ok hafði þar strandhögg ok átu þar hrátt. Högni hét konungr. Hans dóttir var Sigrún. Hon var valkyrja ok reið loft ok lög. Hon var Sváfa endrborin. Sigrún reið at skipum Helga ok kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hverir láta fljóta\nfley við bakka?\nHvar, hermegir,\nheima eiguð?\nHvers bíðið ér\ní Brunavágum?\nHvert lystir yðr\nleið at kanna?\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hagall lætr fljóta\nfley við bakka,\neigum heima\ní Hléseyju,\nbíðum byrjar\ní Brunavágum,\naustr lystir oss\nleið at kanna.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvar hefir þú, hilmir,\nhildi vakða\neða gögl alin\nGunnar systra?\nHví er brynja þín\nblóði stokkin?\nHví skal und hjalmum\nhrátt kjöt eta?\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þat vann næst nýs\nniðr Ylfinga\nfyr vestan ver,\nef þik vita lystir,\ner ek björnu tók\ní Bragalundi\nok ætt ara\noddum saddak.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Nú er sagt, mær,\nhvaðan sakar gerðusk,\nþví var á legi mér\nlítt steikt etit.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Víg lýsir þú,\nvarð fyr Helga\nHundingr konungr\nhníga at velli;\nbar sókn saman,\ner sefa hefnduð\nok busti blóð\ná brimis eggjar.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat vissir þú,\nat þeir séim,\nsnót svinnhuguð,\ner sefa hefndum?\nMargir ro hvassir\nhildings synir\nok ámunir\nossum niðjum.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vark-a ek fjarri,\nfolks oddviti,\ngær á morgun\ngrams aldrlokum,\nþó tel ek slægjan\nSigmundar bur,\ner í valrúnum\nvígspjöll segir.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Leit ek þik um sinn\nfyrr á langskipum,\nþá er þú byggðir\nblóðga stafna\nok úrsvalar\nunnir léku;\nnú vill dyljask\ndöglingr fyr mér,\nen Högna mær\nHelga kennir.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "prose",
+      "text": "Granmarr hét ríkr konungr, er bjó at Svarinshaugi. Hann átti marga sonu: Höðbroddr, annarr Guðmundr, þriði Starkaðr. Höðbroddr var í konungastefnu. Hann fastnaði sér Sigrúnu Högnadóttur. En er hon spyrr þat, þá reið hon með valkyrjur um loft ok um lög at leita Helga. Helgi var þá at Logafjöllum ok hafði barizt við Hundings sonu. Þar felldi hann þá Álf ok Eyjólf, Hjörvarð ok Hervarð, ok var hann allvígmóðr ok sat undir Arasteini."
+    },
+    {
+      "kind": "prose",
+      "text": "Þar hitti Sigrún hann ok rann á háls honum ok kyssti hann ok sagði honum erindi sitt, svá sem segir í Völsungakviðu inni fornu:"
+    },
+    {
+      "kind": "verse",
+      "text": "Sótti Sigrún\nsikling glaðan,\nheim nam hon Helga\nhönd at sækja,\nkyssti ok kvaddi\nkonung und hjalmi;\nþá varð hilmi\nhugr á vífi.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Fyrr lézk hon unna\naf öllum hug\nsyni Sigmundar\nen hon sét hafði.",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Var ek Höðbroddi\ní her föstnuð,\nen jöfur annan\neiga vildak;\nþó sjámk, fylkir,\nfrænda reiði,\nhefi ek míns föður\nmunráð brotit.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Nam-a Högna mær\nof hug mæla,\nhafa kvaðsk hon Helga\nhylli skyldu.",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hirð eigi þú\nHögna reiði\nné illan hug\nættar þinnar.\nÞú skalt, mær ung,\nat mér lifa;\nætt áttu, in góða,\ner ek eigi sjámk.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "prose",
+      "text": "Helgi samnaði þá miklum skipaher ok fór til Frekasteins, ok fengu í hafi ofviðri mannhætt. Þá kómu leiftr yfir þá, ok stóðu geislar í skipin. Þeir sá í loftinu, at valkyrjur níu riðu, ok kenndu þeir Sigrúnu. Þá lægði storminn, ok kómu þeir heilir til lands. Granmarssynir sátu á bjargi nokkuru, er skipin sigldu at landi. Guðmundr hljóp á hest ok reið á njósn á bergit við höfnina. Þá hlóðu Völsungar seglum. Þá kvað Guðmundr:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hver er skjöldungr,\nsá er skipum stýrir,\nlætr gunnfana\ngullinn fyr stafni?\nÞykkja mér fríð\ní fararbroddi;\nverpr vígroða\num víkinga.",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Sinfjötli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hér má Höðbroddr\nHelga kenna\nflótta trauðan\ní flota miðjum,\nhann hefir eðli\nættar þinnar\narf Fjörsunga,\nund sik þrungit.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðmundr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Því fyrr skulu\nat Frekasteini\nsáttir saman\num sakar dæma;\nmál er, Höðbroddr,\nhefnd at vinna\nef vér lægra hlut\nlengi bárum.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Sinfjötli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fyrr mundu, Guðmundr,\ngeitr of halda\nok bergskorar\nbrattar klífa,\nhafa þér í hendi\nheslikylfu,\nþat er þér blíðara\nen brimis dómar.",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þér er, Sinfjötli,\nsæmra miklu\ngunni at heyja\nok glaða örnu\nen ónýtum\norðum at bregða,\nþótt hildingar\nheiftir deili.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Þykkja-t mér góðir\nGranmars synir,\nþó dugir siklingum\nsatt at mæla;\nþeir merkt hafa\ná Móinsheimum,\nat hug hafa\nhjörum at bregða;\neru hildingar\nhölzti snjallir.",
+      "stanza": "24"
+    },
+    {
+      "kind": "prose",
+      "text": "Guðmundr reið heim með hersögu. Þá sömnuðu Granmarssynir her. Kómu þar margir konungar. Þar var Högni, faðir Sigrúnar, ok synir hans, Bragi ok Dagr. Þar var orrusta mikil, ok fellu allir Granmarssynir ok allir þeira höfðingjar nema Dagr Högnason fekk grið ok vann eiða Völsungum. Sigrún gekk í valinn ok hitti Höðbrodd at kominn dauða. Hon kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun-a þér, Sigrún\nfrá Sefafjöllum\nHöðbroddr konungr,\nhníga at armi;\nliðin er ævi\n- oft náir hrævi\ngránstóð gríðar, -\nGranmars sona.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Þá hitti hon Helga ok varð allfegin. Hann kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Er-at þér at öllu,\nalvitr, gefit,\n- þó kveð ek nökkvi\nnornir valda -:\nfellu í morgun\nat Frekasteini\nBragi ok Högni,\nvarð ek bani þeira.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "En at Styrkleifum\nStarkaðr konungr,\nen at Hlébjörgum\nHrollaugs synir;\nþann sá ek gylfa\ngrimmúðgastan,\ner barðisk bolr,\nvar á brott höfuð.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Liggja at jörðu\nallra flestir\nniðjar þínir,\nat náum orðnir;\nvannt-at-tu vígi,\nvar þér þat skapat,\nat þú at rógi\nríkmenni vart.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Þá grét Sigrún. Hann kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Huggastu, Sigrún!\nHildr hefr þú oss verið;\nvinna-t skjöldungar sköpum.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Lifna mynda ek nú kjósa, er liðnir eru, ok knætta ek þér þó í faðmi felask.\""
+    },
+    {
+      "kind": "prose",
+      "text": "Helgi fekk Sigrúnar, ok áttu þau sonu. Var Helgi eigi gamall. Dagr Högnason blótaði Óðin til föðurhefnda. Óðinn léði Dag geirs síns. Dagr fann Helga, mág sinn, þar sem heitir at Fjöturlundi. Hann lagði í gögnum Helga með geirnum. Þar fell Helgi, en Dagr reið til Sefafjalla ok sagði Sigrúnu tíðindi."
+    },
+    {
+      "kind": "verse",
+      "text": "\"Trauðr em ek, systir,\ntrega þér at segja,\nþví at ek hefi nauðigr\nnifti grætta;\nfell í morgun\nund Fjöturlundi\nbuðlungr, sá er var\nbeztr í heimi\nok hildingum\ná halsi stóð.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þik skyli allir\neiðar bíta,\nþeir er Helga\nhafðir unna\nat inu ljósa\nLeiftrar vatni\nok at úrsvölum\nUnnarsteini.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Skríði-at þat skip,\ner und þér skríði,\nþótt óskabyrr\neftir leggisk;\nrenni-a sá marr,\ner und þér renni,\nþóttú fjándr þína\nforðask eigir.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Bíti-a þér þat sverð,\ner þú bregðir,\nnema sjalfum þér\nsyngvi of höfði.\nÞá væri þér hefnt\nHelga dauða,\nef þú værir vargr\ná viðum úti\nauðs andvani\nok alls gamans,\nhefðir eigi mat,\nnema á hræjum spryngir.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Dagur kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ær ertu, systir,\nok örvita,\ner þú bræðr þínum\nbiðr forskapa;\neinn veldr Óðinn\nöllu bölvi,\nþví at með sifjungum\nsakrúnar bar.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Þér býðr bróðir\nbauga rauða,\nöll Vandilsvé\nok Vígdali;\nhafðu halfan heim\nharms at gjöldum,\nbrúðr baugvarið,\nok burir þínir.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sitk-a ek svá sæl\nat Sefafjöllum\nár né of nætr,\nat ek una lífi,\nnema at liði lofðungs\nljóma bregði,\nrenni und vísa\nVígblær þinig,\ngullbitli vanr,\nknega ek grami fagna.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Svá hafði Helgi\nhrædda görva\nfjándr sína alla\nok frændr þeira\nsem fyr ulfi\nóðar rynni\ngeitr af fjalli\ngeiskafullar.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Svá bar Helgi\naf hildingum\nsem ítrskapaðr\naskr af þyrni\neða sá dýrkalfr\ndöggu slunginn\ner efri ferr\nöllum dýrum\nok horn glóa\nvið himin sjalfan.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Haugr var gjörr eftir Helga. En er hann kom til Valhallar, þá bauð Óðinn honum öllu at ráða með sér. Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú skalt, Hundingr,\nhverjum manni\nfótlaug geta\nok funa kynda,\nhunda binda,\nhesta gæta,\ngefa svínum soð,\náðr sofa gangir.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Ambótt Sigrúnar gekk um aftan hjá haugi Helga ok sá, at Helgi reið til haugsins með marga menn. Ambótt kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvárt eru þat svik ein,\ner ek sjá þykkjumk,\neða ragnarök,\n- ríða menn dauðir,\ner jóa yðra\noddum keyrið -\neða er hildingum\nheimför gefin?\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Er-a þat svik ein,\ner þú sjá þykkisk,\nné aldar rof,\nþóttú oss lítir,\nþótt vér jóa óra\noddum keyrim,\nné er hildingum\nheimför gefin.\"\nHeim gekk ambátt ok sagði Sigrúnu:",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Út gakk þú, Sigrún\nfrá Sefafjöllum,\nef þik folks jaðar\nfinna lystir;\nupp er haugr lokinn,\nkominn er Helgi,\ndolgspor dreyra,\ndöglingr bað þik,\nat þú sárdropa\nsvefja skyldir.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrún gekk í hauginn til Helga ok kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nú em ek svá fegin\nfundi okkrum\nsem átfrekir\nÓðins haukar,\ner val vitu,\nvarmar bráðir,\neða dögglitir\ndagsbrún sjá.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Fyrr vil ek kyssa\nkonung ólifðan\nen þú blóðugri\nbrynju kastir;\nhár er þitt, Helgi,\nhélu þrungit,\nallr er vísi\nvaldögg sleginn,\nhendr úrsvalar\nHögna mági;\nhvé skal ek þér, buðlungr,\nþess bót of vinna?\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ein veldr þú, Sigrún\nfrá Sefafjöllum,\ner Helgi er\nharmdögg sleginn;\ngrætr þú, gullvarið,\ngrimmum tárum,\nsólbjört, suðræn,\náðr þú sofa gangir;\nhvert fellr blóðugt\ná brjóst grami,\núrsvalt, innfjalgt,\nekka þrungit.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Vel skulum drekka\ndýrar veigar,\nþótt misst hafim\nmunar ok landa;\nskal engi maðr\nangrljóð kveða,\nþótt mér á brjósti\nbenjar líti;\nnú eru brúðir\nbyrgðar í haugi,\nlofða dísir,\nhjá oss liðnum.\"\nSigrún bjó sæing í hauginum.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hér hefi ek þér, Helgi,\nhvílu görva\nangrlausa mjök,\nYlfinga niðr,\nvil ek þér í faðmi,\nfylkir, sofna\nsem ek lofðungi\nlifnum myndak.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nú kveð ek enskis\nörvænt vera\nsíð né snimma\nat Sefafjöllum,\ner þú á armi\nólifðum sefr,\nhvít, í haugi,\nHögna dóttir,\nok ertu kvik,\nin konungborna.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Mál er mér at ríða\nroðnar brautir,\nláta fölvan jó\nflugstíg troða;\nskal ek fyr vestan\nvindhjalms brúar,\náðr Salgófnir\nsigrþjóð veki.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "prose",
+      "text": "Þeir Helgi riðu leið sína, en þær fóru heim til bæjar. Annan aftan lét Sigrún ambótt halda vörð á hauginum. En at dagsetri, er Sigrún kom til haugsins, hon kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Kominn væri nú,\nef koma hygði,\nSigmundar burr\nfrá sölum Óðins;\nkveð ek grams þinig\ngrænask vánir,\ner á asklimum\nernir sitja\nok drífr drótt öll\ndraumþinga til.\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Ambótt kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Verðu eigi svá ær,\nat ein farir,\ndís skjöldunga,\ndraughúsa til;\nverða öflgari\nallir á nóttum\ndauðir dolgar, mær,\nen um daga ljósa.\"",
+      "stanza": "51"
+    },
+    {
+      "kind": "prose",
+      "text": "Sigrún varð skammlíf af harmi ok trega. Þat var trúa í forneskju, at menn væri endrbornir, en þat er nú kölluð kerlingavilla. Helgi ok Sigrún, er kallat, at væri endrborin. Hét hann þá Helgi Haddingjaskati, en hon Kára Hálfdanardóttir, svá sem kveðit er í Káruljóðum, ok var hon valkyrja."
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "King Sigmund, the son of Volsung, had as wife Borghild, from Bralund. They named their son Helgi, after Helgi Hjorvarthsson; Hagal was Helgi's foster-father. Hunding was the name of a powerful king, and Hundland is named from him. He was a mighty warrior, and had many sons with him on his campaigns. There was enmity and strife between these two, King Hunding and King Sigmund, and each slew the other's kinsmen. King Sigmund and his family were called Volsungs and Ylfings. Helgi went as a spy to the home of King Hunding in disguise. Hæming, a son of King Hunding's, was at home. When Helgi went forth, then he met a young herdsman, and said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Say to Hæming | that Helgi knows\nWhom the heroes | in armor hid;\nA gray wolf had they | within their hall,\nWhom King Hunding | Hamal thought.\"\nHamal was the name of Hagal's son. King Hunding",
+      "stanza": "1"
+    },
+    {
+      "kind": "prose",
+      "text": "sent men to Hagal to seek Helgi, and Helgi could not save himself in any other way, so he put on the clothes of a bond-woman and set to work at the mill. They sought Helgi but found him not."
+    },
+    {
+      "kind": "verse",
+      "text": "Then Blind spake out, | the evil-minded:\n\" Of Hagal's bond-woman | bright are the eyes;\nYon comes not of churls | who stands at the quern;\nThe millstones break, | the boards are shattered.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The hero has | a doom full hard,\nThat barley now | he needs must grind;\nBetter befits | his hand to feel\nThe hilt of the sword | than the millstone's handle.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Hagal answered and said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Small is the wonder | if boards are splintered\nBy a monarch's daughter | the mill is turned;\nOnce through clouds | she was wont to ride,\nAnd battles fought | like fighting men,\n(Till Helgi a captive | held her fast;\nSister she is | of Sigar and Hogni,\nThus bright are the eyes | of the Ylfings' maid.)\"\nHelgi escaped and went to a fighting ship. He slew King Hunding, and thenceforth was called Helgi Hundingsbane.\n(II)",
+      "stanza": "4"
+    },
+    {
+      "kind": "prose",
+      "text": "He lay with his host in Brunavagar, and they had there a strand-slaughtering, and ate the flesh raw. Hogni was the name of a king. His daughter was Sigrun; she was a Valkyrie and rode air and water; she was Svava reborn. Sigrun rode to Helgi's ship and said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Who rules the ship | by the shore so steep?\nWhere is the home | ye warriors have?\nWhy do ye bide | in Brunavagar,\nOr what the way | that ye wish to try?\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hamal's the ship | by the shore so steep,\nOur home in Hlesey | do we have;\nFor fair wind bide we | in Brunavagar,\nEastward the way | that we wish to try.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Where hast thou, warrior, | battle wakened,\nOr gorged the birds | of the sisters of Guth?\nWhy is thy byrnie | spattered with blood,\nWhy helmed dost feast | on food uncooked?\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Latest of all, | the Ylfings' son\nOn the western sea, | if know thou wilt,\nCaptured bears | in Bragalund,\nAnd fed the eagles | with edge of sword.\nNow is it shown | why our shirts are bloody,\nAnd little our food | with fire is cooked.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of battle thou tellest, | and there was bent\nHunding the king | before Helgi down;\nThere was carnage when thou | didst avenge thy kin,\nAnd blood flowed fast | on the blade of the sword.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"How didst thou know | that now our kin,\nMaiden wise, | we have well avenged?\nMany there are | of the sons of the mighty\nWho share alike | our lofty race.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Not far was I | from the lord of the folk,\nYester morn, | when the monarch was slain;\nThough crafty the son | of Sigmund, methinks,\nWhen he speaks of the fight | in slaughter-runes.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "\"On the long-ship once | I saw thee well,\nWhen in the blood-stained | bow thou wast,\n(And round thee icy | waves were raging;)\nNow would the hero | hide from me,\nBut to Hogni's daughter | is Helgi known.\"\n(III)",
+      "stanza": "12"
+    },
+    {
+      "kind": "prose",
+      "text": "Granmar was the name of a mighty king, who dwelt at Svarin's hill. He had many sons; one was named Hothbrodd, another Gothmund, a third Starkath. Hothbrodd was in a kings' meeting, and he won the promise of having Sigrun, Hogni's daughter, for his wife. But when she heard this, she rode with the Valkyries over air and sea to seek Helgi. Helgi was then at Logafjoll, and had fought with Hunding's sons; there he killed Alf and Eyolf, Hjorvarth and Hervarth."
+    },
+    {
+      "kind": "prose",
+      "text": "He was all weary with battle, and sat under the eagle-stone. There Sigrun found him, and ran to throw her arms about his neck, and kissed him, and told him her tidings, as is set forth in the old Volsung lay:"
+    },
+    {
+      "kind": "verse",
+      "text": "Sigrun the joyful | chieftain sought,\nForthwith Helgi's | hand she took;\nShe greeted the hero | helmed and kissed him,\nThe warrior's heart | to the woman turned.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "From her heart the daughter | of Hogni spake,\nDear was Helgi, | she said, to her;\n\"Long with all | my heart I loved\nSigmund's son | ere ever I saw him.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "\"At the meeting to Hothbrodd | mated I was,\nBut another hero | I fain would have;\nThough, king, the wrath | of my kin I fear,\nSince I broke my father's | fairest wish.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fear not ever | Hogni's anger,\nNor yet thy kinsmen's | cruel wrath;\nMaiden, thou | with me shalt live,\nThy kindred, fair one, | I shall not fear.\"\n(IV)",
+      "stanza": "16"
+    },
+    {
+      "kind": "prose",
+      "text": "Helgi then assembled a great sea-host and went to Frekastein. On the sea he met a perilous storm; lightning flashed overhead and the bolts struck the ship. They saw in the air that nine Valkyries were riding, and recognized Sigrun among them. Then the storm abated, and they came safe and sound to land. Granmar's sons sat on a certain mountain as the ships sailed toward the land. Gothmund leaped on a horse and rode for news to a promontory near the harbor; the Volsungs were even then lowering their sails."
+    },
+    {
+      "kind": "prose",
+      "text": "Then Gothmund said, as is written before in the Helgi lay:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Who is the king | who captains the fleet, And to the land | the warriors leads?\""
+    },
+    {
+      "kind": "prose",
+      "text": "Sinfjotli, Sigmund's son, answered him, and that too is written."
+    },
+    {
+      "kind": "prose",
+      "text": "Gothmund rode home with his tidings of the host; then Granmar's sons summoned an army. Many kings came there; there were Hogni, Sigrun's father, and his sons Bragi and Dag. There was a great battle, and all Granmar's sons were slain and all their allies; only Dag, Hogni's son, was spared, and he swore loyalty to the Volsungs. Sigrun went among the dead and found Hothbrodd at the coming of death. She said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Never shall Sigrun | from Sevafjoll,\nHothbrodd king, | be held in thine arms;\nGranmar's sons | full cold have grown,\nAnd the giant-steeds gray | on corpses gorge.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Then she sought out Helgi, and was full of joy He said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Maid, not fair | is all thy fortune,\nThe Norris I blame | that this should be;\nThis morn there fell | at Frekastein\nBragi and Hogni | beneath my hand.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "\"At Hlebjorg fell | the sons of Hrollaug,\nStarkath the king | at Styrkleifar;\nFighters more noble | saw I never,\nThe body fought | when the head had fallen.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "\"On the ground full low | the slain are lying,\nMost are there | of the men of thy race;\nNought hast thou won, | for thy fate it was\nBrave men to bring | to the battle-field.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Then Sigrun wept. | Helgi said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Grieve not, Sigrun, | the battle is gained,\nThe fighter can shun not his fate.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"To life would I call | them who slaughtered lie, If safe on thy breast I might be.\""
+    },
+    {
+      "kind": "prose",
+      "text": "(V) This Gothmund the son of Granmar spoke:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What hero great | is guiding the ships?\nA golden flag | on the stem he flies;\nI find not peace in | the van of your faring,\nAnd round the fighters | is battle-light red.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Sinfjotli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Here may Hothbrodd | Helgi find,\nThe hater of flight, | in the midst of the fleet;\nThe home of all | thy race he has,\nAnd over the realm | of the fishes he rules.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Gothmund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First shall swords | at Frekastein\nProve our worth | in place of words;\nTime is it, Hothbrodd, | vengeance to have,\nIf in battle worsted | once we were.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Sinfjotli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Better, Gothmund, | to tend the goats,\nAnd climb the rocks | of the mountain cliffs;\nA hazel switch | to hold in thy hand\nMore seemly were | than the hilt of a sword.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Better, Sinfjotli, | thee 'twould beseem\nBattles to give, | and eagles to gladden,\nThan vain and empty | speech to utter,\nThough warriors oft | with words do strive.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Good I find not | the sons of Granmar,\nBut for heroes 'tis seemly | the truth to speak;\nAt Moinsheimar | proved the men\nThat hearts for the wielding | of swords they had,\n(And ever brave | the warriors are.)\"\n(VI)",
+      "stanza": "27"
+    },
+    {
+      "kind": "prose",
+      "text": "Helgi took Sigrun to wife, and they had sons. Helgi did not reach old age. Dag, the son of Hogni, offered sacrifice to Othin to be avenged for his father's death; Othin gave Dag his spear. Dag found Helgi, his brother-in-law, at a place which is called Fjoturlund. He thrust the spear through Helgi's body. Then Helgi fell, and Dag rode to Sevafjoll and told Sigrun the tidings:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sad am I, sister, | sorrow to tell thee,\nWoe to my kin | unwilling I worked;\nIn the morn there fell | at Fjoturlund\nThe noblest prince | the world has known,\n(And his heel he set | on the heroes' necks.)\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now may every | oath thee bite\nThat with Helgi | sworn thou hast,\nBy the water | bright of Leipt,\nAnd the ice-cold | stone of Uth.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The ship shall sail not | in which thou sailest,\nThough a favoring wind | shall follow after;\nThe horse shall run not | whereon thou ridest,\nThough fain thou art | thy foe to flee.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\n. . . . . . . . . .\n\"The sword shall bite not | which thou bearest,\nTill thy head itself | it sings about.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vengeance were mine | for Helgi's murder,\nWert thou a wolf | in the woods without,\nPossessing nought | and knowing no joy,\nHaving no food | save corpses to feed on.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Dag spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mad art thou, sister, | and wild of mind,\nSuch a curse | on thy brother to cast;\nOthin is ruler | of every ill,\nWho sunders kin | with runes of spite.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy brother rings | so red will give thee,\nAll Vandilsve | and Vigdalir;\nTake half my land | to pay the harm,\nRing-decked maid, | and as meed for thy sons.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I shall sit not happy | at Sevafjoll,\nEarly or late, | my life to love,\nIf the light cannot show, | in the leader's band,\nVigblær bearing him | back to his home,\n(The golden-bitted; | I shall greet him never.)",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Such the fear | that Helgi's foes\nEver felt, | and all their kin,\nAs makes the goats | with terror mad\nRun from the wolf | among the rocks.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Helgi rose | above heroes all\nLike the lofty ash | above lowly thorns,\nOr the noble stag, | with dew besprinkled,\nBearing his head | above all beasts,\n(And his horns gleam bright | to heaven itself.)\nA hill was made in Helgi's memory. And when he\ncame to Valhall, then Othin bade him rule over every thing with himself.\n(VII)",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou shalt, Hunding, | of every hero\nWash the feet, | and kindle the fire,\nTie up dogs, | and tend the horses,\nAnd feed the swine | ere to sleep thou goest.\"\n(VIII)",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "One of Sigrun's maidens went one evening to Helgi's hill, and saw that Helgi rode to the hill with many men, The maiden said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Is this a dream | that methinks I see,\nOr the doom of the gods, | that dead men ride,\nAnd hither spurring | urge your steeds,\nOr is home-coming now | to the heroes granted?\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"No dream is this | that thou thinkest to see,\nNor the end of the world, | though us thou beholdest,\nAnd hither spurring | we urge our steeds,\nNor is home-coming now | to the heroes granted.\"\nThe maiden went home and said to Sigrun:",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Go forth, Sigrun, | from Sevafjoll,\nIf fain the lord | of the folk wouldst find;\n(The hill is open, | Helgi is come;)\nThe sword-tracks bleed; | the monarch bade\nThat thou his wounds | shouldst now make well.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrun went in the hill to Helgi, and said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now am I glad | of our meeting together,\nAs Othin's hawks, | so eager for prey,\nWhen slaughter and flesh | all warm they scent,\nOr dew-wet see | the red of day.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First will I kiss | the lifeless king,\nEre off the bloody | byrnie thou cast;\nWith frost thy hair | is heavy, Helgi,\nAnd damp thou art | with the dew of death;\n(Ice-cold hands | has Hogni's kinsman,\nWhat, prince, can I | to bring thee ease?)\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou alone, Sigrun | of Sevafjoll,\nArt cause that Helgi | with dew is heavy;\nGold-decked maid, | thy tears are grievous,\n(Sun-bright south-maid, | ere thou sleepest;)\nEach falls like blood | on the hero's breast,\n(Burned-out, cold, | and crushed with care.)",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Well shall we drink | a noble draught,\nThough love and lands | are lost to me;\nNo man a song | of sorrow shall sing,\nThough bleeding wounds | are on my breast;\nNow in the hill | our brides we hold,\nThe heroes' loves, | by their husbands dead.\"\nSigrun made ready a bed in the hill.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Here a bed | I have made for thee, Helgi,\nTo rest thee from care, | thou kin of the Ylfings;\nI will make thee sink | to sleep in my arms,\nAs once I lay | with the living king.\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Helgi spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now do I say | that in Sevafjoll\nAught may happen, | early or late,\nSince thou sleepest clasped | in a corpse's arms,\nSo fair in the hill, | the daughter of Hogni!\n(Living thou comest, | a daughter of kings.)",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now must I ride | the reddened ways,\nAnd my bay steed set | to tread the sky;\nWestward I go | to wind-helm's bridges,\nEre Salgofnir wakes | the warrior throng.\"\nThen Helgi and his followers rode on their way, and\nthe women went home to the dwelling. Another evening Sigrun bade the maiden keep watch at the hill. And at sunset when Sigrun came to the hill she said:",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now were he come, | if come he might,\nSigmund's son, | from Othin's seat;\nHope grows dim | of the hero's return\nWhen eagles sit | on the ash-tree boughs,\nAnd men are seeking | the meeting of dreams.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "The Maiden said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mad thou wouldst seem | alone to seek,\nDaughter of heroes, | the house of the dead;\nFor mightier now | at night are all\nThe ghosts of the dead | than when day is bright.\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "prose",
+      "text": "Sigrun was early dead of sorrow and grief. It was believed in olden times that people were born again, but that is now called old wives' folly. Of Helgi and Sigrun it is said that they were born again; he became Helgi Haddingjaskati, and she Kara the daughter of Halfdan, as is told in the Lay of Kara, and she was a Valkyrie."
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Völsungakviða_in_forna",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe20.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

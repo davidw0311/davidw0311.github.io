@@ -5,7 +5,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ListBullets } from "@phosphor-icons/react/dist/ssr";
 import { regiusStories } from "@/data/codexRegius";
+import { glossaryForStory, usedGlossary } from "@/data/codexRegiusTerms";
 import { RememberStory } from "../reader";
+import { GlossaryScope } from "../glossary";
+import { createGlossedText } from "../glossed-text";
 import styles from "../regius.module.css";
 
 export function generateStaticParams() { return regiusStories.map(story => ({ slug: story.slug })); }
@@ -23,6 +26,8 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
   if (!story) notFound();
   const previous = regiusStories[story.number - 2];
   const next = regiusStories[story.number];
+  const glossary = usedGlossary(glossaryForStory(slug), [...story.paragraphs, ...story.quotes.flatMap(quote => [quote.norse, quote.english])]);
+  const renderText = createGlossedText(glossary);
   return <main id="book-content" className={styles.readingPage}>
     <RememberStory slug={slug} />
     <nav className={styles.readingNav} aria-label="Collection navigation"><Link href="/projects/codex-regius/#contents"><ListBullets size={19} /> All stories</Link><span>{String(story.number).padStart(2, "0")} / 31</span></nav>
@@ -32,21 +37,24 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
         <h1>{story.subtitle}</h1>
         <p className={styles.originalTitle} lang="non">{story.title}</p>
       </header>
+      <div className={styles.readingEditions}><Link href={`/projects/codex-regius/${slug}/original/`}>Read the full original & translation <ArrowRight size={17} /></Link><p>Tap an underlined name for a short explanation.</p></div>
       {story.image && <figure className={styles.storyArt}><Image src={story.image} alt={story.imageAlt ?? "Illustration from the original booklet"} width={1122} height={1402} priority sizes="(max-width: 767px) calc(100vw - 44px), 480px" /></figure>}
+      <GlossaryScope entries={glossary}>
       <div className={styles.prose}>{story.paragraphs.map((paragraph, i) => <Fragment key={i}>
-        <p>{paragraph}</p>
+        <p>{renderText({ text: paragraph })}</p>
         {story.quotes.filter(quote => quote.after === i + 1).map(quote => <figure className={styles.excerpt} key={quote.stanza}>
           <figcaption>Old Norse · {quote.stanza.startsWith("Prose") ? quote.stanza : `Stanza ${quote.stanza}`}</figcaption>
-          <blockquote lang="non">{quote.norse}</blockquote>
-          <div className={styles.translation}><span>English</span><p lang="en">{quote.english}</p></div>
+          <blockquote lang="non">{renderText({ text: quote.norse })}</blockquote>
+          <div className={styles.translation}><span>English</span><p lang="en">{renderText({ text: quote.english })}</p></div>
         </figure>)}
       </Fragment>)}</div>
+      </GlossaryScope>
       <div className={styles.storyEnd} aria-hidden="true">⁂</div>
       <section className={styles.sourceNote} aria-labelledby="retelling-note">
         <h2 id="retelling-note">About this retelling</h2>
         <p>{story.note}</p>
         <p>The Old Norse follows a normalized edition, rather than the manuscript’s exact spelling. The English beneath each quotation is a new rendering for this reader. Stanza numbers follow the linked Norse text.</p>
-        <div className={styles.sourceLinks}><a href={story.norseSource} target="_blank" rel="noopener noreferrer">Old Norse text ↗</a><a href={story.translationSource} target="_blank" rel="noopener noreferrer">Bellows’s 1923 translation ↗</a></div>
+        <div className={styles.sourceLinks}><Link href={`/projects/codex-regius/${slug}/original/`}>Full original & English translation →</Link><a href={story.norseSource} target="_blank" rel="noopener noreferrer">Old Norse source ↗</a><a href={story.translationSource} target="_blank" rel="noopener noreferrer">Translation source ↗</a></div>
         <p>{story.kind} · {story.wordCount.toLocaleString("en")} English words · Reading time at 170 words per minute</p>
       </section>
     </article>

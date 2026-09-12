@@ -1,0 +1,983 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Grípir hét sonr Eylima, bróðir Hjördísar. Hann réð löndum ok var allra manna vitrastr ok framvíss. Sigurðr reið einn saman ok kom til hallar Grípis. Sigurðr var auðkenndr. Hann hitti mann at máli úti fyrir höllini. Sá nefndist Geitir. Þá kvaddi Sigurðr hann máls ok spyrr:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hverr byggir hér\nborgir þessar?\nHvat þann þjóðkonung\nþegnar nefna?\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Geitir kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Grípir heitir gumna stóri, sá er fastri ræðr foldu ok þegnum.\""
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Er horskr konungr\nheima í landi?\nMun sá gramr við mik\nganga at mæla?\nMáls er þarfi\nmaðr ókunnigr,\nvil ek fljótliga\nfinna Grípi.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Geitir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þess mun glaðr konungr\nGeiti spyrja,\nhverr sá maðr sé,\ner máls kveðr Grípi.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Sigurðr ek heiti, borinn Sigmundi, en Hjördís er hilmis móðir.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Þá gekk Geitir\nGrípi at segja;\n\"Hér er maðr úti\nókuðr kominn;\nhann er ítarligr\nat áliti;\nsá vill, fylkir,\nfund þinn hafa.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Gengr ór skála\nskatna dróttinn\nok heilsar vel\nhilmi komnum:\n\"þiggðu hér, Sigurðr,\nværi sæmra fyrr,\nen þú, Geitir, tak\nvið Grana sjalfum.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Mæla námu\nok margt hjala\nþá er ráðspakir\nrekkar fundusk.",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Segðu mér, ef þú veizt, móðurbróðir: Hvé mun Sigurði snúna ævi.\""
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú munt maðr vera\nmæztr und sólu\nok hæstr borinn\nhverjum jöfri,\ngjöfull af gulli,\nen glöggr flugar,\nítr áliti\nok í orðum spakr.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu, gegn konungr,\ngerr en ek spyrja,\nsnotr, Sigurði,\nef þú sjá þykkisk:\nHvat mun fyrst gerask\ntil farnaðar,\nþá er ór garði emk\ngenginn þínum?\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fyrst muntu, fylkir,\nföður of hefna,\nok Eylima\nalls harms reka;\nþú munt harða\nHundings sonu\nsnjalla fella,\nmuntu sigr hafa.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu, ítr konungr,\nættingi, mér\nheldr horskliga,\ner vit hugat mælum:\nSér þú Sigurðar\nsnör brögð fyrir,\nþau er hæst fara\nund himinskautum?\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Muntu einn vega\norm inn frána,\nþann er gráðugr liggr\ná Gnitaheiði;\nþú munt báðum\nat bana verða\nRegin ok Fáfni,\nrétt segir Grípir.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Auðr mun ærinn,\nef ek eflik svá\nvíg með virðum,\nsem víst segir;\nleið at huga\nok lengra seg:\nHvat mun enn vera\nævi minnar?\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú munt finna\nFáfnis bæli\nok upp taka\nauð inn fagra,\ngulli hlæða\ná Grana bógu;\nríðr þú til Gjúka,\ngramr vígrisinn.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Enn skaltu hilmi\ní hugaðsræðu,\nframlyndr jöfurr,\nfleira segja.\nGestr em ek Gjúka\nok ek geng þaðan,\nhvat mun enn vera\nævi minnar?\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sefr á fjalli\nfylkis dóttir\nbjört í brynju\neftir bana Helga;\nþú munt höggva\nhvössu sverði,\nbrynju rísta\nmeð bana Fáfnis.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Brotin er brynja,\nbrúðr mæla tekr,\ner vaknaði\nvíf ór svefni.\nHvat mun snót at heldr\nvið Sigurð mæla,\nþat er at farnaði\nfylki verði?\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hon mun ríkjum þér\nrúnar kenna,\nallar þær er aldir\neignask vildu,\nok á manns tungu\nmæla hverja,\nlíf með lækning;\nlifðu heill, konungr.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nú er því lokit,\nnumin eru fræði\nok em braut þaðan\nbúinn at ríða,\nleið at huga\nok lengra seg:\nHvat mun meir vera\nminnar ævi?\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú munt hitta\nHeimis byggðir\nok glaðr vera\ngestr þjóðkonungs;\nfarit er, Sigurðr,\nþats ek fyrir vissak,\nskal-a fremr en svá\nfregna Grípi.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nú fær mér ekka\norð þatstu mæltir,\nþví at þú fram of sér\nfylkir, lengra;\nveiztu ofmikit\nangr Sigurði,\nþví þú, Grípir, þat\ngerr-a segja.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lá mér um æsku\nævi þinnar\nljósast fyrir\nlíta eftir;\nrétt em ek\nráðspakr taliðr\nné in heldr framvíss,\nfarit þats ek vissak.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mann veit ek engi\nfyr mold ofan,\nþann er fleira sé\nfram en þú, Grípir;\nskal-at-tu leyna,\nþótt ljót séi,\neða mein gerisk\ná mínum hag.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Er-a með löstum\nlögð ævi þér,\nláttu, inn ítri, þat,\nöðlingr, nemask,\nþví at uppi mun,\nmeðan öld lifir,\nnaddéls boði,\nnafn þitt vera.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Verst hyggjum því,\nverðr at skiljask\nSigurðr við fylki\nat sógöru;\nleið vísa þú,\n- lagt er allt fyrir -\nmærr, mér, ef þú vilt,\nmóðurbróðir.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nú skal Sigurði\nsegja görva,\nalls þengill mik\ntil þess neyðir;\nmuntu víst vita\nat vætki lýgr;\ndægr eitt er þér\ndauði ætlaðr.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vilk-at ek reiði\nríks þjóðkonungs,\ngóð ráð at heldr\nGrípis þiggja;\nnú vill víst vita,\nþótt viltki sé,\nhvat á sýnt Sigurðr\nsér fyr höndum.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fljóð er at Heimis\nfagrt álitum,\nhana Brynhildi\nbragnar nefna,\ndóttir Buðla,\nen dýrr konungr\nharðugðigt man\nHeimir fæðir.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er mik at því,\nþótt mær séi\nfögr áliti\nfædd at Heimis?\nÞat skaltu, Grípir,\ngörva segja,\nþví at þú öll of sér\nörlög fyrir.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hon firrir þik\nflestu gamni,\nfögr áliti,\nfóstra Heimis,\nsvefn þú né sefr\nné of sakar dæmir,\ngár-a þú manna\nnema þú mey séir.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat mun til líkna\nlagt Sigurði?\nSegðu, Grípir, þat,\nef þú sjá þykkisk:\nMun ek mey ná\nmundi kaupa,\nþá ina fögru\nfylkis dóttur?\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"It munuð alla\neiða vinna\nfullfastliga,\nfá munuð halda;\nverit hefr þú Gjúka\ngestr eina nótt,\nmant-at-tu horska\nHeimis fóstru.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þá, Grípir,\nget þú þess fyr mér,\nsér þú geðleysi\ní grams skapi,\ner ek skal við mey þá\nmálum slíta,\ner ek alls hugar\nunna þóttumk.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú verðr, siklingr,\nfyr svikum annars,\nmuntu Grímhildar\ngjalda ráða,\nmun bjóða þér\nbjarthaddat man\ndóttur sína,\ndregr hon vél at gram.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun ek við þá Gunnar\ngörva hleyti\nok Guðrúnu\nganga at eiga?\nFullkvæni þá\nfylkir væri,\nef meintregar\nmér angraði-t.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þik mun Grímhildr\ngörva véla,\nmun hon Brynhildar\nbiðja fýsa\nGunnari til handa,\nGotna dróttni,\nheitr þú fjótliga för\nfylkis móður.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mein eru fyr höndum,\nmá ek líta þat;\nratar görliga\nráð Sigurðar,\nef ek skal mærrar\nmeyjar biðja\nöðrum til handa,\nþeirar ek unna vel.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ér munuð allir\neiða vinna\nGunnar ok Högni,\nen þú, gramr, þriði;\nþá it litum víxlið,\ner á leið eruð,\nGunnar ok þú;\nGrípir lýgr eigi.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hví gegnir þat?\nHví skulum skipta\nlitum ok látum,\ner á leið erum?\nÞar mun fláræði\nfylgja annat\natalt með öllu;\nenn segðu, Grípir.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lit hefir þú Gunnars\nok læti hans,\nmælsku þína\nok meginhyggjur;\nmuntu fastna þér\nframlundaða\nfóstru Heimis,\nsér vætr fyr því.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Verst hyggjum því,\nvándr munk heitinn\nSigurðr með seggjum\nat sógöru;\nvilda ek eigi\nvélum beita\njöfra brúði,\ner ek æðsta veitk.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú munt hvíla,\nhers oddviti\nmærr, hjá meyju\nsem þín móðir sé;\nþví mun uppi,\nmeðan öld lifir,\nþjóðar þengill,\nþitt nafn vera.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun góða kván\nGunnarr eiga,\nmærr með mönnum,\n- mér segðu, Grípir, -\nþótt hafi þrjár nætr\nþegns brúðr hjá mér\nsnarlynd sofit?\nSlíks eru-t dæmi.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Saman munu brullup\nbæði drukkin\nSigurðar ok Gunnars\ní sölum Gjúka;\nþá hömum víxlið,\ner it heim komið;\nhefr hvárr fyr því\nhyggju sína.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvé mun at ynði\neftir verða\nmægð með mönnum?\nMér segðu, Grípir.\nMun Gunnari\ntil gamans ráðit\nsíðan verða\neða sjalfum mér?\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Minnir þik eiða,\nmáttu þegja þó,\nanntu Guðrúnu\ngóðra ráða;\nen Brynhildr þykkisk\nbrúðr vargefin,\nsnót fiðr vélar\nsér at hefndum.\"",
+      "stanza": "45"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat mun at bótum\nbrúðr sú taka,\ner vélar vér\nvífi gerðum?\nHefir snót af mér\nsvarna eiða\nenga efnda,\nen unað lítit.\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun hon Gunnari\ngörva segja,\nat þú eigi vel\neiðum þyrmðir,\nþá er ítr konungr\naf öllum hug,\nGjúka arfi,\ná gram trúði.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þá, Grípir,\nget þú þess fyr mér,\nmun ek saðr vera\nat sögu þeiri,\neða lýgr á mik\nlofsæl kona\nok á sjalfa sik?\nSegðu, Grípir, þat.\"",
+      "stanza": "48"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun fyr reiði\nrík brúðr við þik\nné af oftrega\nallvel skipa;\nviðr þú góðri\ngrand aldrigi,\nþó ér víf konungs\nvélum beittuð.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mun horskr Gunnarr\nat hvötun hennar\nGutþormr ok Högni\nganga síðan?\nMunu synir Gjúka\ná sifjugum mér\neggjar rjóða?\nEnn segðu, Grípir.\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Grípir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þá er Guðrúnu\ngrimmt um hjarta;\nbræðr hennar\nþér til bana ráða,\nok at engu verðr\nynði síðan\nvitru vífi;\nveldr því Grímhildr.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Því skal hugga þik,\nhers oddviti,\nsú mun gift lagið\ná grams ævi:\nMun-at mætri maðr\ná mold koma\nund sólar sjöt,\nen þú, Sigurðr, þykkir.\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Skiljumk heilir,\nmun-at sköpum vinna.\nNú hefir þú, Grípir, vel\ngört sem ek beiddak.\nFljótt myndir þú\nfríðri segja\nmína ævi,\nef þú mættir þat.\"",
+      "stanza": "53"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Gripir was the name of Eylimi's son, the brother of Hjordis; he ruled over lands and was of all men the wisest and most forward-seeing. Sigurth once was riding alone and came to Gripir's hall. Sigurth was easy to recognize; he found out in front of the hall a man whose name was Geitir. Then Sigurth questioned him and asked:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Who is it has | this dwelling here,\nOr what do men call | the people's king?\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Geitir spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Gripir the name | of the chieftain good Who holds the folk | and the firm-ruled land.\""
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Is the king all-knowing | now within,\nWill the monarch come | with me to speak?\nA man unknown | his counsel needs,\nAnd Gripir fain | I soon would find.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Geitir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The ruler glad | of Geitir will ask\nWho seeks with Gripir | speech to have.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Sigurth am I, | and Sigmund's son, And Hjordis the name | of the hero's mother.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Then Geitir went | and to Gripir spake:\n\"A stranger comes | and stands without;\nLofty he is | to look upon,\nAnd, prince, thyself | he fain would see.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "From the hall the ruler | of heroes went,\nAnd greeted well | the warrior come:\n\"Sigurth, welcome | long since had been thine;\nNow, Geitir, shalt thou | Grani take.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Then of many | things they talked,\nWhen thus the men | so wise had met.",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"To me, if thou knowest, | my mother's brother, Say what life | will Sigurth's be.\""
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of men thou shalt be | on earth the mightiest,\nAnd higher famed | than all the heroes;\nFree of gold-giving, | slow to flee,\nNoble to see, | and sage in speech.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Monarch wise, | now more I ask;\nTo Sigurth say, | if thou thinkest to see,\nWhat first will chance | of my fortune fair,\nWhen hence I go | from out thy home?\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First shalt thou, prince, | thy father avenge,\nAnd Eylimi, | their ills requiting;\nThe hardy sons | of Hunding thou\nSoon shalt fell, | and victory find.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Noble king, | my kinsman, say\nThy meaning true, | for our minds we speak:\nFor Sigurth mighty | deeds dost see,\nThe highest beneath | the heavens all?\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The fiery dragon | alone thou shalt fight\nThat greedy lies | at Gnitaheith;\nThou shalt be of Regin | and Fafnir both\nThe slayer; truth | doth Gripir tell thee.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Rich shall I be | if battles I win\nWith such as these, | as now thou sayest;\nForward look, | and further tell:\nWhat the life | that I shall lead?\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fafnir's den | thou then shalt find,\nAnd all his treasure | fair shalt take;\nGold shalt heap | on Grani's back,\nAnd, proved in fight, | to Gjuki fare.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To the warrior now | in words. so wise,\nMonarch noble, | more shalt tell;\nI am Gjuki's guest, | and thence I go:\nWhat the life | that I shall lead?\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"On the rocks there sleeps | the ruler's daughter,\nFair in armor, | since Helgi fell;\nThou shalt cut | with keen-edged sword,\nAnd cleave the byrnie | with Fafnir's killer.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The mail-coat is broken, | the maiden speaks,\nThe woman who | from sleep has wakened;\nWhat says the maid | to Sigurth then\nThat happy fate | to the hero brings?\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Runes to the warrior | will she tell,\nAll that men | may ever seek,\nAnd teach thee to speak | in all men's tongues,\nAnd life with health; | thou'rt happy, king!\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now is it ended, | the knowledge is won,\nAnd ready I am | forth thence to ride;\nForward look | and further tell:\nWhat the life | that I shall lead?\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Then to Heimir's | home thou comest,\nAnd glad shalt be | the guest of the king;\nEnded, Sigurth, | is all I see,\nNo further aught | of Gripir ask.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sorrow brings me | the word thou sayest,\nFor, monarch, forward | further thou seest;\nSad the grief | for Sigurth thou knowest,\nYet nought to me, Gripir, | known wilt make.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Before me lay | in clearest light\nAll of thy youth | for mine eyes to see;\nNot rightly can I | wise be called,\nNor forward-seeing; | my wisdom is fled.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"No man, Gripir, | on earth I know\nWho sees the future | as far as thou;\nHide thou nought, | though hard it be,\nAnd base the deeds | that I shall do.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"With baseness never | thy life is burdened,\nHero noble, | hold that sure;\nLofty as long | as the world shall live,\nBattle-bringer, | thy name shall be.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nought could seem worse, | but now must part\nThe prince and Sigurth, | since so it is,\nMy road I ask,-- | the future lies open,--\nMighty one, speak, | my mother's brother.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now to Sigurth | all shall I say,\nFor to this the warrior | bends my will;\nThou knowest well | that I will not lie,--\nA day there is | when thy death is doomed.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"No scorn I know | for the noble king,\nBut counsel good | from Gripir I seek;\nWell will I know, | though evil awaits,\nWhat Sigurth may | before him see.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A maid in Heimir's | home there dwells,\nBrynhild her name | to men is known,\nDaughter of Buthli, | the doughty king,\nAnd Heimir fosters | the fearless maid.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What is it to me, | though the maiden be\nSo fair, and of Heimir | the fosterling is?\nGripir, truth | to me shalt tell,\nFor all of fate | before me thou seest.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of many a joy | the maiden robs thee,\nFair to see, | whom Heimir fosters;\nSleep thou shalt find not, | feuds thou shalt end not,\nNor seek out men, | if the maid thou seest not.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What may be had | for Sigurth's healing?\nSay now, Gripir, | if see thou canst;\nMay I buy the maid | with the marriage-price,\nThe daughter fair | of the chieftain famed?\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ye twain shall all | the oaths then swear\nThat bind full fast; | few shall ye keep;\nOne night when Gjuki's | guest thou hast been,\nWill Heimir's fosterling | fade from thy mind.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What sayst thou, Gripir? | give me the truth,\nDoes fickleness hide | in the hero's heart?\nCan it be that troth | I break with the maid,\nWith her I believed | I loved so dear?\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tricked by another, | prince, thou art,\nAnd the price of Grimhild's | wiles thou must pay;\nFain of thee | for the fair-haired maid,\nHer daughter, she is, | and she drags thee down.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Might I with Gunnar | kinship make,\nAnd Guthrun win | to be my wife,\nWell the hero | wedded would be,\nIf my treacherous deed | would trouble me not.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Wholly Grimhild | thy heart deceives,\nShe will bid thee go | and Brynhild woo\nFor Gunnar's wife, | the lord of the Goths;\nAnd the prince's mother | thy promise shall win.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Evil waits me, | well I see it,\nAnd gone is Sigurth's | wisdom good,\nIf I shall woo | for another to win\nThe maiden fair | that so fondly I loved.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ye three shall | all the oaths then take,\nGunnar and Hogni, | and, hero, thou;\nYour forms ye shall change, | as forth ye tare,\nGunnar and thou; | for Gripir lies not.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"How meanest thou? | Why make we the change\nOf shape and form | as forth we fare?\nThere must follow | another falsehood\nGrim in all ways; | speak on, Gripir!\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The form of Gunnar | and shape thou gettest,\nBut mind and voice | thine own remain;\nThe hand of the fosterling | noble of Heimir\nNow dost thou win, | and none can prevent.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Most evil it seems, | and men will say\nBase is Sigurth | that so he did;\nNot of my will shall | I cheat with wiles\nThe heroes' maiden | whom noblest I hold.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou dwellest, leader | lofty of men,\nWith the maid as if | thy mother she were;\nLofty as long | as the world shall live,\nRuler of men, | thy name shall remain.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Shall Gunnar have | a goodly wife,\nFamed among men,-- | speak forth now, Gripir!\nAlthough at my side | three nights she slept,\nThe warrior's bride? | Such ne'er has been.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The marriage draught | will be drunk for both,\nFor Sigurth and Gunnar, | in Gjuki's hall;\nYour forms ye change, | when home ye fare,\nBut the mind of each | to himself remains.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Shall the kinship new | thereafter come\nTo good among us? | Tell me, Gripir!\nTo Gunnar joy | shall it later give,\nOr happiness send | for me myself?\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thine oaths remembering, | silent thou art,\nAnd dwellest with Guthrun | in wedlock good;\nBut Brynhild shall deem | she is badly mated,\nAnd wiles she seeks, | herself to avenge.\"",
+      "stanza": "45"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What may for the bride | requital be,\nThe wife we won | with subtle wiles?\nFrom me she has | the oaths I made,\nAnd kept not long; | they gladdened her little.\"",
+      "stanza": "46"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To Gunnar soon | his bride will say\nThat ill didst thou | thine oath fulfill,\nWhen the goodly king, | the son of Gjuki,\nWith all his heart | the hero trusted.\"",
+      "stanza": "47"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What sayst thou, Gripir? | give me the truth!\nAm I guilty so | as now is said,\nOr lies does the far-famed | queen put forth\nOf me and herself? | Yet further speak.\"",
+      "stanza": "48"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In wrath and grief | full little good\nThe noble bride | shall work thee now;\nNo shame thou gavest | the goodly one,\nThough the monarch's wife | with wiles didst cheat.\"",
+      "stanza": "49"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Shall Gunnar the wise | to the woman's words,\nAnd Gotthorm and Hogni, | then give heed?\nShall Gjuki's sons, | now tell me, Gripir,\nRedden their blades | with their kinsman's blood?\"",
+      "stanza": "50"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heavy it lies | on Guthrun's heart,\nWhen her brothers all | shall bring thee death;\nNever again | shall she happiness know,\nThe woman so fair; | 'tis Grimhild's work.\"",
+      "stanza": "51"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now fare thee well! | our fates we shun not;\nAnd well has Gripir | answered my wish;\nMore of joy | to me wouldst tell\nOf my life to come | if so thou couldst.\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Gripir spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "53 \"Ever remember, ruler of men, That fortune lies in the hero's life; A nobler man shall never live Beneath the sun than Sigurth shall seem.\""
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Grípisspá",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe22.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

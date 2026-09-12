@@ -1,0 +1,435 @@
+{
+  "norse": [
+    {
+      "kind": "verse",
+      "text": "Vreiðr var þá Vingþórr\ner hann vaknaði\nok síns hamars\nof saknaði,\nskegg nam at hrista,\nskör nam at dýja,\nréð Jarðar burr\num at þreifask.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Ok hann þat orða",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "alls fyrst of kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Heyrðu nú, Loki, hvat ek nú mæli er eigi veit jarðar hvergi né upphimins: áss er stolinn hamri!\""
+    },
+    {
+      "kind": "verse",
+      "text": "Gengu þeir fagra\nFreyju túna,\nok hann þat orða",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "alls fyrst of kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Muntu mér, Freyja, fjaðrhams léa, ef ek minn hamar mættak hitta?\"."
+    },
+    {
+      "kind": "heading",
+      "text": "Freyja kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þó munda ek gefa þér\nþótt ór gulli væri,\nok þó selja,\nat væri ór silfri.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Fló þá Loki,\n- fjaðrhamr dunði, -\nunz fyr útan kom\nása garða\nok fyr innan kom\njötna heima.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Þrymr sat á haugi,\nþursa dróttinn,\ngreyjum sínum\ngullbönd sneri\nok mörum sínum\nmön jafnaði.",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Þrymr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er með ásum?\nHvat er með alfum?\nHví ertu einn kominn\ní Jötunheima?\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Loki kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Illt er með ásum, illt er með alfum; hefr þú Hlórriða hamar of folginn?\""
+    },
+    {
+      "kind": "heading",
+      "text": "Þrymr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek hef Hlórriða.\nhamar of folginn\nátta röstum\nfyr jörð neðan;\nhann engi maðr\naftr of heimtir,\nnema færi mér\nFreyju at kvæn.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Fló þá Loki,\n- fjaðrhamr dunði, -\nunz fyr útan kom\njötna heima\nok fyr innan kom\nása garða.\nMætti hann Þór\nmiðra garða,\nok þat hann orða",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "alls fyrst of kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hefr þú erendi\nsem erfiði?\nSegðu á lofti\nlöng tíðendi,\noft sitjanda\nsögur of fallask\nok liggjandi\nlygi of bellir.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Loki kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hef ek erfiði\nok erendi;\nÞrymr hefr þinn hamar,\nþursa dróttinn;\nhann engi maðr\naftr of heimtir,\nnema hánum færi\nFreyju at kván.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Ganga þeir fagra\nFreyju at hitta,\nok hann þat orða",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "alls fyrst of kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Bittu þik, Freyja, brúðar líni; vit skulum aka tvau í Jötunheima.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Reið varð þá Freyja\nok fnasaði,\nallr ása salr\nundir bifðisk,\nstökk þat it mikla\nmen Brísinga:\n\"Mik veiztu verða\nvergjarnasta,\nef ek ek með þér\ní Jötunheima.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Senn váru æsir\nallir á þingi\nok ásynjur\nallar á máli,\nok um þat réðu\nríkir tívar\nhvé þeir Hlórriða\nhamar of sætti.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Heimdallr,\nhvítastr ása,\nvissi hann vel fram\nsem vanir aðrir:\n\"Bindum vér Þór þá\nbrúðar líni,\nhafi hann it mikla\nmen Brísinga.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Látum und hánum\nhrynja lukla\nok kvenváðir\num kné falla,\nen á brjósti\nbreiða steina\nok hagliga\num höfuð typpum.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Þór,\nþrúðugr áss:\n\"Mik munu æsir\nargan kalla,\nef ek bindask læt\nbrúðar líni!\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Loki\nLaufeyjar sonr:\n\"Þegi þú, Þórr,\nþeira orða.\nÞegar munu jötnar\nÁsgarð búa,\nnema þú þinn hamar\nþér of heimtir.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Bundu þeir Þór þá\nbrúðar líni\nok inu mikla\nmeni Brísinga,\nlétu und hánum\nhrynja lukla\nok kvenváðir\num kné falla,\nen á brjósti\nbreiða steina,\nok hagliga\num höfuð typpðu.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað Loki\nLaufeyjar sonr:\n\"Mun ek ok með þér\nambótt vera,\nvit skulum aka tvær\ní Jötunheima.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Senn váru hafrar\nheim of reknir,\nskyndir at sköklum,\nskyldu vel renna;\nbjörg brotnuðu,\nbrann jörð loga,\nók Óðins sonr\ní Jötunheima.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Þrymr,\nþursa dróttinn:\n\"Standið upp, jötnar,\nok stráið bekki,\nnú færa mér\nFreyju at kván\nNjarðar dóttur\nór Nóatúnum.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Ganga hér at garði\ngullhyrnðar kýr,\nöxn alsvartir\njötni at gamni;\nfjölð á ek meiðma,\nfjölð á ek menja,\neinnar mér Freyju\návant þykkir.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Var þar at kveldi\nof komit snemma\nok fyr jötna\nöl fram borit;\neinn át oxa,\nátta laxa,\nkrásir allar,\nþær er konur skyldu,\ndrakk Sifjar verr\nsáld þrjú mjaðar.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvat þat Þrymr,\nþursa dróttinn:\n\"Hvar sáttu brúðir\nbíta hvassara?\nSák-a ek brúðir\nbíta breiðara,\nné inn meira mjöð\nmey of drekka.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat in alsnotra\nambótt fyrir,\ner orð of fann\nvið jötuns máli:\n\"Át vætr Freyja\nátta nóttum,\nsvá var hon óðfús\ní Jötunheima.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Laut und línu,\nlysti at kyssa,\nen hann útan stökk\nendlangan sal:\n\"Hví eru öndótt\naugu Freyju?\nÞykki mér ór augum\neldr of brenna.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat in alsnotra\nambótt fyrir,\ner orð of fann\nvið jötuns máli:\n\"Svaf vætr Freyja\nátta nóttum,\nsvá var hon óðfús\ní Jötunheima.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Inn kom in arma\njötna systir,\nhin er brúðféar\nbiðja þorði:\n\"Láttu þér af höndum\nhringa rauða,\nef þú öðlask vill\nástir mínar,\nástir mínar,\nalla hylli.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Þrymr,\nþursa dróttinn:\n\"Berið inn hamar\nbrúði at vígja,\nlekkið Mjöllni\ní meyjar kné,\nvígið okkr saman\nVárar hendi.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Hló Hlórriða\nhugr í brjósti,\ner harðhugaðr\nhamar of þekkði;\nÞrym drap hann fyrstan,\nþursa dróttin,\nok ætt jötuns\nalla lamði.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Drap hann ina öldnu\njötna systur,\nhin er brúðféar\nof beðit hafði;\nhon skell of hlaut\nfyr skillinga,\nen högg hamars\nfyr hringa fjölð.\nSvá kom Óðins sonr\nendr at hamri.",
+      "stanza": "32"
+    }
+  ],
+  "english": [
+    {
+      "kind": "verse",
+      "text": "Wild was Vingthor | when he awoke,\nAnd when his mighty | hammer he missed;\nHe shook his beard, | his hair was bristling,\nAs the son of Jorth | about him sought.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Hear now the speech | that first he spake:\n\"Harken, Loki, | and heed my words,\nNowhere on earth | is it known to man,\nNor in heaven above: | our hammer is stolen.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "To the dwelling fair | of Freyja went they,",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Hear now the speech | that first he spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Wilt thou, Freyja, | thy feather-dress lend me, That so my hammer | I may seek?\""
+    },
+    {
+      "kind": "heading",
+      "text": "Freyja spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thine should it be | though of silver bright,\nAnd I would give it | though 'twere of gold.\"\nThen Loki flew, | and the feather-dress whirred,\nTill he left behind him | the home of the gods,\nAnd reached at last | the realm of the giants.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Thrym sat on a mound, | the giants' master,\nLeashes of gold | he laid for his dogs,\nAnd stroked and smoothed | the manes of his steeds.",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Thrym spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"How fare the gods, | how fare the elves?\nWhy comst thou alone | to the giants' land?\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Loki spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"III fare the gods, | ill fare the elves!"
+    },
+    {
+      "kind": "prose",
+      "text": "Hast thou hidden | Hlorrithi's hammer?\""
+    },
+    {
+      "kind": "heading",
+      "text": "Thrym spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I have hidden | Hlorrithi's hammer,\nEight miles down | deep in the earth;\nAnd back again | shall no man bring it\nIf Freyja I win not | to be my wife.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Loki flew, | and the feather-dress whirred,\nTill he left behind him | the home of the giants,\nAnd reached at last | the realm of the gods.\nThere in the courtyard | Thor he met:",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Hear now the speech | that first he spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hast thou found tidings | as well as trouble?\nThy news in the air | shalt thou utter now;\nOft doth the sitter | his story forget,\nAnd lies he speaks | who lays himself down.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Loki spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Trouble I have, | and tidings as well:\nThrym, king of the giants, | keeps thy hammer,\nAnd back again | shall no man bring it\nIf Freyja he wins not | to be his wife.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Freyja the fair | then went they to find",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Hear now the speech | that first he spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Bind on, Freyja, | the bridal veil, For we two must haste | to the giants' home.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Wrathful was Freyja, | and fiercely she snorted,\nAnd the dwelling great | of the gods was shaken,\nAnd burst was the mighty | Brisings' necklace:\n\"Most lustful indeed | should I look to all\nIf I journeyed with thee | to the giants' home.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Then were the gods | together met,\nAnd the goddesses came | and council held,\nAnd the far-famed ones | a plan would find,\nHow they might Hlorrithi's | hammer win.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Heimdall spake, | whitest of the gods,\nLike the Wanes he knew | the future well:\n\"Bind we on Thor | the bridal veil,\nLet him bear the mighty | Brisings' necklace;",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Keys around him | let there rattle,\nAnd down to his knees | hang woman's dress;\nWith gems full broad | upon his breast,\nAnd a pretty cap | to crown his head.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Thor the mighty | his answer made:\n\"Me would the gods | unmanly call\nIf I let bind | the bridal veil.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Loki spake, | the son of Laufey:\n\"Be silent, Thor, | and speak not thus;\nElse will the giants | in Asgarth dwell\nIf thy hammer is brought not | home to thee.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Then bound they on Thor | the bridal veil,\nAnd next the mighty | Brisings' necklace.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Keys around him | let they rattle,\nAnd down to his knees | hung woman's dress;\nWith gems full broad | upon his breast,\nAnd a pretty cap | to crown his head.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Loki spake, | the son of Laufey:\n\"As thy maid-servant thither | I go with thee;\nWe two shall haste | to the giants' home.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Then home the goats | to the hall were driven,\nThey wrenched at the halters, | swift were they to run;\nThe mountains burst, | earth burned with fire,\nAnd Othin's son | sought Jotunheim.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Then loud spake Thrym, | the giants' leader:\n\"Bestir ye, giants, | put straw on the benches;\nNow Freyja they bring | to be my bride,\nThe daughter of Njorth | out of Noatun.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gold-horned cattle | go to my stables,\nJet-black oxen, | the giant's joy;\nMany my gems, | and many my jewels,\nFreyja alone | did I lack, methinks.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Early it was | to evening come,\nAnd forth was borne | the beer for the giants;\nThor alone ate an ox, | and eight salmon,\nAll the dainties as well | that were set for the women;\nAnd drank Sif's mate | three tuns of mead.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Then loud spake Thrym, | the giants' leader:\n\"Who ever saw bride | more keenly bite?\nI ne'er saw bride | with a broader bite,\nNor a maiden who drank | more mead than this!\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Hard by there sat | the serving-maid wise,\nSo well she answered | the giant's words:\n\"From food has Freyja | eight nights fasted,\nSo hot was her longing | for Jotunheim.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Thrym looked 'neath the veil, | for he longed to kiss,\nBut back he leaped | the length of the hall:\n\"Why are so fearful | the eyes of Freyja?\nFire, methinks, | from her eyes burns forth.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Hard by there sat | the serving-maid wise,\nSo well she answered | the giant's words:\n\"No sleep has Freyja | for eight nights found,\nSo hot was her longing | for Jotunheim.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Soon came the giant's | luckless sister,\nWho feared not to ask | the bridal fee:\n\"From thy hands the rings | of red gold take,\nIf thou wouldst win | my willing love,\n(My willing love | and welcome glad.)\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Then loud spake Thrym, | the giants' leader:\n\"Bring in the hammer | to hallow the bride;\nOn the maiden's knees | let Mjollnir lie,\nThat us both the band | of Vor may bless.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "The heart in the breast | of Hlorrithi laughed\nWhen the hard-souled one | his hammer beheld;\nFirst Thrym, the king | of the giants, he killed,\nThen all the folk | of the giants he felled.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "The giant's sister | old he slew,\nShe who had begged | the bridal fee;\nA stroke she got | in the shilling's stead,\nAnd for many rings | the might of the hammer.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "And so his hammer | got Othin's son.",
+      "stanza": "33"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Þrymskviða",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe11.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

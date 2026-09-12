@@ -1,0 +1,1314 @@
+{
+  "norse": [
+    {
+      "kind": "verse",
+      "text": "Frétt hefir öld óvu,\nþá er endr of gerðu\nseggir samkundu,\nsú var nýt fæstum,\næxtu einmæli,\nyggr var þeim síðan\nok it sama sonum Gjúka,\ner váru sannráðnir.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Sköp æxtu skjöldunga,\n- skyldu-at feigir, -\nilla réðsk Atla,\nátti hann þó hyggju;\nfelldi stoð stóra,\nstríddi sér harðla,\naf bragði boð sendi,\nat kvæmi brátt mágar.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Horsk var húsfreyja,\nhugði at mannviti;\nlag heyrði hon orða,\nhvat þeir á laun mæltu;\nþá var vant vitri,\nvildi hon þeim hjalpa,\nskyldi of sæ sigla,\nen sjalf né komsk-at.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Rúnar nam at rísta,\nrengdi þær Vingi\n- fárs var hann flýtandi -,\náðr hann fram seldi;\nfóru þá síðan\nsendimenn Atla\num fjörð Lima,\nþar er fræknir bjuggu.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Ölværir urðu\nok elda kyndu,\nhugðu vætr véla,\ner þeir váru komnir;\ntóku þeir fórnir,\ner þeim fríðr sendi,\nhengðu á súlu,\nhugðu-t þat varða.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Kom þá Kostbera,\nkvæn var hon Högna,\nkona kapps gálig,\nok kvaddi þá báða;\nglöð var ok Glaumvör,\ner Gunnarr átti,\nfellsk-at saðr sviðri,\nsýsti of þörf gesta.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Buðu þeir heim Högna,\nef hann þá heldr færi,\nsýn var svipvísi,\nef þeir sín gæði;\nhét þá för Gunnarr,\nef Högni vildi,\nHögni því nítti-t,\ner hinn of réði.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Báru mjöð mærar,\nmargs var alls beini;\nfór þar fjölð horna,\nunz þótti fulldrukkit.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Hjú gerðu hvílu\nsem þeim hægst þótti;\nkennd var Kostbera,\nkunni hon skil rúna,\ninnti orðstafi\nat eldi ljósum;\ngæta varð hon tungu\ní góma báða,\nváru svá villtar,\nat var vant at ráða.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Sæing fóru síðan\nsína þau Högni;\ndreymði dróttláta,\ndulði þess vætki,\nsagði horsk hilmi,\nþegars hon réð vakna:",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heiman gerisk þú, Högni,\nhyggðu at ráðum,\nfár er fullrýninn,\nfar þú í sinn annat;\nréð ek þér rúnar,\ner reist þín systir,\nbjört hefir þér eigi\nboðit í sinn þetta.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Eitt ek mest undrumk,\nmák-at ek enn hyggja,\nhvat þá varð vitri,\ner skyldi villt rísta;\nþví at svá var á vísat,\nsem undir væri\nbani ykkarr beggja,\nef it bráðla kvæmið;\nvant er stafs vífi,\neða valda aðrir.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Allar ro illúðgar,\nákk-a ek þess kynni\nvilk-a ek þess leita,\nnema launa eigim;\nokkr mun gramr gulli\nreifa glóðrauðu;\nóumk ek aldregi,\nþótt vér ógn fregnim.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Kostbera kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Stopalt munuð ganga,\nef it stundið þangat;\nykkr mun ástkynni\neigi í sinn þetta;\ndreymdi mik, Högni,\ndyljumk þat eigi;\nganga mun ykkr andæris,\neða ella hræðumk.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Blæju hugða ek þína\nbrenna í eldi,\nhryti hár logi\nhús mín í gögnum.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Liggja hér línklæði,\nþau er lítt rækið,\nþau munu brátt brenna,\nþau er þú blæju sátt.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Kostbera kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Björn hugða ek hér inn kominn,\nbryti upp stokka,\nhristi svá hramma,\nat vér hrædd yrðim;\nmunn oss mörg hefði,\nsvá at vér mættim ekki;\nþar var ok þrömmun\nþeygi svá lítil.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Veðr mun þar vaxa,\nverða ótt snemma,\nhvítabjörn hugðir,\nþar mun hregg austan.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Kostbera kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Örn hugða ek hér inn fljúga\nat endlöngu húsi,\nþat mun oss drjúgt deilask,\ndreifði hann oss öll blóði,\nhugða ek af heitum\nat væri hamr Atla.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Slátrum sýsliga,\nséum þá roðru,\noft er þat fyr öxnum,\ner örnu dreymir;\nheill er hugr Atla,\nhvatki er þik dreymir.\"\nLokit því létu,\nlíðr hver ræða.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Vöknuðu vel borin,\nvar þar sams dæmi,\ngettisk þess Glaumvör,\nat væri grand svefna\n-- -- -- við Gunnarr\nat fáa tvær leiðir.",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Glaumvör kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Görvan hugða ek þér galga,\ngengir þú at hanga,\næti þik ormar,\nyrða ek þik kvikvan,\ngerðisk rök ragna;\nráð þú, hvat þat væri.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnarr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . . .",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Glaumvör kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Blóðgan hugða ek mæki\nborinn ór serk þínum\n- illt er svefn slíkan\nat segja nauðmanni, -\ngeir hugða ek standa\ní gögnum þik miðjan,\nemjuðu ulfar\ná endum báðum.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnarr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Rakkar þar renna,\nráðask mjök geyja,\noft verðr glaumr hunda\nfyr geira flaugun.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Glaumvör kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Á hugða ek hér inn renna\nat endlöngu húsi,\nþyti af þjósti,\nþeystisk of bekki,\nbryti fætr ykra\nbræðra hér tveggja,\ngerði-t vatn vægja;\nvera mun þat fyr nökkvi.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnarr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . . .",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Glaumvör kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Konur hugðak dauðar\nkoma í nótt hingat,\nværi-t vart búnar,\nvildi þik kjósa,\nbyði þér bráðliga\ntil bekkja sinna;\nek kveð aflima\norðnar þér dísir.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnarr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seinat er at segja,\nsvá er nú ráðit;\nforumk-a för þó,\nalls þó ar fara ætlat;\nmargt er mjök glíkligt,\nat mynim skammæir.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Litu er lýsti,\nlétusk þeir fúsir,\nallir upp rísa,\nönnur þau löttu,\nfóru fimm saman,\nfleiri til váru\nhalfu húskarlar,\nhugat var því illa.\nSnævarr ok Sólarr,\nsynir váru þeir Högna,\nOrkning þann hétu,\ner þeim enn fylgði,\nblíðr var börr skjaldar\nbróðir hans kvánar.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Fóru fagrbúnar,\nunz þau fjörðr skilði;\nlöttu ávallt ljósar,\nlétu-at heldr segjask.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Glaumvör kvað at orði,\ner Gunnarr átti,\nmælti hon við Vinga,\nsem henni vert þótti:\n\"Veitk-at ek, hvárt verðlaunið\nat vilja ossum;\nglæpr er gests kváma,\nef í gerisk nakkvat.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Sór þá Vingi,\nsér réð hann lítt eira:\n\"Eigi hann jötnar,\nef hann at yðr lygi,\ngalgi görvallan,\nef hann á grið hygði.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Bera kvað at orði,\nblíð í hug sínum:\n\"Sigli þér sælir\nok sigr árnið;\nfari sem ek fyr mælik,\nfæst eigi því níta.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Högni svaraði,\nhugði gótt nánum:\n\"Huggizk it, horskar,\nhvégi er þat gervisk;\nmæla þat margir,\nmissir þó stórum,\nmörgum ræðr litlu,\nhvé verðr leiddr heiman.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Sásk til síðan,\náðr í sundr hyrfi,\nþá hygg ek sköp skiptu,\nskilðusk vegir þeira.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Róa námu ríki,\nrifu kjöl halfan,\nbeystu bakföllum,\nbrugðusk heldr reiðir,\nhömlur slitnuðu,\nháir brotnuðu,\ngerðu-t far festa,\náðr þeir frá hyrfi.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Litlu ok lengra,\n- lok mun ek þess segja -,\nbæ sá þeir standa,\ner Buðli átti;\nhátt hriktu grindr,\ner Högni kníði.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Orð kvað þá Vingi,\nþats án væri:\n\"Farið firr húsi,\n- flátt er til sækja,\nbrátt hefi ek ykkr brennda,\nbragðs skuluð höggnir,\nfagrt bað ek ykkr kvámu,\nflátt var þó undir -\nella heðan bíðið,\nmeðan ek hegg yðr galga.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Orð kvað hitt Högni,\nhugði lítt vægja,\nvarr at véttugi,\ner varð at reyna:\n\"Hirða þú oss hræða,\nhafðu þat fram sjaldan,\nef þú eykr orði,\nillt muntu þér lengja.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrundu þeir Vinga\nok í hel drápu,\nöxar at lögðu,\nmeðan í önd hixti.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Flykkðusk þeir Atli\nok fóru í brynjur,\ngengu svá görvir,\nat var garðr milli;\nurpusk á orðum\nallir senn reiðir:\n\"Fyrr várum fullráða\nat firra yðr lífi.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Á sér þat illa,\nef höfðuð áðr ráðit,\nen eruð óbúnir,\nok höfum einn felldan,\nlamðan til heljar,\nliðs var sá yðvars.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Óðir þá urðu,\ner þat orð heyrðu,\nforðuðu fingrum\nok fengu í snæri,\nskutu skarpliga\nok skjöldum hlífðusk.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "Inn kom þá andspilli,\nhvat úti drýgðu,\nhalir fyr höllu,\nheyrðu þræl segja.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Ötul var þá Guðrún,\ner hon ekka heyrði,\nhlaðin halsmenjum,\nhreytti hon þeim gervöllum,\nslöngði svá silfri,\nat í sundr hrutu baugar.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Út gekk hon síðan,\nyppði-t lítt hurðum,\nfór-a fælt þeygi\nok fagnaði komnum,\nhvarf til Niflunga,\nsú var hinzt kveðja,\nfylgði saðr slíku,\nsagði hon mun fleira:",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Leitaða ek í líkna\nat letja ykkr heiman,\nsköpum viðr manngi,\nok skuluð þó hér komnir.\"\nMælti af mannviti,\nef mundu sættask;\nekki at reðusk,\nallir ní kváðu.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Sá þá sælborin,\nat þeir sárt léku,\nhugði á harðræði\nok hrauzk ór skikkju;\nnökðan tók hon mæki\nok niðja fjör varði,\nhæg var-at hjaldri,\nhvars hon hendr festi.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "Dóttir lét Gjúka\ndrengi tvá hníga,\nbróður hjó hon Atla,\nbera varð þann síðan,\nskapði hon svá skæru,\nskelldi fót undan.",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "Annan réð hon höggva,\nsvá at sá upp reis-at,\ní helju hon þann hafði,\nþeygi henni hendr skulfu.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Þjörku þar gerðu,\nþeiri var við brugðit,\nþat brá of allt annat,\ner unnu börn Gjúka;\nsvá kváðu Niflunga,\nmeðan sjalfir lifðu,\nskapa sókn sverðum,\nslítask af brynjur,\nhöggva svá hjalma\nsem þeim hugr dygði.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "Morgin mest vágu,\nunz miðjan dag líddi,\nóttu alla\nok öndurðan dag;\nfyrr var fullvegit,\nflóði völlr blóði,\nátján áðr fellu,\nefri þeir urðu.\nBeru tveir sveinar\nok bróðir hennar.",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "Röskr tók at ræða,\nþótt hann reiðr væri:\n\"Illt er um litask,\nyðr er þat kenna;\nvárum þrír tigir,\nþegnar vígligir,\neftir lifum ellifu,\nór er þar brunnit.",
+      "stanza": "54"
+    },
+    {
+      "kind": "verse",
+      "text": "Bæðr várum fimm,\ner Buðla misstum;\nhefir nú Hel halfa,\nen höggnir tveir liggja.",
+      "stanza": "55"
+    },
+    {
+      "kind": "verse",
+      "text": "Mægð gat ek mikla,\nmák-a-k því leyna,\nkona váliga,\nknák-a ek þess njóta;\nhljótt áttum sjaldan,\nsíz komt í hendr ossar,\nfirrðan mik frændum,\nféi oft svikinn,\nsenduð systur helju,\nslíks ek mest kennumk.\"",
+      "stanza": "56"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Getr þú þess, Atli,\ngerðir svá fyrri,\nmóður tókt mína\nok myrðir til hnossa,\nsvinna systrungu\nsveltir þú í helli,\nhlægligt mér þat þykkir,\ner þú þinn harm tínir;\ngoðum ek þat þakka,\ner þér gengsk illa.\"",
+      "stanza": "57"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eggja ek yðr, jarlar,\nauka harm stóran\nvífs ins vegliga,\nvilja ek þat líta;\nkostið svá keppa,\nat klökkvi Guðrún,\nséa ek þat mætta,\nat hon sér né ynði-t.",
+      "stanza": "58"
+    },
+    {
+      "kind": "verse",
+      "text": "Takið ér Högna\nok hyldið með knífi,\nskerið ór hjarta,\nskuluð þess görvir,\nGunnar grimmúðgan\ná galga festið,\nbellið því bragði,\nbjóðið til ormum.\"",
+      "stanza": "59"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ger, sem til lystir,\nglaðr munk þess bíða,\nröskr munk þér reynask,\nreynt hefi ek fyrr brattara;\nhöfuð hnekking,\nmeðan heilir várum,\nnú erum svá sárir,\nat þá mátt sjalfr valda.\"",
+      "stanza": "60"
+    },
+    {
+      "kind": "verse",
+      "text": "Beiti þat mælti,\nbryti var hann Atla:\n\"Tökum vér Hjalla,\nen Högna forðum,\nhögum vér halft yrkjum,\nhann er skapdauði,\nlifir-a svá lengi,\nlöskr mun hann æ heitinn.\"",
+      "stanza": "61"
+    },
+    {
+      "kind": "verse",
+      "text": "Hræddr var hvergætir,\nhelt-a in lengr rúmi,\nkunni klökkr verða,\nkleif í rá hverja;\nvesall lézk vígs þeira,\ner skyldi váss gjalda,\nok sinn dag dapran\nat deyja frá svínum,\nallri örkostu,\ner hann áðr hafði.",
+      "stanza": "62"
+    },
+    {
+      "kind": "verse",
+      "text": "Tóku þeir brás Buðla\nok brugðu til knífi,\næpði illþræli,\náðr odds kenndi,\ntóm lézk at eiga\nteðja vel garða,\nvinna it vergasta,\nef hann við rétti,\nfeginn lézk þó Hjalli,\nat hann fjör þægi.",
+      "stanza": "63"
+    },
+    {
+      "kind": "verse",
+      "text": "Gættisk þess Högni\n- gerva svá færi -,\nat árna ánauðgum,\nat undan gengi:\n\"Fyrir kveð ek mér minna\nat fremja leik þenna.\nHví mynim hér vilja\nheyra á þá skræktun?\"",
+      "stanza": "64"
+    },
+    {
+      "kind": "verse",
+      "text": "Þrifu þeir þjóðgóðan,\nþá var kostr engi\nrekkum rakklátum\nráð enn lengr dvelja;\nhló þá Högni,\nheyrðu dagmegir,\nkeppa hann svá kunni,\nkvöl hann vel þolði.",
+      "stanza": "65"
+    },
+    {
+      "kind": "verse",
+      "text": "Harpu tók Gunnarr,\nhrærði ilkvistum,\nsláa hann svá kunni,\nat snótir grétu,\nklukku þeir karlar,\ner kunnu görst heyra;\nríkri ráð sagði;\nraftar sundr brustu.",
+      "stanza": "66"
+    },
+    {
+      "kind": "verse",
+      "text": "Dó þá dýrir,\ndags var heldr snemma,\nlétu þeir á lesti\nlifa íþróttir.",
+      "stanza": "67"
+    },
+    {
+      "kind": "verse",
+      "text": "Stórr þóttisk Atli,\nsté hann of þá báða,",
+      "stanza": "68"
+    },
+    {
+      "kind": "heading",
+      "text": "horskri harm sagði"
+    },
+    {
+      "kind": "heading",
+      "text": "ok réð heldr at bregða:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Morginn er nú, Guðrún, misst hefir þú þér hollra; sums ertu sjalfskapa, at hafi svá gengit.\""
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Feginn ertu, Atli,\nferr þú víg lýsa,\ná munu þér iðrar,\nef þú allt reynir;\nsú mun erfð eftir,\nek kann þér segja:\nIlls gengsk þér aldri,\nnema ek ok deyja.\"",
+      "stanza": "69"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Kann ek slíks synja,\nsé ek til ráð annat\nhalfu hógligra,\n- höfnum oft góðu -,\nmani mun ek þik hugga,\nmætum ágætum,\nsilfri snæhvítu,\nsem þú sjalf vilir.\"",
+      "stanza": "70"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ón er þess engi,\nek vil því níta;\nsleit ek þá sáttir,\ner váru sakar minni;\nafkár ek áðr þótta,\ná mun nú gæða,\nhræfða ek um hotvetna,\nmeðan Högni lifði.",
+      "stanza": "71"
+    },
+    {
+      "kind": "verse",
+      "text": "Alin vit upp várum\ní einu húsi,\nlékum leik margan\nok í lundi óxum,\ngæddi okkr Grímhildr\ngulli ok halsmenjum;\nbana muntu mér bræðra\nbæta aldrigi\nné vinna þess ekki,\nat mér vel þykki.",
+      "stanza": "72"
+    },
+    {
+      "kind": "verse",
+      "text": "Kostum drepr kvenna\nkarla ofríki;\ní kné gengr hnefi,\nef kvistir þverra;\ntré tekr at hníga,\nef höggr tág undan;\nnú máttu einn, Atli,\nöllu hér ráða.\"",
+      "stanza": "73"
+    },
+    {
+      "kind": "verse",
+      "text": "Gnótt var grunnýðgi,\ner gramr því trúði,\nsýn var sveipvísi,\nef hann sín gæði;\nkröpp var þá Guðrún,\nkunni of hug mæla,\nlétt hon sér gerði,\nlék hon tveim skjöldum.",
+      "stanza": "74"
+    },
+    {
+      "kind": "verse",
+      "text": "Æxti hon öldrykkjur\nat erfa bræðr sína,\nsamr lézk ok Atli\nat sína gerva.",
+      "stanza": "75"
+    },
+    {
+      "kind": "verse",
+      "text": "Lokit því létu,\nlagat var drykkju,\nsú var samkunda\nvið svörfun ofmikla;\nströng var stórhuguð,\nstríddi hon ætt Buðla,\nvildi hon ver sínum\nvinna ofrhefndir.",
+      "stanza": "76"
+    },
+    {
+      "kind": "verse",
+      "text": "Lokkaði hon litla\nok lagði við stokki,\nglúpnuðu grimmir\nok grétu þeygi,\nfóru í faðm móður,\nfréttu, hvat þá skyldi.",
+      "stanza": "77"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Spyrið lítt eftir,\nspilla ætla ek báðum,\nlyst várumk þess lengi\nat lyfja ykkr elli.\"\nSveinarnir kváðu:\n\"Blótt, sem vill, börnum,\nbannar þat manngi,\nskömm mun ró reiði,\nef þú reynir görva.\"",
+      "stanza": "78"
+    },
+    {
+      "kind": "verse",
+      "text": "Brá þá barnæsku\nbræðra in kappsvinna,\nskipti-t skapliga,\nskar hon á hals báða.\nEnn frétti Atli,\nhvert farnir væri\nsveinar hans leika,\ner hann sá þá hvergi.",
+      "stanza": "79"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Yfir ráðumk ganga\nAtla til segja;\ndylja munk þik eigi,\ndóttir Grímhildar;\nglaða mun þik minnst, Atli,\nef þú görva reynir;\nvakðir vá mikla,\ner þú vátt bræðr mína.",
+      "stanza": "80"
+    },
+    {
+      "kind": "verse",
+      "text": "Svaf ek mjök sjaldan,\nsíðans þeir fellu,\nhét ek þér hörðu,\nhefi ek þik nú minntan;\nmorgin mér sagðir,\nman ek enn þann görva,\nnú er ok aftann,\nátt þú slíkt at frétta.",
+      "stanza": "81"
+    },
+    {
+      "kind": "verse",
+      "text": "Maga hefir þú þinna\nmisst, sem þú sízt skyldir,\nhausa veizt þú þeira\nhafða at ölskálum,\ndrýgða ek þér svá drykkju,\ndreyra blett ek þeira.",
+      "stanza": "82"
+    },
+    {
+      "kind": "verse",
+      "text": "Tók ek þeira hjörtu,\nok á teini steikðak,\nselda ek þér síðan,\nsagðak, at kalfs væri:\neinn þú því ollir,\nekki réttu leifa,\ntöggtu tíðliga,\ntrúðir vel jöxlum.",
+      "stanza": "83"
+    },
+    {
+      "kind": "verse",
+      "text": "Barna veiztu þinna,\nbiðr sér fár verra;\nhlut veld ek mínum,\nhælumk þó ekki.\"",
+      "stanza": "84"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Grimm vartu, Guðrún,\ner þú gera svá máttir,\nbarna þinna blóði\nat blanda mér drykkju;\nsnýtt hefir þú sifjungum,\nsem þú sizt skyldir,\nmér lætr þú ok sjalfum\nmillum ills lítit.\"",
+      "stanza": "85"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vili mér enn væri\nat vega þik sjalfan,\nfátt er fullilla\nfarit við gram slíkan;\ndrýgt þú fyrr hafðir\nþat, er menn dæmi vissu-t til,\nheimsku, harðræðis\ní heimi þessum;\nnú hefir þú enn aukit,\nþat er áðan frágum;\ngreipt glæp stóran,\ngört hefir þú þitt erfi.\"",
+      "stanza": "86"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Brennd muntu á báli\nok barið grjóti áðr,\nþá hefir þú árnat\nþatstu æ beiðisk.\"",
+      "stanza": "87"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Seg þér slíkar sorgir ár morgin, fríðra vil ek dauða fara í ljós annat.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Sátu samtýnis,\nsendusk fárhugi,\nhendusk heiftyrði,\nhvártki sér unði;\nheift óx Hniflungi,\nhugði á stórræði,\ngat fyr Guðrúnu,\nat hann væri grimmr Atla.",
+      "stanza": "88"
+    },
+    {
+      "kind": "verse",
+      "text": "Kómu í hug henni\nHögna viðfarar,\ntalði happ hánum,\nef hann hefnt ynni.\nVeginn var þá Atli,\nvar þess skammt bíða,\nsonr vá Högna\nok sjalf Guðrún.",
+      "stanza": "89"
+    },
+    {
+      "kind": "verse",
+      "text": "Röskr tók at ræða,\nrakðisk ór svefni,\nkenndi brátt benja,\nbands kvað hann þörf enga:\n\"Segið it sannasta,\nhverr vá son Buðla,\nemk-a ek lítt leikinn,\nlífs tel ek ván enga.\"",
+      "stanza": "90"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Dylja mun þik eigi\ndóttir Grímhildar,\nlátumk því valda,\ner líðr þína æfi,\nen sumu sonr Högna,\ner þik sár mæða.\"",
+      "stanza": "91"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vaðit hefir þú at vígi,\nþótt væri-t skaplikt,\nillt er vin véla,\nþanns þér vel trúir;\nbeiddr fór ek heiman\nat biðja þín, Guðrún.",
+      "stanza": "92"
+    },
+    {
+      "kind": "verse",
+      "text": "Leyfð vartu ekkja,\nlétu stórráða,\nvarð-a ván lygi,\ner vér of reyndum;\nfórtu heim hingat,\nfylgði oss herr manna,\nallt var ítarligt\num órar ferðir.",
+      "stanza": "93"
+    },
+    {
+      "kind": "verse",
+      "text": "Margs var alls sómi\nmanna tíginna,\nnaut váru ærin,\nnutum af stórum,\nþar var fjölð féar,\nfengu til margir.",
+      "stanza": "94"
+    },
+    {
+      "kind": "verse",
+      "text": "Mund galt ek mærri\nmeiðma fjölð þiggja,\nþræla þría tigu,\nþýjar sjau góðar,\nsæmð var at slíku,\nsilfr var þó meira.",
+      "stanza": "95"
+    },
+    {
+      "kind": "verse",
+      "text": "Léztu þér allt þykkja,\nsem ekki væri,\nmeðan lönd þau lágu,\ner mér leifði Buðli,\ngróftu svá undir,\ngerði-t hlut þiggja;\nsværu léztu þína\nsitja oft grátna,\nfann ek í hug heilum\nhjóna vætr síðan.\"",
+      "stanza": "96"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lýgr þú nú, Atli,\nþótt ek þat lítt rekja;\nheldr var ek hæg sjaldan,\nhóftu þó stórum;\nbörðuzk ér bræðr ungir,\nbáruzk róg milli;\nhalft gekk til heljar\nór húsi þínu;\nhrolldi hotvetna\nþat er til hags skyldi.",
+      "stanza": "97"
+    },
+    {
+      "kind": "verse",
+      "text": "Þrjú várum systkin,\nþóttum óvægin,\nfórum af landi,\nfylgðum Sigurði,\nskæva vér létum,\nskipi hvert várt stýrði,\nörkuðum at auðnu,\nunz vér austr kómum.",
+      "stanza": "98"
+    },
+    {
+      "kind": "verse",
+      "text": "Konung drápum fyrstan,\nkurum land þaðra,\nhersar oss á hönd gengu,\nhræðslu þat vissi;\nvágum ór skógi\nþanns vildum syknan,\nsettum þann sælan,\ner sér né átti-t.",
+      "stanza": "99"
+    },
+    {
+      "kind": "verse",
+      "text": "Dauðr varð inn húnski,\ndrap þá brátt kosti,\nstrangt var angr ungri\nekkju nafn hljóta;\nkvöl þótti kvikri\nat koma í hús Atla,\nátti áðr kappi,\nillr var sá missir.",
+      "stanza": "100"
+    },
+    {
+      "kind": "verse",
+      "text": "Komt-a-ðu af því þingi,\ner vér þat frægim,\nat þú sök sættir\nné slekðir aðra;\nvildir ávallt vægja\nen vætki halda,\nkyrrt of því láta,\n-- -- -- -- -- --\"",
+      "stanza": "101"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lýgr þú nú, Guðrún,\nlítt mun við bætask\nhluti hvárigra,\nhöfum öll skarðan.\nGerðu nú, Guðrún,\naf gæzku þinni\nokkr til ágætis,\ner mik út hefja.\"",
+      "stanza": "102"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Knörr mun ek kaupa\nok kistu steinda,\nvexa vel blæju\nat verja þitt líki,\nhyggja á þörf hverja,\nsem vit holl værim.\"",
+      "stanza": "103"
+    },
+    {
+      "kind": "verse",
+      "text": "Nár varð þá Atli,\nniðjum stríð æxti,\nefndi ítrborin\nallt þats réð heita;\nfróð vildi Gudrún\nfara sér at spilla,\nurðu dvöl dægra,\ndó hon í sinn annat.",
+      "stanza": "104"
+    },
+    {
+      "kind": "verse",
+      "text": "Sæll er hverr síðan,\ner slíkt getr fæða\njóð at afreki,\nsems ól Gjúki;\nlifa mun þat eftir\ná landi hverju\nþeira þrámæli,\nhvargi er þjóð heyrir.",
+      "stanza": "105"
+    }
+  ],
+  "english": [
+    {
+      "kind": "verse",
+      "text": "There are many who know | how of old did men\nIn counsel gather; | little good did they get;\nIn secret they plotted, | it was sore for them later,\nAnd for Gjuki's sons, | whose trust they deceived.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Fate grew for the princes, | to death they were given;\nIll counsel was Atli's, | though keenness he had;\nHe felled his staunch bulwark, | his own sorrow fashioned,\nSoon a message he sent | that his kinsmen should seek him.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Wise was the woman, | she fain would use wisdom,\nShe saw well what meant | all they said in secret;\nFrom her heart it was hid | how help she might render,\nThe sea they should sail, | while herself she should go not.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Runes did she fashion, | but false Vingi made them,\nThe speeder of hatred, | ere to give them he sought;\nThen soon fared the warriors | whom Atli had sent,\nAnd to Limafjord came, | to the home of the kings.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "They were kindly with ale, | and fires they kindled,\nThey thought not of craft | from the guests who had come;\nThe gifts did they take | that the noble one gave them,\nOn the pillars they hung them, | no fear did they harbor.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Forth did Kostbera, | wife of Hogni, then come,\nFull kindly she was, | and she welcomed them both;\nAnd glad too was Glaumvor, | the wife of Gunnar,\nShe knew well to care | for the needs of the guests.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hogni they asked | if more eager he were,\nFull clear was the guile, | if on guard they had been;\nThen Gunnar made promise, | if Hogni would go,\nAnd Hogni made answer | as the other counseled.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the famed ones brought mead, | and fair was the feast,\nFull many were the horns, | till the men had drunk deep;\n. . . . . . . . . .\nThen the mates made ready | their beds for resting.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Wise was Kostbera, | and cunning in rune-craft,\nThe letters would she read | by the light of the fire;\nBut full quickly her tongue | to her palate clave,\nSo strange did they seem | that their meaning she saw not.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Full soon then his bed | came Hogni to seek,\n. . . . . . . . . .\nThe clear-souled one dreamed, | and her dream she kept not,\nTo the warrior the wise one | spake when she wakened:",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou wouldst go hence, | Hogni, but heed my counsel,--\nKnown to few are the runes,-- | and put off thy faring;\nI have read now the runes | that thy sister wrote,\nAnd this time the bright one | did not bid thee to come.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Full much do I wonder, | nor well can I see,\nWhy the woman wise | so wildly hath written;\nBut to me it seems | that the meaning beneath\nIs that both shall be slain | if soon ye shall go.\nBut one rune she missed, | or else others have marred it.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"All women are fearful; | not so do I feel,\nIll I seek not to find | till I soon must avenge it;\nThe king now will give us | the glow-ruddy gold;\nI never shall fear, | though of dangers I know.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Kostbera spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In danger ye fare, | if forth ye go thither,\nNo welcoming friendly | this time shall ye find;\nFor I dreamed now, Hogni, | and nought will I hide,\nFull evil thy faring, | if rightly I fear.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy bed-covering saw I | in the flames burning,\nAnd the fire burst high | through the walls of my home.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Yon garment of linen | lies little of worth, It will soon be burned, | so thou sawest the bed-cover.\""
+    },
+    {
+      "kind": "heading",
+      "text": "Kostbera spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A bear saw I enter, | the pillars he broke,\nAnd he brandished his claws | so that craven we were;\nWith his mouth seized he many, | and nought was our might,\nAnd loud was the tumult, | not little it was.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now a storm is brewing, | and wild it grows swiftly,\nA dream of an ice-bear | means a gale from the east.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Kostbera spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"An eagle I saw flying | from the end through the house,\nOur fate must be bad, | for with blood he sprinkled us;\n. . . . . . . . . .\nFrom the evil I fear | that 'twas Atli's spirit.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"They will slaughter soon, | and so blood do we see,\nOft oxen it means | when of eagles one dreams;\nTrue is Atli's heart, | whatever thou dreamest.\"\nThen silent they were, | and nought further they said.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "The high-born ones wakened, | and like speech they had,\nThen did Glaumvor tell | how in terror she dreamed,\n. . . . . . . . . .\n. . . . . Gunnar | two roads they should go.",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Glaumvor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A gallows saw I ready, | thou didst go to thy hanging,\nThy flesh serpents ate, | and yet living I found thee;\n. . . . . . . . . .\nThe gods' doom descended; | now say what it boded.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A sword drawn bloody | from thy garments I saw,--\nSuch a dream is hard | o a husband to tell,--\nA spear stood, methought, | through thy body thrust,\nAnd at head and feet | the wolves were howling.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnar spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The hounds are running, | loud their barking is heard,\nOft hounds' clamor follows | the flying of spears.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Glaumvor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A river the length | of the hall saw I run,\nFull swiftly it roared, | o'er the benches it swept;\nO'er the feet did it break | of ye brothers twain,\nThe water would yield not; | some meaning there was.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I dreamed that by night | came dead women hither,\nSad were their garments, | and thee were they seeking;\nThey bade thee come swiftly | forth to their benches,\nAnd nothing, methinks, | could the Norns avail thee. \"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnar spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Too late is thy speaking, | for so is it settled\nFrom the faring I turn not, | the going is fixed,\nThough likely it is | that our lives shall be short.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Then bright shone the morning, | the men all were ready,\nThey said, and yet each | would the other hold back;\nFive were the warriors, | and their followers all\nBut twice as many,-- | their minds knew not wisdom.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Snævar and Solar, | they were sons of Hogni,\nOrkning was he called | who came with the others,\nBlithe was the shield-tree, | the brother of Kostbera;\nThe fair-decked ones followed, | till the fjord divided them,\nFull hard did they plead, | but the others would hear not.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Then did Glaumvor speak forth, | the wife of Gunnar,\nTo Vingi she said | that which wise to her seemed:\n\"I know not if well | thou requitest our welcome,\nFull ill was thy coming | if evil shall follow.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Then did Vingi swear, | and full glib was his speech,\n. . . . . . . . . .\n\"May giants now take me | if lies I have told ye,\nAnd the gallows if hostile | thought did I have.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Then did Bera speak forth, | and fair was her thought,\n. . . . . . . . . .\n\"May ye sail now happy, | and victory have,\nTo fare as I bid ye, | may nought your way bar.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hogni made answer,-- | dear held he his kin,-\n\"Take courage, ye wise ones, | whatsoever may come;\nThough many may speak, | yet is evil oft mighty,\nAnd words avail little | to lead one homeward.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "They tenderly looked | till each turned on his way,\nThen with changing fate | were their farings divided.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Full stoutly they rowed, | and the keel clove asunder,\nTheir backs strained at the oars, | and their strength was fierce;\nThe oar-loops were burst, | the thole-pins, were broken,\nNor the ship made they fast | ere from her they fared.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Not long was it after-- | the end must I tell--\nThat the home they beheld | that Buthli once had;\nLoud the gates resounded | when Hogni smote them;",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "Vingi spake then a word | that were better unsaid:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Go ye far from the house, | for false is its entrance,\nSoon shall I burn you, | ye are swiftly smitten;\nI bade ye come fairly, | but falseness was under,\nNow bide ye afar | while your gallows I fashion.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hogni made answer, | his heart yielded little,\nAnd nought did he fear | that his fate held in store:\n\"Seek not to affright us, | thou shalt seldom succeed;\nIf thy words are more, | then the worse grows thy fate.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Vingi did they smite, | and they sent him to hell,\nWith their axes they clove him | while the death rattle came.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Atli summoned his men, | in mail-coats they hastened,\nAll ready they came, | and between was the courtyard.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Then came they to words, | and full wrathful they were:\n\"Long since did we plan | how soon we might slay you.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Little it matters | if long ye have planned it;\nFor unarmed do ye wait, | and one have we felled,\nWe smote him to hell, | of your host was he once.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Then wild was their anger | when all heard his words;\nTheir fingers were swift | on their bowstrings to seize,\nFull sharply they shot, | by their shields were they guarded.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "In the house came the word | how the heroes with out\nFought in front of the hall; | they heard a thrall tell it;\nGrim then was Guthrun, | the grief when she heard,\nWith necklaces fair, | and she flung them all from her,\n(The silver she hurled | so the rings burst asunder.)",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Then out did she go, | she flung open the doors,\nAll fearless she went, | and the guests did she welcome;\nTo the Niflungs she went-- | her last greeting it was,--\nIn her speech truth was clear, | and much would she speak.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "\"For your safety I sought | that at home ye should stay;\nNone escapes his fate, | so ye hither must fare.\"\nFull wisely she spake, | if yet peace they might win,\nBut to nought would they hearken, | and \"No\" said they all.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the high-born one saw | that hard was their battle,\nIn fierceness of heart | she flung off her mantle;\nHer naked sword grasped she | her kin's lives to guard,\nNot gentle her hands | in the hewing of battle.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the daughter of Gjuki | two warriors smote down,\nAtli's brother she slew, | and forth then they bore him;\n(So fiercely she fought | that his feet she clove off;)\nAnother she smote | so that never he stood,\nTo hell did she send him,-- | her hands trembled never.",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "Full wide was the fame | of the battle they fought,\n'Twas the greatest of deeds | of the sons of Gjuki;\nMen say that the Niflungs, | while themselves they were living,\nWith their swords fought mightily, | mail-coats they sundered,\nAnd helms did they hew, | as their hearts were fearless.",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "All the morning they fought | until midday shone,\n(All the dusk as well | and the dawning of day,)\nWhen the battle was ended, | the field flowed with blood;\nEre they fell, eighteen | of their foemen were slain,\nBy the two sons of Bera | and her brother as well.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the warrior spake, | and wild was his anger:\n\"This is evil to see, | and thy doing is all;\nOnce we were thirty, | we thanes, keen for battle,\nNow eleven are left, | and great is our lack.",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "\"There were five of us brothers | when Buthli we lost,\nNow Hel has the half, | and two smitten lie here;\nA great kinship had I,-- | the truth may I hide not,--\nFrom a wife bringing slaughter | small joy could I win.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "We lay seldom together | since to me thou wast given,\nNow my kin all are gone, | of my gold am I robbed;\nNay, and worst, thou didst send | my sister to hell.\"",
+      "stanza": "52"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hear me now, Atli! | the first evil was thine;\nMy mother didst thou take, | and for gold didst murder her,\nMy sister's daughter | thou didst starve in a prison.\nA jest does it seem | that thy sorrow thou tellest,\nAnd good do I find it | that grief to thee comes.\"",
+      "stanza": "53"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Go now, ye warriors, | and make greater the grief\nOf the woman so fair, | for fain would I see it;\nSo fierce be thy warring | that Guthrun shall weep,\nI would gladly behold | her happiness lost.",
+      "stanza": "54"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seize ye now Hogni, | and with knives shall ye hew him,\nHis heart shall ye cut out, | this haste ye to do;\nAnd grim-hearted Gunnar | shall ye bind on the gallows,\nSwift shall ye do it, | to serpents now cast him.\"",
+      "stanza": "55"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Do now as thou wilt, | for glad I await it,\nBrave shalt thou find me, | I have faced worse before;\nWe held thee at bay | while whole we were fighting,\nNow with wounds are we spent, | so thy will canst thou work.\"",
+      "stanza": "56"
+    },
+    {
+      "kind": "verse",
+      "text": "Then did Beiti speak, | he was Atli's steward:\n\"Let us seize now Hjalli, | and Hogni spare we!\nLet us fell the sluggard, | he is fit for death,\nHe has lived too long, | and lazy men call him.\"",
+      "stanza": "57"
+    },
+    {
+      "kind": "verse",
+      "text": "Afraid was the pot-watcher, | he fled here and yon,\nAnd crazed with his terror | he climbed in the corners:\n\"Ill for me is this fighting, | if I pay for your fierceness,\nAnd sad is the day | to die leaving my swine\nAnd all the fair victuals | that of old did I have.\"",
+      "stanza": "58"
+    },
+    {
+      "kind": "verse",
+      "text": "They seized Buthli's cook, | and they came with the knife,\nThe frightened thrall howled | ere the edge did he feel;\nHe was willing, he cried, | to dung well the court yard,\nDo the basest of work, | if spare him they would;\nFull happy were Hjalli | if his life he might have.",
+      "stanza": "59"
+    },
+    {
+      "kind": "verse",
+      "text": "Then fain was Hogni-- | there are few would do thus--\nTo beg for the slave | that safe hence he should go;\n\"I would find it far better | this knife-play to feel,\nWhy must we all hark | to this howling longer?\"",
+      "stanza": "60"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the brave one they seized; | to the warriors bold\nNo chance was there left | to delay his fate longer;\nLoud did Hogni laugh, | all the sons of day heard him,\nSo valiant he was | that well he could suffer.",
+      "stanza": "61"
+    },
+    {
+      "kind": "verse",
+      "text": "A harp Gunnar seized, | with his toes he smote it\nSo well did he strike | that the women all wept,\nAnd the men, when clear | they heard it, lamented;\nFull noble was his song, | the rafters burst asunder.",
+      "stanza": "62"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the heroes died | ere the day was yet come;\nTheir fame did they leave | ever lofty to live.\n. . . . . . . . . .",
+      "stanza": "63"
+    },
+    {
+      "kind": "verse",
+      "text": "Full mighty seemed Atli | as o'er them he stood,\nThe wise one he blamed, | and his words reproached her:\n\"It is morning, Guthrun; | now thy dear ones dost miss,\nBut the blame is part thine | that thus it has chanced.\"",
+      "stanza": "64"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou art joyous, Atli, | for of evil thou tellest,\nBut sorrow is thine | if thou mightest all see;\nThy heritage heavy | here can I tell thee,\nSorrow never thou losest | unless I shall die.\"",
+      "stanza": "65"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Not free of guilt am I; | a way shall I find\nThat is better by far,-- | oft the fairest we shunned;--\nWith slaves I console thee, | with gems fair to see,\nAnd with silver snow-white, | as thyself thou shalt choose.\"",
+      "stanza": "66"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"No hope shall this give thee, | thy gifts I shall take not,\nRequital I spurned | when my sorrows were smaller;\nOnce grim did I seem, | but now greater my grimness,\nThere was nought seemed too hard | while Hogni was living.",
+      "stanza": "67"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Our childhood did we have | in a single house,\nWe played many a game, | in the grove did we grow;\nThen did Grimhild give us | gold and necklaces,\nThou shalt ne'er make amends | for my brother's murder,\nNor ever shalt win me | to think it was well.",
+      "stanza": "68"
+    },
+    {
+      "kind": "verse",
+      "text": "\"But the fierceness of men | rules the fate of women,\nThe tree-top bows low | if bereft of its leaves,\nThe tree bends over | if the roots are cleft under it;\nNow mayest thou, Atli, | o'er all things here rule.\"",
+      "stanza": "69"
+    },
+    {
+      "kind": "verse",
+      "text": "Full heedless the warrior | was that he trusted her,\nSo clear was her guile | if on guard he had been;\nBut crafty was Guthrun, | with cunning she spake,\nHer glance she made pleasant, | with two shields she played.",
+      "stanza": "70"
+    },
+    {
+      "kind": "verse",
+      "text": "The beer then she brought | for her brothers' death feast,\nAnd a feast Atli made | for his followers dead\nNo more did they speak, | the mead was made ready,\nSoon the men were gathered | with mighty uproar.",
+      "stanza": "71"
+    },
+    {
+      "kind": "verse",
+      "text": "Thus bitterly planned she, | and Buthli's race threatened,\nAnd terrible vengeance | on her husband would take;\nThe little ones called she, | on a block she laid them;\nAfraid were the proud ones, | but their tears did not fall;\nTo their mother's arms went they, | and asked what she would.",
+      "stanza": "72"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nay, ask me no more! | You both shall I murder,\nFor long have I wished | your lives to steal from you.",
+      "stanza": "73"
+    },
+    {
+      "kind": "heading",
+      "text": "The boys spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Slay thy boys as thou wilt, | for no one may bar it, Short the angry one's peace | if all thou shalt do.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Then the grim one slew both | of the brothers young,\nFull hard was her deed | when their heads she smote off;\nFain was Atli to know | whither now they were gone,\nThe boys from their sport, | for nowhere he spied them.",
+      "stanza": "74"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"My fate shall I seek, | all to Atli saying,\nThe daughter of Grimhild | the deed from thee hides not;\nNo joy thou hast, Atli, | if all thou shalt hear,\nGreat sorrow didst wake | when my brothers thou slewest.",
+      "stanza": "75"
+    },
+    {
+      "kind": "verse",
+      "text": "'1 have seldom slept | since the hour they were slain,\nBaleful were my threats, | now I bid thee recall them;\nThou didst say it was morning,-- | too well I remember,--\nNow is evening come, | and this question thou askest.",
+      "stanza": "76"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now both of thy sons | thou hast lost . . . .\n. . . . . | as thou never shouldst do;\nThe skulls of thy boys | thou as beer-cups didst have,\nAnd the draught that I made thee | was mixed with their blood.",
+      "stanza": "77"
+    },
+    {
+      "kind": "verse",
+      "text": "'I cut out their hearts, | on a spit I cooked them,\nI came to thee with them, | and calf's flesh I called them;\nAlone didst thou eat them, | nor any didst leave,\nThou didst greedily bite, | and thy teeth were busy.",
+      "stanza": "78"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of thy sons now thou knowest; | few suffer more sorrow;\nMy guilt have I told, | fame it never shall give me.\"",
+      "stanza": "79"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Grim wast thou, Guthrun, | in so grievous a deed,\nMy draught with the blood | of thy boys to mingle;\nThou hast slain thine own kin, | most ill it be seemed thee,\nAnd little for me | twixt my sorrows thou leavest.\"",
+      "stanza": "80"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Still more would I seek | to slay thee thyself,\nEnough ill comes seldom | to such as thou art;\nThou didst folly of old, | such that no one shall find\nIn the whole world of men | a match for such madness.\nNow this that of late | we learned hast thou added,\nGreat evil hast grasped, | and thine own death feast made.\"",
+      "stanza": "81"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"With fire shall they burn thee, | and first shall they stone thee,\nSo then hast thou earned | what thou ever hast sought for.\"",
+      "stanza": "82"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Such woes for thyself | shalt thou say in the morning, From a finer death I | to another light fare.\""
+    },
+    {
+      "kind": "verse",
+      "text": "Together they sat | and full grim were their thoughts,\nUnfriendly their words, | and no joy either found;\nIn Hniflung grew hatred, | great plans did he have,\nTo Guthrun his anger | against Atli was told.",
+      "stanza": "83"
+    },
+    {
+      "kind": "verse",
+      "text": "To her heart came ever | the fate of Hogni,\nShe told him 'twere well | if he vengeance should win;\nSo was Atli slain,-- | 'twas not slow to await,--\nHogni's son slew him, | and Guthrun herself.",
+      "stanza": "84"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the warrior spake, | as from slumber he wakened,\nSoon he knew for his wounds | would the bandage do nought:\n\"Now the truth shalt thou say: | who has slain Buthli's son?\nFull sore am I smitten, | nor hope can I see.\"",
+      "stanza": "85"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ne'er her deed from thee hides | the daughter of Grimhild,\nI own to the guilt | that is ending thy life,\nAnd the son of Hogni; | 'tis so thy wounds bleed.\"",
+      "stanza": "86"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"To murder hast thou fared, | though foul it must seem; Ill thy friend to betray | who trusted thee well."
+    },
+    {
+      "kind": "verse",
+      "text": "\"Not glad went I hence | thy hand to seek, Guthrun,\nIn thy widowhood famed, | but haughty men found thee;\nMy belief did not lie, | as now we have learned;\nI brought thee home hither, | and a host of men with us.",
+      "stanza": "87"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Most noble was all | when of old we journeyed,\nGreat honor did we have | of heroes full worthy;\nOf cattle had we plenty, | and greatly we prospered,\nMighty was our wealth, | and many received it.",
+      "stanza": "88"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To the famed one as bride-gift | I gave jewels fair,\nI gave thirty slaves, | and handmaidens seven;\nThere was honor in such gifts, | yet the silver was greater.",
+      "stanza": "89"
+    },
+    {
+      "kind": "verse",
+      "text": "\"But all to thee was | as if nought it were worth,\nWhile the land lay before thee | that Buthli had left me;\nThou in secret didst work | so the treasure I won not;\nMy mother full oft | to sit weeping didst make,\nNo wedded joy found I | in fullness of heart.\"",
+      "stanza": "90"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou liest now, Atli, | though little I heed it;\nIf I seldom was kindly, | full cruel wast thou;\nYe brothers fought young, | quarrels brought you to battle,\nAnd half went to hell | of the sons of thy house,\nAnd all was destroyed | that should e'er have done good.",
+      "stanza": "91"
+    },
+    {
+      "kind": "verse",
+      "text": "\"My two brothers and I | were bold in our thoughts,\nFrom the land we went forth, | with Sigurth we fared;\nFull swiftly we sailed, | each one steering his ship,\nSo our fate sought we e'er | till we came to the East.",
+      "stanza": "92"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First the king did we slay, | and the land we seized,\nThe princes did us service, | for such was their fear;\nFrom the forest we called | them we fain would have guiltless,\nAnd rich made we many | who of all were bereft.",
+      "stanza": "93"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Slain was the Hun-king, | soon happiness vanished,\nIn her grief the widow | so young sat weeping;\nYet worse seemed the sorrow | to seek Atli's house,\nA hero was my husband, | and hard was his loss.",
+      "stanza": "94"
+    },
+    {
+      "kind": "verse",
+      "text": "\"From the Thing thou camst never, | for thus have we heard,\nHaving won in thy quarrels, | or warriors smitten;\nFull yielding thou wast, | never firm was thy will,\nIn silence didst suffer, | . . . . .",
+      "stanza": "95"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou liest now, Guthrun, | but little of good\nWill it bring to either, | for all have we lost;\nBut, Guthrun, yet once | be thou kindly of will,\nFor the honor of both, | when forth I am home.\"",
+      "stanza": "96"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A ship will I buy, | and a bright-hued coffin,\nI will wax well the shroud | to wind round thy body,\nFor all will I care | as if dear were we ever.\"",
+      "stanza": "97"
+    },
+    {
+      "kind": "verse",
+      "text": "Then did Atli die, | and his heirs' grief doubled;\nThe high-born one did | as to him she had promised;\nThen sought Guthrun the wise | to go to her death,\nBut for days did she wait, | and 'twas long ere she died.",
+      "stanza": "98"
+    },
+    {
+      "kind": "verse",
+      "text": "Full happy shall he be | who such offspring has,\nOr children so gallant, | as Gjuki begot;\nForever shall live, | and in lands far and wide,\nTheir valor heroic | wherever men hear it.",
+      "stanza": "99"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Atlamál_in_grænlenzku",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe35.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

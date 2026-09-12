@@ -1,0 +1,515 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Guðrún Gjúkadóttir hefndi bræðra sinna, svá sem frægt er orðit. Hon drap fyrst sonu Atla, en eftir drap hon Atla ok brenndi höllina ok hirðina alla. Um þetta er sjá kviða ort:"
+    },
+    {
+      "kind": "verse",
+      "text": "Atli sendi\nár til Gunnars\nkunnan segg at ríða,\nKnéfröðr var sá heitinn;\nat görðum kom hann Gjúka\nok at Gunnars Höllu,\nbekkjum aringreypum\nok at bjóri svásum.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Drukku þar dróttmegir,\nen dyljendr þögðu,\nvín í valhöllu,\nvreiði sásk þeir Húna;\nkallaði þá Knéfröðr\nkaldri röddu,\nseggr inn suðræni\nsat hann á bekk háum:",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Atli mik hingat sendi\nríða erendi\nmar inum mélgreypa\nmyrkvið inn ókunna,\nat biðja yðr, Gunnarr,\nat it á bekk kæmið\nmeð hjalmum aringreypum\nat sækja heim Atla.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Skjöldu kneguð þar velja\nok skafna aska,\nhjalma gullroðna\nok Húna mengi,\nsilfrgyllt söðulklæði,\nserki valrauða,\ndafar darraðar,\ndrösla mélgreypa.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Völl lézk ykkr ok mundu gefa\nvíðrar Gnitaheiðar,\naf geiri gjallanda\nok af gylltum stöfnum,\nstórar meiðmar\nok staði Danpar,\nhrís þat it mæra,\ner meðr Myrkvið kalla.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Höfði vatt þá Gunnarr",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "ok Högna til sagði:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Hvat ræðr þú okkr, seggr inn æri, alls vit slíkt heyrum?"
+    },
+    {
+      "kind": "prose",
+      "text": "Gull vissa ek ekki á Gnitaheiði, þat er vit ættim-a annat slíkt."
+    },
+    {
+      "kind": "verse",
+      "text": "Sjau eigum vit salhús\nsverða full,\nhverju eru þeira\nhjölt ór gulli;\nminn veit ek mar beztan,\nen mæki hvassastan,\nboga bekksæma,\nen brynjur ór gulli,\nhjalm ok skjöld hvítastan\nkominn ór höll Kíars,\neinn er minn betri\nen sé allra Húna.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Högni kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat hyggr þú brúði bendu,\nþá er hon okkr baug sendi,\nvarinn váðum heiðingja?\nHygg ek, at hon vörnuð byði.\nHár fann ek heiðingja\nriðit í hring rauðum,\nylfskr er vegr okkarr\nat ríða erendi.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Niðjar hvöttu Gunnar\nné náungr annarr,\nrýnendr né ráðendr\nné þeir er ríkir váru;\nkvaddi þá Gunnarr,\nsem konungr skyldi,\nmærr í mjöðranni\naf móði stórum:",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Rístu nú, Fjörnir,\nláttu á flet vaða\ngreppa gullskálir\nmeð gumna höndum.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Ulfr mun ráða\narfi Niflunga,\ngamlir, gránvarðir,\nef Gunnars missir,\nbirnir blakkfjallir\nbíta þreftönnum,\ngamna greystóði,\nef Gunnarr né kemr-at.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Leiddu landrögni\nlýðar óneisir,\ngrátendr gunnhvata\nór garði húna.\nÞá kvað þat inn æri\nerfivörþr Högna:\n\"Heilir farið nú ok horskir,\nhvars ykkr hugr teygir!\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Fetum létu fræknir\num fjöll at þyrja\nmari ina mélgreypu\nMyrkvið inn ókunna;\nhristisk öll Húnmörk\nþar er harðmóðgir fóru,\nráku þeir vandstyggva\nvöllu algræna.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Land sáu þeir Atla\nok liðskjalfar djúpa,\nBikka greppar standa\ná borg inni háu,\nsal of suðrþjóðum\nsleginn sessmeiðum,\nbundnum röndum,\nbleikum skjöldum,\ndafar darraðar;\nen þar drakk Atli\nvín í valhöllu,\nverðir sátu úti\nat varða þeim Gunnari,\naf þeir hér vitja kvæmi\nmeð geiri gjallanda\nat vekja gram hildi.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Systir fann þeira snemst,\nat þeir í sal kómu\nbræðr hennar báðir, -\nbjóri var hon lítt drukkin:\n\"Ráðinn ertu nú, Gunnarr.\nHvat muntu, ríkr, vinna\nvið Húna harmbrögðum?\nHöll gakk þú ór snemma.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Betr hefðir þú, bróðir,\nat þú í brynju færir,\nsem hjalmum aringreypum\nat séa heim Atla,\nsætir þú í söðlum\nsólheiða daga,\nnái nauðfölva\nlétir nornir gráta,\nHúna skjaldmeyjar\nherfi kanna,\nen Atla sjalfan\nlétir þú í ormgarð koma,\nnú er sá ormgarðr\nykkr of folginn.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnarr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seinat er nú, systir,\nat samna Niflungum;\nlangt er at leita\nlýða sinnis til,\nef rosmufjöll Rínar\nrekka óneissa.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Fengu þeir Gunnar\nok í fjötur settu\nvin Borgunda\nok bundu fastla.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Sjau hjó Högni\nsverði hvössu,\nen inum átta\nhratt hann í eld heitan;\nsvá skal frækn\nfjándum verjask\n[sem] Högni varði\nhendr [sínar].",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "-- -- Gunnars;\nfrágu fræknan,\nef fjör vildi,\ngotna þjóðann,\ngulli kaupa.",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnarr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hjarta skal mér Högna\ní hendi liggja\nblóðugt, ór brjósti\nskorit baldriða\nsaxi slíðrbeitu,\nsyni þjóðans.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Skáru þeir hjarta\nHjalla ór brjósti\nblóðugt ok á bjóð lögðu\nok báru þat fyr Gunnar.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kvað þat Gunnarr,\ngumna dróttinn:\n\"Hér hefi ek hjarta\nHjalla ins blauða,\nólíkt hjarta\nHögna ins frækna,\ner mjök bifask,\ner á bjóði liggr,\nbifðisk halfu meir,\ner í brjósti lá.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Hló þá Högni,\ner til hjarta skáru\nkvikvan kumblasmið,\nklökkva hann sízt hugði;\nblóðugt þat á bjóð lögðu\nok báru fyr Gunnar.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Mærr kvað þat Gunnarr\ngeirniflungr:\n\"Hér hefi ek hjarta\nHögna ins frækna,\nólíkt hjarta\nHjalla ins blauða,\ner lítt bifask,\ner á bjóði liggr,\nbifðisk svági mjök,\nþá er í brjósti lá.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Svá skaltu, Atli,\naugum fjarri,\nsem munt\nmenjum verða;\ner und einum mér\nöll of folgin\nhodd Niflunga,\nlifir-a nú Högni.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Ey var mér týja,\nmeðan vit tveir lifðum,\nnú er mér engi,\ner ek einn lifik.\nRín skal ráða\nrógmalmi skatna,\nsvinn, áskunna\narfi Niflunga,\n- í veltanda vatni\nlýsask valbaugar, -\nheldr en á höndum gull\nskíni Húna börnum.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ýkvið ér hvélvögnum,\nhaftr er nú í böndum.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Atli inn ríki\nreið Glaum mönum,\nsleginn rógþornum,\nsifjungr þeira.\nGuðrún sigtífa,\nvarnaði við tárum,\nvaðin í þyshöllu.",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Svá gangi þér, Atli,\nsem þú við Gunnar áttir\neiða oft of svarða\nok ár of nefnda,\nat sól inni suðrhöllu\nok at Sigtýs bergi,\nhölkvi hvílbeðjar\nok at hringi Ullar.\"\nOk meir þaðan\nmenvörð bituls\ndolgrögni dró\ntil dauðs skokkr.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Lifanda gram\nlagði í garð,\nþan er skriðinn var,\nskatna mengi,\ninnan ormum,\nen einn Gunnarr\nheiftmóðr hörpu\nhendi kníði,\nglumðu strengir;\nsvá skal gulli\nfrækn hringdrifi\nvið fira halda.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Atli lét\nlands síns á vit\njó eyrskáan\naftr frá morði;\ndynr var í garði,\ndröslum of þrungit,\nvápnsöngr virða,\nváru af heiði komnir.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Út gekk þá Guðrún\nAtla í gögn\nmeð gylltum kálki\nat reifa gjöld rögnis:\n\"Þiggja knáttu, þengill,\ní þinni höllu\nglaðr at Guðrúnu\ngnadda niflfarna.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Umðu ölskálir\nAtla vínhöfgar,\nþá er í höll saman\nHúnar tölðusk,\ngumar gransíðir,\ngengu inn hvatir.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Skævaði þá in skírleita\nveigar þeim at bera,\nafkár dís jöfrum\nok ölkrásir valði\nnauðug neffölum,\nen níð sagði Atla:",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sona hefir þinna,\nsverða deilir,\nhjörtu hrædreyrug\nvið hunang of tuggin;\nmelta knáttu, móðugr,\nmanna valbráðir,\neta at ölkrásum\nok í öndugi at senda.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Kallar-a þú síðan\ntil knéa þinna\nErp né Eitil,\nölreifa tvá;\nsér-a-ðu síðan\ní seti miðju\ngulls miðlendr\ngeira skefta,\nmanar meita\nné mara keyra.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Ymr varð á bekkjum,\nafkárr söngr virða,\ngnýr und guðvefjum,\ngrétu börn Húna;\nnema ein Guðrún,\ner hon æva grét\nbræðr sína berharða\nok buri svása,\nunga, ófróða,\nþá er hon við Atla gat.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Gulli söri\nin gaglbjarta,\nhringum rauðum\nreifði hon húskarla;\nsköp lét hon vaxa,\nen skíran malm vaða,\næva fljóð ekki\ngáði fjarghúsa.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Óvarr Atli\nóðan hafði hann sik drukkit,\nvápn hafði hann ekki,\nvarnaði-t hann við Gudrúnu,\noft var sá leikr betri,\nþá er þau lint skyldu\noftar um faðmask\nfyr öðlingum.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Hon beð broddi\ngaf blóð at drekka\nhendi helfússi\nok hvelpa leysti,\nhratt fyr hallar dyrr\nok húskarla vakði\nbrandi brúðr heitum,\nþau lét hon gjöld bræðra.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Eldi gaf hon þá alla,\ner inni váru\nok frá morði þeira Gunnars\nkomnir váru ór Myrkheimi;\nforn timbr fellu,\nfjarghús ruku,\nbær Buðlunga,\nbrunnu ok skjaldmeyjar\ninni aldrstamar,\nhnigu í eld heitan.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "Fullrætt er um þetta,\nferr engi svá síðan\nbrúðr í brynju\nbræðra at hefna;\nhon hefir þriggja\nþjóðkonunga\nbanorð borit,\nbjört, áðr sylti.\nEnn segir gleggra í  .",
+      "stanza": "43"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Guthrun, Gjuki's daughter, avenged her brothers, as has become well known. She slew first Atli's sons, and thereafter she slew Atli, and burned the hall with his whole company. Concerning this was the following poem made:"
+    },
+    {
+      "kind": "verse",
+      "text": "Atli sent | of old to Gunnar\nA keen-witted rider, | Knefröth did men call him;\nTo Gjuki's home came he | and to Gunnar's dwelling,\nWith benches round the hearth, | and to the beer so sweet.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the followers, hiding | their falseness, all drank\nTheir wine in the war-hall, | of the Huns' wrath wary;\nAnd Knefröth spake loudly, | his words were crafty,\nThe hero from the south, | on the high bench sitting:",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now Atli has sent me | his errand to ride,\nOn my bit-champing steed | through Myrkwood the secret,\nTo bid You, Gunnar, | to his benches to come,\nWith helms round the hearth, | and Atli's home seek.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Shields shall ye choose there, | and shafts made of ash-wood,\nGold-adorned helmets, | and slaves out of Hunland,\nSilver-gilt saddle-cloths, | shirts of bright scarlet,\nWith lances and spears too, | and bit-champing steeds.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The field shall be given you | of wide Gnitaheith,\nWith loud-ringing lances, | and stems gold-o'er-laid,\nTreasures full huge, | and the home of Danp,\nAnd the mighty forest | that Myrkwood is called.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "His head turned Gunnar, | and to Hogni he said:\n\"What thy counsel, young hero, | when such things we hear?\nNo gold do I know | on Gnitaheith lying\nSo fair that other | its equal we have not.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "\"We have seven halls, | each of swords is full,\n(And all of gold | is the hilt of each;)\nMy steed is the swiftest, | my sword is sharpest,\nMy bows adorn benches, | my byrnies are golden,\nMy helm is the brightest | that came from Kjar's hall,\n(Mine own is better | than all the Huns' treasure.)\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Hogni spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What seeks she to say, | that she sends us a ring,\nWoven with a wolf's hair? | methinks it gives warning;\nIn the red ring a hair | of the heath-dweller found I,\nWolf-like shall our road be | if we ride on this journey.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Not eager were his comrades, | nor the men of his kin,\nThe wise nor the wary, | nor the warriors bold.\nBut Gunnar spake forth | as befitted a king,\nNoble in the beer-hall, | and bitter his scorn:",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Stand forth now, Fjornir! | and hither on the floor\nThe beakers all golden | shalt thou bring to the warriors.\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The wolves then shall rule | the wealth of the Niflungs,\nWolves aged and grey-hued, | if Gunnar is lost,\nAnd black-coated bears | with rending teeth bite,\nAnd make glad the dogs, | if Gunnar returns not.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "A following gallant | fared forth with the ruler,\nYet they wept as their home | with the hero they left;\nAnd the little heir | of Hogni called loudly:\n\"Go safe now, ye wise ones, | wherever ye will!\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Then let the bold heroes | their bit-champing horses\nOn the mountains gallop, | and through Myrkwood the secret;\nAll Hunland was shaken | where the hard-souled ones rode,\nOn the whip-fearers fared they | through fields that were green.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Then they saw Atli's halls, | and his watch-towers high,\nOn the walls so lofty | stood the warriors of Buthli;\nThe hall of the southrons | with seats was surrounded,\nWith targets bound | and shields full bright.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Mid weapons and lances | did Atli his wine\nIn the war-hall drink, | without were his watchmen,\nFor Gunnar they waited, | if forth he should go,\nWith their ringing spears | they would fight with the ruler.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "This their sister saw, | as soon as her brothers\nHad entered the hall,-- | little ale had she drunk:\n\"Betrayed art thou, Gunnar! | what guard hast thou, hero,\n'Gainst the plots of the Huns? | from the hall flee swiftly!",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Brother, 'twere far better | to have come in byrnie,\nWith thy household helmed, | to see Atli's home,\nAnd to sit in the saddle | all day 'neath the sun,\n(That the sword-norns might weep | for the death-pale warriors,\nAnd the Hunnish shield-maids | might shun not the sword,)\nAnd send Atli himself | to the den of the snakes;\n(Now the den of the snakes | for thee is destined.",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnar spake:"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\n\"Too late is it, sister, | to summon the Niflungs,\nLong is it to come | to the throng of our comrades,\nThe heroes gallant, | from the hills of the Rhine.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Gunnar they seized, | and they set him in chains,\nThe Burgundians' king, | and fast they bound him.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Hogni slew seven | with sword so keen,\nAnd an eighth he flung | in the fire hot;\nA hero should fight | with his foemen thus,\nAs Hogni strove | in Gunnar's behalf.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\n. . . . . . . . . .\nThe leader they asked | if his life he fain\nWith gold would buy, | the king of the Goths.",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Gunnar spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First the heart of Hogni | shall ye lay in my hands,\nAll bloody from the breast | of the bold one cut\nWith ke-en-biting sword, | from the son of the king.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nThey cut out the heart | from the breast of Hjalli,\nOn a platter they bore it, | and brought it to Gunnar.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Gunnar spake forth, | the lord of the folk:\n\"Here have I the heart | of Hjalli the craven,\nUnlike to the heart | of Hogni the valiant,\nFor it trembles still | as it stands on the platter;\nTwice more did it tremble | in the breast of the man.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hogni laughed | when they cut out the heart\nOf the living helm-hammerer; | tears he had not.\n. . . . . . . . . .\nOn a platter they bore it, | and brought it to Gunnar.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Gunnar spake forth, | the spear of the Niflungs:\n\"Here have I the heart | of Hogni the valiant,\nUnlike to the heart | of Hjalli the craven,\nLittle it trembles | as it lies on the platter,\nStill less did it tremble | when it lay in his breast.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "\"So distant, Atli, | from all men's eyes,\nShalt thou be as thou | . . . . . from the gold.\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "\"To no one save me | is the secret known\nOf the Niflungs' hoard, | now Hogni is dead;\nOf old there were two, | while we twain were alive,\nNow is none but I, | for I only am living.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The swift Rhine shall hold | the strife-gold of heroes,\nThat once was the gods', | the wealth of the Niflungs,\nIn the depths of the waters | the death-rings shall glitter,\nAnd not shine on the hands | of the Hunnish men.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ye shall bring the wagon, | for now is he bound.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "On the long-maned Glaum | rode Atli the great,\nAbout him were warriors | . . . . .\nBut Guthrun, akin | to the gods of slaughter,\nYielded not to her tears | in the hall of tumult.",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"It shall go with thee, Atli, | as with Gunnar thou heldest\nThe oaths ofttimes sworn, | and of old made firm,\nBy the sun in the south, | by Sigtyr's mountain,\nBy the horse of the rest-bed, | and the ring of Ull.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Then the champer of bits | drew the chieftain great,\nThe gold-guarder, down | to the place of death.\n. . . . . . . . . .",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "By the warriors' host | was the living hero\nCast in the den | where crawling about\nWithin were serpents, | but soon did Gunnar\nWith his hand in wrath | on the harp-strings smite;\nThe strings resounded,-- | so shall a hero,\nA ring-breaker, gold | from his enemies guard.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Atli rode | on his earth-treading steed,\nSeeking his home, | from the slaughter-place;\nThere was clatter of hoofs | of the steeds in the court,\nAnd the clashing of arms | as they came from the field.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Out then came Guthrun | to meeting with Atli,\nWith a golden beaker | as gift to the monarch:\n\"Thou mayst eat now, chieftain, | within thy dwelling,\nBlithely with Guthrun | young beasts fresh slaughtered.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "The wine-heavy ale-cups | of Atli resounded,\nWhen there in the hall | the Hunnish youths clamored,\nAnd the warriors bearded, | the brave ones, entered.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Then in came the shining one, | . . . . .\n. . . . . | and drink she bore them;\nUnwilling and bitter | brought she food to the warrior,\nTill in scorn to the white-faced | Atli did she speak:",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou giver of swords, | of thy sons the hearts\nAll heavy with blood | in honey thou hast eaten;\nThou shalt stomach, thou hero, | the flesh of the slain,\nTo eat at thy feast, | and to send to thy followers.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou shalt never call | to thy knees again\nErp or Eitil, | when merry with ale;\nThou shalt never see | in their seats again\nThe sharers of gold | their lances shaping,\n(Clipping the manes | or minding their steeds.)\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "There was clamor on the benches, | and the cry of men,\nThe clashing of weapons, | and weeping of the Huns,\nSave for Guthrun only, | she wept not ever\nFor her bear-fierce brothers, | or the boys so dear,\nSo young and so unhappy, | whom with Atli she had.",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Gold did she scatter, | the swan-white one,\nAnd rings of red gold | to the followers gave she;\nThe fate she let grow, | and the shining wealth go,\nNor spared she the treasure | of the temple itself.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "Unwise then was Atli, | he had drunk to wildness,\nNo weapon did he have, | and of Guthrun bewared not;\nOft their play was better | when both in gladness\nEach other embraced | among princes all.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "With her sword she gave blood | for the bed to drink,\nWith her death-dealing hand, | and the hounds she loosed,\nThe thralls she awakened, | and a firebrand threw\nIn the door of the hall; | so vengeance she had.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "To the flames she gave all | who yet were within,\nAnd from Myrkheim had come | from the murder of Gunnar;\nThe timbers old fell, | the temple was in flames,\nThe dwelling of the Buthlungs, | and the shield-maids burned,\nThey were slain in the house, | in the hot flames they sank.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Now the tale is all told, | nor in later time\nWill a woman in byrnie | avenge so her brothers;\nThe fair one to three | of the kings of the folk\nBrought the doom of death | ere herself she died.\nStill more is told in the Greenland ballad of Atli.",
+      "stanza": "46"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Atlakviða",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe34.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

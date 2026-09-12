@@ -1,0 +1,742 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Sigurðr ok Reginn fóru upp á Gnitaheiði ok hittu þar slóð Fáfnis, þá er hann skreið til vatns. Þar gerði Sigurðr gröf mikla á veginum, ok gekk Sigurðr þar í. En er Fáfnir skreið af gullinu, blés hann eitri, ok hraut þat fyrir ofan höfuð Sigurði. En er Fáfnir skreið yfir gröfina, þá lagði Sigurðr hann með sverði til hjarta. Fáfnir hristi sik ok barði höfði ok sporði. Sigurðr hljóp ór gröfinni, ok sá þá hvárr annan. Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sveinn ok sveinn,\nhverjum ertu svein of borinn?\nHverra ertu manna mögr,\ner þú á Fáfni rautt\nþinn inn frána mæki?\nStöndumk til hjarta hjörr.\"\nSigurðr dulði nafn síns, fyrir því at þat var trúa þeira í forneskju, at orð feigs manns mætti mikit, ef hann bölvaði óvin sínum með nafni. Hann kvað:",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Göfugt dýr ek heiti,\nen ek gengit hefk\ninn móðurlausi mögr,\nföður ek ákk-a\nsem fira synir;\næ geng ek einn saman.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Veiztu, ef föður né átt-at\nsem fira synir,\naf hverju vastu undri alinn?\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ætterni mitt\nkveð ek þér ókunnigt vera\nok mik sjalfan it sama;\nSigurðr ek heiti,\nSigmundr hét minn faðir,\ner hefk þik vápnum vegit.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hverr þik hvatti?\nHví hvetjask lézt\nmínu fjörvi at fara?\nInn fráneygi sveinn,\nþú áttir föður bitran;\nóbornum skjór á skeið.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hugr mik hvatti,\nhendr mér fulltýðu\nok minn inn hvassi hjörr;\nfár er hvatr,\ner hröðask tekr,\nef í barnæsku er blauðr.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Veit ek, ef þú vaxa næðir\nfyr þinna vina brjósti,\nsæi maðr þik vreiðan vega;\nnú ertu haftr\nok hernuminn;\næ kveða bandingja bifask.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Því bregðr þú mér, Fáfnir,\nat til fjarri séak\nmínum feðrmunum;\neigi em ek haftr,\nþótt ek væra hernumi;\nþú fannt, at ek laus lifi.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heiftyrði ein\ntelr þú þér í hvívetna,\nen ek þér satt eitt segik:\nIt gjalla gull\nok it glóðrauða fé,\nþér verða þeir baugar at bana.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Féi ráða\nvill fyrða hverr\næ til ins eina dags;\nþví at einu sinni\nskal alda hverr\nfara til heljar heðan.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Norna dóm\nþú munt fyr nesjum hafa\nok ósvinns apa;\ní vatni þú drukknar,\nef í vindi rær;\nallt er feigs forað.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér, Fáfnir,\nalls þik fróðan kveða\nok vel margt vita,\nhverjar ro þær nornir,\ner nauðgönglar ro\nok kjósa mæðr frá mögum.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sundrbornar mjök\nsegi ek nornir vera,\neigu-t þær ætt saman;\nsumar eru áskunngar,\nsumar alfkunngar,\nsumar dætr Dvalins.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Fáfnir,\nalls þik fróðan kveða\nok vel margt vita,\nhvé sá holmr heitir,\ner blanda hjörlegi\nSurtr ok æsir saman.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Óskópnir hann heitir,\nen þar öll skulu\ngeirum leika goð;\nBilröst brotnar,\ner þeir á brú fara,\nok svima í móðu marir.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Ægishjalm\nbar ek of alda sonum,\nmeðan ek of menjum lák;\neinn rammari\nhugðumk öllum vera,\nfannk-a ek svá marga mögu.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ægishjalmr\nbergr einungi,\nhvar skulu vreiðir vega;\nþá þat finnr,\ner með fleirum kemr,\nat engi er einna hvatastr.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eitri ek fnæsta,\ner ek á arfi lá\nmiklum míns föður.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Inn fráni ormr,\nþú gerðir fræs mikla\nok galzt harðan hug;\nheift at meiri\nverðr hölða sonum,\nat þann hjalm hafi.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ræð ek þér nú, Sigurðr,\nen þú ráð nemir,\nok ríð heim heðan;\nit gjalla gull\nok it glóðrauða fé,\nþér verða þeir baugar at bana.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ráð er þér ráðit,\nen ek ríða mun\ntil þess gulls, er í lyngvi liggr,\nen þú, Fáfnir,\nligg í fjörbrotum,\nþar er þik hel hafi.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Fáfnir kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Reginn mik réð,\nhann þik ráða mun,\nhann mun okkr verða báðum at bana;\nfjör sitt láta,\nhygg ek, at Fáfnir myni;\nþitt varð nú meira megin.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Reginn var á brott horfinn, meðan Sigurðr vá Fáfni, ok kom þá aftr, er Sigurðr strauk blóð af sverðinu. Reginn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heill þú nú, Sigurðr,\nnú hefir þú sigr vegit\nok Fáfni of farit;\nmanna þeira,\ner mold troða,\nþik kveð ek óblauðastan alinn.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þat er óvíst at vita,\nþá er komum allir saman,\nsigtíva synir,\nhverr óblauðastr er alinn;\nmargr er sá hvatr,\ner hjör né rýðr\nannars brjóstum í.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Reginn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Glaðr ertu nú, Sigurðr,\nok gagni feginn,\ner þú þerrir Gram á grasi;\nbróður minn\nhefr þú benjaðan,\nok vald ek þó sjalfr sumu.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þú því rétt,\ner ek ríða skyldak\nhélug fjöll hinig;\nféi ok fjörvi\nréði sá inn fráni ormr,\nnema þú frýðir mér hvats hugar.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Þá gekk Reginn at Fáfni ok skar hjarta ór hánum með sverði, er Riðill heitir, ok þá drakk hann blóð ór undinni eftir. Reginn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sittu nú, Sigurðr,\nen ek mun sofa ganga,\nok halt Fáfnis hjarta við funa;\neisköld ek vil\netin láta\neftir þenna dreyra drykk.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Fjarri þú gekkt,\nmeðan ek á Fáfni rauðk\nminn inn hvassa hjör;\nafli mínu\natta ek við orms megin,\nmeðan þú í lyngvi látt.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Reginn kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lengi liggja\nlétir þú lyngvi í\nþann inn aldna jötun,\nef þú sverðs né nytir,\nþess er ek sjalfr gerða,\nok þíns ins hvassa hjörs.\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hugr er betri\nen sé hjörs megin,\nhvars vreiðir skulu vega,\nþví at hvatan mann\nek sé harðliga vega\nmeð slævu sverði sigr.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvötum er betra\nen sé óhvötum\ní hildileik hafask;\nglöðum er betra\nen sé glúpnanda,\nhvat sem at hendi kemr.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "prose",
+      "text": "Sigurðr tók Fáfnis hjarta ok steikði á teini. Er hann hugði, at fullsteikt væri ok freyddi sveitinn ór hjartanu, þá tók hann á fingri sínum ok skynjaði, hvárt fullsteikt væri. Hann brann ok brá fingrinum í munn sér. En er hjartablóð Fáfnis kom á tungu hánum, ok skilði hann fugls rödd. Hann heyrði, at igður klökuðu á hrísinu. Igðan kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þar sitr Sigurðr\nsveita stokkinn,\nFáfnis hjarta\nvið funa steikir;\nspakr þætti mér\nspillir bauga,\nef hann fjörsega\nfránan æti.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Önnur kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þar liggr Reginn,\nræðr um við sik,\nvill tæla mög,\nþann er trúir hánum,\nberr af reiði\nröng orð saman,\nvill bölvasmiðr\nbróður hefna.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "In þriðja kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Höfði skemmra\nláti hann inn hára þul\nfara til heljar heðan;\nöllu gulli\nþá kná hann einn ráða,\nfjölð því er und Fáfni lá.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "In fjórða kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "Horskr þætti mér,\nef hafa kynni\nástráð mikit\nyðvar systra,\nhygði hann of sik\nok hugin gleddi;\nþar er mér ulfs ván,\ner ek eyru sék.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "In fimmta kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Er-at svá horskr\nhildimeiðr\nsem ek hers jaðar\nhyggja myndak,\nef hann bróður lætr\ná brot komask,\nen hann öðrum hefir\naldrs of synjat.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "In sétta kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mjök er ósviðr,\nef hann enn sparir\nfjánda inn folkskáa,\nþar er Reginn liggr,\ner hann ráðinn hefr,\nkann-at hann við slíku at séa.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "In sjaunda kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Höfði skemmra láti hann\nþann inn hrímkalda jötun\nok af baugum búa;\nþá mun hann fjár þess,\ner Fáfnir réð,\neinvaldi vera.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Verða-t svá rík sköp,\nat Reginn skyli\nmitt banorð bera;\nþví at þeir báðir bræðr\nskulu bráðliga\nfara til heljar heðan.\"\nSigurðr hjó höfuð af Regin, ok þá át han Fáfnis hjarta ok drakk blóð þeira beggja, Regins ok Fáfnis. Þá heyrði Sigurðr, hvar igður mæltu:",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bitt þú, Sigurðr,\nbauga rauða;\ner-a konungligt\nkvíða mörgu.\nMey veit ek eina\nmiklu fegrsta,\ngulli gædda,\nef þú geta mættir.\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Liggja til Gjúka\ngrænar brautir,\nfram vísa sköp\nfolklíðöndum;\nþar hefir dýrr konungr\ndóttur alna;\nþá muntu, Sigurðr,\nmundi kaupa.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Salr er á háu\nHindarfjalli,\nallr er hann útan\neldi sveipinn,\nþann hafa horskir\nhalir of görvan\nór ódökkum\nÓgnar ljóma.\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Veit ek á fjalli\nfolkvitr sofa\nok leikr yfir\nlindar váði;\nYggr stakk þorni,\naðra felldi\nhör-Gefn hali\nen hafa vildi.\"",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Knáttu, mögr, séa\nmey und hjalmi,\nþá er frá vígi\nVingskorni reið;\nmá-at Sigrdrífar\nsvefni bregða\nskjöldunga niðr\nfyr sköpum norna.\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "prose",
+      "text": "Sigurðr reið eftir slóð Fáfnis til bælis hans ok fann þat opit ok hurðir af járni ok gætti. Af járni váru ok allir timbrstokkar í húsinu, en grafit í jörð niðr. Þar fann Sigurðr stórmikit gull ok fylldi þar tvær kistur. Þar tók hann ægishjálm ok gullbrynju ok sverðit Hrotta ok marga dýrgripi ok klyfjaði þar með Grana, en hestrinn vildi eigi fram ganga, fyrr en Sigurðr steig á bak hánum."
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Sigurth and Regin went up to the Gnitaheith, and found there the track that Fafnir made when he crawled to water. Then Sigurth made a great trench across the path, and took his place therein. When Fafnir crawled from his gold, he blew out venom, and it ran down from above on Sigurth's head. But when Fafnir crawled over the trench, then Sigurth thrust his sword into his body to the heart. Fafnir writhed and struck out with his head and tail. Sigurth leaped from the trench, and each looked at the other. Fafnir said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Youth, oh, youth! | of whom then, youth, art thou born?\nSay whose son thou art,\nWho in Fafnir's blood | thy bright blade reddened,\nAnd struck thy sword to my heart.\"\nSigurth concealed his name because it was believed in olden times that the word of a dying man might have great power if he cursed his foe by his name. He said:",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The Noble Hart | my name, and I go\nA motherless man abroad;\nFather I had not, | as others have,\nAnd lonely ever I live.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"If father thou hadst not, | as others have,\nBy what wonder wast thou born?\n(Though thy name on the day | of my death thou hidest,\nThou knowest now thou dost lie.)\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"My race, methinks, | is unknown to thee,\nAnd so am I myself;\nSigurth my name, | and Sigmund's son,\nWho smote thee thus with the sword.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Who drove thee on? | why wert thou driven\nMy life to make me lose?\nA father brave | had the bright-eyed youth,\nFor bold in boyhood thou art.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"My heart did drive me, | my hand fulfilled,\nAnd my shining sword so sharp;\nFew are keen | when old age comes,\nWho timid in boyhood be.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"If thou mightest grow | thy friends among,\nOne might see thee fiercely fight;\nBut bound thou art, | and in battle taken,\nAnd to fear are prisoners prone.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thou blamest me, Fafnir, | that I see from afar\nThe wealth that my father's was;\nNot bound am I, | though in battle taken,\nThou hast found that free I live.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"In all I say | dost thou hatred see,\nYet truth alone do I tell;\nThe sounding gold, | the glow-red wealth,\nAnd the rings thy bane shall be.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Some one the hoard | shall ever hold,\nTill the destined day shall come;\nFor a time there is | when every man\nShall journey hence to hell.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The fate of the Norns | before the headland\nThou findest, and doom of a fool;\nIn the water shalt drown | if thou row 'gainst the wind,\nAll danger is near to death.\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tell me then, Fafnir, | for wise thou art famed,\nAnd much thou knowest now:\nWho are the Norns | who are helpful in need,\nAnd the babe from the mother bring?\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Of many births | the Norns must be,\nNor one in race they were;\nSome to gods, others | to elves are kin,\nAnd Dvalin's daughters some.\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tell me then, Fafnir, | for wise thou art famed,\nAnd much thou knowest now:\nHow call they the isle | where all the gods\nAnd Surt shall sword-sweat mingle?\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Oskopnir is it, | where all the gods\nShall seek the play of swords;\nBilrost breaks | when they cross the bridge,\nAnd the steeds shall swim in the flood.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The fear-helm I wore | to afright mankind,\nWhile guarding my gold I lay;\nMightier seemed I | than any man,\nFor a fiercer never I found.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The fear-helm surely | no man shields\nWhen he faces a valiant foe;\nOft one finds, | when the foe he meets,\nThat he is not the bravest of all.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Venom I breathed | when bright I lay\nBy the hoard my father had;\n(There was none so mighty | as dared to meet me,\nAnd weapons nor wiles I feared.)\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Glittering worm, | thy hissing was great,\nAnd hard didst show thy heart;\nBut hatred more | have the sons of men\nFor him who owns the helm.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I counsel thee, Sigurth, | heed my speech,\nAnd ride thou homeward hence,\nThe sounding gold, | the glow-red wealth,\nAnd the rings thy bane shall be.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy counsel is given, | but go I shall\nTo the gold in the heather hidden;\nAnd, Fafnir, thou | with death dost fight,\nLying where Hel shall have thee.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Fafnir spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Regin betrayed me, | and thee will betray,\nUs both to death will he bring;\nHis life, methinks, | must Fafnir lose,\nFor the mightier man wast thou.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Regin had gone to a distance while Sigurth fought Fafnir, and came back while Sigurth was wiping the blood from his sword. Regin said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hail to thee, Sigurth! | Thou victory hast,\nAnd Fafnir in fight hast slain;\nOf all the men | who tread the earth,\nMost fearless art thou, methinks.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Unknown it is, | when all are together,\n(The sons of the glorious gods,)\nWho bravest born shall seem;\nSome are valiant | who redden no sword\nIn the blood of a foeman's breast.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Regin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Glad art thou, Sigurth, | of battle gained,\nAs Gram with grass thou cleansest;\nMy brother fierce | in fight hast slain,\nAnd somewhat I did myself.\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Afar didst thou go | while Fafnir reddened\nWith his blood my blade so keen;\nWith the might of the dragon | my strength I matched,\nWhile thou in the heather didst hide.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Regin spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Longer wouldst thou | in the heather have let\nYon hoary giant hide,\nHad the weapon availed not | that once I forged,\nThe keen-edged blade thou didst bear.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Better is heart | than a mighty blade\nFor him who shall fiercely fight;\nThe brave man well | shall fight and win,\nThough dull his blade may be.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Brave men better | than cowards be,\nWhen the clash of battle comes;\nAnd better the glad | than the gloomy man\nShall face what before him lies.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy rede it was | that I should ride\nHither o'er mountains high;\nThe glittering worm | would have wealth and life\nIf thou hadst not mocked at my might.\"\nThen Regin went up to Fafnir and cut out his heart with his sword, that was named Rithil, and then he drank blood from the wounds. Regin said:",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sit now, Sigurth, | for sleep will I,\nHold Fafnir's heart to the fire;\nFor all his heart | shall eaten be,\nSince deep of blood I have drunk.\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "prose",
+      "text": "Sigurth took Fafnir's heart and cooked it on a spit. When he thought that it was fully cooked, and the blood foamed out of the heart, then he tried it with his finger to see whether it was fully cooked. He burned his finger, and put it in his mouth. But when Fafnir's heart's-blood came on his tongue, he understood the speech of birds. He heard nut-hatches chattering in the thickets. A nut hatch said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"There sits Sigurth, | sprinkled with blood,\nAnd Fafnir's heart | with fire he cooks;\nWise were the breaker | of rings, I ween,\nTo eat the life-muscles | all so bright.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "A second spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"There Regin lies, | and plans he lays\nThe youth to betray | who trusts him well;\nLying words | with wiles will he speak,\nTill his brother the maker | of mischief avenges.\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "A third spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Less by a head | let the chatterer hoary\nGo from here to hell;\nThen all of the wealth | he alone can wield,\nThe gold that Fafnir guarded.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "A fourth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Wise would he seem | if so he would heed\nThe counsel good | we sisters give;\nThought he would give, | and the ravens gladden,\nThere is ever a wolf | where his ears I spy.\"",
+      "stanza": "35"
+    },
+    {
+      "kind": "heading",
+      "text": "A fifth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Less wise must be | the tree of battle\nThan to me would seem | the leader of men,\nIf forth he lets | one brother fare,\nWhen he of the other | the slayer is.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "A sixth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Most foolish he seems | if he shall spare\nHis foe, the bane of the folk,\nThere Regin lies, | who hath wronged him so,\nYet falsehood knows he not.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "heading",
+      "text": "A seventh spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Let the head from the frost-cold | giant be hewed,\nAnd let him of rings be robbed;\nThen all the wealth | which Fafnir's was\nShall belong to thee alone.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Not so rich a fate | shall Regin have\nAs the tale of my death to tell;\nFor soon the brothers | both shall die,\nAnd hence to hell shall go.\"\nSigurth hewed off Regin's head, and then he ate Fafnir's heart, and drank the blood of both Regin and Fafnir. Then Sigurth heard what the nut-hatch said:",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bind, Sigurth, the golden | rings together,\nNot kingly is it | aught to fear;\nI know a maid, | there is none so fair,\nRich in gold, | if thou mightest get her.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Green the paths | that to Gjuki lead,\nAnd his fate the way | to the wanderer shows;\nThe doughty king | a daughter has,\nThat thou as a bride | mayst, Sigurth, buy.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "heading",
+      "text": "Another spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"A hall stands high | on Hindarfjoll,\nAll with flame | is it ringed without;\nWarriors wise | did make it once\nOut of the flaming | light of the flood.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "\"On the mountain sleeps | a battle-maid,\nAnd about her plays | the bane of the wood;\nYgg with the thorn | hath smitten her thus,\nFor she felled the fighter | he fain would save.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "\"There mayst thou behold | the maiden helmed,\nWho forth on Vingskornir | rode from the fight;\nThe victory-bringer | her sleep shall break not,\nThou heroes' son, | so the Norns have set.\"",
+      "stanza": "44"
+    },
+    {
+      "kind": "prose",
+      "text": "Sigurth rode along Fafnir's trail to his lair, and found it open. The gate-posts were of iron, and the gates; of iron, too, were all the beams in the house, which was dug down into the earth. There Sigurth found a mighty store of gold, and he filled two chests full thereof; he took the fear-helm and a golden mail-coat and the sword Hrotti, and many other precious things, and loaded Grani with them, but the horse would not go forward until Sigurth mounted on his back."
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Fáfnismál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe24.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

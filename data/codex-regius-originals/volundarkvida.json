@@ -1,0 +1,530 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Níðuðr hét konungr í Svíþjóð. Hann átti tvá sonu ok eina dóttur. Hon hét Böðvildr. Bræðr váru þrír, synir Finnakonungs. Hét einn Slagfiðr, annarr Egill, þriði Völundr. Þeir skriðu ok veiddu dýr. Þeir kómu í Úlfdali ok gerðu sér þar hús. Þar er vatn, er heitir Úlfsjár. Snemma of morgin fundu þeir á vatnsströndu konur þrjár, ok spunnu lín. Þar váru hjá þeim álftarhamir þeira. Þat váru valkyrjur."
+    },
+    {
+      "kind": "prose",
+      "text": "Þar váru tvær dætr Hlöðvés konungs, Hlaðguðr svanhvít ok Hervör alvitr, in þriðja var Ölrún Kjársdóttir af Vallandi. Þeir höfðu þær heim til skála með sér. Fekk Egill Ölrúnar, en Slagfiðr Svanhvítrar, en Völundr Alvitrar. Þau bjuggu sjau vetr. Þá flugu þær at vitja víga ok kómu eigi aftr. Þá skreið Egill at leita Ölrúnar, en Slagfiðr leitaði Svanhvítrar, en Völundr sat í Úlfdölum. Hann var hagastr maðr, svá at menn viti, í fornum sögum. Níðuðr konungr lét hann höndum taka, svá sem hér er um kveðit:"
+    },
+    {
+      "kind": "verse",
+      "text": "Meyjar flugu sunnan\nmyrkvið í gögnum,\nAlvitr unga,\nörlög drýgja;\nþær á sævarströnd\nsettusk at hvílask\ndrósir suðrænar,\ndýrt lín spunnu.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Ein nam þeira\nEgil at verja,\nfögr mær fira,\nfaðmi ljósum;\nönnur var Svanhvít,\nsvanfjaðrar dró,\nen in þriðja\nþeira systir\nvarði hvítan\nhals Völundar.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Sátu síðan\nsjau vetr at þat,\nen inn átta\nallan þráðu,\nen inn níunda\nnauðr of skilði;\nmeyjar fýstusk\ná myrkvan við,\nAlvitr unga,\nörlög drýgja.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Kom þar af veiði\nveðreygr skyti,\n[Völundr, líðandi\num langan veg],\nSlagfiðr ok Egill,\nsali fundu auða,\ngengu út ok inn\nok um sáusk;\naustur skreið Egill\nat Ölrúnu,\nen suðr Slagfiðr\nat Svanhvítu.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "En einn Völundr\nsat í Ulfdölum,\nhann sló gull rautt\nvið gim fastan,\nlukði hann alla\nlind baugum vel;\nsvá beið hann\nsinnar ljóssar\nkvánar, ef hánum\nkoma gerði.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat spyrr Níðuðr,\nNíára dróttinn,\nat einn Völundr\nsat í Ulfdölum;\nnóttum fóru seggir,\nneglðar váru brynjur,\nskildir bliku þeira\nvið inn skarða mána.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Stigu ór söðlum\nat salar gafli,\ngengu inn þaðan\nendlangan sal;\nsáu þeir á bast\nbauga dregna,\nsjau hundruð allra,\ner sá seggr átti.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Og þeir af tóku\nok þeir á létu,\nfyr einn útan,\ner þeir af létu.\nKom þar af veiði\nveðreygr skyti,\nVölundr, líðandi\num langan veg.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Gekk hann brúnni\nberu hold steikja,\nár brann hrísi\nallþurr fura,\nviðr inn vindþurri,\nfyr Völundi.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat á berfjalli,\nbauga talði,\nalfa ljóði,\neins saknaði;\nhugði hann, at hefði\nHlöðvés dóttir,\nAlvitr unga,\nværi hon aftr komin.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat hann svá lengi,\nat hann sofnaði,\nok hann vaknaði\nviljalauss;\nvissi sér á höndum\nhöfgar nauðir,\nen á fótum\nfjötur of spenntan.",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Völundr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hverir ro jöfrar,\nþeir er á lögðu\nbesti bör síma\nok mik bundu?\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Kallaði nú Níðuðr\nNíara dróttinn:\n\"Hvar gaztu, Völundr,\nvísi alfa,\nvára aura\ní Ulfdölum?\"\nVölundr Kvað:",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gull var þar eigi\ná Grana leiðu,\nfjarri hugða ek várt land\nfjöllum Rínar;\nman ek, at vér meiri\nmæti áttum,\ner vér heil hjú\nheima várum.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Hlaðguðr ok Hervör\nborin var Hlöðvé\nkunn var Ölrún\nKíárs dóttir.\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "[Úti stóð kunnig\nkván Níðaðar],\nhon inn of gekk\nendlangan sal,\nstóð á golfi,\nstillti röddu:\n\"Er-a sá nú hýrr,\ner ór holti ferr.\"\nNíðuðr konungr gaf dóttur sinni, Böðvildi gullhring þann, er hann tók af bastinu at Völundar, en hann sjálfr bar sverðit, er Völundr átti. En dróttning kvað:",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ámun eru augu\normi þeim inum frána,\ntenn hánum teygjask,\ner hánum er tét sverð\nok hann Böðvildar\nbaug of þekkir;\nsníðið ér hann\nsina magni\nok setið hann síðan\ní Sævarstöð.\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "prose",
+      "text": "Svá var gert, at skornar váru sinar í knésfótum, ok settr í hólm einn, er þar var fyrir landi, er hét Sævarstaðr. Þar smíðaði hann konungi alls kyns görsimar. Engi maðr þorði at fara til hans nema konungr einn."
+    },
+    {
+      "kind": "verse",
+      "text": "\"Skínn Níðaði\nsverð á linda,\nþat er ek hvessta,\nsem ek hagast kunna\nok ek herðak,\nsem mér hægst þótti;\nsá er mér fránn mækir\næ fjarri borinn,\nsékk-a ek þann Völundi\ntil smiðju borinn.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Nú berr Böðvildr\nbrúðar minnar\n- bíðk-a ek þess bót, -\nbauga rauða.\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat hann, né hann svaf, ávallt\nok hann sló hamri;\nvél gerði hann heldr\nhvatt Níðaði.\nDrifu ungir tveir\ná dýr séa\nsynir Níðaðar,\ní Sævarstöð.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Kómu þeir til kistu,\nkröfðu lukla,\nopin var illúð\ner þeir í sáu;\nfjölð var þar menja,\ner þeim mögum sýndisk\nat væri gull rautt\nok görsimar.",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Völundr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Komið einir tveir,\nkomið annars dags;\nykkr læt ek þat gull\nof gefit verða;\nsegið-a meyjum\nné salþjóðum,\nmanni engum,\nat it mik fyndið.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Snemma kallaði\nseggr annan,\nbróðir á bróður:\n\"Göngum baug séa!\"\nKómu til kistu,\nkröfðu lukla,\nopin var illúð,\ner þeir í litu.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Sneið af höfuð\nhúna þeira\nok und fen fjöturs\nfætr of lagði;\nen þær skálar,\ner und skörum váru,\nsveip hann útan silfri,\nseldi Níðaði.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "En ór augum\njarknasteina\nsendi hann kunnigri\nkonu Níðaðar,\nen ór tönnum\ntveggja þeira\nsló hann brjóstkringlur\nsendi Böðvildi.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá nam Böðvildr\nbaugi at hrósa\n[bar hann Völundi],\ner brotit hafði:\n\"Þorig-a ek at segja\nnema þér einum.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Völundr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek bæti svá\nbrest á gulli\nat feðr þínum\nfegri þykkir\nok mæðr þinni\nmiklu betri\nok sjalfri þér\nat sama hófi.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Bar hann hana bjóri,\nþví at hann betr kunni\nsvá at hon í sessi\nof sofnaði.\n\"Nú hef ek hefnt\nharma minna\nallra nema einna\níviðgjarna.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vel ek,\" kvað Völundr,\n\"verða ek á fitjum\nþeim er mik Níðaðar\nnámu rekkar.\"\nHlæjandi Völundr\nhófsk at lofti,\ngrátandi Böðvildr\ngekk ór eyju,\ntregði för friðils\nok föður reiði.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Úti stendr kunnig\nkván Níðaðar,\nok hon inn of gekk\nendlangan sal,\n- en hann á salgarð\nsettisk at hvílask -:\n\"Vakir þú, Níðuðr\nNíara dróttinn?\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Níðuðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vaki ek ávallt\nviljalauss,\nsofna ek minnst\nsíz mína sonu dauða;\nkell mik í höfuð,\nköld eru mér ráð þín,\nvilnumk ek þess nú,\nat ek við Völund dæma.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Seg þú mér þat, Völundr,\nvísi alfa,\naf heilum hvat varð\nhúnum mínum.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Völundr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eiða skaltu mér áðr\nalla vinna,\nat skips borði\nok at skjaldar rönd,\nat mars bægi\nok at mækis egg,\nat þú kvelj-at\nkván Völundar\nné brúði minni\nat bana verðir,\nþótt vér kván eigim,\nþá er ér kunnið,\neða jóð eigim\ninnan hallar.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Gakk þú til smiðju,\nþeirar er þú gerðir,\nþar fiðr þú belgi\nblóði stokkna;\nsneið ek af höfuð\nhúna þinna,\nok und fen fjöturs\nfætr of lagðak.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "En þær skálar,\ner und skörum váru,\nsveip ek útan silfri,\nselda ek Níðaði;\nen ór augum\njarknasteina\nsenda ek kunnigri\nkván Níðaðar.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "En úr tönnum\ntveggja þeira\nsló ek brjóstkringlur,\nsenda ek Böðvildi;\nnú gengr Böðvildr\nbarni aukin,\neingadóttir\nykkur beggja.\"",
+      "stanza": "36"
+    },
+    {
+      "kind": "heading",
+      "text": "Níðuðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Mæltir-a þú þat mál,\ner mik meir tregi,\nné ek þik vilja, Völundr,\nverr of níta;\ner-at svá maðr hár,\nat þik af hesti taki,\nné svá öflugr,\nat þik neðan skjóti,\nþar er þú skollir\nvið ský uppi.\"",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Hlæjandi Völundr\nhófsk at lofti,\nen ókátr Níðuðr\nsat þá eftir.",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Níðuðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Upp rístu, Þakkráðr,\nþræll minn inn bezti,\nbið þú Böðvildi,\nmeyna bráhvítu,\nganga fagrvarið\nvið föður ræða.",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Er þat satt, Böðvildr,\ner sögðu mér:\nSátuð it Völundr\nsaman í holmi?\"",
+      "stanza": "40"
+    },
+    {
+      "kind": "heading",
+      "text": "Böðvildr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Satt er þat, Níðuðr,\ner sagði þér:\nSátum vit Völundr\nsaman í holmi\neina ögurstund,\næva skyldi;\nek vætr hánum\nvinna kunnak,\nek vætr hánum\nvinna máttak.\"",
+      "stanza": "41"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "There was a king in Sweden named Nithuth. He had two sons and one daughter; her name was Bothvild. There were three brothers, sons of a king of the Finns: one was called Slagfith, another Egil, the third Völund. They went on snowshoes and hunted wild beasts. They came into Ulfdalir and there they built themselves a house; there was a lake there which is called Ulfsjar. Early one morning they found on the shore of the lake three women, who were spinning flax."
+    },
+    {
+      "kind": "prose",
+      "text": "Near them were their swan garments, for they were Valkyries. Two of them were daughters of King Hlothver, Hlathguth the Swan-White and Hervor the All-Wise, and the third was Olrun, daughter of Kjar from Valland. These did they bring home to their hall with them. Egil took Olrun, and Slagfith Swan-White, and Völund All-Wise. There they dwelt seven winters; but then they flew away to find battles, and came back no more. Then Egil set forth on his snowshoes to follow Olrun, and Slagfith followed Swan White, but Völund stayed in Ulfdalir. He was a most skillful man, as men know from old tales. King Nithuth had him taken by force, as the poem here tells."
+    },
+    {
+      "kind": "verse",
+      "text": "Maids from the south | through Myrkwood flew,\nFair and young, | their fate to follow;\nOn the shore of the sea | to rest them they sat,\nThe maids of the south, | and flax they spun.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nHlathguth and Hervor, | Hlothver's children,\nAnd Olrun the Wise | Kjar's daughter was.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nOne in her arms | took Egil then\nTo her bosom white, | the woman fair.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Swan-White second,-- | swan-feathers she wore,\n. . . . . . . . . .\nAnd her arms the third | of the sisters threw\nNext round Völund's | neck so white.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "There did they sit | for seven winters,\nIn the eighth at last | came their longing again,\n(And in the ninth | did need divide them).\nThe maidens yearned | for the murky wood,\nThe fair young maids, | their fate to follow.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Völund home | from his hunting came,\nFrom a weary way, | the weather-wise bowman,\nSlagfith and Egil | the hall found empty,\nOut and in went they, | everywhere seeking.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "East fared Egil | after Olrun,\nAnd Slagfith south | to seek for Swan-White;\nVölund alone | in Ulfdalir lay,\n. . . . . . . . . .",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Red gold he fashioned | with fairest gems,\nAnd rings he strung | on ropes of bast;\nSo for his wife | he waited long,\nIf the fair one home | might come to him.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "This Nithuth learned, | the lord of the Njars,\nThat Völund alone | in Ulfdalir lay;\nBy night went his men, | their mail-coats were studded,\nTheir shields in the waning | moonlight shone.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "From their saddles the gable | wall they sought,\nAnd in they went | at the end of the hall;\nRings they saw there | on ropes of bast,\nSeven hundred | the hero had.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Off they took them, | but all they left\nSave one alone | which they bore away.\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Völund home | from his hunting came,\nFrom a weary way, | the weather-wise bowman;\nA brown bear's flesh | would he roast with fire;\nSoon the wood so dry | was burning well,\n(The wind-dried wood | that Völund's was).",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "On the bearskin he rested, | and counted the rings,\nThe master of elves, | but one he missed;\nThat Hlothver's daughter | had it he thought,\nAnd the all-wise maid | had come once more.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "So long he sat | that he fell asleep,\nHis waking empty | of gladness was;\nHeavy chains | he saw on his hands,\nAnd fetters bound | his feet together.",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Völund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What men are they | who thus have laid\nRopes of bast | to bind me now?\"\nThen Nithuth called, | the lord of the Njars:\n\"How gottest thou, Völund, | greatest of elves,\nThese treasures of ours | in Ulfdalir?\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Völund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The gold was not | on Grani's way,\nFar, methinks, is our realm | from the hills of the Rhine;\nI mind me that treasures | more we had\nWhen happy together | at home we were.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Without stood the wife | of Nithuth wise,\nAnd in she came | from the end of the hall;\nOn the floor she stood, | and softly spoke:\n\"Not kind does he look | who comes from the wood.\"\nKing Nithuth gave to his daughter Bothvild the gold ring that he had taken from the bast rope in Völund's",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "house, and he himself wore the sword that Völund had had. The queen spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The glow of his eyes | is like gleaming snakes,\nHis teeth he gnashes | if now is shown\nThe sword, or Bothvild's | ring he sees;\nLet them straightway cut | his sinews of strength,\nAnd set him then | in Sævarstath.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "prose",
+      "text": "So was it done: the sinews in his knee-joints were cut, and he was set in an island which was near the mainland, and was called Sævarstath. There he smithied for the king all kinds of precious things. No man dared to go to him, save only the king himself. Völund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"At Nithuth's girdle | gleams the sword\nThat I sharpened keen | with cunningest craft,\n(And hardened the steel | with highest skill;)\nThe bright blade far | forever is borne,\n(Nor back shall I see it | borne to my smithy;)\nNow Bothvild gets | the golden ring\n(That was once my bride's,-- | ne'er well shall it be.)\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "He sat, nor slept, | and smote with his hammer,\nFast for Nithuth | wonders he fashioned;\nTwo boys did go | in his door to gaze,\nNithuth's sons, | into Sævarstath.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "They came to the chest, | and they craved the keys,\nThe evil was open | when in they looked;\nTo the boys it seemed | that gems they saw,\nGold in plenty | and precious stones.",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Völund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Come ye alone, | the next day come,\nGold to you both | shall then be given;\nTell not the maids | or the men of the hall,\nTo no one say | that me you have sought.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\nEarly did brother | to brother call:\n\"Swift let us go | the rings to see.\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "They came to the chest, | and they craved the keys,\nThe evil was open | when in they looked;\nHe smote off their heads, | and their feet he hid\nUnder the sooty | straps of the bellows.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Their skulls, once hid | by their hair, he took,\nSet them in silver | and sent them to Nithuth;\nGems full fair | from their eyes he fashioned,\nTo Nithuth's wife | so wise he gave them.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "And from the teeth | of the twain he wrought\nA brooch for the breast, | to Bothvild he sent it;\n. . . . . . . . . .",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Bothvild then | of her ring did boast,\n. . . . . . . . . .\n. . . . . | \"The ring I have broken,\nI dare not say it | save to thee.\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Völund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "'I shall weld the break | in the gold so well\nThat fairer than ever | thy father shall find it,\nAnd better much | thy mother shall think it,\nAnd thou no worse | than ever it was.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Beer he brought, | he was better in cunning,\nUntil in her seat | full soon she slept.",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Völund spake:"
+    },
+    {
+      "kind": "prose",
+      "text": "\"Now vengeance I have | for all my hurts, Save one alone, | on the evil woman.\""
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\n. . . . . . . . . .\nQuoth Völund: \"Would | that well were the sinews\nMaimed in my feet | by Nithuth's men.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Laughing Völund | rose aloft,\nWeeping Bothvild | went from the isle,\nFor her lover's flight | and her father's wrath.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Without stood the wife | of Nithuth wise,\nAnd in she came | from the end of the hall;\nBut he by the wall | in weariness sat:\n\"Wakest thou, Nithuth, | lord of the Njars?\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Nithuth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Always I wake, | and ever joyless,\nLittle I sleep | since my sons were slain;\nCold is my head, | cold was thy counsel,\nOne thing, with Völund | to speak, I wish.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\n\"Answer me, Völund, | greatest of elves,\nWhat happed with my boys | that hale once were?\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Völund spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"First shalt thou all | the oaths now swear,\nBy the rail of ship, | and the rim of shield,\nBy the shoulder of steed, | and the edge of sword,\nThat to Völund's wife | thou wilt work no ill,\nNor yet my bride | to her death wilt bring,\nThough a wife I should have | that well thou knowest,\nAnd a child I should have | within thy hall.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Seek the smithy | that thou didst set,\nThou shalt find the bellows | sprinkled with blood;\nI smote off the heads | of both thy sons,\nAnd their feet 'neath the sooty | straps I hid.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Their skulls, once hid | by their hair, I took,\nSet them in silver | and sent them to Nithuth;\nGems full fair | from their eyes I fashioned,\nTo Nithuth's wife | so wise I gave them.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "\"And from the teeth | of the twain I wrought\nA brooch for the breast, | to Bothvild I gave it;\nNow big with child | does Bothvild go,\nThe only daughter | ye two had ever.\"",
+      "stanza": "38"
+    },
+    {
+      "kind": "heading",
+      "text": "Nithuth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Never spakest thou word | that worse could hurt me,\nNor that made me, Völund, | more bitter for vengeance;\nThere is no man so high | from thy horse to take thee,\nOr so doughty an archer | as down to shoot thee,\nWhile high in the clouds | thy course thou takest.\"",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Laughing Völund | rose aloft,\nBut left in sadness | Nithuth sat.\n. . . . . . . . . .",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Then spake Nithuth, | lord of the Njars:\n\"Rise up, Thakkrath, | best of my thralls,\nBid Bothvild come, | the bright-browed maid,\nBedecked so fair, | with her father to speak.\"",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": ". . . . . . . . . .\n\"Is it true, Bothvild, | that which was told me;\nOnce in the isle | with Völund wert thou?\"",
+      "stanza": "42"
+    },
+    {
+      "kind": "heading",
+      "text": "Bothvild spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"True is it, Nithuth, | that which was told thee,\nOnce in the isle | with Völund was I,\nAn hour of lust, | alas it should be!\nNought was my might | with such a man,\nNor from his strength | could I save myself.\"",
+      "stanza": "43"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Völundarkviða",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe17.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

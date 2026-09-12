@@ -1,0 +1,670 @@
+{
+  "norse": [
+    {
+      "kind": "verse",
+      "text": "Hljóðs bið ek allar\nhelgar kindir,\nmeiri ok minni\nmögu Heimdallar;\nviltu at ek, Valföðr,\nvel fyr telja\nforn spjöll fira,\nþau er fremst of man.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "Ek man jötna\nár of borna,\nþá er forðum mik\nfædda höfðu;\nníu man ek heima,\nníu íviðjur,\nmjötvið mæran\nfyr mold neðan.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Ár var alda,\nþat er ekki var,\nvar-a sandr né sær\nné svalar unnir;\njörð fannsk æva\nné upphiminn,\ngap var ginnunga\nen gras hvergi.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Áðr Burs synir\nbjöðum of yppðu,\nþeir er Miðgarð\nmæran skópu;\nsól skein sunnan\ná salar steina,\nþá var grund gróin\ngrænum lauki.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Sól varp sunnan,\nsinni mána,\nhendi inni hægri\num himinjöður;\nsól þat né vissi,\nhvar hon sali átti,\nmáni þat né vissi,\nhvat hann megins átti,\nstjörnur þat né vissu\nhvar þær staði áttu.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá gengu regin öll\ná rökstóla,\nginnheilög goð,\nok um þat gættusk;\nnótt ok niðjum\nnöfn of gáfu,\nmorgin hétu\nok miðjan dag,\nundorn ok aftan,\nárum at telja.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Hittusk æsir\ná Iðavelli,\nþeir er hörg ok hof\nhátimbruðu;\nafla lögðu,\nauð smíðuðu,\ntangir skópu\nok tól gerðu.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Tefldu í túni,\nteitir váru,\nvar þeim vettergis\nvant ór gulli,\nuns þrjár kvámu\nþursa meyjar\námáttkar mjök\nór Jötunheimum.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá gengu regin öll\ná rökstóla,\nginnheilög goð,\nok um þat gættusk,\nhverir skyldi dverga\ndróttir skepja\nór Brimis blóði\nok ór Bláins leggjum.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Þar var Móðsognir\nmæztr of orðinn\ndverga allra,\nen Durinn annarr;\nþeir mannlíkun\nmörg of gerðu\ndvergar í jörðu,\nsem Durinn sagði.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Nýi, Niði,\nNorðri, Suðri,\nAustri, Vestri,\nAlþjófr, Dvalinn,\nNár ok Náinn\nNípingr, Dáinn\nBívurr, Bávurr,\nBömburr, Nóri,\nÁnn ok Ánarr,\nÓinn, Mjöðvitnir.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Veggr ok Gandalfr,\nVindalfr, Þorinn,\nÞrár ok Þráinn,\nÞekkr, Litr ok Vitr,\nNýr ok Nýráðr,\nnú hefi ek dverga,\nReginn ok Ráðsviðr,\nrétt of talða.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Fíli, Kíli,\nFundinn, Náli,\nHefti, Víli,\nHannar, Svíurr,\nBillingr, Brúni,\nBíldr ok Buri,\nFrár, Hornbori,\nFrægr ok Lóni,\nAurvangr, Jari,\nEikinskjaldi.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Mál er dverga\ní Dvalins liði\nljóna kindum\ntil Lofars telja,\nþeir er sóttu\nfrá salar steini\nAurvanga sjöt\ntil Jöruvalla.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Þar var Draupnir\nok Dolgþrasir,\nHár, Haugspori,\nHlévangr, Glóinn,\nDóri, Óri\nDúfr, Andvari\nSkirfir, Virfir,\nSkáfiðr, Ái.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Alfr ok Yngvi,\nEikinskjaldi,\nFjalarr ok Frosti,\nFinnr ok Ginnarr;\nþat mun æ uppi\nmeðan öld lifir,\nlangniðja tal\nLofars hafat.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Unz þrír kvámu\nór því liði\nöflgir ok ástkir\næsir at húsi,\nfundu á landi\nlítt megandi\nAsk ok Emblu\nörlöglausa.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Önd þau né áttu,\nóð þau né höfðu,\nlá né læti\nné litu góða;\nönd gaf Óðinn,\nóð gaf Hænir,\nlá gaf Lóðurr\nok litu góða.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Ask veit ek standa,\nheitir Yggdrasill,\nhár baðmr, ausinn\nhvíta auri;\nþaðan koma döggvar,\nþærs í dala falla,\nstendr æ yfir grænn\nUrðarbrunni.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Þaðan koma meyjar\nmargs vitandi\nþrjár ór þeim sæ,\ner und þolli stendr;\nUrð hétu eina,\naðra Verðandi,\n- skáru á skíði, -\nSkuld ina þriðju;\nþær lög lögðu,\nþær líf kuru\nalda börnum,\nörlög seggja.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat man hon folkvíg\nfyrst í heimi,\ner Gullveigu\ngeirum studdu\nok í höll Hárs\nhana brenndu,\nþrisvar brenndu,\nþrisvar borna,\noft, ósjaldan,\nþó hon enn lifir.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Heiði hana hétu\nhvars til húsa kom,\nvölu velspáa,\nvitti hon ganda;\nseið hon, hvars hon kunni,\nseið hon hug leikinn,\næ var hon angan\nillrar brúðar.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá gengu regin öll\ná rökstóla,\nginnheilög goð,\nok um þat gættusk,\nhvárt skyldu æsir\nafráð gjalda\neða skyldu goðin öll\ngildi eiga.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Fleygði Óðinn\nok í folk of skaut,\nþat var enn folkvíg\nfyrst í heimi;\nbrotinn var borðveggr\nborgar ása,\nknáttu vanir vígspá\nvöllu sporna.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá gengu regin öll\ná rökstóla,\nginnheilög goð,\nok um þat gættusk,\nhverjir hefði loft allt\nlævi blandit\neða ætt jötuns\nÓðs mey gefna.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Þórr einn þar vá\nþrunginn móði,\n- hann sjaldan sitr -\ner hann slíkt of fregn -:\ná gengusk eiðar,\norð ok særi,\nmál öll meginlig,\ner á meðal fóru.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Veit hon Heimdallar\nhljóð of folgit\nund heiðvönum\nhelgum baðmi,\ná sér hon ausask\naurgum forsi\naf veði Valföðrs.\nVituð ér enn - eða hvat?",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Ein sat hon úti,\nþá er inn aldni kom\nyggjungr ása\nok í augu leit.\nHvers fregnið mik?\nHví freistið mín?\nAllt veit ek, Óðinn,\nhvar þú auga falt,\ní inum mæra\nMímisbrunni.\nDrekkr mjöð Mímir\nmorgun hverjan\naf veði Valföðrs.\nVituð ér enn - eða hvat?",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Valði henni Herföðr\nhringa ok men,\nfekk spjöll spaklig\nok spá ganda,\nsá hon vítt ok of vítt\nof veröld hverja.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Sá hon valkyrjur\nvítt of komnar,\ngörvar at ríða\ntil Goðþjóðar;\nSkuld helt skildi,\nen Skögul önnur,\nGunnr, Hildr, Göndul\nok Geirskögul.\nNú eru talðar\nnönnur Herjans,\ngörvar at ríða\ngrund valkyrjur.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Ek sá Baldri,\nblóðgum tívur,\nÓðins barni,\nörlög folgin;\nstóð of vaxinn\nvöllum hæri\nmjór ok mjök fagr\nmistilteinn.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Varð af þeim meiði,\ner mær sýndisk,\nharmflaug hættlig,\nHöðr nam skjóta;\nBaldrs bróðir var\nof borinn snemma,\nsá nam Óðins sonr\neinnættr vega.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Þó hann æva hendr\nné höfuð kembði,\náðr á bál of bar\nBaldrs andskota;\nen Frigg of grét\ní Fensölum\nvá Valhallar.\nVituð ér enn - eða hvat?",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kná Váli\nvígbönd snúa,\nheldr váru harðgör\nhöft ór þörmum.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Haft sá hon liggja\nund Hveralundi,\nlægjarns líki\nLoka áþekkjan;\nþar sitr Sigyn\nþeygi of sínum\nver vel glýjuð.\nVituð ér enn - eða hvat?",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Á fellur austan\num eitrdala\nsöxum ok sverðum,\nSlíðr heitir sú.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Stóð fyr norðan\ná Niðavöllum\nsalr ór gulli\nSindra ættar;\nen annarr stóð\ná Ókólni\nbjórsalr jötuns,\nen sá Brimir heitir.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "Sal sá hon standa\nsólu fjarri\nNáströndu á,\nnorðr horfa dyrr;\nfalla eitrdropar\ninn um ljóra,\nsá er undinn salr\norma hryggjum.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "Sá hon þar vaða\nþunga strauma\nmenn meinsvara\nok morðvarga\nok þann er annars glepr\neyrarúnu;\nþar saug Niðhöggr\nnái framgengna,\nsleit vargr vera.\nVituð ér enn - eða hvat?",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "Austr sat in aldna\ní Járnviði\nok fæddi þar\nFenris kindir;\nverðr af þeim öllum\neinna nokkurr\ntungls tjúgari\ní trölls hami.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "Fyllisk fjörvi\nfeigra manna,\nrýðr ragna sjöt\nrauðum dreyra;\nsvört verða sólskin\num sumur eftir,\nveðr öll válynd.\nVituð ér enn - eða hvat?",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "Sat þar á haugi\nok sló hörpu\ngýgjar hirðir,\nglaðr Eggþér;\ngól of hánum\ní galgviði\nfagrrauðr hani,\nsá er Fjalarr heitir.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "Gól of ásum\nGullinkambi,\nsá vekr hölða\nat Herjaföðrs;\nen annarr gelr\nfyr jörð neðan\nsótrauðr hani\nat sölum Heljar.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Geyr nú Garmr mjök\nfyr Gnipahelli,\nfestr mun slitna,\nen freki renna;\nfjölð veit ek fræða,\nfram sé ek lengra\num ragna rök\nrömm sigtíva.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "Bræðr munu berjask\nok at bönum verðask,\nmunu systrungar\nsifjum spilla;\nhart er í heimi,\nhórdómr mikill,\nskeggöld, skalmöld,\nskildir ro klofnir,\nvindöld, vargöld,\náðr veröld steypisk;\nmun engi maðr\nöðrum þyrma.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Leika Míms synir,\nen mjötuðr kyndisk\nat inu galla\nGjallarhorni;\nhátt blæss Heimdallr,\nhorn er á lofti,\nmælir Óðinn\nvið Míms höfuð.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Skelfr Yggdrasils\naskr standandi,\nymr it aldna tré,\nen jötunn losnar;\nhræðask allir\ná helvegum\náðr Surtar þann\nsefi of gleypir.",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "Hvat er með ásum?\nHvat er með alfum?\nGnýr allr Jötunheimr,\næsir ro á þingi,\nstynja dvergar\nfyr steindurum,\nveggbergs vísir.\nVituð ér enn - eða hvat?",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Geyr nú Garmr mjök\nfyr Gnipahelli,\nfestr mun slitna\nen freki renna;\nfjölð veit ek fræða,\nfram sé ek lengra\num ragna rök\nrömm sigtíva.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "Hrymr ekr austan,\nhefisk lind fyrir,\nsnýsk Jörmungandr\ní jötunmóði;\normr knýr unnir,\nen ari hlakkar,\nslítr nái niðfölr,\nNaglfar losnar.",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "Kjóll ferr austan,\nkoma munu Múspells\nof lög lýðir,\nen Loki stýrir;\nfara fíflmegir\nmeð freka allir,\nþeim er bróðir\nBýleists í för.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Surtr ferr sunnan\nmeð sviga lævi,\nskínn af sverði\nsól valtíva;\ngrjótbjörg gnata,\nen gífr rata,\ntroða halir helveg,\nen himinn klofnar.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kemr Hlínar\nharmr annarr fram,\ner Óðinn ferr\nvið ulf vega,\nen bani Belja\nbjartr at Surti;\nþá mun Friggjar\nfalla angan.",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "Geyr nú Garmr mjök\nfyr Gnipahelli,\nfestr mun slitna,\nen freki renna;\nfjölð veit ek fræða,\nfram sé ek lengra\num ragna rök\nrömm sigtíva.",
+      "stanza": "54"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kemr inn mikli\nmögr Sigföður,\nVíðarr, vega\nat valdýri.\nLætr hann megi Hveðrungs\nmundum standa\nhjör til hjarta,\nþá er hefnt föður.",
+      "stanza": "55"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kemr inn mæri\nmögr Hlóðynjar,\ngengr Óðins sonr\nvið orm vega,\ndrepr af móði\nMiðgarðs véurr,\nmunu halir allir\nheimstöð ryðja;\ngengr fet níu\nFjörgynjar burr\nneppr frá naðri\nníðs ókvíðnum.",
+      "stanza": "56"
+    },
+    {
+      "kind": "verse",
+      "text": "Sól tér sortna,\nsígr fold í mar,\nhverfa af himni\nheiðar stjörnur;\ngeisar eimi\nok aldrnari,\nleikr hár hiti\nvið himin sjalfan.",
+      "stanza": "57"
+    },
+    {
+      "kind": "verse",
+      "text": "Geyr nú Garmr mjök\nfyr Gnipahelli,\nfestr mun slitna\nen freki renna;\nfjölð veit ek fræða\nfram sé ek lengra\num ragna rök\nrömm sigtíva.",
+      "stanza": "58"
+    },
+    {
+      "kind": "verse",
+      "text": "Sér hon upp koma\nöðru sinni\njörð ór ægi\niðjagræna;\nfalla forsar,\nflýgr örn yfir,\nsá er á fjalli\nfiska veiðir.",
+      "stanza": "59"
+    },
+    {
+      "kind": "verse",
+      "text": "Finnask æsir\ná Iðavelli\nok um moldþinur\nmáttkan dæma\nok minnask þar\ná megindóma\nok á Fimbultýs\nfornar rúnir.",
+      "stanza": "60"
+    },
+    {
+      "kind": "verse",
+      "text": "Þar munu eftir\nundrsamligar\ngullnar töflur\ní grasi finnask,\nþærs í árdaga\náttar höfðu.",
+      "stanza": "61"
+    },
+    {
+      "kind": "verse",
+      "text": "Munu ósánir\nakrar vaxa,\nböls mun alls batna,\nBaldr mun koma;\nbúa þeir Höðr ok Baldr\nHrofts sigtoftir,\nvé valtíva.\nVituð ér enn - eða hvat?",
+      "stanza": "62"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kná Hænir\nhlautvið kjósa\nok burir byggja\nbræðra tveggja\nvindheim víðan.\nVituð ér enn - eða hvat?",
+      "stanza": "63"
+    },
+    {
+      "kind": "verse",
+      "text": "Sal sér hon standa\nsólu fegra,\ngulli þakðan\ná Gimléi;\nþar skulu dyggvar\ndróttir byggja\nok um aldrdaga\nynðis njóta.",
+      "stanza": "64"
+    },
+    {
+      "kind": "verse",
+      "text": "Þá kemr inn ríki\nat regindómi\nöflugr ofan,\nsá er öllu ræðr.",
+      "stanza": "65"
+    },
+    {
+      "kind": "verse",
+      "text": "Þar kemr inn dimmi\ndreki fljúgandi,\nnaðr fránn, neðan\nfrá Niðafjöllum;\nberr sér í fjöðrum,\n- flýgr völl yfir, -\nNiðhöggr nái.\nNú mun hon sökkvask.",
+      "stanza": "66"
+    }
+  ],
+  "english": [
+    {
+      "kind": "verse",
+      "text": "Hearing I ask | from the holy races,\nFrom Heimdall's sons, | both high and low;\nThou wilt, Valfather, | that well I relate\nOld tales I remember | of men long ago.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "I remember yet | the giants of yore,\nWho gave me bread | in the days gone by;\nNine worlds I knew, | the nine in the tree\nWith mighty roots | beneath the mold.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "Of old was the age | when Ymir lived;\nSea nor cool waves | nor sand there were;\nEarth had not been, | nor heaven above,\nBut a yawning gap, | and grass nowhere.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Bur's sons lifted | the level land,\nMithgarth the mighty | there they made;\nThe sun from the south | warmed the stones of earth,\nAnd green was the ground | with growing leeks.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "The sun, the sister | of the moon, from the south\nHer right hand cast | over heaven's rim;\nNo knowledge she had | where her home should be,\nThe moon knew not | what might was his,\nThe stars knew not | where their stations were.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Then sought the gods | their assembly-seats,\nThe holy ones, | and council held;\nNames then gave they | to noon and twilight,\nMorning they named, | and the waning moon,\nNight and evening, | the years to number.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "At Ithavoll met | the mighty gods,\nShrines and temples | they timbered high;\nForges they set, and | they smithied ore,\nTongs they wrought, | and tools they fashioned.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "In their dwellings at peace | they played at tables,\nOf gold no lack | did the gods then know,--\nTill thither came | up giant-maids three,\nHuge of might, | out of Jotunheim.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Then sought the gods | their assembly-seats,\nThe holy ones, | and council held,\nTo find who should raise | the race of dwarfs\nOut of Brimir's blood | and the legs of Blain.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "There was Motsognir | the mightiest made\nOf all the dwarfs, | and Durin next;\nMany a likeness | of men they made,\nThe dwarfs in the earth, | as Durin said.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Nyi and Nithi, | Northri and Suthri,\nAustri and Vestri, | Althjof, Dvalin,\nNar and Nain, | Niping, Dain,\nBifur, Bofur, | Bombur, Nori,\nAn and Onar, | Ai, Mjothvitnir.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Vigg and Gandalf) | Vindalf, Thrain,\nThekk and Thorin, | Thror, Vit and Lit,\nNyr and Nyrath,-- | now have I told--\nRegin and Rathsvith-- | the list aright.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Fili, Kili, | Fundin, Nali,\nHeptifili, | Hannar, Sviur,\nFrar, Hornbori, | Fræg and Loni,\nAurvang, Jari, | Eikinskjaldi.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "The race of the dwarfs | in Dvalin's throng\nDown to Lofar | the list must I tell;\nThe rocks they left, | and through wet lands\nThey sought a home | in the fields of sand.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "There were Draupnir | and Dolgthrasir,\nHor, Haugspori, | Hlevang, Gloin,\nDori, Ori, | Duf, Andvari,\nSkirfir, Virfir, | Skafith, Ai.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Alf and Yngvi, | Eikinskjaldi,\nFjalar and Frosti, | Fith and Ginnar;\nSo for all time | shall the tale be known,\nThe list of all | the forbears of Lofar.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Then from the throng | did three come forth,\nFrom the home of the gods, | the mighty and gracious;\nTwo without fate | on the land they found,\nAsk and Embla, | empty of might.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Soul they had not, | sense they had not,\nHeat nor motion, | nor goodly hue;\nSoul gave Othin, | sense gave Hönir,\nHeat gave Lothur | and goodly hue.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "An ash I know, | Yggdrasil its name,\nWith water white | is the great tree wet;\nThence come the dews | that fall in the dales,\nGreen by Urth's well | does it ever grow.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Thence come the maidens | mighty in wisdom,\nThree from the dwelling | down 'neath the tree;\nUrth is one named, | Verthandi the next,--\nOn the wood they scored,-- | and Skuld the third.\nLaws they made there, and life allotted\nTo the sons of men, and set their fates.",
+      "stanza": "20"
+    },
+    {
+      "kind": "verse",
+      "text": "The war I remember, | the first in the world,\nWhen the gods with spears | had smitten Gollveig,\nAnd in the hall | of Hor had burned her,\nThree times burned, | and three times born,\nOft and again, | yet ever she lives.",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Heith they named her | who sought their home,\nThe wide-seeing witch, | in magic wise;\nMinds she bewitched | that were moved by her magic,\nTo evil women | a joy she was.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "On the host his spear | did Othin hurl,\nThen in the world | did war first come;\nThe wall that girdled | the gods was broken,\nAnd the field by the warlike | Wanes was trodden.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Then sought the gods | their assembly-seats,\nThe holy ones, | and council held,\nWhether the gods | should tribute give,\nOr to all alike | should worship belong.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Then sought the gods | their assembly-seats,\nThe holy ones, | and council held,\nTo find who with venom | the air had filled,\nOr had given Oth's bride | to the giants' brood.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "In swelling rage | then rose up Thor,--\nSeldom he sits | when he such things hears,--\nAnd the oaths were broken, | the words and bonds,\nThe mighty pledges | between them made.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "I know of the horn | of Heimdall, hidden\nUnder the high-reaching | holy tree;\nOn it there pours | from Valfather's pledge\nA mighty stream: | would you know yet more?",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Alone I sat | when the Old One sought me,\nThe terror of gods, | and gazed in mine eyes:\n\"What hast thou to ask? | why comest thou hither?\nOthin, I know | where thine eye is hidden.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "I know where Othin's | eye is hidden,\nDeep in the wide-famed | well of Mimir;\nMead from the pledge | of Othin each mom\nDoes Mimir drink: | would you know yet more?",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Necklaces had I | and rings from Heerfather,\nWise was my speech | and my magic wisdom;\n. . . . . . . . . .\nWidely I saw | over all the worlds.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "On all sides saw I | Valkyries assemble,\nReady to ride | to the ranks of the gods;\nSkuld bore the shield, | and Skogul rode next,\nGuth, Hild, Gondul, | and Geirskogul.\nOf Herjan's maidens | the list have ye heard,\nValkyries ready | to ride o'er the earth.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "I saw for Baldr, | the bleeding god,\nThe son of Othin, | his destiny set:\nFamous and fair | in the lofty fields,\nFull grown in strength | the mistletoe stood.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "From the branch which seemed | so slender and fair\nCame a harmful shaft | that Hoth should hurl;\nBut the brother of Baldr | was born ere long,\nAnd one night old | fought Othin's son.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "His hands he washed not, | his hair he combed not,\nTill he bore to the bale-blaze | Baldr's foe.\nBut in Fensalir | did Frigg weep sore\nFor Valhall's need: | would you know yet more?",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "One did I see | in the wet woods bound,\nA lover of ill, | and to Loki like;\nBy his side does Sigyn | sit, nor is glad\nTo see her mate: | would you know yet more?",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "From the east there pours | through poisoned vales\nWith swords and daggers | the river Slith.\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Northward a hall | in Nithavellir\nOf gold there rose | for Sindri's race;\nAnd in Okolnir | another stood,\nWhere the giant Brimir | his beer-hall had.",
+      "stanza": "37"
+    },
+    {
+      "kind": "verse",
+      "text": "A hall I saw, | far from the sun,\nOn Nastrond it stands, | and the doors face north,\nVenom drops | through the smoke-vent down,\nFor around the walls | do serpents wind.",
+      "stanza": "38"
+    },
+    {
+      "kind": "verse",
+      "text": "I saw there wading | through rivers wild\nTreacherous men | and murderers too,\nAnd workers of ill | with the wives of men;\nThere Nithhogg sucked | the blood of the slain,\nAnd the wolf tore men; | would you know yet more?",
+      "stanza": "39"
+    },
+    {
+      "kind": "verse",
+      "text": "The giantess old | in Ironwood sat,\nIn the east, and bore | the brood of Fenrir;\nAmong these one | in monster's guise\nWas soon to steal | the sun from the sky.",
+      "stanza": "40"
+    },
+    {
+      "kind": "verse",
+      "text": "There feeds he full | on the flesh of the dead,\nAnd the home of the gods | he reddens with gore;\nDark grows the sun, | and in summer soon\nCome mighty storms: | would you know yet more?",
+      "stanza": "41"
+    },
+    {
+      "kind": "verse",
+      "text": "On a hill there sat, | and smote on his harp,\nEggther the joyous, | the giants' warder;\nAbove him the cock | in the bird-wood crowed,\nFair and red | did Fjalar stand.",
+      "stanza": "42"
+    },
+    {
+      "kind": "verse",
+      "text": "Then to the gods | crowed Gollinkambi,\nHe wakes the heroes | in Othin's hall;\nAnd beneath the earth | does another crow,\nThe rust-red bird | at the bars of Hel.",
+      "stanza": "43"
+    },
+    {
+      "kind": "verse",
+      "text": "Now Garm howls loud | before Gnipahellir,\nThe fetters will burst, | and the wolf run free;\nMuch do I know, | and more can see\nOf the fate of the gods, | the mighty in fight.",
+      "stanza": "44"
+    },
+    {
+      "kind": "verse",
+      "text": "Brothers shall fight | and fell each other,\nAnd sisters' sons | shall kinship stain;\nHard is it on earth, | with mighty whoredom;\nAxe-time, sword-time, | shields are sundered,\nWind-time, wolf-time, | ere the world falls;\nNor ever shall men | each other spare.",
+      "stanza": "45"
+    },
+    {
+      "kind": "verse",
+      "text": "Fast move the sons | of Mim, and fate\nIs heard in the note | of the Gjallarhorn;\nLoud blows Heimdall, | the horn is aloft,\nIn fear quake all | who on Hel-roads are.",
+      "stanza": "46"
+    },
+    {
+      "kind": "verse",
+      "text": "Yggdrasil shakes, | and shiver on high\nThe ancient limbs, | and the giant is loose;\nTo the head of Mim | does Othin give heed,\nBut the kinsman of Surt | shall slay him soon.",
+      "stanza": "47"
+    },
+    {
+      "kind": "verse",
+      "text": "How fare the gods? | how fare the elves?\nAll Jotunheim groans, | the gods are at council;\nLoud roar the dwarfs | by the doors of stone,\nThe masters of the rocks: | would you know yet more?",
+      "stanza": "48"
+    },
+    {
+      "kind": "verse",
+      "text": "Now Garm howls loud | before Gnipahellir,\nThe fetters will burst, | and the wolf run free\nMuch do I know, | and more can see\nOf the fate of the gods, | the mighty in fight.",
+      "stanza": "49"
+    },
+    {
+      "kind": "verse",
+      "text": "From the east comes Hrym | with shield held high;\nIn giant-wrath | does the serpent writhe;\nO'er the waves he twists, | and the tawny eagle\nGnaws corpses screaming; | Naglfar is loose.",
+      "stanza": "50"
+    },
+    {
+      "kind": "verse",
+      "text": "O'er the sea from the north | there sails a ship\nWith the people of Hel, | at the helm stands Loki;\nAfter the wolf | do wild men follow,\nAnd with them the brother | of Byleist goes.",
+      "stanza": "51"
+    },
+    {
+      "kind": "verse",
+      "text": "Surt fares from the south | with the scourge of branches,\nThe sun of the battle-gods | shone from his sword;\nThe crags are sundered, | the giant-women sink,\nThe dead throng Hel-way, | and heaven is cloven.",
+      "stanza": "52"
+    },
+    {
+      "kind": "verse",
+      "text": "Now comes to Hlin | yet another hurt,\nWhen Othin fares | to fight with the wolf,\nAnd Beli's fair slayer | seeks out Surt,\nFor there must fall | the joy of Frigg.",
+      "stanza": "53"
+    },
+    {
+      "kind": "verse",
+      "text": "Then comes Sigfather's | mighty son,\nVithar, to fight | with the foaming wolf;\nIn the giant's son | does he thrust his sword\nFull to the heart: | his father is avenged.",
+      "stanza": "54"
+    },
+    {
+      "kind": "verse",
+      "text": "Hither there comes | the son of Hlothyn,\nThe bright snake gapes | to heaven above;\n. . . . . . . . . .\nAgainst the serpent | goes Othin's son.",
+      "stanza": "55"
+    },
+    {
+      "kind": "verse",
+      "text": "In anger smites | the warder of earth,--\nForth from their homes | must all men flee;-\nNine paces fares | the son of Fjorgyn,\nAnd, slain by the serpent, | fearless he sinks.",
+      "stanza": "56"
+    },
+    {
+      "kind": "verse",
+      "text": "The sun turns black, | earth sinks in the sea,\nThe hot stars down | from heaven are whirled;\nFierce grows the steam | and the life-feeding flame,\nTill fire leaps high | about heaven itself.",
+      "stanza": "57"
+    },
+    {
+      "kind": "verse",
+      "text": "Now Garm howls loud | before Gnipahellir,\nThe fetters will burst, | and the wolf run free;\nMuch do I know, | and more can see\nOf the fate of the gods, | the mighty in fight.",
+      "stanza": "58"
+    },
+    {
+      "kind": "verse",
+      "text": "Now do I see | the earth anew\nRise all green | from the waves again;\nThe cataracts fall, | and the eagle flies,\nAnd fish he catches | beneath the cliffs.",
+      "stanza": "59"
+    },
+    {
+      "kind": "verse",
+      "text": "The gods in Ithavoll | meet together,\nOf the terrible girdler | of earth they talk,\nAnd the mighty past | they call to mind,\nAnd the ancient runes | of the Ruler of Gods.",
+      "stanza": "60"
+    },
+    {
+      "kind": "verse",
+      "text": "In wondrous beauty | once again\nShall the golden tables | stand mid the grass,\nWhich the gods had owned | in the days of old,\n. . . . . . . . . .",
+      "stanza": "61"
+    },
+    {
+      "kind": "verse",
+      "text": "Then fields unsowed | bear ripened fruit,\nAll ills grow better, | and Baldr comes back;\nBaldr and Hoth dwell | in Hropt's battle-hall,\nAnd the mighty gods: | would you know yet more?",
+      "stanza": "62"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Hönir wins | the prophetic wand,\n. . . . . . . . . .\nAnd the sons of the brothers | of Tveggi abide\nIn Vindheim now: | would you know yet more?",
+      "stanza": "63"
+    },
+    {
+      "kind": "verse",
+      "text": "More fair than the sun, | a hall I see,\nRoofed with gold, | on Gimle it stands;\nThere shall the righteous | rulers dwell,\nAnd happiness ever | there shall they have.",
+      "stanza": "64"
+    },
+    {
+      "kind": "verse",
+      "text": "There comes on high, | all power to hold,\nA mighty lord, | all lands he rules.\n. . . . . . . . . .\n. . . . . . . . . .",
+      "stanza": "65"
+    },
+    {
+      "kind": "verse",
+      "text": "From below the dragon | dark comes forth,\nNithhogg flying | from Nithafjoll;\nThe bodies of men on | his wings he bears,\nThe serpent bright: | but now must I sink.",
+      "stanza": "66"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Völuspá",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe03.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary. These editions include readings from more than one manuscript. In particular, the stanza about a mighty ruler arriving from above is from Hauksbók, not Codex Regius."
+}

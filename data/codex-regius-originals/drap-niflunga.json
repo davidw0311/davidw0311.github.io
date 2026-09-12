@@ -1,0 +1,30 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Gunnarr ok Högni tóku þá gullit allt, Fáfnis arf. Ófriðr var þá í milli Gjúkunga ok Atla. Kenndi hann Gjúkungum völd um andlát Brynhildar. Þat var til sætta, at þeir skyldu gifta hánum Guðrúnu, ok gáfu henni óminnisveig at drekka, áðr hon játti at giftast Atla. Synir Atla váru þeir Erpr ok Eitill, en Svanhildr var Sigurðar dóttir ok Guðrúnar. Atli konungr bauð heim Gunnari ok Högna ok sendi Vinga eða Knéfröð."
+    },
+    {
+      "kind": "prose",
+      "text": "Guðrún vissi vélar ok sendi með rúnum orð, at þeir skyldu eigi koma, ok til jartegna sendi hon Högna hringinn Andvaranaut ok knýtti í vargshár. Gunnarr hafði beðit Oddrúnar, systur Atla, ok gat eigi. Þá fekk hann Glaumvarar, en Högni átti Kostberu. Þeira synir váru þeir Sólarr ok Snævarr ok Gjúki. En er Gjúkungar kómu til Atla, þá bað Guðrún sonu sína, at þeir bæði Gjúkungum lífs, en þeir vildu eigi. Hjarta var skorit ór Högna, en Gunnarr settr í ormgarð."
+    },
+    {
+      "kind": "prose",
+      "text": "Hann sló hörpu ok svæfði ormana, en naðra stakk hann til lifrar."
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Gunnar and Hogni then took all the gold that Fafnir had had. There was strife between the Gjukungs and Atli, for he held the Gjukungs guilty of Brynhild's death. It was agreed that they should give him Guthrun as wife, and they gave her a draught of forgetfulness to drink before she would consent to be wedded to Atli. The sons of Atli were Erp and Eitil, and Svanhild was the daughter of Sigurth and Guthrun. King Atli invited Gunnar and Hogni to come to him, and sent as messenger Vingi or Knefröth."
+    },
+    {
+      "kind": "prose",
+      "text": "Guthrun was aware of treachery, and sent with him a message in runes that they should not come, and as a token she sent to Hogni the ring Andvaranaut and tied a wolf's hair in it. Gunnar had sought Oddrun, Atli's sister, for his wife, but had her not; then he married Glaumvor, and Hogni's wife was Kostbera; their sons were Solar and Snævar and Gjuki. And when the Gjukungs came to Atli, then Guthrun be sought her sons to plead for the lives of both the Gjukungs, but they would not do it. Hogni's heart was cut out, and Gunnar was cast into the serpent's den. He smote on the harp and put the serpents to sleep, but an adder stung him in the liver."
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Dráp_Niflunga",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe30.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

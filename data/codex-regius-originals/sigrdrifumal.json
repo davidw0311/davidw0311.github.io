@@ -1,0 +1,436 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Sigurðr reið upp á Hindarfjall ok stefndi suðr til Frakklands. Á fjallinu sá hann ljós mikit, svá sem eldr brynni, ok ljómaði af til himins. En er hann kom at, þá stóð þar skjaldborg ok upp ór merki. Sigurðr gekk í skjaldborgina ok sá , at þar lá maðr ok svaf með öllum hervápnum. Hann tók fyrst hjálminn af höfði hánum. Þá sá hann, at þat var kona. Brynjan var föst sem hon væri holdgróin. Þá reist hann með Gram frá höfuðsmátt brynjuna í gögnum niðr ok svá út í gögnum báðar ermar."
+    },
+    {
+      "kind": "prose",
+      "text": "Þá tók hann brynju af henni, en hon vaknaði, ok settist hon upp ok sá Sigurð ok mælti:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat beit brynju?\nHví brá ek svefni?\nHverr felldi af mér\nfölvar nauðir?\"\nHann svaraði:\n\"Sigmundar burr,\n- sleit fyr skömmu\nhrafn hrælundir, -\nhjörr Sigurðar!\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Hon kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Lengi ek svaf,\nlengi ek sofnuð var,\nlöng eru lýða læ;\nÓðinn því veldr,\ner ek eigi máttak\nbregða blundstöfum.\"\nSigurðr settist niðr ok spyrr hana nafns. Hon tók þá horn fullt mjaðar ok gaf honum minnisveig:",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Heill dagr!\nHeilir dags synir!\nHeil nótt ok nift!\nÓreiðum augum\nlítið okkr þinig\nok gefið sitjöndum sigr!",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Heilir æsir!\nHeilar ásynjur!\nHeil sjá in fjölnýta fold!\nMál ok mannvit\ngefið okkr mærum tveim\nok læknishendr, meðan lifum.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "prose",
+      "text": "Hon nefndist Sigrdrífa ok var valkyrja. Hon sagði, at tveir konungar börðust. Hét annarr Hjálmgunnarr. Hann var þá gamall ok inn mesti hermaðr, ok hafði Óðinn hánum sigri heitit en"
+    },
+    {
+      "kind": "prose",
+      "text": "\"annarr hét Agnarr, Auðu bróðir, er vætr engi vildi þiggja.\""
+    },
+    {
+      "kind": "prose",
+      "text": "Sigrdrífa felldi Hjálmgunnarr í orrustunni, en Óðinn stakk hana svefnþorni í hefnd þess ok kvað hana aldri skyldu síðan sigr vega í orrustu ok kvað hana giftast skyldu - \"en ek sagðak hánum, at ek strengðak heit þar í mót at giftast engum þeim manni, er hræðast kynni.\" Hann segir ok biðr hana kenna sér speki, ef hon vissi tíðindi ór öllum heimum. Sigrdrífa kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bjór færi ek þér,\nbrynþings apaldr,\nmagni blandinn\nok megintíri;\nfullr er hann ljóða\nok líknstafa,\ngóðra galdra\nok gamanrúna.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Sigrúnar skaltu kunna,\nef þú vilt sigr hafa,\nok rísta á hjalti hjörs,\nsumar á véttrimum,\nsumar á valböstum,\nok nefna tysvar Tý.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Ölrúnar skaltu kunna,\nef þú vill annars kvæn\nvéli-t þik í tryggð, ef þú trúir;\ná horni skal þær rísta\nok á handar baki\nok merkja á nagli Nauð.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Full skal signa\nok við fári sjá\nok verpa lauki í lög;\nþá ek þat veit,\nat þér verðr aldri\nmeinblandinn mjöðr.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Bjargrúnar skaltu kunna,\nef þú bjarga vilt\nok leysa kind frá konum;\ná lófum þær skal rísta\nok of liðu spenna\nok biðja þá dísir duga.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Brimrúnar skaltu rísta,\nef þú vilt borgit hafa\ná sundi seglmörum;\ná stafni skal rísta\nok á stjórnarblaði\nok leggja eld í ár,\ner-a svá brattr breki\nné svá bláar unnir,\nþó kemstu heill af hafi.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Limrúnar skaltu kunna,\naf þú vilt læknir vera,\nok kunna sár at sjá;\ná berki skal þær rísta\nok á baðmi viðar,\nþeim er lúta austr limar.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Málrúnar skaltu kunna,\nef þú vilt, at manngi þér\nheiftum gjaldi harm:\nþær of vindr,\nþær of vefr,\nþær of setr allar saman\ná því þingi,\ner þjóðir skulu\ní fulla dóma fara.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Hugrúnar skaltu kunna,\nef þú vilt hverjum vera\ngeðsvinnari guma;\nþær of réð,\nþær of reist,\nþær of hugði Hroftr\naf þeim legi,\ner lekit hafði\nór hausi Heiðdraupnis\nok ór horni Hoddrofnis.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "Á bjargi stóð\nmeð Brimis eggjar,\nhafði sér á höfði hjalm;\nþá mælti Mímis höfuð\nfróðligt it fyrsta orð\nok sagði sanna stafi.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "Á skildi kvað ristnar,\nþeim er stendr fyr skínandi goði,\ná eyra Árvakrs\nok á Alsvinns hófi,\ná því hvéli, er snýsk\nundir reið Hrungnis,\ná Sleipnis tönnum\nok á sleða fjötrum.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "Á bjarnar hrammi\nok á Braga tungu,\ná ulfs klóum\nok á arnar nefi,\ná blóðgum vængjum\nok á brúar sporði,\ná lausnar lófa\nok á líknar spori.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "Á gleri ok á gulli\nok á gumna heillum,\ní víni ok í virtri\nok vilisessi,\ná Gugnis oddi\nok á Grana brjósti,\ná nornar nagli\nok á nefi uglu.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Allar váru af skafnar,\nþær er váru á ristnar,\nok hverfðar við inn helga mjöð\nok sendar á víða vega;\nþær ro með ásum,\nþær ro með alfum,\nsumar með vísum vönum\nsumar hafa mennskir menn.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat eru bókrúnar,\nþat eru bjargrúnar\nok allar ölrúnar\nok mætar meginrúnar,\nhveim er þær kná óvilltar\nok óspilltar\nsér at heillum hafa;\nnjóttu, ef þú namst,\nunz rjúfask regin.",
+      "stanza": "19"
+    },
+    {
+      "kind": "verse",
+      "text": "Nú skaltu kjósa,\nalls þér er kostr of boðinn,\nhvassa vápna hlynr;\nsögn eða þögn\nhafðu þér sjalfr í hug;\nöll eru mein of metin.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurðr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Munk-a ek flæja,\nþótt mik feigan vitir,\nemk-a ek með bleyði borinn;\nástráð þín\nek vil öll hafa;\nsvá lengi sem ek lifi.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigrdrífa kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þat ræð ek þér it fyrsta,\nat þú við frændr þína\nvammalaust verir;\nsíðr þú hefnir,\nþótt þeir sakar geri;\nþat kveða dauðum duga.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér annat,\nat þú eið né sverir,\nnema þann er saðr sé;\ngrimmar limar\nganga at tryggðrofi;\narmr er vára vargr.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér þriðja,\nat þú þingi á\ndeili-t við heimska hali,\nþví að ósviðr maðr\nlætur oft kveðin\nverri orð en viti.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Allt er vant,\nef þú við þegir,\nþá þykkir þú með bleyði borinn\neða sönnu sagðr;\nhættr er heimis kviðr,\nnema sér góðan geti; -\nannars dags\nláttu hans öndu farit,\nok launa svá lýðum lygi.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it fjórða,\nef býr fordæða\nvammafull á vegi,\nganga er betra\nen giska sé,\nþótt þik nótt of nemi.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Fornjósnar augu\nþurfu fira synir,\nhvars skulu vreiðir vega;\noft bölvísar konur\nsitja brautu nær,\nþær er deyfa sverð ok sefa.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it fimmta,\nþóttú fagrar séir\nbrúðir bekkjum á,\nsifja silfr\nlát-a-ðu þínum svefni ráða;\nteygj-at-tu þér at kossi konur.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it sétta,\nþótt með seggjum fari\nölðrmál til öfug,\ndrukkin deila\nskal-at-tu við dolgviðu;\nmargan stelr vín viti.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Söngr ok öl\nhefr seggjum verit\nmörgum at móðtrega,\nsumum at bana,\nsumum at bölstöfum;\nfjölð er, þat er fira tregr.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it sjaunda,\nef þú sakar deilir\nvið hugfulla hali,\nberjask er betra\nen brenna sé\ninni auðstöfum.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it átta,\nat þú skalt við illu sjá\nok firrask flærðarstafi;\nmey þú teygj-at\nné manns konu\nné eggja ofgamans.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it níunda,\nat þú náum bjargir,\nhvars þú á foldu finnr,\nhvárts eru sóttdauðir\neða eru sædauðir\neða eru vápndauðir verar.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "Laug skal gera,\nþeim er liðnir eru,\nþváa hendr ok höfuð,\nkemba ok þerra,\náðr í kistu fari,\nok biðja sælan sofa.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it tíunda,\nat þú trúir aldregi\nvárum vargdropa,\nhvárstu ert bróður bani\neða hafir þú felldan föður;\nulfr er í ungum syni,\nþó sé hann gulli gladdr.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Sakar ok heiftir\nhyggja-t svefngar vera\nné harm in heldr;\nvits ok vápna\nvant er jöfri at fá\nþeim er skal fremstr með firum.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Þat ræð ek þér it ellifta,\nat þú við illu séir\nhvern veg at vini;\nlangt líf þykkjumk-a-k\nlofðungs vita;\nrömm eru róg of risin.\"",
+      "stanza": "37"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Sigurth rode up on Hindarfjoll and turned southward toward the land of the Franks. On the mountain he saw a great light, as if fire were burning, and the glow reached up to heaven. And when he came thither, there stood a tower of shields, and above it was a banner. Sigurth went into the shield-tower, and saw that a man lay there sleeping with all his war-weapons. First he took the helm from his head, and then he saw that it was a woman. The mail-coat was as fast as if it had grown to the flesh."
+    },
+    {
+      "kind": "prose",
+      "text": "Then he cut the mail-coat from the head-opening downward, and out to both the arm-holes. Then he took the mail-coat from her, and she awoke, and sat up and saw Sigurth, and said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What bit through the byrnie? | how was broken my sleep?\nWho made me free | of the fetters pale?\"\nHe answered:\n\"Sigmund's son, | with Sigurth's sword,\nThat late with flesh | hath fed the ravens.\"\nSigurth sat beside her and asked her name. She took a horn full of mead and gave him a memory-draught.",
+      "stanza": "1"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hail, day! | Hail, sons of day!\nAnd night and her daughter now!\nLook on us here | with loving eyes,\nThat waiting we victory win.",
+      "stanza": "2"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hail to the gods! | Ye goddesses, hail,\nAnd all the generous earth!\nGive to us wisdom | and goodly speech,\nAnd healing hands, life-long.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Long did I sleep, | my slumber was long,\nAnd long are the griefs of life;\nOthin decreed | that I could not break\nThe heavy spells of sleep.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "prose",
+      "text": "Her name was Sigrdrifa, and she was a Valkyrie. She said that two kings fought in battle; one was called Hjalmgunnar, an old man but a mighty warrior, and Othin had promised him the victory, and The other was Agnar, | brother of Autha, None he found | who fain would shield him."
+    },
+    {
+      "kind": "prose",
+      "text": "Sigrdrifa, slew Hjalmgunnar in the battle, and Othin pricked her with the sleep-thorn in punishment for this, and said that she should never thereafter win victory in battle, but that she should be wedded. \"And I said to him that I had made a vow in my turn, that I would never marry a man who knew the meaning of fear.\" Sigurth answered and asked her to teach him wisdom, if she knew of what took place in all the worlds. Sigrdrifa said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Beer I bring thee, | tree of battle,\nMingled of strength | and mighty fame;\nCharms it holds | and healing signs,\nSpells full good, | and gladness-runes.\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Winning-runes learn, | if thou longest to win,\nAnd the runes on thy sword-hilt write;\nSome on the furrow, | and some on the flat,\nAnd twice shalt thou call on Tyr.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Ale-runes learn, | that with lies the wife\nOf another betray not thy trust;\nOn the horn thou shalt write, | and the backs of thy hands,\nAnd Need shalt mark on thy nails.\nThou shalt bless the draught, | and danger escape,\nAnd cast a leek in the cup;\n(For so I know | thou never shalt see\nThy mead with evil mixed.)",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "Birth-runes learn, | if help thou wilt lend,\nThe babe from the mother to bring;\nOn thy palms shalt write them, | and round thy joints,\nAnd ask the fates to aid.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Wave-runes learn, | if well thou wouldst shelter\nThe sail-steeds out on the sea;\nOn the stem shalt thou write, | and the steering blade,\nAnd burn them into the oars;\nThough high be the breakers, | and black the waves,\nThou shalt safe the harbor seek.",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Branch-runes learn, | if a healer wouldst be,\nAnd cure for wounds wouldst work;\nOn the bark shalt thou write, | and on trees that be\nWith boughs to the eastward bent.",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Speech-runes learn, | that none may seek\nTo answer harm with hate;\nWell he winds | and weaves them all,\nAnd sets them side by side,\nAt the judgment-place, | when justice there\nThe folk shall fairly win.",
+      "stanza": "11"
+    },
+    {
+      "kind": "verse",
+      "text": "Thought-runes learn, | if all shall think\nThou art keenest minded of men.",
+      "stanza": "12"
+    },
+    {
+      "kind": "verse",
+      "text": "Them Hropt arranged, | and them he wrote,\nAnd them in thought he made,\nOut of the draught | that down had dropped\nFrom the head of Heithdraupnir,\nAnd the horn of Hoddrofnir.",
+      "stanza": "13"
+    },
+    {
+      "kind": "verse",
+      "text": "On the mountain he stood | with Brimir's sword,\nOn his head the helm he bore;\nThen first the head | of Mim spoke forth,\nAnd words of truth it told.",
+      "stanza": "14"
+    },
+    {
+      "kind": "verse",
+      "text": "He bade write on the shield | before the shining goddess,\nOn Arvak's ear, | and on Alsvith's hoof,\nOn the wheel of the car | of Hrungnir's killer,\nOn Sleipnir's teeth, | and the straps of the sledge.",
+      "stanza": "15"
+    },
+    {
+      "kind": "verse",
+      "text": "On the paws of the bear, | and on Bragi's tongue,\nOn the wolf's claws bared, | and the eagle's beak,\nOn bloody wings, | and bridge's end,\nOn freeing hands | and helping foot-prints.",
+      "stanza": "16"
+    },
+    {
+      "kind": "verse",
+      "text": "On glass and on gold, | and on goodly charms,\nIn wine and in beer, | and on well-loved seats,\nOn Gungnir's point, | and on Grani's breast,\nOn the nails of Norns, | and the night-owl's beak.",
+      "stanza": "17"
+    },
+    {
+      "kind": "verse",
+      "text": "Shaved off were the runes | that of old were written,\nAnd mixed with the holy mead,\nAnd sent on ways so wide;\nSo the gods had them, | so the elves got them,\nAnd some for the Wanes so wise,\nAnd some for mortal men.",
+      "stanza": "18"
+    },
+    {
+      "kind": "verse",
+      "text": "Beech-runes are there, | birth-runes are there,\nAnd all the runes of ale,\nAnd the magic runes of might;\nWho knows them rightly | and reads them true,\nHas them himself to help;\nEver they aid,\nTill the gods are gone.",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Brynhild spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now shalt thou choose, | for the choice is given,\nThou tree of the biting blade;\nSpeech or silence, | 'tis thine to say,\nOur evil is destined all.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Sigurth spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"I shall not flee, | though my fate be near,\nI was born not a coward to be;\nThy loving word | for mine will I win,\nAs long as I shall live.\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "verse",
+      "text": "Then first I rede thee, | that free of guilt\nToward kinsmen ever thou art;\nNo vengeance have, | though they work thee harm,\nReward after death thou shalt win.",
+      "stanza": "22"
+    },
+    {
+      "kind": "verse",
+      "text": "Then second I rede thee, | to swear no oath\nIf true thou knowest it not;\nBitter the fate | of the breaker of troth,\nAnd poor is the wolf of his word.",
+      "stanza": "23"
+    },
+    {
+      "kind": "verse",
+      "text": "Then third I rede thee, | that thou at the Thing\nShalt fight not in words with fools;\nFor the man unwise | a worser word\nThan he thinks doth utter oft.",
+      "stanza": "24"
+    },
+    {
+      "kind": "verse",
+      "text": "Ill it is | if silent thou art,\nA coward born men call thee,\nAnd truth mayhap they tell;\nSeldom safe is fame,\nUnless wide renown be won;\nOn the day thereafter | send him to death,\nLet him pay the price of his lies.",
+      "stanza": "25"
+    },
+    {
+      "kind": "verse",
+      "text": "Then fourth I rede thee, | if thou shalt find\nA wily witch on thy road,\nIt is better to go | than her guest to be,\nThough night enfold thee fast.",
+      "stanza": "26"
+    },
+    {
+      "kind": "verse",
+      "text": "Eyes that see | need the sons of men\nWho fight in battle fierce;\nOft witches evil | sit by the way,\nWho blade and courage blunt.",
+      "stanza": "27"
+    },
+    {
+      "kind": "verse",
+      "text": "Then fifth I rede thee, | though maidens fair\nThou seest on benches sitting,\nLet the silver of kinship | not rob thee of sleep,\nAnd the kissing of women beware.",
+      "stanza": "28"
+    },
+    {
+      "kind": "verse",
+      "text": "Then sixth I rede thee, | if men shall wrangle,\nAnd ale-talk rise to wrath,\nNo words with a drunken | warrior have,\nFor wine steals many men's wits.",
+      "stanza": "29"
+    },
+    {
+      "kind": "verse",
+      "text": "Brawls and ale | full oft have been\nAn ill to many a man,\nDeath for some, | and sorrow for some;\nFull many the woes of men.",
+      "stanza": "30"
+    },
+    {
+      "kind": "verse",
+      "text": "Then seventh I rede thee, | if battle thou seekest\nWith a foe that is full of might;\nIt is better to fight | than to burn alive\nIn the hall of the hero rich.",
+      "stanza": "31"
+    },
+    {
+      "kind": "verse",
+      "text": "Then eighth I rede thee, | that evil thou shun,\nAnd beware of lying words;\nTake not a maid, | nor the wife of a man,\nNor lure them on to lust.",
+      "stanza": "32"
+    },
+    {
+      "kind": "verse",
+      "text": "Then ninth I rede thee: | burial render\nIf thou findest a fallen corpse,\nOf sickness dead, | or dead in the sea,\nOr dead of weapons' wounds.",
+      "stanza": "33"
+    },
+    {
+      "kind": "verse",
+      "text": "A bath shalt thou give them | who corpses be,\nAnd hands and head shalt wash;\nWipe them and comb, | ere they go in the coffin,\nAnd pray that they sleep in peace.",
+      "stanza": "34"
+    },
+    {
+      "kind": "verse",
+      "text": "Then tenth I rede thee, | that never thou trust\nThe word of the race of wolves,\n(If his brother thou broughtest to death,\nOr his father thou didst fell;)\nOften a wolf | in a son there is,\nThough gold he gladly takes.",
+      "stanza": "35"
+    },
+    {
+      "kind": "verse",
+      "text": "Battle and hate | and harm, methinks,\nFull seldom fall asleep;\nWits and weapons | the warrior needs\nIf boldest of men he would be.",
+      "stanza": "36"
+    },
+    {
+      "kind": "verse",
+      "text": "Then eleventh I rede thee, | that wrath thou shun,\nAnd treachery false with thy friends;\nNot long the leader's | life shall be,\nFor great are the foes he faces.",
+      "stanza": "37"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Sigrdrífumál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe25.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary. Codex Regius breaks off in stanza 31. The printed continuation through stanza 37 comes from other witnesses; it is included here as part of these editions, not as recovered manuscript leaves."
+}

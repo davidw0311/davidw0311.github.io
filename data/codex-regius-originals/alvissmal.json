@@ -1,0 +1,635 @@
+{
+  "norse": [
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bekki breiða,\nnú skal brúðr með mér\nheim í sinni snúask;\nhratat um mægi\nmun hverjum þykkja,\nheima skal-at hvíld nema.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þat fira?\nHví ertu svá fölr um nasar?\nVartu í nótt með ná?\nÞursa líki\nþykki mér á þér vera;\nert-at-tu til brúðar borinn.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Alvíss ek heiti,\nbý ek fyr jörð neðan,\ná ek undir steini stað;\nvagna vers\nek em á vit kominn;\nbregði engi föstu heiti fira.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ek mun bregða\nþví at ek brúðar á\nflest of ráð sem faðir;\nvark-a ek heima,\nþá er þér heitit var,\nat sá einn, er gjöf er, með goðum.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þat rekka,\ner í ráðum telsk\nfljóðs ins fagrglóa?\nFjarrafleina\nþik munu fáir kunna;\nhverr hefr þik baugum borit?\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vingþórr ek heiti,\nek hef víða ratat,\nsonr em ek Síðgrana;\nat ósátt minni skal-at-tu\nþat it unga man hafa\nok þat gjaforð geta.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sáttir þínar\ner ek vil snemma hafa\nok þat gjaforð geta;\neiga vilja\nheldr en án vera\nþat it mjallhvíta man.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Meyjar ástum\nmun-a þér verða,\nvísi gestr, of varit,\nef þú ór heimi kannt\nhverjum at segja\nallt þat, er ek vil vita.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé sú jörð heitir,\ner liggr fyr alda sonum\nheimi hverjum í?\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Jörð heitir með mönnum,\nen með ásum fold,\nkalla vega vanir,\nígræn jötnar,\nalfar gróandi,\nkalla aur uppregin.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé sá himinn heitir,\nerakendi,\nheimi hverjum í?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Himinn heitir með mönnum,\nen hlýrnir með goðum,\nkalla vindófni vanir,\nuppheim jötnar,\nalfar fagraræfr,\ndvergar drjúpansal.\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Avlíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhversu máni heitir,\nsá er menn séa,\nheimi hverjum í?\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Máni heitir með mönnum,\nen mylinn með goðum,\nkalla hverfanda hvél helju í,\nskyndi jötnar,\nen skin dvergar,\nkalla alfar ártala.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé sú sól heitir,\ner séa alda synir,\nheimi hverjum í?\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sól heitir með mönnum,\nen sunna með goðum,\nkalla dvergar Dvalins leika,\neygló jötnar,\nalfar fagrahvél,\nalskír ása synir.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé þau ský heita,\ner skúrum blandask,\nheimi hverjum í?",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Ský heita með mönnum,\nen skúrván með goðum,\nkalla vindflot vanir,\núrván jötnar,\nalfar veðrmegin,\nkalla í helju hjalm huliðs.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé sá vindr heitir,\ner víðast ferr,\nheimi hverjum í?\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vindr heitir með mönnum,\nen váfuðr með goðum,\nkalla gneggjuð ginnregin,\næpi jötnar,\nalfar dynfara,\nkalla í helju hviðuð.\"",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé þat logn heitir,\ner liggja skal,\nheimi hverjum í?\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Logn heitir með mönnum,\nen lægi með goðum,\nkalla vindlot vanir,\nofhlý jötnar,\nalfar dagsefa,\nkalla dvergar dags veru.\"",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé sá marr heitir,\ner menn róa,\nheimi hverjum í?\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Sær heitir með mönnum,\nen sílægja með goðum,\nkalla vág vanir,\nálheim jötnar,\nalfar lagastaf,\nkalla dvergar djúpan mar.\"",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé sá eldr heitir,\ner brennr fyr alda sonum,\nheimi hverjum í?\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Eldr heitir með mönnum,\nen með ásum funi,\nkalla vág vanir,\nfrekan jötnar,\nen forbrenni dvergar,\nkalla í helju hröðuð.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé viðr heitir,\ner vex fyr alda sonum,\nheimi hverjum í?\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Viðr heitir með mönnum,\nen vallarfax með goðum,\nkalla hlíðþang halir,\neldi jötnar\nalfar fagrlima,\nkalla vönd vanir.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr,at vitir,\nhvé sú nótt heitir,\nin Nörvi kennda,\nheimi hverjum í?\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nótt heitir með mönnum,\nen njól með goðum,\nkalla grímu ginnregin,\nóljós jötnar,\nalfar svefngaman,\nkalla dvergar draumnjörun.\"",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé þat sáð heitir,\ner sá alda synir,\nheimi hverjum í?\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Bygg heitir með mönnum,\nen barr með goðum,\nkalla vöxt vanir,\næti jötnar,\nalfar lagastaf,\nkalla í helju hnipin.\"",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Segðu mér þat, Alvíss,\n- öll of rök fira\nvörumk, dvergr, at vitir -:\nhvé þat öl heitir,\ner drekka alda synir,\nheimi hverjum í?\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvíss kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Öl heitir með mönnum,\nen með ásum bjórr,\nkalla veig vanir,\nhreinalög jötnar,\nen í helju mjöð,\nkalla sumbl Suttungs synir.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Þórr kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Í einu brjósti\nek sák aldrigi\nfleiri forna stafi;\nmiklum tálum\nkveð ek tældan þik:\nUppi ertu, dvergr, of dagaðr,\nnú skínn sól í sali.\"",
+      "stanza": "35"
+    }
+  ],
+  "english": [
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Now shall the bride | my benches adorn,\nAnd homeward haste forthwith;\nEager for wedlock | to all shall I seem,\nNor at home shall they rob me of rest.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What, pray, art thou? | Why so pale round the nose?\nBy the dead hast thou lain of late?\nTo a giant like | dost thou look, methinks;\nThou wast not born for the bride.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Alvis am I, | and under the earth\nMy home 'neath the rocks I have;\nWith the wagon-guider | a word do I seek,\nLet the gods their bond not break.\"",
+      "stanza": "3"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Break it shall I, | for over the bride\nHer father has foremost right;\nAt home was I not | when the promise thou hadst,\nAnd I give her alone of the gods.\"",
+      "stanza": "4"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What hero claims | such right to hold\nO'er the bride that shines so bright?\nNot many will know thee, | thou wandering man!\nWho was bought with rings to bear thee?\"",
+      "stanza": "5"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Vingthor, the wanderer | wide, am I,\nAnd I am Sithgrani's son;\nAgainst my will | shalt thou get the maid,\nAnd win the marriage word.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Thy good-will now | shall I quickly get,\nAnd win the marriage word;\nI long to have, | and I would not lack,\nThis snow-white maid for mine.\"",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"The love of the maid | I may not keep thee\nFrom winning, thou guest so wise,\nIf of every world | thou canst tell me all\nThat now I wish to know.",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the earth, | that lies before all,\nIn each and every world?\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\" 'Earth' to men, 'Field' | to the gods it is,\n'The Ways' is it called by the Wanes;\n'Ever Green' by the giants, | 'The Grower' by elves,\n'The Moist' by the holy ones high.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the heaven, | beheld of the high one,\nIn each and every world?\"",
+      "stanza": "11"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\" 'Heaven' men call it, | 'The Height' the gods,\nThe Wanes 'The Weaver of Winds';\nGiants 'The Up-World,' | elves 'The Fair-Roof,'\nThe dwarfs 'The Dripping Hall.'\"",
+      "stanza": "12"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men.:\nWhat call they the moon, | that men behold,\nIn each and every world?\"",
+      "stanza": "13"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"'Moon' with men, 'Flame' | the gods among,\n'The Wheel' in the house of hell;\n'The Goer' the giants, | 'The Gleamer' the dwarfs,\nThe elves 'The Teller of Time.\"",
+      "stanza": "14"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the sun, | that all men see,\nIn each and every world?\"",
+      "stanza": "15"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Men call it 'Sun,' | gods 'Orb of the Sun,'\n'The Deceiver of Dvalin' the dwarfs;\nThe giants 'The Ever-Bright,' | elves 'Fair Wheel,'\n'All-Glowing' the sons of the gods.\"",
+      "stanza": "16"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the clouds, | that keep the rains,\nIn each and every world?\"",
+      "stanza": "17"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"'Clouds' men name them, | 'Rain-Hope' gods call them,\nThe Wanes call them 'Kites of the Wind';\n'Water-Hope' giants, | 'Weather-Might' elves,\n'The Helmet of Secrets' in hell.\"",
+      "stanza": "18"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the wind, | that widest fares,\nIn each and every world?\"",
+      "stanza": "19"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"'Wind' do men call it, | the gods 'The Waverer,'\n'The Neigher' the holy ones high;\n'The Wailer' the giants, | 'Roaring Wender' the elves,\nIn hell 'The Blustering Blast.'",
+      "stanza": "20"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all\nDwarf, of the doom of men:\nWhat call they the calm, | that quiet lies,\nIn each and every world?\"",
+      "stanza": "21"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\" 'Calm' men call it, | 'The Quiet' the gods,\nThe Wanes 'The Hush of the Winds';\n'The Sultry' the giants, | elves 'Day's Stillness,'\nThe dwarfs 'The Shelter of Day.'",
+      "stanza": "22"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the sea, | whereon men sail,\nIn each and every world?\"",
+      "stanza": "23"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\" 'Sea' men call it, | gods 'The Smooth-Lying,'\n'The Wave' is it called by the Wanes;\n'Eel-Home' the giants, | 'Drink-Stuff' the elves,\nFor the dwarfs its name is 'The Deep.'",
+      "stanza": "24"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the fire, | that flames for men,\nIn each of all the worlds?\"",
+      "stanza": "25"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\" 'Fire' men call it, | and 'Flame' the gods,\nBy the Wanes is it 'Wildfire' called;\n'The Biter' by giants, | 'The Burner' by dwarfs,\n'The Swift' in the house of hell.\"",
+      "stanza": "26"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the wood, | that grows for mankind,\nIn each and every world?\"",
+      "stanza": "27"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Men call it 'The Wood, | gods 'The Mane of the Field,'\n'Seaweed of Hills' in hell;\n'Flame-Food' the giants, | 'Fair-Limbed' the elves,\n'The Wand' is it called by the Wanes.\"",
+      "stanza": "28"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the night, | the daughter of Nor,\nIn each and every world?\"",
+      "stanza": "29"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"'Night' men call it, | 'Darkness' gods name it,\n'The Hood' the holy ones high;\nThe giants 'The Lightless,' | the elves 'Sleep's joy\"\nThe dwarfs 'The Weaver of Dreams.\"'",
+      "stanza": "30"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the seed, | that is sown by men,\nIn each and every world?\"",
+      "stanza": "31"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Men call it 'Grain,' | and 'Corn' the gods,\n'Growth' in the world of the Wanes;\n'The Eaten' by giants, | 'Drink-Stuff' by elves,\nIn hell 'The Slender Stem.'",
+      "stanza": "32"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Answer me, Alvis! | thou knowest all,\nDwarf, of the doom of men:\nWhat call they the ale, | that is quaffed of men,\nIn each and every world?\"",
+      "stanza": "33"
+    },
+    {
+      "kind": "heading",
+      "text": "Alvis spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"'Ale' among men, | 'Beer' the gods among,\nIn the world of the Wanes 'The Foaming';\n'Bright Draught' with giants, | 'Mead' with dwellers in hell,\n'The Feast-Draught' with Suttung's sons.\"",
+      "stanza": "34"
+    },
+    {
+      "kind": "heading",
+      "text": "Thor spake:"
+    },
+    {
+      "kind": "prose",
+      "text": ".3.5. \"In a single breast | I never have seen More wealth of wisdom old; But with treacherous wiles | must I now betray thee: The day has caught thee, dwarf!"
+    },
+    {
+      "kind": "prose",
+      "text": "(Now the sun shines here in the hall.)\""
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Alvíssmál",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe12.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}

@@ -1,0 +1,143 @@
+{
+  "norse": [
+    {
+      "kind": "prose",
+      "text": "Herkja hét ambótt Atla. Hon hafði verit frilla hans. Hon sagði Atla, at hon hefði sét Þjóðrek ok Guðrúnu bæði saman. Atli var þá allókátr. Þá kvað Guðrún:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Hvat er þér, Atli,\næ, Buðla sonr?\nEr þér hryggt í hug?\nHví hlær þú æva?\nHitt mundi æðra\njörlum þykkja,\nat við menn mæltir\nok mik sæir.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Tregr mik þat, Guðrún\nGjúka dóttir,\nmér í höllu\nHerkja sagði,\nat þit Þjóðrekr\nund þaki svæfið\nok léttliga\nlíni verðið.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Þér mun ek alls þess\neiða vinna\nat inum hvíta\nhelga steini,\nat ek við Þjóðrek\nþatki áttak,\ner vörðr né verr\nvinna knátti.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "Nema ek halsaða\nherja stilli,\njöfur óneisinn,\neinu sinni;\naðrar váru\nokkrar spekjur,\ner vit hörmug tvau\nhnigum at rúnum.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "Hér kom Þjóðrekr\nmeð þría tegu,\nlifa þeir né einir\nþriggja tega manna;\nhnöggt þú mik at bræðrum\nok at brynjuðum,\nhnöggt þú mik at öllum\nhöfuðniðjum.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "Sentu at Saxa,\nSunnmanna gram,\nhann kann helga\nhver vellanda.\"",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "Sjau hundruð manna\ní sal gengu,\náðr kvæn konungs\ní ketil tæki.",
+      "stanza": "7"
+    },
+    {
+      "kind": "heading",
+      "text": "Guðrún kvað:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Kemr-a nú Gunnarr,\nkallig-a ek Högna,\nsékk-a ek síðan\nsvása bræðr;\nsverði mundi Högni\nslíks harms reka,\nnú verð ek sjalf fyrir mik\nsynja lýta.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Brá hon til botns\nbjörtum lófa\nok hon upp of tók\njarknasteina:\n\"Sé nú, seggir,\nsykn em ek orðin\nheilagliga,\nhvé sá hverr velli.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Hló þá Atla\nhugr í brjósti,\ner hann heilar sá\nhendr Guðrúnar:\n\"Nú skal Herkja\ntil hvers ganga,\nsú er Guðrúnu\ngrandi vændi.\"",
+      "stanza": "10"
+    },
+    {
+      "kind": "verse",
+      "text": "Sá-at maðr armligt,\nhverr er þat sá-at,\nhvé þar á Herkju\nhendr sviðnuðu;\nleiddu þá mey\ní mýri fúla.\nSvá þá Guðrún\nsinna harma.",
+      "stanza": "11"
+    }
+  ],
+  "english": [
+    {
+      "kind": "prose",
+      "text": "Herkja was the name of a serving-woman of Atli's; she had been his concubine. She told Atli that she had seen Thjothrek and Guthrun both together. Atli was greatly angered thereby. Then Guthrun said:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"What thy sorrow, Atli, | Buthli's son?\nIs thy heart heavy-laden? | Why laughest thou never?\nIt would better befit | the warrior far\nTo speak with men, | and me to look on.\"",
+      "stanza": "1"
+    },
+    {
+      "kind": "heading",
+      "text": "Atli spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"It troubles me, Guthrun, | Gjuki's daughter,\nWhat Herkja here | in the hall hath told me,\nThat thou in the bed | with Thjothrek liest,\nBeneath the linen | in lovers' guise.\"",
+      "stanza": "2"
+    },
+    {
+      "kind": "heading",
+      "text": "Guthrun spake:"
+    },
+    {
+      "kind": "verse",
+      "text": "\"This shall I | with oaths now swear,\nSwear by the sacred | stone so white,\nThat nought was there | with Thjothmar's son\nThat man or woman | may not know.",
+      "stanza": "3"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Nor ever once | did my arms embrace\nThe hero brave, | the leader of hosts;\nIn another manner | our meeting was,\nWhen our sorrows we | in secret told.",
+      "stanza": "4"
+    },
+    {
+      "kind": "verse",
+      "text": "\"With thirty warriors | Thjothrek came,\nNor of all his men | doth one remain;\nThou hast murdered my brothers | and mail-clad men,\nThou hast murdered all | the men of my race.",
+      "stanza": "5"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Gunnar comes not, | Hogni I greet not,\nNo longer I see | my brothers loved;\nMy sorrow would Hogni | avenge with the sword,\nNow myself for my woes | I shall payment win.",
+      "stanza": "6"
+    },
+    {
+      "kind": "verse",
+      "text": "\"Summon Saxi, | the southrons' king,\nFor be the boiling | kettle can hallow.\"\nSeven hundred | there were in the hall,\nEre the queen her hand | in the kettle thrust.",
+      "stanza": "7"
+    },
+    {
+      "kind": "verse",
+      "text": "To the bottom she reached | with hand so bright,\nAnd forth she brought | the flashing stones:\n\"Behold, ye warriors, | well am I cleared\nOf sin by the kettle's | sacred boiling.\"",
+      "stanza": "8"
+    },
+    {
+      "kind": "verse",
+      "text": "Then Atli's heart | in happiness laughed,\nWhen Guthrun's hand | unhurt he saw;\n\"Now Herkja shall come | the kettle to try,\nShe who grief | for Guthrun planned.\"",
+      "stanza": "9"
+    },
+    {
+      "kind": "verse",
+      "text": "Ne'er saw man sight | more sad than this,\nHow burned were the hands | of Herkja then;\nIn a bog so foul | the maid they flung,\nAnd so was Guthrun's | grief requited.",
+      "stanza": "10"
+    }
+  ],
+  "norseSource": "https://www.heimskringla.no/wiki/Guðrúnarkviða_in_þriðja",
+  "englishSource": "https://sacred-texts.com/neu/poe/poe32.htm",
+  "norseEdition": "Normalized Old Norse · Guðni Jónsson edition",
+  "note": "These are complete reading editions of the poem and its accompanying prose, rather than a facsimile of Codex Regius. Bellows sometimes orders, divides, or supplements stanzas differently, so the two editions do not always share stanza numbers. Editorial introductions and footnotes are omitted; follow the source links for that commentary."
+}
