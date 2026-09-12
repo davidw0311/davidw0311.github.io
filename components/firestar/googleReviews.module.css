@@ -6,13 +6,21 @@
 .rating>span { display: flex; gap: 10px; align-items: center; font-size: 16px; }
 .rating strong { font-size: 42px; line-height: 1; font-weight: 500; }
 .rating svg, .stars { color: var(--accent); }
-.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; }
-.cards figure { margin: 0; padding: 25px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; }
+.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 50px; }
+.cards article { padding: 30px 0; border-top: 1px solid var(--line); }
+.cards .withPhoto { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.content { display: flex; flex-direction: column; height: 100%; }
+.withPhoto .content { height: auto; }
+.photo { margin: 0; }
+.photo a { display: block; }
+.photo img { width: 100%; height: 380px; object-fit: cover; object-position: center; }
+.photo figcaption { font-size: 16px; line-height: 1.5; margin-top: 10px; }
 .stars { display: flex; gap: 4px; }
-.cards blockquote { margin: 22px 0 28px; flex: 1; }
-.cards blockquote p { font-family: Georgia, serif; font-size: clamp(26px, 2.5vw, 34px); line-height: 1.3; color: var(--fg); }
-.cards figcaption { display: grid; gap: 7px; font-size: 17px; }
-.cards figcaption a { display: flex; align-items: center; gap: 7px; font-size: 16px; color: var(--accent); width: fit-content; min-height: 44px; }
+.cards h3 { font-size: clamp(27px, 2.6vw, 36px); line-height: 1.2; margin: 22px 0 18px; }
+.summaryLabel { font-size: 16px; color: var(--accent); margin-bottom: 8px!important; }
+.summary { font-size: 19px; line-height: 1.7; flex: 1; }
+.author { display: grid; gap: 7px; font-size: 17px; margin-top: 24px; }
+.author a { display: flex; align-items: center; gap: 7px; font-size: 16px; color: var(--accent); width: fit-content; min-height: 44px; }
 .footer { display: flex; justify-content: space-between; gap: 30px; align-items: center; border-top: 1px solid var(--line); padding-top: 25px; }
 .footer p { font-size: 16px; line-height: 1.6; max-width: 580px; }
 .allReviews { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--accent); padding: 10px 0; font-size: 17px; flex-shrink: 0; }
@@ -22,5 +30,6 @@
   .section { padding: 50px 6%; }
   .heading, .footer { align-items: start; flex-direction: column; gap: 25px; }
   .cards { grid-template-columns: 1fr; gap: 5px; }
-  .cards blockquote p { font-size: 28px; }
+  .cards .withPhoto { grid-template-columns: 1fr; gap: 25px; }
+  .photo img { height: 310px; }
 }
