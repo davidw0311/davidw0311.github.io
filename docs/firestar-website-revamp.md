@@ -84,3 +84,7 @@ Jim’s review includes the one verified attached customer project photo found a
 ## Text-only review selection
 
 Removed Jim Ning’s review, photo, caption, and unused photo assets at the user’s request. V1 now features Brook Reimer, Ever Green, Michelle Wong, D M, and Chris Seifried, each with five stars and a Google author-review link. Chris’s original review and rating were verified again on 2026-09-12. Review copy remains explicitly labelled as summaries; long Google review text has not been republished verbatim. User-provided review text can replace those summaries in a follow-up.
+
+## Direct links to individual Google reviews
+
+Each V1 review card now links to that individual Google review rather than the reviewer’s contribution profile. Chris Seifried uses the user-provided Google Maps share link. Brook Reimer, Ever Green, Michelle Wong, and D M use Google review URLs with identifiers read from their rendered review cards and checked against the individual review pages. Accessible link labels use singular “review.” The business-level rating and “Read all reviews” links continue to open the full review listing. Review copy and styling are unchanged.
