@@ -88,3 +88,7 @@ Removed Jim Ning’s review, photo, caption, and unused photo assets at the user
 ## Direct links to individual Google reviews
 
 Each V1 review card now links to that individual Google review rather than the reviewer’s contribution profile. Chris Seifried uses the user-provided Google Maps share link. Brook Reimer, Ever Green, Michelle Wong, and D M use Google review URLs with identifiers read from their rendered review cards and checked against the individual review pages. Accessible link labels use singular “review.” The business-level rating and “Read all reviews” links continue to open the full review listing. Review copy and styling are unchanged.
+
+## User-supplied verbatim reviews
+
+Replaced all five summaries with the complete review text supplied by the user on 2026-09-12. Spelling, punctuation, capitalization, repeated spaces, and line breaks are preserved. Removed the summary labels, editorial card titles, and shortening notice. Each review is rendered as a readable blockquote with its existing author, five stars, and verified individual Google review link. No review photos are displayed.

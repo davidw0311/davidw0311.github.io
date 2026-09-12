@@ -10,9 +10,7 @@
 .cards article { padding: 30px 0; border-top: 1px solid var(--line); }
 .content { display: flex; flex-direction: column; height: 100%; }
 .stars { display: flex; gap: 4px; }
-.cards h3 { font-size: clamp(27px, 2.6vw, 36px); line-height: 1.2; margin: 22px 0 18px; }
-.summaryLabel { font-size: 16px; color: var(--accent); margin-bottom: 8px!important; }
-.summary { font-size: 19px; line-height: 1.7; flex: 1; }
+.reviewText { font-size: 19px; line-height: 1.7; flex: 1; margin: 22px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .author { display: grid; gap: 7px; font-size: 17px; margin-top: 24px; }
 .author a { display: flex; align-items: center; gap: 7px; font-size: 16px; color: var(--accent); width: fit-content; min-height: 44px; }
 .footer { display: flex; justify-content: space-between; gap: 30px; align-items: center; border-top: 1px solid var(--line); padding-top: 25px; }

@@ -13,10 +13,10 @@ export function GoogleReviews() {
     <div className={s.cards}>{googleReviews.reviews.map(review => <article key={review.author}>
       <div className={s.content}>
         <div className={s.stars} role="img" aria-label={`${review.rating} out of 5 stars`}>{Array.from({ length: review.rating }, (_, i) => <Star key={i} size={18} weight="fill" aria-hidden="true" />)}</div>
-        <h3>{review.title}</h3><p className={s.summaryLabel}>Review summary</p><p className={s.summary}>{review.summary}</p>
+        <blockquote className={s.reviewText} cite={review.reviewUrl}>{review.quote}</blockquote>
         <div className={s.author}><strong>{review.author}</strong><a href={review.reviewUrl} target="_blank" rel="noopener noreferrer" aria-label={`View ${review.author}'s review on Google`}>Read on Google <ArrowUpRight size={16} aria-hidden="true" /></a></div>
       </div>
     </article>)}</div>
-    <div className={s.footer}><p>Five selected five-star reviews, summarised for length. Rating and reviews checked <time dateTime={googleReviews.checkedAt}>{googleReviews.checkedLabel}</time>.</p><a className={s.allReviews} href={googleReviews.url} target="_blank" rel="noopener noreferrer">Read all reviews on Google <ArrowUpRight size={20} aria-hidden="true" /></a></div>
+    <div className={s.footer}><p>Five selected five-star reviews. Rating and reviews checked <time dateTime={googleReviews.checkedAt}>{googleReviews.checkedLabel}</time>.</p><a className={s.allReviews} href={googleReviews.url} target="_blank" rel="noopener noreferrer">Read all reviews on Google <ArrowUpRight size={20} aria-hidden="true" /></a></div>
   </section>;
 }
