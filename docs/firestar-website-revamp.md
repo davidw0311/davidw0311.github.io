@@ -80,3 +80,7 @@ This is a manually checked snapshot, with a visible checked date and a notice th
 V1 now displays five selected five-star reviews: jim ning, Brook Reimer, Ever Green, Michelle Wong, and D M. Each is presented as a clearly labelled summary with an author link to Google. The selection replaces the previous three newest excerpts; the overall 4.9/5 rating still covers all 31 reviews in the 2026-09-09 snapshot.
 
 Jim’s review includes the one verified attached customer project photo found across the Akenhead Road and Kirsten Drive listings. The image shows his bathroom countertop, is credited to him, and is dated June 2022 by Google. Its original URL and attribution are recorded in `public/assets/firestar/reviews/sources.json`. The other four reviews remain text-only because no project-photo attachments could be verified. Reviewer portraits and unrelated installation photos are not substituted. The responsive layout features the photo alongside Jim’s summary on desktop and above it on mobile, followed by the other four reviews. V2 and V3 are unchanged.
+
+## Text-only review selection
+
+Removed Jim Ning’s review, photo, caption, and unused photo assets at the user’s request. V1 now features Brook Reimer, Ever Green, Michelle Wong, D M, and Chris Seifried, each with five stars and a Google author-review link. Chris’s original review and rating were verified again on 2026-09-12. Review copy remains explicitly labelled as summaries; long Google review text has not been republished verbatim. User-provided review text can replace those summaries in a follow-up.
