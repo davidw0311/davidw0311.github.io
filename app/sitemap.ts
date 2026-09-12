@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { href, routes, versions, type PageKey } from "@/data/firestar/content";
 import { projects } from "@/data/projects";
+import { regiusStories } from "@/data/codexRegius";
 
 export const dynamic = "force-static";
 
@@ -8,6 +9,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://davidw0311.github.io";
   return [
     { url: baseUrl, changeFrequency: "monthly", priority: 1 },
+    { url: `${baseUrl}/projects/codex-regius/`, changeFrequency: "monthly", priority: 0.8 },
+    ...regiusStories.map(story => ({ url: `${baseUrl}/projects/codex-regius/${story.slug}/`, changeFrequency: "yearly" as const, priority: 0.6 })),
     { url: `${baseUrl}/my-carnivorous-garden/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/blackjack-trainer/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/language-lab/`, changeFrequency: "monthly", priority: 0.8 },

@@ -1,5 +1,6 @@
 import {
   ArrowUpRight,
+  BookOpen,
   CardsThree,
   Cube,
   EnvelopeSimple,
@@ -83,6 +84,10 @@ export default function Home() {
               <Link href="/projects/trips/">
                 <MapTrifold size={34} weight="thin" />
                 <span>Trips</span>
+              </Link>
+              <Link href="/projects/codex-regius/">
+                <BookOpen size={34} weight="thin" />
+                <span>Codex Regius</span>
               </Link>
             </div>
             <a className={styles.secondaryButton} href="#about">Return to the lake</a>
