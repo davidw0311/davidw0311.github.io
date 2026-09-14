@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { Play, Pause, Stop, SpeakerHigh } from "@phosphor-icons/react";
 import { StoryNarrator, type NarrationOptions, type NarrationSection, type NarrationState, type SpeechHandle } from "@/lib/regiusNarration";
+import { narrationAudioSession, type AudioSessionLike } from "@/lib/regiusAudioSession";
 import styles from "./regius.module.css";
 
 const NarrationContext = createContext<{ ready: boolean; active: number; start: (index: number) => void }>({ ready: false, active: -1, start: () => {} });
@@ -30,13 +31,17 @@ export function NarrationScope({ sections, children }: { sections: NarrationSect
       }
     } catch { /* Reading works with storage disabled. */ }
     const synth = window.speechSynthesis;
+    const audioSession = narrationAudioSession(() => (navigator as Navigator & { audioSession?: AudioSessionLike }).audioSession);
     const refresh = () => setVoices(synth.getVoices());
     refresh(); synth.addEventListener("voiceschanged", refresh);
-    const reader = new StoryNarrator({ create: text => new SpeechSynthesisUtterance(text) as unknown as SpeechHandle, speak: utterance => synth.speak(utterance as SpeechSynthesisUtterance), cancel: () => synth.cancel(), resume: () => synth.resume(), voices: () => synth.getVoices() }, () => preferences.current, setState);
+    const reader = new StoryNarrator({ create: text => new SpeechSynthesisUtterance(text) as unknown as SpeechHandle, speak: utterance => { audioSession.acquire(); synth.speak(utterance as SpeechSynthesisUtterance); }, cancel: () => synth.cancel(), resume: () => synth.resume(), voices: () => synth.getVoices() }, () => preferences.current, next => {
+      if (next.status !== "playing" && next.status !== "paused") audioSession.release();
+      setState(next);
+    });
     narrator.current = reader;
     const leave = () => reader.stop();
     window.addEventListener("pagehide", leave);
-    cleanup = () => { reader.dispose(); narrator.current = null; synth.removeEventListener("voiceschanged", refresh); window.removeEventListener("pagehide", leave); };
+    cleanup = () => { reader.dispose(); audioSession.release(); narrator.current = null; synth.removeEventListener("voiceschanged", refresh); window.removeEventListener("pagehide", leave); };
     });
     return () => { cancelAnimationFrame(frame); cleanup(); };
   }, []);
@@ -65,6 +70,7 @@ export function NarrationScope({ sections, children }: { sections: NarrationSect
           </div>
           <div className={styles.narrationPreferences}><button type="button" onClick={() => change({ rate: .8, pitch: .6 })}>Low storyteller</button><label><input type="checkbox" checked={options.includeNorse} onChange={event => { change({ includeNorse: event.target.checked }); narrator.current?.stop(); }} />Read Old Norse quotations too</label></div>
           <p>Voices and pitch depend on your device. Old Norse uses an Icelandic voice when available; pronunciation is approximate. Voice changes apply at the next phrase.</p>
+          <p>Using Bluetooth? Select your speaker in your phone’s audio-output controls, then stop and restart reading. The phone controls where its speech voice plays.</p>
         </details>}
         {state.status === "paused" && <p className={styles.narrationHint}>Resume may repeat the current phrase so nothing is missed.</p>}
       </section>
