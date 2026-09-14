@@ -9,6 +9,8 @@ import { glossaryForStory, usedGlossary } from "@/data/codexRegiusTerms";
 import { RememberStory } from "../reader";
 import { GlossaryScope } from "../glossary";
 import { createGlossedText } from "../glossed-text";
+import { NarrationScope, NarrationSectionView } from "../narration";
+import { storyNarration } from "@/lib/regiusNarration";
 import styles from "../regius.module.css";
 
 export function generateStaticParams() { return regiusStories.map(story => ({ slug: story.slug })); }
@@ -28,6 +30,7 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
   const next = regiusStories[story.number];
   const glossary = usedGlossary(glossaryForStory(slug), [...story.paragraphs, ...story.quotes.flatMap(quote => [quote.norse, quote.english])]);
   const renderText = createGlossedText(glossary);
+  const sections = storyNarration(story);
   return <main id="book-content" className={styles.readingPage}>
     <RememberStory slug={slug} />
     <nav className={styles.readingNav} aria-label="Collection navigation"><Link href="/projects/codex-regius/#contents"><ListBullets size={19} /> All stories</Link><span>{String(story.number).padStart(2, "0")} / 31</span></nav>
@@ -40,14 +43,16 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
       <div className={styles.readingEditions}><Link href={`/projects/codex-regius/${slug}/original/`}>Read the full original & translation <ArrowRight size={17} /></Link><p>Tap an underlined name for a short explanation.</p></div>
       {story.image && <figure className={styles.storyArt}><Image src={story.image} alt={story.imageAlt ?? "Illustration from the original booklet"} width={1122} height={1402} priority sizes="(max-width: 767px) calc(100vw - 44px), 480px" /></figure>}
       <GlossaryScope entries={glossary}>
+      <NarrationScope sections={sections} key={slug}>
       <div className={styles.prose}>{story.paragraphs.map((paragraph, i) => <Fragment key={i}>
-        <p>{renderText({ text: paragraph })}</p>
-        {story.quotes.filter(quote => quote.after === i + 1).map(quote => <figure className={styles.excerpt} key={quote.stanza}>
+        <NarrationSectionView index={sections.findIndex(section => section.id === `paragraph-${i}`)} label={sections.find(section => section.id === `paragraph-${i}`)!.label}><p>{renderText({ text: paragraph })}</p></NarrationSectionView>
+        {story.quotes.filter(quote => quote.after === i + 1).map(quote => <NarrationSectionView key={quote.stanza} index={sections.findIndex(section => section.id === `quote-${i}-${quote.stanza}`)} label={`Quotation ${quote.stanza}`}><figure className={styles.excerpt}>
           <figcaption>Old Norse · {quote.stanza.startsWith("Prose") ? quote.stanza : `Stanza ${quote.stanza}`}</figcaption>
           <blockquote lang="non">{renderText({ text: quote.norse })}</blockquote>
           <div className={styles.translation}><span>English</span><p lang="en">{renderText({ text: quote.english })}</p></div>
-        </figure>)}
+        </figure></NarrationSectionView>)}
       </Fragment>)}</div>
+      </NarrationScope>
       </GlossaryScope>
       <div className={styles.storyEnd} aria-hidden="true">⁂</div>
       <section className={styles.sourceNote} aria-labelledby="retelling-note">
