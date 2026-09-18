@@ -233,3 +233,5 @@
   .narrationActions button { font-size: .74rem; }
 }
 @media print { .narrationPanel,.readFromHere { display: none; } .narrationSection[data-reading="true"] { box-shadow: none; background: none; } }
+
+.skipOpening { margin-top: 8px; min-height: 44px; padding: 7px 10px; border: 1px solid var(--rule); border-radius: 4px; background: var(--tint); color: var(--text); font: inherit; cursor: pointer; }

@@ -1,5 +1,5 @@
 // A separate, quiet Web Audio gain works on phones where media.volume is fixed.
-export const REGIUS_MUSIC = "/audio/codex-regius/music/northern-strings-v1.wav";
+export const REGIUS_MUSIC = "/audio/codex-regius/music/northern-strings-v2.mp3";
 export const DEFAULT_MUSIC_VOLUME = .12;
 export const musicVolume = (value: number) => Number.isFinite(value) ? Math.max(0, Math.min(.3, value)) : DEFAULT_MUSIC_VOLUME;
 

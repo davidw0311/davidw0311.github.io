@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { RecordedNarrator, type MediaTransport, type RecordedState, type RegiusRecording } from "../lib/regiusRecordedNarration.ts";
+import { recordedQueue, RecordedNarrator, type MediaTransport, type RecordedState, type RegiusRecording } from "../lib/regiusRecordedNarration.ts";
 import { regiusStories } from "../data/codexRegius.ts";
 import { storyNarration } from "../lib/regiusNarration.ts";
 import { getRegiusRecording } from "../data/codexRegiusRecordings.ts";
@@ -62,4 +62,54 @@ test("only the first three stories have complete recordings matching current dis
   for(const clip of recorded.clips) {assert.ok(clip.duration>0);assert.ok(statSync(`public${clip.src}`).size>1000);}
   assert.equal(getRegiusRecording(story.slug,[]),null,"Changed text must invalidate recordings");
  }
+});
+
+
+test("all three stories keep every spoken clip in order, with rests after complete passages", () => {
+ for (const story of regiusStories.slice(0,3)) {
+  const sections=storyNarration(story), recording=getRegiusRecording(story.slug,sections)!;
+  for (const includeNorse of [true,false]) {
+   const queue=recordedQueue(recording,sections,0,includeNorse,true);
+   assert.equal(queue[0].phase,"opening"); assert.equal(queue[0].duration,5);
+   assert.deepEqual(queue.filter(c=>!c.phase),recording.clips.filter(c=>includeNorse||c.lang==="en"));
+   assert.ok(queue.filter(c=>c.phase==="breath").length>=4);
+   queue.forEach((clip,i)=>{
+    if(clip.phase!=="breath")return;
+    assert.equal(clip.duration,2);
+    assert.equal(queue[i-1].lang,"en","Never split a Norse quote from its English rendering");
+    assert.notEqual(queue[i-1].section,queue[i+1].section);
+   });
+   for (let index=0;index<sections.length;index++) {
+    const jump=recordedQueue(recording,sections,index,includeNorse,false);
+    assert.equal(jump[0].phase,undefined,"Read from here starts with speech");
+    assert.deepEqual(jump.filter(c=>!c.phase),recording.clips.filter(c=>c.section>=index&&(includeNorse||c.lang==="en")));
+   }
+  }
+ }
+});
+test("opening is pausable, skippable and stays five seconds at every narration speed", () => {
+ const f=fixture(recording); f.options.rate=1.5;
+ f.reader.start([],0,true);
+ assert.match(f.audio.src,/opening-5s/); assert.equal(f.states.at(-1)?.phase,"opening");
+ assert.equal(f.audio.playbackRate,1);
+ const openingEnd=f.audio.onended;
+ f.audio.currentTime=2; f.reader.pause(); f.reader.resume();
+ assert.equal(f.audio.currentTime,2);
+ f.reader.skipOpening(); assert.equal(f.audio.src,"/0.mp3"); assert.equal(f.audio.playbackRate,1.5);
+ openingEnd?.(new Event("ended")); assert.equal(f.audio.src,"/0.mp3");
+ assert.equal(f.states.at(-1)?.phase,undefined);
+});
+test("stop and jump cancel an opening or breathing space without delayed speech", () => {
+ const story=regiusStories[0],sections=storyNarration(story),recording=getRegiusRecording(story.slug,sections)!;
+ const f=fixture(recording); f.reader.start(sections,0,true);
+ const openingEnd=f.audio.onended; f.reader.stop(); openingEnd?.(new Event("ended"));
+ assert.equal(f.states.at(-1)?.status,"idle");
+ f.reader.start(sections,0);
+ let steps=0;
+ while(f.states.at(-1)?.phase!=="breath") { f.audio.onended?.(new Event("ended"));assert.ok(++steps<10); }
+ const breathEnd=f.audio.onended;
+ f.reader.setRate(.6); assert.equal(f.audio.playbackRate,1);
+ f.reader.start(sections,8); breathEnd?.(new Event("ended"));
+ assert.equal(f.states.at(-1)?.section,8);assert.equal(f.states.at(-1)?.phase,undefined);
+ assert.equal(f.audio.playbackRate,f.options.rate);
 });

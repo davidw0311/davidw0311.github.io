@@ -14,6 +14,12 @@ Verify with `node --no-warnings --test tests/regiusRecordedNarration.test.ts tes
 
 ## Instrumental background
 
-Only the first three recorded stories include `northern-strings-v1.wav`, an original 64-second modal composition synthesized locally with soft plucked strings and sustained tones. It contains no licensed samples or third-party recordings. Regenerate with `python3 scripts/generate-regius-music.py` (NumPy required). Circular reverb preserves the tail at the loop boundary.
+Only the first three recorded stories include `northern-strings-v2.mp3`, an original 80-second D-phrygian composition with low, damped plucked strings and distant frame-drum tones. The string timbre uses a noise-excited delay line rather than the first version’s shimmering harmonic pads. It contains no licensed samples or third-party recordings. Regenerate with `python3 scripts/generate-regius-music.py` (NumPy and SoundFile with MP3 support required). Short circular room reflections preserve the loop boundary. The previous asset stays available for cached clients.
 
-Music is fetched only after a playback gesture and uses a separate Web Audio gain, defaulting to 12% and capped at 30%. This avoids relying on programmatic HTML media volume on phones. Voice speed does not change music speed. The music follows narration pause/resume/stop, releases its audio context on navigation, and never prevents speech if loading fails. The checkbox and volume slider in reading settings persist independently of voice preferences. Lifecycle tests live in `tests/regiusBackgroundMusic.test.ts`.
+Music is fetched only after a playback gesture and uses a separate Web Audio gain, defaulting to 12% and capped at 30%. This avoids relying on programmatic HTML media volume on phones. Voice speed does not change music speed. Music follows narration pause/resume/stop, releases its audio context on navigation, and never prevents speech if loading fails. The checkbox and volume slider persist independently of voice preferences. Lifecycle tests live in `tests/regiusBackgroundMusic.test.ts`.
+
+## Reading pace
+
+With music enabled, **Read story** adds a five-second music-only opening, with a **Skip opening** button. **Read from here** starts the chosen passage immediately, including the first passage. The recorded readings have a two-second breathing space after each third paragraph; if that paragraph has a quotation, the pause follows its English translation. No text is removed or re-recorded.
+
+The opening and rests use small silent PCM clips in the same media queue. This retains phone playback permission and gives pause/resume, jumps, and stop the same exact behavior as spoken passages, with no delayed timer able to restart a stopped story. Rests stay at their intended duration when speech speed changes. Device-voice fallback retains its existing cadence. Queue and interruption tests live in `tests/regiusRecordedNarration.test.ts`.

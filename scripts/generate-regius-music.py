@@ -1,63 +1,82 @@
-"""Original instrumental score for this reader; no samples or third-party music.
-Requires Python 3 and numpy. Writes a seamless 64-second, mono PCM loop.
+"""Original dark acoustic-inspired score; no samples or third-party music.
+Requires Python 3, numpy and soundfile (with MP3 encoding support).
 """
 from pathlib import Path
 import wave
 import numpy as np
+import soundfile as sf
 
-RATE, SECONDS = 24000, 64
+RATE, SECONDS = 24000, 80
 count = RATE * SECONDS
 mix = np.zeros(count, dtype=np.float64)
-rng = np.random.default_rng(829)
+rng = np.random.default_rng(8292)
 
-def frequency(midi):
-    return 440 * 2 ** ((midi - 69) / 12)
+def place(samples, start, amplitude):
+    indices = (int(start * RATE) + np.arange(len(samples))) % count
+    np.add.at(mix, indices, samples * amplitude)
 
-def add(note, start, duration, amplitude, bowed=False):
-    t = np.arange(int(duration * RATE)) / RATE
-    f = frequency(note)
-    tone = np.zeros_like(t)
-    for h in range(1, 13):
-        # Soft, slightly inharmonic plucked strings; slow vibrato in the pad.
-        phase = 2 * np.pi * f * h * t + (0.035 * h * np.sin(2 * np.pi * 4.1 * t) if bowed else 0)
-        if not bowed:
-            phase += 2 * np.pi * f * h * (0.000025 * h * h) * t
-        decay = np.exp(-t * (0.55 + h * .19)) if not bowed else 1
-        tone += np.sin(phase + rng.uniform(-.08,.08)) * decay / h ** (2.0 if bowed else 1.65)
-    attack = 1 - np.exp(-t / (1.3 if bowed else .012))
-    release = np.minimum(1, (duration - t) / (2.0 if bowed else .7))
-    envelope = attack * np.maximum(0,release) ** 2
-    if bowed:
-        envelope *= .82 + .18 * np.sin(np.pi * t / duration)
-    samples = tone * envelope * amplitude
-    indices = (int(start * RATE) + np.arange(len(t))) % count
-    np.add.at(mix, indices, samples)
+def pluck(note, start, amplitude, duration=9):
+    # A damped delay-line string excited by a short, filtered noise burst.
+    # No sweeping oscillators, pads, chimes, arpeggiators, or electronic beats.
+    frequency = 440 * 2 ** ((note - 69) / 12)
+    period = round(RATE / frequency - .5)
+    tone = np.zeros(int(RATE * duration))
+    excitation = rng.normal(0, 1, period)
+    for _ in range(5):
+        excitation = (excitation + np.roll(excitation, 1)) / 2
+    excitation -= excitation.mean()
+    tone[:period] = excitation
+    for i in range(period + 1, len(tone)):
+        tone[i] = .996 * .5 * (tone[i-period] + tone[i-period-1])
+    t = np.arange(len(tone)) / RATE
+    tone *= (1 - np.exp(-t/.006)) * np.minimum(1, (duration-t)/1.5)**2
+    tone /= max(abs(tone).max(), .001)
+    place(tone, start, amplitude)
 
-# An original slow D-minor modal phrase, with space between each gesture.
-melody = [
-    [62,69,65], [64,62], [65,69,72], [69,67],
-    [60,67,64], [62,60], [58,65,69], [65,62],
-    [62,65,69], [72,69], [67,65,64], [62,57],
-    [58,62,65], [60,64], [57,64,67], [65,62],
+def drum(start, amplitude):
+    # Low skin modes and a muted contact sound, with a short natural decay.
+    t = np.arange(RATE * 3) / RATE
+    sound = np.zeros_like(t)
+    for ratio, strength, decay in [(1,.8,2.4),(1.59,.25,4.3),(2.14,.12,6.2),(2.65,.055,8)]:
+        phase = 2*np.pi*55*ratio*(t + .003*(1-np.exp(-t/.05)))
+        sound += strength*np.sin(phase)*np.exp(-decay*t)
+    noise = rng.normal(0, 1, len(t))
+    noise = np.convolve(noise, np.ones(18)/18, mode='same')
+    sound += noise * .15 * np.exp(-t*36)
+    sound *= 1-np.exp(-t/.004)
+    place(sound, start, amplitude)
+
+# Sparse D-phrygian gestures: low open strings, minor seconds, unresolved endings.
+phrases = [
+ [(0,38,.48),(1.4,50,.23),(5.2,51,.17),(8,45,.20)],
+ [(0,38,.36),(3.1,53,.20),(6.7,50,.18)],
+ [(0,36,.40),(2.4,48,.23),(7,45,.18)],
+ [(0,38,.46),(4,51,.18),(8.4,50,.17)],
+ [(0,34,.38),(2,46,.23),(6.3,45,.17)],
+ [(0,36,.40),(3.8,48,.21),(7.4,51,.15)],
+ [(0,33,.36),(2.8,45,.23),(6.8,46,.16)],
+ [(0,38,.44),(3.6,50,.18),(7.6,45,.18)],
 ]
-roots = [38,38,36,34,38,36,34,33]
-for i, root in enumerate(roots):
-    add(root, i * 8 - 1.5, 11, .09, True)
-    add(root+7, i * 8 - 1.2, 10.5, .043, True)
-for bar, notes in enumerate(melody):
-    for j, note in enumerate(notes):
-        add(note, bar * 4 + [.25,1.8,3.1][j], 4.8, .17 if j == 0 else .11)
-    if bar % 2 == 0:
-        add(roots[bar//2]+12,bar*4+.04,6,.10)
-# Circular reverberation carries each tail across the loop boundary.
+for bar, notes in enumerate(phrases):
+    for beat, note, amp in notes:
+        pluck(note, bar*10+beat, amp)
+for start, amp in [(0,.18),(9.6,.11),(19.9,.15),(28,.10),(39.8,.17),(50,.12),(59.7,.16),(69.8,.10)]:
+    drum(start,amp)
+# Short room reflections, without the long shimmering tail of the first version.
 dry = mix.copy()
-for delay, gain in [(0.19,.12),(.37,.09),(.61,.08),(.97,.055),(1.43,.035)]:
-    mix += np.roll(dry, round(delay*RATE)) * gain
+for delay,gain in [(.073,.09),(.131,.065),(.227,.04),(.383,.022)]:
+    mix += np.roll(dry,round(delay*RATE))*gain
 mix -= mix.mean()
-mix *= .63 / np.max(np.abs(mix))
-output = Path('public/audio/codex-regius/music/northern-strings-v1.wav')
-output.parent.mkdir(parents=True,exist_ok=True)
-with wave.open(str(output),'wb') as audio:
-    audio.setnchannels(1); audio.setsampwidth(2); audio.setframerate(RATE)
-    audio.writeframes((mix*32767).astype('<i2').tobytes())
+mix *= .11/max(np.sqrt(np.mean(mix**2)),.001)
+# Gentle peak control keeps quiet string tails audible beneath spoken words.
+mix = .72 * np.tanh(mix/.72)
+folder = Path('public/audio/codex-regius/music')
+folder.mkdir(parents=True,exist_ok=True)
+output = folder/'northern-strings-v2.mp3'
+sf.write(output,mix,RATE,format='MP3')
+# Real silent media preserves mobile playback permission and exact pause/resume.
+for name,seconds in [('opening-5s',5),('breath-2s',2)]:
+    with wave.open(str(folder/f'{name}.wav'),'wb') as audio:
+        audio.setnchannels(1);audio.setsampwidth(2);audio.setframerate(8000)
+        audio.writeframes(bytes(seconds*8000*2))
 print(f'{output}: {SECONDS}s; RMS {np.sqrt(np.mean(mix**2)):.3f}; peak {abs(mix).max():.3f}')

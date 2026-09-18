@@ -2,7 +2,8 @@ import type { NarrationSection, NarrationState } from "./regiusNarration.ts";
 
 export type RecordedClip = { section: number; part: number; lang: "en" | "non"; src: string; duration: number };
 export type RegiusRecording = { voice: string; label: string; textHash: string; clips: RecordedClip[] };
-export type RecordedState = Omit<NarrationState, "status"> & { status: NarrationState["status"] | "loading" };
+type PlaybackClip = RecordedClip & { phase?: "opening" | "breath" };
+export type RecordedState = Omit<NarrationState, "status"> & { status: NarrationState["status"] | "loading"; phase?: "opening" | "breath" };
 export type MediaTransport = {
   src: string; currentTime: number; playbackRate: number;
   play(): Promise<void>; pause(): void; load(): void; removeAttribute(name: string): void;
@@ -10,13 +11,34 @@ export type MediaTransport = {
   onplaying: ((event: Event) => void) | null; onwaiting: ((event: Event) => void) | null;
 };
 
+/** Rest after each third paragraph, after its translation if it has a quotation. */
+export function recordedQueue(recording: RegiusRecording, sections: NarrationSection[], index: number, includeNorse: boolean, opening: boolean): PlaybackClip[] {
+  const breaks = new Set<number>();
+  let paragraphs = 0;
+  sections.forEach((section, i) => {
+    if (!section.id.startsWith("paragraph-") || ++paragraphs % 3 !== 0) return;
+    let end = i;
+    while (sections[end + 1]?.id.startsWith("quote-")) end++;
+    if (end < sections.length - 1) breaks.add(end);
+  });
+  const clips = recording.clips.filter(clip => clip.section >= index && (includeNorse || clip.lang === "en"));
+  const queue: PlaybackClip[] = [];
+  if (opening && index === 0 && clips.length) queue.push({ section: 0, part: -1, lang: "en", src: "/audio/codex-regius/music/opening-5s.wav", duration: 5, phase: "opening" });
+  clips.forEach((clip, i) => {
+    queue.push(clip);
+    const next = clips[i + 1];
+    if (next && next.section !== clip.section && breaks.has(clip.section)) queue.push({ section: clip.section, part: -1, lang: "en", src: "/audio/codex-regius/music/breath-2s.wav", duration: 2, phase: "breath" });
+  });
+  return queue;
+}
+
 export class RecordedNarrator {
   private audio: MediaTransport;
   private recording: RegiusRecording;
   private options: () => { rate: number; includeNorse: boolean };
   private report: (state: RecordedState) => void;
   private prefetch: (src: string) => void;
-  private queue: RecordedClip[] = [];
+  private queue: PlaybackClip[] = [];
   private cursor = 0;
   private generation = 0;
   private playAttempt = 0;
@@ -26,16 +48,16 @@ export class RecordedNarrator {
   }
   private update(status: RecordedState["status"], error?: string) {
     this.status = status;
-    this.report({ status, section: ["idle", "finished"].includes(status) ? -1 : this.queue[this.cursor]?.section ?? -1, ...(error ? { error } : {}) });
+    this.report({ status, section: ["idle", "finished"].includes(status) ? -1 : this.queue[this.cursor]?.section ?? -1, ...(!["idle", "finished", "error"].includes(status) && this.queue[this.cursor]?.phase ? { phase: this.queue[this.cursor].phase } : {}), ...(error ? { error } : {}) });
   }
   private resetAudio() {
     this.generation++; this.playAttempt++;
     this.audio.onended = null; this.audio.onerror = null; this.audio.onplaying = null; this.audio.onwaiting = null;
     this.audio.pause(); this.audio.removeAttribute("src"); this.audio.load();
   }
-  start(_sections: NarrationSection[], index: number) {
+  start(sections: NarrationSection[], index: number, opening = false) {
     this.resetAudio();
-    this.queue = this.recording.clips.filter(clip => clip.section >= index && (this.options().includeNorse || clip.lang === "en"));
+    this.queue = recordedQueue(this.recording, sections, index, this.options().includeNorse, opening);
     this.cursor = 0; this.playClip();
   }
   private playClip() {
@@ -64,7 +86,8 @@ export class RecordedNarrator {
       });
     } catch { if (token === this.generation) { this.resetAudio(); this.update("error", "Audio could not start. Tap Read from here to retry."); } }
   }
-  setRate(rate: number) { this.audio.playbackRate = rate; }
+  setRate(rate: number) { this.audio.playbackRate = this.queue[this.cursor]?.phase ? 1 : rate; }
+  skipOpening() { if (this.queue[this.cursor]?.phase === "opening") { this.cursor++; this.playClip(); } }
   pause() { if (["playing", "loading"].includes(this.status)) { this.playAttempt++; this.update("paused"); this.audio.pause(); } }
   resume() { if (this.status === "paused") this.play(this.generation); }
   stop() { this.resetAudio(); this.queue = []; this.update("idle"); }

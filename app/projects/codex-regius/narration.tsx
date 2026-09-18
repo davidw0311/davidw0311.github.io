@@ -104,7 +104,11 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
     if (next.rate !== undefined) recordedNarrator.current?.setRate(updated.rate);
     try { localStorage.setItem(mode.current ? `${storageKey}-recorded` : storageKey, JSON.stringify(updated)); } catch { /* Optional preference persistence. */ }
   }
-  function start(index: number) { music.current?.unlock(); current()?.start(sections, index); }
+  function start(index: number, opening = false) {
+    music.current?.unlock();
+    if (mode.current) recordedNarrator.current?.start(sections, index, opening && musicPreferences.current.enabled && musicPreferences.current.volume > 0);
+    else deviceNarrator.current?.start(sections, index);
+  }
   function resume() { music.current?.unlock(); current()?.resume(); }
   function changeMusic(enabled: boolean, volume: number) {
     const level = musicVolume(volume);
@@ -126,12 +130,13 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
       {recording && <audio ref={media} preload="none" aria-hidden="true" onPause={() => music.current?.setPlaying(false)} />}
       <section className={styles.narrationPanel} data-active={active} aria-label="Story audio">
         <div className={styles.narrationTop}>
-          <div><strong><SpeakerHigh size={19} aria-hidden="true" /> Listen to the story</strong><p role="status">{state.status === "error" ? state.error : active ? `${state.status === "paused" ? "Paused" : state.status === "loading" ? "Loading" : "Reading"} · section ${state.section + 1} of ${sections.length}` : state.status === "finished" ? "You’ve reached the end of the story." : supported === false ? "Read-aloud is unavailable in this browser." : "Start here, or choose any section below."}</p></div>
+          <div><strong><SpeakerHigh size={19} aria-hidden="true" /> Listen to the story</strong><p role="status">{state.status === "error" ? state.error : active ? `${state.status === "paused" ? "Paused" : state.status === "loading" ? "Loading" : state.phase === "opening" ? "Music opening" : state.phase === "breath" ? "A moment to linger" : "Reading"} · section ${state.section + 1} of ${sections.length}` : state.status === "finished" ? "You’ve reached the end of the story." : supported === false ? "Read-aloud is unavailable in this browser." : "Start here, or choose any section below."}</p></div>
           <div className={styles.narrationActions}>
-            {active ? <><button type="button" onClick={() => state.status === "paused" ? resume() : current()?.pause()}>{state.status === "paused" ? <Play size={17} /> : <Pause size={17} />}{state.status === "paused" ? "Resume" : "Pause"}</button><button type="button" onClick={() => current()?.stop()}><Stop size={17} />Stop</button></> : <button type="button" disabled={supported !== true} onClick={() => start(0)}><Play size={17} />Read story</button>}
+            {active ? <><button type="button" onClick={() => state.status === "paused" ? resume() : current()?.pause()}>{state.status === "paused" ? <Play size={17} /> : <Pause size={17} />}{state.status === "paused" ? "Resume" : "Pause"}</button><button type="button" onClick={() => current()?.stop()}><Stop size={17} />Stop</button></> : <button type="button" disabled={supported !== true} onClick={() => start(0, true)}><Play size={17} />Read story</button>}
           </div>
         </div>
         {recorded && <p className={styles.narrationHint}>Deep storyteller · AI narration</p>}
+        {state.phase === "opening" && <button type="button" className={styles.skipOpening} onClick={() => { music.current?.unlock(); recordedNarrator.current?.skipOpening(); }}>Skip opening · start reading</button>}
         {supported && <details className={styles.narrationSettings}><summary>Voice & reading settings</summary>
           <div className={styles.narrationFields}>
             {recording && <label>Narrator<select value={recorded ? "recorded" : "device"} onChange={event => switchMode(event.target.value === "recorded")}><option value="recorded">Deep storyteller · recorded</option>{deviceSupported && <option value="device">Device voice</option>}</select></label>}
@@ -142,7 +147,7 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
           </div>
           <div className={styles.narrationPreferences}>{!recorded && <button type="button" onClick={() => change({ rate: .8, pitch: .6 })}>Low storyteller</button>}<label><input type="checkbox" checked={options.includeNorse} onChange={event => { change({ includeNorse: event.target.checked }); current()?.stop(); }} />Read Old Norse quotations too</label></div>
           {recording && <div className={styles.narrationPreferences}><label><input type="checkbox" checked={musicEnabled} onChange={event => changeMusic(event.target.checked, musicLevel)} />Background instrumental music</label></div>}
-          {recording && <p>{musicUnavailable ? "Background music could not start. The narration can continue; toggle music off and on to retry." : "Soft plucked strings accompany the story. Music pauses with the narration; your volume and mute choices are saved."}</p>}
+          {recording && <p>{musicUnavailable ? "Background music could not start. The narration can continue; toggle music off and on to retry." : "Low strings and distant drums accompany the story. A five-second opening and occasional two-second pauses give the words room to settle. Your music volume and mute choices are saved."}</p>}
           <p>{recorded ? "AI narration with a naturally deep, warm voice. Old Norse uses approximate modern Icelandic pronunciation." : "Voices and pitch depend on your device. Old Norse uses an Icelandic voice when available; pronunciation is approximate. Voice changes apply at the next phrase."}</p>
           <p>Using Bluetooth? Select your speaker in your phone’s audio-output controls, then stop and restart reading. Your phone controls the audio output.</p>
         </details>}
