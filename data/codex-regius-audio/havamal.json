@@ -1,0 +1,161 @@
+{
+  "voice": "en-US-AdamMultilingualNeural",
+  "label": "Deep storyteller",
+  "textHash": "4e6605e12a820d2ccd865afd614707768c9907dd27a99d536c6aba0727070c66",
+  "clips": [
+    {
+      "section": 0,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/0-0.mp3",
+      "duration": 29.88
+    },
+    {
+      "section": 1,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/1-0.mp3",
+      "duration": 6.48
+    },
+    {
+      "section": 1,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/1-1.mp3",
+      "duration": 6.36
+    },
+    {
+      "section": 2,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/2-0.mp3",
+      "duration": 32.568
+    },
+    {
+      "section": 3,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/3-0.mp3",
+      "duration": 32.352
+    },
+    {
+      "section": 4,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/4-0.mp3",
+      "duration": 31.008
+    },
+    {
+      "section": 5,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/5-0.mp3",
+      "duration": 33.696
+    },
+    {
+      "section": 6,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/6-0.mp3",
+      "duration": 28.512
+    },
+    {
+      "section": 7,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/7-0.mp3",
+      "duration": 9.672
+    },
+    {
+      "section": 7,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/7-1.mp3",
+      "duration": 10.08
+    },
+    {
+      "section": 8,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/8-0.mp3",
+      "duration": 29.808
+    },
+    {
+      "section": 9,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/9-0.mp3",
+      "duration": 31.056
+    },
+    {
+      "section": 10,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/10-0.mp3",
+      "duration": 31.992
+    },
+    {
+      "section": 11,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/11-0.mp3",
+      "duration": 16.368
+    },
+    {
+      "section": 12,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/12-0.mp3",
+      "duration": 31.032
+    },
+    {
+      "section": 13,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/13-0.mp3",
+      "duration": 16.608
+    },
+    {
+      "section": 14,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/14-0.mp3",
+      "duration": 29.88
+    },
+    {
+      "section": 15,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/15-0.mp3",
+      "duration": 10.488
+    },
+    {
+      "section": 15,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/15-1.mp3",
+      "duration": 9.624
+    },
+    {
+      "section": 16,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/16-0.mp3",
+      "duration": 32.256
+    },
+    {
+      "section": 17,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/17-0.mp3",
+      "duration": 31.536
+    },
+    {
+      "section": 18,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/havamal/4e6605e12a82/18-0.mp3",
+      "duration": 19.104
+    }
+  ]
+}

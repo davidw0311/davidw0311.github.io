@@ -1,0 +1,161 @@
+{
+  "voice": "en-US-AdamMultilingualNeural",
+  "label": "Deep storyteller",
+  "textHash": "861e3001ab5ddefa723eb9229af2406863d2ed8c5a7615b42a1f0643eb76c385",
+  "clips": [
+    {
+      "section": 0,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/0-0.mp3",
+      "duration": 27.888
+    },
+    {
+      "section": 1,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/1-0.mp3",
+      "duration": 28.416
+    },
+    {
+      "section": 2,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/2-0.mp3",
+      "duration": 29.328
+    },
+    {
+      "section": 3,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/3-0.mp3",
+      "duration": 27.936
+    },
+    {
+      "section": 4,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/4-0.mp3",
+      "duration": 29.688
+    },
+    {
+      "section": 5,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/5-0.mp3",
+      "duration": 30.456
+    },
+    {
+      "section": 6,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/6-0.mp3",
+      "duration": 5.04
+    },
+    {
+      "section": 6,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/6-1.mp3",
+      "duration": 4.872
+    },
+    {
+      "section": 7,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/7-0.mp3",
+      "duration": 30.24
+    },
+    {
+      "section": 8,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/8-0.mp3",
+      "duration": 5.592
+    },
+    {
+      "section": 8,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/8-1.mp3",
+      "duration": 5.52
+    },
+    {
+      "section": 9,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/9-0.mp3",
+      "duration": 30.408
+    },
+    {
+      "section": 10,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/10-0.mp3",
+      "duration": 30.792
+    },
+    {
+      "section": 11,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/11-0.mp3",
+      "duration": 33.048
+    },
+    {
+      "section": 12,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/12-0.mp3",
+      "duration": 29.832
+    },
+    {
+      "section": 13,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/13-0.mp3",
+      "duration": 29.112
+    },
+    {
+      "section": 14,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/14-0.mp3",
+      "duration": 28.008
+    },
+    {
+      "section": 15,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/15-0.mp3",
+      "duration": 13.128
+    },
+    {
+      "section": 16,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/16-0.mp3",
+      "duration": 27.456
+    },
+    {
+      "section": 17,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/17-0.mp3",
+      "duration": 5.808
+    },
+    {
+      "section": 17,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/17-1.mp3",
+      "duration": 6.384
+    },
+    {
+      "section": 18,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/vafthrudnismal/861e3001ab5d/18-0.mp3",
+      "duration": 30.72
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "voice": "en-US-AdamMultilingualNeural",
+  "label": "Deep storyteller",
+  "textHash": "f70d470ccc45b619b1d220db7290900774f662c343667494253d0095b84f1f21",
+  "clips": [
+    {
+      "section": 0,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/0-0.mp3",
+      "duration": 26.832
+    },
+    {
+      "section": 1,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/1-0.mp3",
+      "duration": 34.776
+    },
+    {
+      "section": 2,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/2-0.mp3",
+      "duration": 30.048
+    },
+    {
+      "section": 3,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/3-0.mp3",
+      "duration": 34.8
+    },
+    {
+      "section": 4,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/4-0.mp3",
+      "duration": 27
+    },
+    {
+      "section": 5,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/5-0.mp3",
+      "duration": 7.152
+    },
+    {
+      "section": 5,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/5-1.mp3",
+      "duration": 6.768
+    },
+    {
+      "section": 6,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/6-0.mp3",
+      "duration": 39.816
+    },
+    {
+      "section": 7,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/7-0.mp3",
+      "duration": 27.096
+    },
+    {
+      "section": 8,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/8-0.mp3",
+      "duration": 31.2
+    },
+    {
+      "section": 9,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/9-0.mp3",
+      "duration": 29.856
+    },
+    {
+      "section": 10,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/10-0.mp3",
+      "duration": 30
+    },
+    {
+      "section": 11,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/11-0.mp3",
+      "duration": 7.344
+    },
+    {
+      "section": 11,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/11-1.mp3",
+      "duration": 7.512
+    },
+    {
+      "section": 12,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/12-0.mp3",
+      "duration": 34.368
+    },
+    {
+      "section": 13,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/13-0.mp3",
+      "duration": 34.464
+    },
+    {
+      "section": 14,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/14-0.mp3",
+      "duration": 31.632
+    },
+    {
+      "section": 15,
+      "part": 0,
+      "lang": "non",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/15-0.mp3",
+      "duration": 6.336
+    },
+    {
+      "section": 15,
+      "part": 1,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/15-1.mp3",
+      "duration": 5.448
+    },
+    {
+      "section": 16,
+      "part": 0,
+      "lang": "en",
+      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/16-0.mp3",
+      "duration": 33.456
+    }
+  ]
+}

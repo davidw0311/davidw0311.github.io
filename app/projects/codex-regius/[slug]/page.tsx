@@ -11,6 +11,7 @@ import { GlossaryScope } from "../glossary";
 import { createGlossedText } from "../glossed-text";
 import { NarrationScope, NarrationSectionView } from "../narration";
 import { storyNarration } from "@/lib/regiusNarration";
+import { getRegiusRecording } from "@/data/codexRegiusRecordings";
 import styles from "../regius.module.css";
 
 export function generateStaticParams() { return regiusStories.map(story => ({ slug: story.slug })); }
@@ -43,7 +44,7 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
       <div className={styles.readingEditions}><Link href={`/projects/codex-regius/${slug}/original/`}>Read the full original & translation <ArrowRight size={17} /></Link><p>Tap an underlined name for a short explanation.</p></div>
       {story.image && <figure className={styles.storyArt}><Image src={story.image} alt={story.imageAlt ?? "Illustration from the original booklet"} width={1122} height={1402} priority sizes="(max-width: 767px) calc(100vw - 44px), 480px" /></figure>}
       <GlossaryScope entries={glossary}>
-      <NarrationScope sections={sections} key={slug}>
+      <NarrationScope sections={sections} recording={getRegiusRecording(slug, sections)} key={slug}>
       <div className={styles.prose}>{story.paragraphs.map((paragraph, i) => <Fragment key={i}>
         <NarrationSectionView index={sections.findIndex(section => section.id === `paragraph-${i}`)} label={sections.find(section => section.id === `paragraph-${i}`)!.label}><p>{renderText({ text: paragraph })}</p></NarrationSectionView>
         {story.quotes.filter(quote => quote.after === i + 1).map(quote => <NarrationSectionView key={quote.stanza} index={sections.findIndex(section => section.id === `quote-${i}-${quote.stanza}`)} label={`Quotation ${quote.stanza}`}><figure className={styles.excerpt}>
