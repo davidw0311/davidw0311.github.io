@@ -1,6 +1,6 @@
 {
   "voice": "en-US-AdamMultilingualNeural",
-  "label": "Deep storyteller",
+  "label": "Narrator & seeress",
   "textHash": "f70d470ccc45b619b1d220db7290900774f662c343667494253d0095b84f1f21",
   "clips": [
     {
@@ -8,140 +8,194 @@
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/0-0.mp3",
-      "duration": 26.832
+      "duration": 26.832,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 1,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/1-0.mp3",
-      "duration": 34.776
+      "duration": 34.776,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 2,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/2-0.mp3",
-      "duration": 30.048
+      "duration": 30.048,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 3,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/3-0.mp3",
-      "duration": 34.8
+      "duration": 34.8,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 4,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/4-0.mp3",
-      "duration": 27
+      "duration": 27,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 5,
       "part": 0,
       "lang": "non",
-      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/5-0.mp3",
-      "duration": 7.152
+      "src": "/audio/codex-regius/v2/voluspa/f70d470ccc45/5-0.mp3",
+      "duration": 6.984,
+      "voice": "en-US-AvaMultilingualNeural",
+      "speaker": "Seeress"
     },
     {
       "section": 5,
       "part": 1,
       "lang": "en",
-      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/5-1.mp3",
-      "duration": 6.768
+      "src": "/audio/codex-regius/v2/voluspa/f70d470ccc45/5-1.mp3",
+      "duration": 7.56,
+      "voice": "en-US-AvaMultilingualNeural",
+      "speaker": "Seeress"
     },
     {
       "section": 6,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/6-0.mp3",
-      "duration": 39.816
+      "duration": 39.816,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 7,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/7-0.mp3",
-      "duration": 27.096
+      "duration": 27.096,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 8,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/8-0.mp3",
-      "duration": 31.2
+      "duration": 31.2,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 9,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/9-0.mp3",
-      "duration": 29.856
+      "duration": 29.856,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 10,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/10-0.mp3",
-      "duration": 30
+      "duration": 30,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 11,
       "part": 0,
       "lang": "non",
-      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/11-0.mp3",
-      "duration": 7.344
+      "src": "/audio/codex-regius/v2/voluspa/f70d470ccc45/11-0.mp3",
+      "duration": 8.16,
+      "voice": "en-US-AvaMultilingualNeural",
+      "speaker": "Seeress"
     },
     {
       "section": 11,
       "part": 1,
       "lang": "en",
-      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/11-1.mp3",
-      "duration": 7.512
+      "src": "/audio/codex-regius/v2/voluspa/f70d470ccc45/11-1.mp3",
+      "duration": 8.544,
+      "voice": "en-US-AvaMultilingualNeural",
+      "speaker": "Seeress"
     },
     {
       "section": 12,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/12-0.mp3",
-      "duration": 34.368
+      "duration": 34.368,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 13,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/13-0.mp3",
-      "duration": 34.464
+      "duration": 34.464,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 14,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/14-0.mp3",
-      "duration": 31.632
+      "duration": 31.632,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     },
     {
       "section": 15,
       "part": 0,
       "lang": "non",
-      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/15-0.mp3",
-      "duration": 6.336
+      "src": "/audio/codex-regius/v2/voluspa/f70d470ccc45/15-0.mp3",
+      "duration": 6,
+      "voice": "en-US-AvaMultilingualNeural",
+      "speaker": "Seeress"
     },
     {
       "section": 15,
       "part": 1,
       "lang": "en",
-      "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/15-1.mp3",
-      "duration": 5.448
+      "src": "/audio/codex-regius/v2/voluspa/f70d470ccc45/15-1.mp3",
+      "duration": 6.336,
+      "voice": "en-US-AvaMultilingualNeural",
+      "speaker": "Seeress"
     },
     {
       "section": 16,
       "part": 0,
       "lang": "en",
       "src": "/audio/codex-regius/v1/voluspa/f70d470ccc45/16-0.mp3",
-      "duration": 33.456
+      "duration": 33.456,
+      "voice": "en-US-AdamMultilingualNeural",
+      "speaker": "Narrator"
     }
-  ]
+  ],
+  "music": {
+    "src": "/audio/codex-regius/music/voluspa-nordic-v1.mp3",
+    "continuous": true,
+    "tracks": [
+      {
+        "title": "Mjolnir",
+        "url": "https://creatorchords.com/music/mjolnir/"
+      },
+      {
+        "title": "Vopna",
+        "url": "https://creatorchords.com/music/vopna/"
+      }
+    ]
+  }
 }

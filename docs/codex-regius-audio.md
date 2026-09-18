@@ -1,6 +1,6 @@
 # Codex Regius narration
 
-The first three retellings (Völuspá, Hávamál and Vafþrúðnismál / Odin’s Wisdom Contest) use prerecorded Azure `en-US-AdamMultilingualNeural` narration at natural pitch. All other stories retain device speech. The reader labels recordings as AI narration and offers device voices as a fallback.
+The first three retellings (Völuspá, Hávamál and Vafþrúðnismál / Odin’s Wisdom Contest) use prerecorded Azure `en-US-AdamMultilingualNeural` narration at natural pitch. Völuspá alone adds `en-US-AvaMultilingualNeural` for the seeress’s three quotations in both languages (six clips), at -8% rate and pitch. Its prose retains the original narrator clips. There is no direct dialogue for Odin or the other gods in this retelling, so no dialogue is invented. All other stories retain device speech. The reader labels recordings as AI narration and offers device voices as a fallback.
 
 Each displayed paragraph is synthesized intact. Quotations have separate Old Norse and English clips, so readers can omit Norse without losing the translation. Norse uses the voice’s modern Icelandic locale as an approximation, not a claim of reconstructed historical pronunciation. One HTML audio element plays the clips in page order, supports jumps to any section, and retains the exact position during pause. Speed preserves pitch. Audio uses ordinary media routing; the phone chooses its Bluetooth output.
 
@@ -14,7 +14,20 @@ Verify with `node --no-warnings --test tests/regiusRecordedNarration.test.ts tes
 
 ## Instrumental background
 
-Only the first three recorded stories include `northern-strings-v2.mp3`, an original 80-second D-phrygian composition with low, damped plucked strings and distant frame-drum tones. The string timbre uses a noise-excited delay line rather than the first version’s shimmering harmonic pads. It contains no licensed samples or third-party recordings. Regenerate with `python3 scripts/generate-regius-music.py` (NumPy and SoundFile with MP3 support required). Short circular room reflections preserve the loop boundary. The previous asset stays available for cached clients.
+Hávamál and Vafþrúðnismál retain `northern-strings-v2.mp3`, an original 80-second D-phrygian composition with low, damped plucked strings and distant frame-drum tones. Regenerate with `python3 scripts/generate-regius-music.py` (NumPy and SoundFile with MP3 support required). Earlier assets remain available for cached clients.
+
+Völuspá alone uses `voluspa-nordic-v1.mp3`: actual downloaded recordings, Mjolnir followed by Vopna, by Alexander Nakarada. The mix is mono 24 kHz, level-matched with an eight-second crossfade and gentle edge fades. It runs about 10 minutes 19 seconds before looping. Regenerate with `python3 scripts/mix-voluspa-music.py Mjolnir.mp3 Vopna.mp3` after downloading the sources below. NumPy, SciPy and SoundFile are required. The score keeps its position across narration clip changes, quotation translations, breathing spaces and section jumps. Explicit Pause/Stop and page navigation still control it. Only this recording opts out of the native media pause callback emitted during source changes; it follows the reader’s explicit state instead.
+
+### Music attribution and license
+
+Music: **Mjolnir** and **Vopna** by **Alexander Nakarada**, https://creatorchords.com. Licensed under **Creative Commons Attribution 4.0 International (CC BY 4.0)**, https://creativecommons.org/licenses/by/4.0/. Adaptations: mono downsampling, volume normalization, crossfade, edge fades and looping for background playback. No endorsement is implied. Attribution and license links remain visible in the Völuspá audio panel throughout playback.
+
+- Mjolnir creator page: https://creatorchords.com/music/mjolnir/
+- Mjolnir source: https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Mjolnir.mp3
+- Vopna creator page: https://creatorchords.com/music/vopna/
+- Vopna source: https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Vopna.mp3
+- Creator’s licensing terms: https://creatorchords.com/licensing-info/
+- Downloaded 2026-09-19. No external music service or credentials are required during playback.
 
 Music is fetched only after a playback gesture and uses a separate Web Audio gain, defaulting to 12% and capped at 30%. This avoids relying on programmatic HTML media volume on phones. Voice speed does not change music speed. Music follows narration pause/resume/stop, releases its audio context on navigation, and never prevents speech if loading fails. The checkbox and volume slider persist independently of voice preferences. Lifecycle tests live in `tests/regiusBackgroundMusic.test.ts`.
 

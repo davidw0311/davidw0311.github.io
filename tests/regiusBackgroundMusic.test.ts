@@ -49,3 +49,20 @@ test("music gain stays quiet even with malformed saved settings", () => {
  assert.equal(musicVolume(NaN),DEFAULT_MUSIC_VOLUME);
  assert.equal(musicVolume(Infinity),DEFAULT_MUSIC_VOLUME);
 });
+
+test("repeated passages and jumps keep one continuous source until an explicit pause or stop", async () => {
+ const f=fixture(); f.music.unlock(); f.music.setPlaying(true); f.resolve(); await tick();
+ for (const time of [5,23,58,73,190]) {
+  f.context.currentTime=time;
+  f.music.unlock(); // A Read from here gesture must not rewind the score.
+  f.music.setPlaying(true); // Next clip, translation, or silent breathing space.
+  await tick();
+ }
+ assert.deepEqual(f.starts,[0]); assert.deepEqual(f.stops,[]);
+ f.music.setPlaying(false);
+ assert.equal(f.stops.length,1);
+ f.context.currentTime=200; f.music.setPlaying(true);
+ assert.deepEqual(f.starts,[0,190%64]);
+ f.music.stop(); f.music.setPlaying(true);
+ assert.equal(f.starts.at(-1),0);
+});

@@ -64,6 +64,28 @@ test("only the first three stories have complete recordings matching current dis
  }
 });
 
+test("only Völuspá uses the continuous licensed score and a distinct seeress for both quotation languages", () => {
+ for (const [index,story] of regiusStories.slice(0,3).entries()) {
+  const sections=storyNarration(story), recording=getRegiusRecording(story.slug,sections)!;
+  if(index>0) {
+   assert.equal(recording.music,undefined);
+   assert.ok(recording.clips.every(clip=>!clip.speaker && clip.src.includes('/v1/')));
+   continue;
+  }
+  assert.equal(recording.music?.continuous,true);
+  assert.ok(statSync(`public${recording.music!.src}`).size>1000);
+  assert.deepEqual(recording.music?.tracks.map(track=>track.title),['Mjolnir','Vopna']);
+  let quotes=0;
+  for(const clip of recording.clips) {
+   const isQuote=sections[clip.section].id.startsWith('quote-');
+   assert.equal(clip.speaker,isQuote?'Seeress':'Narrator');
+   if(isQuote) { quotes++; assert.notEqual(clip.voice,recording.voice); assert.match(clip.src,/\/v2\//); }
+   else { assert.equal(clip.voice,recording.voice); assert.match(clip.src,/\/v1\//); }
+  }
+  assert.equal(quotes,6);
+ }
+});
+
 
 test("all three stories keep every spoken clip in order, with rests after complete passages", () => {
  for (const story of regiusStories.slice(0,3)) {

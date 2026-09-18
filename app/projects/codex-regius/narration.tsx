@@ -52,7 +52,7 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
       music.current = new BackgroundMusic({
         context: () => new AudioContext(),
         load: async (context, signal) => {
-          const response = await fetch(REGIUS_MUSIC, { signal });
+          const response = await fetch(recording.music?.src ?? REGIUS_MUSIC, { signal });
           if (!response.ok) throw new Error("Music unavailable");
           return context.decodeAudioData(await response.arrayBuffer());
         },
@@ -127,7 +127,8 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
   const englishVoices = voices.filter(voice => /^en\b/i.test(voice.lang));
   return <NarrationContext.Provider value={{ ready: supported === true, active: active ? state.section : -1, start }}>
     <div className={styles.narrationRoot}>
-      {recording && <audio ref={media} preload="none" aria-hidden="true" onPause={() => music.current?.setPlaying(false)} />}
+      {/* Continuous scores follow explicit reader state; changing a clip also emits a native pause. */}
+      {recording && <audio ref={media} preload="none" aria-hidden="true" onPause={recording.music?.continuous ? undefined : () => music.current?.setPlaying(false)} />}
       <section className={styles.narrationPanel} data-active={active} aria-label="Story audio">
         <div className={styles.narrationTop}>
           <div><strong><SpeakerHigh size={19} aria-hidden="true" /> Listen to the story</strong><p role="status">{state.status === "error" ? state.error : active ? `${state.status === "paused" ? "Paused" : state.status === "loading" ? "Loading" : state.phase === "opening" ? "Music opening" : state.phase === "breath" ? "A moment to linger" : "Reading"} · section ${state.section + 1} of ${sections.length}` : state.status === "finished" ? "You’ve reached the end of the story." : supported === false ? "Read-aloud is unavailable in this browser." : "Start here, or choose any section below."}</p></div>
@@ -135,11 +136,12 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
             {active ? <><button type="button" onClick={() => state.status === "paused" ? resume() : current()?.pause()}>{state.status === "paused" ? <Play size={17} /> : <Pause size={17} />}{state.status === "paused" ? "Resume" : "Pause"}</button><button type="button" onClick={() => current()?.stop()}><Stop size={17} />Stop</button></> : <button type="button" disabled={supported !== true} onClick={() => start(0, true)}><Play size={17} />Read story</button>}
           </div>
         </div>
-        {recorded && <p className={styles.narrationHint}>Deep storyteller · AI narration</p>}
+        {recorded && <p className={styles.narrationHint}>{recording?.label} · AI narration</p>}
+        {recording?.music && <p className={styles.narrationHint}>Music: {recording.music.tracks.map((track, index) => <span key={track.url}>{index > 0 && " & "}<a href={track.url} target="_blank" rel="noreferrer">{track.title}</a></span>)} by <a href="https://creatorchords.com" target="_blank" rel="noreferrer">Alexander Nakarada</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a> · mixed for this reading.</p>}
         {state.phase === "opening" && <button type="button" className={styles.skipOpening} onClick={() => { music.current?.unlock(); recordedNarrator.current?.skipOpening(); }}>Skip opening · start reading</button>}
         {supported && <details className={styles.narrationSettings}><summary>Voice & reading settings</summary>
           <div className={styles.narrationFields}>
-            {recording && <label>Narrator<select value={recorded ? "recorded" : "device"} onChange={event => switchMode(event.target.value === "recorded")}><option value="recorded">Deep storyteller · recorded</option>{deviceSupported && <option value="device">Device voice</option>}</select></label>}
+            {recording && <label>Narrator<select value={recorded ? "recorded" : "device"} onChange={event => switchMode(event.target.value === "recorded")}><option value="recorded">{recording.label} · recorded</option>{deviceSupported && <option value="device">Device voice</option>}</select></label>}
             {!recorded && <label>English voice<select value={englishVoices.some(voice => voice.voiceURI === options.voice) ? options.voice : ""} onChange={event => change({ voice: event.target.value })}><option value="">Device default (English)</option>{englishVoices.map(voice => <option value={voice.voiceURI} key={voice.voiceURI}>{voice.name} · {voice.lang}</option>)}</select></label>}
             <label>Speed · {options.rate.toFixed(2)}×<input aria-label="Reading speed" type="range" min="0.6" max="1.5" step="0.05" value={options.rate} onChange={event => change({ rate: Number(event.target.value) })} /></label>
             {recording && <label>Music volume · {Math.round(musicLevel * 100)}%<input aria-label="Background music volume" type="range" min="0" max="0.3" step="0.01" disabled={!musicEnabled} value={musicLevel} onChange={event => changeMusic(musicEnabled, Number(event.target.value))} /></label>}
@@ -147,8 +149,8 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
           </div>
           <div className={styles.narrationPreferences}>{!recorded && <button type="button" onClick={() => change({ rate: .8, pitch: .6 })}>Low storyteller</button>}<label><input type="checkbox" checked={options.includeNorse} onChange={event => { change({ includeNorse: event.target.checked }); current()?.stop(); }} />Read Old Norse quotations too</label></div>
           {recording && <div className={styles.narrationPreferences}><label><input type="checkbox" checked={musicEnabled} onChange={event => changeMusic(event.target.checked, musicLevel)} />Background instrumental music</label></div>}
-          {recording && <p>{musicUnavailable ? "Background music could not start. The narration can continue; toggle music off and on to retry." : "Low strings and distant drums accompany the story. A five-second opening and occasional two-second pauses give the words room to settle. Your music volume and mute choices are saved."}</p>}
-          <p>{recorded ? "AI narration with a naturally deep, warm voice. Old Norse uses approximate modern Icelandic pronunciation." : "Voices and pitch depend on your device. Old Norse uses an Icelandic voice when available; pronunciation is approximate. Voice changes apply at the next phrase."}</p>
+          {recording && <p>{musicUnavailable ? "Background music could not start. The narration can continue; toggle music off and on to retry." : `${recording.music ? "Nordic instrumentals continue across passages, pauses between readings, and section jumps." : "Low strings and distant drums accompany the story."} A five-second opening and occasional two-second pauses give the words room to settle. Your music volume and mute choices are saved.`}</p>}
+          <p>{recorded ? `${recording?.music ? "A deep narrator tells the story; the seeress speaks her Old Norse quotations and their English translations in a distinct female voice." : "AI narration with a naturally deep, warm voice."} Old Norse uses approximate modern Icelandic pronunciation.` : "Voices and pitch depend on your device. Old Norse uses an Icelandic voice when available; pronunciation is approximate. Voice changes apply at the next phrase."}</p>
           <p>Using Bluetooth? Select your speaker in your phone’s audio-output controls, then stop and restart reading. Your phone controls the audio output.</p>
         </details>}
         {!recorded && state.status === "paused" && <p className={styles.narrationHint}>Resume may repeat the current phrase so nothing is missed.</p>}
