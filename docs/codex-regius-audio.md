@@ -11,3 +11,9 @@ Run `node --no-warnings scripts/generate-regius-audio.mjs` with Node 24, Azure C
 The resource is currently F0. No paid tier changes are performed. Requests are throttled, and completed clips are cached so interrupted runs can resume. Output is 24 kHz mono MP3 at 96 kbps. Manifests enumerate all section/quotation parts and hash the exact displayed text. A changed story automatically falls back to device speech until its recordings are regenerated. If changing the voice or synthesis settings, increment the asset version directory before regenerating.
 
 Verify with `node --no-warnings --test tests/regiusRecordedNarration.test.ts tests/regiusNarration.test.ts tests/regiusAudioSession.test.ts`, lint the changed files, and run the production build. Mobile-browser playback and physical Bluetooth routing should also be checked on the target phone.
+
+## Instrumental background
+
+Only the first three recorded stories include `northern-strings-v1.wav`, an original 64-second modal composition synthesized locally with soft plucked strings and sustained tones. It contains no licensed samples or third-party recordings. Regenerate with `python3 scripts/generate-regius-music.py` (NumPy required). Circular reverb preserves the tail at the loop boundary.
+
+Music is fetched only after a playback gesture and uses a separate Web Audio gain, defaulting to 12% and capped at 30%. This avoids relying on programmatic HTML media volume on phones. Voice speed does not change music speed. The music follows narration pause/resume/stop, releases its audio context on navigation, and never prevents speech if loading fails. The checkbox and volume slider in reading settings persist independently of voice preferences. Lifecycle tests live in `tests/regiusBackgroundMusic.test.ts`.
