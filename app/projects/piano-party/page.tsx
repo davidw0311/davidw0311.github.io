@@ -7,6 +7,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
+import AccountLink from "./account/AccountLink";
 import styles from "./piano-party.module.css";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function PianoPartyPage() {
     <main className={`${styles.page} ${styles.menuPage}`}>
       <nav className={styles.nav} aria-label="Piano Party navigation">
         <Link href="/#space"><ArrowLeft size={18} weight="bold" /> Back to space</Link>
-        <Link href="/#about">DYW</Link>
+        <AccountLink />
       </nav>
 
       <section className={styles.menuStage} aria-labelledby="piano-party-title">
