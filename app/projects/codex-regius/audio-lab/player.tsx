@@ -58,13 +58,13 @@ export function AudioAuditions({paragraph,voices,music}:{paragraph:string;voices
   <p className={styles.guide}>Preview each option on its own, then select a voice and music to hear them together. Choices are saved on this device; the published story stays unchanged.</p>
   <nav className={styles.jumpLinks} aria-label="Audition sections"><a href="#voices-heading">Voices</a><a href="#music-heading">Music</a><a href="#selection-heading">Your selection</a></nav>
   <div className={styles.columns}>
-   <section aria-labelledby="voices-heading"><h2 id="voices-heading">Find the voice</h2><p className={styles.sectionIntro}>The same words, ten different tellers. All voices are AI generated at their natural pitch and pace.</p>
+   <section aria-labelledby="voices-heading"><h2 id="voices-heading">Find the voice</h2><p className={styles.sectionIntro}>Brian and Sonia, plus eight new tellers. Try Steffan, Monica, or Serena for a more mature character. All are AI voices at natural pitch and pace.</p>
     <div className={styles.options} role="radiogroup" aria-label="Reading voice">{voices.map((voice,i)=><div className={styles.option} key={voice.id} data-selected={selection.voice===voice.id}>
      <label><input type="radio" name="voice" value={voice.id} checked={selection.voice===voice.id} onChange={()=>choose({voice:voice.id})}/><span className={styles.number}>{String(i+1).padStart(2,"0")}</span><span><strong>{voice.name}</strong><small>{voice.description}</small></span>{selection.voice===voice.id&&<Check className={styles.check} size={17} aria-hidden="true"/>}</label>
      <button disabled={!ready} onClick={()=>preview(voice)} aria-label={`Preview voice ${i+1}: ${voice.name}`}><Play size={15}/>Listen <span>{Math.round(voice.duration)}s</span></button>
     </div>)}</div>
    </section>
-   <section aria-labelledby="music-heading"><h2 id="music-heading">Set the atmosphere</h2><p className={styles.sectionIntro}>Ten 60-second excerpts, balanced to the same quiet level. Turn up Music level to inspect the details.</p>
+   <section aria-labelledby="music-heading"><h2 id="music-heading">Set the atmosphere</h2><p className={styles.sectionIntro}>Your six retained tracks in 60-second excerpts, balanced to the same quiet level. Turn up Music level to inspect the details.</p>
     <div className={styles.options} role="radiogroup" aria-label="Background music">{music.map((track,i)=><div className={styles.option} key={track.id} data-selected={selection.music===track.id}>
      <label><input type="radio" name="music" value={track.id} checked={selection.music===track.id} onChange={()=>choose({music:track.id})}/><span className={styles.number}>{String(i+1).padStart(2,"0")}</span><span><strong>{track.name}</strong><small>{track.description}</small></span>{selection.music===track.id&&<Check className={styles.check} size={17} aria-hidden="true"/>}</label>
      <div className={styles.optionFooter}><button disabled={!ready} onClick={()=>preview(undefined,track)} aria-label={`Preview music ${i+1}: ${track.name}`}><Play size={15}/>Listen <span>60s</span></button><a href={track.url} target="_blank" rel="noreferrer">Track & credit ↗</a></div>

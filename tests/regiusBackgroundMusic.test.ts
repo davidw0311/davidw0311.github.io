@@ -66,3 +66,23 @@ test("repeated passages and jumps keep one continuous source until an explicit p
  f.music.stop(); f.music.setPlaying(true);
  assert.equal(f.starts.at(-1),0);
 });
+
+test("track changes discard stale loads, keep playback state, and never fetch while paused", async () => {
+ const f=fixture(), requests:{src?:string;signal:AbortSignal;resolve:(buffer:AudioBuffer)=>void;reject:()=>void}[]=[];
+ let failures=0;
+ const music=new BackgroundMusic({context:()=>f.context as unknown as AudioContext,load:(_context,signal,src)=>new Promise<AudioBuffer>((resolve,reject)=>requests.push({src,signal,resolve,reject})),unavailable:()=>failures++});
+ music.setTrack('/vopna');assert.equal(requests.length,0);
+ music.unlock();music.setPlaying(true);assert.equal(requests[0].src,'/vopna');
+ music.setTrack('/gjallar');assert.equal(requests[0].signal.aborted,true);
+ requests[0].reject();requests[1].resolve({duration:80} as AudioBuffer);await tick();
+ assert.equal(failures,0);assert.deepEqual(f.starts,[0]);
+ music.setTrack('/gjallar');assert.equal(requests.length,2);assert.equal(f.stops.length,0);
+ f.context.currentTime=7;music.setTrack('/blood-eagle');assert.equal(f.stops.length,1);
+ music.setPlaying(false);requests[2].resolve({duration:100} as AudioBuffer);await tick();
+ assert.equal(f.starts.length,1,'A paused reading cannot be restarted by a download');
+ music.setTrack('/vetur');assert.equal(requests.length,3,'Changing a paused selection is lazy');
+ music.unlock();music.setPlaying(true);requests[3].resolve({duration:100} as AudioBuffer);await tick();
+ assert.deepEqual(f.starts,[0,0]);
+ music.setTrack('/northern');music.dispose();requests[4].resolve({duration:100} as AudioBuffer);await tick();
+ assert.equal(f.starts.length,2);assert.equal(failures,0);
+});

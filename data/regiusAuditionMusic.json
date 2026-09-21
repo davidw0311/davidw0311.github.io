@@ -1,16 +1,5 @@
 [
   {
-    "id": "mjolnir",
-    "name": "Mjolnir",
-    "description": "Dramatic · dark",
-    "src": "/audio/codex-regius/auditions/music-v1/mjolnir.mp3",
-    "duration": 60.0,
-    "url": "https://creatorchords.com/music/mjolnir/",
-    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Mjolnir.mp3",
-    "sourceSha256": "76092aa7a1772d2e9c22c47b2fefb978bc3cd15f3cb58596ea911a8c6b3c51cd",
-    "excerptStart": 10
-  },
-  {
     "id": "vopna",
     "name": "Vopna",
     "description": "Ambient fantasy · tense",
@@ -30,39 +19,6 @@
     "url": "https://creatorchords.com/music/blood-eagle/",
     "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Blood_Eagle.mp3",
     "sourceSha256": "ad998929fe4cb8378f4544b28f650b287dff5e1583d5a20c3adb7c0ed948a46d",
-    "excerptStart": 10
-  },
-  {
-    "id": "daudir",
-    "name": "Daudir",
-    "description": "Dark · tense",
-    "src": "/audio/codex-regius/auditions/music-v1/daudir.mp3",
-    "duration": 60.0,
-    "url": "https://creatorchords.com/music/daudir/",
-    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Daudir.mp3",
-    "sourceSha256": "932c142c1a051afc6b84f08134783a99d9534944df74cf2b6d441713b4a4a455",
-    "excerptStart": 10
-  },
-  {
-    "id": "evig-fred-eternal-peace-instrumental",
-    "name": "Evig Fred (Eternal Peace) [Instrumental]",
-    "description": "Dark · dramatic",
-    "src": "/audio/codex-regius/auditions/music-v1/evig-fred-eternal-peace-instrumental.mp3",
-    "duration": 60.0,
-    "url": "https://creatorchords.com/music/evig-fred-eternal-peace-instrumental/",
-    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/Evig_Fred_instrumental.mp3",
-    "sourceSha256": "236a7cf354720a5e42fbb216e56bf33abf3dfc47c1760936ace62adf6620e412",
-    "excerptStart": 10
-  },
-  {
-    "id": "folkvangr",
-    "name": "Fólkvangr",
-    "description": "Dark · dramatic",
-    "src": "/audio/codex-regius/auditions/music-v1/folkvangr.mp3",
-    "duration": 60.0,
-    "url": "https://creatorchords.com/music/folkvangr/",
-    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Folkvangr.mp3",
-    "sourceSha256": "d1f7f23532e425c3bd70229022b2841e93f77865d695635f034ffec02728cc86",
     "excerptStart": 10
   },
   {

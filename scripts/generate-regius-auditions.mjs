@@ -6,16 +6,16 @@ import {regiusStories} from '../data/codexRegius.ts';
 const paragraph=regiusStories[0].paragraphs[0];
 const textHash=createHash('sha256').update(paragraph).digest('hex');
 const choices=[
- ['adam','Adam','en-US-AdamMultilingualNeural','American · male · current narrator'],
- ['andrew','Andrew','en-US-AndrewMultilingualNeural','American · male'],
- ['brian','Brian','en-US-BrianMultilingualNeural','American · male'],
- ['ryan','Ryan','en-GB-RyanNeural','British · male'],
- ['thomas','Thomas','en-GB-ThomasNeural','British · male'],
- ['connor','Connor','en-IE-ConnorNeural','Irish · male'],
- ['ava','Ava','en-US-AvaMultilingualNeural','American · female'],
- ['emma','Emma','en-US-EmmaMultilingualNeural','American · female'],
- ['sonia','Sonia','en-GB-SoniaNeural','British · female'],
- ['libby','Libby','en-GB-LibbyNeural','British · female'],
+ ['brian','Brian','en-US-BrianMultilingualNeural','American · male · kept from your shortlist'],
+ ['sonia','Sonia','en-GB-SoniaNeural','British · female · kept from your shortlist'],
+ ['steffan','Steffan','en-US-SteffanNeural','American · male · mature, warm'],
+ ['monica','Monica','en-US-MonicaNeural','American · female · mature, warm'],
+ ['serena','Serena','en-US-SerenaMultilingualNeural','American · female · mature, composed'],
+ ['christopher','Christopher','en-US-ChristopherNeural','American · male · deep, warm'],
+ ['roger','Roger','en-US-RogerNeural','American · male · serious, measured'],
+ ['elizabeth','Elizabeth','en-US-ElizabethNeural','American · female · authoritative, serious'],
+ ['samuel','Samuel','en-US-SamuelMultilingualNeural','American · male · warm, expressive'],
+ ['cora','Cora','en-US-CoraNeural','American · female · sincere, formal'],
 ];
 const key=JSON.parse(execFileSync('az',['cognitiveservices','account','keys','list','--name','SpeechLab','--resource-group','SpeechLab','-o','json'],{encoding:'utf8',stdio:['ignore','pipe','pipe']})).key1;
 const folder=`/audio/codex-regius/auditions/v1/${textHash.slice(0,12)}`;

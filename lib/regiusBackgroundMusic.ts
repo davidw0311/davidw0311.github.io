@@ -5,7 +5,7 @@ export const musicVolume = (value: number) => Number.isFinite(value) ? Math.max(
 
 type Dependencies = {
   context: () => AudioContext;
-  load: (context: AudioContext, signal: AbortSignal) => Promise<AudioBuffer>;
+  load: (context: AudioContext, signal: AbortSignal, src?: string) => Promise<AudioBuffer>;
   unavailable: () => void;
 };
 export class BackgroundMusic {
@@ -22,7 +22,16 @@ export class BackgroundMusic {
   private volume = DEFAULT_MUSIC_VOLUME;
   private offset = 0;
   private started = 0;
+  private track: string | undefined;
+  private generation = 0;
   constructor(dependencies: Dependencies) { this.dependencies = dependencies; }
+  // A deliberate track change replaces music only; narration has its own transport.
+  setTrack(src: string) {
+    if (this.disposed || src === this.track) return;
+    this.pause(); this.generation++; this.abort.abort(); this.abort = new AbortController();
+    this.track = src; this.buffer = null; this.loading = false; this.offset = 0;
+    if (this.playing && this.context) this.unlock();
+  }
   // Called synchronously from a click; never autoplay music on page load.
   unlock() {
     if (this.disposed || !this.enabled || this.volume === 0) return;
@@ -32,10 +41,11 @@ export class BackgroundMusic {
       void context.resume().then(() => this.sync()).catch(() => this.fail());
       if (!this.buffer && !this.loading) {
         this.loading = true;
-        void this.dependencies.load(context, this.abort.signal).then(buffer => {
-          if (this.disposed) return;
+        const generation = this.generation;
+        void this.dependencies.load(context, this.abort.signal, this.track).then(buffer => {
+          if (this.disposed || generation !== this.generation) return;
           this.buffer = buffer; this.loading = false; this.sync();
-        }).catch(() => { this.loading = false; this.fail(); });
+        }).catch(() => { if (this.disposed || generation !== this.generation) return; this.loading = false; this.fail(); });
       }
     } catch { this.fail(); }
   }

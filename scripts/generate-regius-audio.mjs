@@ -2,7 +2,7 @@
 // Credentials stay in this generation process, never in the website or files.
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { writeFile, mkdir, stat, rename } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, stat, rename } from 'node:fs/promises';
 import path from 'node:path';
 import { regiusStories } from '../data/codexRegius.ts';
 import { storyNarration } from '../lib/regiusNarration.ts';
@@ -52,7 +52,8 @@ for (const story of stories) {
   }
   console.log(`${story.slug}: section ${sectionIndex+1}/${sections.length}`);
  }
- const music = story.slug === 'voluspa' ? {src:'/audio/codex-regius/music/voluspa-nordic-v1.mp3',continuous:true,tracks:[{title:'Mjolnir',url:'https://creatorchords.com/music/mjolnir/'},{title:'Vopna',url:'https://creatorchords.com/music/vopna/'}]} : undefined;
+ const choices = story.slug === 'voluspa' ? JSON.parse(await readFile('data/regiusStoryMusic.json','utf8')) : undefined;
+ const music = choices ? {src:choices[0].src,continuous:true,storyKey:story.slug,tracks:[{title:choices[0].title,url:choices[0].url}],choices} : undefined;
  await writeFile(`data/codex-regius-audio/${story.slug}.json`,JSON.stringify({voice,label:story.slug === 'voluspa' ? 'Narrator & seeress' : 'Deep storyteller',textHash:hash,clips,...(music ? {music} : {})},null,2)+'\n');
  console.log(`Complete: ${story.slug} · ${clips.length} passages`);
 }

@@ -12,13 +12,15 @@ function fixture(){
  const player=new AuditionPlayer(voice,music,async yes=>{prepared.push(yes);},status=>states.push(status));
  return {player,voice,music,states,pending,prepared};
 }
-test('ten distinct complete voices use exactly the current first paragraph; ten attributed music excerpts exist',()=>{
+test('ten distinct complete voices use exactly the current first paragraph; six retained music excerpts exist',()=>{
  const voices=JSON.parse(readFileSync('data/regiusAuditionVoices.json','utf8'));
  const music=JSON.parse(readFileSync('data/regiusAuditionMusic.json','utf8'));
  assert.equal(voices.paragraph,regiusStories[0].paragraphs[0]);
  assert.equal(voices.textHash,createHash('sha256').update(voices.paragraph).digest('hex'));
  assert.equal(voices.voices.length,10);assert.equal(new Set(voices.voices.map((v:{voice:string})=>v.voice)).size,10);
- assert.equal(music.length,10);assert.equal(new Set(music.map((m:{src:string})=>m.src)).size,10);
+ assert.equal(music.length,6);assert.equal(new Set(music.map((m:{src:string})=>m.src)).size,6);
+ assert.deepEqual(voices.voices.slice(0,2).map((v:{id:string})=>v.id),["brian","sonia"]);
+ assert.deepEqual(music.map((m:{id:string})=>m.id),["vopna","blood-eagle","gjallar","hymn-to-the-gods","the-northern-path","vetur-frosti"]);
  for(const sample of [...voices.voices,...music]){assert.ok(sample.duration>20);assert.ok(statSync(`public${sample.src}`).size>1000);}
  for(const track of music){assert.equal(track.duration,60);assert.match(track.url,/^https:\/\/creatorchords.com\/music\//);assert.equal(track.sourceSha256.length,64);}
 });

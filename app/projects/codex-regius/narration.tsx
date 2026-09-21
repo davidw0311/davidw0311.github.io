@@ -14,6 +14,9 @@ const storageKey = "regius-narration";
 
 export function NarrationScope({ sections, recording, children }: { sections: NarrationSection[]; recording?: RegiusRecording | null; children: ReactNode }) {
   const music = useRef<BackgroundMusic | null>(null);
+  const [trackId, setTrackId] = useState(recording?.music?.choices?.find(track => track.src === recording.music?.src)?.id ?? "");
+  const selectedTrack = recording?.music?.choices?.find(track => track.id === trackId);
+  const trackStorageKey = recording?.music?.storyKey ? `regius-story-music:${recording.music.storyKey}` : null;
   const [musicEnabled, setMusicEnabled] = useState(true);
   const [musicLevel, setMusicLevel] = useState(DEFAULT_MUSIC_VOLUME);
   const [musicUnavailable, setMusicUnavailable] = useState(false);
@@ -49,16 +52,23 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
         if (saved) musicPreferences.current = { enabled: saved.enabled !== false, volume: musicVolume(typeof saved.volume === "number" ? saved.volume : DEFAULT_MUSIC_VOLUME) };
       } catch { /* Music preferences are optional. */ }
       setMusicEnabled(musicPreferences.current.enabled); setMusicLevel(musicPreferences.current.volume);
+      let chosenTrack = recording.music?.choices?.find(track => track.src === recording.music?.src);
+      try {
+        const savedTrack = trackStorageKey ? localStorage.getItem(trackStorageKey) : null;
+        chosenTrack = recording.music?.choices?.find(track => track.id === savedTrack) ?? chosenTrack;
+      } catch { /* Keep this story's default when storage is unavailable. */ }
+      setTrackId(chosenTrack?.id ?? "");
       music.current = new BackgroundMusic({
         context: () => new AudioContext(),
-        load: async (context, signal) => {
-          const response = await fetch(recording.music?.src ?? REGIUS_MUSIC, { signal });
+        load: async (context, signal, src) => {
+          const response = await fetch(src ?? recording.music?.src ?? REGIUS_MUSIC, { signal });
           if (!response.ok) throw new Error("Music unavailable");
           return context.decodeAudioData(await response.arrayBuffer());
         },
         unavailable: () => setMusicUnavailable(true),
       });
       music.current.configure(musicPreferences.current.enabled, musicPreferences.current.volume);
+      if (chosenTrack) music.current.setTrack(chosenTrack.src);
     }
     const audioSession = narrationAudioSession(() => (navigator as Navigator & { audioSession?: AudioSessionLike }).audioSession);
     const report = (next: RecordedState) => {
@@ -97,7 +107,7 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
     };
     });
     return () => { cancelAnimationFrame(frame); cleanup(); };
-  }, [recording]);
+  }, [recording, trackStorageKey]);
   function change(next: Partial<NarrationOptions>) {
     const updated = { ...preferences.current, ...next };
     preferences.current = updated; setOptions(updated);
@@ -119,6 +129,15 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
     if (state.status === "playing" || state.status === "loading") music.current?.unlock();
     try { localStorage.setItem("regius-background-music", JSON.stringify(musicPreferences.current)); } catch { /* Optional persistence. */ }
   }
+  function changeTrack(id: string) {
+    const track = recording?.music?.choices?.find(track => track.id === id);
+    if (!track) return;
+    setTrackId(id); setMusicUnavailable(false);
+    music.current?.setTrack(track.src);
+    music.current?.setPlaying(state.status === "playing" || state.status === "loading");
+    if (state.status === "playing" || state.status === "loading") music.current?.unlock();
+    try { if (trackStorageKey) localStorage.setItem(trackStorageKey, id); } catch { /* Optional preference. */ }
+  }
   const active = ["playing", "paused", "loading"].includes(state.status);
   function switchMode(useRecording: boolean) {
     current()?.stop(); mode.current = useRecording; setRecorded(useRecording);
@@ -137,7 +156,8 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
           </div>
         </div>
         {recorded && <p className={styles.narrationHint}>{recording?.label} · AI narration</p>}
-        {recording?.music && <p className={styles.narrationHint}>Music: {recording.music.tracks.map((track, index) => <span key={track.url}>{index > 0 && " & "}<a href={track.url} target="_blank" rel="noreferrer">{track.title}</a></span>)} by <a href="https://creatorchords.com" target="_blank" rel="noreferrer">Alexander Nakarada</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a> · mixed for this reading.</p>}
+        {recording?.music?.choices && <label className={styles.narrationTrack}>Background track<select aria-label="Background track" value={trackId} disabled={supported !== true} onChange={event => changeTrack(event.target.value)}>{recording.music.choices.map(track => <option key={track.id} value={track.id}>{track.title}</option>)}</select></label>}
+        {recording?.music && <p className={styles.narrationHint}>Music: {(selectedTrack ? [selectedTrack] : recording.music.tracks).map((track, index) => <span key={track.url}>{index > 0 && " & "}<a href={track.url} target="_blank" rel="noreferrer">{track.title}</a></span>)} by <a href="https://creatorchords.com" target="_blank" rel="noreferrer">Alexander Nakarada</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a> · adapted for this reading.</p>}
         {state.phase === "opening" && <button type="button" className={styles.skipOpening} onClick={() => { music.current?.unlock(); recordedNarrator.current?.skipOpening(); }}>Skip opening · start reading</button>}
         {supported && <details className={styles.narrationSettings}><summary>Voice & reading settings</summary>
           <div className={styles.narrationFields}>
@@ -149,7 +169,7 @@ export function NarrationScope({ sections, recording, children }: { sections: Na
           </div>
           <div className={styles.narrationPreferences}>{!recorded && <button type="button" onClick={() => change({ rate: .8, pitch: .6 })}>Low storyteller</button>}<label><input type="checkbox" checked={options.includeNorse} onChange={event => { change({ includeNorse: event.target.checked }); current()?.stop(); }} />Read Old Norse quotations too</label></div>
           {recording && <div className={styles.narrationPreferences}><label><input type="checkbox" checked={musicEnabled} onChange={event => changeMusic(event.target.checked, musicLevel)} />Background instrumental music</label></div>}
-          {recording && <p>{musicUnavailable ? "Background music could not start. The narration can continue; toggle music off and on to retry." : `${recording.music ? "Nordic instrumentals continue across passages, pauses between readings, and section jumps." : "Low strings and distant drums accompany the story."} A five-second opening and occasional two-second pauses give the words room to settle. Your music volume and mute choices are saved.`}</p>}
+          {recording && <p>{musicUnavailable ? "Background music could not start. The narration can continue; toggle music off and on to retry." : `${recording.music ? "Nordic instrumentals continue across passages, pauses between readings, and section jumps." : "Low strings and distant drums accompany the story."} A five-second opening and occasional two-second pauses give the words room to settle. Your music volume and mute choices are saved.${recording.music?.choices ? " Your track choice is saved for this story. Changing tracks keeps your reading position." : ""}`}</p>}
           <p>{recorded ? `${recording?.music ? "A deep narrator tells the story; the seeress speaks her Old Norse quotations and their English translations in a distinct female voice." : "AI narration with a naturally deep, warm voice."} Old Norse uses approximate modern Icelandic pronunciation.` : "Voices and pitch depend on your device. Old Norse uses an Icelandic voice when available; pronunciation is approximate. Voice changes apply at the next phrase."}</p>
           <p>Using Bluetooth? Select your speaker in your phone’s audio-output controls, then stop and restart reading. Your phone controls the audio output.</p>
         </details>}

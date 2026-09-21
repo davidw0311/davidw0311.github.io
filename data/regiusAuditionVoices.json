@@ -3,84 +3,84 @@
   "paragraph": "Odin asks for a hearing from a woman who remembers a world older than his own rule. She addresses the great and the small, the children of Heimdall, and looks past the god before her to the beginnings of everything. The voice is a seeress’s, but its movement is not a tidy history. Memory opens into vision; what has happened and what must happen stand close together. Odin wants knowledge, and she gives it to him without promising comfort.",
   "voices": [
     {
-      "id": "adam",
-      "name": "Adam",
-      "voice": "en-US-AdamMultilingualNeural",
-      "description": "American · male · current narrator",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/adam.mp3",
-      "duration": 26.832
-    },
-    {
-      "id": "andrew",
-      "name": "Andrew",
-      "voice": "en-US-AndrewMultilingualNeural",
-      "description": "American · male",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/andrew.mp3",
-      "duration": 28.32
-    },
-    {
       "id": "brian",
       "name": "Brian",
       "voice": "en-US-BrianMultilingualNeural",
-      "description": "American · male",
+      "description": "American · male · kept from your shortlist",
       "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/brian.mp3",
       "duration": 28.056
-    },
-    {
-      "id": "ryan",
-      "name": "Ryan",
-      "voice": "en-GB-RyanNeural",
-      "description": "British · male",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/ryan.mp3",
-      "duration": 26.064
-    },
-    {
-      "id": "thomas",
-      "name": "Thomas",
-      "voice": "en-GB-ThomasNeural",
-      "description": "British · male",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/thomas.mp3",
-      "duration": 25.632
-    },
-    {
-      "id": "connor",
-      "name": "Connor",
-      "voice": "en-IE-ConnorNeural",
-      "description": "Irish · male",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/connor.mp3",
-      "duration": 26.736
-    },
-    {
-      "id": "ava",
-      "name": "Ava",
-      "voice": "en-US-AvaMultilingualNeural",
-      "description": "American · female",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/ava.mp3",
-      "duration": 27.984
-    },
-    {
-      "id": "emma",
-      "name": "Emma",
-      "voice": "en-US-EmmaMultilingualNeural",
-      "description": "American · female",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/emma.mp3",
-      "duration": 27.096
     },
     {
       "id": "sonia",
       "name": "Sonia",
       "voice": "en-GB-SoniaNeural",
-      "description": "British · female",
+      "description": "British · female · kept from your shortlist",
       "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/sonia.mp3",
       "duration": 26.64
     },
     {
-      "id": "libby",
-      "name": "Libby",
-      "voice": "en-GB-LibbyNeural",
-      "description": "British · female",
-      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/libby.mp3",
-      "duration": 28.992
+      "id": "steffan",
+      "name": "Steffan",
+      "voice": "en-US-SteffanNeural",
+      "description": "American · male · mature, warm",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/steffan.mp3",
+      "duration": 27.24
+    },
+    {
+      "id": "monica",
+      "name": "Monica",
+      "voice": "en-US-MonicaNeural",
+      "description": "American · female · mature, warm",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/monica.mp3",
+      "duration": 28.104
+    },
+    {
+      "id": "serena",
+      "name": "Serena",
+      "voice": "en-US-SerenaMultilingualNeural",
+      "description": "American · female · mature, composed",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/serena.mp3",
+      "duration": 31.56
+    },
+    {
+      "id": "christopher",
+      "name": "Christopher",
+      "voice": "en-US-ChristopherNeural",
+      "description": "American · male · deep, warm",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/christopher.mp3",
+      "duration": 27.384
+    },
+    {
+      "id": "roger",
+      "name": "Roger",
+      "voice": "en-US-RogerNeural",
+      "description": "American · male · serious, measured",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/roger.mp3",
+      "duration": 30.12
+    },
+    {
+      "id": "elizabeth",
+      "name": "Elizabeth",
+      "voice": "en-US-ElizabethNeural",
+      "description": "American · female · authoritative, serious",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/elizabeth.mp3",
+      "duration": 26.712
+    },
+    {
+      "id": "samuel",
+      "name": "Samuel",
+      "voice": "en-US-SamuelMultilingualNeural",
+      "description": "American · male · warm, expressive",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/samuel.mp3",
+      "duration": 29.928
+    },
+    {
+      "id": "cora",
+      "name": "Cora",
+      "voice": "en-US-CoraNeural",
+      "description": "American · female · sincere, formal",
+      "src": "/audio/codex-regius/auditions/v1/8f10f0784bf0/cora.mp3",
+      "duration": 27.816
     }
   ]
 }

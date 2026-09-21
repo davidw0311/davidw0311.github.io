@@ -74,7 +74,10 @@ test("only Völuspá uses the continuous licensed score and a distinct seeress f
   }
   assert.equal(recording.music?.continuous,true);
   assert.ok(statSync(`public${recording.music!.src}`).size>1000);
-  assert.deepEqual(recording.music?.tracks.map(track=>track.title),['Mjolnir','Vopna']);
+  assert.deepEqual(recording.music?.tracks.map(track=>track.title),['Vopna']);
+  assert.equal(recording.music?.storyKey,'voluspa');
+  assert.deepEqual(recording.music?.choices?.map(track=>track.title),['Vopna','Blood Eagle','Gjallar','Hymn to the Gods','The Northern Path','Vetur Frosti']);
+  for(const track of recording.music!.choices!)assert.ok(statSync(`public${track.src}`).size>1000);
   let quotes=0;
   for(const clip of recording.clips) {
    const isQuote=sections[clip.section].id.startsWith('quote-');

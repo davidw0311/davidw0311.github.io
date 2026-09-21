@@ -185,16 +185,57 @@
     }
   ],
   "music": {
-    "src": "/audio/codex-regius/music/voluspa-nordic-v1.mp3",
+    "src": "/audio/codex-regius/music/selection-v1/vopna.mp3",
     "continuous": true,
+    "storyKey": "voluspa",
     "tracks": [
-      {
-        "title": "Mjolnir",
-        "url": "https://creatorchords.com/music/mjolnir/"
-      },
       {
         "title": "Vopna",
         "url": "https://creatorchords.com/music/vopna/"
+      }
+    ],
+    "choices": [
+      {
+        "id": "vopna",
+        "title": "Vopna",
+        "url": "https://creatorchords.com/music/vopna/",
+        "src": "/audio/codex-regius/music/selection-v1/vopna.mp3",
+        "duration": 457.79854166666667
+      },
+      {
+        "id": "blood-eagle",
+        "title": "Blood Eagle",
+        "url": "https://creatorchords.com/music/blood-eagle/",
+        "src": "/audio/codex-regius/music/selection-v1/blood-eagle.mp3",
+        "duration": 228.4265
+      },
+      {
+        "id": "gjallar",
+        "title": "Gjallar",
+        "url": "https://creatorchords.com/music/gjallar/",
+        "src": "/audio/codex-regius/music/selection-v1/gjallar.mp3",
+        "duration": 88.50316666666667
+      },
+      {
+        "id": "hymn-to-the-gods",
+        "title": "Hymn to the Gods",
+        "url": "https://creatorchords.com/music/hymn-to-the-gods/",
+        "src": "/audio/codex-regius/music/selection-v1/hymn-to-the-gods.mp3",
+        "duration": 204.867
+      },
+      {
+        "id": "the-northern-path",
+        "title": "The Northern Path",
+        "url": "https://creatorchords.com/music/the-northern-path/",
+        "src": "/audio/codex-regius/music/selection-v1/the-northern-path.mp3",
+        "duration": 201.62504166666668
+      },
+      {
+        "id": "vetur-frosti",
+        "title": "Vetur Frosti",
+        "url": "https://creatorchords.com/music/vetur-frosti/",
+        "src": "/audio/codex-regius/music/selection-v1/vetur-frosti.mp3",
+        "duration": 202.93229166666666
       }
     ]
   }
