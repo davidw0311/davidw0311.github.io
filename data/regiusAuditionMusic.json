@@ -1,0 +1,112 @@
+[
+  {
+    "id": "mjolnir",
+    "name": "Mjolnir",
+    "description": "Dramatic · dark",
+    "src": "/audio/codex-regius/auditions/music-v1/mjolnir.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/mjolnir/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Mjolnir.mp3",
+    "sourceSha256": "76092aa7a1772d2e9c22c47b2fefb978bc3cd15f3cb58596ea911a8c6b3c51cd",
+    "excerptStart": 10
+  },
+  {
+    "id": "vopna",
+    "name": "Vopna",
+    "description": "Ambient fantasy · tense",
+    "src": "/audio/codex-regius/auditions/music-v1/vopna.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/vopna/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Vopna.mp3",
+    "sourceSha256": "6554620e4aeb3061b6236f40a638bbc6cce3bea0a0154d449e0ec65995594269",
+    "excerptStart": 10
+  },
+  {
+    "id": "blood-eagle",
+    "name": "Blood Eagle",
+    "description": "Dark · relaxed",
+    "src": "/audio/codex-regius/auditions/music-v1/blood-eagle.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/blood-eagle/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Blood_Eagle.mp3",
+    "sourceSha256": "ad998929fe4cb8378f4544b28f650b287dff5e1583d5a20c3adb7c0ed948a46d",
+    "excerptStart": 10
+  },
+  {
+    "id": "daudir",
+    "name": "Daudir",
+    "description": "Dark · tense",
+    "src": "/audio/codex-regius/auditions/music-v1/daudir.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/daudir/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Daudir.mp3",
+    "sourceSha256": "932c142c1a051afc6b84f08134783a99d9534944df74cf2b6d441713b4a4a455",
+    "excerptStart": 10
+  },
+  {
+    "id": "evig-fred-eternal-peace-instrumental",
+    "name": "Evig Fred (Eternal Peace) [Instrumental]",
+    "description": "Dark · dramatic",
+    "src": "/audio/codex-regius/auditions/music-v1/evig-fred-eternal-peace-instrumental.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/evig-fred-eternal-peace-instrumental/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/Evig_Fred_instrumental.mp3",
+    "sourceSha256": "236a7cf354720a5e42fbb216e56bf33abf3dfc47c1760936ace62adf6620e412",
+    "excerptStart": 10
+  },
+  {
+    "id": "folkvangr",
+    "name": "Fólkvangr",
+    "description": "Dark · dramatic",
+    "src": "/audio/codex-regius/auditions/music-v1/folkvangr.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/folkvangr/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Folkvangr.mp3",
+    "sourceSha256": "d1f7f23532e425c3bd70229022b2841e93f77865d695635f034ffec02728cc86",
+    "excerptStart": 10
+  },
+  {
+    "id": "gjallar",
+    "name": "Gjallar",
+    "description": "Sad · majestic",
+    "src": "/audio/codex-regius/auditions/music-v1/gjallar.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/gjallar/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Gjallar.mp3",
+    "sourceSha256": "18bfab55327b86c0e7b8d0315fd9b95692f06f0947e3e17a899d1ab737469694",
+    "excerptStart": 10
+  },
+  {
+    "id": "hymn-to-the-gods",
+    "name": "Hymn to the Gods",
+    "description": "Tense · dramatic",
+    "src": "/audio/codex-regius/auditions/music-v1/hymn-to-the-gods.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/hymn-to-the-gods/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Hymn_to_the_Gods.mp3",
+    "sourceSha256": "777000dccee0ada6a473f5e9ea90f71ae2edb1a9285f31db054f83373f549883",
+    "excerptStart": 10
+  },
+  {
+    "id": "the-northern-path",
+    "name": "The Northern Path",
+    "description": "Dark · tense",
+    "src": "/audio/codex-regius/auditions/music-v1/the-northern-path.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/the-northern-path/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/The_Northern_Path.mp3",
+    "sourceSha256": "cc9aa7a2617eb5f9876ab5a64c24f1de239fa137c416949ffe1763997108efee",
+    "excerptStart": 10
+  },
+  {
+    "id": "vetur-frosti",
+    "name": "Vetur Frosti",
+    "description": "Tense · dark",
+    "src": "/audio/codex-regius/auditions/music-v1/vetur-frosti.mp3",
+    "duration": 60.0,
+    "url": "https://creatorchords.com/music/vetur-frosti/",
+    "source": "https://d19p7hqu4j8vx0.cloudfront.net/media/media/data/mp3s/Vetur_Frosti.mp3",
+    "sourceSha256": "e9c89551d2a8c0aab2746d95cd7cc113831def5d61e78784a2e2df7530e1cc66",
+    "excerptStart": 10
+  }
+]
