@@ -156,11 +156,17 @@ assert.equal(view.phase.step, 'nomination');
 assert.ok(view.seats.every(seat=>seat.alive));
 const electionSeats = await Promise.all(members.map(async token => ({token, seatId:(await call(token,'sync')).view.me.seatId})));
 for (const [index, member] of electionSeats.entries()) view=(await call(member.token,'command',{command:{type:'sheriffInterest',run:index===1||index===2,expectedPhaseId:view.phase.id}})).view;
-while(view.phase.kind==='sheriff') {
+assert.equal(view.phase.step,'nomination');
+view=(await call(host,'command',{command:{type:'advanceElection',expectedPhaseId:view.phase.id}})).view;
+while(view.speakerSeatId) {
  const speaker=electionSeats.find(member=>member.seatId===view.speakerSeatId);
  view=(await call(speaker.token,'command',{command:{type:'sheriffSpeechDone',expectedPhaseId:view.phase.id}})).view;
 }
 view=(await call(electionSeats[2].token,'command',{command:{type:'sheriffWithdraw',expectedPhaseId:view.phase.id}})).view;
+view=(await call(electionSeats[2].token,'command',{command:{type:'sheriffRejoin',expectedPhaseId:view.phase.id}})).view;
+assert.ok(view.election.candidateIds.includes(electionSeats[2].seatId));
+view=(await call(electionSeats[2].token,'command',{command:{type:'sheriffWithdraw',expectedPhaseId:view.phase.id}})).view;
+view=(await call(host,'command',{command:{type:'advanceElection',expectedPhaseId:view.phase.id}})).view;
 await call(electionSeats[2].token,'command',{command:{type:'vote',targetId:electionSeats[1].seatId,expectedPhaseId:view.phase.id}},'NO_VOTE');
 for(const member of electionSeats.filter((_,index)=>index!==1&&index!==2)) view=(await call(member.token,'command',{command:{type:'vote',targetId:electionSeats[1].seatId,expectedPhaseId:view.phase.id}})).view;
 assert.equal(view.phase.step,'sheriffResult');
@@ -189,12 +195,16 @@ assert.equal(recovery.view.me.roleId, hostState.view.me.roleId);
 assert.notEqual(recovery.recoveryKey, hostState.recoveryKey);
 await call(oldHost, 'sync', {}, 'NOT_SEATED');
 await call(members[1], 'command', { command: { type: 'startNight', expectedPhaseId: recovery.view.phase.id } }, 'HOST_ONLY');
-// The same blind host control advances discussion and closes daytime voting.
+// The host can skip discussion, but never missing ballots.
 const voting = await call(host, 'command', { command: {type:'hardSkip', expectedPhaseId:recovery.view.phase.id} });
 assert.equal(voting.view.phase.kind, 'voting');
+await call(host,'command',{command:{type:'hardSkip',expectedPhaseId:voting.view.phase.id}},'VOTES_PENDING');
+assert.equal(voting.view.pendingVoterIds.length,6);
+for(const token of members) await call(token===oldHost?host:token,'command',{command:{type:'vote',targetId:null,expectedPhaseId:voting.view.phase.id}});
 const afterVote = await call(host, 'command', { command: {type:'hardSkip', expectedPhaseId:voting.view.phase.id} });
 assert.equal(afterVote.view.phase.kind, 'voting');
 assert.equal(afterVote.view.voteRound, 2);
+for(const token of members) await call(token===oldHost?host:token,'command',{command:{type:'vote',targetId:null,expectedPhaseId:afterVote.view.phase.id}});
 const nightTwo = await call(host, 'command', {command:{type:'hardSkip',expectedPhaseId:afterVote.view.phase.id}});
 assert.equal(nightTwo.view.phase.kind, 'night');
 assert.ok(afterVote.view.seats.every(seat => seat.alive));
@@ -213,4 +223,4 @@ assert.equal((await call(currentMembers.find(token=>token!==seerToken),'sync')).
 await call(host, 'command', {command:{type:'disbandRoom'}});
 await call(members[1], 'sync', {}, 'room-disbanded');
 await call(randomUUID(), 'join', {name:'Late join'}, 'room-disbanded');
-console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, automatic Sheriff nominations/speeches/withdrawal/voting, numbered announcements, adjustable speaking timers without auto-advance, immediate private Seer results, runoff voting, disbanding, and permissions.');
+console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, automatic Sheriff nominations, explicit host speech/ballot transitions, reversible withdrawal, mandatory ballots, numbered announcements, adjustable speaking timers without auto-advance, immediate private Seer results, runoff voting, disbanding, and permissions.');

@@ -401,3 +401,33 @@
 }
 .deadSeat .avatar { filter: none; }
 .deadSeat .profilePhoto, .deadSeat .avatarEmoji { filter: grayscale(1); opacity: .45; }
+
+/* Keep the table's state, private card, and next action in one compact area. */
+.redundantHeading { display:none; }
+.cardToolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:12px 0; }
+.cardToolbar > span { color:#c9c2ce; }
+.pendingVotes { margin:8px 0 0; color:#e9cf98; font-size:15px; line-height:1.5; }
+.tableHourglass { display:grid; justify-items:center; gap:4px; }
+.tableHourglass svg { width:52px; height:72px; }
+.tableHourglass strong { font-size:24px; font-variant-numeric:tabular-nums; color:#f2deaf; }
+.tableHourglass span { font-size:13px; }
+.circleSeat .circleNumber { font-size:17px; min-width:28px; height:28px; font-weight:750; top:27px; left:12px; }
+.voteDiagram { width:100%; max-height:440px; color:#c7acee; }
+.personNumber { width:60px; flex-shrink:0; font-size:19px; }
+.seatNumberSelect { width:56px; font-size:18px; min-height:42px; padding:6px; }
+.dragHandle { touch-action:none; cursor:grab; color:#c8bad4; background:transparent; border:0; font-size:28px; padding:8px; }
+.dragHandle:active { cursor:grabbing; }
+.dragTarget { outline:2px solid #b79bcd; background:#302739; border-radius:8px; }
+.speakingTimer { padding:10px 14px; }
+@media(max-width:700px) {
+ .cardToolbar { order:-5; }
+ .personRow { gap:7px; flex-wrap:wrap; }
+ .personActions { margin-left:auto; }
+ .nightProgress { font-size:14px; padding:10px; }
+ .tableFooter > span { display:none; }
+ .tableFooter { gap:8px; }
+}
+
+.personName { flex:1; min-width:130px; }
+.personRow .personName strong { font-size:16px; }
+.personRow .personName small { font-size:12px; }

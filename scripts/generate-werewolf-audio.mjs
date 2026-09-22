@@ -41,6 +41,7 @@ const cues = {
   bloodMoonApostle: ['Blood Moon Apostle, open your eyes. Follow the private ability prompt on your device.', '血月使徒请睁眼。请根据设备上的私密技能提示行动。'],
 };
 Object.assign(cues, {
+  'day-deaths': ['The following seats have been eliminated.', '以下玩家已出局：'],
   'night-deaths': ['Last night, the following seats were eliminated.', '昨夜出局的玩家是：'],
   'peaceful-night': ['Nobody died last night. It was a peaceful night.', '昨夜是平安夜，无人出局。'],
   'sheriff-elected': ['The village has elected its sheriff.', '本届警长是：'],

@@ -460,9 +460,8 @@ function progressElection(room, now) {
     const election = room.election;
     if (room.phase.kind === 'sheriff' && room.phase.step === 'nomination') {
         if (!election.participantIds.every(id => Object.hasOwn(election.declarations, id))) return;
-        setPhase(room, 'sheriff', 'speeches', now);
+        return; // The host explicitly opens speeches after all declarations.
     }
-    if (!election.candidateIds.length) { finishElection(room, null, now); return; }
     if (room.phase.kind === 'sheriff' && room.phase.step === 'speeches') {
         const next = election.candidateIds.find(id => !election.finishedIds.includes(id));
         if (next) {
@@ -473,10 +472,8 @@ function progressElection(room, now) {
             }
             return;
         }
-        // Running at any point forfeits the right to vote, even after withdrawal.
-        election.voterIds = election.participantIds.filter(id => !election.declarations[id]);
-        room.votes = {};
-        setPhase(room, 'voting', 'sheriff', now);
+        if (room.speakerSeatId) setPhase(room, 'sheriff', 'speeches', now);
+        return; // The host explicitly opens the ballot.
     }
     if (room.phase.kind === 'voting' && election.voterIds.every(id => Object.hasOwn(room.votes, id))) resolveVoting(room, now);
 }
@@ -618,7 +615,12 @@ function resolveNight(room, now) {
     room.lastNight = { night: room.night, eliminatedSeatIds: dead.map(seat => seat.id), numbers: dead.map(seat => room.seats.indexOf(seat) + 1) };
     announce(room, 'dawn', dead.length ? ['night-deaths', ...room.lastNight.numbers.map(number => `seat-${number}`)] : ['peaceful-night'], now);
 }
+function pendingVoters(room) {
+    const eligible = room.phase.step === 'sheriff' ? room.election?.voterIds || [] : room.seats.filter(seat => seat.alive && seat.canVote).map(seat => seat.id);
+    return eligible.filter(id => !Object.hasOwn(room.votes, id));
+}
 function resolveVoting(room, now) {
+    if (pendingVoters(room).length) fail('VOTES_PENDING', 'Every eligible player must vote or abstain.');
     const tally = {};
     for (const [id, target] of Object.entries(room.votes))
         if (target) {
@@ -747,7 +749,7 @@ function executeCommand(room, actorId, c, now) {
         return;
     }
     upgradeLegacyElection(room);
-    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'nightNarrationDone', 'skipNightTurn', 'hardSkip', 'disbandRoom', 'moveSeat', 'setSpeechTimer', 'cancelSpeechTimer']);
+    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'nightNarrationDone', 'skipNightTurn', 'hardSkip', 'disbandRoom', 'moveSeat', 'setSpeechTimer', 'cancelSpeechTimer', 'advanceElection']);
     if (hostTypes.has(c.type))
         requireHost(room, actorId);
     const s = seatOf(room, actorId);
@@ -759,6 +761,8 @@ function executeCommand(room, actorId, c, now) {
         fail('NOT_SEATED', 'You do not occupy a seat in this room.');
     if (s)
         room.members[actorId].lastSeen = now;
+    const aliveBefore = new Set(room.seats.filter(seat => seat.alive).map(seat => seat.id));
+    const publicDeathAction = ['shoot', 'knightDuel', 'wolfExplode', 'resolveVoting', 'nextPhase', 'hardSkip'].includes(c.type) && ['day', 'voting', 'reaction'].includes(room.phase.kind);
     switch (c.type) {
         case 'disbandRoom':
             room.status = 'disbanded'; room.members = {}; room.requests = []; room.hostId = null;
@@ -781,6 +785,27 @@ function executeCommand(room, actorId, c, now) {
             s.photo = photo;
             break;
         }
+        case 'advanceElection':
+            requirePhase(room, c, ['sheriff']);
+            if (room.phase.step === 'nomination') {
+                if (!room.election.participantIds.every(id => Object.hasOwn(room.election.declarations, id))) fail('DECLARATIONS_PENDING', 'Everyone must choose whether to run first.');
+                setPhase(room, 'sheriff', 'speeches', now);
+                progressElection(room, now);
+            } else {
+                if (!room.election.candidateIds.length) { finishElection(room, null, now); break; }
+                room.election.voterIds = room.election.participantIds.filter(id => !room.election.declarations[id] && getSeat(room, id).canVote);
+                room.votes = {};
+                setPhase(room, 'voting', 'sheriff', now);
+                progressElection(room, now);
+            }
+            break;
+        case 'sheriffRejoin':
+            requirePhase(room, c, ['sheriff']);
+            if (!room.election?.withdrawnIds.includes(s.id)) fail('NO_ABILITY', 'Only withdrawn candidates may rejoin.');
+            room.election.withdrawnIds = room.election.withdrawnIds.filter(id => id !== s.id);
+            room.election.candidateIds = room.election.participantIds.filter(id => room.election.declarations[id] && !room.election.withdrawnIds.includes(id));
+            if (room.phase.step === 'speeches') progressElection(room, now);
+            break;
         case 'sheriffInterest':
             requirePhase(room, c, ['sheriff']);
             if (room.phase.step !== 'nomination' || !room.election.participantIds.includes(s.id) || Object.hasOwn(room.election.declarations, s.id)) fail('WRONG_PHASE', 'Your candidacy decision is already recorded.');
@@ -790,7 +815,7 @@ function executeCommand(room, actorId, c, now) {
             progressElection(room, now);
             break;
         case 'sheriffWithdraw':
-            requirePhase(room, c, ['sheriff', 'voting']);
+            requirePhase(room, c, ['sheriff']);
             if (!room.election || !room.election.candidateIds.includes(s.id) || room.phase.kind === 'voting' && room.phase.step !== 'sheriff') fail('NO_ABILITY', 'Only a current Sheriff candidate can withdraw.');
             room.election.candidateIds = room.election.candidateIds.filter(id => id !== s.id);
             room.election.withdrawnIds.push(s.id);
@@ -918,7 +943,7 @@ function executeCommand(room, actorId, c, now) {
             event(room, 'The host skipped the current step. Submitted choices were retained.', '房主跳过了当前阶段，已提交的选择予以保留。', now);
             if (room.phase.kind === 'announcement') { finishAnnouncement(room, now); break; }
             if (room.phase.kind === 'sheriff') {
-                if (room.phase.step === 'nomination') for (const id of room.election.participantIds) { if (!Object.hasOwn(room.election.declarations, id)) room.election.declarations[id] = false; }
+                if (room.phase.step === 'nomination') fail('DECLARATIONS_PENDING', 'Use the election controls after everyone has chosen.');
                 else if (room.speakerSeatId) room.election.finishedIds.push(room.speakerSeatId);
                 progressElection(room, now); break;
             }
@@ -1130,6 +1155,15 @@ function executeCommand(room, actorId, c, now) {
         }
         default: fail('UNKNOWN_COMMAND', 'Unknown room action.');
     }
+    if (publicDeathAction) {
+        const deaths = room.seats.filter(seat => aliveBefore.has(seat.id) && !seat.alive);
+        if (deaths.length) {
+            const cues = ['day-deaths', ...deaths.map(seat => `seat-${room.seats.indexOf(seat) + 1}`)];
+            // Finished games still announce the casualties before the game-over cue.
+            if (room.status === 'finished') room.phase.publicCues = [...cues, 'game-over'];
+            else announce(room, 'dayDeaths', cues, now);
+        }
+    }
 }
 function applyCommand(room, actorId, command, now) {
     now = nowMs(now);
@@ -1217,6 +1251,6 @@ function publicView(room, actorId, now) {
     const me = s ? { seatId: s.id, roleId: s.roleId, team: s.team, alive: s.alive, roleState: clone(s.state), allies: s.team === 'wolf' && s.roleId !== 'gargoyle' ? room.seats.filter(t => t.id !== s.id && isPack(t)).map(t => t.id) : [], privateLog: clone(s.privateLog), ready: Boolean(s.ready), inspection: room.actions.seer?.[s.id]?.result ? clone(room.actions.seer[s.id].result) : null, history: [...(room.replay || []).filter(round => round.type === 'night').flatMap(round => Object.entries(round.actions).filter(([,actions]) => actions[s.id]).map(([step, actions]) => ({ night: round.night, step, action: clone(actions[s.id]) }))), ...Object.entries(room.actions || {}).filter(([,actions]) => actions[s.id]).map(([step,actions]) => ({ night: room.night, step, action: clone(actions[s.id]) }))].filter((entry,index,all) => all.findIndex(other => other.night === entry.night && other.step === entry.step) === index), packVotes: room.phase.kind === 'night' && room.phase.step === 'wolves' && room.phase.nightStage === 'acting' && s.alive && isPack(s) ? room.nightFlow.eligibleSeatIds.map(id => ({ seatId: id, submitted: Boolean(actionAt(room, 'wolves', id)), targetId: actionAt(room, 'wolves', id)?.targetId || null })) : [], action: actionDescriptor(room, s), canDuel: room.phase.kind === 'day' && s.alive && s.roleId === 'knight' && !s.state.duelUsed && powersEnabled(room, s), canExplode: room.phase.kind === 'day' && s.alive && isPack(s), canPassBadge: room.sheriffSeatId === s.id && !s.alive && room.status === 'playing' && !room.phase.paused && room.phase.kind !== 'announcement' } : null;
     // A replaced client receives no former secrets or private messages, even with an old token.
     const messages = s ? room.messages.filter(m => m.channel === 'public' || finished || m.channel === 'dead' && !s.alive || m.channel === 'wolves' && isPack(s)) : [];
-    return { gameId: room.gameId || null, code: room.code, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map(t => ({ id: t.id, name: t.name, photo: t.photo || null, ready: Boolean(t.ready), connected: connected(room, t, now), occupied: Boolean(t.actorId), alive: t.alive, canVote: t.canVote, isHost: Boolean(t.actorId && t.actorId === room.hostId), isSheriff: room.sheriffSeatId === t.id, ...(finished ? { roleId: t.roleId, team: t.team } : t.state.revealed ? { roleId: t.roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actorId) ? { status: 'pending' } : null, me, speakingTimer: room.speakingTimer ? clone(room.speakingTimer) : null, election: room.election ? { candidateIds: [...room.election.candidateIds], withdrawnIds: [...room.election.withdrawnIds], declaredIds: Object.keys(room.election.declarations), voterIds: [...room.election.voterIds] } : null, lastNight: room.lastNight ? clone(room.lastNight) : null, phase: clone(room.phase), voteRound: room.voteRound || 1, runoffIds: room.runoffIds || [], day: room.day, night: room.night, events: clone(room.events), messages: clone(messages), winner: clone(room.winner), speakerSeatId: room.speakerSeatId || null, lastVote: room.lastVote ? clone(room.lastVote) : null, voteCount: Object.keys(room.votes || {}).length, replay: finished ? clone(room.replay || []) : [] };
+    return { gameId: room.gameId || null, code: room.code, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map(t => ({ id: t.id, name: t.name, photo: t.photo || null, ready: Boolean(t.ready), connected: connected(room, t, now), occupied: Boolean(t.actorId), alive: t.alive, canVote: t.canVote, isHost: Boolean(t.actorId && t.actorId === room.hostId), isSheriff: room.sheriffSeatId === t.id, ...(finished ? { roleId: t.roleId, team: t.team } : t.state.revealed ? { roleId: t.roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actorId) ? { status: 'pending' } : null, me, speakingTimer: room.speakingTimer ? clone(room.speakingTimer) : null, election: room.election ? { candidateIds: [...room.election.candidateIds], withdrawnIds: [...room.election.withdrawnIds], declaredIds: Object.keys(room.election.declarations), voterIds: [...room.election.voterIds] } : null, lastNight: room.lastNight ? clone(room.lastNight) : null, phase: clone(room.phase), voteRound: room.voteRound || 1, runoffIds: room.runoffIds || [], day: room.day, night: room.night, events: clone(room.events), messages: clone(messages), winner: clone(room.winner), speakerSeatId: room.speakerSeatId || null, lastVote: room.lastVote ? clone(room.lastVote) : null, pendingVoterIds: room.phase.kind === 'voting' ? pendingVoters(room) : [], voteCount: Object.keys(room.votes || {}).length, replay: finished ? clone(room.replay || []) : [] };
 }
 module.exports = { createRoom, applyCommand, publicView, tickRoom, recoverHost, DEFAULT_SETTINGS, ROLES, PRESETS };

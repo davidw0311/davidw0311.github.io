@@ -738,6 +738,18 @@
       "text": "24号。",
       "duration": 1.512,
       "textHash": "edeba27f41780c42e20a98f572fff32f46d94a79807d3af2a8667b62976378a1"
+    },
+    "en:day-deaths": {
+      "src": "/assets/werewolf/audio/en/day-deaths.mp3",
+      "text": "The following seats have been eliminated.",
+      "duration": 2.976,
+      "textHash": "069c2f5578cbf0422ce25beb6f111710cffdbc8223222892ed91b8a060e95d14"
+    },
+    "zh:day-deaths": {
+      "src": "/assets/werewolf/audio/zh/day-deaths.mp3",
+      "text": "以下玩家已出局：",
+      "duration": 2.448,
+      "textHash": "965dde1499c9b267b9a4271359a0fd519dec29eef05d3cd494d1fa66d35351a8"
     }
   }
 }

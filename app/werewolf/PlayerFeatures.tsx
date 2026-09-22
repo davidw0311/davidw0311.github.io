@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useId, useState, type CSSProperties } from "react";
 import { Crown, Moon, Medal } from "@phosphor-icons/react";
 import type { Command, GameView, Language, Seat } from "@/lib/werewolfClient";
 import avatars from "@/public/assets/werewolf/avatars.json";
@@ -15,17 +15,21 @@ export function Portrait({ seat }: { seat: Pick<Seat, "name" | "photo"> }) {
   const avatar = avatars.find(avatar => avatar.id === seat.photo);
   return avatar ? <span className={styles.avatarEmoji} role="img" aria-label={`${avatar.name.en} / ${avatar.name.zh}`}>{avatar.glyph}</span> : <span>{Array.from(seat.name)[0]?.toUpperCase() || "?"}</span>;
 }
-export function CircleSeats({ view, lang, onProfile }: { view: GameView; lang: Language; onProfile: () => void }) {
+export function CircleSeats({ view, lang, now, onProfile }: { view: GameView; lang: Language; now: number; onProfile: () => void }) {
   const t = (en: string, zh: string) => lang === "en" ? en : zh;
+  const clipId = useId().replace(/:/g, "");
+  const timer = view.speakingTimer;
+  const remaining = timer ? Math.min(timer.seconds, Math.max(0, Math.ceil((timer.endsAt ? timer.endsAt-now-(view.clockOffset||0) : timer.remainingMs||0)/1000))) : 0;
+  const fraction = timer ? remaining/timer.seconds : 0;
   const size = Math.max(350, view.seats.length * 40);
   return <><div className={styles.circleScroll} tabIndex={0} aria-label={t("Circular seating table. Scroll to see all seats.", "圆形座位表，可滚动查看所有座位。")}> <div className={styles.circleTable} style={{ width: size, height: size }}>
-    <div className={styles.circleCenter}><Moon size={36} /><strong>NIGHTFALL</strong><span>{t(`${view.seats.length} players`, `${view.seats.length} 位玩家`)}</span></div>
+    <div className={styles.circleCenter}>{timer ? <div className={styles.tableHourglass} role="timer" aria-label={t(`${remaining} seconds remaining`, `剩余${remaining}秒`)}><svg viewBox="0 0 70 96" aria-hidden="true"><defs><clipPath id={clipId}><path d="M12 8H58V18L38 46V50L58 78V88H12V78L32 50V46L12 18Z"/></clipPath></defs><g clipPath={`url(#${clipId})`}><rect x="12" y={46-38*fraction} width="46" height={38*fraction} fill="#d5b473"/><rect x="12" y={88-38*(1-fraction)} width="46" height={38*(1-fraction)} fill="#d5b473"/>{remaining>0 && !view.phase.paused && <path d="M35 46V82" stroke="#d5b473" strokeWidth="2"/>}</g><path d="M12 8H58V18L38 46V50L58 78V88H12V78L32 50V46L12 18Z M8 6H62 M8 90H62" fill="none" stroke="#e8dfcd" strokeWidth="3"/></svg><strong>{remaining ? `${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,"0")}` : t("Time’s up", "时间到")}</strong>{view.phase.paused && <span>{t("Paused", "已暂停")}</span>}</div> : <><Moon size={36} /><strong>NIGHTFALL</strong><span>{t(`${view.seats.length} players`, `${view.seats.length} 位玩家`)}</span></>}</div>
     {view.seats.map((seat, index) => {
       const angle = index * 2 * Math.PI / view.seats.length - Math.PI / 2;
       const position = { left: `${50 + 39 * Math.cos(angle)}%`, top: `${50 + 39 * Math.sin(angle)}%` } as CSSProperties;
       return <div key={seat.id} style={position} className={`${styles.circleSeat} ${styles.seat} ${!seat.alive && view.status !== "lobby" ? styles.deadSeat : ""} ${seat.id === view.me?.seatId ? styles.mySeat : ""} ${seat.id === view.speakerSeatId ? styles.speakingSeat : ""}`}>
         <button className={styles.avatar} disabled={seat.id !== view.me?.seatId} onClick={onProfile} aria-label={seat.id === view.me?.seatId ? t("Change profile photo", "更换头像") : seat.name}><Portrait seat={seat} />{!seat.alive && <span className={styles.deadCross} aria-hidden="true">×</span>}<span className={`${styles.presence} ${seat.connected && seat.occupied ? styles.present : ""}`} title={seat.connected ? t("Connected", "在线") : t("Offline; seat retained", "离线，座位保留")} />{seat.isHost && <Crown size={15} className={styles.hostCrown} />}</button>
-        {seat.isSheriff && <Medal className={styles.sheriffBadge} size={22} weight="fill" aria-label={t("Sheriff badge", "警徽")} />}<span className={styles.circleNumber}>{index + 1}</span><strong title={seat.name}>{seat.name}</strong><span className={styles.seatStatus}>{view.phase.kind === "ready" ? seat.ready ? t("Ready", "已准备") : t("Reading card", "查看身份中") : !seat.alive ? t("DEAD", "已出局") : seat.isSheriff ? t("Sheriff", "警长") : seat.id === view.me?.seatId ? t("You", "你") : !seat.connected ? t("Offline", "离线") : t("At the table", "已入座")}</span>{seat.roleId && <small>{catalogue.roles.find(role => role.id === seat.roleId)?.name[lang] || seat.roleId}</small>}
+        {seat.isSheriff && <Medal className={styles.sheriffBadge} size={22} weight="fill" aria-label={t("Sheriff badge", "警徽")} />}<span className={styles.circleNumber}>{index + 1}</span><strong title={seat.name}>{seat.name}</strong><span className={styles.seatStatus}>{view.phase.kind === "ready" ? seat.ready ? t("Ready", "已准备") : t("Reading card", "查看身份中") : !seat.alive ? t("DEAD", "已出局") : view.phase.kind === "voting" && (view.phase.step === "sheriff" ? view.election?.voterIds.includes(seat.id) : seat.canVote) ? view.pendingVoterIds?.includes(seat.id) ? t("Yet to vote", "未投票") : t("Voted", "已投票") : seat.isSheriff ? t("Sheriff", "警长") : seat.id === view.me?.seatId ? t("You", "你") : !seat.connected ? t("Offline", "离线") : t("At the table", "已入座")}</span>{seat.roleId && <small>{catalogue.roles.find(role => role.id === seat.roleId)?.name[lang] || seat.roleId}</small>}
       </div>;
     })}
   </div></div>{view.seats.length > 8 && <p className={styles.hint}>{t("Slide the table to see the full circle on a small screen.", "小屏幕上可滑动座位表，查看完整圆桌。")}</p>}</>;

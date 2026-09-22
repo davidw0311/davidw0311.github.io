@@ -30,11 +30,16 @@ function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunte
     return room;
 }
 const id = (r, i) => r.seats[i].id;
+function abstainPending(r) { for(const seatId of publicView(r,r.hostId,time).pendingVoterIds) { const seat=r.seats.find(s=>s.id===seatId); send(r,seat.actorId,'vote',{targetId:null}); } }
+function finishDeathAnnouncement(r) { if(r.phase.kind==='announcement' && r.phase.step==='dayDeaths') send(r,r.hostId,'nightNarrationDone'); }
+function closeVotes(r) { abstainPending(r); send(r,r.hostId,'resolveVoting'); finishDeathAnnouncement(r); }
+
 function nextNight(r) {
+    finishDeathAnnouncement(r);
     if (r.voteDoneDay === r.day) return send(r,r.hostId,'startNight');
     send(r,r.hostId,'startVoting');
-    send(r,r.hostId,'resolveVoting');
-    send(r,r.hostId,'resolveVoting');
+    closeVotes(r);
+    closeVotes(r);
     assert.equal(r.phase.kind,'night');
 }
 function advanceTestNight(r) {
@@ -72,7 +77,7 @@ function nightAct(r, i, data) {
 function exile(r, index) { if (r.phase.kind === 'reaction')
     send(r, 'actor0', 'nextPhase'); send(r, 'actor0', 'startVoting'); for (const [i, s] of r.seats.entries())
     if (s.alive && s.canVote)
-        send(r, `actor${i}`, 'vote', { targetId: id(r, index) }); send(r, 'actor0', 'resolveVoting'); }
+        send(r, `actor${i}`, 'vote', { targetId: id(r, index) }); closeVotes(r); }
 function custom(special) { return ['werewolf', 'werewolf', special, 'seer', 'witch', 'villager', 'villager', 'villager', 'villager']; }
 test('catalogues mirror exactly and every advertised role is implemented', () => { const canonical = fs.readFileSync(path.join(__dirname, '../src/werewolf/roles.json'), 'utf8'); assert.equal(canonical, fs.readFileSync(path.join(__dirname, '../../public/assets/werewolf/roles.json'), 'utf8')); const catalogue = JSON.parse(canonical); assert.equal(catalogue.roles.length, 31); assert.deepEqual(new Set(catalogue.roles.map(r => r.id)), ROLES); for (const r of catalogue.roles) {
     assert.ok(r.description.en);
@@ -105,7 +110,7 @@ test('Cupid death link and Wild Child transformation survive replacement', () =>
 test('Thief, Wolf Hound and Mechanical Wolf opening choices are applied', () => { const r = setup(['werewolf', 'mechanicalWolf', 'wolfHound', 'thief', 'seer', 'guard', 'villager', 'villager', 'villager']); nightAct(r, 2, { choice: 'wolf' }); nightAct(r, 3, { choice: 'guard' }); nightAct(r, 1, { targetId: id(r, 4) }); stepTo(r, 'wolves'); assert.equal(r.seats[1].state.copiedRole, 'seer'); assert.equal(r.seats[2].team, 'wolf'); assert.equal(r.seats[3].roleId, 'guard'); stepTo(r, 'seer'); nightAct(r, 1, { targetId: id(r, 4) }); dawn(r); assert.ok(r.seats[1].privateLog.some(log=>log.text.en==='E: good.')); });
 test('Magician swaps all targeted night actions and cannot reuse a pair', () => { const r = setup(custom('magician')); nightAct(r, 0, { targetId: id(r, 5) }); stepTo(r, 'magician'); nightAct(r, 2, { targetIds: [id(r, 5), id(r, 6)] }); dawn(r); assert.equal(r.seats[5].alive, true); assert.equal(r.seats[6].alive, false); });
 test('Dreamweaver protects a target and consecutive dreaming kills', () => { const r = setup(custom('dreamweaver')); nightAct(r, 0, { targetId: id(r, 5) }); stepTo(r, 'dreamweaver'); nightAct(r, 2, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, true); nextNight(r); stepTo(r, 'dreamweaver'); nightAct(r, 2, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, false); });
-test('Knight duel and White Wolf King explosion are server validated', () => { const r = setup(custom('knight')); dawn(r); send(r, 'actor2', 'knightDuel', { targetId: id(r, 0) }); assert.equal(r.seats[0].alive, false); assert.equal(r.seats[2].alive, true); assert.throws(() => send(r, 'actor2', 'knightDuel', { targetId: id(r, 1) }), e => e.code === 'NO_ABILITY'); const w = setup(['whiteWolfKing', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(w); send(w, 'actor0', 'wolfExplode', { targetId: id(w, 5) }); assert.equal(w.seats[0].alive, false); assert.equal(w.seats[5].alive, false); });
+test('Knight duel and White Wolf King explosion are server validated', () => { const r = setup(custom('knight')); dawn(r); send(r, 'actor2', 'knightDuel', { targetId: id(r, 0) }); assert.equal(r.seats[0].alive, false); assert.equal(r.seats[2].alive, true); finishDeathAnnouncement(r); assert.throws(() => send(r, 'actor2', 'knightDuel', { targetId: id(r, 1) }), e => e.code === 'NO_ABILITY'); const w = setup(['whiteWolfKing', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(w); send(w, 'actor0', 'wolfExplode', { targetId: id(w, 5) }); assert.equal(w.seats[0].alive, false); assert.equal(w.seats[5].alive, false); });
 test('Wolf Beauty charm kills the current target on death', () => { const r = setup(['werewolf', 'wolfBeauty', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfBeauty'); nightAct(r, 1, { targetId: id(r, 5) }); dawn(r); exile(r, 1); assert.equal(r.seats[5].alive, false); });
 test('Blood Moon self-destruction suppresses village powers on next night only', () => { const r = setup(['bloodMoonApostle', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(r); send(r, 'actor0', 'wolfExplode'); nextNight(r); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); dawn(r); nextNight(r); stepTo(r, 'seer'); assert.ok(publicView(r, 'actor2', time).me.action); });
 test('Pure White kills an inspected wolf only from the second night', () => { const r = setup(custom('pureWhite')); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, true); nextNight(r); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
@@ -120,12 +125,12 @@ test('Angel and Jester have explicit exile victories', () => { for (const role o
     assert.equal(r.winner.team, role);
 } const r = setup(custom('angel')); dawn(r); exile(r, 5); assert.equal(r.seats[2].team, 'village'); });
 test('Elder survives one wolf attack and exile disables village active powers', () => { const r = setup(custom('elder')); nightAct(r, 0, { targetId: id(r, 2) }); dawn(r); assert.equal(r.seats[2].alive, true); exile(r, 2); assert.equal(r.villagePowersLost, true); nextNight(r); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor3', time).me.action, null); });
-test('mandatory runoff takes precedence over Scapegoat and Raven adds one vote', () => { const r = setup(custom('scapegoat')); dawn(r); send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'vote', { targetId: id(r, 5) }); send(r, 'actor1', 'vote', { targetId: id(r, 6) }); send(r, 'actor0', 'resolveVoting'); assert.equal(r.seats[2].alive, true); assert.equal(r.voteRound, 2); const c = setup(custom('raven')); stepTo(c, 'raven'); nightAct(c, 2, { targetId: id(c, 5) }); dawn(c); send(c, 'actor0', 'startVoting'); send(c, 'actor0', 'vote', { targetId: id(c, 5) }); send(c, 'actor1', 'vote', { targetId: id(c, 6) }); send(c, 'actor0', 'resolveVoting'); assert.equal(c.seats[5].alive, false); });
+test('mandatory runoff takes precedence over Scapegoat and Raven adds one vote', () => { const r = setup(custom('scapegoat')); dawn(r); send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'vote', { targetId: id(r, 5) }); send(r, 'actor1', 'vote', { targetId: id(r, 6) }); closeVotes(r); assert.equal(r.seats[2].alive, true); assert.equal(r.voteRound, 2); const c = setup(custom('raven')); stepTo(c, 'raven'); nightAct(c, 2, { targetId: id(c, 5) }); dawn(c); send(c, 'actor0', 'startVoting'); send(c, 'actor0', 'vote', { targetId: id(c, 5) }); send(c, 'actor1', 'vote', { targetId: id(c, 6) }); closeVotes(c); assert.equal(c.seats[5].alive, false); });
 test('Gravekeeper learns the actual last exiled alignment', () => { const r = setup(custom('gravekeeper')); dawn(r); exile(r, 0); nextNight(r); stepTo(r, 'gravekeeper'); nightAct(r, 2, {}); dawn(r); assert.match(r.seats[2].privateLog.at(-1).text.en, /Werewolves/); });
 test('Sheriff badge gives 1.5 exile votes and only a deceased Sheriff can transfer or destroy it', () => {
  const r=setup(); dawn(r); r.sheriffSeatId=id(r,2);
  assert.throws(()=>send(r,'actor2','passBadge',{targetId:id(r,3)}),{code:'NO_ABILITY'});
- send(r,'actor0','startVoting'); send(r,'actor2','vote',{targetId:id(r,6)}); send(r,'actor0','vote',{targetId:id(r,7)}); send(r,'actor0','resolveVoting');
+ send(r,'actor0','startVoting'); send(r,'actor2','vote',{targetId:id(r,6)}); send(r,'actor0','vote',{targetId:id(r,7)}); closeVotes(r);
  assert.equal(r.lastVote.tally[id(r,6)],1.5); assert.equal(r.seats[6].alive,false);
  r.seats[2].alive=false; send(r,'actor2','passBadge',{targetId:id(r,3)}); assert.equal(r.sheriffSeatId,id(r,3));
  r.seats[3].alive=false; send(r,'actor3','passBadge',{targetId:null}); assert.equal(r.sheriffSeatId,null);
@@ -135,7 +140,7 @@ test('victory and finished reveal are explicit; changing rules midgame is reject
 test('host hard skips progress daylight and begin the next event-driven night', () => {
     const r = setup(); r.settings.autoAdvance = true;
     dawn(r);
-    const advance = () => send(r,r.hostId,'hardSkip');
+    const advance = () => { if(r.phase.kind==='voting') abstainPending(r); send(r,r.hostId,'hardSkip'); };
     assert.equal(r.phase.kind, 'day'); advance(); assert.equal(r.phase.kind, 'voting'); advance(); assert.equal(r.voteRound, 2); advance();
     assert.equal(r.phase.kind, 'night'); assert.equal(r.phase.nightStage, 'opening'); assert.equal(r.night, 2);
 });
@@ -202,14 +207,14 @@ test('legacy timer settings cannot enable action expiry and role rules stay lock
  assert.throws(()=>send(r,r.hostId,'updateSettings',{settings:{witchSelfSave:true}}),{code:'WRONG_PHASE'});
 });
 
-test('night action replay is revealed only when the game is finished and contains seat IDs only', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); dawn(r); assert.deepEqual(publicView(r, 'actor0', time).replay, []); r.seats[0].alive = false; r.seats[1].alive = false; send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'resolveVoting'); send(r, 'actor0', 'resolveVoting'); dawn(r); const replay = publicView(r, 'actor2', time).replay; assert.equal(replay[0].actions.wolves[id(r, 0)].targetId, id(r, 6)); assert.ok(!JSON.stringify(replay).includes('actor')); });
+test('night action replay is revealed only when the game is finished and contains seat IDs only', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); dawn(r); assert.deepEqual(publicView(r, 'actor0', time).replay, []); r.seats[0].alive = false; r.seats[1].alive = false; send(r, 'actor0', 'startVoting'); closeVotes(r); closeVotes(r); dawn(r); const replay = publicView(r, 'actor2', time).replay; assert.equal(replay[0].actions.wolves[id(r, 0)].targetId, id(r, 6)); assert.ok(!JSON.stringify(replay).includes('actor')); });
 
 test('votes remain valid after legacy deadlines and host skip counts submitted votes', () => {
  const r=setup(); dawn(r); send(r,r.hostId,'hardSkip');
  r.settings.autoAdvance=true; r.phase.deadline=time+100;
  time+=999999; tickRoom(r,time); assert.equal(r.phase.kind,'voting');
- send(r,r.hostId,'vote',{targetId:id(r,6)}); send(r,r.hostId,'pause');
- send(r,r.hostId,'hardSkip'); assert.equal(r.seats[6].alive,false);
+ send(r,r.hostId,'vote',{targetId:id(r,6)}); abstainPending(r); send(r,r.hostId,'pause');
+ send(r,r.hostId,'hardSkip'); assert.equal(r.phase.step,'dayDeaths'); finishDeathAnnouncement(r); assert.equal(r.seats[6].alive,false);
  assert.equal(r.phase.kind,'day'); send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'night');
 });
 
@@ -233,7 +238,7 @@ test('offline Hunter reactions wait indefinitely for action or host skip', () =>
  send(r,'actor5','leave'); time+=999999; assert.equal(tickRoom(r,time),false);
  assert.equal(r.phase.kind,'reaction'); assert.equal(r.phase.paused,false);
  if(skip) { send(r,r.hostId,'pause'); send(r,r.hostId,'hardSkip'); assert.equal(r.seats[0].alive,true); }
- else send(r,'actor5','shoot',{targetId:id(r,0)});
+ else { send(r,'actor5','shoot',{targetId:id(r,0)}); finishDeathAnnouncement(r); }
  assert.equal(r.phase.kind,'day'); assert.deepEqual(r.pendingShots,[]);
  assert.equal(r.seats[5].state.shotUsed,true);
  }
@@ -824,21 +829,21 @@ test('the host cannot bypass exile voting and a runoff accepts only tied candida
  assert.throws(()=>send(r,r.hostId,'startNight'),{code:'VOTE_REQUIRED'});
  send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'voting');
  send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)});
- send(r,r.hostId,'resolveVoting'); assert.equal(r.voteRound,2);
+ closeVotes(r); assert.equal(r.voteRound,2);
  assert.deepEqual(new Set(r.runoffIds),new Set([id(r,6),id(r,7)]));
  assert.deepEqual(publicView(r,'actor2',time).me.action.targets,r.runoffIds);
  const before=JSON.stringify(r);
  assert.throws(()=>send(r,'actor2','vote',{targetId:id(r,8)}),{code:'INVALID_TARGET'});
  assert.equal(JSON.stringify(r),before);
  send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)});
- send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'night'); assert.equal(r.night,2);
+ abstainPending(r); send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'night'); assert.equal(r.night,2);
  assert.ok(r.seats.every(seat=>seat.alive));
 });
 
 test('a runoff with a winner exiles that player and leaves time for final words', () => {
  const r=setup(); dawn(r); send(r,r.hostId,'startVoting');
- send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)}); send(r,r.hostId,'resolveVoting');
- send(r,'actor0','vote',{targetId:id(r,7)}); send(r,r.hostId,'resolveVoting');
+ send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)}); closeVotes(r);
+ send(r,'actor0','vote',{targetId:id(r,7)}); closeVotes(r);
  assert.equal(r.seats[7].alive,false); assert.equal(r.phase.step,'afterVote');
  send(r,r.hostId,'startNight'); assert.equal(r.night,2);
 });
@@ -875,7 +880,7 @@ function electionRoom() {
  let limit=0; while(r.phase.kind==='night' && limit++<100) advanceTestNight(r);
  assert.equal(r.phase.kind,'sheriff'); assert.equal(r.phase.step,'nomination'); return r;
 }
-function nominate(r, candidates) { for(let i=0;i<r.seats.length;i++) send(r,`actor${i}`,'sheriffInterest',{run:candidates.includes(i)}); }
+function nominate(r, candidates) { for(let i=0;i<r.seats.length;i++) send(r,`actor${i}`,'sheriffInterest',{run:candidates.includes(i)}); assert.equal(r.phase.step,'nomination'); send(r,r.hostId,'advanceElection'); }
 test('new room defaults use first-night witch self-save and guard plus antidote death',()=>{
  const r=createRoom({code:'TEST',hostId:'host',hostName:'Host',now:++time});
  assert.equal(r.settings.witchSelfSave,'firstNight'); assert.equal(r.settings.guardAntidote,'kill');
@@ -891,7 +896,7 @@ test('automatic Sheriff election hides deaths, excludes candidates and withdrawa
  nominate(r,[0,2]); assert.equal(r.speakerSeatId,id(r,0));
  assert.throws(()=>send(r,'actor2','sheriffSpeechDone'),{code:'NO_ABILITY'});
  send(r,'actor0','sheriffSpeechDone'); assert.equal(r.speakerSeatId,id(r,2));
- send(r,'actor2','sheriffWithdraw'); assert.equal(r.phase.kind,'voting');
+ send(r,'actor2','sheriffWithdraw'); send(r,r.hostId,'advanceElection'); assert.equal(r.phase.kind,'voting');
  assert.throws(()=>send(r,'actor2','vote',{targetId:id(r,0)}),{code:'NO_VOTE'});
  assert.equal(publicView(r,'actor0',time).me.action,null);
  assert.throws(()=>send(r,r.hostId,'resolveVoting'),{code:'ELECTION_AUTOMATIC'});
@@ -908,31 +913,39 @@ test('automatic Sheriff election hides deaths, excludes candidates and withdrawa
  assert.equal(publicView(r,'actor2',time).me.privateLog.filter(entry=>entry.text.en==='A: wolf.').length,1);
  send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.kind,'day');
 });
-test('withdrawal during Sheriff voting invalidates affected votes and requires those voters to choose again',()=>{
- const r=electionRoom(); nominate(r,[0,2]); send(r,'actor0','sheriffSpeechDone'); send(r,'actor2','sheriffSpeechDone');
- send(r,'actor1','vote',{targetId:id(r,2)}); send(r,'actor2','sheriffWithdraw');
- assert.equal(Object.hasOwn(r.votes,id(r,1)),false); assert.equal(publicView(r,'actor2',time).me.action,null);
- assert.deepEqual(publicView(r,'actor1',time).me.action.targets,[id(r,0)]);
- assert.throws(()=>send(r,'actor3','vote',{targetId:id(r,2)}),{code:'NO_VOTE'});
- for(const i of [3,4,5]) send(r,`actor${i}`,'vote',{targetId:id(r,0)});
- assert.equal(r.phase.kind,'voting'); send(r,'actor1','vote',{targetId:id(r,0)}); assert.equal(r.phase.step,'sheriffResult');
+test('withdrawal can be undone before the ballot, but never during voting',()=>{
+ const r=electionRoom(); nominate(r,[0,2]);
+ send(r,'actor2','sheriffWithdraw'); assert.ok(!r.election.candidateIds.includes(id(r,2)));
+ send(r,'actor2','sheriffRejoin'); assert.ok(r.election.candidateIds.includes(id(r,2)));
+ send(r,r.hostId,'advanceElection');
+ assert.throws(()=>send(r,'actor2','sheriffWithdraw'),{code:'WRONG_PHASE'});
+ assert.throws(()=>send(r,'actor2','sheriffRejoin'),{code:'WRONG_PHASE'});
+ assert.throws(()=>send(r,'actor2','vote',{targetId:id(r,0)}),{code:'NO_VOTE'});
+ for(const i of [1,3,4,5]) send(r,`actor${i}`,'vote',{targetId:id(r,2)});
+ assert.equal(r.sheriffSeatId,id(r,2));
 });
 test('no nominations and tied Sheriff ballots produce no badge; all-candidate rooms cannot deadlock',()=>{
  for(const candidates of [[],[0,2],[0,1,2,3,4,5]]) {
   const r=electionRoom(); nominate(r,candidates);
-  while(r.phase.kind==='sheriff') send(r,r.seats.find(s=>s.id===r.speakerSeatId).actorId,'sheriffSpeechDone');
+  while(r.speakerSeatId) send(r,r.seats.find(s=>s.id===r.speakerSeatId).actorId,'sheriffSpeechDone');
+  send(r,r.hostId,'advanceElection');
   if(r.phase.kind==='voting') for(const i of [1,3,4,5]) send(r,`actor${i}`,'vote',{targetId:id(r,i<4?0:2)});
   assert.equal(r.sheriffSeatId,null); assert.deepEqual(r.phase.publicCues,['sheriff-none']);
  }
 });
-test('election waits indefinitely for offline decisions; hard skip preserves choices and remains host-only',()=>{
+test('elections wait for declarations and votes; host opens speeches and voting explicitly',()=>{
  const r=electionRoom(); send(r,'actor2','sheriffInterest',{run:true});
  const before=r.phase.id; tickRoom(r,time+3600000); assert.equal(r.phase.id,before);
- assert.throws(()=>send(r,'actor1','hardSkip'),{code:'HOST_ONLY'});
- send(r,r.hostId,'hardSkip'); assert.equal(r.speakerSeatId,id(r,2));
- const speakerPhase=r.phase.id; tickRoom(r,time+7200000); assert.equal(r.phase.id,speakerPhase);
- send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'voting');
- send(r,'actor1','vote',{targetId:id(r,2)}); send(r,r.hostId,'hardSkip'); assert.equal(r.sheriffSeatId,id(r,2));
+ assert.throws(()=>send(r,'actor1','advanceElection'),{code:'HOST_ONLY'});
+ assert.throws(()=>send(r,r.hostId,'advanceElection'),{code:'DECLARATIONS_PENDING'});
+ assert.throws(()=>send(r,r.hostId,'hardSkip'),{code:'DECLARATIONS_PENDING'});
+ for(const i of [0,1,3,4,5]) send(r,`actor${i}`,'sheriffInterest',{run:false});
+ assert.equal(r.phase.step,'nomination'); send(r,r.hostId,'advanceElection');
+ assert.equal(r.speakerSeatId,id(r,2)); send(r,'actor2','sheriffSpeechDone');
+ assert.equal(r.phase.step,'speeches'); send(r,r.hostId,'advanceElection');
+ assert.throws(()=>send(r,r.hostId,'hardSkip'),{code:'VOTES_PENDING'});
+ for(const i of [0,1,3,4,5]) send(r,`actor${i}`,'vote',{targetId:id(r,2)});
+ assert.equal(r.sheriffSeatId,id(r,2));
  const announcement=r.phase.id; send(r,r.hostId,'pause'); tickRoom(r,time+3600000); assert.equal(r.phase.id,announcement);
  send(r,r.hostId,'resume'); tickRoom(r,r.phase.deadline+1); assert.equal(r.phase.step,'dawn');
 });
@@ -952,13 +965,13 @@ test('legacy Sheriff ballots upgrade without replaying overnight actions or deat
  const r=setup(); dawn(r); const rounds=r.replay.filter(round=>round.type==='night').length;
  r.phase={id:'old-election',kind:'voting',step:'sheriff',number:1,paused:false,deadline:null}; delete r.election;
  assert.ok(publicView(r,'actor1',time).me.action); tickRoom(r,++time);
- send(r,'actor1','vote',{targetId:id(r,2)}); send(r,r.hostId,'hardSkip');
+ send(r,'actor1','vote',{targetId:id(r,2)}); abstainPending(r);
  assert.equal(r.phase.step,'sheriffResult'); send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.kind,'day');
  assert.equal(r.replay.filter(round=>round.type==='night').length,rounds);
 });
 test('all public result cues have Brian recordings in both languages and neutral avatars have unique IDs',()=>{
  const manifest=JSON.parse(fs.readFileSync(path.join(__dirname,'../../public/assets/werewolf/audio/manifest.json'),'utf8'));
- for(const cue of ['night-deaths','peaceful-night','sheriff-elected','sheriff-none','sheriff-nomination','sheriff-discussion',...Array.from({length:24},(_,i)=>`seat-${i+1}`)]) for(const language of ['en','zh']) {
+ for(const cue of ['day-deaths','night-deaths','peaceful-night','sheriff-elected','sheriff-none','sheriff-nomination','sheriff-discussion',...Array.from({length:24},(_,i)=>`seat-${i+1}`)]) for(const language of ['en','zh']) {
   const clip=manifest.clips[`${language}:${cue}`]; assert.ok(clip?.duration>0);
   assert.ok(fs.statSync(path.join(__dirname,'../../public',clip.src)).size>1000);
  }
@@ -969,7 +982,7 @@ test('all public result cues have Brian recordings in both languages and neutral
 test('withdrawing during nominations stays withdrawn and cannot regain voting rights',()=>{
  const r=electionRoom(); send(r,'actor0','sheriffInterest',{run:true}); send(r,'actor0','sheriffWithdraw');
  for(let i=1;i<6;i++) send(r,`actor${i}`,'sheriffInterest',{run:i===2});
- assert.deepEqual(r.election.candidateIds,[id(r,2)]); send(r,'actor2','sheriffSpeechDone');
+ assert.deepEqual(r.election.candidateIds,[id(r,2)]); send(r,r.hostId,'advanceElection'); send(r,'actor2','sheriffSpeechDone'); send(r,r.hostId,'advanceElection');
  assert.equal(publicView(r,'actor0',time).me.action,null); assert.ok(!r.election.voterIds.includes(id(r,0)));
 });
 
@@ -1005,4 +1018,36 @@ test('speaking timers are host-only, adjustable, pause-safe and never advance th
 test('candidate speech timers end when the next candidate takes the floor',()=>{
  const r=electionRoom(); nominate(r,[0,2]); send(r,r.hostId,'setSpeechTimer',{seconds:45});
  send(r,'actor0','sheriffSpeechDone'); assert.equal(r.speakingTimer,null); assert.equal(r.speakerSeatId,id(r,2));
+});
+
+test('all eligible ballots including abstention are required across every host advance route',()=>{
+ const r=setup(); dawn(r); send(r,r.hostId,'startVoting');
+ send(r,'actor0','vote',{targetId:id(r,6)});
+ send(r,'actor1','vote',{targetId:null});
+ send(r,'actor2','leave');
+ const pending=publicView(r,'actor1',time).pendingVoterIds;
+ assert.equal(pending.length,7); assert.ok(pending.includes(id(r,2)));
+ assert.ok(!pending.includes(id(r,1))); assert.equal(publicView(r,'actor3',time).votes,undefined);
+ for(const type of ['resolveVoting','nextPhase','hardSkip']) {
+  const before=JSON.stringify(r); assert.throws(()=>send(r,r.hostId,type),{code:'VOTES_PENDING'}); assert.equal(JSON.stringify(r),before);
+ }
+ time+=3600000; tickRoom(r,time); assert.equal(r.phase.kind,'voting');
+ abstainPending(r); send(r,r.hostId,'resolveVoting'); assert.equal(r.phase.step,'dayDeaths');
+ assert.deepEqual(r.phase.publicCues,['day-deaths','seat-7']);
+ send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.step,'afterVote');
+});
+test('daytime shots announce all linked casualties before another Hunter action',()=>{
+ const r=setup(['werewolf','werewolf','hunter','wolfKing','cupid','villager','villager','villager','villager']);
+ dawn(r); r.seats[2].alive=false; r.pendingShots=[id(r,2)]; r.phase={id:'shot-phase',kind:'reaction',step:'shoot',paused:false};
+ r.seats[3].state.loverId=id(r,5); r.seats[5].state.loverId=id(r,3);
+ send(r,'actor2','shoot',{targetId:id(r,3)});
+ assert.equal(r.phase.step,'dayDeaths'); assert.deepEqual(r.phase.publicCues,['day-deaths','seat-4','seat-6']);
+ assert.throws(()=>send(r,'actor3','shoot',{targetId:id(r,0)}),{code:'WRONG_PHASE'});
+ send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.kind,'reaction');
+ send(r,'actor3','shoot',{targetId:id(r,0)}); assert.deepEqual(r.phase.publicCues,['day-deaths','seat-1']);
+});
+test('a winning daytime kill keeps the death announcement before game over',()=>{
+ const r=setup(); dawn(r); r.seats[0].alive=false; r.seats[5].alive=false; r.pendingShots=[id(r,5)]; r.phase={id:'last-shot',kind:'reaction',step:'shoot',paused:false};
+ send(r,'actor5','shoot',{targetId:id(r,1)});
+ assert.equal(r.status,'finished'); assert.deepEqual(r.phase.publicCues,['day-deaths','seat-2','game-over']);
 });

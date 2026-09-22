@@ -414,3 +414,18 @@ test('speaking bell rings on the unlocked media path even with voice muted and n
  assert.equal(f.audio.ringTimer(),true); await flush(); assert.ok(f.voice().src.endsWith('/timer-bell.wav'));
  await f.finish(); assert.deepEqual(f.acknowledgments,[]); assert.equal(f.voice().paused,true);
 });
+
+test("music keeps its playback position through repeated unlocks and night/day transitions", async t => {
+ const f=fixture(t); f.options.music=true; f.audio.configure(f.options); f.audio.updatePhase({id:"day-one",kind:"day",step:"discussion"});
+ await f.unlock(); await flush(); const music=f.music(); music.currentTime=37;
+ const starts=f.records.filter(record=>record.url.includes("/music/")).length;
+ await f.unlock();
+ for(const phase of [{id:"night-one",kind:"night",step:"wolves",nightStage:"opening" as const,nightCues:["wolves"]},{id:"wolves-acting",kind:"night",step:"wolves",nightStage:"acting" as const},{id:"next-day",kind:"day",step:"discussion"}]) { f.audio.updatePhase(phase); await flush(); }
+ assert.equal(music.currentTime,37); assert.equal(music.paused,false); assert.equal(f.records.filter(record=>record.url.includes("/music/")).length,starts);
+});
+test("daytime death announcements include seat numbers before a winning game's final cue", async t => {
+ const f=fixture(t); f.audio.configure(f.options); f.audio.updatePhase({id:"end",kind:"finished",publicCues:["day-deaths","seat-2","game-over"]});
+ await f.unlock(); await flush(); assert.equal(f.latest().url,pathFor("day-deaths"));
+ f.voice().finish(); await flush(); assert.equal(f.latest().url,pathFor("seat-2"));
+ f.voice().finish(); await flush(); assert.equal(f.latest().url,pathFor("game-over"));
+});

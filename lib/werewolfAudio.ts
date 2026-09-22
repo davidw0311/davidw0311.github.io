@@ -13,7 +13,7 @@ type Options = { voice: boolean; music: boolean; track?: string; language: "en" 
 type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
 for (let number = 1; number <= 24; number++) CUES.add(`seat-${number}`);
-for (const cue of ["night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion"]) CUES.add(cue);
+for (const cue of ["day-deaths", "night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion"]) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 
 // A short, valid, unmuted PCM audio track for granting each persistent media
@@ -99,6 +99,9 @@ export class WerewolfAudio {
   async unlock(): Promise<void> {
     if (this.disposed) return;
     try { this.ensureMedia(); } catch { this.report("error", this.message("Audio playback is unavailable in this browser.", "此浏览器无法播放音频。")); return; }
+    if (this.narrationReady && this.musicReady && !this.priming) {
+      void this.musicContext?.resume(); this.syncMusic(); this.report("ready"); return;
+    }
     this.priming = false; this.musicPriming = false;
     this.stopNarration(); this.stopMusic();
     const attempt = ++this.primeGeneration;
@@ -187,7 +190,7 @@ export class WerewolfAudio {
     else if (phase.kind === "day") this.cues = phase.step === "afterVote" ? ["vote-result"] : previous?.kind === "night" ? ["dawn", "discussion"] : ["discussion"];
     else if (phase.kind === "voting") this.cues = [phase.step === "sheriff" ? "sheriff-voting" : "voting"];
     else if (phase.kind === "reaction") this.cues = [...(previous?.kind === "night" ? ["dawn"] : []), "reaction"];
-    else this.cues = phase.kind === "finished" ? ["game-over"] : [];
+    else this.cues = phase.kind === "finished" ? phase.publicCues?.length ? [...phase.publicCues] : ["game-over"] : [];
     this.stopNarration();
     this.replay();
     this.syncMusic();
