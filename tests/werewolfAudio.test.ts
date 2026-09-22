@@ -407,3 +407,10 @@ test("peaceful night and Chinese seat clips use Brian without treating candidate
  f.audio.updatePhase({id:"peace",kind:"announcement",step:"dawn",publicCues:["peaceful-night"]});
  await flush(); assert.ok(f.latest().url.endsWith('/zh/peaceful-night.mp3')); await f.finish(); assert.deepEqual(f.acknowledgments,["peace"]);
 });
+
+test('speaking bell rings on the unlocked media path even with voice muted and never acknowledges a phase',async t=>{
+ const f=fixture(t); f.audio.configure({...f.options,voice:false}); f.audio.updatePhase({id:'talk',kind:'day',step:'discussion'});
+ assert.equal(f.audio.ringTimer(),false); await f.unlock(); await flush();
+ assert.equal(f.audio.ringTimer(),true); await flush(); assert.ok(f.voice().src.endsWith('/timer-bell.wav'));
+ await f.finish(); assert.deepEqual(f.acknowledgments,[]); assert.equal(f.voice().paused,true);
+});

@@ -9,7 +9,8 @@ import audioManifest from "@/public/assets/werewolf/audio/manifest.json";
 import { useWerewolfRoom, type Action, type Catalogue, type Command, type GameView, type Language, type Localized, type Role, type Settings } from "@/lib/werewolfClient";
 import { WerewolfAudio } from "@/lib/werewolfAudio";
 import { CircleSeats, ProfilePicker, WolfHead } from "./PlayerFeatures";
-import { StageBanner, ElectionPanel, VoteReview, stageText } from "./RoomStage";
+import { StageBanner, ElectionPanel, VoteReview, SpeakingTimer, stageText } from "./RoomStage";
+import { normalizeRoomCode } from "@/lib/werewolfEntry";
 import musicTracks from "@/public/assets/werewolf/audio/music.json";
 import styles from "./werewolf.module.css";
 
@@ -30,6 +31,7 @@ const witchSelfSaveLabels: Record<string, Localized> = {
 };
 function witchSelfSaveRule(value: Settings["witchSelfSave"]) { return value === "firstNight" ? "firstNight" : value === true ? "always" : "never"; }
 const errorChinese: Record<string, string> = {
+  INVALID_TIMER: "请选择5至900秒。",
   ELECTION_AUTOMATIC: "警长竞选会自动进行，请等待玩家提交或使用强制跳过。",
   "room-disbanded": "房主已解散房间。", NOT_READY: "所有玩家查看身份并准备后才能开始首夜。", VOTE_REQUIRED: "请先完成今天的放逐投票。", VOTE_COMPLETE: "今天的放逐投票已经完成。", INVALID_PHOTO: "请选择头像图标或小尺寸JPEG图片。",
   NIGHT_FLOW_CONTROLLED: "夜间由语音与玩家行动自动推进，无需房主操作。", ACTION_ALREADY_SUBMITTED: "行动已提交，请等待其他玩家完成。", PAUSE_REQUIRED: "请先暂停夜间流程，再使用紧急跳过。",
@@ -47,12 +49,15 @@ function Modal({ title, children, onClose }: { title: string; children: ReactNod
 export default function WerewolfApp() {
   const room = useWerewolfRoom();
   const [lang, setLang] = useState<Language>("en");
-  const [entry, setEntry] = useState<"create" | "join" | "recover">("create");
+  const [entry, setEntry] = useState<"create" | "join" | "recover">("join");
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [recovery, setRecovery] = useState("");
   const [skipPhaseId, setSkipPhaseId] = useState<string | null>(null);
   const [modal, setModal] = useState<"library" | "settings" | "people" | "recovery" | "rules" | "leave" | "invite" | "hardSkip" | "profile" | "history" | "disband" | "credits" | "votes" | null>(null);
+  const [seenKey, setSeenKey] = useState<string | null>(null);
+  const [dismissedInspection, setDismissedInspection] = useState("");
+  const rungTimers = useRef(new Set<string>());
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [inviteUrl, setInviteUrl] = useState("");
@@ -68,9 +73,9 @@ export default function WerewolfApp() {
   const audioRef = useRef<WerewolfAudio | null>(null);
   const [now, setNow] = useState(0);
   const view = room.view;
-  const identityKey = `${view?.code}:${view?.status}:${view?.me?.seatId}:${view?.me?.roleId}`;
+  const identityKey = `${view?.code}:${view?.gameId}:${view?.status}:${view?.me?.seatId}:${view?.me?.roleId}`;
   const revealed = revealedKey === identityKey;
-  const setRevealed = (show: boolean) => setRevealedKey(show ? identityKey : null);
+  const setRevealed = (show: boolean) => { setRevealedKey(show ? identityKey : null); if (show) setSeenKey(identityKey); };
   const t = (en: string, zh: string) => lang === "en" ? en : zh;
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -118,6 +123,13 @@ export default function WerewolfApp() {
     if (view?.phase) audio.updatePhase(view.phase);
     void audio.testSound();
   };
+  useEffect(() => {
+    const timer = view?.speakingTimer;
+    if (!timer?.endsAt || view?.phase.paused || !soundReady) return;
+    const lateness = now + (view?.clockOffset || 0) - timer.endsAt;
+    if (lateness < 0 || lateness > 10000 || rungTimers.current.has(timer.id)) return;
+    if (audioRef.current?.ringTimer()) rungTimers.current.add(timer.id);
+  }, [now, soundReady, view?.speakingTimer, view?.phase.paused, view?.clockOffset]);
   const narrationPhaseId = view?.phase.id;
   const narrationStage = view?.phase.kind === "announcement" ? "announcement" : view?.phase.nightStage;
   const narrationPaused = view?.phase.paused;
@@ -157,6 +169,10 @@ export default function WerewolfApp() {
     setInviteUrl(`${window.location.origin}/werewolf/?room=${view.code}`);
     setModal("invite");
   };
+  const copyCode = async () => {
+    if (!view) return;
+    try { await navigator.clipboard.writeText(view.code); setCopied(true); } catch { showInvite(); }
+  };
   const share = async () => {
     if (!view) return;
     setCopyFailed(false);
@@ -193,11 +209,11 @@ export default function WerewolfApp() {
         <div className={styles.entryFacts}><span><Users size={17} />{t("6–24 players", "6–24 名玩家")}</span><span><Translate size={17} />English / 中文</span><span><Moon size={17} />{t(`${catalogue.roles.length} playable roles`, `${catalogue.roles.length} 种可玩角色`)}</span></div>
       </section>
       <section className={styles.entryPanel} aria-label={t("Enter a game", "进入游戏")}>
-        <div className={styles.entryTabs}><button className={entry === "create" ? styles.activeTab : ""} onClick={() => setEntry("create")}>{t("Create a room", "创建房间")}</button><button className={entry !== "create" ? styles.activeTab : ""} onClick={() => setEntry("join")}>{t("Join a room", "加入房间")}</button></div>
+        <div className={styles.entryTabs}><button className={entry !== "create" ? styles.activeTab : ""} onClick={() => setEntry("join")}>{t("Join a room", "加入房间")}</button><button className={entry === "create" ? styles.activeTab : ""} onClick={() => setEntry("create")}>{t("Create a room", "创建房间")}</button></div>
         <div className={styles.entryFormHeading}><h2>{entry === "create" ? t("Your table awaits.", "好戏，等你开场。") : entry === "recover" ? t("Take back your table.", "找回你的房间。") : t("Take your seat.", "请入座。")}</h2><p>{entry === "create" ? t("You’re the host. Invite friends, choose your roles, and set the night in motion.", "成为房主，邀请好友，配置角色，开启这个夜晚。") : entry === "recover" ? t("Use the private recovery key saved when you created this room.", "输入创建房间时保存的私人恢复密钥。") : t("Enter your name to join the lobby instantly. After the game starts, the host approves new devices and seat replacements.", "输入名字即可直接加入大厅。游戏开始后，新设备加入或接替原座位须由房主批准。")}</p></div>
         <form onSubmit={enterRoom} className={styles.entryForm}>
           <label>{t("Your name", "你的名字")}<input value={name} onChange={(event) => setName(event.target.value)} required maxLength={24} autoComplete="nickname" placeholder={t("What should we call you?", "怎么称呼你？")} /></label>
-          {entry !== "create" && <label>{t("Room code", "房间码")}<input value={code} onChange={(event) => setCode(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ""))} required maxLength={8} minLength={4} pattern="([A-Za-z]{4}|[A-Fa-f0-9]{8})" autoCapitalize="characters" placeholder="MOON" className={styles.codeInput} /></label>}
+          {entry !== "create" && <label>{t("Room code", "房间码")}<input value={code} onChange={(event) => setCode(normalizeRoomCode(event.target.value))} onPaste={(event) => { event.preventDefault(); setCode(normalizeRoomCode(event.clipboardData.getData("text"))); }} autoComplete="off" autoCorrect="off" spellCheck={false} required maxLength={8} minLength={4} pattern="([A-Za-z]{4}|[A-Fa-f0-9]{8})" autoCapitalize="characters" placeholder="MOON" className={styles.codeInput} /></label>}
           {entry === "recover" && <label>{t("Host recovery key", "房主恢复密钥")}<input value={recovery} onChange={(event) => setRecovery(event.target.value)} required autoComplete="off" type="password" /></label>}
           <button className={styles.primaryButton} disabled={!!room.busy || !room.restored} type="submit">{room.busy ? t("Connecting…", "连接中…") : entry === "create" ? t("Create room", "创建房间") : entry === "recover" ? t("Recover host access", "恢复房主权限") : t("Join room", "加入房间")}<ArrowRight size={19} /></button>
         </form>
@@ -207,16 +223,23 @@ export default function WerewolfApp() {
     </div>}
     {!view && room.session && <div className={styles.loading}><Moon size={44} /><h1>{t("Finding your table…", "正在返回房间…")}</h1><p>{t("Restoring your private seat and the latest game state.", "正在恢复你的身份与最新游戏进度。")}</p><button className={styles.secondaryButton} onClick={() => room.disconnect()}>{t("Return to room selection", "返回房间选择")}</button></div>}
     {view && <div className={styles.roomLayout}>
-      <div className={styles.roomBar}><div><span className={styles.eyebrow}>{t("PRIVATE TABLE", "私人牌局")}</span><button className={styles.roomCode} onClick={share} title={t("Copy invitation link", "复制邀请链接")}>{view.code}{copied ? <Check size={19} /> : <Copy size={19} />}</button></div><div className={styles.roomBarActions}><span className={`${styles.connectionState} ${room.connectivity === "online" ? styles.isOnline : ""}`}>{room.connectivity === "online" ? <WifiHigh size={15} /> : <WifiSlash size={15} />}{room.connectivity === "online" ? t("Connected", "已连接") : t("Reconnecting", "重连中")}</span><button className={styles.secondaryButton} onClick={showInvite}><QrCode size={18} />{t("Invite / QR code", "邀请 / 二维码")}</button>{view.isHost && <button className={styles.iconButton} onClick={() => setModal("settings")} aria-label={t("Room settings", "房间设置")}><GearSix size={21} /></button>}<button className={styles.iconButton} onClick={() => setModal("leave")} aria-label={t("Leave room", "离开房间")}><SignOut size={21} /></button></div></div>
+      <div className={styles.roomBar}><div><span className={styles.eyebrow}>{t("PRIVATE TABLE", "私人牌局")}</span><button className={styles.roomCode} onClick={copyCode} title={t("Copy room code", "复制房间码")}>{view.code}{copied ? <Check size={19} /> : <Copy size={19} />}</button></div><div className={styles.roomBarActions}><span className={`${styles.connectionState} ${room.connectivity === "online" ? styles.isOnline : ""}`}>{room.connectivity === "online" ? <WifiHigh size={15} /> : <WifiSlash size={15} />}{room.connectivity === "online" ? t("Connected", "已连接") : t("Reconnecting", "重连中")}</span><button className={styles.secondaryButton} onClick={showInvite}><QrCode size={18} />{t("Invite / QR code", "邀请 / 二维码")}</button>{view.isHost && <button className={styles.iconButton} onClick={() => setModal("settings")} aria-label={t("Room settings", "房间设置")}><GearSix size={21} /></button>}<button className={styles.iconButton} onClick={() => setModal("leave")} aria-label={t("Leave room", "离开房间")}><SignOut size={21} /></button></div></div>
       <div className={styles.gameColumns}>
         <section className={styles.tablePanel}>
           <div className={styles.phaseHeading}><div className={styles.phaseIcon}>{view.phase.kind === "night" || view.status === "lobby" ? <Moon size={26} weight="duotone" /> : view.phase.kind === "voting" ? <HandPalm size={25} /> : <Sun size={27} />}</div><div><span className={styles.eyebrow}>{view.status === "lobby" ? t("THE LOBBY", "等候大厅") : view.status === "finished" ? t("GAME OVER", "游戏结束") : view.phase.kind === "ready" ? t("READ YOUR CARD", "查看身份") : `${view.phase.kind === "night" ? t("NIGHT", "夜晚") : t("DAY", "白天")} ${view.phase.kind === "night" ? view.phase.number || 1 : view.day || 1}`}</span><h1>{title}</h1></div>{remaining !== null && view.status === "playing" && <div className={styles.timer}><Hourglass size={16} /><span>{view.phase.paused ? t("Paused", "已暂停") : `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, "0")}`}</span></div>}</div>
           {view.phase.paused && <div className={styles.notice}><Pause size={18} />{t("The table is paused. The host can resume when everyone is ready.", "牌局已暂停，所有人准备好后房主可继续游戏。")}</div>}
           {view.phase.nightStage && !view.phase.paused && <div className={styles.nightProgress} role="status"><SpeakerHigh size={18} /><span>{view.phase.nightStage === "opening" ? t("Listen to the narrator. Your action appears after the announcement.", "请听语音提示，播报结束后将显示你的行动。") : view.phase.nightStage === "closing" ? t("Keep your eyes closed. The next role will be called automatically.", "请保持闭眼，稍后将自动呼叫下一个角色。") : t("Submit your action or skip. Actions wait until submitted or the host skips this step.", "请提交行动或跳过。行动将等待提交，或由房主强制跳过当前阶段。")}</span></div>}
           {!view.me && <div className={styles.pendingNotice}><Hourglass size={20} /><div><strong>{view.status === "lobby" ? t("Waiting for a free seat", "等待空余座位") : t("Your seat is waiting for approval", "正在等待房主安排座位")}</strong><p>{view.status === "lobby" ? t("This lobby is full. You’ll join automatically when a seat becomes available.", "大厅已满。出现空余座位后，你将自动加入。") : t("Your host can restore an existing seat, including its original role and history.", "房主可安排你接替已有座位，保留其原有身份与历史。")}</p></div></div>}
-          {view.lastNight && view.phase.kind !== "night" && <p className={styles.overnightResult}>{view.lastNight.numbers.length ? t(`Last night’s deaths: ${view.lastNight.numbers.map(number => `seat ${number}`).join(", ")}`, `昨夜出局：${view.lastNight.numbers.map(number => `${number}号`).join("、")}`) : t("Last night: nobody died", "昨夜：平安夜")}</p>}
+
+          <SpeakingTimer view={view} lang={lang} now={now} disabled={disabled || view.phase.paused} soundReady={soundReady} onEnable={() => { const audio = moderatorAudio(); audio.configure({voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: true}); if(view.phase) audio.updatePhase(view.phase); void audio.unlock(); }} send={async command => {
+            if (command.type === "setSpeechTimer" && !soundReady) {
+              const audio = moderatorAudio(); audio.configure({voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: true}); void audio.unlock();
+            }
+            return send(command);
+          }} />
+          {view.me?.inspection && `${view.gameId}:${view.me.inspection.night}:${view.me.inspection.targetId}` !== dismissedInspection && <section className={styles.inspectionResult} role="status"><strong>{t("Your Seer result · only you can see this", "你的查验结果 · 仅自己可见")}</strong><p>{view.seats.findIndex(seat => seat.id === view.me?.inspection?.targetId) + 1} · {view.seats.find(seat => seat.id === view.me?.inspection?.targetId)?.name}: <b>{view.me.inspection.alignment === "wolf" ? t("WOLF", "狼人") : t("GOOD", "好人")}</b></p><button className={styles.secondaryButton} onClick={() => setDismissedInspection(`${view.gameId}:${view.me?.inspection?.night}:${view.me?.inspection?.targetId}`)}>{t("Hide result", "隐藏结果")}</button></section>}
           <CircleSeats view={view} lang={lang} onProfile={() => setModal("profile")} />
-          {view.phase.kind === "ready" && view.me && <section className={styles.readyPanel}><h2>{t("Take a moment with your card", "先看清你的身份")}</h2><p>{t("Reveal your role below, then mark yourself ready. Only the host can begin, once everyone is ready.", "请查看下方身份牌，然后点击准备。所有人准备后，房主才能开始首夜。")}</p><button className={styles.secondaryButton} onClick={() => setRevealed(true)}>{t("Show my card", "查看我的身份")}</button>{revealed && role && <p>{roleIcon(role,24)} <strong>{role.name[lang]}</strong> · {role.description[lang]}</p>}<button className={styles.primaryButton} disabled={disabled || (!revealed && !view.me.ready)} onClick={() => void send({ type: "ready", ready: !view.me?.ready })}>{view.me.ready ? t("Ready · undo", "已准备 · 取消准备") : t("I have read my card · ready", "已查看身份 · 准备")}</button><p>{view.seats.filter(seat => seat.ready).length} / {view.seats.length} {t("ready", "人已准备")}</p></section>}
+          {view.phase.kind === "ready" && view.me && <section className={styles.readyPanel}><h2>{t("Take a moment with your card", "先看清你的身份")}</h2><p>{t("Reveal your role below, then mark yourself ready. Only the host can begin, once everyone is ready.", "请查看下方身份牌，然后点击准备。所有人准备后，房主才能开始首夜。")}</p><button className={styles.secondaryButton} onClick={() => setRevealed(!revealed)}>{revealed ? t("Hide my card", "隐藏我的身份") : t("Show my card", "查看我的身份")}</button>{revealed && role && <p>{roleIcon(role,24)} <strong>{role.name[lang]}</strong> · {role.description[lang]}</p>}<button className={styles.primaryButton} disabled={disabled || (seenKey !== identityKey && !view.me.ready)} onClick={() => void send({ type: "ready", ready: !view.me?.ready })}>{view.me.ready ? t("Ready · undo", "已准备 · 取消准备") : t("I have read my card · ready", "已查看身份 · 准备")}</button><p>{view.seats.filter(seat => seat.ready).length} / {view.seats.length} {t("ready", "人已准备")}</p></section>}
           <div className={styles.tableFooter}><button className={styles.secondaryButton} onClick={() => setModal("votes")}>{t("Last votes", "上轮投票")}</button><span><Users size={17} />{connected} {t("at the table", "人已入座")}{view.status !== "lobby" && ` · ${view.seats.filter((seat) => seat.alive).length} ${t("alive", "人存活")}`}</span><button className={styles.textButton} onClick={() => setModal("library")}>{t("View the deck", "查看角色配置")}<ArrowRight size={15} /></button></div>
           {view.status === "finished" && <div className={styles.result}><Crown size={30} /><h2>{text(winnerLabels[typeof view.winner === "string" ? view.winner : view.winner?.team || ""], lang) || t("The game has ended", "本局游戏结束")}</h2><p>{typeof view.winner === "object" && view.winner?.reason ? text(view.winner.reason, lang) : t("Every secret is now on the table. See the game record below.", "所有秘密现已揭晓。下方可查看本局游戏记录。")}</p></div>}
           {view.phase.kind === "voting" && <p className={styles.voteProgress}><HandPalm size={16} />{t(`${view.voteCount || 0} votes submitted. Choices stay hidden until voting closes.`, `已提交 ${view.voteCount || 0} 票，投票结束前不公开选择。`)}</p>}

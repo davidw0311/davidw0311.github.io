@@ -224,13 +224,25 @@ export class WerewolfAudio {
     next(0);
   }
 
+  /** A speaking-time bell; it never completes an action or narration phase. */
+  ringTimer(): boolean {
+    if (this.disposed || !this.narrationReady || !this.options.active) return false;
+    this.stopNarration();
+    this.testing = true; this.narrating = true; this.syncMusic();
+    const generation = this.generation;
+    void this.playClip("timer-bell", generation, () => {
+      this.testing = false; this.narrating = false; this.syncMusic(); this.report("ready");
+    }, true);
+    return true;
+  }
+
   private playClip(cue: string, generation: number, ended: () => void, test = false): Promise<void> {
     const media = this.narration!;
     const clip = ++this.clip;
     let started = false;
     let lastTime = 0;
     const current = () => !this.disposed && generation === this.generation && clip === this.clip && (test ? this.testing : this.options.active && this.options.voice);
-    this.prepare(media, `/assets/werewolf/audio/${this.options.language}/${cue}.mp3`, false);
+    this.prepare(media, cue === "timer-bell" ? "/assets/werewolf/audio/timer-bell.wav" : `/assets/werewolf/audio/${this.options.language}/${cue}.mp3`, false);
     const fail = (locked: boolean) => {
       if (!current()) return;
       if (locked) this.narrationReady = false;

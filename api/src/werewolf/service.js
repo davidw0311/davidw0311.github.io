@@ -1,4 +1,5 @@
 'use strict';
+const ROOM_WORDS = require('./room-words.json');
 const { createHash, randomBytes, timingSafeEqual } = require('node:crypto');
 const engine = require('./engine.js');
 
@@ -34,12 +35,15 @@ class WerewolfService {
     // Each candidate is reserved with the same CAS used by normal room writes.
     return this.store.transact(`creators/${actor}`, async old => {
       if (old?.code) return { value: old, changed: false, result: old.code };
-      for (let attempt = 0; attempt < 64; attempt++) {
+      const offset = parseInt(hash(`room:${token}:0`).slice(0, 10), 16) % ROOM_WORDS.length;
+      for (let attempt = 0; attempt < ROOM_WORDS.length + 64; attempt++) {
         let value = parseInt(hash(`room:${token}:${attempt}`).slice(0, 10), 16) % (26 ** 4);
         let code = '';
         for (let i = 0; i < 4; i++) { code = String.fromCharCode(65 + value % 26) + code; value = Math.floor(value / 26); }
+        if (attempt < ROOM_WORDS.length) code = ROOM_WORDS[(offset + attempt) % ROOM_WORDS.length];
         const claimed = await this.store.transact(`rooms/${code}`, room => {
-          if (room) return { value: room, changed: false, result: room._creator === actor && room.status !== 'disbanded' };
+          if (room && room.status !== 'disbanded' && now - room._lastActive <= 7 * 86400000) return { value: room, changed: false, result: room._creator === actor };
+          if (room && room._lastActive == null && room.status !== 'disbanded') return {value: room, changed: false, result: false};
           room = engine.createRoom({ code, hostId: actor, hostName: name, now });
           room._creator = actor; room._recoveryKey = randomBytes(24).toString('base64url');
           room._requests = {}; room._lastActive = now;

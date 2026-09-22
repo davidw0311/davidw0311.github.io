@@ -171,6 +171,16 @@ view=(await call(host,'command',{command:{type:'nightNarrationDone',expectedPhas
 assert.equal(view.phase.kind, 'day');
 assert.equal(view.day, 1);
 assert.ok(view.seats.every(seat => seat.alive));
+assert.deepEqual(view.lastNight.numbers,[]);
+await call(members.find(token=>token!==host),'command',{command:{type:'setSpeechTimer',seconds:5,expectedPhaseId:view.phase.id}},'HOST_ONLY');
+view=(await call(host,'command',{command:{type:'setSpeechTimer',seconds:30,expectedPhaseId:view.phase.id}})).view;
+const oldTimer=view.speakingTimer.id;
+view=(await call(host,'command',{command:{type:'setSpeechTimer',seconds:5,expectedPhaseId:view.phase.id}})).view;
+assert.notEqual(view.speakingTimer.id,oldTimer); const speakingPhase=view.phase.id;
+await new Promise(resolve=>setTimeout(resolve,5500)); view=(await call(host,'sync')).view;
+assert.equal(view.phase.id,speakingPhase); assert.ok(view.speakingTimer.endsAt<=view.serverTime);
+view=(await call(host,'command',{command:{type:'cancelSpeechTimer',expectedPhaseId:view.phase.id}})).view;
+assert.equal(view.speakingTimer,null);
 // Host secret can recover the existing seat on another device; old token is revoked.
 const hostState = await call(host, 'sync'); const oldHost = host; host = randomUUID();
 const recovery = await call(host, 'recover', { recoveryKey: hostState.recoveryKey, name: 'Recovered host' });
@@ -188,8 +198,19 @@ assert.equal(afterVote.view.voteRound, 2);
 const nightTwo = await call(host, 'command', {command:{type:'hardSkip',expectedPhaseId:afterVote.view.phase.id}});
 assert.equal(nightTwo.view.phase.kind, 'night');
 assert.ok(afterVote.view.seats.every(seat => seat.alive));
+view=nightTwo.view;
+while(view.phase.kind==='night' && view.phase.step!=='seer') view=(await call(host,'command',{command:{type:'hardSkip',expectedPhaseId:view.phase.id}})).view;
+view=(await call(host,'command',{command:{type:'nightNarrationDone',expectedPhaseId:view.phase.id}})).view;
+const currentMembers=members.map(token=>token===oldHost?host:token);
+let seerToken;
+for(const token of currentMembers) if((await call(token,'sync')).view.me.roleId==='seer') seerToken=token;
+const wolfSeat=initial.find(reply=>reply.view.me.roleId==='werewolf').view.me.seatId;
+const inspected=await call(seerToken,'command',{command:{type:'nightAction',targetId:wolfSeat,expectedPhaseId:view.phase.id}});
+assert.deepEqual(inspected.view.me.inspection,{night:2,targetId:wolfSeat,alignment:'wolf'});
+assert.equal((await call(currentMembers.find(token=>token!==seerToken),'sync')).view.me.inspection,null);
+
 // Disband also verifies that all participants lose access.
 await call(host, 'command', {command:{type:'disbandRoom'}});
 await call(members[1], 'sync', {}, 'room-disbanded');
 await call(randomUUID(), 'join', {name:'Late join'}, 'room-disbanded');
-console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, automatic Sheriff nominations/speeches/withdrawal/voting, numbered announcements, runoff voting, disbanding, and permissions.');
+console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, automatic Sheriff nominations/speeches/withdrawal/voting, numbered announcements, adjustable speaking timers without auto-advance, immediate private Seer results, runoff voting, disbanding, and permissions.');

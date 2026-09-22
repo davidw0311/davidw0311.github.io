@@ -353,3 +353,51 @@
   .waitingAction { display: none; }
   .circleScroll { padding-bottom: 65px; }
 }
+
+/* Keep the three essential facts together: who I am, the current step, and dawn. */
+.stageBanner { display: block; padding: 12px 16px; }
+.playerIdentity { display: flex; align-items: center; gap: 12px; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #64516b; }
+.selfPortrait { width: 44px; height: 44px; border-radius: 50%; background: #47384f; display: grid; place-items: center; flex-shrink: 0; font-size: 24px; overflow: hidden; }
+.playerIdentity > div:nth-child(2) { display: grid; min-width: 0; }
+.playerIdentity span { font-size: 12px; color: #d5bddb; font-weight: 700; letter-spacing: .06em; }
+.playerIdentity strong { font-size: 19px; line-height: 1.4; overflow-wrap: anywhere; }
+.playerIdentity > b { margin-left: auto; color: #b4ddc1; font-size: 12px; padding: 5px 9px; border: 1px solid #59836a; border-radius: 6px; flex-shrink: 0; }
+.youEliminated { background: #4d242d; border: 2px solid #de8996; padding: 10px; border-radius: 8px; }
+.youEliminated > b { background: #923e50; color: white; border-color: #efa5b1; }
+.stageLine { display: flex; align-items: baseline; gap: 12px; }
+.stageLine > span { font-size: 13px; color: #ccb5d1; flex-shrink: 0; }
+.stageLine > strong { font-size: 18px; line-height: 1.4; }
+.daybreakSummary { margin-top: 10px; border-top: 1px solid #675169; padding-top: 10px; color: #f6d7b7; font-size: 16px; max-height: 95px; overflow: auto; }
+.circleSeat.deadSeat { opacity: 1; }
+.deadSeat .avatar { filter: grayscale(1); border: 2px solid #d98494; background: #34202a; }
+.deadCross { position: absolute; inset: -6px; display: grid; place-items: center; color: #ffb5c5; font-size: 70px !important; font-weight: 500; line-height: 1; text-shadow: 0 1px 4px #000; }
+.deadSeat .seatStatus { background: #6e2c3b; color: #fff0f3; border: 1px solid #c77487; border-radius: 4px; padding: 2px 6px; font-weight: 800; }
+.deadSeat > strong { color: #d6a5af; text-decoration: line-through; }
+.inspectionResult { margin: 16px; padding: 20px; border: 2px solid #aa87c0; border-radius: 12px; background: #34253f; }
+.inspectionResult p { font-size: 22px; margin: 12px 0; }
+.speakingTimer { margin: 16px; padding: 16px; border: 1px solid #5f4e68; border-radius: 10px; background: #201b26; }
+.speakingTimer summary { cursor: pointer; font-size: 16px; }
+.speakingTimer label { margin: 16px 0; }
+.speakingTimer p { margin: 12px 0 0; font-size: 14px; }
+.timerReadout { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+.timerReadout strong { font-size: 26px; font-variant-numeric: tabular-nums; color: #f2dba4; }
+@media (max-width:650px) {
+  .stageBanner { padding: 10px 12px; }
+  .stageLine { gap: 8px; }
+  .stageLine > strong { font-size: 17px; }
+  .selfPortrait { width: 40px; height: 40px; }
+  .playerIdentity strong { font-size: 18px; }
+  .playerIdentity > b { font-size: 11px; padding: 4px 6px; }
+  .playerIdentity { gap: 9px; }
+  .inspectionResult { order: -4; }
+  .speakingTimer { order: -3; }
+  .circleSeat.deadSeat .seatStatus { font-size: 12px; }
+  .entryLayout { padding-top: 24px; }
+  .introduction > h1 { font-size: 36px; margin: 12px 0; }
+  .introduction .introCopy, .roleFan, .entryFacts { display: none; }
+  .entryLayout { gap: 12px; }
+  .entryPanel { padding: 20px; }
+  .readyPanel .primaryButton { margin-top: 12px; width: 100%; }
+}
+.deadSeat .avatar { filter: none; }
+.deadSeat .profilePhoto, .deadSeat .avatarEmoji { filter: grayscale(1); opacity: .45; }

@@ -89,3 +89,15 @@ Brian announces the elected seat, then the overnight deaths by seat number or a 
 New rooms default to Witch self-save on the first night only and death when Guard protection overlaps the Witch’s antidote. Existing rooms retain their chosen settings.
 
 A sticky bilingual banner always names the stage and scheduled acting role, including its decoy turn after death; it never identifies that role’s players. Phones use larger text and controls, place the current action before the circle, and collapse secondary sound controls. The table’s circular border now shares the avatar positions’ center and radius. Last votes opens the latest completed ballot’s totals and individual choices. The profile picker offers 60 neutral food, sport, vehicle, and hobby avatars, plus photo uploads.
+
+## Joining, private results, and speaking timers
+
+The entry screen defaults to Join. The room-code button copies only the code; the field accepts pasted codes, whitespace, labelled codes, and full invitation URLs. New room allocation prefers a curated pool of memorable four-letter words, checking every reservation atomically. Disbanded and seven-day-expired rooms can release a word for reuse; old seat tokens and recovery keys cannot access a new room. If every word is occupied, allocation safely falls back to four letters. Legacy eight-character codes remain accepted.
+
+Viewing a card and keeping it visible are separate: Ready stays available after the card is hidden. Game IDs prevent a card viewed in an earlier game from satisfying the next game’s readiness gate.
+
+Seer results appear privately immediately upon submitting, before the closing narration, with only wolf/good classification. Hidden Wolf retains its documented good reading, and other non-wolf alignments are reported as good. Magician swaps apply. Results remain in private history without a duplicate dawn notification.
+
+A persistent player strip shows your photo, name, seat number and alive/eliminated status. The same sticky area displays the last night’s casualties or peaceful-night result through daytime. Eliminated seats carry a large cross and explicit DEAD label.
+
+During village or candidate speeches, the host can start, restart/adjust, or cancel a shared 5–900 second timer. Pausing the room freezes it. Changing speaker or phase clears it. Expiry rings one original synthesized bell per enabled device; it never skips a player or advances a phase. The host’s Start timer tap unlocks audio. Other players can enable the timer sound on their own devices. Recent reconnects can catch the end signal, but an old expired timer does not ring again later.

@@ -412,12 +412,12 @@ test('legacy timed action windows and disconnect pauses migrate once across serv
 test('four-letter codes are retry-safe and collisions never reveal or overwrite another room', async () => {
  const {createHash}=require('node:crypto'); const t=setup();
  const digest=createHash('sha256').update(`room:${t.token}:0`).digest('hex');
- let n=parseInt(digest.slice(0,10),16)%(26**4), collision='';
- for(let i=0;i<4;i++){collision=String.fromCharCode(65+n%26)+collision;n=Math.floor(n/26);}
+ const words=require('../src/werewolf/room-words.json');
+ const collision=words[parseInt(digest.slice(0,10),16)%words.length];
  const occupied={_creator:'another-player',secret:'keep-private'};
  t.store.data.set(`rooms/${collision}`,occupied);
  const results=await Promise.all([t.call({op:'create',name:'Host'}),t.call({op:'create',name:'Host'})]);
- assert.match(results[0].view.code,/^[A-Z]{4}$/); assert.notEqual(results[0].view.code,collision);
+ assert.ok(words.includes(results[0].view.code)); assert.match(results[0].view.code,/^[A-Z]{4}$/); assert.notEqual(results[0].view.code,collision);
  assert.equal(results[0].view.code,results[1].view.code);
  assert.deepEqual(t.store.data.get(`rooms/${collision}`),occupied);
  assert.ok(!JSON.stringify(results).includes('keep-private'));
@@ -436,4 +436,20 @@ test('host disband revokes all members, pending applicants, recovery and joins a
  for(const token of [...t.members,applicant]) await assert.rejects(restarted.handle({op:'sync',code,token}),{code:'room-disbanded'});
  await assert.rejects(t.call({op:'join',code,token:randomUUID(),name:'Late'}),{code:'room-disbanded'});
  await assert.rejects(t.call({op:'recover',code,token:randomUUID(),recoveryKey:host.recoveryKey}),{code:'room-disbanded'});
+});
+
+test('word codes can be reused after disbanding without restoring old sessions or secrets',async()=>{
+ const t=setup(); const old=await t.call({op:'create',name:'Old host'}); const code=old.view.code;
+ await t.call({op:'command',code,command:{type:'disbandRoom'}});
+ const words=require('../src/werewolf/room-words.json'); const {createHash}=require('node:crypto');
+ let token; do { token=randomUUID(); } while(words[parseInt(createHash('sha256').update(`room:${token}:0`).digest('hex').slice(0,10),16)%words.length]!==code);
+ const fresh=await t.call({op:'create',token,name:'New host'}); assert.equal(fresh.view.code,code); assert.equal(fresh.view.seats.length,1); assert.equal(fresh.view.seats[0].name,'New host');
+ await assert.rejects(t.call({op:'sync',code}),{code:'NOT_SEATED'});
+ await assert.rejects(t.call({op:'recover',code,token:randomUUID(),recoveryKey:old.recoveryKey}),{code:'invalid-recovery-key'});
+});
+test('a full word pool safely falls back to four letters without overwriting occupied rooms',async()=>{
+ const t=setup(); const words=require('../src/werewolf/room-words.json');
+ for(const code of words) t.store.data.set(`rooms/${code}`,{_creator:'other',_lastActive:100000,secret:'private'});
+ const created=await t.call({op:'create',name:'Host'}); assert.match(created.view.code,/^[A-Z]{4}$/); assert.ok(!words.includes(created.view.code));
+ for(const code of words) assert.equal(t.store.data.get(`rooms/${code}`).secret,'private');
 });

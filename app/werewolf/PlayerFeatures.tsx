@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { Crown, Moon, Medal, Skull } from "@phosphor-icons/react";
+import { Crown, Moon, Medal } from "@phosphor-icons/react";
 import type { Command, GameView, Language, Seat } from "@/lib/werewolfClient";
 import avatars from "@/public/assets/werewolf/avatars.json";
 import catalogue from "@/public/assets/werewolf/roles.json";
@@ -24,8 +24,8 @@ export function CircleSeats({ view, lang, onProfile }: { view: GameView; lang: L
       const angle = index * 2 * Math.PI / view.seats.length - Math.PI / 2;
       const position = { left: `${50 + 39 * Math.cos(angle)}%`, top: `${50 + 39 * Math.sin(angle)}%` } as CSSProperties;
       return <div key={seat.id} style={position} className={`${styles.circleSeat} ${styles.seat} ${!seat.alive && view.status !== "lobby" ? styles.deadSeat : ""} ${seat.id === view.me?.seatId ? styles.mySeat : ""} ${seat.id === view.speakerSeatId ? styles.speakingSeat : ""}`}>
-        <button className={styles.avatar} disabled={seat.id !== view.me?.seatId} onClick={onProfile} aria-label={seat.id === view.me?.seatId ? t("Change profile photo", "更换头像") : seat.name}><Portrait seat={seat} />{!seat.alive && <Skull className={styles.eliminatedBadge} size={18} />}<span className={`${styles.presence} ${seat.connected && seat.occupied ? styles.present : ""}`} title={seat.connected ? t("Connected", "在线") : t("Offline; seat retained", "离线，座位保留")} />{seat.isHost && <Crown size={15} className={styles.hostCrown} />}</button>
-        {seat.isSheriff && <Medal className={styles.sheriffBadge} size={22} weight="fill" aria-label={t("Sheriff badge", "警徽")} />}<span className={styles.circleNumber}>{index + 1}</span><strong title={seat.name}>{seat.name}</strong><span className={styles.seatStatus}>{view.phase.kind === "ready" ? seat.ready ? t("Ready", "已准备") : t("Reading card", "查看身份中") : !seat.alive ? t("Eliminated", "已出局") : seat.isSheriff ? t("Sheriff", "警长") : seat.id === view.me?.seatId ? t("You", "你") : !seat.connected ? t("Offline", "离线") : t("At the table", "已入座")}</span>{seat.roleId && <small>{catalogue.roles.find(role => role.id === seat.roleId)?.name[lang] || seat.roleId}</small>}
+        <button className={styles.avatar} disabled={seat.id !== view.me?.seatId} onClick={onProfile} aria-label={seat.id === view.me?.seatId ? t("Change profile photo", "更换头像") : seat.name}><Portrait seat={seat} />{!seat.alive && <span className={styles.deadCross} aria-hidden="true">×</span>}<span className={`${styles.presence} ${seat.connected && seat.occupied ? styles.present : ""}`} title={seat.connected ? t("Connected", "在线") : t("Offline; seat retained", "离线，座位保留")} />{seat.isHost && <Crown size={15} className={styles.hostCrown} />}</button>
+        {seat.isSheriff && <Medal className={styles.sheriffBadge} size={22} weight="fill" aria-label={t("Sheriff badge", "警徽")} />}<span className={styles.circleNumber}>{index + 1}</span><strong title={seat.name}>{seat.name}</strong><span className={styles.seatStatus}>{view.phase.kind === "ready" ? seat.ready ? t("Ready", "已准备") : t("Reading card", "查看身份中") : !seat.alive ? t("DEAD", "已出局") : seat.isSheriff ? t("Sheriff", "警长") : seat.id === view.me?.seatId ? t("You", "你") : !seat.connected ? t("Offline", "离线") : t("At the table", "已入座")}</span>{seat.roleId && <small>{catalogue.roles.find(role => role.id === seat.roleId)?.name[lang] || seat.roleId}</small>}
       </div>;
     })}
   </div></div>{view.seats.length > 8 && <p className={styles.hint}>{t("Slide the table to see the full circle on a small screen.", "小屏幕上可滑动座位表，查看完整圆桌。")}</p>}</>;

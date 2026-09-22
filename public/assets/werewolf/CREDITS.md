@@ -9,3 +9,5 @@ Music by Kevin MacLeod (incompetech.com), licensed under [Creative Commons Attri
 - [Lightless Dawn](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100655) — Kevin MacLeod
 
 [Wolf head](https://game-icons.net/1x1/lorc/wolf-head.html) by Lorc, licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). Displayed as a recolored CSS mask.
+
+The speaking-timer bell is an original synthesized sound generated for Nightfall.
