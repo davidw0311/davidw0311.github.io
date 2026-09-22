@@ -40,6 +40,15 @@ const cues = {
   piper: ['Piper, open your eyes. Choose the players you wish to enchant.', '吹笛者请睁眼。请选择要迷惑的玩家。'],
   bloodMoonApostle: ['Blood Moon Apostle, open your eyes. Follow the private ability prompt on your device.', '血月使徒请睁眼。请根据设备上的私密技能提示行动。'],
 };
+Object.assign(cues, {
+  'night-deaths': ['Last night, the following seats were eliminated.', '昨夜出局的玩家是：'],
+  'peaceful-night': ['Nobody died last night. It was a peaceful night.', '昨夜是平安夜，无人出局。'],
+  'sheriff-elected': ['The village has elected its sheriff.', '本届警长是：'],
+  'sheriff-none': ['No sheriff was elected. There is no badge this game.', '本局没有选出警长，不设警徽。'],
+  'sheriff-nomination': ['Keep last night’s results secret. Everyone, choose whether to run for sheriff on your device.', '暂不公布昨夜结果。所有玩家请在设备上选择是否上警。'],
+  'sheriff-discussion': ['Sheriff candidates speak in seat order. Tap finished when your speech is over. You may withdraw, but candidates who withdraw cannot vote.', '警长候选人按座位顺序发言。发言结束后请点击完成。可以退水，但退水玩家不能投票。'],
+});
+for (let number = 1; number <= 24; number++) cues[`seat-${number}`] = [`Seat ${number}.`, `${number}号。`];
 const selected = process.argv.find(arg => arg.startsWith('--cue='))?.slice(6);
 if (selected && !(selected in cues)) throw new Error('Unknown cue.');
 const escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');

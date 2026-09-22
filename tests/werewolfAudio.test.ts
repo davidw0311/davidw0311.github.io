@@ -388,3 +388,22 @@ test("iPhone ambience uses Web Audio gain while Brian retains its HTML playback 
  assert.deepEqual(f.acknowledgments,["open"]);
  f.audio.dispose();assert.equal(closed,1);
 });
+
+test("numbered Sheriff and dawn recordings play in order and acknowledge only their completed public announcement", async t => {
+ const f=fixture(t); f.audio.configure({...f.options,music:true});
+ f.audio.updatePhase({id:"elected",kind:"announcement",step:"sheriffResult",publicCues:["sheriff-elected","seat-12"]});
+ await f.unlock(); await flush(); assert.equal(f.latest().url,pathFor("sheriff-elected"));
+ await f.finish(); assert.equal(f.latest().url,pathFor("seat-12")); assert.deepEqual(f.acknowledgments,[]);
+ await f.finish(); assert.deepEqual(f.acknowledgments,["elected"]);
+ f.audio.updatePhase({id:"result",kind:"announcement",step:"dawn",publicCues:["night-deaths","seat-2","seat-24"]});
+ await flush(); await f.finish(); await f.finish(); assert.deepEqual(f.acknowledgments,["elected"]);
+ await f.finish(); assert.deepEqual(f.acknowledgments,["elected","result"]); assert.equal(f.music().paused,false);
+});
+test("peaceful night and Chinese seat clips use Brian without treating candidate speeches as completed actions", async t=>{
+ const f=fixture(t); f.audio.configure({...f.options,language:"zh"});
+ f.audio.updatePhase({id:"speech",kind:"sheriff",step:"speeches",publicCues:["sheriff-discussion","seat-3"]});
+ await f.unlock(); await flush(); await f.finish(); assert.ok(f.latest().url.endsWith('/zh/seat-3.mp3'));
+ await f.finish(); assert.deepEqual(f.acknowledgments,[]);
+ f.audio.updatePhase({id:"peace",kind:"announcement",step:"dawn",publicCues:["peaceful-night"]});
+ await flush(); assert.ok(f.latest().url.endsWith('/zh/peaceful-night.mp3')); await f.finish(); assert.deepEqual(f.acknowledgments,["peace"]);
+});

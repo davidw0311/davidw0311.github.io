@@ -6,11 +6,14 @@ export type WerewolfAudioPhase = {
   paused?: boolean;
   nightStage?: "opening" | "acting" | "closing";
   nightCues?: string[];
+  publicCues?: string[];
 };
 type Phase = WerewolfAudioPhase;
 type Options = { voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
 type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
+for (let number = 1; number <= 24; number++) CUES.add(`seat-${number}`);
+for (const cue of ["night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion"]) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 
 // A short, valid, unmuted PCM audio track for granting each persistent media
@@ -171,12 +174,14 @@ export class WerewolfAudio {
   }
 
   updatePhase(phase: Phase) {
-    const key = JSON.stringify([phase.id, phase.kind, phase.step ?? "", Boolean(phase.paused), phase.nightStage ?? "", phase.nightCues ?? []]);
+    const key = JSON.stringify([phase.id, phase.kind, phase.step ?? "", Boolean(phase.paused), phase.nightStage ?? "", phase.nightCues ?? [], phase.publicCues ?? []]);
     const previous = this.phase;
     this.phase = phase;
     if (key === this.phaseKey) { this.syncMusic(); return; }
     this.phaseKey = key;
     if (phase.paused) this.cues = ["paused"];
+    else if (phase.kind === "announcement") this.cues = [...(phase.publicCues || [])];
+    else if (phase.kind === "sheriff") this.cues = phase.publicCues?.length ? [...phase.publicCues] : [phase.step === "nomination" ? "sheriff-nomination" : "sheriff-discussion"];
     else if (phase.kind === "night" && phase.nightStage) this.cues = phase.nightStage === "acting" ? [] : [...(phase.nightCues ?? [])];
     else if (phase.kind === "night") this.cues = [...(previous?.kind !== "night" ? ["night"] : previous.paused ? [] : ["role-sleep"]), phase.step || "night"];
     else if (phase.kind === "day") this.cues = phase.step === "afterVote" ? ["vote-result"] : previous?.kind === "night" ? ["dawn", "discussion"] : ["discussion"];
@@ -193,7 +198,7 @@ export class WerewolfAudio {
     this.stopNarration();
     const generation = this.generation;
     const phase = this.phase;
-    const staged = phase.kind === "night" && !phase.paused && (phase.nightStage === "opening" || phase.nightStage === "closing");
+    const staged = !phase.paused && (phase.kind === "announcement" || phase.kind === "night" && (phase.nightStage === "opening" || phase.nightStage === "closing"));
     if (staged && (!this.cues.length || this.cues.some(cue => !CUES.has(cue)))) {
       this.report("error", this.message("This night announcement is unavailable. The host can retry or continue.", "此夜间提示暂时不可用，房主可重试或继续。"));
       return;

@@ -1,0 +1,482 @@
+[
+  {
+    "id": "avatar-1",
+    "glyph": "🍎",
+    "name": {
+      "en": "Apple",
+      "zh": "苹果"
+    }
+  },
+  {
+    "id": "avatar-2",
+    "glyph": "🍊",
+    "name": {
+      "en": "Orange",
+      "zh": "橙子"
+    }
+  },
+  {
+    "id": "avatar-3",
+    "glyph": "🍋",
+    "name": {
+      "en": "Lemon",
+      "zh": "柠檬"
+    }
+  },
+  {
+    "id": "avatar-4",
+    "glyph": "🍉",
+    "name": {
+      "en": "Watermelon",
+      "zh": "西瓜"
+    }
+  },
+  {
+    "id": "avatar-5",
+    "glyph": "🍇",
+    "name": {
+      "en": "Grapes",
+      "zh": "葡萄"
+    }
+  },
+  {
+    "id": "avatar-6",
+    "glyph": "🍓",
+    "name": {
+      "en": "Strawberry",
+      "zh": "草莓"
+    }
+  },
+  {
+    "id": "avatar-7",
+    "glyph": "🫐",
+    "name": {
+      "en": "Blueberries",
+      "zh": "蓝莓"
+    }
+  },
+  {
+    "id": "avatar-8",
+    "glyph": "🍒",
+    "name": {
+      "en": "Cherries",
+      "zh": "樱桃"
+    }
+  },
+  {
+    "id": "avatar-9",
+    "glyph": "🍑",
+    "name": {
+      "en": "Peach",
+      "zh": "桃子"
+    }
+  },
+  {
+    "id": "avatar-10",
+    "glyph": "🥭",
+    "name": {
+      "en": "Mango",
+      "zh": "芒果"
+    }
+  },
+  {
+    "id": "avatar-11",
+    "glyph": "🍍",
+    "name": {
+      "en": "Pineapple",
+      "zh": "菠萝"
+    }
+  },
+  {
+    "id": "avatar-12",
+    "glyph": "🥝",
+    "name": {
+      "en": "Kiwi",
+      "zh": "猕猴桃"
+    }
+  },
+  {
+    "id": "avatar-13",
+    "glyph": "🥑",
+    "name": {
+      "en": "Avocado",
+      "zh": "牛油果"
+    }
+  },
+  {
+    "id": "avatar-14",
+    "glyph": "🥕",
+    "name": {
+      "en": "Carrot",
+      "zh": "胡萝卜"
+    }
+  },
+  {
+    "id": "avatar-15",
+    "glyph": "🌽",
+    "name": {
+      "en": "Corn",
+      "zh": "玉米"
+    }
+  },
+  {
+    "id": "avatar-16",
+    "glyph": "🥨",
+    "name": {
+      "en": "Pretzel",
+      "zh": "椒盐卷饼"
+    }
+  },
+  {
+    "id": "avatar-17",
+    "glyph": "🥐",
+    "name": {
+      "en": "Croissant",
+      "zh": "可颂"
+    }
+  },
+  {
+    "id": "avatar-18",
+    "glyph": "🥯",
+    "name": {
+      "en": "Bagel",
+      "zh": "贝果"
+    }
+  },
+  {
+    "id": "avatar-19",
+    "glyph": "🥞",
+    "name": {
+      "en": "Pancakes",
+      "zh": "松饼"
+    }
+  },
+  {
+    "id": "avatar-20",
+    "glyph": "🧇",
+    "name": {
+      "en": "Waffle",
+      "zh": "华夫饼"
+    }
+  },
+  {
+    "id": "avatar-21",
+    "glyph": "🍕",
+    "name": {
+      "en": "Pizza",
+      "zh": "披萨"
+    }
+  },
+  {
+    "id": "avatar-22",
+    "glyph": "🍔",
+    "name": {
+      "en": "Burger",
+      "zh": "汉堡"
+    }
+  },
+  {
+    "id": "avatar-23",
+    "glyph": "🍟",
+    "name": {
+      "en": "Fries",
+      "zh": "薯条"
+    }
+  },
+  {
+    "id": "avatar-24",
+    "glyph": "🍿",
+    "name": {
+      "en": "Popcorn",
+      "zh": "爆米花"
+    }
+  },
+  {
+    "id": "avatar-25",
+    "glyph": "🍩",
+    "name": {
+      "en": "Doughnut",
+      "zh": "甜甜圈"
+    }
+  },
+  {
+    "id": "avatar-26",
+    "glyph": "🍪",
+    "name": {
+      "en": "Cookie",
+      "zh": "饼干"
+    }
+  },
+  {
+    "id": "avatar-27",
+    "glyph": "🧁",
+    "name": {
+      "en": "Cupcake",
+      "zh": "纸杯蛋糕"
+    }
+  },
+  {
+    "id": "avatar-28",
+    "glyph": "🍦",
+    "name": {
+      "en": "Ice cream",
+      "zh": "冰淇淋"
+    }
+  },
+  {
+    "id": "avatar-29",
+    "glyph": "🍫",
+    "name": {
+      "en": "Chocolate",
+      "zh": "巧克力"
+    }
+  },
+  {
+    "id": "avatar-30",
+    "glyph": "🍭",
+    "name": {
+      "en": "Lollipop",
+      "zh": "棒棒糖"
+    }
+  },
+  {
+    "id": "avatar-31",
+    "glyph": "☕",
+    "name": {
+      "en": "Coffee",
+      "zh": "咖啡"
+    }
+  },
+  {
+    "id": "avatar-32",
+    "glyph": "🧋",
+    "name": {
+      "en": "Bubble tea",
+      "zh": "奶茶"
+    }
+  },
+  {
+    "id": "avatar-33",
+    "glyph": "🧃",
+    "name": {
+      "en": "Juice",
+      "zh": "果汁"
+    }
+  },
+  {
+    "id": "avatar-34",
+    "glyph": "🍵",
+    "name": {
+      "en": "Tea",
+      "zh": "茶"
+    }
+  },
+  {
+    "id": "avatar-35",
+    "glyph": "⚽",
+    "name": {
+      "en": "Football",
+      "zh": "足球"
+    }
+  },
+  {
+    "id": "avatar-36",
+    "glyph": "🏀",
+    "name": {
+      "en": "Basketball",
+      "zh": "篮球"
+    }
+  },
+  {
+    "id": "avatar-37",
+    "glyph": "🏈",
+    "name": {
+      "en": "American football",
+      "zh": "橄榄球"
+    }
+  },
+  {
+    "id": "avatar-38",
+    "glyph": "⚾",
+    "name": {
+      "en": "Baseball",
+      "zh": "棒球"
+    }
+  },
+  {
+    "id": "avatar-39",
+    "glyph": "🎾",
+    "name": {
+      "en": "Tennis",
+      "zh": "网球"
+    }
+  },
+  {
+    "id": "avatar-40",
+    "glyph": "🏐",
+    "name": {
+      "en": "Volleyball",
+      "zh": "排球"
+    }
+  },
+  {
+    "id": "avatar-41",
+    "glyph": "🏓",
+    "name": {
+      "en": "Table tennis",
+      "zh": "乒乓球"
+    }
+  },
+  {
+    "id": "avatar-42",
+    "glyph": "🏸",
+    "name": {
+      "en": "Badminton",
+      "zh": "羽毛球"
+    }
+  },
+  {
+    "id": "avatar-43",
+    "glyph": "🎳",
+    "name": {
+      "en": "Bowling",
+      "zh": "保龄球"
+    }
+  },
+  {
+    "id": "avatar-44",
+    "glyph": "🛹",
+    "name": {
+      "en": "Skateboard",
+      "zh": "滑板"
+    }
+  },
+  {
+    "id": "avatar-45",
+    "glyph": "🚲",
+    "name": {
+      "en": "Bicycle",
+      "zh": "自行车"
+    }
+  },
+  {
+    "id": "avatar-46",
+    "glyph": "🚗",
+    "name": {
+      "en": "Car",
+      "zh": "汽车"
+    }
+  },
+  {
+    "id": "avatar-47",
+    "glyph": "🚕",
+    "name": {
+      "en": "Taxi",
+      "zh": "出租车"
+    }
+  },
+  {
+    "id": "avatar-48",
+    "glyph": "🚌",
+    "name": {
+      "en": "Bus",
+      "zh": "巴士"
+    }
+  },
+  {
+    "id": "avatar-49",
+    "glyph": "🚂",
+    "name": {
+      "en": "Train",
+      "zh": "火车"
+    }
+  },
+  {
+    "id": "avatar-50",
+    "glyph": "✈️",
+    "name": {
+      "en": "Airplane",
+      "zh": "飞机"
+    }
+  },
+  {
+    "id": "avatar-51",
+    "glyph": "🚀",
+    "name": {
+      "en": "Rocket",
+      "zh": "火箭"
+    }
+  },
+  {
+    "id": "avatar-52",
+    "glyph": "⛵",
+    "name": {
+      "en": "Sailboat",
+      "zh": "帆船"
+    }
+  },
+  {
+    "id": "avatar-53",
+    "glyph": "🎸",
+    "name": {
+      "en": "Guitar",
+      "zh": "吉他"
+    }
+  },
+  {
+    "id": "avatar-54",
+    "glyph": "🎹",
+    "name": {
+      "en": "Piano",
+      "zh": "钢琴"
+    }
+  },
+  {
+    "id": "avatar-55",
+    "glyph": "🎺",
+    "name": {
+      "en": "Trumpet",
+      "zh": "小号"
+    }
+  },
+  {
+    "id": "avatar-56",
+    "glyph": "🥁",
+    "name": {
+      "en": "Drum",
+      "zh": "鼓"
+    }
+  },
+  {
+    "id": "avatar-57",
+    "glyph": "🎨",
+    "name": {
+      "en": "Palette",
+      "zh": "调色盘"
+    }
+  },
+  {
+    "id": "avatar-58",
+    "glyph": "🧩",
+    "name": {
+      "en": "Puzzle",
+      "zh": "拼图"
+    }
+  },
+  {
+    "id": "avatar-59",
+    "glyph": "🎈",
+    "name": {
+      "en": "Balloon",
+      "zh": "气球"
+    }
+  },
+  {
+    "id": "avatar-60",
+    "glyph": "🌈",
+    "name": {
+      "en": "Rainbow",
+      "zh": "彩虹"
+    }
+  }
+]

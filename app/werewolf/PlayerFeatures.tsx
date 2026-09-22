@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, type CSSProperties } from "react";
-import { Crown, Eye, Heart, Moon, Shield, Skull } from "@phosphor-icons/react";
+import { Crown, Moon, Medal, Skull } from "@phosphor-icons/react";
 import type { Command, GameView, Language, Seat } from "@/lib/werewolfClient";
+import avatars from "@/public/assets/werewolf/avatars.json";
 import catalogue from "@/public/assets/werewolf/roles.json";
 import styles from "./werewolf.module.css";
 
@@ -11,8 +12,8 @@ export function WolfHead({ size = 24 }: { size?: number }) {
 }
 export function Portrait({ seat }: { seat: Pick<Seat, "name" | "photo"> }) {
   if (seat.photo?.startsWith("data:image/jpeg;base64,")) return <span className={styles.profilePhoto} role="img" aria-label={seat.name} style={{ backgroundImage: `url("${seat.photo}")` }} />;
-  const icons = { moon: <Moon size={27} />, wolf: <WolfHead size={30} />, eye: <Eye size={27} />, shield: <Shield size={27} />, heart: <Heart size={27} />, crown: <Crown size={27} /> };
-  return icons[seat.photo as keyof typeof icons] || <span>{Array.from(seat.name)[0]?.toUpperCase() || "?"}</span>;
+  const avatar = avatars.find(avatar => avatar.id === seat.photo);
+  return avatar ? <span className={styles.avatarEmoji} role="img" aria-label={`${avatar.name.en} / ${avatar.name.zh}`}>{avatar.glyph}</span> : <span>{Array.from(seat.name)[0]?.toUpperCase() || "?"}</span>;
 }
 export function CircleSeats({ view, lang, onProfile }: { view: GameView; lang: Language; onProfile: () => void }) {
   const t = (en: string, zh: string) => lang === "en" ? en : zh;
@@ -24,7 +25,7 @@ export function CircleSeats({ view, lang, onProfile }: { view: GameView; lang: L
       const position = { left: `${50 + 39 * Math.cos(angle)}%`, top: `${50 + 39 * Math.sin(angle)}%` } as CSSProperties;
       return <div key={seat.id} style={position} className={`${styles.circleSeat} ${styles.seat} ${!seat.alive && view.status !== "lobby" ? styles.deadSeat : ""} ${seat.id === view.me?.seatId ? styles.mySeat : ""} ${seat.id === view.speakerSeatId ? styles.speakingSeat : ""}`}>
         <button className={styles.avatar} disabled={seat.id !== view.me?.seatId} onClick={onProfile} aria-label={seat.id === view.me?.seatId ? t("Change profile photo", "更换头像") : seat.name}><Portrait seat={seat} />{!seat.alive && <Skull className={styles.eliminatedBadge} size={18} />}<span className={`${styles.presence} ${seat.connected && seat.occupied ? styles.present : ""}`} title={seat.connected ? t("Connected", "在线") : t("Offline; seat retained", "离线，座位保留")} />{seat.isHost && <Crown size={15} className={styles.hostCrown} />}</button>
-        <span className={styles.circleNumber}>{index + 1}</span><strong title={seat.name}>{seat.name}</strong><span className={styles.seatStatus}>{view.phase.kind === "ready" ? seat.ready ? t("Ready", "已准备") : t("Reading card", "查看身份中") : !seat.alive ? t("Eliminated", "已出局") : seat.isSheriff ? t("Sheriff", "警长") : seat.id === view.me?.seatId ? t("You", "你") : !seat.connected ? t("Offline", "离线") : t("At the table", "已入座")}</span>{seat.roleId && <small>{catalogue.roles.find(role => role.id === seat.roleId)?.name[lang] || seat.roleId}</small>}
+        {seat.isSheriff && <Medal className={styles.sheriffBadge} size={22} weight="fill" aria-label={t("Sheriff badge", "警徽")} />}<span className={styles.circleNumber}>{index + 1}</span><strong title={seat.name}>{seat.name}</strong><span className={styles.seatStatus}>{view.phase.kind === "ready" ? seat.ready ? t("Ready", "已准备") : t("Reading card", "查看身份中") : !seat.alive ? t("Eliminated", "已出局") : seat.isSheriff ? t("Sheriff", "警长") : seat.id === view.me?.seatId ? t("You", "你") : !seat.connected ? t("Offline", "离线") : t("At the table", "已入座")}</span>{seat.roleId && <small>{catalogue.roles.find(role => role.id === seat.roleId)?.name[lang] || seat.roleId}</small>}
       </div>;
     })}
   </div></div>{view.seats.length > 8 && <p className={styles.hint}>{t("Slide the table to see the full circle on a small screen.", "小屏幕上可滑动座位表，查看完整圆桌。")}</p>}</>;
@@ -52,5 +53,5 @@ export function ProfilePicker({ lang, disabled, send, onDone }: { lang: Language
     } catch { setError(t("Choose a supported image under 15 MB (JPEG or PNG works best).", "请选择15 MB以内的图片，建议使用JPEG或PNG。")); }
     finally { URL.revokeObjectURL(url); setLoading(false); }
   };
-  return <><p>{t("Choose an icon or upload a photo. Your photo is visible to everyone in this room.", "选择图标或上传照片。房间内所有玩家都能看到你的头像。")}</p><div className={styles.profileOptions}>{["moon", "wolf", "eye", "shield", "heart", "crown"].map(photo => <button key={photo} className={styles.secondaryButton} aria-label={photo} disabled={disabled || loading} onClick={() => void save(photo)}><Portrait seat={{ name: "", photo }} /></button>)}</div><label className={styles.uploadPhoto}>{t("Upload photo", "上传照片")}<input type="file" accept="image/*" disabled={disabled || loading} onChange={event => void upload(event.target.files?.[0])} /></label><button className={styles.textButton} disabled={disabled || loading} onClick={() => void save(null)}>{t("Use my initial", "使用名字首字")}</button>{error && <p role="alert">{error}</p>}</>;
+  return <><p>{t("Choose an icon or upload a photo. Your photo is visible to everyone in this room.", "选择图标或上传照片。房间内所有玩家都能看到你的头像。")}</p><div className={styles.profileOptions}>{avatars.map(avatar => <button key={avatar.id} className={styles.secondaryButton} aria-label={avatar.name[lang]} title={avatar.name[lang]} disabled={disabled || loading} onClick={() => void save(avatar.id)}><Portrait seat={{ name: "", photo: avatar.id }} /></button>)}</div><label className={styles.uploadPhoto}>{t("Upload photo", "上传照片")}<input type="file" accept="image/*" disabled={disabled || loading} onChange={event => void upload(event.target.files?.[0])} /></label><button className={styles.textButton} disabled={disabled || loading} onClick={() => void save(null)}>{t("Use my initial", "使用名字首字")}</button>{error && <p role="alert">{error}</p>}</>;
 }

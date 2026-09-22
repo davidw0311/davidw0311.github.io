@@ -151,6 +151,23 @@ while (view.phase.kind === 'night') {
   view = (await call(host, 'sync')).view;
 }
 assert.deepEqual([...nightSteps], ['wolves', 'seer', 'witch']);
+assert.equal(view.phase.kind, 'sheriff');
+assert.equal(view.phase.step, 'nomination');
+assert.ok(view.seats.every(seat=>seat.alive));
+const electionSeats = await Promise.all(members.map(async token => ({token, seatId:(await call(token,'sync')).view.me.seatId})));
+for (const [index, member] of electionSeats.entries()) view=(await call(member.token,'command',{command:{type:'sheriffInterest',run:index===1||index===2,expectedPhaseId:view.phase.id}})).view;
+while(view.phase.kind==='sheriff') {
+ const speaker=electionSeats.find(member=>member.seatId===view.speakerSeatId);
+ view=(await call(speaker.token,'command',{command:{type:'sheriffSpeechDone',expectedPhaseId:view.phase.id}})).view;
+}
+view=(await call(electionSeats[2].token,'command',{command:{type:'sheriffWithdraw',expectedPhaseId:view.phase.id}})).view;
+await call(electionSeats[2].token,'command',{command:{type:'vote',targetId:electionSeats[1].seatId,expectedPhaseId:view.phase.id}},'NO_VOTE');
+for(const member of electionSeats.filter((_,index)=>index!==1&&index!==2)) view=(await call(member.token,'command',{command:{type:'vote',targetId:electionSeats[1].seatId,expectedPhaseId:view.phase.id}})).view;
+assert.equal(view.phase.step,'sheriffResult');
+assert.ok(view.seats.find(seat=>seat.id===electionSeats[1].seatId).isSheriff);
+view=(await call(host,'command',{command:{type:'nightNarrationDone',expectedPhaseId:view.phase.id}})).view;
+assert.equal(view.phase.step,'dawn'); assert.deepEqual(view.phase.publicCues,['peaceful-night']);
+view=(await call(host,'command',{command:{type:'nightNarrationDone',expectedPhaseId:view.phase.id}})).view;
 assert.equal(view.phase.kind, 'day');
 assert.equal(view.day, 1);
 assert.ok(view.seats.every(seat => seat.alive));
@@ -175,4 +192,4 @@ assert.ok(afterVote.view.seats.every(seat => seat.alive));
 await call(host, 'command', {command:{type:'disbandRoom'}});
 await call(members[1], 'sync', {}, 'room-disbanded');
 await call(randomUUID(), 'join', {name:'Late join'}, 'room-disbanded');
-console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, runoff voting, disbanding, and permissions.');
+console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, automatic Sheriff nominations/speeches/withdrawal/voting, numbered announcements, runoff voting, disbanding, and permissions.');

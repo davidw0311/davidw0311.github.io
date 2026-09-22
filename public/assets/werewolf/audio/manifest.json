@@ -378,6 +378,366 @@
       "text": "机械狼请睁眼。请根据设备上的私密提示，选择一名玩家，学习其身份。其他玩家请保持闭眼。",
       "duration": 12.12,
       "textHash": "7934626251238b6ece9800d045d24fe2ae6bc70a118d3588268a1beb3c844868"
+    },
+    "en:night-deaths": {
+      "src": "/assets/werewolf/audio/en/night-deaths.mp3",
+      "text": "Last night, the following seats were eliminated.",
+      "duration": 3.456,
+      "textHash": "07a6773426c6a9d07178d6969a5f60c34668ed9daafc0258e2951d2b61390c1e"
+    },
+    "zh:night-deaths": {
+      "src": "/assets/werewolf/audio/zh/night-deaths.mp3",
+      "text": "昨夜出局的玩家是：",
+      "duration": 2.376,
+      "textHash": "e0948b0bce1a8b62d97bfd763aa8aeb1c2a7acdf52da082aadae8cbe054d46fa"
+    },
+    "en:peaceful-night": {
+      "src": "/assets/werewolf/audio/en/peaceful-night.mp3",
+      "text": "Nobody died last night. It was a peaceful night.",
+      "duration": 3.744,
+      "textHash": "87f9f81e780257fe7ed327eadbfa9e6f27c2400724f1faf3cf2a6a5e3eed1164"
+    },
+    "zh:peaceful-night": {
+      "src": "/assets/werewolf/audio/zh/peaceful-night.mp3",
+      "text": "昨夜是平安夜，无人出局。",
+      "duration": 3.696,
+      "textHash": "47e46c59adfad7eb7a3589f692510b26323e6d76df7abb2f68bfc3b67e269d68"
+    },
+    "en:sheriff-elected": {
+      "src": "/assets/werewolf/audio/en/sheriff-elected.mp3",
+      "text": "The village has elected its sheriff.",
+      "duration": 2.904,
+      "textHash": "d0d1298d19ff56a4b8c78aa9615182b647b32e7eff4246118ae5d92f1325cede"
+    },
+    "zh:sheriff-elected": {
+      "src": "/assets/werewolf/audio/zh/sheriff-elected.mp3",
+      "text": "本届警长是：",
+      "duration": 1.944,
+      "textHash": "bfb4c97303f2deaef1b453b890f4a455e6cccb686354d9ad21bbcf3139899b46"
+    },
+    "en:sheriff-none": {
+      "src": "/assets/werewolf/audio/en/sheriff-none.mp3",
+      "text": "No sheriff was elected. There is no badge this game.",
+      "duration": 4.272,
+      "textHash": "6561a97361e8b5101c751207747c0ecc8158ebdf72f942f4c9899900e3d3c03f"
+    },
+    "zh:sheriff-none": {
+      "src": "/assets/werewolf/audio/zh/sheriff-none.mp3",
+      "text": "本局没有选出警长，不设警徽。",
+      "duration": 4.08,
+      "textHash": "335eadb5b093bcee3cd71805be7d93d1e1807201b24b70afafa24457a3ef28ba"
+    },
+    "en:sheriff-nomination": {
+      "src": "/assets/werewolf/audio/en/sheriff-nomination.mp3",
+      "text": "Keep last night’s results secret. Everyone, choose whether to run for sheriff on your device.",
+      "duration": 6.72,
+      "textHash": "6b4ae9a2d12502cd3f02274cbd9c6a39e10a0d9c73507e4b058eb40d16f40bf4"
+    },
+    "zh:sheriff-nomination": {
+      "src": "/assets/werewolf/audio/zh/sheriff-nomination.mp3",
+      "text": "暂不公布昨夜结果。所有玩家请在设备上选择是否上警。",
+      "duration": 7.224,
+      "textHash": "eaf125924a98aef1094c57d7a12ff7df604526c59f926ee9ddc74234f2471b74"
+    },
+    "en:sheriff-discussion": {
+      "src": "/assets/werewolf/audio/en/sheriff-discussion.mp3",
+      "text": "Sheriff candidates speak in seat order. Tap finished when your speech is over. You may withdraw, but candidates who withdraw cannot vote.",
+      "duration": 9.936,
+      "textHash": "5251f3740f76549419cdbde972616c905d8e2a9a94e15f0f41396aa4feecc1ad"
+    },
+    "zh:sheriff-discussion": {
+      "src": "/assets/werewolf/audio/zh/sheriff-discussion.mp3",
+      "text": "警长候选人按座位顺序发言。发言结束后请点击完成。可以退水，但退水玩家不能投票。",
+      "duration": 11.376,
+      "textHash": "8bf103971ef0af904a0db58f61e29cb2682abc7a4919d08117d7e94e338c73d8"
+    },
+    "en:seat-1": {
+      "src": "/assets/werewolf/audio/en/seat-1.mp3",
+      "text": "Seat 1.",
+      "duration": 1.152,
+      "textHash": "08d05ad6b3c0cad0142885ae83624143bd42bebd4185ff375320a862e22e66bd"
+    },
+    "zh:seat-1": {
+      "src": "/assets/werewolf/audio/zh/seat-1.mp3",
+      "text": "1号。",
+      "duration": 1.128,
+      "textHash": "01f303b712e84926aa1adff09eb111ce2c807be5adeb2b892b71ba98a08fc43b"
+    },
+    "en:seat-2": {
+      "src": "/assets/werewolf/audio/en/seat-2.mp3",
+      "text": "Seat 2.",
+      "duration": 1.248,
+      "textHash": "6bad039a4d57276440f15fdeceec6db4f01cca23c1d29ec162ef447e5d9b313f"
+    },
+    "zh:seat-2": {
+      "src": "/assets/werewolf/audio/zh/seat-2.mp3",
+      "text": "2号。",
+      "duration": 1.128,
+      "textHash": "aa9e6e163935cf76dee14df8338813234624969c4a6bad4b3c748d1bf25a1b9a"
+    },
+    "en:seat-3": {
+      "src": "/assets/werewolf/audio/en/seat-3.mp3",
+      "text": "Seat 3.",
+      "duration": 1.344,
+      "textHash": "5dfb8e41ce134afd37274a860f75ed367cd2b72d9a66f711aeb39ed12952db31"
+    },
+    "zh:seat-3": {
+      "src": "/assets/werewolf/audio/zh/seat-3.mp3",
+      "text": "3号。",
+      "duration": 1.248,
+      "textHash": "09319d0525e6ae878f6974a226a75894f9cbca1803a43806dfefe21d32ee901a"
+    },
+    "en:seat-4": {
+      "src": "/assets/werewolf/audio/en/seat-4.mp3",
+      "text": "Seat 4.",
+      "duration": 1.272,
+      "textHash": "a10e444c889c5ca608ffedce6236e6b7e3d97c463534554030624d7f5736a8ae"
+    },
+    "zh:seat-4": {
+      "src": "/assets/werewolf/audio/zh/seat-4.mp3",
+      "text": "4号。",
+      "duration": 1.224,
+      "textHash": "9a3e9418c7ccbe1b9aa0449a336f85780820b7fb7586a7c19ded60dad5514410"
+    },
+    "en:seat-5": {
+      "src": "/assets/werewolf/audio/en/seat-5.mp3",
+      "text": "Seat 5.",
+      "duration": 1.416,
+      "textHash": "deae416adcc1022b5b33f046ea21cd886dcb19bf4ada97a02c3a94e5d690ea94"
+    },
+    "zh:seat-5": {
+      "src": "/assets/werewolf/audio/zh/seat-5.mp3",
+      "text": "5号。",
+      "duration": 1.128,
+      "textHash": "20b567caa3e1bea5bb67dd383bd0780f7742c6fc62df619f7626ebf9a253df07"
+    },
+    "en:seat-6": {
+      "src": "/assets/werewolf/audio/en/seat-6.mp3",
+      "text": "Seat 6.",
+      "duration": 1.32,
+      "textHash": "f9999544863ea49f28de2e8d01cd41158fbd7ce51441ac4ddacb4d021bbb809e"
+    },
+    "zh:seat-6": {
+      "src": "/assets/werewolf/audio/zh/seat-6.mp3",
+      "text": "6号。",
+      "duration": 1.128,
+      "textHash": "7e10f66ad17543d64a7d561ce1a13270d9cc191708551ae56ce2c1a1e0fcc5f9"
+    },
+    "en:seat-7": {
+      "src": "/assets/werewolf/audio/en/seat-7.mp3",
+      "text": "Seat 7.",
+      "duration": 1.344,
+      "textHash": "a7a7827f5dd17368a63fced05f97e5745bc9b52217de76108ae8137f9aa41b21"
+    },
+    "zh:seat-7": {
+      "src": "/assets/werewolf/audio/zh/seat-7.mp3",
+      "text": "7号。",
+      "duration": 1.224,
+      "textHash": "7c662dd2a41eef4c6b65e8dbe8e90a272e3deea4fbd1f5caa7e6543551b4610c"
+    },
+    "en:seat-8": {
+      "src": "/assets/werewolf/audio/en/seat-8.mp3",
+      "text": "Seat 8.",
+      "duration": 1.056,
+      "textHash": "a28788eee6d16e71a9ca7f6769a55f82faf4e08832305c4cfc6a12b36867d320"
+    },
+    "zh:seat-8": {
+      "src": "/assets/werewolf/audio/zh/seat-8.mp3",
+      "text": "8号。",
+      "duration": 1.152,
+      "textHash": "a2ac6c6a0a835cef99c681fdd87b56b8c0aad102d981f57c08176d6518f902b6"
+    },
+    "en:seat-9": {
+      "src": "/assets/werewolf/audio/en/seat-9.mp3",
+      "text": "Seat 9.",
+      "duration": 1.248,
+      "textHash": "f39e7f2df646b6c1e6046b7b294a121c98a08703943259715b1260588bf0bd73"
+    },
+    "zh:seat-9": {
+      "src": "/assets/werewolf/audio/zh/seat-9.mp3",
+      "text": "9号。",
+      "duration": 1.224,
+      "textHash": "9eb40d134ba3ec8ea731a0205fd3c90dc62ec7c9efc051a04fe3ba01639bf9a3"
+    },
+    "en:seat-10": {
+      "src": "/assets/werewolf/audio/en/seat-10.mp3",
+      "text": "Seat 10.",
+      "duration": 1.2,
+      "textHash": "038bb91a61079c4d427103b6e8a57318c972748974da13d83e016332ca13a97e"
+    },
+    "zh:seat-10": {
+      "src": "/assets/werewolf/audio/zh/seat-10.mp3",
+      "text": "10号。",
+      "duration": 1.248,
+      "textHash": "82d126412793f8cbc183bdfd457eccf7f8aa2e88d0eccea5000c65d7ed087471"
+    },
+    "en:seat-11": {
+      "src": "/assets/werewolf/audio/en/seat-11.mp3",
+      "text": "Seat 11.",
+      "duration": 1.416,
+      "textHash": "e9c8136d4dee14bca3483b4b58a40c27e112fcb8603fd98c9520f2fcac74b3fc"
+    },
+    "zh:seat-11": {
+      "src": "/assets/werewolf/audio/zh/seat-11.mp3",
+      "text": "11号。",
+      "duration": 1.368,
+      "textHash": "9e330ada273b43337d61518f81ae96345d0252402dabbcea3d0c7be8077e3d15"
+    },
+    "en:seat-12": {
+      "src": "/assets/werewolf/audio/en/seat-12.mp3",
+      "text": "Seat 12.",
+      "duration": 1.344,
+      "textHash": "fec3cc4b34fa01398dfc7e8df92f1b913b70a29b38857961674c908318460177"
+    },
+    "zh:seat-12": {
+      "src": "/assets/werewolf/audio/zh/seat-12.mp3",
+      "text": "12号。",
+      "duration": 1.344,
+      "textHash": "6fbe167f0176e4b4628e5eb4e8257b1a52e031923c006e4ee81ce928efb2d735"
+    },
+    "en:seat-13": {
+      "src": "/assets/werewolf/audio/en/seat-13.mp3",
+      "text": "Seat 13.",
+      "duration": 1.536,
+      "textHash": "26b1603d1f534344c8112811f46bcfadec02e5143b6d7ff7edaeaf937e282cf4"
+    },
+    "zh:seat-13": {
+      "src": "/assets/werewolf/audio/zh/seat-13.mp3",
+      "text": "13号。",
+      "duration": 1.464,
+      "textHash": "bb8eeb2a200dd187abbd0052da60c350d67a7e267c2095bab065a3a571223e8c"
+    },
+    "en:seat-14": {
+      "src": "/assets/werewolf/audio/en/seat-14.mp3",
+      "text": "Seat 14.",
+      "duration": 1.56,
+      "textHash": "ad168c37057f68e7d5cb8482b86f72d57b76169678aa1c88ba34578640c04402"
+    },
+    "zh:seat-14": {
+      "src": "/assets/werewolf/audio/zh/seat-14.mp3",
+      "text": "14号。",
+      "duration": 1.416,
+      "textHash": "22c8af8abbfb35827d61ac2104f5ccf132924df8b22d0bb0396f9c726bc7278d"
+    },
+    "en:seat-15": {
+      "src": "/assets/werewolf/audio/en/seat-15.mp3",
+      "text": "Seat 15.",
+      "duration": 1.584,
+      "textHash": "b708b8a2dc1205d2115c0d5f94d51651a14e31a4e9f90d299b3281aa8578f3bd"
+    },
+    "zh:seat-15": {
+      "src": "/assets/werewolf/audio/zh/seat-15.mp3",
+      "text": "15号。",
+      "duration": 1.44,
+      "textHash": "eb5aead81b17e4840178f33bfde3390347978a81da948180bd889e6fff6e8eb1"
+    },
+    "en:seat-16": {
+      "src": "/assets/werewolf/audio/en/seat-16.mp3",
+      "text": "Seat 16.",
+      "duration": 1.584,
+      "textHash": "e10e41869fa6a1e54cfd28e766de6d0e3df01bac4a0f19662f14c6d59038c126"
+    },
+    "zh:seat-16": {
+      "src": "/assets/werewolf/audio/zh/seat-16.mp3",
+      "text": "16号。",
+      "duration": 1.416,
+      "textHash": "402a05f6be5541d0685190106eb4c8ecc023a1bf5a56c492ca48431e63206d23"
+    },
+    "en:seat-17": {
+      "src": "/assets/werewolf/audio/en/seat-17.mp3",
+      "text": "Seat 17.",
+      "duration": 1.656,
+      "textHash": "30b40117003db14a3ecf26f97b3bae5377fc140bea1bf99068e095749484cd8c"
+    },
+    "zh:seat-17": {
+      "src": "/assets/werewolf/audio/zh/seat-17.mp3",
+      "text": "17号。",
+      "duration": 1.416,
+      "textHash": "b604efb7558575539a41b78720df65de7747f8b5256af624a8e550b881ec7d52"
+    },
+    "en:seat-18": {
+      "src": "/assets/werewolf/audio/en/seat-18.mp3",
+      "text": "Seat 18.",
+      "duration": 1.44,
+      "textHash": "ec7e1da64a08fa00e0a8f2180d29cdf8c9824f232dad110589c3265401d81533"
+    },
+    "zh:seat-18": {
+      "src": "/assets/werewolf/audio/zh/seat-18.mp3",
+      "text": "18号。",
+      "duration": 1.44,
+      "textHash": "a553a33e75a001dbf0ec1a2c2e22ae5111948c22331ed79d679ef1bfd0c80351"
+    },
+    "en:seat-19": {
+      "src": "/assets/werewolf/audio/en/seat-19.mp3",
+      "text": "Seat 19.",
+      "duration": 1.536,
+      "textHash": "daf78337ab73d51e9d9cfabc5d558da62e1195aec577759e9b40dd53b06edfde"
+    },
+    "zh:seat-19": {
+      "src": "/assets/werewolf/audio/zh/seat-19.mp3",
+      "text": "19号。",
+      "duration": 1.464,
+      "textHash": "677741923db6f70477c89656d0132dbabcb530cb50f1d518e1ee25a7369197e3"
+    },
+    "en:seat-20": {
+      "src": "/assets/werewolf/audio/en/seat-20.mp3",
+      "text": "Seat 20.",
+      "duration": 1.368,
+      "textHash": "0f592d3a2facc05ddb26a8de0c578de2b9cd330a24e46f1a8c817d427486f4a6"
+    },
+    "zh:seat-20": {
+      "src": "/assets/werewolf/audio/zh/seat-20.mp3",
+      "text": "20号。",
+      "duration": 1.272,
+      "textHash": "d8880ad047b1560aad2f651eec5ef8e63b9eb6c89405078da99a053e73b6f9be"
+    },
+    "en:seat-21": {
+      "src": "/assets/werewolf/audio/en/seat-21.mp3",
+      "text": "Seat 21.",
+      "duration": 1.68,
+      "textHash": "eaae010d3f07e65cd1d49cfba37a5ac1060817a4b13e59e9648ee25bcbb7ecfd"
+    },
+    "zh:seat-21": {
+      "src": "/assets/werewolf/audio/zh/seat-21.mp3",
+      "text": "21号。",
+      "duration": 1.44,
+      "textHash": "0759bcea989e31531e3e9e8160f508b0caadc5d1b3e06c01d31683066329d969"
+    },
+    "en:seat-22": {
+      "src": "/assets/werewolf/audio/en/seat-22.mp3",
+      "text": "Seat 22.",
+      "duration": 1.8,
+      "textHash": "dc6998314f80a97b6c097f3cc5d4fb6be5785e348a2d509efe0419c26ff0b1ba"
+    },
+    "zh:seat-22": {
+      "src": "/assets/werewolf/audio/zh/seat-22.mp3",
+      "text": "22号。",
+      "duration": 1.44,
+      "textHash": "183e8cf78112592aaa0d1fdebe24bbd8d8602e40fd62adc7cf3dc06523f0bab2"
+    },
+    "en:seat-23": {
+      "src": "/assets/werewolf/audio/en/seat-23.mp3",
+      "text": "Seat 23.",
+      "duration": 1.848,
+      "textHash": "7b12d7b7eb6b306c0e998b9090079574f9da8d67191f130244d38ec3212a4ad9"
+    },
+    "zh:seat-23": {
+      "src": "/assets/werewolf/audio/zh/seat-23.mp3",
+      "text": "23号。",
+      "duration": 1.536,
+      "textHash": "90af9804a01e690c0f12b400130c28a74a4bb0b1ebf4875bdbfad1c6cf887d89"
+    },
+    "en:seat-24": {
+      "src": "/assets/werewolf/audio/en/seat-24.mp3",
+      "text": "Seat 24.",
+      "duration": 1.776,
+      "textHash": "d890a59089f100fa104c2f392f1f56c1ea68ca7414dc0560dc9ce593e1a6468b"
+    },
+    "zh:seat-24": {
+      "src": "/assets/werewolf/audio/zh/seat-24.mp3",
+      "text": "24号。",
+      "duration": 1.512,
+      "textHash": "edeba27f41780c42e20a98f572fff32f46d94a79807d3af2a8667b62976378a1"
     }
   }
 }

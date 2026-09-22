@@ -263,7 +263,7 @@
 .nightProgress svg { flex-shrink: 0; }
 
 .wolfHead { display: inline-block; flex-shrink: 0; background: currentColor; mask: url('/assets/werewolf/wolf-head.svg') center / contain no-repeat; }
-.circleScroll { overflow: auto; max-width: 100%; padding: 12px 0; overscroll-behavior: contain; }
+.circleScroll { overflow: auto; max-width: 100%; padding: 18px 0 65px; overscroll-behavior: contain; }
 .circleTable { position: relative; margin: 0 auto; flex-shrink: 0; }
 .circleTable::before { content: ''; position: absolute; inset: 16%; border: 1px solid #51424f; border-radius: 50%; background: radial-gradient(circle, #32273588, #17151b); }
 .circleCenter { position: absolute; inset: 37%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: #a397ab; font-size: 11px; }
@@ -290,3 +290,66 @@
 .seatNumberSelect { width: 62px; background: #251f29; color: #eee; border: 1px solid #65566b; padding: 6px; border-radius: 6px; }
 
 .hostPanel > .textButton, .audioPanel > .textButton { display: flex; margin-top: 5px; }
+
+.stageBanner { position: sticky; top: 0; z-index: 30; padding: 14px 20px; margin: 0 -1px; background: #211c27f5; border: 1px solid #655269; border-radius: 0 0 12px 12px; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 25px #0004; }
+.stageBanner > span { font-size: 13px; color: #c5aaca; flex-shrink: 0; }
+.stageBanner > strong { font-size: 18px; line-height: 1.4; color: #f7edf7; }
+.circleTable::before { inset: 11%; }
+.circleSeat.seat { transform: translate(-50%, -23px); }
+.sheriffBadge { position: absolute; left: calc(50% + 12px); top: 30px; color: #ffd877; filter: drop-shadow(0 1px 2px #000); }
+.avatarEmoji { font-size: 29px; line-height: 1; }
+.profileOptions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); max-height: 46vh; overflow: auto; padding: 4px; }
+.profileOptions > button { min-width: 0; min-height: 52px; padding: 8px; }
+.electionPanel { margin: 18px; padding: 20px; background: #242029; border: 1px solid #5b4b61; border-radius: 12px; }
+.electionPanel h2 { font-size: 20px; margin: 0 0 14px; }
+.electionPanel p { font-size: 15px; line-height: 1.6; }
+.electionPanel > button { margin: 8px 8px 0 0; }
+.soundDetails { border: 1px solid #38333d; border-radius: 10px; background: #19171c; }
+.soundDetails > summary { padding: 18px; font-size: 15px; cursor: pointer; color: #e5d9e8; }
+.soundDetails .audioPanel { border: 0; padding-top: 0; }
+.tableFooter { flex-wrap: wrap; gap: 12px; }
+@media (max-width: 650px) {
+  .app { padding: 0 12px; font-size: 16px; }
+  .app button, .app input, .app select, .app textarea { font-size: 16px !important; }
+  .app button { min-height: 44px; }
+  .app p { font-size: 16px; line-height: 1.65; }
+  .stageBanner { padding: 12px 14px; display: block; }
+  .stageBanner > span { font-size: 13px; display: block; margin-bottom: 3px; }
+  .stageBanner > strong { font-size: 19px; }
+  .phaseHeading, .nightProgress { display: none; }
+  .circleScroll { padding: 18px 0 40px; }
+  .circleSeat > strong { font-size: 14px; max-width: 96px; }
+  .circleSeat .seatStatus { font-size: 12px; line-height: 1.4; }
+  .circleSeat .circleNumber { font-size: 13px; min-width: 24px; height: 24px; }
+  .circleCenter { font-size: 12px; gap: 5px; }
+  .circleCenter > strong { display: none; }
+  .roomBar { min-height: 84px; }
+  .roomBar .eyebrow, .connectionState { display: none; }
+  .tableFooter > span, .tableFooter > .textButton { display: none; }
+  .tableFooter { justify-content: center; padding: 12px; }
+  .tableFooter > button { width: 100%; }
+  .sectionHeading h2 { font-size: 19px; }
+  .hostPanel > .hint, .audioPanel > .hint, .identityPanel > .hint { display: none; }
+  .targetGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .targetButton { min-height: 52px; }
+  .targetButton > span { font-size: 17px; }
+  .hint, .submitted, .seatStatus, .notice, .eventText, .voteProgress { font-size: 14px; }
+  .activityPanel { margin-top: 20px; }
+  .activityTabs button { font-size: 16px; }
+  .activityList { max-height: 230px; overflow: auto; }
+  .modal { padding: 22px 18px; }
+  .modal p, .modal label, .historyList p, .replayRows > div { font-size: 16px; }
+  .profileOptions { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .electionPanel { margin: 12px; padding: 16px; }
+  .footer > span { display: none; }
+}
+.overnightResult { margin: 16px 18px 0; padding: 13px 16px; background: #2b2530; border: 1px solid #63546c; border-radius: 10px; font-size: 17px; line-height: 1.5; color: #f1e4f1; }
+@media (max-width: 650px) { .eventList { max-height: 230px; } }
+@media (max-width: 650px) {
+  .tablePanel { display: flex; flex-direction: column; }
+  .electionPanel, .readyPanel { order: -2; }
+  .actionPanel { order: -1; }
+  .overnightResult { order: -3; }
+  .waitingAction { display: none; }
+  .circleScroll { padding-bottom: 65px; }
+}
