@@ -1051,3 +1051,45 @@ test('a winning daytime kill keeps the death announcement before game over',()=>
  send(r,'actor5','shoot',{targetId:id(r,1)});
  assert.equal(r.status,'finished'); assert.deepEqual(r.phase.publicCues,['day-deaths','seat-2','game-over']);
 });
+
+test('wolves may unanimously choose no kill, but mixed no-kill votes still wait for consensus',()=>{
+ const r=setup(); stepTo(r,'wolves');
+ send(r,'actor0','nightAction',{ability:'skip'});
+ assert.equal(r.phase.nightStage,'acting');
+ send(r,'actor1','nightAction',{targetId:id(r,6)});
+ assert.equal(r.phase.nightStage,'acting');
+ assert.deepEqual(publicView(r,'actor0',time).me.packVotes.map(v=>[v.submitted,v.targetId]),[[true,null],[true,id(r,6)]]);
+ send(r,'actor1','nightAction',{ability:'skip'});
+ assert.equal(r.phase.nightStage,'closing'); dawn(r);
+ assert.deepEqual(r.lastNight.numbers,[]); assert.ok(r.seats.every(s=>s.alive));
+});
+test('Guard can protect nobody and cannot repeat the previous night target',()=>{
+ const r=setup(); stepTo(r,'guard'); send(r,'actor4','nightAction',{targetId:id(r,6)}); dawn(r); nextNight(r); stepTo(r,'guard');
+ assert.ok(!publicView(r,'actor4',time).me.action.targets.includes(id(r,6)));
+ const before=JSON.stringify(r); assert.throws(()=>send(r,'actor4','nightAction',{targetId:id(r,6)}),{code:'INVALID_TARGET'}); assert.equal(JSON.stringify(r),before);
+ send(r,'actor4','nightAction',{ability:'skip'}); assert.equal(r.actions.guard[id(r,4)].skip,true); dawn(r);
+ nextNight(r); stepTo(r,'guard'); assert.ok(publicView(r,'actor4',time).me.action.targets.includes(id(r,6)));
+});
+test('Sheriff candidacies and withdrawals stay private from other players and host until all declare',()=>{
+ const r=electionRoom(); send(r,'actor2','sheriffInterest',{run:true});
+ for(const actor of ['actor0','actor1','observer']) { const v=publicView(r,actor,time); assert.equal(v.election.nominationsComplete,false); assert.deepEqual(v.election.candidateIds,[]); }
+ assert.deepEqual(publicView(r,'actor2',time).election.candidateIds,[id(r,2)]);
+ send(r,'actor2','sheriffWithdraw');
+ assert.deepEqual(publicView(r,'actor0',time).election.withdrawnIds,[]);
+ assert.ok(!publicView(r,'actor0',time).events.some(e=>e.text.en.includes('withdrew')));
+ send(r,'actor2','sheriffRejoin');
+ for(const i of [0,1,3,4,5]) send(r,`actor${i}`,'sheriffInterest',{run:i===3});
+ const v=publicView(r,'actor0',time); assert.equal(v.election.nominationsComplete,true); assert.deepEqual(v.election.candidateIds,[id(r,2),id(r,3)]);
+});
+test('Hunter morning shot waits for dawn narration; poison overrides a simultaneous wolf attack',()=>{
+ for(const sheriff of [false,true]) for(const poisoned of [false,true]) {
+  const r=setup(undefined,{sheriff}); stepTo(r,'wolves'); send(r,'actor0','nightAction',{targetId:id(r,5)}); send(r,'actor1','nightAction',{targetId:id(r,5)});
+  if(poisoned) { stepTo(r,'witch'); send(r,'actor3','nightAction',{ability:'poison',targetId:id(r,5)}); }
+  while(r.phase.kind==='night') advanceTestNight(r);
+  if(sheriff) { for(const seat of r.seats) send(r,seat.actorId,'sheriffInterest',{run:false}); send(r,r.hostId,'advanceElection'); send(r,r.hostId,'advanceElection'); send(r,r.hostId,'nightNarrationDone'); }
+  assert.equal(r.phase.step,'dawn'); assert.equal(publicView(r,'actor5',time).me.action,null);
+  send(r,r.hostId,'nightNarrationDone');
+  if(poisoned) { assert.equal(r.phase.kind,'day'); assert.equal(publicView(r,'actor5',time).me.action,null); assert.throws(()=>send(r,'actor5','shoot',{targetId:id(r,0)}),{code:'WRONG_PHASE'}); }
+  else { assert.equal(publicView(r,'actor5',time).me.action.kind,'shoot'); send(r,'actor5','shoot',{targetId:id(r,0)}); assert.equal(r.seats[0].alive,false); }
+ }
+});

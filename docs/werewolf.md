@@ -19,7 +19,7 @@ For an in-person game, speak around the table. Remote groups can use the built-i
 
 Every new night uses three server-owned stages for each scheduled role: opening announcement, action, and closing announcement. Narration completion is acknowledged automatically by the host device after every clip finishes. No normal host “next step” click is needed. When the host mutes speech, automatic acknowledgement leaves enough time for the longest English/Chinese recording so other players can still listen. Bounded server fallback timers prevent unavailable host audio from stalling the room.
 
-During the action stage, eligible living players submit or explicitly skip, including each participating wolf. Non-wolf turns finish after all submissions. Wolves see teammates’ current votes and may revise their own choice. Their turn finishes only after every eligible wolf has submitted and a target has a strict majority of all eligible wolves; abstentions do not form a target majority. Otherwise it waits indefinitely, including when players are offline. Hunter/Wolf King reactions also wait for the player or an explicit host skip. First-night setup choices resolve together before wolves act; hard-skipped choices use the documented defaults.
+During the action stage, eligible living players submit or explicitly skip, including each participating wolf. Non-wolf turns finish after all submissions. Wolves see teammates’ current votes and may revise their own choice. Their turn finishes only after every eligible wolf has submitted and a target has a strict majority of all eligible wolves; a unanimous **Kill nobody / 空刀** decision also closes the action with no wolf attack. Mixed no-kill votes do not form a target majority. Otherwise it waits indefinitely, including when players are offline. Hunter/Wolf King reactions also wait for the player or an explicit host skip. First-night setup choices resolve together before wolves act; hard-skipped choices use the documented defaults.
 
 Scheduled roles remain in the sequence after death. When nobody is eligible (dead role, suppressed power, or an ability unavailable that night), the server samples and saves one random 7–15 second action pause before the usual closing call. Clients receive no empty-turn flag, eligible-player count, or private deadline. Polling/network latency can add a short delay to transitions.
 
@@ -110,3 +110,12 @@ Every eligible player must submit a target or explicit abstention before the hos
 The shared speaking countdown appears as a draining hourglass at the table center. Music stays on the same media element across phases and repeated unlock gestures. The compact My card dialog is used for both initial readiness and later role checks, always includes the revealed role description, and hides the card when closed. Host seating controls show large numbers and support pointer/touch drag handles as well as keyboard-accessible number selectors.
 
 Daytime shots, duels, explosions, and exile deaths announce all newly eliminated seat numbers with Brian in English or Chinese. Linked casualties are included. Public narration precedes further pending reactions; a winning kill announces the deaths before the game-over cue.
+
+
+## Readiness and private nominations
+
+Choosing Ready closes the identity dialog only after the server accepts readiness. The table explicitly shows **You are ready** or **Not ready**, including when the player dismisses their card by tapping outside it. Closing the card alone never readies a player.
+
+Sheriff candidate and withdrawal lists stay private until every player has declared. During that interval, each player can see only their own candidacy status; even the host cannot inspect others' choices or infer withdrawals from public events.
+
+The Guard has an explicit **Protect nobody / 空守** button. The previous night's protected target is unavailable and rejected by the server if submitted anyway; a night of no protection breaks the consecutive-night restriction. A Hunter killed overnight receives a shot after the morning result announcement (and first-night Sheriff election, if enabled). Poison blocks the shot, including when a wolf attack targets the same Hunter.

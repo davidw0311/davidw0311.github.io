@@ -155,7 +155,12 @@ assert.equal(view.phase.kind, 'sheriff');
 assert.equal(view.phase.step, 'nomination');
 assert.ok(view.seats.every(seat=>seat.alive));
 const electionSeats = await Promise.all(members.map(async token => ({token, seatId:(await call(token,'sync')).view.me.seatId})));
-for (const [index, member] of electionSeats.entries()) view=(await call(member.token,'command',{command:{type:'sheriffInterest',run:index===1||index===2,expectedPhaseId:view.phase.id}})).view;
+for (const [index, member] of electionSeats.entries()) {
+ view=(await call(member.token,'command',{command:{type:'sheriffInterest',run:index===1||index===2,expectedPhaseId:view.phase.id}})).view;
+ const hostElection=(await call(host,'sync')).view;
+ assert.equal(hostElection.election.nominationsComplete,index===electionSeats.length-1);
+ if(index<electionSeats.length-1) assert.ok(hostElection.election.candidateIds.every(id=>id===hostElection.me.seatId));
+}
 assert.equal(view.phase.step,'nomination');
 view=(await call(host,'command',{command:{type:'advanceElection',expectedPhaseId:view.phase.id}})).view;
 while(view.speakerSeatId) {
@@ -209,9 +214,18 @@ const nightTwo = await call(host, 'command', {command:{type:'hardSkip',expectedP
 assert.equal(nightTwo.view.phase.kind, 'night');
 assert.ok(afterVote.view.seats.every(seat => seat.alive));
 view=nightTwo.view;
+const currentMembers=members.map(token=>token===oldHost?host:token);
+assert.equal(view.phase.step,'wolves');
+view=(await call(host,'command',{command:{type:'nightNarrationDone',expectedPhaseId:view.phase.id}})).view;
+const wolfTokens=[];
+for(const token of currentMembers) if((await call(token,'sync')).view.me.action?.step==='wolves') wolfTokens.push(token);
+for(const [index,token] of wolfTokens.entries()) {
+ view=(await call(token,'command',{command:{type:'nightAction',ability:'skip',expectedPhaseId:view.phase.id}})).view;
+ assert.equal(view.phase.nightStage,index===wolfTokens.length-1?'closing':'acting');
+}
+
 while(view.phase.kind==='night' && view.phase.step!=='seer') view=(await call(host,'command',{command:{type:'hardSkip',expectedPhaseId:view.phase.id}})).view;
 view=(await call(host,'command',{command:{type:'nightNarrationDone',expectedPhaseId:view.phase.id}})).view;
-const currentMembers=members.map(token=>token===oldHost?host:token);
 let seerToken;
 for(const token of currentMembers) if((await call(token,'sync')).view.me.roleId==='seer') seerToken=token;
 const wolfSeat=initial.find(reply=>reply.view.me.roleId==='werewolf').view.me.seatId;
@@ -223,4 +237,4 @@ assert.equal((await call(currentMembers.find(token=>token!==seerToken),'sync')).
 await call(host, 'command', {command:{type:'disbandRoom'}});
 await call(members[1], 'sync', {}, 'room-disbanded');
 await call(randomUUID(), 'join', {name:'Late join'}, 'room-disbanded');
-console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, automatic Sheriff nominations, explicit host speech/ballot transitions, reversible withdrawal, mandatory ballots, numbered announcements, adjustable speaking timers without auto-advance, immediate private Seer results, runoff voting, disbanding, and permissions.');
+console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, private Sheriff nominations, unanimous wolf no-kill, explicit host speech/ballot transitions, reversible withdrawal, mandatory ballots, numbered announcements, adjustable speaking timers without auto-advance, immediate private Seer results, runoff voting, disbanding, and permissions.');

@@ -52,14 +52,14 @@ export function ElectionPanel({ view, lang, disabled, send }: { view: GameView; 
   const candidate = election.candidateIds.includes(me.seatId);
   const awaiting = view.phase.step === "nomination" && !election.declaredIds.includes(me.seatId);
   return <section className={styles.electionPanel}><h2>{t("Sheriff election", "警长竞选")}</h2><p>{t("Last night’s results are hidden until the election ends. Candidates, including anyone who withdraws, cannot vote.", "竞选结束后公布昨夜结果。上警玩家（包括退水者）不能投票。")}</p>
-    <p><strong>{t("Candidates: ", "候选人：")}</strong>{names(election.candidateIds) || t("None yet", "暂无")}</p>
+    {election.nominationsComplete !== false ? <p><strong>{t("Candidates: ", "候选人：")}</strong>{names(election.candidateIds) || t("None", "无")}</p> : <p>{t("Candidates stay hidden until everyone decides.", "所有人决定后统一公布候选人。")}{!awaiting && <strong> {candidate ? t("You are running.", "你已上警。") : election.withdrawnIds.includes(me.seatId) ? t("You have withdrawn.", "你已退水。") : t("You are not running.", "你不上警。")}</strong>}</p>}
     {awaiting && <div className={styles.choiceRow}><button className={styles.primaryButton} disabled={disabled} onClick={() => void send({type:"sheriffInterest",run:true})}>{t("Run for Sheriff", "上警")}</button><button className={styles.secondaryButton} disabled={disabled} onClick={() => void send({type:"sheriffInterest",run:false})}>{t("Stay off the ballot", "不上警")}</button></div>}
     {view.phase.kind === "sheriff" && view.phase.step === "speeches" && <p>{t("Speaking now: ", "当前发言：")}{names(view.speakerSeatId ? [view.speakerSeatId] : [])}</p>}
     {view.phase.kind === "sheriff" && view.phase.step === "speeches" && view.speakerSeatId === me.seatId && <button className={styles.primaryButton} disabled={disabled} onClick={() => void send({type:"sheriffSpeechDone"})}>{t("I’ve finished speaking", "我已发言完毕")}</button>}
     {candidate && view.phase.kind === "sheriff" && <button className={styles.secondaryButton} disabled={disabled} onClick={() => void send({type:"sheriffWithdraw"})}>{t("Withdraw candidacy", "退水")}</button>}
     {view.phase.kind === "sheriff" && election.withdrawnIds.includes(me.seatId) && <button className={styles.secondaryButton} disabled={disabled} onClick={() => void send({type:"sheriffRejoin"})}>{t("Rejoin the election", "重新上警")}</button>}
     {view.isHost && view.phase.kind === "sheriff" && <button className={styles.primaryButton} disabled={disabled || view.phase.step === "nomination" && election.declaredIds.length < view.seats.filter(seat=>seat.alive).length} onClick={() => void send({type:"advanceElection"})}>{view.phase.step === "nomination" ? t("Next: candidate speeches", "下一步：警上发言") : t("Next: open Sheriff voting", "下一步：警长投票")}</button>}
-    {!!election.withdrawnIds.length && <p>{t("Withdrawn: ", "已退水：")}{names(election.withdrawnIds)}</p>}
+    {election.nominationsComplete !== false && !!election.withdrawnIds.length && <p>{t("Withdrawn: ", "已退水：")}{names(election.withdrawnIds)}</p>}
   </section>;
 }
 

@@ -431,3 +431,6 @@
 .personName { flex:1; min-width:130px; }
 .personRow .personName strong { font-size:16px; }
 .personRow .personName small { font-size:12px; }
+
+.readyStatus { color:#b8e2c3; font-size:16px; }
+.notReadyStatus { color:#f0cf99; font-size:16px; }
