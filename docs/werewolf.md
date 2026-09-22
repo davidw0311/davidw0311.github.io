@@ -22,7 +22,7 @@ For an in-person game, speak around the table. Remote groups can use the built-i
 - On a new device, enter the room code and name. The host maps the pending request to the original seat. A name alone never grants access. Replacement immediately revokes the former occupant token while keeping the seat's game state.
 - During play, removing a player disconnects their occupant and reserves their seat; it does not kill the character or secretly change the role balance. New game identities can be added in the lobby. During an active game, new arrivals replace existing seats.
 - Every host and player mutation has a request ID; retries cannot apply the same action twice. Phase-dependent actions carry a phase ID and cannot execute against a later phase.
-- Automatic moderation pauses when the host or any living seat has been absent for 35 seconds. The host explicitly resumes when the table is ready. Manual controls remain available to handle absences.
+- Automatic moderation pauses when the host, any living seat, or an eliminated player with a pending shot has been absent for 35 seconds. The host explicitly resumes when the table is ready. Manual controls remain available to handle absences.
 - The host can transfer hosting to an occupied seat. The new host receives a new recovery key. Recovering on a new device requires that key and revokes the old host browser. Save the key privately; it grants host access and the host's game identity.
 - Rooms expire after seven days without activity. Browser storage loss does not erase the server room; use host-approved replacement or host recovery.
 

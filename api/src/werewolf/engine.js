@@ -857,7 +857,7 @@ function tickRoom(room, now) {
     if (room.status !== 'playing' || !room.settings.autoAdvance || room.phase.paused)
         return false;
     const host = seatOf(room, room.hostId);
-    const absent = room.seats.some(s => s.alive && !connected(room, s, now));
+    const absent = room.seats.some(s => (s.alive || room.pendingShots.includes(s.id)) && !connected(room, s, now));
     if (!host || !connected(room, host, now) || absent) {
         room.phase.remainingMs = room.phase.deadline ? Math.max(1000, room.phase.deadline - now) : null;
         room.phase.deadline = null;

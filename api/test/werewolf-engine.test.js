@@ -164,3 +164,17 @@ test('Mechanical Wolf copies the starting card independently of first-night seat
         assert.equal(r.seats[mechanical].state.copiedRole, 'seer');
     }
 });
+
+test('automatic moderation preserves a disconnected eliminated Hunter’s pending shot', () => {
+    const r = setup();
+    r.settings.autoAdvance = true;
+    r.seats[5].alive = false;
+    r.pendingShots = [r.seats[5].id];
+    r.phase.kind = 'reaction'; r.phase.step = 'shoot';
+    for (const member of Object.values(r.members)) member.lastSeen = time;
+    r.members.actor5.lastSeen = time - 36000;
+    assert.equal(tickRoom(r, time), true);
+    assert.equal(r.phase.paused, true);
+    assert.deepEqual(r.pendingShots, [r.seats[5].id]);
+    assert.notEqual(r.seats[5].state.shotUsed, true);
+});
