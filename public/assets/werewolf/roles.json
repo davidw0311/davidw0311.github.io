@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "ruleset": {
-    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Timed-out optional actions are skipped. Roles act simultaneously within each configured night step.",
-    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。可选技能超时则跳过；同一夜间步骤内各玩家同时提交行动。"
+    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Night turns wait for each eligible player to submit or explicitly skip. The narrator calls every scheduled role, including dead roles, and closes each turn automatically.",
+    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。夜间等待每位可行动玩家提交或主动跳过。法官依次呼叫所有配置的夜间角色，包括已出局角色，并自动结束每个回合。"
   },
   "roles": [
     {
@@ -320,8 +320,8 @@
       },
       "team": "village",
       "description": {
-        "en": "First night permanently choose village or wolf. A wolf hound joins the pack attack. If the choice times out, remain village.",
-        "zh": "首夜永久选择好人或狼人阵营；选择狼人后参与狼刀。 超时未选则保持好人阵营。"
+        "en": "First night permanently choose village or wolf. A wolf hound joins the pack attack. A choice is required; an emergency skip by the host leaves you in the village.",
+        "zh": "首夜永久选择好人或狼人阵营；选择狼人后参与狼刀。 必须提交选择；若房主紧急跳过此回合，则保持好人阵营。"
       },
       "nightStep": "opening"
     },
@@ -333,8 +333,8 @@
       },
       "team": "village",
       "description": {
-        "en": "First night permanently become a Seer or Guard. This app’s reserve-role variant always offers these two cards. If the choice times out, become a Guard.",
-        "zh": "首夜从预言家或守卫中选择新身份。本应用的备用身份规则固定提供这两张牌。 超时未选则成为守卫。"
+        "en": "First night permanently become a Seer or Guard. This app’s reserve-role variant always offers these two cards. A choice is required; an emergency skip by the host makes you a Guard.",
+        "zh": "首夜从预言家或守卫中选择新身份。本应用的备用身份规则固定提供这两张牌。 必须提交选择；若房主紧急跳过此回合，则成为守卫。"
       },
       "nightStep": "opening"
     },
