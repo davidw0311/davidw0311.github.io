@@ -56,6 +56,7 @@ await call(formerHost, 'join', { name: 'Verification former host' });
 members.splice(0, members.length, host, ...members.filter(token => token !== host));
 view = (await call(host, 'sync')).view;
 assert.equal(view.seats.length, 6);
+view = (await call(host, 'command', { command: { type: 'updateSettings', settings: { nightSeconds: 10 } } })).view;
 view = (await call(host, 'command', { command: { type: 'startGame', expectedPhaseId: view.phase.id } })).view;
 assert.equal(view.status, 'playing');
 assert.equal(view.phase.nightStage, 'opening');
@@ -78,7 +79,7 @@ assert.equal(restored.recoveryKey, undefined);
 await call(members[1], 'sync', {}, 'NOT_SEATED');
 members[1] = replacement;
 // Narration ACKs and explicit participant actions drive the entire night.
-// Every turn in the default six-player deck has living actors, so none needs an idle wait.
+// Withhold the Seer action to verify that an offline participant cannot stall the night.
 view = (await call(host, 'sync')).view;
 await call(host, 'command', { command: { type: 'nextPhase', expectedPhaseId: view.phase.id } }, 'NIGHT_FLOW_CONTROLLED');
 const nightSteps = new Set();
@@ -104,6 +105,26 @@ while (view.phase.kind === 'night') {
       return action?.kind === 'nightAction' && !action.alreadySubmitted ? [{ token: members[index], action }] : [];
     });
     assert.ok(participants.length > 0, `No living actors in ${phase.step}.`);
+    if (phase.step === 'seer') {
+      assert.equal(participants.length, 1);
+      const missing = participants[0].token;
+      const observer = members.find(token => token !== missing);
+      await call(missing, 'command', { command: { type: 'leave' } });
+      const until = Date.now() + 15000;
+      let current;
+      do {
+        current = (await call(observer, 'sync')).view;
+        assert.equal(current.phase.paused, false);
+        assert.equal(current.phase.deadline, null);
+        if (current.phase.nightStage === 'closing') break;
+        await new Promise(resolve => setTimeout(resolve, 400));
+      } while (Date.now() < until);
+      assert.equal(current.phase.nightStage, 'closing', 'The offline Seer exceeded the bounded action window.');
+      assert.notEqual(current.phase.id, phase.id);
+      await call(missing, 'command', { command: { type: 'nightAction', ability: 'skip', expectedPhaseId: phase.id } }, 'STALE_PHASE');
+      view = (await call(host, 'sync')).view;
+      continue;
+    }
     const packets = participants.map(({ token, action }) => {
       assert.equal(action.canSkip, true, 'The default deck must support explicit night skips.');
       return { token, fields: { requestId: randomUUID(), command: { type: 'nightAction', ability: 'skip', expectedPhaseId: phase.id } } };
@@ -132,4 +153,4 @@ await call(oldHost, 'sync', {}, 'NOT_SEATED');
 await call(members[1], 'command', { command: { type: 'startNight', expectedPhaseId: recovery.view.phase.id } }, 'HOST_ONLY');
 // A final pause leaves the verification room idle and recoverable.
 await call(host, 'command', { command: { type: 'pause', expectedPhaseId: recovery.view.phase.id } });
-console.log('Live multiplayer checks passed: six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, duplicate narration/action protection, host recovery, and permissions.');
+console.log('Live multiplayer checks passed: six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, offline action expiry, duplicate narration/action protection, host recovery, and permissions.');

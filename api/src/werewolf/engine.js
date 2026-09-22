@@ -115,7 +115,7 @@ function setNightStage(room, stage, now) {
     delete flow.remainingMs;
     if (stage === 'acting') {
         flow.eligibleSeatIds = room.seats.filter(seat => actionDescriptor(room, seat)).map(seat => seat.id);
-        if (!flow.eligibleSeatIds.length) flow.deadline = now + randomInt(7000, 15001);
+        flow.deadline = now + (flow.eligibleSeatIds.length ? room.settings.nightSeconds * 1000 : randomInt(7000, 15001));
     }
 }
 function beginNightTurn(room, now) {
@@ -158,7 +158,8 @@ function finishNightNarration(room, now) {
     else if (room.phase.nightStage === 'closing') advanceNight(room, now);
 }
 function pauseRoom(room, now, reason) {
-    if (room.phase.paused) return;
+    // An explicit pause also takes ownership of an old automatic disconnect pause.
+    if (room.phase.paused) { if (!reason) delete room.phase.pauseReason; return; }
     if (eventNight(room)) {
         room.nightFlow.remainingMs = room.nightFlow.deadline == null ? null : Math.max(0, room.nightFlow.deadline - now);
         room.nightFlow.deadline = null;
@@ -181,6 +182,18 @@ function resumeRoom(room, now) {
     else room.phase.deadline = room.phase.remainingMs == null ? null : now + Math.max(1000, room.phase.remainingMs);
     delete room.phase.remainingMs;
     delete room.phase.pauseReason;
+}
+function ensureActionDeadline(room, now) {
+    // Upgrade formerly unlimited stages once; polling and replacements never reset them.
+    if (eventNight(room) && room.phase.nightStage === 'acting' && room.nightFlow.deadline == null) {
+        room.nightFlow.deadline = now + (room.nightFlow.eligibleSeatIds.length ? room.settings.nightSeconds * 1000 : randomInt(7000, 15001));
+        return true;
+    }
+    if (room.phase.kind === 'reaction' && room.phase.deadline == null) {
+        room.phase.deadline = now + room.settings.voteSeconds * 1000;
+        return true;
+    }
+    return false;
 }
 function transformedTeam(role) { return WOLF_ROLES.has(role) ? 'wolf' : INDEPENDENT_ROLES.has(role) ? 'independent' : 'village'; }
 function actionAt(room, step, seatId) { return room.actions[step]?.[seatId] || null; }
@@ -641,7 +654,10 @@ function executeCommand(room, actorId, c, now) {
     if (s)
         room.members[actorId].lastSeen = now;
     // An automatic deadline is authoritative even when the next polling tick is delayed.
-    if (['nightAction', 'vote', 'shoot', 'knightDuel', 'wolfExplode'].includes(c.type) && room.settings.autoAdvance && !room.phase.paused && room.phase.deadline && now >= room.phase.deadline)
+    const actionDeadline = eventNight(room) && room.phase.nightStage === 'acting'
+        ? room.nightFlow.deadline
+        : room.settings.autoAdvance || room.phase.kind === 'reaction' ? room.phase.deadline : null;
+    if (['nightAction', 'vote', 'shoot', 'knightDuel', 'wolfExplode'].includes(c.type) && !room.phase.paused && actionDeadline != null && now >= actionDeadline)
         fail('EXPIRED_PHASE', 'This phase has ended. Refresh the room for the next step.');
     switch (c.type) {
         case 'approveJoin': {
@@ -782,7 +798,6 @@ function executeCommand(room, actorId, c, now) {
         case 'skipNightTurn':
             if (c.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed.');
             if (!eventNight(room) || !room.phase.paused) fail('PAUSE_REQUIRED', 'Pause the night before using emergency skip.');
-            room.nightFlow.ignoreDisconnects = true;
             setNightStage(room, 'closing', now);
             event(room, 'The host used emergency skip for this night turn. Missing actions were skipped.', '房主紧急跳过了本轮夜间行动，未提交的行动视为跳过。', now);
             break;
@@ -974,31 +989,37 @@ function applyCommand(room, actorId, command, now) {
 }
 function tickRoom(room, now) {
     now = nowMs(now);
-    if (room.status !== 'playing' || room.phase.paused || (!eventNight(room) && !room.settings.autoAdvance)) return false;
-    const host = seatOf(room, room.hostId);
-    const absent = room.seats.some(s => (s.alive || room.pendingShots.includes(s.id)) && !connected(room, s, now));
-    if (!host || !connected(room, host, now) || (absent && !(eventNight(room) && room.nightFlow.ignoreDisconnects))) {
-        pauseRoom(room, now, 'disconnected');
-        room.revision++; room.updatedAt = now;
-        return true;
+    if (room.status !== 'playing') return false;
+    let changed = false;
+    if (room.phase.paused && room.phase.pauseReason === 'disconnected') {
+        resumeRoom(room, now);
+        changed = true;
     }
+    if (room.phase.paused) return false;
+    if (ensureActionDeadline(room, now)) changed = true;
+    const persist = () => {
+        if (changed) { room.revision++; room.updatedAt = now; }
+        return changed;
+    };
     if (eventNight(room)) {
         const flow = room.nightFlow;
         if (room.phase.nightStage === 'acting') {
-            if (flow.eligibleSeatIds.length) {
-                if (!flow.eligibleSeatIds.every(id => actionAt(room, room.phase.step, id))) return false;
-            }
-            else if (flow.deadline == null || now < flow.deadline) return false;
+            const completed = flow.eligibleSeatIds.length && flow.eligibleSeatIds.every(id => actionAt(room, room.phase.step, id));
+            if (!completed && (flow.deadline == null || now < flow.deadline)) return persist();
+            // Timeout defaults never overwrite submitted choices. Opening roles
+            // retain their existing resolveOpening defaults when skipped.
+            for (const id of flow.eligibleSeatIds)
+                if (!actionAt(room, room.phase.step, id)) recordAction(room, room.phase.step, getSeat(room, id), { skip: true });
             setNightStage(room, 'closing', now);
         }
         else {
-            if (flow.deadline == null || now < flow.deadline) return false;
+            if (flow.deadline == null || now < flow.deadline) return persist();
             finishNightNarration(room, now);
         }
-        room.revision++; room.updatedAt = now;
-        return true;
+        changed = true;
+        return persist();
     }
-    if (!room.phase.deadline || now < room.phase.deadline) return false;
+    if ((!room.settings.autoAdvance && room.phase.kind !== 'reaction') || !room.phase.deadline || now < room.phase.deadline) return persist();
     applyCommand(room, room.hostId, { type: 'nextPhase', expectedPhaseId: room.phase.id }, now);
     return true;
 }

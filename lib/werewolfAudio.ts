@@ -9,53 +9,147 @@ export type WerewolfAudioPhase = {
 };
 type Phase = WerewolfAudioPhase;
 type Options = { voice: boolean; music: boolean; language: "en" | "zh"; active: boolean };
+type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
+const MUSIC = "/assets/werewolf/audio/night-ambience.wav";
 
-/** A single opt-in host device plays the public moderator cues. Never reads private game state. */
+// A short, valid, unmuted PCM audio track for granting each persistent media
+// element playback permission in the initiating gesture. No network is needed.
+function silentWav() {
+  const bytes = new Uint8Array(44 + 1280);
+  const data = new DataView(bytes.buffer);
+  const ascii = (offset: number, value: string) => { for (let i = 0; i < value.length; i++) bytes[offset + i] = value.charCodeAt(i); };
+  ascii(0, "RIFF"); data.setUint32(4, bytes.length - 8, true); ascii(8, "WAVEfmt ");
+  data.setUint32(16, 16, true); data.setUint16(20, 1, true); data.setUint16(22, 1, true);
+  data.setUint32(24, 8000, true); data.setUint32(28, 16000, true); data.setUint16(32, 2, true); data.setUint16(34, 16, true);
+  ascii(36, "data"); data.setUint32(40, 1280, true);
+  return `data:audio/wav;base64,${btoa(String.fromCharCode(...bytes))}`;
+}
+
+/** Public cues only. The caller decides whose device may acknowledge a night. */
 export class WerewolfAudio {
-  private context: AudioContext | null = null;
   private options: Options = { voice: false, music: false, language: "en", active: false };
   private phase: Phase | null = null;
   private phaseKey = "";
   private cues: string[] = [];
-  private cache = new Map<string, Promise<AudioBuffer>>();
-  private narration: AudioBufferSourceNode | null = null;
-  private music: AudioBufferSourceNode | null = null;
-  private musicGain: GainNode | null = null;
-  private musicLoading = false;
+  // Safari grants media playback per element. Reuse these for every recording;
+  // do not fetch/decode files or construct a new element between queued clips.
+  private narration: HTMLAudioElement | null = null;
+  private music: HTMLAudioElement | null = null;
+  private narrationReady = false;
+  private musicReady = false;
+  private priming = false;
+  private musicPriming = false;
+  private primeGeneration = 0;
   private generation = 0;
+  private clip = 0;
+  private musicGeneration = 0;
+  private narrating = false;
+  private testing = false;
+  private musicPlaying = false;
   private disposed = false;
-  private unlocked = false;
-  private abort = new AbortController();
+  private acknowledgedPhases = new Set<string>();
+  private stallTimer: ReturnType<typeof setTimeout> | null = null;
+  private musicStallTimer: ReturnType<typeof setTimeout> | null = null;
+  private timers = new Set<ReturnType<typeof setTimeout>>();
+  private audioSession: AudioSession | null = null;
+  private previousSessionType: string | null = null;
   private report: (status: WerewolfAudioStatus, message?: string) => void;
   private onNightNarrationDone?: (phaseId: string) => void;
-  private acknowledgedPhases = new Set<string>();
-  constructor(
-    report: (status: WerewolfAudioStatus, message?: string) => void,
-    onNightNarrationDone?: (phaseId: string) => void,
-  ) {
+
+  constructor(report: (status: WerewolfAudioStatus, message?: string) => void, onNightNarrationDone?: (phaseId: string) => void) {
     this.report = report;
     this.onNightNarrationDone = onNightNarrationDone;
   }
 
-  /** Must be called directly from a click/tap, before any awaited operation. */
-  async unlock() {
-    if (this.disposed) return;
+  private ensureMedia() {
+    if (this.narration && this.music) return;
+    this.narration = new Audio();
+    this.music = new Audio();
+    for (const media of [this.narration, this.music]) {
+      media.preload = "auto";
+      media.setAttribute("playsinline", "");
+      media.muted = false;
+    }
+    // HTML media already defaults to the playback session category. Explicitly
+    // request it where supported, including iOS with the silent switch enabled.
     try {
-      this.context ??= new AudioContext();
-      await this.context.resume();
-      if (this.context.state !== "running") throw new Error("Audio is suspended");
-      this.unlocked = true;
+      const session = typeof navigator !== "undefined" ? (navigator as Navigator & { audioSession?: AudioSession }).audioSession : undefined;
+      if (session) { this.audioSession = session; this.previousSessionType = session.type; session.type = "playback"; }
+    } catch { /* The media-element playback route remains available. */ }
+  }
+
+  /** Call directly in a tap/click. BOTH play() calls occur before the first await. */
+  async unlock(): Promise<void> {
+    if (this.disposed) return;
+    try { this.ensureMedia(); } catch { this.report("error", this.message("Audio playback is unavailable in this browser.", "此浏览器无法播放音频。")); return; }
+    this.priming = false; this.musicPriming = false;
+    this.stopNarration(); this.stopMusic();
+    const attempt = ++this.primeGeneration;
+    this.priming = true; this.musicPriming = true;
+    this.narrationReady = false; this.musicReady = false;
+    const silence = silentWav();
+    this.prepare(this.narration!, silence, false);
+    this.prepare(this.music!, silence, false);
+    // These calls must stay synchronous with the user gesture. Awaiting a
+    // resume(), fetch(), loadeddata, or the first play() would lose activation.
+    const musicPlay = this.play(this.music!);
+    const narrationPlay = this.play(this.narration!); // Give speech the last media-focus request.
+    const results = await Promise.allSettled([narrationPlay, musicPlay]);
+    if (this.disposed || attempt !== this.primeGeneration) return;
+    this.priming = false; this.musicPriming = false;
+    this.clearHandlers(this.narration!); this.narration!.pause();
+    this.clearHandlers(this.music!); this.music!.pause();
+    this.narrationReady = results[0].status === "fulfilled";
+    this.musicReady = results[1].status === "fulfilled";
+    const neededFailure = this.options.voice && !this.narrationReady || this.options.music && !this.musicReady;
+    if (neededFailure || !this.narrationReady && !this.musicReady) {
+      this.report("locked", this.message("Tap Enable sound or Test sound again. Your phone may have interrupted playback.", "请再次点击开启声音或测试声音，手机可能中断了播放。"));
+    } else this.report("ready");
+    this.replay();
+    this.syncMusic();
+  }
+
+  /** Audible Brian test, called directly in a gesture. The test never ACKs a phase. */
+  async testSound(): Promise<void> {
+    if (this.disposed) return;
+    try { this.ensureMedia(); } catch { this.report("error", this.message("Audio playback is unavailable in this browser.", "此浏览器无法播放音频。")); return; }
+    ++this.primeGeneration;
+    this.priming = false; this.musicPriming = false;
+    this.stopNarration(); this.stopMusic();
+    const attempt = this.primeGeneration;
+    this.musicPriming = true;
+    this.prepare(this.music!, silentWav(), false);
+    const primeMusic = this.play(this.music!); // Same gesture as the real voice test below.
+    this.testing = true;
+    this.narrating = true;
+    const generation = this.generation;
+    const phaseKey = this.phaseKey;
+    const spokenTest = this.playClip("night", generation, () => {
+      this.testing = false; this.narrating = false;
       this.report("ready");
+      // Resume the interrupted real queue, which alone may acknowledge its
+      // phase. A phase change or disposal invalidates this completion handler.
+      if (!this.disposed && generation === this.generation && phaseKey === this.phaseKey) this.replay();
       this.syncMusic();
-      this.replay();
-    } catch { this.unlocked = false; this.report("locked", this.message("Tap the audio control again to allow playback.", "请再次点击音频按钮，允许播放声音。")); }
+    }, true);
+    void primeMusic.then(() => {
+      if (this.disposed || attempt !== this.primeGeneration) return;
+      this.musicReady = true; this.musicPriming = false;
+      this.clearHandlers(this.music!); this.music!.pause();
+      this.syncMusic();
+    }).catch(() => {
+      if (this.disposed || attempt !== this.primeGeneration) return;
+      this.musicReady = false; this.musicPriming = false;
+      if (this.options.music) this.report("locked", this.message("Night music needs another tap to enable playback.", "请再次点击以开启夜间音乐。"));
+    });
+    await spokenTest;
   }
 
   configure(options: Options) {
     const previous = this.options;
     this.options = options;
-    if (!options.active || !options.voice) this.stopNarration();
+    if ((!this.testing && (!options.active || !options.voice)) || previous.active && !options.active || previous.voice && !options.voice) this.stopNarration();
     this.syncMusic();
     if (options.active && options.voice && (!previous.voice || !previous.active || previous.language !== options.language)) this.replay();
   }
@@ -64,137 +158,167 @@ export class WerewolfAudio {
     const key = JSON.stringify([phase.id, phase.kind, phase.step ?? "", Boolean(phase.paused), phase.nightStage ?? "", phase.nightCues ?? []]);
     const previous = this.phase;
     this.phase = phase;
-    this.syncMusic();
-    if (key === this.phaseKey) return;
+    if (key === this.phaseKey) { this.syncMusic(); return; }
     this.phaseKey = key;
     if (phase.paused) this.cues = ["paused"];
-    // Staged nights are controlled by public server events. Acting has no voice
-    // cue, including when a client skips directly from opening to acting.
     else if (phase.kind === "night" && phase.nightStage) this.cues = phase.nightStage === "acting" ? [] : [...(phase.nightCues ?? [])];
-    else if (phase.kind === "night") this.cues = [
-      ...(previous?.kind !== "night" ? ["night"] : previous.paused ? [] : ["role-sleep"]),
-      phase.step || "night",
-    ];
+    else if (phase.kind === "night") this.cues = [...(previous?.kind !== "night" ? ["night"] : previous.paused ? [] : ["role-sleep"]), phase.step || "night"];
     else if (phase.kind === "day") this.cues = phase.step === "afterVote" ? ["vote-result"] : previous?.kind === "night" ? ["dawn", "discussion"] : ["discussion"];
     else if (phase.kind === "voting") this.cues = [phase.step === "sheriff" ? "sheriff-voting" : "voting"];
     else if (phase.kind === "reaction") this.cues = [...(previous?.kind === "night" ? ["dawn"] : []), "reaction"];
     else this.cues = phase.kind === "finished" ? ["game-over"] : [];
     this.stopNarration();
     this.replay();
+    this.syncMusic();
   }
 
   replay() {
-    if (this.disposed || !this.options.active || !this.options.voice || !this.phase || !this.unlocked) return;
+    if (this.disposed || this.priming || !this.narrationReady || !this.options.active || !this.options.voice || !this.phase) return;
     this.stopNarration();
     const generation = this.generation;
-    const language = this.options.language;
     const phase = this.phase;
-    const stagedNarration = phase.kind === "night" && !phase.paused && (phase.nightStage === "opening" || phase.nightStage === "closing");
-    // Never acknowledge an empty or partially understood server cue queue.
-    if (stagedNarration && (!this.cues.length || this.cues.some(cue => !CUES.has(cue)))) {
+    const staged = phase.kind === "night" && !phase.paused && (phase.nightStage === "opening" || phase.nightStage === "closing");
+    if (staged && (!this.cues.length || this.cues.some(cue => !CUES.has(cue)))) {
       this.report("error", this.message("This night announcement is unavailable. The host can retry or continue.", "此夜间提示暂时不可用，房主可重试或继续。"));
       return;
     }
     const cues = this.cues.filter(cue => CUES.has(cue));
-    const playNext = (index: number) => {
+    const next = (index: number) => {
       if (this.disposed || generation !== this.generation || !this.options.active || !this.options.voice) return;
-      if (index >= cues.length) {
-        this.narration = null;
-        this.setMusicGain(.16);
+      if (index === cues.length) {
+        this.narrating = false;
         this.report("ready");
-        // report() can synchronously change or dispose this controller. Verify
-        // the generation and all public state again before acknowledging.
-        if (stagedNarration && cues.length > 0 && !this.disposed && generation === this.generation
-          && this.options.active && this.options.voice && this.phase?.id === phase.id
-          && !this.phase.paused && this.phase.nightStage === phase.nightStage
-          && !this.acknowledgedPhases.has(phase.id)) {
+        this.syncMusic();
+        if (staged && cues.length && generation === this.generation && !this.disposed && this.options.active && this.options.voice
+          && this.phase?.id === phase.id && !this.phase.paused && this.phase.nightStage === phase.nightStage && !this.acknowledgedPhases.has(phase.id)) {
           this.acknowledgedPhases.add(phase.id);
           this.onNightNarrationDone?.(phase.id);
         }
         return;
       }
-      void this.load(`/assets/werewolf/audio/${language}/${cues[index]}.mp3`).then(buffer => {
-        if (this.disposed || generation !== this.generation || !this.options.active || !this.options.voice) return;
-        const context = this.context!;
-        if (context.state !== "running") { this.report("locked", this.message("Tap the audio control to resume sound.", "请点击音频按钮恢复声音。")); return; }
-        const source = context.createBufferSource();
-        source.buffer = buffer;
-        source.connect(context.destination);
-        this.narration = source;
-        this.setMusicGain(.035);
-        source.onended = () => {
-          source.disconnect();
-          if (generation !== this.generation || this.disposed) return;
-          this.narration = null;
-          playNext(index + 1);
-        };
-        source.start();
-        this.report("playing");
-      }).catch(() => {
-        if (generation === this.generation && !this.disposed) {
-          this.setMusicGain(.16);
-          this.report("error", this.message("Brian's recording could not load. Check your connection and replay.", "Brian 的语音未能加载。请检查网络后重播。"));
-        }
-      });
+      this.narrating = true;
+      this.syncMusic();
+      void this.playClip(cues[index], generation, () => next(index + 1));
     };
-    playNext(0);
+    next(0);
   }
 
-  private message(en: string, zh: string) { return this.options.language === "zh" ? zh : en; }
-  private load(src: string) {
-    let promise = this.cache.get(src);
-    if (!promise) {
-      promise = fetch(src, { signal: this.abort.signal }).then(response => {
-        if (!response.ok) throw new Error("Audio unavailable");
-        return response.arrayBuffer();
-      }).then(data => this.context!.decodeAudioData(data)).catch(error => { this.cache.delete(src); throw error; });
-      this.cache.set(src, promise);
-    }
-    return promise;
+  private playClip(cue: string, generation: number, ended: () => void, test = false): Promise<void> {
+    const media = this.narration!;
+    const clip = ++this.clip;
+    let started = false;
+    let lastTime = 0;
+    const current = () => !this.disposed && generation === this.generation && clip === this.clip && (test ? this.testing : this.options.active && this.options.voice);
+    this.prepare(media, `/assets/werewolf/audio/${this.options.language}/${cue}.mp3`, false);
+    const fail = (locked: boolean) => {
+      if (!current()) return;
+      if (locked) this.narrationReady = false;
+      this.stopNarration();
+      this.report(locked ? "locked" : "error", locked
+        ? this.message("Playback was interrupted. Tap Enable sound or Replay to continue.", "播放已中断，请点击开启声音或重播继续。")
+        : this.message("Brian's recording could not play. Check the connection and tap Replay.", "Brian 的语音未能播放，请检查网络后点击重播。"));
+    };
+    media.onplaying = () => { if (current()) { started = true; lastTime = media.currentTime; this.narrationReady = true; this.clearStall(); this.report("playing"); } };
+    media.ontimeupdate = () => { if (current() && !media.paused && media.currentTime > lastTime) { lastTime = media.currentTime; this.clearStall(); } };
+    media.onended = () => {
+      // A queued event from the previous src must not complete the new clip.
+      if (!current() || !started || !media.ended) return;
+      this.clearStall(); this.clearHandlers(media); ended();
+    };
+    media.onpause = () => { if (current() && media.paused && !media.ended) fail(true); };
+    media.onerror = () => fail(false);
+    const stalled = () => {
+      if (!current() || this.stallTimer) return;
+      this.stallTimer = setTimeout(() => { this.stallTimer = null; fail(false); }, 10000);
+    };
+    media.onstalled = stalled; media.onwaiting = stalled;
+    return this.play(media).then(() => {
+      if (!current()) return;
+      if (media.paused && !media.ended) { fail(true); return; }
+      started = true; this.narrationReady = true; this.clearStall(); this.report("playing");
+    }).catch(error => {
+      if (current()) fail(error instanceof Error && ["NotAllowedError", "AbortError", "TimeoutError"].includes(error.name));
+    });
   }
+
+  private prepare(media: HTMLAudioElement, src: string, loop: boolean) {
+    this.clearHandlers(media);
+    media.pause(); media.loop = loop; media.muted = false;
+    media.src = src;
+    // volume is best-effort: iOS can use hardware volume instead. Speech and
+    // ambience never overlap, so an ignored volume property cannot mask Brian.
+    try { media.volume = loop ? .18 : 1; } catch { /* Hardware volume only. */ }
+  }
+
+  private play(media: HTMLAudioElement): Promise<void> {
+    let playing: Promise<void>;
+    try { playing = Promise.resolve(media.play()); } catch (error) { return Promise.reject(error); }
+    return new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        this.timers.delete(timer);
+        const error = new Error("Media playback did not start"); error.name = "TimeoutError";
+        reject(error);
+      }, 8000);
+      this.timers.add(timer);
+      playing.then(() => { clearTimeout(timer); this.timers.delete(timer); resolve(); }, error => { clearTimeout(timer); this.timers.delete(timer); reject(error); });
+    });
+  }
+
+  private clearHandlers(media: HTMLAudioElement) {
+    media.onended = null; media.onplaying = null; media.onpause = null; media.onerror = null;
+    media.onstalled = null; media.onwaiting = null; media.ontimeupdate = null;
+  }
+  private clearStall() { if (this.stallTimer) clearTimeout(this.stallTimer); this.stallTimer = null; }
   private stopNarration() {
-    this.generation++;
-    if (this.narration) { this.narration.onended = null; this.narration.stop(); this.narration.disconnect(); this.narration = null; }
-    this.setMusicGain(.16);
-  }
-  private setMusicGain(volume: number) {
-    if (!this.context || !this.musicGain) return;
-    this.musicGain.gain.cancelScheduledValues(this.context.currentTime);
-    this.musicGain.gain.setTargetAtTime(volume, this.context.currentTime, .25);
+    ++this.generation; ++this.clip;
+    this.narrating = false; this.testing = false; this.clearStall();
+    if (this.narration && !this.priming) { this.clearHandlers(this.narration); this.narration.pause(); }
   }
   private shouldPlayMusic() {
-    return this.unlocked && this.options.active && this.options.music
-      && this.phase?.kind === "night" && !this.phase.paused
-      && (!this.phase.nightStage || this.phase.nightStage === "acting") && !this.disposed;
+    return !this.disposed && !this.priming && !this.musicPriming && this.musicReady && this.options.active && this.options.music
+      && !this.narrating && !this.testing && this.phase?.kind === "night" && !this.phase.paused
+      && (!this.phase.nightStage || this.phase.nightStage === "acting");
+  }
+  private stopMusic() {
+    ++this.musicGeneration; this.musicPlaying = false;
+    if (this.musicStallTimer) clearTimeout(this.musicStallTimer);
+    this.musicStallTimer = null;
+    if (this.music && !this.musicPriming) { this.clearHandlers(this.music); this.music.pause(); }
   }
   private syncMusic() {
-    if (!this.shouldPlayMusic()) {
-      if (this.music && this.context) {
-        const source = this.music, gain = this.musicGain!;
-        gain.gain.cancelScheduledValues(this.context.currentTime);
-        gain.gain.setTargetAtTime(0, this.context.currentTime, .15);
-        source.onended = () => { source.disconnect(); gain.disconnect(); };
-        source.stop(this.context.currentTime + .7);
-        this.music = null; this.musicGain = null;
-      }
-      return;
-    }
-    if (this.music || this.musicLoading || this.context?.state !== "running") return;
-    this.musicLoading = true;
-    void this.load("/assets/werewolf/audio/night-ambience.wav").then(buffer => {
-      this.musicLoading = false;
-      if (!this.shouldPlayMusic() || !this.context || this.music) return;
-      const source = this.context.createBufferSource(), gain = this.context.createGain();
-      source.buffer = buffer; source.loop = true;
-      gain.gain.setValueAtTime(0, this.context.currentTime);
-      gain.gain.linearRampToValueAtTime(this.narration ? .035 : .16, this.context.currentTime + 1.2);
-      source.connect(gain); gain.connect(this.context.destination);
-      source.start(); this.music = source; this.musicGain = gain;
-    }).catch(() => { this.musicLoading = false; if (!this.disposed) this.report("error", this.message("Night music could not load. Turn music off and on to retry.", "夜间音乐未能加载。请关闭音乐后重新开启。")); });
+    if (!this.shouldPlayMusic()) { if (this.musicPlaying) this.stopMusic(); return; }
+    if (this.musicPlaying || !this.music) return;
+    const media = this.music;
+    const generation = ++this.musicGeneration;
+    this.musicPlaying = true;
+    this.prepare(media, MUSIC, true);
+    const current = () => !this.disposed && generation === this.musicGeneration && this.shouldPlayMusic();
+    const fail = (locked: boolean) => {
+      if (!current()) return;
+      this.musicReady = false; this.stopMusic();
+      this.report(locked ? "locked" : "error", this.message("Night music stopped. Tap Enable sound to try again.", "夜间音乐已停止，请点击开启声音重试。"));
+    };
+    media.onplaying = () => { if (current()) { if (this.musicStallTimer) clearTimeout(this.musicStallTimer); this.musicStallTimer = null; this.report("playing"); } };
+    media.onpause = () => { if (current() && media.paused && !media.ended) fail(true); };
+    media.onerror = () => fail(false);
+    const stalled = () => { if (current() && !this.musicStallTimer) this.musicStallTimer = setTimeout(() => { this.musicStallTimer = null; fail(false); }, 10000); };
+    media.onstalled = stalled; media.onwaiting = stalled;
+    void this.play(media).then(() => { if (current()) { if (media.paused) fail(true); else this.report("playing"); } }).catch(error => {
+      if (current()) fail(error instanceof Error && ["NotAllowedError", "AbortError", "TimeoutError"].includes(error.name));
+    });
   }
+  private message(en: string, zh: string) { return this.options.language === "zh" ? zh : en; }
+
   dispose() {
-    this.disposed = true; this.stopNarration(); this.syncMusic(); this.abort.abort();
-    if (this.context) void this.context.close().catch(() => {});
-    this.context = null; this.cache.clear();
+    this.disposed = true; ++this.primeGeneration;
+    this.priming = false; this.musicPriming = false;
+    this.stopNarration(); this.stopMusic();
+    for (const timer of this.timers) clearTimeout(timer);
+    this.timers.clear();
+    for (const media of [this.narration, this.music]) { if (media) { this.clearHandlers(media); media.pause(); media.removeAttribute("src"); media.load(); } }
+    if (this.audioSession && this.audioSession.type === "playback" && this.previousSessionType) {
+      try { this.audioSession.type = this.previousSessionType; } catch { /* no-op */ }
+    }
+    this.narration = null; this.music = null;
   }
 }

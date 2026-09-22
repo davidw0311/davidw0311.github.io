@@ -282,7 +282,7 @@ test('concurrent eligible night actions close only after everyone submits and du
   assert.notEqual(next.view.phase.step, closing.view.phase.step);
 });
 
-test('a submitted night action survives disconnect, service restart and host resume', async () => {
+test('a submitted night action survives disconnect and restart without pausing the room', async () => {
   const t = await sixPlayerGame(); const { code } = t;
   const acting = await t.call({ op: 'command', code, command: { type: 'nightNarrationDone', expectedPhaseId: t.started.view.phase.id } });
   const snapshots = await Promise.all(t.members.map(token => t.call({ op: 'sync', code, token })));
@@ -295,14 +295,109 @@ test('a submitted night action survives disconnect, service restart and host res
   const restarted = new WerewolfService(t.store, () => 100001);
   const returned = await restarted.handle({ op: 'join', code, token: wolves[0], name: 'Returning player', requestId: randomUUID() }, 'test-ip');
   assert.equal(returned.view.phase.nightStage, 'acting');
-  assert.equal(returned.view.phase.paused, true);
-  assert.notEqual(returned.view.phase.id, acting.view.phase.id);
-  const resumed = await restarted.handle({ op: 'command', code, token: t.token, requestId: randomUUID(), command: { type: 'resume', expectedPhaseId: returned.view.phase.id } }, 'test-ip');
-  assert.equal(resumed.view.phase.paused, false);
-  assert.notEqual(resumed.view.phase.id, returned.view.phase.id);
+  assert.equal(returned.view.phase.paused, false);
+  assert.equal(returned.view.phase.id, acting.view.phase.id);
   const reconnected = await restarted.handle({ op: 'sync', code, token: wolves[0] }, 'test-ip');
   assert.equal(reconnected.view.me.action.alreadySubmitted, true);
-  await assert.rejects(restarted.handle({ op: 'command', code, token: wolves[1], requestId: randomUUID(), command: { type: 'nightAction', ability: 'skip', expectedPhaseId: acting.view.phase.id } }, 'test-ip'), { code: 'STALE_PHASE' });
-  const closed = await restarted.handle({ op: 'command', code, token: wolves[1], requestId: randomUUID(), command: { type: 'nightAction', ability: 'skip', expectedPhaseId: resumed.view.phase.id } }, 'test-ip');
+  const closed = await restarted.handle({ op: 'command', code, token: wolves[1], requestId: randomUUID(), command: { type: 'nightAction', ability: 'skip', expectedPhaseId: acting.view.phase.id } }, 'test-ip');
   assert.equal(closed.view.phase.nightStage, 'closing');
+});
+
+
+test('private night deadlines reject late actions and advance with the host offline even without daytime automation', async () => {
+  const t = await sixPlayerGame(); const { code } = t;
+  const acting = await t.call({ op: 'command', code, command: { type: 'nightNarrationDone', expectedPhaseId: t.started.view.phase.id } });
+  assert.equal(acting.view.settings.autoAdvance, false);
+  assert.equal(acting.view.phase.deadline, null);
+  const snapshots = await Promise.all(t.members.map(token => t.call({ op: 'sync', code, token })));
+  const wolves = snapshots.flatMap((reply, i) => reply.view.me.action?.kind === 'nightAction' ? [{ token: t.members[i], seatId: reply.view.me.seatId }] : []);
+  const packet = { op: 'command', code, token: wolves[0].token, requestId: randomUUID(), command: { type: 'nightAction', ability: 'skip', expectedPhaseId: acting.view.phase.id } };
+  await t.call(packet);
+  const before = structuredClone(t.store.data.get(`rooms/${code}`).actions.wolves[wolves[0].seatId]);
+  await t.call({ op: 'command', code, command: { type: 'leave' } });
+  t.advance(45000);
+  await assert.rejects(t.call({ op: 'command', code, token: wolves[1].token, command: { type: 'nightAction', ability: 'skip', expectedPhaseId: acting.view.phase.id } }), { code: 'EXPIRED_PHASE' });
+  const closed = await t.call({ op: 'sync', code, token: t.members.find(token => token !== t.token && token !== wolves[1].token) });
+  assert.equal(closed.view.phase.nightStage, 'closing');
+  assert.equal(closed.view.phase.paused, false);
+  assert.equal(closed.view.phase.deadline, null);
+  const stored = t.store.data.get(`rooms/${code}`);
+  assert.deepEqual(stored.actions.wolves[wolves[0].seatId], before);
+  assert.deepEqual(stored.actions.wolves[wolves[1].seatId], { skip: true });
+  const retry = await t.call(packet);
+  assert.equal(retry.view.phase.id, closed.view.phase.id);
+  assert.ok(!JSON.stringify(closed).includes('eligibleSeatIds'));
+  assert.ok(!JSON.stringify(closed).includes('nightFlow'));
+});
+
+test('concurrent replacement and timeout preserve one closing stage and idempotent approval', async () => {
+  for (const replacementFirst of [true, false]) {
+    const t = await sixPlayerGame(); const { code } = t;
+    const acting = await t.call({ op: 'command', code, command: { type: 'nightNarrationDone', expectedPhaseId: t.started.view.phase.id } });
+    const snapshots = await Promise.all(t.members.map(token => t.call({ op: 'sync', code, token })));
+    const index = snapshots.findIndex((reply, i) => i > 0 && reply.view.me.action?.kind === 'nightAction');
+    const oldToken = t.members[index], newToken = randomUUID();
+    const seatId = snapshots[index].view.me.seatId;
+    await t.call({ op: 'join', code, token: newToken, name: 'Returning wolf' });
+    const requested = await t.call({ op: 'sync', code });
+    const approval = { op: 'command', code, requestId: randomUUID(), command: { type: 'approveJoin', requestId: requested.view.requests[0].id, replaceSeatId: seatId } };
+    const sync = { op: 'sync', code, token: t.members.find(token => token !== t.token && token !== oldToken) };
+    t.advance(45000);
+    const results = await Promise.all((replacementFirst ? [approval, sync] : [sync, approval]).map(packet => t.call(packet)));
+    assert.ok(results.every(reply => reply.view.phase.nightStage === 'closing' && !reply.view.phase.paused));
+    assert.equal(results[0].view.phase.id, results[1].view.phase.id);
+    const retry = await t.call(approval);
+    assert.equal(retry.view.phase.id, results[0].view.phase.id);
+    const returned = await t.call({ op: 'sync', code, token: newToken });
+    assert.equal(returned.view.me.seatId, seatId);
+    assert.equal(returned.view.me.roleId, snapshots[index].view.me.roleId);
+    await assert.rejects(t.call({ op: 'sync', code, token: oldToken }), { code: 'NOT_SEATED' });
+    await assert.rejects(t.call({ op: 'command', code, token: newToken, command: { type: 'nightAction', ability: 'skip', expectedPhaseId: acting.view.phase.id } }), { code: 'STALE_PHASE' });
+  }
+});
+
+test('a replacement can submit within the original deadline without extending it', async () => {
+  const t = await sixPlayerGame(); const { code } = t;
+  const acting = await t.call({ op: 'command', code, command: { type: 'nightNarrationDone', expectedPhaseId: t.started.view.phase.id } });
+  const snapshots = await Promise.all(t.members.map(token => t.call({ op: 'sync', code, token })));
+  const index = snapshots.findIndex((reply, i) => i > 0 && reply.view.me.action?.kind === 'nightAction');
+  const deadline = t.store.data.get(`rooms/${code}`).nightFlow.deadline;
+  const token = randomUUID();
+  t.advance(44000);
+  await t.call({ op: 'join', code, token, name: 'Returning wolf' });
+  const requested = await t.call({ op: 'sync', code });
+  await t.call({ op: 'command', code, command: { type: 'approveJoin', requestId: requested.view.requests[0].id, replaceSeatId: snapshots[index].view.me.seatId } });
+  const submitted = await t.call({ op: 'command', code, token, command: { type: 'nightAction', ability: 'skip', expectedPhaseId: acting.view.phase.id } });
+  assert.equal(submitted.view.me.action.alreadySubmitted, true);
+  assert.equal(submitted.view.phase.nightStage, 'acting');
+  assert.equal(t.store.data.get(`rooms/${code}`).nightFlow.deadline, deadline);
+});
+
+test('legacy unlimited action windows and disconnect pauses migrate once across service restarts', async () => {
+  for (const disconnected of [false, true]) {
+    const t = await sixPlayerGame(); const { code } = t;
+    const acting = await t.call({ op: 'command', code, command: { type: 'nightNarrationDone', expectedPhaseId: t.started.view.phase.id } });
+    const room = t.store.data.get(`rooms/${code}`);
+    room.nightFlow.deadline = null;
+    if (disconnected) {
+      room.phase.paused = true;
+      room.phase.pauseReason = 'disconnected';
+      room.nightFlow.remainingMs = null;
+    }
+    const migrated = await t.call({ op: 'sync', code, token: t.members[1] });
+    const deadline = t.store.data.get(`rooms/${code}`).nightFlow.deadline;
+    assert.equal(deadline, 145000);
+    assert.equal(migrated.view.phase.paused, false);
+    assert.equal(migrated.view.phase.deadline, null);
+    assert.equal(migrated.view.phase.nightStage, 'acting');
+    if (disconnected) assert.notEqual(migrated.view.phase.id, acting.view.phase.id);
+    else assert.equal(migrated.view.phase.id, acting.view.phase.id);
+    const restarted = new WerewolfService(t.store, () => 120000);
+    await restarted.handle({ op: 'sync', code, token: t.members[1] }, 'test-ip');
+    assert.equal(t.store.data.get(`rooms/${code}`).nightFlow.deadline, deadline);
+    const expiredWorker = new WerewolfService(t.store, () => deadline);
+    const closed = await expiredWorker.handle({ op: 'sync', code, token: t.members[1] }, 'test-ip');
+    assert.equal(closed.view.phase.nightStage, 'closing');
+    assert.equal(closed.view.phase.paused, false);
+  }
 });

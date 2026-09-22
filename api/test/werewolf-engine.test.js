@@ -74,8 +74,20 @@ test('active-game removal disconnects a seat without killing or losing its card'
 test('reconnect uses the same identity; names alone cannot take a seat', () => { const r = setup(); send(r, 'actor2', 'leave'); assert.equal(publicView(r, 'actor2', time).me.roleId, 'seer'); send(r, 'actor2', 'heartbeat'); assert.equal(publicView(r, 'actor2', time).seats[2].connected, true); send(r, 'intruder', 'requestJoin', { name: 'C' }); assert.equal(publicView(r, 'intruder', time).me, null); assert.equal(publicView(r, 'intruder', time).myRequest.status, 'pending'); });
 test('host permissions and stale phases are enforced with complete rollback', () => { const r = setup(); const before = JSON.stringify(r); assert.throws(() => send(r, 'actor1', 'nextPhase'), e => e.code === 'HOST_ONLY'); assert.equal(JSON.stringify(r), before); const phase = r.phase.id; send(r, 'actor0', 'nightNarrationDone'); assert.throws(() => send(r, 'actor0', 'nextPhase', { expectedPhaseId: phase }), e => e.code === 'STALE_PHASE'); assert.throws(() => send(r, 'actor2', 'nightAction', { expectedPhaseId: phase, targetId: id(r, 0) }), e => e.code === 'STALE_PHASE'); });
 test('host transfer and recovery revoke previous host control and occupant token', () => { const r = setup(); send(r, 'actor0', 'transferHost', { seatId: id(r, 1) }); assert.throws(() => send(r, 'actor0', 'nextPhase'), e => e.code === 'HOST_ONLY'); const card = r.seats[1].roleId; recoverHost(r, 'recovered', ++time); assert.equal(r.hostId, 'recovered'); assert.equal(publicView(r, 'recovered', time).me.roleId, card); assert.equal(publicView(r, 'actor1', time).me, null); assert.equal(publicView(r, 'actor0', time).isHost, false); });
-test('automatic moderation pauses for any missing living player and resumes safely', () => { const r = setup(); r.settings.autoAdvance = true; assert.equal(tickRoom(r, time + 1000), false); assert.equal(tickRoom(r, time + 40000), true); assert.equal(r.phase.paused, true); assert.equal(r.phase.pauseReason, 'disconnected'); const phase = r.phase.id; for (let i = 0; i < r.seats.length; i++)
-    send(r, `actor${i}`, 'heartbeat'); send(r, 'actor0', 'resume'); assert.notEqual(r.phase.id, phase); assert.equal(r.phase.paused, false); assert.equal(tickRoom(r, time + 100), false); });
+test('night narration and configured daytime timers progress even when every player is offline', () => {
+    const r = setup(undefined, { autoAdvance: true });
+    for (const member of Object.values(r.members)) member.lastSeen = 0;
+    const openingDeadline = r.nightFlow.deadline;
+    assert.equal(tickRoom(r, openingDeadline - 1), false);
+    assert.equal(tickRoom(r, openingDeadline), true);
+    assert.equal(r.phase.nightStage, 'acting');
+    assert.equal(r.phase.paused, false);
+    time = openingDeadline; dawn(r);
+    for (const member of Object.values(r.members)) member.lastSeen = 0;
+    assert.equal(tickRoom(r, r.phase.deadline), true);
+    assert.equal(r.phase.kind, 'voting');
+    assert.equal(r.phase.paused, false);
+});
 test('night schedule never changes when a configured role dies', () => { const r = setup(); const first = [...r.nightSchedule]; dawn(r); r.seats[2].alive = false; send(r, 'actor0', 'startNight'); assert.deepEqual(r.nightSchedule, first); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); });
 test('pack ties mean no attack and private votes are not public before resolution', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); nightAct(r, 1, { targetId: id(r, 7) }); dawn(r); assert.ok(r.seats.every(s => s.alive)); send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'vote', { targetId: id(r, 6) }); const v = publicView(r, 'actor1', time); assert.equal(v.voteCount, 1); assert.equal(v.lastVote, null); assert.ok(!Object.hasOwn(v, 'votes')); });
 test('guard blocks wolves; guard restrictions reset after skipping a night', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); dawn(r); assert.equal(r.seats[6].alive, true); send(r, 'actor0', 'startNight'); stepTo(r, 'guard'); assert.throws(() => nightAct(r, 4, { targetId: id(r, 6) }), e => e.code === 'INVALID_TARGET'); nightAct(r, 4, { ability: 'skip' }); dawn(r); send(r, 'actor0', 'startNight'); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); });
@@ -171,7 +183,7 @@ test('heartbeat persistence is throttled without granting revoked clients access
 test('host can change day moderation timers while rules and event-night deadlines stay fixed', () => { const r = setup(); const privateDeadline = r.nightFlow.deadline; send(r, 'actor0', 'updateSettings', { settings: { autoAdvance: true, nightSeconds: 60 } }); assert.equal(r.settings.autoAdvance, true); assert.equal(r.phase.deadline, null); assert.equal(r.nightFlow.deadline, privateDeadline); dawn(r); send(r, 'actor0', 'pause'); send(r, 'actor0', 'updateSettings', { settings: { daySeconds: 90 } }); assert.equal(r.phase.paused, true); assert.equal(r.phase.remainingMs, 90000); assert.throws(() => send(r, 'actor0', 'updateSettings', { settings: { witchSelfSave: true } }), e => e.code === 'WRONG_PHASE'); });
 test('night action replay is revealed only when the game is finished and contains seat IDs only', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); dawn(r); assert.deepEqual(publicView(r, 'actor0', time).replay, []); r.seats[0].alive = false; r.seats[1].alive = false; send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'resolveVoting'); const replay = publicView(r, 'actor2', time).replay; assert.equal(replay[0].actions.wolves[id(r, 0)].targetId, id(r, 6)); assert.ok(!JSON.stringify(replay).includes('actor')); });
 
-test('automatic day deadlines reject late votes without constraining event-night choices', () => {
+test('automatic day deadlines reject late votes with complete rollback', () => {
     const r = setup(); dawn(r); r.settings.autoAdvance = true; send(r, 'actor0', 'startVoting');
     const before = JSON.stringify(r);
     assert.throws(() => applyCommand(r, 'actor0', { type: 'vote', expectedPhaseId: r.phase.id, targetId: id(r, 6) }, r.phase.deadline), { code: 'EXPIRED_PHASE', clientSafe: true });
@@ -192,18 +204,25 @@ test('Mechanical Wolf copies the starting card independently of first-night seat
     }
 });
 
-test('automatic moderation preserves a disconnected eliminated Hunter’s pending shot', () => {
-    const r = setup();
-    r.settings.autoAdvance = true;
-    r.seats[5].alive = false;
-    r.pendingShots = [r.seats[5].id];
-    r.phase.kind = 'reaction'; r.phase.step = 'shoot';
-    for (const member of Object.values(r.members)) member.lastSeen = time;
-    r.members.actor5.lastSeen = time - 36000;
-    assert.equal(tickRoom(r, time), true);
-    assert.equal(r.phase.paused, true);
-    assert.deepEqual(r.pendingShots, [r.seats[5].id]);
-    assert.notEqual(r.seats[5].state.shotUsed, true);
+test('offline Hunter reactions use a finite window even when daytime automation is disabled', () => {
+    for (const autoAdvance of [false, true]) {
+        const r = setup(undefined, { autoAdvance, voteSeconds: 10 });
+        nightAct(r, 0, { targetId: id(r, 5) }); dawn(r);
+        assert.equal(r.phase.kind, 'reaction');
+        const deadline = r.phase.deadline;
+        send(r, 'actor5', 'leave');
+        for (const member of Object.values(r.members)) member.lastSeen = 0;
+        assert.equal(tickRoom(r, deadline - 1), false);
+        assert.equal(r.phase.paused, false);
+        const before = JSON.stringify(r);
+        assert.throws(() => applyCommand(r, 'actor5', { type: 'shoot', targetId: id(r, 0), expectedPhaseId: r.phase.id }, deadline), { code: 'EXPIRED_PHASE' });
+        assert.equal(JSON.stringify(r), before);
+        assert.equal(tickRoom(r, deadline), true);
+        assert.equal(r.phase.kind, 'day');
+        assert.deepEqual(r.pendingShots, []);
+        assert.equal(r.seats[5].state.shotUsed, true);
+        assert.equal(r.seats[0].alive, true);
+    }
 });
 
 test('lobby joins immediately occupy a seat and same-session retries preserve it', () => {
@@ -489,18 +508,27 @@ test('wolves require every explicit submission, then closing advances only after
     assert.deepEqual(r.phase.nightCues, ['guard']);
 });
 
-test('living night actors have no automatic timeout even when daytime automation is enabled', () => {
+test('living night action deadlines skip missing choices and preserve submitted decisions', () => {
     for (const autoAdvance of [false, true]) {
         const r = setup(undefined, { autoAdvance, nightSeconds: 10 }); stepTo(r, 'wolves');
-        nightAct(r, 0, { ability: 'skip' });
-        const phaseId = r.phase.id;
-        time += 3600000; keepConnected(r);
-        assert.equal(tickRoom(r, time), false);
+        const entered = time, deadline = r.nightFlow.deadline, phaseId = r.phase.id;
+        assert.equal(deadline, entered + 10000);
+        nightAct(r, 0, { targetId: id(r, 6) });
+        for (const member of Object.values(r.members)) member.lastSeen = 0;
+        assert.equal(tickRoom(r, deadline - 1), false);
         assert.equal(r.phase.id, phaseId);
         assert.equal(r.phase.deadline, null);
-        assert.equal(r.nightFlow.deadline, null);
-        nightAct(r, 1, { ability: 'skip' });
+        const before = JSON.stringify(r);
+        assert.throws(() => applyCommand(r, 'actor1', { type: 'nightAction', ability: 'skip', expectedPhaseId: phaseId }, deadline), { code: 'EXPIRED_PHASE' });
+        assert.equal(JSON.stringify(r), before);
+        assert.equal(tickRoom(r, deadline), true);
         assert.equal(r.phase.nightStage, 'closing');
+        assert.equal(r.phase.paused, false);
+        assert.deepEqual(r.actions.wolves[id(r, 1)], { skip: true });
+        assert.equal(r.actions.wolves[id(r, 0)].targetId, id(r, 6));
+        assert.notEqual(r.phase.id, phaseId);
+        time = deadline; dawn(r);
+        assert.equal(r.seats[6].alive, false);
     }
 });
 
@@ -558,7 +586,7 @@ test('narration fallback progresses both edges independently of daytime autoAdva
     assert.equal(r.nightFlow.deadline - closeDeadline, 30000);
 });
 
-test('pause and disconnect freeze private night clocks and invalidate stale narration', () => {
+test('manual pause freezes private night clocks while disconnects leave their deadlines intact', () => {
     const r = setup(); r.seats[2].alive = false; stepTo(r, 'seer');
     const deadline = r.nightFlow.deadline, originalId = r.phase.id;
     time += 2000;
@@ -575,11 +603,11 @@ test('pause and disconnect freeze private night clocks and invalidate stale narr
     assert.equal(r.nightFlow.deadline, time + remaining);
     assert.notEqual(r.phase.id, originalId);
     r.members.actor4.lastSeen = 0;
-    assert.equal(tickRoom(r, time + 1), true);
-    assert.equal(r.phase.pauseReason, 'disconnected');
-    const frozen = r.nightFlow.remainingMs;
-    time += 90000; keepConnected(r); send(r, 'actor0', 'resume');
-    assert.equal(r.nightFlow.deadline, time + frozen);
+    assert.equal(tickRoom(r, time + 1), false);
+    assert.equal(r.phase.paused, false);
+    assert.equal(r.nightFlow.deadline, time + remaining);
+    assert.equal(tickRoom(r, time + remaining), true);
+    assert.equal(r.phase.nightStage, 'closing');
 });
 
 test('host recovery and player replacement preserve the waiting role and submitted decisions', () => {
@@ -642,4 +670,101 @@ test('legacy active nights retain their current actions and upgrade on the follo
     send(r, 'actor0', 'startNight');
     assert.equal(r.phase.nightStage, 'opening');
     assert.deepEqual(r.phase.nightCues, ['night', 'wolves']);
+});
+
+
+test('formerly unlimited live action stages receive one persisted private deadline', () => {
+    const r = setup(undefined, { nightSeconds: 10 }); stepTo(r, 'wolves');
+    nightAct(r, 0, { targetId: id(r, 6) });
+    r.nightFlow.deadline = null;
+    const originalId = r.phase.id, revision = r.revision;
+    time += 100000;
+    assert.equal(tickRoom(r, time), true);
+    const deadline = r.nightFlow.deadline;
+    assert.equal(deadline, time + 10000);
+    assert.equal(r.revision, revision + 1);
+    assert.equal(r.phase.id, originalId);
+    const persisted = JSON.parse(JSON.stringify(r));
+    for (const offset of [1, 3000, 9999]) {
+        assert.equal(tickRoom(persisted, time + offset), false);
+        assert.equal(persisted.nightFlow.deadline, deadline);
+    }
+    const publicState = JSON.stringify(publicView(persisted, 'actor0', time));
+    for (const hidden of ['nightFlow', 'eligibleSeatIds', String(deadline)]) assert.ok(!publicState.includes(hidden), hidden);
+    assert.equal(tickRoom(persisted, deadline), true);
+    assert.equal(persisted.phase.nightStage, 'closing');
+    assert.equal(persisted.actions.wolves[id(r, 0)].targetId, id(r, 6));
+});
+
+test('old disconnect pauses resume automatically while explicit manual pauses stay frozen', () => {
+    for (const formerlyUnlimited of [false, true]) {
+        const r = setup(undefined, { nightSeconds: 10 }); stepTo(r, 'wolves');
+        if (formerlyUnlimited) r.nightFlow.deadline = null;
+        send(r, 'actor0', 'pause'); r.phase.pauseReason = 'disconnected';
+        const pausedId = r.phase.id, remaining = r.nightFlow.remainingMs;
+        time += 120000;
+        assert.equal(tickRoom(r, time), true);
+        assert.equal(r.phase.paused, false);
+        assert.notEqual(r.phase.id, pausedId);
+        assert.equal(r.phase.pauseReason, undefined);
+        assert.equal(r.nightFlow.deadline, time + (formerlyUnlimited ? 10000 : remaining));
+        send(r, 'actor0', 'pause');
+        const snapshot = JSON.stringify(r);
+        assert.equal(tickRoom(r, time + 120000), false);
+        assert.equal(JSON.stringify(r), snapshot);
+    }
+    const r = setup(); send(r, 'actor0', 'pause'); r.phase.pauseReason = 'disconnected';
+    send(r, 'actor0', 'pause');
+    assert.equal(r.phase.pauseReason, undefined);
+    assert.equal(tickRoom(r, time + 120000), false);
+    assert.equal(r.phase.paused, true);
+});
+
+test('upgrading old day and reaction disconnect pauses respects configured day automation', () => {
+    const day = setup(); dawn(day); send(day, 'actor0', 'pause'); day.phase.pauseReason = 'disconnected';
+    time += 120000;
+    assert.equal(tickRoom(day, time), true);
+    assert.equal(day.phase.paused, false);
+    assert.equal(tickRoom(day, day.phase.deadline + 1), false);
+    assert.equal(day.phase.kind, 'day');
+    const r = setup(undefined, { voteSeconds: 10 }); nightAct(r, 0, { targetId: id(r, 5) }); dawn(r);
+    send(r, 'actor0', 'pause'); r.phase.pauseReason = 'disconnected'; r.phase.remainingMs = null;
+    time += 120000;
+    assert.equal(tickRoom(r, time), true);
+    assert.equal(r.phase.deadline, time + 10000);
+    assert.equal(tickRoom(r, time + 10000), true);
+    assert.equal(r.phase.kind, 'day');
+});
+
+test('an absent host and all missing players still reach dawn through finite night stages', () => {
+    const r = setup(['werewolf', 'mechanicalWolf', 'cupid', 'wildChild', 'wolfHound', 'thief', 'seer', 'villager', 'villager'], { nightSeconds: 10 });
+    for (const member of Object.values(r.members)) member.lastSeen = 0;
+    let stages = 0;
+    while (r.phase.kind === 'night') {
+        assert.ok(++stages <= 60);
+        time = r.nightFlow.deadline;
+        assert.ok(Number.isFinite(time));
+        assert.equal(tickRoom(r, time), true);
+        assert.equal(r.phase.paused, false);
+    }
+    assert.equal(r.phase.kind, 'day');
+    assert.equal(r.seats[5].roleId, 'guard');
+    assert.equal(r.seats[4].team, 'village');
+    assert.ok(r.seats.every(s => s.alive));
+});
+
+test('replacement can submit before the unchanged deadline and a refreshed timer applies next turn', () => {
+    const r = setup(undefined, { nightSeconds: 10 }); stepTo(r, 'wolves');
+    const deadline = r.nightFlow.deadline;
+    nightAct(r, 0, { ability: 'skip' });
+    send(r, 'returning', 'requestJoin', { name: 'Returning' });
+    send(r, 'actor0', 'approveJoin', { requestId: r.requests.at(-1).id, replaceSeatId: id(r, 1) });
+    send(r, 'actor0', 'updateSettings', { settings: { nightSeconds: 20 } });
+    assert.equal(r.nightFlow.deadline, deadline);
+    time = deadline - 2;
+    send(r, 'returning', 'nightAction', { targetId: id(r, 6) });
+    assert.equal(r.phase.nightStage, 'closing');
+    assert.throws(() => send(r, 'actor1', 'nightAction', { ability: 'skip' }), { code: 'NOT_SEATED' });
+    stepTo(r, 'guard');
+    assert.equal(r.nightFlow.deadline, time + 20000);
 });
