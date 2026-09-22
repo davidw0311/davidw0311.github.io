@@ -68,7 +68,7 @@ function createRoom({ code, hostId, hostName, now }) {
     event(room, 'The room is open. Join a seat and get ready.', '房间已创建，请入座准备。', now);
     return room;
 }
-function requireHost(room, actorId) { if (actorId !== room.hostId)
+function requireHost(room, actorId) { if (!room.hostId || actorId !== room.hostId)
     fail('HOST_ONLY', 'Only the room host can do that.'); }
 function requirePhase(room, c, kinds) { if (!kinds.includes(room.phase.kind))
     fail('WRONG_PHASE', 'That action is not available in this phase.'); if (c.expectedPhaseId !== room.phase.id)
@@ -517,9 +517,31 @@ function executeCommand(room, actorId, c, now) {
     if (!c || typeof c.type !== 'string')
         fail('INVALID_COMMAND', 'Choose an action.');
     if (c.type === 'requestJoin') {
-        if (seatOf(room, actorId))
+        if (seatOf(room, actorId)) {
+            room.members[actorId].lastSeen = now;
             return;
-        const name = cleanName(c.name), existing = room.requests.find(r => r.actorId === actorId);
+        }
+        const name = cleanName(c.name);
+        if (room.status === 'lobby') {
+            // Only an unoccupied reservation can be claimed by name. A lost connection
+            // does not relinquish an existing player's seat or host permissions.
+            let seat = room.seats.find(candidate => !candidate.actorId && candidate.name === name);
+            if (!seat) {
+                if (room.seats.length >= 24)
+                    fail('ROOM_FULL', 'Rooms support at most 24 seats.');
+                seat = makeSeat(name);
+                room.seats.push(seat);
+            }
+            replaceOccupant(room, seat, actorId, name, now);
+            room.requests = room.requests.filter(request => request.actorId !== actorId);
+            event(room, `${name} joined seat ${room.seats.indexOf(seat) + 1}.`, `${name} 加入 ${room.seats.indexOf(seat) + 1} 号位。`, now);
+            if (!room.hostId) {
+                room.hostId = actorId;
+                event(room, `${name} is now the host.`, `${name} 成为房主。`, now);
+            }
+            return;
+        }
+        const existing = room.requests.find(r => r.actorId === actorId);
         if (existing) {
             existing.name = name;
             return;
@@ -806,7 +828,23 @@ function executeCommand(room, actorId, c, now) {
             room.sheriffSeatId = c.targetId;
             break;
         case 'leave':
-            room.members[actorId].lastSeen = 0;
+            if (room.status === 'lobby') {
+                delete room.members[actorId];
+                room.seats = room.seats.filter(seat => seat.id !== s.id);
+                room.requests = room.requests.filter(request => request.actorId !== actorId);
+                event(room, `${s.name} left the lobby.`, `${s.name} 离开了大厅。`, now);
+                if (room.hostId === actorId) {
+                    const successor = room.seats.find(seat => connected(room, seat, now)) || room.seats.find(seat => seat.actorId);
+                    room.hostId = successor?.actorId || null;
+                    if (successor)
+                        event(room, `${successor.name} is now the host.`, `${successor.name} 成为房主。`, now);
+                }
+            }
+            else {
+                // Once cards exist, even an explicit exit preserves the identity for
+                // same-token reconnects and host-approved replacement by a new token.
+                room.members[actorId].lastSeen = 0;
+            }
             break;
         case 'chat': {
             const channel = c.channel || 'public';
@@ -838,9 +876,15 @@ function applyCommand(room, actorId, command, now) {
     now = nowMs(now);
     if (command?.type === 'heartbeat') {
         const member = room.members[actorId];
-        if (!member && !room.requests.some(request => request.actorId === actorId))
+        const pending = room.requests.find(request => request.actorId === actorId);
+        if (!member && !pending)
             fail('NOT_SEATED', 'This session no longer occupies a seat. Request to join again.');
-        if (!member || now - member.lastSeen < 10000)
+        if (!member && room.status === 'lobby' && (room.seats.length < 24 || room.seats.some(seat => !seat.actorId && seat.name === pending.name))) {
+            // Upgrade clients already waiting in a pre-auto-admission lobby. A full
+            // lobby stays quietly pending; its next poll can fill a newly free seat.
+            command = { type: 'requestJoin', name: pending.name };
+        }
+        else if (!member || now - member.lastSeen < 10000)
             return room;
     }
     // A rejected command is a transaction rollback, including heartbeats and potion state.
@@ -898,11 +942,11 @@ function recoverHost(room, actorId, now) {
 }
 function publicView(room, actorId, now) {
     now = nowMs(now);
-    const s = seatOf(room, actorId), isHost = room.hostId === actorId;
+    const s = seatOf(room, actorId), isHost = Boolean(room.hostId && room.hostId === actorId);
     const finished = room.status === 'finished';
     const me = s ? { seatId: s.id, roleId: s.roleId, team: s.team, alive: s.alive, roleState: clone(s.state), allies: s.team === 'wolf' && s.roleId !== 'gargoyle' ? room.seats.filter(t => t.id !== s.id && isPack(t)).map(t => t.id) : [], privateLog: clone(s.privateLog), action: actionDescriptor(room, s), canDuel: room.phase.kind === 'day' && s.alive && s.roleId === 'knight' && !s.state.duelUsed && powersEnabled(room, s), canExplode: room.phase.kind === 'day' && s.alive && isPack(s), canPassBadge: room.sheriffSeatId === s.id } : null;
     // A replaced client receives no former secrets or private messages, even with an old token.
     const messages = s ? room.messages.filter(m => m.channel === 'public' || finished || m.channel === 'dead' && !s.alive || m.channel === 'wolves' && isPack(s)) : [];
-    return { code: room.code, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map(t => ({ id: t.id, name: t.name, connected: connected(room, t, now), occupied: Boolean(t.actorId), alive: t.alive, canVote: t.canVote, isHost: t.actorId === room.hostId, isSheriff: room.sheriffSeatId === t.id, ...(finished ? { roleId: t.roleId, team: t.team } : t.state.revealed ? { roleId: t.roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actorId) ? { status: 'pending' } : null, me, phase: clone(room.phase), day: room.day, night: room.night, events: clone(room.events), messages: clone(messages), winner: clone(room.winner), speakerSeatId: room.speakerSeatId || null, lastVote: room.lastVote ? clone(room.lastVote) : null, voteCount: Object.keys(room.votes || {}).length, replay: finished ? clone(room.replay || []) : [] };
+    return { code: room.code, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map(t => ({ id: t.id, name: t.name, connected: connected(room, t, now), occupied: Boolean(t.actorId), alive: t.alive, canVote: t.canVote, isHost: Boolean(t.actorId && t.actorId === room.hostId), isSheriff: room.sheriffSeatId === t.id, ...(finished ? { roleId: t.roleId, team: t.team } : t.state.revealed ? { roleId: t.roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actorId) ? { status: 'pending' } : null, me, phase: clone(room.phase), day: room.day, night: room.night, events: clone(room.events), messages: clone(messages), winner: clone(room.winner), speakerSeatId: room.speakerSeatId || null, lastVote: room.lastVote ? clone(room.lastVote) : null, voteCount: Object.keys(room.votes || {}).length, replay: finished ? clone(room.replay || []) : [] };
 }
 module.exports = { createRoom, applyCommand, publicView, tickRoom, recoverHost, DEFAULT_SETTINGS, ROLES, PRESETS };

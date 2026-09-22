@@ -6,12 +6,13 @@ const path = require('node:path');
 const { createRoom, applyCommand, publicView, tickRoom, recoverHost, ROLES } = require('../src/werewolf/engine');
 let time = 1800000000000;
 test('pending applicants can cancel their request without occupying or changing a seat', () => {
-    const room = createRoom({ code: 'ABCDEF12', hostId: 'host', hostName: 'Host', now: time });
+    const room = setup();
+    const seatCount = room.seats.length;
     applyCommand(room, 'pending', { type: 'requestJoin', name: 'Guest' }, ++time);
     assert.equal(room.requests.length, 1);
     applyCommand(room, 'pending', { type: 'leave' }, ++time);
     assert.equal(room.requests.length, 0);
-    assert.equal(room.seats.length, 1);
+    assert.equal(room.seats.length, seatCount);
     assert.throws(() => applyCommand(room, 'pending', { type: 'heartbeat' }, ++time), { code: 'NOT_SEATED' });
 });
 function send(room, actor, type, data = {}) { return applyCommand(room, actor, { type, expectedPhaseId: room.phase.id, ...data }, ++time); }
@@ -19,7 +20,6 @@ function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunte
     const room = createRoom({ code: 'ABCDEF', hostId: 'actor0', hostName: 'A', now: ++time });
     for (let i = 1; i < roles.length; i++) {
         send(room, `actor${i}`, 'requestJoin', { name: String.fromCharCode(65 + i) });
-        send(room, 'actor0', 'approveJoin', { requestId: room.requests.at(-1).id });
     }
     send(room, 'actor0', 'updateSettings', { settings: { winCondition: 'all', sheriff: true } });
     send(room, 'actor0', 'startGame', { roleDeck: roles });
@@ -177,4 +177,146 @@ test('automatic moderation preserves a disconnected eliminated Hunter’s pendin
     assert.equal(r.phase.paused, true);
     assert.deepEqual(r.pendingShots, [r.seats[5].id]);
     assert.notEqual(r.seats[5].state.shotUsed, true);
+});
+
+test('lobby joins immediately occupy a seat and same-session retries preserve it', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    send(r, 'guest', 'requestJoin', { name: '  New   guest ' });
+    const joined = publicView(r, 'guest', time);
+    assert.equal(joined.me.seatId, r.seats[1].id);
+    assert.equal(r.seats[1].name, 'New guest');
+    assert.equal(joined.me.roleId, null);
+    assert.equal(joined.myRequest, null);
+    assert.equal(r.requests.length, 0);
+    const stableId = joined.me.seatId;
+    time += 40000;
+    send(r, 'guest', 'requestJoin', { name: 'Same browser' });
+    assert.equal(r.seats.length, 2);
+    assert.equal(publicView(r, 'guest', time).me.seatId, stableId);
+    assert.equal(publicView(r, 'guest', time).seats[1].connected, true);
+});
+
+test('lobby names fill matching empty reservations but never claim occupied or disconnected seats', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    send(r, 'host', 'addSeat', { name: 'A' });
+    const reservation = r.seats[1].id;
+    send(r, 'first-a', 'requestJoin', { name: ' A ' });
+    assert.equal(publicView(r, 'first-a', time).me.seatId, reservation);
+    r.members['first-a'].lastSeen = 0;
+    send(r, 'second-a', 'requestJoin', { name: 'A' });
+    assert.equal(r.seats.length, 3);
+    assert.equal(publicView(r, 'first-a', time).me.seatId, reservation);
+    assert.notEqual(publicView(r, 'second-a', time).me.seatId, reservation);
+    assert.equal(r.members['first-a'].lastSeen, 0);
+});
+
+test('full lobby accepts a matching reserved seat and rejects overflow without mutations', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    for (let i = 1; i < 24; i++) send(r, 'host', 'addSeat', { name: `Reserved ${i}` });
+    const reservedId = r.seats[23].id;
+    send(r, 'guest', 'requestJoin', { name: 'Reserved 23' });
+    assert.equal(publicView(r, 'guest', time).me.seatId, reservedId);
+    assert.equal(r.seats.length, 24);
+    const before = JSON.stringify(r);
+    assert.throws(() => send(r, 'overflow', 'requestJoin', { name: 'No reservation' }), { code: 'ROOM_FULL' });
+    assert.equal(JSON.stringify(r), before);
+    assert.throws(() => send(r, 'same-name-overflow', 'requestJoin', { name: 'Reserved 23' }), { code: 'ROOM_FULL' });
+    assert.equal(publicView(r, 'guest', time).me.seatId, reservedId);
+});
+
+test('voluntary lobby exit removes a seat while connection loss preserves it', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    send(r, 'guest', 'requestJoin', { name: 'Guest' });
+    const guestId = publicView(r, 'guest', time).me.seatId;
+    assert.equal(publicView(r, 'guest', time + 40000).seats.find(s => s.id === guestId).connected, false);
+    assert.equal(r.seats.length, 2);
+    send(r, 'guest', 'heartbeat');
+    assert.equal(publicView(r, 'guest', time).me.seatId, guestId);
+    send(r, 'guest', 'leave');
+    assert.equal(r.seats.length, 1);
+    assert.equal(r.members.guest, undefined);
+    assert.equal(publicView(r, 'guest', time).me, null);
+    assert.throws(() => send(r, 'guest', 'heartbeat'), { code: 'NOT_SEATED' });
+    send(r, 'guest', 'requestJoin', { name: 'Guest' });
+    assert.notEqual(publicView(r, 'guest', time).me.seatId, guestId);
+});
+
+test('departing lobby host transfers to a connected player before offline occupants', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    send(r, 'offline', 'requestJoin', { name: 'Offline' });
+    send(r, 'online', 'requestJoin', { name: 'Online' });
+    r.members.offline.lastSeen = 0;
+    send(r, 'host', 'leave');
+    assert.equal(r.hostId, 'online');
+    assert.equal(publicView(r, 'online', time).isHost, true);
+    assert.equal(publicView(r, 'host', time).isHost, false);
+    assert.throws(() => send(r, 'host', 'addSeat', { name: 'Old host command' }), { code: 'HOST_ONLY' });
+    send(r, 'online', 'leave');
+    assert.equal(r.hostId, 'offline', 'An occupied offline player still inherits when nobody connected remains');
+    assert.equal(publicView(r, 'offline', time).isHost, true);
+});
+
+test('empty lobby has no host even with reserved seats and next join takes control', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    send(r, 'host', 'addSeat', { name: 'Reserved guest' });
+    const reservedId = r.seats[1].id;
+    send(r, 'host', 'leave');
+    assert.equal(r.hostId, null);
+    const vacant = publicView(r, 'host', time);
+    assert.equal(vacant.isHost, false);
+    assert.equal(vacant.hostSeatId, null);
+    assert.ok(vacant.seats.every(seat => !seat.isHost));
+    send(r, 'new-host', 'requestJoin', { name: 'Reserved guest' });
+    assert.equal(r.hostId, 'new-host');
+    assert.equal(publicView(r, 'new-host', time).me.seatId, reservedId);
+    assert.equal(r.seats.length, 1);
+});
+
+test('legacy lobby requests remain approvable and auto-joining clears only the caller request', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    r.requests.push({ id: 'legacy-one', actorId: 'one', name: 'One', createdAt: time });
+    r.requests.push({ id: 'legacy-two', actorId: 'two', name: 'Two', createdAt: time });
+    send(r, 'one', 'requestJoin', { name: 'One' });
+    assert.equal(r.requests.length, 1);
+    assert.equal(r.requests[0].id, 'legacy-two');
+    assert.equal(publicView(r, 'one', time).myRequest, null);
+    send(r, 'host', 'approveJoin', { requestId: 'legacy-two' });
+    assert.ok(publicView(r, 'two', time).me);
+    assert.equal(r.requests.length, 0);
+});
+
+test('underway host exit preserves its card, powers, control and reconnectable identity', () => {
+    const r = setup();
+    nightAct(r, 0, { targetId: id(r, 6) });
+    const before = publicView(r, 'actor0', time).me;
+    send(r, 'actor0', 'leave');
+    assert.equal(r.hostId, 'actor0');
+    assert.equal(r.seats.length, 9);
+    assert.equal(r.members.actor0.lastSeen, 0);
+    send(r, 'actor0', 'requestJoin', { name: 'Original host' });
+    const returned = publicView(r, 'actor0', time);
+    assert.equal(returned.me.seatId, before.seatId);
+    assert.equal(returned.me.roleId, before.roleId);
+    assert.equal(returned.me.action.alreadySubmitted, true);
+    assert.equal(returned.isHost, true);
+    assert.equal(returned.seats.find(seat => seat.id === before.seatId).connected, true);
+});
+
+test('legacy pending lobby polls auto-admit when capacity opens and stay quiet when full', () => {
+    const r = createRoom({ code: 'LOBBY', hostId: 'host', hostName: 'Host', now: ++time });
+    for (let i = 1; i < 24; i++) send(r, 'host', 'addSeat', { name: `Reserved ${i}` });
+    r.requests.push({ id: 'waiting', actorId: 'waiting', name: 'Waiting', createdAt: time });
+    const fullRevision = r.revision;
+    send(r, 'waiting', 'heartbeat');
+    assert.equal(r.revision, fullRevision);
+    assert.equal(publicView(r, 'waiting', time).myRequest.status, 'pending');
+    send(r, 'host', 'removeSeat', { seatId: r.seats[1].id });
+    send(r, 'waiting', 'heartbeat');
+    assert.ok(publicView(r, 'waiting', time).me);
+    assert.equal(publicView(r, 'waiting', time).myRequest, null);
+    r.requests.push({ id: 'reserved-request', actorId: 'reserved-player', name: 'Reserved 23', createdAt: time });
+    const reservedId = r.seats.find(seat => seat.name === 'Reserved 23').id;
+    send(r, 'reserved-player', 'heartbeat');
+    assert.equal(publicView(r, 'reserved-player', time).me.seatId, reservedId);
+    assert.equal(r.seats.length, 24);
 });

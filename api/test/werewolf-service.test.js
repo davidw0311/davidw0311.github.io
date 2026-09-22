@@ -29,31 +29,35 @@ test('create retries after lost response recover the same durable room and host 
   assert.equal(a.view.code, b.view.code); assert.equal(a.recoveryKey, b.recoveryKey);
   assert.equal(b.view.seats.length, 1); assert.equal(b.view.isHost, true);
 });
-test('concurrent joins are durable; approval retry does not add duplicate seats', async () => {
+test('concurrent lobby joins seat immediately and repeated join receipts never duplicate seats', async () => {
   const t = setup(); const { view } = await t.call({ op: 'create', name: 'Host' });
   const guests = [randomUUID(), randomUUID(), randomUUID()];
-  await Promise.all(guests.map((token, i) => t.call({ op: 'join', code: view.code, token, name: `Player ${i}` })));
+  const packets = guests.map((token, i) => ({ op: 'join', code: view.code, token, name: `Player ${i}`, requestId: randomUUID() }));
+  const results = await Promise.all(packets.map(packet => t.call(packet)));
+  assert.ok(results.every(reply => reply.view.me && reply.view.myRequest === null));
   const synced = await t.call({ op: 'sync', code: view.code });
-  assert.equal(synced.view.requests.length, 3);
-  const command = { type: 'approveJoin', requestId: synced.view.requests[0].id };
-  const request = { op: 'command', code: view.code, requestId: randomUUID(), command };
-  const a = await t.call(request); const b = await t.call(request);
-  assert.equal(a.view.seats.length, 2); assert.equal(b.view.seats.length, 2);
-  await assert.rejects(t.call({ ...request, command: { type: 'addSeat', name: 'Injected' } }), { code: 'request-id-reused' });
+  assert.equal(synced.view.requests.length, 0);
+  assert.equal(synced.view.seats.length, 4);
+  const retry = await t.call(packets[0]);
+  assert.equal(retry.view.me.seatId, results[0].view.me.seatId);
+  assert.equal(retry.view.seats.length, 4);
+  await assert.rejects(t.call({ ...packets[0], name: 'Injected' }), { code: 'request-id-reused' });
 });
 test('replacement revokes prior token, keeps seat, and never exposes host recovery key', async () => {
   const t = setup(); const { view } = await t.call({ op: 'create', name: 'Host' });
   const oldToken = randomUUID(), newToken = randomUUID();
   await t.call({ op: 'join', code: view.code, token: oldToken, name: 'A' });
+  for (let i = 0; i < 4; i++) await t.call({ op: 'join', code: view.code, token: randomUUID(), name: `Other ${i}` });
   let host = await t.call({ op: 'sync', code: view.code });
-  host = await t.call({ op: 'command', code: view.code, command: { type: 'approveJoin', requestId: host.view.requests[0].id } });
+  host = await t.call({ op: 'command', code: view.code, command: { type: 'startGame', expectedPhaseId: host.view.phase.id } });
+  const original = await t.call({ op: 'sync', code: view.code, token: oldToken });
   const seat = host.view.seats.find(s => s.name === 'A');
   const pending = await t.call({ op: 'join', code: view.code, token: newToken, name: 'A' });
   assert.equal(pending.recoveryKey, undefined); assert.equal(pending.view.me, null);
   host = await t.call({ op: 'sync', code: view.code });
   await t.call({ op: 'command', code: view.code, command: { type: 'approveJoin', requestId: host.view.requests[0].id, replaceSeatId: seat.id } });
   const replacement = await t.call({ op: 'sync', code: view.code, token: newToken });
-  assert.equal(replacement.view.me.seatId, seat.id); assert.equal(replacement.recoveryKey, undefined);
+  assert.equal(replacement.view.me.seatId, seat.id); assert.equal(replacement.view.me.roleId, original.view.me.roleId); assert.equal(replacement.recoveryKey, undefined);
   await assert.rejects(t.call({ op: 'command', code: view.code, token: oldToken, command: { type: 'addSeat', name: 'Attacker' } }), { code: 'HOST_ONLY' });
 });
 test('host recovery survives service restart, rotates key, and invalidates old host control', async () => {
@@ -70,7 +74,6 @@ test('host transfer rotates recovery key and only the new host receives it', asy
   const t = setup(); const created = await t.call({ op: 'create', name: 'Host' }); const code = created.view.code;
   const token = randomUUID(); await t.call({ op: 'join', code, token, name: 'Next host' });
   let host = await t.call({ op: 'sync', code });
-  host = await t.call({ op: 'command', code, command: { type: 'approveJoin', requestId: host.view.requests[0].id } });
   const next = host.view.seats.find(s => s.name === 'Next host');
   const prior = await t.call({ op: 'command', code, command: { type: 'transferHost', seatId: next.id } });
   assert.equal(prior.recoveryKey, undefined);
@@ -121,4 +124,104 @@ test('successful command rate limits persist across workers and idempotent retri
   await assert.rejects(worker.handle({ ...request, requestId: randomUUID(), token: t.token }), { code: 'too-many-requests', status: 429 });
   t.advance(60000);
   await t.call({ ...request, requestId: randomUUID() });
+});
+
+test('lobby leave and rejoin receipts cannot resurrect or remove a later occupancy', async () => {
+  const t = setup(); const { view } = await t.call({ op: 'create', name: 'Host' }); const code = view.code;
+  const token = randomUUID();
+  const join = { op: 'join', code, token, name: 'Guest', requestId: randomUUID() };
+  const joined = await t.call(join);
+  const leave = { op: 'command', code, token, command: { type: 'leave' }, requestId: randomUUID() };
+  const left = await t.call(leave);
+  assert.equal(left.view.me, null); assert.equal(left.view.seats.length, 1);
+  const staleJoin = await t.call(join);
+  assert.equal(staleJoin.view.me, null); assert.equal(staleJoin.view.seats.length, 1);
+  const returned = await t.call({ ...join, requestId: randomUUID() });
+  assert.notEqual(returned.view.me.seatId, joined.view.me.seatId);
+  const staleLeave = await t.call(leave);
+  assert.equal(staleLeave.view.me.seatId, returned.view.me.seatId);
+  assert.equal(staleLeave.view.seats.length, 2);
+});
+
+test('host departure automatically transfers authority and rotates the recovery secret', async () => {
+  const t = setup(); const created = await t.call({ op: 'create', name: 'Host' }); const code = created.view.code;
+  const next = randomUUID(); const joined = await t.call({ op: 'join', code, token: next, name: 'Successor' });
+  const left = await t.call({ op: 'command', code, command: { type: 'leave' } });
+  assert.equal(left.view.me, null); assert.equal(left.recoveryKey, undefined);
+  assert.equal(left.view.hostSeatId, joined.view.me.seatId);
+  const successor = await t.call({ op: 'sync', code, token: next });
+  assert.equal(successor.view.isHost, true);
+  assert.notEqual(successor.recoveryKey, created.recoveryKey);
+  await assert.rejects(t.call({ op: 'recover', code, token: randomUUID(), recoveryKey: created.recoveryKey }), { code: 'invalid-recovery-key' });
+  await assert.rejects(t.call({ op: 'command', code, command: { type: 'addSeat', name: 'Former host' } }), { code: 'HOST_ONLY' });
+});
+
+test('an empty lobby has no host until the next join receives a fresh recovery key', async () => {
+  const t = setup(); const created = await t.call({ op: 'create', name: 'Host' }); const code = created.view.code;
+  await t.call({ op: 'command', code, command: { type: 'addSeat', name: 'Reserved' } });
+  const left = await t.call({ op: 'command', code, command: { type: 'leave' } });
+  assert.equal(left.view.hostSeatId, null); assert.ok(left.view.seats.every(seat => !seat.isHost));
+  const newToken = randomUUID(); const joined = await t.call({ op: 'join', code, token: newToken, name: 'Reserved' });
+  assert.equal(joined.view.isHost, true); assert.equal(joined.view.seats.length, 1);
+  assert.ok(joined.recoveryKey); assert.notEqual(joined.recoveryKey, created.recoveryKey);
+  await assert.rejects(t.call({ op: 'recover', code, token: randomUUID(), recoveryKey: created.recoveryKey }), { code: 'invalid-recovery-key' });
+});
+
+test('an underway leave/rejoin keeps the same hidden identity and restores presence', async () => {
+  const t = setup(); const created = await t.call({ op: 'create', name: 'Host' }); const code = created.view.code;
+  const players = Array.from({ length: 5 }, () => randomUUID());
+  for (const [i, token] of players.entries()) await t.call({ op: 'join', code, token, name: `Player ${i}` });
+  const started = await t.call({ op: 'command', code, command: { type: 'startGame', expectedPhaseId: created.view.phase.id } });
+  assert.equal(started.view.status, 'playing');
+  const before = await t.call({ op: 'sync', code, token: players[0] });
+  await t.call({ op: 'command', code, token: players[0], command: { type: 'leave' } });
+  const returned = await t.call({ op: 'join', code, token: players[0], name: 'Returning' });
+  assert.equal(returned.view.me.seatId, before.view.me.seatId);
+  assert.equal(returned.view.me.roleId, before.view.me.roleId);
+  assert.equal(returned.view.seats.length, 6);
+  assert.equal(returned.view.seats.find(seat => seat.id === before.view.me.seatId).connected, true);
+  assert.ok(returned.view.seats.every(seat => !Object.hasOwn(seat, 'roleId')));
+});
+
+test('concurrent start and join preserve the order of the room transaction without leaking cards', async () => {
+  for (const joinFirst of [true, false]) {
+    const t = setup(); const created = await t.call({ op: 'create', name: 'Host' }); const code = created.view.code;
+    for (let i = 0; i < 5; i++) await t.call({ op: 'join', code, token: randomUUID(), name: `Player ${i}` });
+    const newcomer = randomUUID();
+    const join = { op: 'join', code, token: newcomer, name: 'Concurrent newcomer' };
+    const start = { op: 'command', code, command: { type: 'startGame', expectedPhaseId: created.view.phase.id } };
+    const originalTransact = t.store.transact.bind(t.store);
+    let markEntered, release;
+    const entered = new Promise(resolve => { markEntered = resolve; });
+    const gate = new Promise(resolve => { release = resolve; });
+    let armed = true;
+    t.store.transact = (key, operation) => originalTransact(key, async old => {
+      if (armed && key === `rooms/${code}`) { armed = false; markEntered(); await gate; }
+      return operation(old);
+    });
+    const first = t.call(joinFirst ? join : start);
+    await entered;
+    const second = t.call(joinFirst ? start : join);
+    release();
+    await Promise.all([first, second]);
+    const guest = await t.call({ op: 'sync', code, token: newcomer });
+    const host = await t.call({ op: 'sync', code });
+    assert.equal(host.view.status, 'playing');
+    assert.equal(host.view.seats.length, joinFirst ? 7 : 6);
+    if (joinFirst) { assert.ok(guest.view.me.roleId); assert.equal(guest.view.myRequest, null); }
+    else { assert.equal(guest.view.me, null); assert.equal(guest.view.myRequest.status, 'pending'); }
+    assert.ok(guest.view.seats.every(seat => !Object.hasOwn(seat, 'roleId')));
+  }
+});
+
+test('legacy pending lobby sync auto-admits and rotates host recovery when previously empty', async () => {
+  const t = setup(); const created = await t.call({ op: 'create', name: 'Host' }); const code = created.view.code;
+  await t.call({ op: 'command', code, command: { type: 'leave' } });
+  const token = randomUUID(); const actor = require('node:crypto').createHash('sha256').update(token).digest('hex');
+  const room = t.store.data.get(`rooms/${code}`);
+  room.requests.push({ id: randomUUID(), actorId: actor, name: 'Previously waiting', createdAt: 100000 });
+  const admitted = await t.call({ op: 'sync', code, token });
+  assert.equal(admitted.view.isHost, true); assert.equal(admitted.view.myRequest, null);
+  assert.equal(admitted.view.seats.length, 1); assert.ok(admitted.recoveryKey);
+  assert.notEqual(admitted.recoveryKey, created.recoveryKey);
 });

@@ -4,8 +4,8 @@ Public game: `/werewolf/`. The GitHub Pages UI connects to `/api/werewolf` on th
 
 ## Playing
 
-1. Create a room, save its private host recovery key, and share the invitation link. The link contains the room code, never an identity token.
-2. Each friend enters their name. The host approves a new seat or assigns the request to a reserved seat. Games support 6–24 occupied seats.
+1. Create a room, save its private host recovery key, and open **Invite / QR code**. Every player can show the room QR code or copy its invitation link. Scan with a phone camera to open the room with its code prefilled. QR codes are generated locally and contain only the invitation URL, never an identity token or recovery key.
+2. Each friend enters their name and immediately takes a lobby seat without host approval. An exact-name match fills an unoccupied reserved seat; occupied seats are never claimed by name. Players may leave the lobby freely, releasing their seats. Games support 6–24 occupied seats.
 3. Choose the automatic deck, a preset, or a custom mix from the 31-role library. The library describes the exact **Nightfall house rules**, including intentional differences from published editions. There is no universal complete roster of Werewolf characters. Every role in this release has an implemented ability or victory rule; this is an extensible catalogue, not an assertion that every variant ever published is included.
 4. Start the game. Everyone sees only their own card and authorized information. The participating host has phase and room controls but cannot see other secret identities.
 5. The host can advance a night step, start a vote or Sheriff election, resolve voting, choose a speaker, start the next night, pause/resume, or enable timed automatic moderation. Manual advancement may skip an unfinished action, so coordinate with players first.
@@ -17,12 +17,13 @@ For an in-person game, speak around the table. Remote groups can use the built-i
 
 ## Disconnections and recovery
 
-- A seat is a permanent game identity. Its role, life state, ability inventory, ballots, and private history are independent of the browser currently occupying it.
+- Once play starts, a seat is a permanent game identity. Its role, life state, ability inventory, ballots, and private history are independent of the browser currently occupying it.
 - A saved browser session reconnects automatically, even after refreshing or closing the page. The last confirmed view remains visible during transient network problems; failed actions are reported rather than shown as accepted.
-- On a new device, enter the room code and name. The host maps the pending request to the original seat. A name alone never grants access. Replacement immediately revokes the former occupant token while keeping the seat's game state.
+- During a game, on a new device, enter the room code and name. The host maps the pending request to the original seat. A name alone never grants access. Replacement immediately revokes the former occupant token while keeping the seat's game state.
 - During play, removing a player disconnects their occupant and reserves their seat; it does not kill the character or secretly change the role balance. New game identities can be added in the lobby. During an active game, new arrivals replace existing seats.
 - Every host and player mutation has a request ID; retries cannot apply the same action twice. Phase-dependent actions carry a phase ID and cannot execute against a later phase.
 - Automatic moderation pauses when the host, any living seat, or an eliminated player with a pending shot has been absent for 35 seconds. The host explicitly resumes when the table is ready. Manual controls remain available to handle absences.
+- A voluntary lobby departure releases the seat; a refresh, closed tab, or network interruption preserves it. If the host leaves the lobby, hosting passes to an occupied player (preferring one who is connected), and the recovery key rotates. If no occupied seats remain, the next lobby arrival becomes host. During play, leaving preserves the game identity and hosting until explicitly transferred.
 - The host can transfer hosting to an occupied seat. The new host receives a new recovery key. Recovering on a new device requires that key and revokes the old host browser. Save the key privately; it grants host access and the host's game identity.
 - Rooms expire after seven days without activity. Browser storage loss does not erase the server room; use host-approved replacement or host recovery.
 
@@ -30,7 +31,7 @@ For an in-person game, speak around the table. Remote groups can use the built-i
 
 `api/src/werewolf/engine.js` owns authorization, role assignment, phase order, abilities, voting, victory, and filtered snapshots. `service.js` handles request idempotency, session hashing, recovery, and durable request limits. `storage.js` persists private JSON blobs in the `werewolf-private` container using Azure Blob conditional writes (ETags). Concurrent workers retry against current state rather than overwriting another action. Failed validation rolls back the entire command.
 
-No secret role state or Azure credentials are shipped in the static export. Tokens are random per-device capabilities, sent only in POST bodies over HTTPS, and represented as SHA-256 hashes in game state. Public views omit session hashes, request receipts, and recovery secrets; the current host alone receives its recovery key separately. Anonymous public join requests are bounded and require host approval.
+No secret role state or Azure credentials are shipped in the static export. Tokens are random per-device capabilities, sent only in POST bodies over HTTPS, and represented as SHA-256 hashes in game state. Public views omit session hashes, request receipts, and recovery secrets; the current host alone receives its recovery key separately. Lobby admission is immediate and capped at 24 seats. After play begins, new-device join requests are bounded and require host approval to replace an existing seat.
 
 Configuration reuses `AzureWebJobsStorage` in the existing Function App, or accepts `WEREWOLF_STORAGE_CONNECTION_STRING`. This connection must allow private blob container creation/read/write. Existing pronunciation endpoints remain in the same deployment. The production origin must remain in `ALLOWED_ORIGINS`.
 

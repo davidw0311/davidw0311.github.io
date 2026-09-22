@@ -178,6 +178,14 @@
 .modalHeading h2 { font-family: Georgia, "Songti SC", serif; font-size: 27px; font-weight: 400; margin: 0; }
 .modal .hint { font-size: 11px; }
 .modalActions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding-top: 22px; margin-top: 12px; border-top: 1px solid #3c3b3e; }
+.invitePanel { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.invitePanel > p { margin: 0; color: #bebdc0; max-width: 410px; }
+.qrFrame { width: min(256px, 100%); background: #fff; border-radius: 6px; overflow: hidden; margin: 6px 0; }
+.qrFrame svg { display: block; width: 100%; height: auto; }
+.inviteCode { font-size: 27px; letter-spacing: .18em; font-variant-numeric: tabular-nums; line-height: 1; }
+.invitePanel .inviteHint { margin: 3px 0 8px; font-size: 12px; }
+.inviteLink { width: 100%; max-width: 450px; text-align: left; margin-top: 5px; }
+.inviteLink input { font-size: 12px; }
 .searchInput { margin: 7px 0 19px; }
 .filterTabs { display: flex; gap: 20px; border-bottom: 1px solid #3b3a3d; overflow-x: auto; }
 .filterTabs button { white-space: nowrap; font-size: 11px; }
