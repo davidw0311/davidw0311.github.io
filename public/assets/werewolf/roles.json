@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "ruleset": {
-    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Night turns finish when all eligible players submit or the action limit expires; missing actions are skipped. Offline players keep their identities and do not pause the game. The narrator calls every scheduled role, including dead roles, and closes each turn automatically.",
-    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。所有可行动玩家提交或达到行动时限后，夜间回合结束；未提交视为跳过。离线玩家保留身份，不会暂停牌局。法官依次呼叫所有配置的夜间角色，包括已出局角色，并自动结束每个回合。"
+    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Night turns finish when all eligible players submit or the host explicitly skips the step. Actions never expire. The host can also skip daytime steps. Offline players keep their identities and do not pause the game. The narrator calls every scheduled role, including dead roles, and closes each turn automatically.",
+    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。所有可行动玩家提交后，夜间回合结束；房主也可强制跳过当前夜间或白天阶段。行动不会超时。离线玩家保留身份，不会暂停牌局。法官依次呼叫所有配置的夜间角色，包括已出局角色，并自动结束每个回合。"
   },
   "roles": [
     {
@@ -320,8 +320,8 @@
       },
       "team": "village",
       "description": {
-        "en": "First night permanently choose village or wolf. A wolf hound joins the pack attack. Choose before the action limit. If no choice is submitted, you remain in the village.",
-        "zh": "首夜永久选择好人或狼人阵营；选择狼人后参与狼刀。 请在行动时限内选择；未提交则保持好人阵营。"
+        "en": "First night permanently choose village or wolf. A wolf hound joins the pack attack. If the host skips your unsubmitted choice, you remain in the village.",
+        "zh": "首夜永久选择好人或狼人阵营；选择狼人后参与狼刀。 若房主跳过未提交的选择，则保持好人阵营。"
       },
       "nightStep": "opening"
     },
@@ -333,8 +333,8 @@
       },
       "team": "village",
       "description": {
-        "en": "First night permanently become a Seer or Guard. This app’s reserve-role variant always offers these two cards. Choose before the action limit. If no choice is submitted, you become a Guard.",
-        "zh": "首夜从预言家或守卫中选择新身份。本应用的备用身份规则固定提供这两张牌。 请在行动时限内选择；未提交则成为守卫。"
+        "en": "First night permanently become a Seer or Guard. This app’s reserve-role variant always offers these two cards. If the host skips your unsubmitted choice, you become a Guard.",
+        "zh": "首夜从预言家或守卫中选择新身份。本应用的备用身份规则固定提供这两张牌。 若房主跳过未提交的选择，则成为守卫。"
       },
       "nightStep": "opening"
     },

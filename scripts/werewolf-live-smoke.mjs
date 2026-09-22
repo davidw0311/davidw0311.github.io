@@ -116,11 +116,15 @@ while (view.phase.kind === 'night') {
         current = (await call(observer, 'sync')).view;
         assert.equal(current.phase.paused, false);
         assert.equal(current.phase.deadline, null);
-        if (current.phase.nightStage === 'closing') break;
+        assert.equal(current.phase.id, phase.id, 'Offline actions must not expire.');
         await new Promise(resolve => setTimeout(resolve, 400));
       } while (Date.now() < until);
-      assert.equal(current.phase.nightStage, 'closing', 'The offline Seer exceeded the bounded action window.');
-      assert.notEqual(current.phase.id, phase.id);
+      assert.equal(current.phase.nightStage, 'acting');
+      const skip = { requestId: randomUUID(), command: { type: 'hardSkip', expectedPhaseId: phase.id } };
+      await call(members.find(token => token !== host), 'command', skip, 'HOST_ONLY');
+      const skipped = await call(host, 'command', skip);
+      assert.equal(skipped.view.phase.nightStage, 'closing');
+      assert.equal((await call(host, 'command', skip)).view.phase.id, skipped.view.phase.id);
       await call(missing, 'command', { command: { type: 'nightAction', ability: 'skip', expectedPhaseId: phase.id } }, 'STALE_PHASE');
       view = (await call(host, 'sync')).view;
       continue;
@@ -151,6 +155,12 @@ assert.equal(recovery.view.me.roleId, hostState.view.me.roleId);
 assert.notEqual(recovery.recoveryKey, hostState.recoveryKey);
 await call(oldHost, 'sync', {}, 'NOT_SEATED');
 await call(members[1], 'command', { command: { type: 'startNight', expectedPhaseId: recovery.view.phase.id } }, 'HOST_ONLY');
+// The same blind host control advances discussion and closes daytime voting.
+const voting = await call(host, 'command', { command: {type:'hardSkip', expectedPhaseId:recovery.view.phase.id} });
+assert.equal(voting.view.phase.kind, 'voting');
+const afterVote = await call(host, 'command', { command: {type:'hardSkip', expectedPhaseId:voting.view.phase.id} });
+assert.equal(afterVote.view.phase.kind, 'day');
+assert.ok(afterVote.view.seats.every(seat => seat.alive));
 // A final pause leaves the verification room idle and recoverable.
-await call(host, 'command', { command: { type: 'pause', expectedPhaseId: recovery.view.phase.id } });
-console.log('Live multiplayer checks passed: six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, offline action expiry, duplicate narration/action protection, host recovery, and permissions.');
+await call(host, 'command', { command: { type: 'pause', expectedPhaseId: afterVote.view.phase.id } });
+console.log('Live multiplayer checks passed: six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, and permissions.');
