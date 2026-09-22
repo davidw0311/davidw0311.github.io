@@ -16,12 +16,12 @@ test('pending applicants can cancel their request without occupying or changing 
     assert.throws(() => applyCommand(room, 'pending', { type: 'heartbeat' }, ++time), { code: 'NOT_SEATED' });
 });
 function send(room, actor, type, data = {}) { return applyCommand(room, actor, { type, expectedPhaseId: room.phase.id, ...data }, ++time); }
-function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunter', 'villager', 'villager', 'villager']) {
+function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunter', 'villager', 'villager', 'villager'], settings = {}) {
     const room = createRoom({ code: 'ABCDEF', hostId: 'actor0', hostName: 'A', now: ++time });
     for (let i = 1; i < roles.length; i++) {
         send(room, `actor${i}`, 'requestJoin', { name: String.fromCharCode(65 + i) });
     }
-    send(room, 'actor0', 'updateSettings', { settings: { winCondition: 'all', sheriff: true } });
+    send(room, 'actor0', 'updateSettings', { settings: { winCondition: 'all', sheriff: true, ...settings } });
     send(room, 'actor0', 'startGame', { roleDeck: roles });
     // Tests assign deterministic server-only cards after exercising production shuffle.
     room.seats.forEach((s, i) => { s.roleId = roles[i]; s.team = ['werewolf', 'wolfKing', 'whiteWolfKing', 'wolfBeauty', 'hiddenWolf', 'gargoyle', 'mechanicalWolf', 'bloodMoonApostle', 'wolfWitch'].includes(roles[i]) ? 'wolf' : ['angel', 'jester', 'piper'].includes(roles[i]) ? 'independent' : 'village'; s.originalRoleId = s.roleId; s.originalTeam = s.team; });
@@ -319,4 +319,106 @@ test('legacy pending lobby polls auto-admit when capacity opens and stay quiet w
     send(r, 'reserved-player', 'heartbeat');
     assert.equal(publicView(r, 'reserved-player', time).me.seatId, reservedId);
     assert.equal(r.seats.length, 24);
+});
+
+test('first-night-only Witch self-save saves its owner on night one and consumes the antidote', () => {
+    const r = setup(undefined, { witchSelfSave: 'firstNight' });
+    assert.equal(publicView(r, 'actor3', time).settings.witchSelfSave, 'firstNight');
+    nightAct(r, 0, { targetId: id(r, 3) });
+    stepTo(r, 'witch');
+    assert.ok(publicView(r, 'actor3', time).me.action.options.includes('save'));
+    nightAct(r, 3, { ability: 'save' });
+    dawn(r);
+    assert.equal(r.seats[3].alive, true);
+    assert.equal(r.seats[3].state.antidoteUsed, true);
+    assert.equal(r.seats[3].state.poisonUsed, undefined);
+});
+
+test('first-night-only Witch rejects later self-save transactionally while poison remains usable', () => {
+    const r = setup(undefined, { witchSelfSave: 'firstNight' });
+    dawn(r); send(r, 'actor0', 'startNight');
+    nightAct(r, 0, { targetId: id(r, 3) });
+    stepTo(r, 'witch');
+    const action = publicView(r, 'actor3', time).me.action;
+    assert.equal(action.victimId, id(r, 3));
+    assert.ok(!action.options.includes('save'));
+    assert.ok(action.options.includes('poison'));
+    const before = JSON.stringify(r);
+    assert.throws(() => nightAct(r, 3, { ability: 'save' }), { code: 'INVALID_ACTION' });
+    assert.equal(JSON.stringify(r), before);
+    assert.equal(r.seats[3].state.antidoteUsed, undefined);
+    nightAct(r, 3, { ability: 'poison', targetId: id(r, 0) });
+    dawn(r);
+    assert.equal(r.seats[0].alive, false);
+    assert.equal(r.seats[3].state.poisonUsed, true);
+    assert.equal(r.seats[3].state.antidoteUsed, undefined);
+});
+
+test('first-night-only rule still permits saving other players after night one', () => {
+    const r = setup(undefined, { witchSelfSave: 'firstNight' });
+    dawn(r); send(r, 'actor0', 'startNight');
+    nightAct(r, 0, { targetId: id(r, 6) });
+    stepTo(r, 'witch');
+    assert.ok(publicView(r, 'actor3', time).me.action.options.includes('save'));
+    nightAct(r, 3, { ability: 'save' });
+    dawn(r);
+    assert.equal(r.seats[6].alive, true);
+    assert.equal(r.seats[3].state.antidoteUsed, true);
+});
+
+test('legacy boolean Witch self-save settings keep never and any-night behavior', () => {
+    for (const witchSelfSave of [false, true]) for (const night of [1, 2]) {
+        const r = setup(undefined, { witchSelfSave });
+        if (night === 2) { dawn(r); send(r, 'actor0', 'startNight'); }
+        nightAct(r, 0, { targetId: id(r, 3) });
+        stepTo(r, 'witch');
+        assert.equal(publicView(r, 'actor3', time).me.action.options.includes('save'), witchSelfSave);
+        if (witchSelfSave) {
+            nightAct(r, 3, { ability: 'save' }); dawn(r);
+            assert.equal(r.seats[3].alive, true);
+            assert.equal(r.seats[3].state.antidoteUsed, true);
+        }
+        else {
+            assert.throws(() => nightAct(r, 3, { ability: 'save' }), { code: 'INVALID_ACTION' });
+            assert.equal(r.seats[3].state.antidoteUsed, undefined);
+        }
+    }
+});
+
+test('Mechanical Wolf copying Witch obeys the same first-night-only self-save rule', () => {
+    const roles = ['werewolf', 'mechanicalWolf', 'seer', 'witch', 'guard', 'hunter', 'villager', 'villager', 'villager'];
+    for (const night of [1, 2]) {
+        const r = setup(roles, { witchSelfSave: 'firstNight' });
+        nightAct(r, 1, { targetId: id(r, 3) }); stepTo(r, 'wolves');
+        if (night === 2) { dawn(r); send(r, 'actor0', 'startNight'); }
+        nightAct(r, 0, { targetId: id(r, 1) });
+        stepTo(r, 'witch');
+        assert.equal(publicView(r, 'actor1', time).me.action.options.includes('save'), night === 1);
+        if (night === 1) {
+            nightAct(r, 1, { ability: 'save' }); dawn(r);
+            assert.equal(r.seats[1].alive, true);
+            assert.equal(r.seats[1].state.antidoteUsed, true);
+        }
+        else {
+            assert.throws(() => nightAct(r, 1, { ability: 'save' }), { code: 'INVALID_ACTION' });
+            assert.equal(r.seats[1].state.antidoteUsed, undefined);
+        }
+    }
+});
+
+test('Witch self-save accepts exactly its three modes and remains locked during a game', () => {
+    const room = createRoom({ code: 'RULES', hostId: 'host', hostName: 'Host', now: ++time });
+    for (const witchSelfSave of [false, true, 'firstNight']) {
+        send(room, 'host', 'updateSettings', { settings: { witchSelfSave } });
+        assert.equal(room.settings.witchSelfSave, witchSelfSave);
+    }
+    for (const value of ['firstnight', 'always', 'true', 'false', '', 1, 0, null, {}, []]) {
+        const before = JSON.stringify(room);
+        assert.throws(() => send(room, 'host', 'updateSettings', { settings: { witchSelfSave: value } }), { code: 'INVALID_SETTINGS' });
+        assert.equal(JSON.stringify(room), before);
+    }
+    const playing = setup();
+    const before = JSON.stringify(playing);
+    assert.throws(() => send(playing, 'actor0', 'updateSettings', { settings: { witchSelfSave: 'firstNight' } }), { code: 'WRONG_PHASE' });
+    assert.equal(JSON.stringify(playing), before);
 });

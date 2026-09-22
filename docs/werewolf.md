@@ -15,6 +15,12 @@ The release includes 52 pre-recorded English/Chinese clips made with Azure `en-U
 
 For an in-person game, speak around the table. Remote groups can use the built-in phase-restricted public/wolf/dead text channels and their preferred voice-call app. This release does not contain a live microphone/voice-call service or automatic translation of player messages.
 
+## Witch self-save
+
+Before dealing roles, the host chooses **Witch self-save / 女巫自救** in room settings: **Never / 不能自救**, **First night only / 仅首夜可自救**, or **Any night / 任何夜晚均可自救**. First night means night 1 of the game, including when using copied Witch powers. The rule limits self-saving only; an unused antidote can still save another player on a later night. Self-saving consumes the same single antidote. The rule is locked once the game begins and is shown in the room’s rules summary.
+
+Existing rooms keep their saved never/any-night setting. New rooms still default to never.
+
 ## Disconnections and recovery
 
 - Once play starts, a seat is a permanent game identity. Its role, life state, ability inventory, ballots, and private history are independent of the browser currently occupying it.

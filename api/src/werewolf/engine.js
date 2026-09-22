@@ -163,7 +163,8 @@ function actionDescriptor(room, s) {
         else if (step === 'witch') {
             const victim = wolfVictim(room);
             const options = ['skip'];
-            if (!s.state.antidoteUsed && victim && (victim !== s.id || room.settings.witchSelfSave))
+            const canSelfSave = room.settings.witchSelfSave === true || (room.settings.witchSelfSave === 'firstNight' && room.night === 1);
+            if (!s.state.antidoteUsed && victim && (victim !== s.id || canSelfSave))
                 options.unshift('save');
             if (!s.state.poisonUsed)
                 options.unshift('poison');
@@ -495,9 +496,13 @@ function validateSettings(settings) {
             if (!Number.isInteger(value) || value < 10 || value > 1800)
                 fail('INVALID_SETTINGS', 'Timers must be between 10 and 1800 seconds.');
         }
-        else if (['autoAdvance', 'sheriff', 'witchSelfSave'].includes(key)) {
+        else if (['autoAdvance', 'sheriff'].includes(key)) {
             if (typeof value !== 'boolean')
                 fail('INVALID_SETTINGS', 'Invalid setting.');
+        }
+        else if (key === 'witchSelfSave') {
+            if (value !== false && value !== true && value !== 'firstNight')
+                fail('INVALID_SETTINGS', 'Choose never, first night only, or any night for Witch self-save.');
         }
         else if (key === 'winCondition') {
             if (!['edge', 'all', 'parity'].includes(value))
