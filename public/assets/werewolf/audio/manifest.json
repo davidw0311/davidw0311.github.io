@@ -1,0 +1,323 @@
+{
+  "voice": "en-US-BrianMultilingualNeural",
+  "provider": "Microsoft Azure AI Speech",
+  "music": {
+    "src": "/assets/werewolf/audio/night-ambience.wav",
+    "title": "Moonlit clearing",
+    "creator": "Original procedural composition for Werewolf"
+  },
+  "clips": {
+    "en:night": {
+      "src": "/assets/werewolf/audio/en/night.mp3",
+      "text": "Night falls. Everyone, close your eyes. Follow the instructions on your device, and keep your identity secret.",
+      "duration": 8.256,
+      "textHash": "6b94eb25506beddc7fc56d34f0345fb36b79d67dfd2303a2cba581abd1f1c241"
+    },
+    "zh:night": {
+      "src": "/assets/werewolf/audio/zh/night.mp3",
+      "text": "天黑请闭眼。请根据设备上的提示行动，保守自己的身份秘密。",
+      "duration": 8.256,
+      "textHash": "eab423c91d487b6a0f66866b6f65dabd4189b572fb88d8a57100c9336379845d"
+    },
+    "en:dawn": {
+      "src": "/assets/werewolf/audio/en/dawn.mp3",
+      "text": "Day breaks. Everyone, open your eyes. Read the overnight result on your device.",
+      "duration": 6.36,
+      "textHash": "00aa1f47c3d76b2a7399e2ae023a0937202ed9ac16c27873f5bc88e4fd63a8c4"
+    },
+    "zh:dawn": {
+      "src": "/assets/werewolf/audio/zh/dawn.mp3",
+      "text": "天亮了，请睁眼。请查看设备上的昨夜结果。",
+      "duration": 6.048,
+      "textHash": "d77549b21af5c7a4d1fc2a4373a69d0794f8469daa880fe12230b36231724ba9"
+    },
+    "en:discussion": {
+      "src": "/assets/werewolf/audio/en/discussion.mp3",
+      "text": "The village may now discuss. Listen carefully, and wait for the host to open the vote.",
+      "duration": 6.384,
+      "textHash": "1dafcbdbff172b4bd5d01c5f03b17884a7e62c680fc171ebcc55790c68b59861"
+    },
+    "zh:discussion": {
+      "src": "/assets/werewolf/audio/zh/discussion.mp3",
+      "text": "现在开始白天讨论。请认真听取发言，等待房主开启投票。",
+      "duration": 7.608,
+      "textHash": "9f4cf91e7eb1252f33b15e703b0da93adf10fd46dd896a89c1b11ab6869abf02"
+    },
+    "en:sheriff-voting": {
+      "src": "/assets/werewolf/audio/en/sheriff-voting.mp3",
+      "text": "Sheriff voting is open. Choose the player you wish to lead the village, or abstain.",
+      "duration": 6,
+      "textHash": "5010902313d092e65c664af946f80009f09166e80abdc8b6fba426a368514c7a"
+    },
+    "zh:sheriff-voting": {
+      "src": "/assets/werewolf/audio/zh/sheriff-voting.mp3",
+      "text": "现在开始警长投票。请选择你希望当选警长的玩家，或选择弃票。",
+      "duration": 7.968,
+      "textHash": "b47f059b0bd7f1c9f965744ba12d3cc41f98b18a411620006a3e00a14a94bebe"
+    },
+    "en:voting": {
+      "src": "/assets/werewolf/audio/en/voting.mp3",
+      "text": "Voting is open. Choose the player you wish to exile, or abstain. Submit your choice on your device.",
+      "duration": 7.656,
+      "textHash": "1c4846ec932cab009e961fcc944eab2f9a77720a07592aaae944f1ba218695f9"
+    },
+    "zh:voting": {
+      "src": "/assets/werewolf/audio/zh/voting.mp3",
+      "text": "现在开始放逐投票。请选择你要放逐的玩家，或选择弃票，并在设备上提交。",
+      "duration": 9.288,
+      "textHash": "8a47067c71c994022d04f69b4571c16c7da56eba967e23f61483f1dde1a3dd68"
+    },
+    "en:vote-result": {
+      "src": "/assets/werewolf/audio/en/vote-result.mp3",
+      "text": "Voting is complete. Read the result on your device, and follow any ability prompts.",
+      "duration": 6.672,
+      "textHash": "6586b4a94bca4497ccc108ab20014498e8854c524ad063a3f4a8f32e4083e05e"
+    },
+    "zh:vote-result": {
+      "src": "/assets/werewolf/audio/zh/vote-result.mp3",
+      "text": "投票结束。请查看设备上的投票结果，并按提示发动技能。",
+      "duration": 7.752,
+      "textHash": "682a0b3a644e2de979afb4ad027b67b012eaaad12f2b3f760ca84b0ebda39418"
+    },
+    "en:game-over": {
+      "src": "/assets/werewolf/audio/en/game-over.mp3",
+      "text": "The game is over. Identities may now be revealed. Review the result together.",
+      "duration": 6.528,
+      "textHash": "5fede050c04a31f6cb8aacbb19763cefe16767bcd09af3ac5c03730b71f89581"
+    },
+    "zh:game-over": {
+      "src": "/assets/werewolf/audio/zh/game-over.mp3",
+      "text": "游戏结束。现在可以公开身份。请一起查看结果，回顾这场对局。",
+      "duration": 8.88,
+      "textHash": "e09e04596def997d29a6646c08db984275610eff5661bc5303125db59e9a1ec7"
+    },
+    "en:paused": {
+      "src": "/assets/werewolf/audio/en/paused.mp3",
+      "text": "The game is paused. Please wait while the host restores the room.",
+      "duration": 4.848,
+      "textHash": "122d423539101f6bb9b30d72a21df74041e520fffaa93854c105b23b740be416"
+    },
+    "zh:paused": {
+      "src": "/assets/werewolf/audio/zh/paused.mp3",
+      "text": "游戏已暂停。请等待房主恢复房间。",
+      "duration": 5.184,
+      "textHash": "151b724f55f8935173a293b75f8990196dca0a597b7d6e682a92843f8606cf39"
+    },
+    "en:reaction": {
+      "src": "/assets/werewolf/audio/en/reaction.mp3",
+      "text": "An ability must be resolved. The affected player should follow the private prompt on their device. Everyone else, please wait.",
+      "duration": 8.592,
+      "textHash": "171138e28d36bd510f0b3eb47709efc46d93a5145403f728eb4a5745f37280ef"
+    },
+    "zh:reaction": {
+      "src": "/assets/werewolf/audio/zh/reaction.mp3",
+      "text": "现在需要结算一项技能。相关玩家请根据设备上的私密提示行动，其他玩家请稍候。",
+      "duration": 10.512,
+      "textHash": "280ebaba8f10b32aa1e3a21df12de2501bd5457547f55951e8ed910ac06bf294"
+    },
+    "en:role-sleep": {
+      "src": "/assets/werewolf/audio/en/role-sleep.mp3",
+      "text": "Your turn is complete. Close your eyes, and remain silent.",
+      "duration": 4.68,
+      "textHash": "182034edb990e63ed30ce52936fbbcd98f5549f8a07c0ab2b4c4c74436403f70"
+    },
+    "zh:role-sleep": {
+      "src": "/assets/werewolf/audio/zh/role-sleep.mp3",
+      "text": "行动结束。请闭眼，并保持安静。",
+      "duration": 4.776,
+      "textHash": "6d21faade533f8d2c2f8224999f85f1b2c96d1ddfbcaf7b737a7e698184fa8d2"
+    },
+    "en:opening": {
+      "src": "/assets/werewolf/audio/en/opening.mp3",
+      "text": "Roles with a first-night ability, act now. Follow your private instructions. Everyone else, keep your eyes closed.",
+      "duration": 8.736,
+      "textHash": "2666ca30a9513555dd71d76df93b256513553d30fe841885978e3fb5f95188fb"
+    },
+    "zh:opening": {
+      "src": "/assets/werewolf/audio/zh/opening.mp3",
+      "text": "拥有首夜技能的角色，请根据设备上的私密提示行动。其他玩家请保持闭眼。",
+      "duration": 9.432,
+      "textHash": "e89ed41946635d86884b8a53c5e8e08659057fcf095d919ef72cfce271086e24"
+    },
+    "en:wolves": {
+      "src": "/assets/werewolf/audio/en/wolves.mp3",
+      "text": "Werewolves, open your eyes. Choose your target on your device. Everyone else, keep your eyes closed.",
+      "duration": 7.68,
+      "textHash": "cdca7e9aa1c5d60a662a57e4ff3ebaccb3b5388eb46bff38c0040433118474e6"
+    },
+    "zh:wolves": {
+      "src": "/assets/werewolf/audio/zh/wolves.mp3",
+      "text": "狼人请睁眼。请在设备上选择今晚的目标。其他玩家请保持闭眼。",
+      "duration": 8.592,
+      "textHash": "506e0c673796e2a1cdee97ae631eb7ac16f57fe36236169a979d6f97bc567181"
+    },
+    "en:guard": {
+      "src": "/assets/werewolf/audio/en/guard.mp3",
+      "text": "Guard, open your eyes. Choose the player you wish to protect.",
+      "duration": 4.728,
+      "textHash": "c045da613d5c1c7aabfb04ae1b5a20feec8413b5ae3f3d61f2448f94199f1f89"
+    },
+    "zh:guard": {
+      "src": "/assets/werewolf/audio/zh/guard.mp3",
+      "text": "守卫请睁眼。请选择今晚要守护的玩家。",
+      "duration": 5.568,
+      "textHash": "3f0be7738dfb2bb6c7ce572df71146a1d270b98388f56ea8c46fb7d8d055ac68"
+    },
+    "en:magician": {
+      "src": "/assets/werewolf/audio/en/magician.mp3",
+      "text": "Magician, open your eyes. Follow your private prompt to exchange two players, or pass.",
+      "duration": 6.216,
+      "textHash": "e26758ce58d5ec86267686abc8c32a72c6979ed968697c10a311b2822f48313e"
+    },
+    "zh:magician": {
+      "src": "/assets/werewolf/audio/zh/magician.mp3",
+      "text": "魔术师请睁眼。请按私密提示交换两名玩家，或选择跳过。",
+      "duration": 7.8,
+      "textHash": "ce5b0d089044dbe9c8f2a443cbf4073b254ad14045e6fef1c46e76a1077ba33b"
+    },
+    "en:dreamweaver": {
+      "src": "/assets/werewolf/audio/en/dreamweaver.mp3",
+      "text": "Dreamweaver, open your eyes. Choose the player who will enter your dream.",
+      "duration": 5.28,
+      "textHash": "53f76f438035fc373962f381cc4cba63f07a6f2dc5430aced499347427238941"
+    },
+    "zh:dreamweaver": {
+      "src": "/assets/werewolf/audio/zh/dreamweaver.mp3",
+      "text": "摄梦人请睁眼。请选择今晚的梦游者。",
+      "duration": 5.304,
+      "textHash": "30fac99b8c195750540eb88d065282ce06e9cd6fcaaa06298d2bc08042f30202"
+    },
+    "en:seer": {
+      "src": "/assets/werewolf/audio/en/seer.mp3",
+      "text": "Seer, open your eyes. Choose a player to investigate, and read your result privately.",
+      "duration": 6.216,
+      "textHash": "c6d149b87b77805d276b49ff4eb3b1839fabaf7752ea12a252cb4b6093e816c2"
+    },
+    "zh:seer": {
+      "src": "/assets/werewolf/audio/zh/seer.mp3",
+      "text": "预言家请睁眼。请选择要查验的玩家，并私下查看结果。",
+      "duration": 7.368,
+      "textHash": "318180e7850bee22956527214eaa84de27852e67a988d612caf261aee086a00f"
+    },
+    "en:pureWhite": {
+      "src": "/assets/werewolf/audio/en/pureWhite.mp3",
+      "text": "Pure White, open your eyes. Choose a player to investigate.",
+      "duration": 4.704,
+      "textHash": "b950c0f39620a0e03a5375ea7ef4007f8a98d3e0c970f1d02996fb7ef3e0e49a"
+    },
+    "zh:pureWhite": {
+      "src": "/assets/werewolf/audio/zh/pureWhite.mp3",
+      "text": "纯白之女请睁眼。请选择要查验的玩家。",
+      "duration": 5.592,
+      "textHash": "22a134b99aaeca095aca52e852bedd7f460cb57b01331b7769e20d5f8a770f67"
+    },
+    "en:wolfWitch": {
+      "src": "/assets/werewolf/audio/en/wolfWitch.mp3",
+      "text": "Wolf Witch, open your eyes. Follow the private ability prompt on your device.",
+      "duration": 5.784,
+      "textHash": "debe6cd80a3ea7e0379ec54e42b5b02246b910ed78f882be22770729db47c327"
+    },
+    "zh:wolfWitch": {
+      "src": "/assets/werewolf/audio/zh/wolfWitch.mp3",
+      "text": "狼巫请睁眼。请根据设备上的私密技能提示行动。",
+      "duration": 6.456,
+      "textHash": "9bec32346a7a8dada13cb216dab213ddee7133e0989e5ce6cc206d5971b1c2cd"
+    },
+    "en:gargoyle": {
+      "src": "/assets/werewolf/audio/en/gargoyle.mp3",
+      "text": "Gargoyle, open your eyes. Choose a player to investigate.",
+      "duration": 4.56,
+      "textHash": "f7d9e8f676b296198480398d7f58ae4570170616f2bf5f41f38db589aaebb317"
+    },
+    "zh:gargoyle": {
+      "src": "/assets/werewolf/audio/zh/gargoyle.mp3",
+      "text": "石像鬼请睁眼。请选择要查验的玩家。",
+      "duration": 5.184,
+      "textHash": "2bbed0a9fe91e1560980629ddc8f94df7182086cad1f5b43759298a9149ceacb"
+    },
+    "en:witch": {
+      "src": "/assets/werewolf/audio/en/witch.mp3",
+      "text": "Witch, open your eyes. Read your private information, then choose whether to use a potion.",
+      "duration": 6.552,
+      "textHash": "01106ff2ba2982ebc1d5808823e95b44879dfb98659744ecf2abafdbe6c09de4"
+    },
+    "zh:witch": {
+      "src": "/assets/werewolf/audio/zh/witch.mp3",
+      "text": "女巫请睁眼。请查看私密信息，然后决定是否使用药水。",
+      "duration": 7.32,
+      "textHash": "40337b1c342c8dac45cbefd5ef203db0376fdd7115b9246b73f5ccd225797d49"
+    },
+    "en:wolfBeauty": {
+      "src": "/assets/werewolf/audio/en/wolfBeauty.mp3",
+      "text": "Wolf Beauty, open your eyes. Choose a player to charm.",
+      "duration": 4.248,
+      "textHash": "1f1a32d2e440083aef30ccbf6d898f2873523736e28008f0ac7930b48978b892"
+    },
+    "zh:wolfBeauty": {
+      "src": "/assets/werewolf/audio/zh/wolfBeauty.mp3",
+      "text": "狼美人请睁眼。请选择要魅惑的玩家。",
+      "duration": 5.304,
+      "textHash": "b1f4786402eebd680be60803ce46e1311a455d966b533865f72972861336d35b"
+    },
+    "en:raven": {
+      "src": "/assets/werewolf/audio/en/raven.mp3",
+      "text": "Raven, open your eyes. Choose a player to mark.",
+      "duration": 3.936,
+      "textHash": "644038c01cb7a145688d88307df546644e00a157647528c5decf94740eaa693e"
+    },
+    "zh:raven": {
+      "src": "/assets/werewolf/audio/zh/raven.mp3",
+      "text": "乌鸦请睁眼。请选择要诅咒的玩家。",
+      "duration": 5.088,
+      "textHash": "2e301fedff3bf585c346ede17e537bc4d08483f534193a7e73072f537367a7dc"
+    },
+    "en:gravekeeper": {
+      "src": "/assets/werewolf/audio/en/gravekeeper.mp3",
+      "text": "Gravekeeper, open your eyes. Read the private information on your device.",
+      "duration": 5.544,
+      "textHash": "4433d14d02b52f78a7bfcd8e5ac2f431f7252a08cbc8c97a996714b57551de36"
+    },
+    "zh:gravekeeper": {
+      "src": "/assets/werewolf/audio/zh/gravekeeper.mp3",
+      "text": "守墓人请睁眼。请查看设备上的私密信息。",
+      "duration": 5.736,
+      "textHash": "297f7be7765afca27041a9693fc5182d08ba0aec15c134e40f89d90bfe4568a7"
+    },
+    "en:demonHunter": {
+      "src": "/assets/werewolf/audio/en/demonHunter.mp3",
+      "text": "Demon Hunter, open your eyes. Follow the private prompt to hunt, or pass.",
+      "duration": 5.472,
+      "textHash": "8ea0b52834207a79151ea3cab8411300568b1da689d9ece59aca98478ec99d30"
+    },
+    "zh:demonHunter": {
+      "src": "/assets/werewolf/audio/zh/demonHunter.mp3",
+      "text": "猎魔人请睁眼。请根据私密提示选择狩猎，或跳过。",
+      "duration": 7.176,
+      "textHash": "d90ff8791beb0b8db58a1fe8adfc2412b57bdb7c3a9148542d6aa6e434d8168d"
+    },
+    "en:piper": {
+      "src": "/assets/werewolf/audio/en/piper.mp3",
+      "text": "Piper, open your eyes. Choose the players you wish to enchant.",
+      "duration": 4.656,
+      "textHash": "252eb82c9eb1cbd99b1edb3c7485f88590226887fe81f0c753a82ea88440ba68"
+    },
+    "zh:piper": {
+      "src": "/assets/werewolf/audio/zh/piper.mp3",
+      "text": "吹笛者请睁眼。请选择要迷惑的玩家。",
+      "duration": 5.232,
+      "textHash": "675525deaade78512f40b9bc7d5c90052e558a544d22d6b9f4403aa3d981497b"
+    },
+    "en:bloodMoonApostle": {
+      "src": "/assets/werewolf/audio/en/bloodMoonApostle.mp3",
+      "text": "Blood Moon Apostle, open your eyes. Follow the private ability prompt on your device.",
+      "duration": 6.384,
+      "textHash": "be4936165b3646a14e28b845cea6ed97be164fc8dbfed23d194820a22fb26f2f"
+    },
+    "zh:bloodMoonApostle": {
+      "src": "/assets/werewolf/audio/zh/bloodMoonApostle.mp3",
+      "text": "血月使徒请睁眼。请根据设备上的私密技能提示行动。",
+      "duration": 7.176,
+      "textHash": "a615f1c7889d0ea3cd1cfab6ea4ab82e9ece088780d0ac92f863258c08929ef0"
+    }
+  }
+}

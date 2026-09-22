@@ -1,0 +1,38 @@
+name: Verify Werewolf
+on:
+  push:
+    branches: [main, werewolf]
+    paths:
+      - 'app/werewolf/**'
+      - 'lib/werewolf*'
+      - 'api/**'
+      - 'public/assets/werewolf/**'
+      - 'tests/werewolf*'
+      - '.github/workflows/werewolf-checks.yml'
+  pull_request:
+    paths:
+      - 'app/werewolf/**'
+      - 'lib/werewolf*'
+      - 'api/**'
+      - 'public/assets/werewolf/**'
+      - 'tests/werewolf*'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            api/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix api
+      - run: npm test --prefix api
+      - run: npm test
+      - run: npm run typecheck
+      - run: npx eslint app/werewolf lib/werewolfClient.ts lib/werewolfAudio.ts api/src/werewolf api/src/functions/werewolf.js api/test/werewolf-*.test.js

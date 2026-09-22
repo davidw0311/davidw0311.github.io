@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://davidw0311.github.io";
   return [
     { url: baseUrl, changeFrequency: "monthly", priority: 1 },
+    { url: `${baseUrl}/werewolf/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/codex-regius/`, changeFrequency: "monthly", priority: 0.8 },
     ...regiusStories.map(story => ({ url: `${baseUrl}/projects/codex-regius/${story.slug}/`, changeFrequency: "yearly" as const, priority: 0.6 })),
     ...regiusStories.map(story => ({ url: `${baseUrl}/projects/codex-regius/${story.slug}/original/`, changeFrequency: "yearly" as const, priority: 0.5 })),
