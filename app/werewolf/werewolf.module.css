@@ -258,3 +258,6 @@
 .replayRows > div { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 8px 0; font-size: 11px; color: #b9afb9; }
 .replayRows strong { color: #d1c6ce; }
 .replayRows p { margin: 0; }
+
+.nightProgress { display: flex; align-items: center; gap: 10px; padding: 12px 18px; color: #c9bdca; border-bottom: 1px solid #39313c; background: #26212a; font-size: 12px; line-height: 1.6; }
+.nightProgress svg { flex-shrink: 0; }

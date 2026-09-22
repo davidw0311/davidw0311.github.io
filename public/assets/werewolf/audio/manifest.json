@@ -318,6 +318,66 @@
       "text": "血月使徒请睁眼。请根据设备上的私密技能提示行动。",
       "duration": 7.176,
       "textHash": "a615f1c7889d0ea3cd1cfab6ea4ab82e9ece088780d0ac92f863258c08929ef0"
+    },
+    "en:cupid": {
+      "src": "/assets/werewolf/audio/en/cupid.mp3",
+      "text": "Cupid, open your eyes. Follow the private instructions on your device to choose two lovers. Everyone else, keep your eyes closed.",
+      "duration": 9.528,
+      "textHash": "01a009c5e2e6388db66002478a3a8985af109f3c119b53e63e24e4e31425bc93"
+    },
+    "zh:cupid": {
+      "src": "/assets/werewolf/audio/zh/cupid.mp3",
+      "text": "丘比特请睁眼。请根据设备上的私密提示，选择两名情侣。其他玩家请保持闭眼。",
+      "duration": 10.704,
+      "textHash": "09fe8d4f0dc0a001e4db8a802cf9dd4242daec627024394cdcfb8740a0ab2bac"
+    },
+    "en:wildChild": {
+      "src": "/assets/werewolf/audio/en/wildChild.mp3",
+      "text": "Wild Child, open your eyes. Follow the private instructions on your device to choose your idol. Everyone else, keep your eyes closed.",
+      "duration": 9.744,
+      "textHash": "b188142ffba47521bf6985301b88e85a06357e890433e41346a6d38fb0ffe9c4"
+    },
+    "zh:wildChild": {
+      "src": "/assets/werewolf/audio/zh/wildChild.mp3",
+      "text": "野孩子请睁眼。请根据设备上的私密提示，选择你的榜样。其他玩家请保持闭眼。",
+      "duration": 10.344,
+      "textHash": "1a8e4c46b976bc3586cc7aca447df392235a4905226d429d216e228ff85e9116"
+    },
+    "en:wolfHound": {
+      "src": "/assets/werewolf/audio/en/wolfHound.mp3",
+      "text": "Wolf Hound, open your eyes. Follow the private instructions on your device to choose the village or the wolves. Everyone else, keep your eyes closed.",
+      "duration": 10.464,
+      "textHash": "c695ab854a6105743b9eadd1fed8a6de82c70e000a02172908fd7b20e96467c6"
+    },
+    "zh:wolfHound": {
+      "src": "/assets/werewolf/audio/zh/wolfHound.mp3",
+      "text": "狼狗请睁眼。请根据设备上的私密提示，选择好人或狼人阵营。其他玩家请保持闭眼。",
+      "duration": 11.376,
+      "textHash": "47cbcfab5566cc469257bc64c64dfb0309d33d2ae88a7a99201067e53dd65563"
+    },
+    "en:thief": {
+      "src": "/assets/werewolf/audio/en/thief.mp3",
+      "text": "Thief, open your eyes. Follow the private instructions on your device to choose one of the two offered roles. Everyone else, keep your eyes closed.",
+      "duration": 10.2,
+      "textHash": "f7f239b6a17a94b9929dc042d964e3ea164dde8ee05f3fb59ffa0c6457a9db7c"
+    },
+    "zh:thief": {
+      "src": "/assets/werewolf/audio/zh/thief.mp3",
+      "text": "盗贼请睁眼。请根据设备上的私密提示，从提供的两个身份中选择一个。其他玩家请保持闭眼。",
+      "duration": 12.168,
+      "textHash": "ad603026d9e267bcc7e2ced90707b851dd843a9e0edc0d2a3f67febe6b8d0ac8"
+    },
+    "en:mechanicalWolf": {
+      "src": "/assets/werewolf/audio/en/mechanicalWolf.mp3",
+      "text": "Mechanical Wolf, open your eyes. Follow the private instructions on your device to choose a player whose role you will copy. Everyone else, keep your eyes closed.",
+      "duration": 11.088,
+      "textHash": "52d2a2727c603765b18f1940ce792572a040acb08dfd4d148a5617633010fcb4"
+    },
+    "zh:mechanicalWolf": {
+      "src": "/assets/werewolf/audio/zh/mechanicalWolf.mp3",
+      "text": "机械狼请睁眼。请根据设备上的私密提示，选择一名玩家，学习其身份。其他玩家请保持闭眼。",
+      "duration": 12.12,
+      "textHash": "7934626251238b6ece9800d045d24fe2ae6bc70a118d3588268a1beb3c844868"
     }
   }
 }

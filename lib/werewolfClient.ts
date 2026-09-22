@@ -7,7 +7,7 @@ export type Localized = { en: string; zh: string };
 export type Role = { id: string; name: Localized; team: string; description: Localized; nightStep?: string };
 export type Catalogue = { version: string; ruleset: Localized; roles: Role[]; presets: { id: string; name: Localized; roles: string[] }[] };
 export type Seat = { id: string; name: string; connected: boolean; occupied: boolean; alive: boolean; isHost: boolean; isSheriff: boolean; canVote: boolean; roleId?: string };
-export type Phase = { id: string; kind: "lobby" | "night" | "day" | "voting" | "reaction" | "finished"; step: string; number: number; deadline: number | null; paused: boolean };
+export type Phase = { id: string; kind: "lobby" | "night" | "day" | "voting" | "reaction" | "finished"; step: string; number: number; deadline: number | null; paused: boolean; nightStage?: "opening" | "acting" | "closing"; nightCues?: string[]; nightRole?: string };
 export type Settings = { nightSeconds: number; daySeconds: number; voteSeconds: number; autoAdvance: boolean; sheriff: boolean; winCondition: "edge" | "all" | "parity"; witchSelfSave: boolean | "firstNight"; guardAntidote: "save" | "kill"; [key: string]: unknown };
 export type Action = { kind: string; step: string; targets: string[]; canSkip: boolean; input: "single" | "double" | "choice" | "none"; options?: (string | { id?: string; value?: string; name?: Localized; label?: Localized })[]; alreadySubmitted: boolean; ability?: string; minTargets?: number; maxTargets?: number; victimId?: string | null };
 export type GameView = {
@@ -78,7 +78,7 @@ export function useWerewolfRoom() {
   }, []);
   useEffect(() => {
     if (!session) return;
-    let stopped = false, failures = 0, inFlight = false;
+    let stopped = false, failures = 0, inFlight = false, nightPolling = false, hostPolling = false;
     let timer: ReturnType<typeof setTimeout>;
     let controller: AbortController | null = null;
     const sync = async () => {
@@ -90,7 +90,7 @@ export function useWerewolfRoom() {
       try {
         const reply = await request({ op: "sync", code: session.code, token: session.token }, controller.signal);
         if (stopped) return;
-        apply(reply.view); failures = 0; setConnectivity("online");
+        apply(reply.view); failures = 0; nightPolling = reply.view.phase.kind === "night" && !reply.view.phase.paused; hostPolling = reply.view.isHost; setConnectivity("online");
         if (reply.recoveryKey && reply.recoveryKey !== activeSession.current?.recoveryKey && activeSession.current?.token === session.token) { const updated = { ...session, recoveryKey: reply.recoveryKey }; activeSession.current = updated; store(sessionKey, updated); store(`${sessionKey}.${session.code}`, updated); setSession(updated); }
       } catch (caught) {
         if (stopped) return;
@@ -99,7 +99,7 @@ export function useWerewolfRoom() {
         if (caught instanceof RoomError && !caught.retryable) { setError(caught); if (terminalErrors.has(caught.code)) { stopped = true; setSessionExpired(true); } }
       } finally {
         inFlight = false;
-        if (!stopped) timer = setTimeout(sync, failures ? Math.min(30000, 1500 * 2 ** Math.min(failures, 4)) : document.hidden ? 12000 : 3000);
+        if (!stopped) timer = setTimeout(sync, failures ? Math.min(30000, 1500 * 2 ** Math.min(failures, 4)) : nightPolling ? hostPolling ? 1000 : document.hidden ? 3000 : 2000 : document.hidden ? 12000 : 3000);
       }
     };
     syncNow.current = () => { void sync(); };
@@ -162,11 +162,26 @@ export function useWerewolfRoom() {
     }
     finally { mutationLock.current = false; setBusy(null); }
   }, [apply]);
+  // Narration completion is an automatic transport event, independent of the
+  // player's action lock. Its phase-scoped receipt survives refresh and retries.
+  const acknowledgeNightNarration = useCallback(async (phaseId: string): Promise<boolean> => {
+    const current = activeSession.current;
+    if (!current) return true;
+    try {
+      const reply = await reliableRequest({ op: "command", code: current.code, token: current.token, requestId: `narration-${phaseId}`, command: { type: "nightNarrationDone", expectedPhaseId: phaseId } });
+      if (activeSession.current?.token === current.token) apply(reply.view);
+      return true;
+    } catch (caught) {
+      // A different stage or host can legitimately win this race. Polling will
+      // update the room; only transient failures need another acknowledgement.
+      return caught instanceof RoomError && !caught.retryable;
+    }
+  }, [apply]);
   const disconnect = useCallback((forget = false) => {
     const current = activeSession.current;
     activeSession.current = null; setSession(null); setView(null); setError(null); setSessionExpired(false); setConnectivity("online");
     try { localStorage.removeItem(sessionKey); if (current && forget) localStorage.removeItem(`${sessionKey}.${current.code}`); } catch { /* no-op */ }
     window.history.replaceState(null, "", window.location.pathname);
   }, []);
-  return { session, view, connectivity, busy, error, sessionExpired, restored, enter, command, disconnect, retry: () => syncNow.current(), clearError: () => setError(null) };
+  return { session, view, connectivity, busy, error, sessionExpired, restored, enter, command, acknowledgeNightNarration, disconnect, retry: () => syncNow.current(), clearError: () => setError(null) };
 }

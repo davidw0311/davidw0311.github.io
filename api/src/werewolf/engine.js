@@ -8,6 +8,7 @@ const factionName = (id, locale) => factionNames[id]?.[locale] || id;
 const WOLF_ROLES = new Set(['werewolf', 'wolfKing', 'whiteWolfKing', 'wolfBeauty', 'hiddenWolf', 'gargoyle', 'mechanicalWolf', 'bloodMoonApostle', 'wolfWitch']);
 const INDEPENDENT_ROLES = new Set(['piper', 'angel', 'jester']);
 const ROLES = new Set(['villager', 'seer', 'witch', 'hunter', 'guard', 'idiot', 'cupid', 'knight', 'dreamweaver', 'magician', 'gravekeeper', 'raven', 'demonHunter', 'pureWhite', 'wildChild', 'wolfHound', 'thief', 'elder', 'scapegoat', ...WOLF_ROLES, ...INDEPENDENT_ROLES]);
+const OPENING_ROLES = ['cupid', 'wildChild', 'wolfHound', 'thief', 'mechanicalWolf'];
 const NIGHT_STEPS = ['opening', 'wolves', 'magician', 'guard', 'dreamweaver', 'seer', 'pureWhite', 'wolfWitch', 'gargoyle', 'witch', 'wolfBeauty', 'raven', 'gravekeeper', 'demonHunter', 'piper'];
 const ROLE_STEP = { cupid: 'opening', wildChild: 'opening', wolfHound: 'opening', thief: 'opening', mechanicalWolf: 'opening', seer: 'seer', guard: 'guard', witch: 'witch', dreamweaver: 'dreamweaver', magician: 'magician', gravekeeper: 'gravekeeper', raven: 'raven', demonHunter: 'demonHunter', pureWhite: 'pureWhite', wolfWitch: 'wolfWitch', gargoyle: 'gargoyle', wolfBeauty: 'wolfBeauty', piper: 'piper' };
 const COPY_ROLES = new Set(['seer', 'guard', 'witch', 'raven', 'gravekeeper', 'demonHunter', 'hunter']);
@@ -40,6 +41,7 @@ function setPhase(room, kind, step, now) {
     const seconds = kind === 'night' ? room.settings.nightSeconds : kind === 'voting' || kind === 'reaction' ? room.settings.voteSeconds : room.settings.daySeconds;
     room.phase = { id: randomUUID(), kind, step: step || null, number: room.night, deadline: ['night', 'day', 'voting', 'reaction'].includes(kind) ? now + seconds * 1000 : null, paused: false };
     room.speakerSeatId = null;
+    if (kind !== 'night') room.nightFlow = null;
 }
 function defaultDeck(n) { if (PRESETS[n])
     return [...PRESETS[n]]; const wolves = Math.max(1, Math.floor(n / 3)); return [...Array(wolves).fill('werewolf'), 'seer', 'witch', ...Array(Math.max(0, n - wolves - 2)).fill('villager')]; }
@@ -84,40 +86,101 @@ function replaceOccupant(room, seat, actorId, name, now) {
 function nightSchedule(room) {
     const steps = new Set(['wolves']);
     for (const role of room.roleDeck) {
-        if (ROLE_STEP[role])
-            steps.add(ROLE_STEP[role]);
-        if (role === 'thief') {
-            steps.add('seer');
-            steps.add('guard');
-        }
+        if (ROLE_STEP[role]) steps.add(ROLE_STEP[role]);
+        if (role === 'thief') { steps.add('seer'); steps.add('guard'); }
         if (role === 'mechanicalWolf')
-            for (const step of ['seer', 'guard', 'witch', 'raven', 'gravekeeper', 'demonHunter'])
-                steps.add(step);
+            for (const step of ['seer', 'guard', 'witch', 'raven', 'gravekeeper', 'demonHunter']) steps.add(step);
     }
-    return NIGHT_STEPS.filter(step => steps.has(step) && (step !== 'opening' || room.night === 1));
+    const turns = [];
+    if (room.night === 1)
+        for (const role of OPENING_ROLES)
+            if (room.roleDeck.includes(role)) turns.push({ step: 'opening', role });
+    for (const step of NIGHT_STEPS)
+        if (step !== 'opening' && steps.has(step)) turns.push({ step });
+    return turns;
+}
+function eventNight(room) { return room.phase.kind === 'night' && Boolean(room.phase.nightStage); }
+function setNightStage(room, stage, now) {
+    const turn = room.nightSchedule[room.nightIndex];
+    const flow = room.nightFlow || { version: 1 };
+    setPhase(room, 'night', turn.step, now);
+    room.phase.deadline = null;
+    room.phase.nightStage = stage;
+    if (turn.role) room.phase.nightRole = turn.role;
+    room.phase.nightCues = stage === 'opening'
+        ? [...(room.nightIndex === 0 ? ['night'] : []), turn.role || turn.step]
+        : stage === 'closing' ? ['role-sleep'] : [];
+    room.nightFlow = flow;
+    flow.deadline = stage === 'opening' ? now + (room.nightIndex === 0 ? 45000 : 30000) : stage === 'closing' ? now + 12000 : null;
+    delete flow.remainingMs;
+    if (stage === 'acting') {
+        flow.eligibleSeatIds = room.seats.filter(seat => actionDescriptor(room, seat)).map(seat => seat.id);
+        if (!flow.eligibleSeatIds.length) flow.deadline = now + randomInt(7000, 15001);
+    }
+}
+function beginNightTurn(room, now) {
+    room.nightFlow = { version: 1, deadline: null, eligibleSeatIds: [] };
+    setNightStage(room, 'opening', now);
 }
 function startNight(room, now) {
     room.voteDoneDay = null;
     room.night++;
-    for (const s of room.seats)
-        s.state.charmId = null;
+    for (const s of room.seats) s.state.charmId = null;
     room.nightStartIds = room.seats.filter(s => s.alive).map(s => s.id);
-    room.actions = {};
-    room.votes = {};
-    room.pendingShots = [];
-    room.ravenTargetId = null;
+    room.actions = {}; room.votes = {}; room.pendingShots = []; room.ravenTargetId = null;
     room.nightSchedule = nightSchedule(room);
     room.nightIndex = 0;
-    setPhase(room, 'night', room.nightSchedule[0], now);
+    beginNightTurn(room, now);
     event(room, `Night ${room.night}. Close your eyes.`, `第 ${room.night} 夜，天黑请闭眼。`, now);
 }
 function advanceNight(room, now) {
-    if (room.phase.step === 'opening')
-        resolveOpening(room, now);
-    if (++room.nightIndex < room.nightSchedule.length)
-        setPhase(room, 'night', room.nightSchedule[room.nightIndex], now);
-    else
-        resolveNight(room, now);
+    if (!eventNight(room)) {
+        // Rooms already inside a legacy timed night keep that night intact. Their
+        // next startNight adopts the event-driven schedule without losing actions.
+        if (room.phase.step === 'opening') resolveOpening(room, now);
+        if (++room.nightIndex < room.nightSchedule.length) setPhase(room, 'night', room.nightSchedule[room.nightIndex], now);
+        else resolveNight(room, now);
+        return;
+    }
+    const current = room.nightSchedule[room.nightIndex];
+    const next = room.nightSchedule[room.nightIndex + 1];
+    if (current.step === 'opening' && next?.step !== 'opening') resolveOpening(room, now);
+    if (++room.nightIndex < room.nightSchedule.length) beginNightTurn(room, now);
+    else resolveNight(room, now);
+}
+function completeNightActions(room, now) {
+    const eligible = room.nightFlow.eligibleSeatIds;
+    if (room.phase.nightStage === 'acting' && eligible.length && eligible.every(id => actionAt(room, room.phase.step, id)))
+        setNightStage(room, 'closing', now);
+}
+function finishNightNarration(room, now) {
+    if (room.phase.nightStage === 'opening') { setNightStage(room, 'acting', now); completeNightActions(room, now); }
+    else if (room.phase.nightStage === 'closing') advanceNight(room, now);
+}
+function pauseRoom(room, now, reason) {
+    if (room.phase.paused) return;
+    if (eventNight(room)) {
+        room.nightFlow.remainingMs = room.nightFlow.deadline == null ? null : Math.max(0, room.nightFlow.deadline - now);
+        room.nightFlow.deadline = null;
+        room.phase.id = randomUUID();
+    }
+    else room.phase.remainingMs = room.phase.deadline == null ? null : Math.max(0, room.phase.deadline - now);
+    room.phase.paused = true;
+    room.phase.deadline = null;
+    if (reason) room.phase.pauseReason = reason;
+}
+function resumeRoom(room, now) {
+    if (!room.phase.paused) return;
+    room.phase.paused = false;
+    if (eventNight(room)) {
+        room.phase.id = randomUUID();
+        room.phase.deadline = null;
+        room.nightFlow.deadline = room.nightFlow.remainingMs == null ? null : now + Math.max(1, room.nightFlow.remainingMs);
+        delete room.nightFlow.remainingMs;
+    }
+    else room.phase.deadline = room.phase.remainingMs == null ? null : now + Math.max(1000, room.phase.remainingMs);
+    delete room.phase.remainingMs;
+    delete room.phase.pauseReason;
 }
 function transformedTeam(role) { return WOLF_ROLES.has(role) ? 'wolf' : INDEPENDENT_ROLES.has(role) ? 'independent' : 'village'; }
 function actionAt(room, step, seatId) { return room.actions[step]?.[seatId] || null; }
@@ -135,13 +198,13 @@ function actionDescriptor(room, s) {
         return null;
     if (room.phase.kind === 'voting')
         return s.canVote && (!room.voteEligibleIds || room.voteEligibleIds.includes(s.id)) ? { kind: 'vote', step: room.phase.step, input: 'single', targets: all, canSkip: true, alreadySubmitted: Object.hasOwn(room.votes, s.id) } : null;
-    if (room.phase.kind !== 'night')
+    if (room.phase.kind !== 'night' || (eventNight(room) && room.phase.nightStage !== 'acting'))
         return null;
     const step = room.phase.step, role = effectiveRole(s);
     let d = null;
     if (step === 'wolves' && isPack(s))
         d = { input: 'single', targets: all, canSkip: true };
-    else if (step === 'opening' && room.night === 1 && ROLE_STEP[s.roleId] === 'opening' && powersEnabled(room, s)) {
+    else if (step === 'opening' && room.night === 1 && ROLE_STEP[s.roleId] === 'opening' && (!room.phase.nightRole || room.phase.nightRole === s.roleId) && powersEnabled(room, s)) {
         if (s.roleId === 'cupid')
             d = { input: 'double', minTargets: 2, maxTargets: 2, targets: all, canSkip: true };
         else if (s.roleId === 'wolfHound')
@@ -151,7 +214,7 @@ function actionDescriptor(room, s) {
         else
             d = { input: 'single', targets: other, canSkip: true };
     }
-    else if (powersEnabled(room, s) && (ROLE_STEP[role] === step || s.roleId === 'mechanicalWolf' && role === 'seer' && step === 'seer')) {
+    else if (step !== 'opening' && powersEnabled(room, s) && (ROLE_STEP[role] === step || s.roleId === 'mechanicalWolf' && role === 'seer' && step === 'seer')) {
         if (step === 'guard')
             d = { input: 'single', targets: all.filter(id => id !== s.state.lastGuard), canSkip: true };
         else if (step === 'magician')
@@ -168,6 +231,7 @@ function actionDescriptor(room, s) {
                 options.unshift('save');
             if (!s.state.poisonUsed)
                 options.unshift('poison');
+            if (eventNight(room) && options.length === 1) return null;
             d = { input: 'single', targets: all, options, canSkip: true, victimId: !s.state.antidoteUsed ? victim : null };
         }
         else if (step === 'wolfWitch')
@@ -193,6 +257,8 @@ function acceptNightAction(room, s, c) {
     const d = actionDescriptor(room, s);
     if (!d)
         fail('NO_ABILITY', 'You do not have an action in this step.');
+    if (eventNight(room) && d.alreadySubmitted)
+        fail('ACTION_ALREADY_SUBMITTED', 'Your action is submitted. Wait for the other players.');
     const choice = c.choice || c.ability;
     const skip = choice === 'skip' || (d.input !== 'none' && d.input !== 'choice' && !c.targetId && !c.targetIds && choice !== 'save');
     if (skip) {
@@ -562,7 +628,7 @@ function executeCommand(room, actorId, c, now) {
             member.lastSeen = now;
         return;
     }
-    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame']);
+    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'nightNarrationDone', 'skipNightTurn']);
     if (hostTypes.has(c.type))
         requireHost(room, actorId);
     const s = seatOf(room, actorId);
@@ -640,7 +706,7 @@ function executeCommand(room, actorId, c, now) {
                     fail('WRONG_PHASE', 'Role and victory rules are locked once the game starts.');
             }
             const timerKey = room.phase.kind === 'night' ? 'nightSeconds' : ['voting', 'reaction'].includes(room.phase.kind) ? 'voteSeconds' : 'daySeconds';
-            const resetTimer = room.status === 'playing' && (Object.hasOwn(changes, timerKey) || changes.autoAdvance === true && !room.settings.autoAdvance);
+            const resetTimer = room.status === 'playing' && !eventNight(room) && (Object.hasOwn(changes, timerKey) || changes.autoAdvance === true && !room.settings.autoAdvance);
             room.settings = { ...room.settings, ...changes };
             if (resetTimer) {
                 if (room.phase.paused)
@@ -688,6 +754,8 @@ function executeCommand(room, actorId, c, now) {
         }
         case 'nextPhase':
             requirePhase(room, c, ['night', 'day', 'voting', 'reaction']);
+            if (eventNight(room))
+                fail('NIGHT_FLOW_CONTROLLED', 'Night roles advance after narration and every required player action.');
             if (room.phase.kind === 'night')
                 advanceNight(room, now);
             else if (room.phase.kind === 'voting')
@@ -704,6 +772,19 @@ function executeCommand(room, actorId, c, now) {
                 room.votes = {};
                 setPhase(room, 'voting', 'exile', now);
             }
+            break;
+        case 'nightNarrationDone':
+            requirePhase(room, c, ['night']);
+            if (!eventNight(room) || !['opening', 'closing'].includes(room.phase.nightStage))
+                fail('WRONG_PHASE', 'Narration completion is only available while a role opens or closes its eyes.');
+            finishNightNarration(room, now);
+            break;
+        case 'skipNightTurn':
+            if (c.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed.');
+            if (!eventNight(room) || !room.phase.paused) fail('PAUSE_REQUIRED', 'Pause the night before using emergency skip.');
+            room.nightFlow.ignoreDisconnects = true;
+            setNightStage(room, 'closing', now);
+            event(room, 'The host used emergency skip for this night turn. Missing actions were skipped.', '房主紧急跳过了本轮夜间行动，未提交的行动视为跳过。', now);
             break;
         case 'startNight':
             requirePhase(room, c, ['day']);
@@ -726,23 +807,12 @@ function executeCommand(room, actorId, c, now) {
             resolveVoting(room, now);
             break;
         case 'pause':
-            if (c.expectedPhaseId !== room.phase.id)
-                fail('STALE_PHASE', 'The phase changed.');
-            if (!room.phase.paused) {
-                room.phase.remainingMs = room.phase.deadline ? Math.max(0, room.phase.deadline - now) : null;
-                room.phase.paused = true;
-                room.phase.deadline = null;
-            }
+            if (c.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed.');
+            pauseRoom(room, now);
             break;
         case 'resume':
-            if (c.expectedPhaseId !== room.phase.id)
-                fail('STALE_PHASE', 'The phase changed.');
-            if (room.phase.paused) {
-                room.phase.paused = false;
-                room.phase.deadline = room.phase.remainingMs == null ? null : now + Math.max(1000, room.phase.remainingMs);
-                delete room.phase.remainingMs;
-                delete room.phase.pauseReason;
-            }
+            if (c.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed.');
+            resumeRoom(room, now);
             break;
         case 'setSpeaker':
             requirePhase(room, c, ['day']);
@@ -769,6 +839,7 @@ function executeCommand(room, actorId, c, now) {
             break;
         case 'nightAction':
             acceptNightAction(room, s, c);
+            if (eventNight(room)) completeNightActions(room, now);
             break;
         case 'vote':
             requirePhase(room, c, ['voting']);
@@ -903,21 +974,31 @@ function applyCommand(room, actorId, command, now) {
 }
 function tickRoom(room, now) {
     now = nowMs(now);
-    if (room.status !== 'playing' || !room.settings.autoAdvance || room.phase.paused)
-        return false;
+    if (room.status !== 'playing' || room.phase.paused || (!eventNight(room) && !room.settings.autoAdvance)) return false;
     const host = seatOf(room, room.hostId);
     const absent = room.seats.some(s => (s.alive || room.pendingShots.includes(s.id)) && !connected(room, s, now));
-    if (!host || !connected(room, host, now) || absent) {
-        room.phase.remainingMs = room.phase.deadline ? Math.max(1000, room.phase.deadline - now) : null;
-        room.phase.deadline = null;
-        room.phase.paused = true;
-        room.phase.pauseReason = 'disconnected';
-        room.revision++;
-        room.updatedAt = now;
+    if (!host || !connected(room, host, now) || (absent && !(eventNight(room) && room.nightFlow.ignoreDisconnects))) {
+        pauseRoom(room, now, 'disconnected');
+        room.revision++; room.updatedAt = now;
         return true;
     }
-    if (!room.phase.deadline || now < room.phase.deadline)
-        return false;
+    if (eventNight(room)) {
+        const flow = room.nightFlow;
+        if (room.phase.nightStage === 'acting') {
+            if (flow.eligibleSeatIds.length) {
+                if (!flow.eligibleSeatIds.every(id => actionAt(room, room.phase.step, id))) return false;
+            }
+            else if (flow.deadline == null || now < flow.deadline) return false;
+            setNightStage(room, 'closing', now);
+        }
+        else {
+            if (flow.deadline == null || now < flow.deadline) return false;
+            finishNightNarration(room, now);
+        }
+        room.revision++; room.updatedAt = now;
+        return true;
+    }
+    if (!room.phase.deadline || now < room.phase.deadline) return false;
     applyCommand(room, room.hostId, { type: 'nextPhase', expectedPhaseId: room.phase.id }, now);
     return true;
 }

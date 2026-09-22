@@ -1,7 +1,15 @@
 export type WerewolfAudioStatus = "locked" | "ready" | "playing" | "error";
-type Phase = { id: string; kind: string; step?: string | null; paused?: boolean };
+export type WerewolfAudioPhase = {
+  id: string;
+  kind: string;
+  step?: string | null;
+  paused?: boolean;
+  nightStage?: "opening" | "acting" | "closing";
+  nightCues?: string[];
+};
+type Phase = WerewolfAudioPhase;
 type Options = { voice: boolean; music: boolean; language: "en" | "zh"; active: boolean };
-const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting"]);
+const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
 
 /** A single opt-in host device plays the public moderator cues. Never reads private game state. */
 export class WerewolfAudio {
@@ -20,7 +28,15 @@ export class WerewolfAudio {
   private unlocked = false;
   private abort = new AbortController();
   private report: (status: WerewolfAudioStatus, message?: string) => void;
-  constructor(report: (status: WerewolfAudioStatus, message?: string) => void) { this.report = report; }
+  private onNightNarrationDone?: (phaseId: string) => void;
+  private acknowledgedPhases = new Set<string>();
+  constructor(
+    report: (status: WerewolfAudioStatus, message?: string) => void,
+    onNightNarrationDone?: (phaseId: string) => void,
+  ) {
+    this.report = report;
+    this.onNightNarrationDone = onNightNarrationDone;
+  }
 
   /** Must be called directly from a click/tap, before any awaited operation. */
   async unlock() {
@@ -45,13 +61,16 @@ export class WerewolfAudio {
   }
 
   updatePhase(phase: Phase) {
-    const key = `${phase.id}:${phase.kind}:${phase.step ?? ""}:${Boolean(phase.paused)}`;
+    const key = JSON.stringify([phase.id, phase.kind, phase.step ?? "", Boolean(phase.paused), phase.nightStage ?? "", phase.nightCues ?? []]);
     const previous = this.phase;
     this.phase = phase;
     this.syncMusic();
     if (key === this.phaseKey) return;
     this.phaseKey = key;
     if (phase.paused) this.cues = ["paused"];
+    // Staged nights are controlled by public server events. Acting has no voice
+    // cue, including when a client skips directly from opening to acting.
+    else if (phase.kind === "night" && phase.nightStage) this.cues = phase.nightStage === "acting" ? [] : [...(phase.nightCues ?? [])];
     else if (phase.kind === "night") this.cues = [
       ...(previous?.kind !== "night" ? ["night"] : previous.paused ? [] : ["role-sleep"]),
       phase.step || "night",
@@ -69,10 +88,31 @@ export class WerewolfAudio {
     this.stopNarration();
     const generation = this.generation;
     const language = this.options.language;
+    const phase = this.phase;
+    const stagedNarration = phase.kind === "night" && !phase.paused && (phase.nightStage === "opening" || phase.nightStage === "closing");
+    // Never acknowledge an empty or partially understood server cue queue.
+    if (stagedNarration && (!this.cues.length || this.cues.some(cue => !CUES.has(cue)))) {
+      this.report("error", this.message("This night announcement is unavailable. The host can retry or continue.", "此夜间提示暂时不可用，房主可重试或继续。"));
+      return;
+    }
     const cues = this.cues.filter(cue => CUES.has(cue));
     const playNext = (index: number) => {
       if (this.disposed || generation !== this.generation || !this.options.active || !this.options.voice) return;
-      if (index >= cues.length) { this.narration = null; this.setMusicGain(.16); this.report("ready"); return; }
+      if (index >= cues.length) {
+        this.narration = null;
+        this.setMusicGain(.16);
+        this.report("ready");
+        // report() can synchronously change or dispose this controller. Verify
+        // the generation and all public state again before acknowledging.
+        if (stagedNarration && cues.length > 0 && !this.disposed && generation === this.generation
+          && this.options.active && this.options.voice && this.phase?.id === phase.id
+          && !this.phase.paused && this.phase.nightStage === phase.nightStage
+          && !this.acknowledgedPhases.has(phase.id)) {
+          this.acknowledgedPhases.add(phase.id);
+          this.onNightNarrationDone?.(phase.id);
+        }
+        return;
+      }
       void this.load(`/assets/werewolf/audio/${language}/${cues[index]}.mp3`).then(buffer => {
         if (this.disposed || generation !== this.generation || !this.options.active || !this.options.voice) return;
         const context = this.context!;
@@ -122,7 +162,11 @@ export class WerewolfAudio {
     this.musicGain.gain.cancelScheduledValues(this.context.currentTime);
     this.musicGain.gain.setTargetAtTime(volume, this.context.currentTime, .25);
   }
-  private shouldPlayMusic() { return this.unlocked && this.options.active && this.options.music && this.phase?.kind === "night" && !this.phase.paused && !this.disposed; }
+  private shouldPlayMusic() {
+    return this.unlocked && this.options.active && this.options.music
+      && this.phase?.kind === "night" && !this.phase.paused
+      && (!this.phase.nightStage || this.phase.nightStage === "acting") && !this.disposed;
+  }
   private syncMusic() {
     if (!this.shouldPlayMusic()) {
       if (this.music && this.context) {
