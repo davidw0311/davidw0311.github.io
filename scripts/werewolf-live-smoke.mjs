@@ -17,6 +17,7 @@ async function call(token, op, fields = {}, expectedError) {
 let host = randomUUID();
 const created = await call(host, 'create', { name: 'Verification host' });
 code = created.view.code;
+assert.match(code, /^[A-Z]{4}$/);
 let view = created.view;
 const members = [host];
 const tokens = Array.from({ length: 5 }, () => randomUUID());
@@ -59,8 +60,8 @@ assert.equal(view.seats.length, 6);
 view = (await call(host, 'command', { command: { type: 'updateSettings', settings: { nightSeconds: 10 } } })).view;
 view = (await call(host, 'command', { command: { type: 'startGame', expectedPhaseId: view.phase.id } })).view;
 assert.equal(view.status, 'playing');
-assert.equal(view.phase.nightStage, 'opening');
-assert.ok(view.phase.nightCues.length > 0);
+assert.equal(view.phase.kind, 'ready');
+await call(host, 'command', {command:{type:'startNight',expectedPhaseId:view.phase.id}}, 'NOT_READY');
 const initial = await Promise.all(members.map(token => call(token, 'sync')));
 for (const reply of initial) {
   assert.ok(reply.view.me.roleId);
@@ -78,8 +79,12 @@ assert.equal(restored.view.me.roleId, before.roleId);
 assert.equal(restored.recoveryKey, undefined);
 await call(members[1], 'sync', {}, 'NOT_SEATED');
 members[1] = replacement;
+view = (await call(host, 'sync')).view;
+await Promise.all(members.map(token => call(token, 'command', {command:{type:'ready',expectedPhaseId:view.phase.id}})));
+view = (await call(host, 'command', {command:{type:'startNight',expectedPhaseId:view.phase.id}})).view;
+assert.equal(view.phase.nightStage, 'opening');
 // Narration ACKs and explicit participant actions drive the entire night.
-// Withhold the Seer action to verify that an offline participant cannot stall the night.
+// Withhold the Seer action to verify that only explicit host skip ends the wait.
 view = (await call(host, 'sync')).view;
 await call(host, 'command', { command: { type: 'nextPhase', expectedPhaseId: view.phase.id } }, 'NIGHT_FLOW_CONTROLLED');
 const nightSteps = new Set();
@@ -129,9 +134,11 @@ while (view.phase.kind === 'night') {
       view = (await call(host, 'sync')).view;
       continue;
     }
+    const victim = initial.find(reply => reply.view.me.roleId === 'villager').view.me.seatId;
+    if (phase.step === 'witch') assert.equal(participants[0].action.victimId, victim);
     const packets = participants.map(({ token, action }) => {
       assert.equal(action.canSkip, true, 'The default deck must support explicit night skips.');
-      return { token, fields: { requestId: randomUUID(), command: { type: 'nightAction', ability: 'skip', expectedPhaseId: phase.id } } };
+      return { token, fields: { requestId: randomUUID(), command: { type: 'nightAction', ...(phase.step === 'wolves' ? {targetId:victim} : {ability:'save'}), expectedPhaseId: phase.id } } };
     });
     await Promise.all(packets.map(({ token, fields }) => call(token, 'command', fields)));
     const closed = (await call(host, 'sync')).view;
@@ -159,8 +166,13 @@ await call(members[1], 'command', { command: { type: 'startNight', expectedPhase
 const voting = await call(host, 'command', { command: {type:'hardSkip', expectedPhaseId:recovery.view.phase.id} });
 assert.equal(voting.view.phase.kind, 'voting');
 const afterVote = await call(host, 'command', { command: {type:'hardSkip', expectedPhaseId:voting.view.phase.id} });
-assert.equal(afterVote.view.phase.kind, 'day');
+assert.equal(afterVote.view.phase.kind, 'voting');
+assert.equal(afterVote.view.voteRound, 2);
+const nightTwo = await call(host, 'command', {command:{type:'hardSkip',expectedPhaseId:afterVote.view.phase.id}});
+assert.equal(nightTwo.view.phase.kind, 'night');
 assert.ok(afterVote.view.seats.every(seat => seat.alive));
-// A final pause leaves the verification room idle and recoverable.
-await call(host, 'command', { command: { type: 'pause', expectedPhaseId: afterVote.view.phase.id } });
-console.log('Live multiplayer checks passed: six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, and permissions.');
+// Disband also verifies that all participants lose access.
+await call(host, 'command', {command:{type:'disbandRoom'}});
+await call(members[1], 'sync', {}, 'room-disbanded');
+await call(randomUUID(), 'join', {name:'Late join'}, 'room-disbanded');
+console.log('Live multiplayer checks passed: four-letter codes, readiness gate, six players, automatic concurrent seating, reserved seats, voluntary lobby exits, automatic host transfer, hidden cards, replacement, complete event-driven night, indefinite offline actions, host-only night/day hard skips, duplicate narration/action protection, host recovery, runoff voting, disbanding, and permissions.');

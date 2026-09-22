@@ -1,0 +1,47 @@
+[
+  {
+    "id": "night-vigil",
+    "title": "Night Vigil",
+    "zh": "守夜",
+    "src": "/assets/werewolf/audio/music/night-vigil.mp3",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1900047",
+    "artist": "Kevin MacLeod",
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "id": "dark-walk",
+    "title": "Dark Walk",
+    "zh": "暗夜漫步",
+    "src": "/assets/werewolf/audio/music/dark-walk.mp3",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100468",
+    "artist": "Kevin MacLeod",
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "id": "dark-fog",
+    "title": "Dark Fog",
+    "zh": "迷雾",
+    "src": "/assets/werewolf/audio/music/dark-fog.mp3",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1300031",
+    "artist": "Kevin MacLeod",
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "id": "long-note-one",
+    "title": "Long note One",
+    "zh": "悬疑低语",
+    "src": "/assets/werewolf/audio/music/long-note-one.mp3",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100418",
+    "artist": "Kevin MacLeod",
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+    "id": "lightless-dawn",
+    "title": "Lightless Dawn",
+    "zh": "无光黎明",
+    "src": "/assets/werewolf/audio/music/lightless-dawn.mp3",
+    "source": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100655",
+    "artist": "Kevin MacLeod",
+    "license": "https://creativecommons.org/licenses/by/4.0/"
+  }
+]

@@ -3,7 +3,7 @@ import test, { type TestContext } from "node:test";
 import { WerewolfAudio, type WerewolfAudioStatus, type WerewolfAudioPhase } from "../lib/werewolfAudio.ts";
 
 const pathFor = (cue: string, language = "en") => `/assets/werewolf/audio/${language}/${cue}.mp3`;
-const musicPath = "/assets/werewolf/audio/night-ambience.wav";
+const musicPath = "/assets/werewolf/audio/music/night-vigil.mp3";
 const flush = () => new Promise<void>(resolve => setImmediate(resolve));
 const staged = (id: string, stage: "opening" | "acting" | "closing", cues: string[], role = "wolves"): WerewolfAudioPhase => ({ id, kind: "night", step: role, nightStage: stage, nightCues: cues });
 const failure = (name: string) => Object.assign(new Error(name), { name });
@@ -85,8 +85,8 @@ function fixture(t: TestContext) {
     unlock: () => tap(() => audio.unlock()),
     release(url: string) { const callbacks = pending.get(url); assert.ok(callbacks?.length, `No pending play for ${url}`); pending.delete(url); callbacks.forEach(callback => callback()); },
     failNext(name = "NotSupportedError") { nextFailure = name; },
-    played: () => records.filter(record => record.started && record.url.endsWith(".mp3")).map(record => record.url),
-    latest: () => records.findLast(record => record.url.endsWith(".mp3"))!,
+    played: () => records.filter(record => record.started && record.url.endsWith(".mp3") && !record.url.includes("/music/")).map(record => record.url),
+    latest: () => records.findLast(record => record.url.endsWith(".mp3") && !record.url.includes("/music/"))!,
     voice: () => elements[0], music: () => elements[1],
     finish: async () => { elements[0].finish(); await flush(); },
   };
@@ -131,11 +131,11 @@ test("identical polling never restarts narration or acknowledges before real end
   f.audio.updatePhase({ ...phase }); await flush(); assert.equal(f.played().length, 2);
 });
 
-test("staged opening, acting, and closing use exact cues with ambience only during acting", async t => {
+test("staged narration ducks continuous ambience without restarting the track", async t => {
   const f = fixture(t); f.options.music = true;
   f.audio.configure(f.options); f.audio.updatePhase(staged("open", "opening", ["night", "wolves"]));
   await f.unlock(); await flush();
-  assert.ok(!f.records.some(record => record.url === musicPath));
+  assert.ok(f.records.some(record => record.url === musicPath)); assert.equal(f.music().volume, .045);
   await f.finish(); await f.finish(); assert.deepEqual(f.acknowledgments, ["open"]);
   f.audio.updatePhase(staged("act", "acting", [])); await flush();
   assert.ok(f.music().loop && !f.music().paused); assert.equal(f.music().src, musicPath);
@@ -144,7 +144,7 @@ test("staged opening, acting, and closing use exact cues with ambience only duri
   assert.equal(f.records.filter(record => record.url === musicPath).length, 1);
   assert.equal(f.played().length, 2);
   f.audio.updatePhase(staged("close", "closing", ["role-sleep"])); await flush();
-  assert.ok(f.music().paused); assert.equal(f.latest().url, pathFor("role-sleep"));
+  assert.ok(!f.music().paused); assert.equal(f.music().volume, .045); assert.equal(f.latest().url, pathFor("role-sleep"));
   await f.finish(); assert.deepEqual(f.acknowledgments, ["open", "close"]);
   f.audio.updatePhase(staged("seer", "opening", ["seer"], "seer")); await flush();
   assert.deepEqual(f.played(), [pathFor("night"), pathFor("wolves"), pathFor("role-sleep"), pathFor("seer")]);
@@ -224,17 +224,17 @@ test("unknown and empty staged queues cannot pretend narration succeeded", async
   assert.deepEqual(f.played(), []); assert.deepEqual(f.acknowledgments, []);
 });
 
-test("music works with voice off, loops with public acting state, and stops for pause, closing, or inactivity", async t => {
+test("music continues across opening, acting, pause and closing, and stops when inactive", async t => {
   const f = fixture(t); f.options.voice = false; f.options.music = true;
   f.audio.configure(f.options); f.audio.updatePhase(staged("open", "opening", ["seer"], "seer"));
   await f.unlock(); await flush(); assert.deepEqual(f.played(), []);
   f.audio.updatePhase(staged("act", "acting", [], "seer")); await flush();
   assert.ok(f.music().loop && !f.music().paused);
-  f.audio.updatePhase({ ...staged("act", "acting", []), paused: true }); assert.ok(f.music().paused);
+  f.audio.updatePhase({ ...staged("act", "acting", []), paused: true }); assert.ok(!f.music().paused);
   f.audio.updatePhase(staged("act", "acting", [], "seer")); await flush(); assert.ok(!f.music().paused);
   f.audio.configure({ ...f.options, active: false }); assert.ok(f.music().paused);
   f.audio.configure(f.options); await flush(); assert.ok(!f.music().paused);
-  f.audio.updatePhase(staged("close", "closing", ["role-sleep"])); assert.ok(f.music().paused);
+  f.audio.updatePhase(staged("close", "closing", ["role-sleep"])); assert.ok(!f.music().paused);
   assert.deepEqual(f.acknowledgments, []);
 });
 
@@ -252,7 +252,7 @@ test("legacy nights still close old roles and day, sheriff and result clips reta
   await f.unlock(); await flush(); await f.finish(); await f.finish();
   assert.ok(!f.music().paused);
   f.audio.updatePhase({ id: "seer", kind: "night", step: "seer" }); await flush();
-  assert.ok(f.music().paused, "Pause ambience during speech even if iOS ignores element volume");
+  assert.ok(!f.music().paused); assert.equal(f.music().volume, .045);
   assert.equal(f.latest().url, pathFor("role-sleep")); await f.finish(); assert.equal(f.latest().url, pathFor("seer"));
   f.audio.updatePhase({ id: "day", kind: "day", step: "discussion" }); await flush();
   assert.equal(f.latest().url, pathFor("dawn")); await f.finish(); assert.equal(f.latest().url, pathFor("discussion"));
@@ -278,7 +278,7 @@ test("sound test survives muted preferences and repeated polls, but a deliberate
   f.audio.configure(f.options); f.audio.updatePhase(staged("act", "acting", []));
   await f.tap(() => f.audio.testSound()); await flush();
   for (let index = 0; index < 20; index++) { f.audio.configure({ ...f.options }); f.audio.updatePhase(staged("act", "acting", [])); }
-  assert.ok(!f.voice().paused); assert.ok(f.music().paused);
+  assert.ok(!f.voice().paused); assert.ok(!f.music().paused); assert.equal(f.music().volume, .045);
   await f.finish(); assert.ok(!f.music().paused, "Music-only mode resumes after the audible test");
   assert.deepEqual(f.acknowledgments, []);
   f.audio.configure({ ...f.options, voice: true });
@@ -350,4 +350,41 @@ test("switching language invalidates a pending old-language clip and only the ne
   f.release(pathFor("wolves")); await flush();
   assert.deepEqual(f.acknowledgments, []);
   await f.finish(); assert.deepEqual(f.acknowledgments, ["open"]);
+});
+
+test("all five music choices replace only ambience and continue through day and narration", async t => {
+ const f=fixture(t); f.options.music=true;
+ f.audio.configure(f.options); f.audio.updatePhase({id:"lobby",kind:"lobby"}); await f.unlock(); await flush();
+ assert.ok(!f.music().paused);
+ for(const track of ["night-vigil","dark-walk","dark-fog","long-note-one","lightless-dawn"]) {
+   f.audio.configure({...f.options,track}); await flush();
+   assert.equal(f.music().src,`/assets/werewolf/audio/music/${track}.mp3`);
+   assert.ok(!f.music().paused); assert.equal(f.elements.length,2);
+ }
+ f.audio.updatePhase({id:"day",kind:"day",step:"discussion"}); await flush();
+ assert.ok(!f.music().paused); assert.equal(f.music().volume,.045);
+ await f.finish(); assert.equal(f.music().volume,.3);
+ f.audio.configure({...f.options,music:false}); assert.ok(f.music().paused);
+});
+
+test("iPhone ambience uses Web Audio gain while Brian retains its HTML playback path", async t => {
+ const original=Object.getOwnPropertyDescriptor(globalThis,"AudioContext");
+ const changes:number[]=[]; let sources=0,resumes=0,closed=0;
+ class FakeContext {
+  currentTime=0; destination={};
+  createGain(){return {connect(){},gain:{value:1,cancelScheduledValues(){},setTargetAtTime(value:number){changes.push(value);}}};}
+  createMediaElementSource(){sources++;return {connect(){}};}
+  resume(){resumes++;return Promise.resolve();}
+  close(){closed++;return Promise.resolve();}
+ }
+ Object.defineProperty(globalThis,"AudioContext",{configurable:true,value:FakeContext});
+ t.after(()=>{if(original)Object.defineProperty(globalThis,"AudioContext",original);else Reflect.deleteProperty(globalThis,"AudioContext");});
+ const f=fixture(t);f.options.music=true;
+ f.audio.configure(f.options);f.audio.updatePhase(staged("open","opening",["wolves"]));
+ await f.unlock();await flush();
+ assert.equal(sources,1,"Only music is routed through Web Audio");assert.equal(resumes,1);
+ assert.ok(!f.music().paused);assert.ok(!f.voice().paused);assert.equal(changes.at(-1),.045);
+ await f.finish();assert.equal(changes.at(-1),.3);
+ assert.deepEqual(f.acknowledgments,["open"]);
+ f.audio.dispose();assert.equal(closed,1);
 });

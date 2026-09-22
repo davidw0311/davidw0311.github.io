@@ -8,10 +8,10 @@ export type WerewolfAudioPhase = {
   nightCues?: string[];
 };
 type Phase = WerewolfAudioPhase;
-type Options = { voice: boolean; music: boolean; language: "en" | "zh"; active: boolean };
+type Options = { voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
 type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
-const MUSIC = "/assets/werewolf/audio/night-ambience.wav";
+const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 
 // A short, valid, unmuted PCM audio track for granting each persistent media
 // element playback permission in the initiating gesture. No network is needed.
@@ -38,6 +38,8 @@ export class WerewolfAudio {
   private music: HTMLAudioElement | null = null;
   private narrationReady = false;
   private musicReady = false;
+  private musicContext: AudioContext | null = null;
+  private musicGain: GainNode | null = null;
   private priming = false;
   private musicPriming = false;
   private primeGeneration = 0;
@@ -71,6 +73,17 @@ export class WerewolfAudio {
       media.setAttribute("playsinline", "");
       media.muted = false;
     }
+    // Route only ambience through a gain node: iPhone ignores media.volume.
+    // Brian stays on the persistent HTML media playback route.
+    if (typeof AudioContext !== "undefined") {
+      try {
+        const context = new AudioContext();
+        const gain = context.createGain();
+        context.createMediaElementSource(this.music).connect(gain);
+        gain.connect(context.destination); gain.gain.value = .3;
+        this.musicContext = context; this.musicGain = gain;
+      } catch { /* Media volume remains a fallback on older browsers. */ }
+    }
     // HTML media already defaults to the playback session category. Explicitly
     // request it where supported, including iOS with the silent switch enabled.
     try {
@@ -93,7 +106,8 @@ export class WerewolfAudio {
     this.prepare(this.music!, silence, false);
     // These calls must stay synchronous with the user gesture. Awaiting a
     // resume(), fetch(), loadeddata, or the first play() would lose activation.
-    const musicPlay = this.play(this.music!);
+    const gainReady = this.musicContext?.resume();
+    const musicPlay = Promise.all([this.play(this.music!), gainReady]);
     const narrationPlay = this.play(this.narration!); // Give speech the last media-focus request.
     const results = await Promise.allSettled([narrationPlay, musicPlay]);
     if (this.disposed || attempt !== this.primeGeneration) return;
@@ -120,7 +134,8 @@ export class WerewolfAudio {
     const attempt = this.primeGeneration;
     this.musicPriming = true;
     this.prepare(this.music!, silentWav(), false);
-    const primeMusic = this.play(this.music!); // Same gesture as the real voice test below.
+    const gainReady = this.musicContext?.resume();
+    const primeMusic = Promise.all([this.play(this.music!), gainReady]); // Same gesture as the real voice test below.
     this.testing = true;
     this.narrating = true;
     const generation = this.generation;
@@ -149,6 +164,7 @@ export class WerewolfAudio {
   configure(options: Options) {
     const previous = this.options;
     this.options = options;
+    if (previous.track !== options.track) this.stopMusic();
     if ((!this.testing && (!options.active || !options.voice)) || previous.active && !options.active || previous.voice && !options.voice) this.stopNarration();
     this.syncMusic();
     if (options.active && options.voice && (!previous.voice || !previous.active || previous.language !== options.language)) this.replay();
@@ -245,9 +261,8 @@ export class WerewolfAudio {
     this.clearHandlers(media);
     media.pause(); media.loop = loop; media.muted = false;
     media.src = src;
-    // volume is best-effort: iOS can use hardware volume instead. Speech and
-    // ambience never overlap, so an ignored volume property cannot mask Brian.
-    try { media.volume = loop ? .18 : 1; } catch { /* Hardware volume only. */ }
+    // GainNode handles ambience ducking on iPhone; media volume is the fallback.
+    try { media.volume = loop && !this.musicGain ? .3 : 1; } catch { /* Hardware volume only. */ }
   }
 
   private play(media: HTMLAudioElement): Promise<void> {
@@ -276,8 +291,7 @@ export class WerewolfAudio {
   }
   private shouldPlayMusic() {
     return !this.disposed && !this.priming && !this.musicPriming && this.musicReady && this.options.active && this.options.music
-      && !this.narrating && !this.testing && this.phase?.kind === "night" && !this.phase.paused
-      && (!this.phase.nightStage || this.phase.nightStage === "acting");
+      && !!this.phase && this.phase.kind !== "disbanded";
   }
   private stopMusic() {
     ++this.musicGeneration; this.musicPlaying = false;
@@ -287,11 +301,17 @@ export class WerewolfAudio {
   }
   private syncMusic() {
     if (!this.shouldPlayMusic()) { if (this.musicPlaying) this.stopMusic(); return; }
+    const volume = this.narrating || this.testing ? .045 : .3;
+    if (this.musicGain && this.musicContext) {
+      this.musicGain.gain.cancelScheduledValues(this.musicContext.currentTime);
+      this.musicGain.gain.setTargetAtTime(volume, this.musicContext.currentTime, .18);
+    } else if (this.music) { try { this.music.volume = volume; } catch { /* no-op */ } }
     if (this.musicPlaying || !this.music) return;
     const media = this.music;
     const generation = ++this.musicGeneration;
     this.musicPlaying = true;
-    this.prepare(media, MUSIC, true);
+    this.prepare(media, `/assets/werewolf/audio/music/${TRACKS.has(this.options.track || "") ? this.options.track : "night-vigil"}.mp3`, true);
+    if (!this.musicGain) media.volume = volume;
     const current = () => !this.disposed && generation === this.musicGeneration && this.shouldPlayMusic();
     const fail = (locked: boolean) => {
       if (!current()) return;
@@ -319,6 +339,7 @@ export class WerewolfAudio {
     if (this.audioSession && this.audioSession.type === "playback" && this.previousSessionType) {
       try { this.audioSession.type = this.previousSessionType; } catch { /* no-op */ }
     }
+    void this.musicContext?.close(); this.musicContext = null; this.musicGain = null;
     this.narration = null; this.music = null;
   }
 }

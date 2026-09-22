@@ -29,6 +29,27 @@ class WerewolfService {
     view.serverTime = now;
     return { view, ...(view.isHost ? { recoveryKey: room._recoveryKey } : {}) };
   }
+  async createCode(actor, token, name, now) {
+    // One durable allocation per creator makes retries safe across workers.
+    // Each candidate is reserved with the same CAS used by normal room writes.
+    return this.store.transact(`creators/${actor}`, async old => {
+      if (old?.code) return { value: old, changed: false, result: old.code };
+      for (let attempt = 0; attempt < 64; attempt++) {
+        let value = parseInt(hash(`room:${token}:${attempt}`).slice(0, 10), 16) % (26 ** 4);
+        let code = '';
+        for (let i = 0; i < 4; i++) { code = String.fromCharCode(65 + value % 26) + code; value = Math.floor(value / 26); }
+        const claimed = await this.store.transact(`rooms/${code}`, room => {
+          if (room) return { value: room, changed: false, result: room._creator === actor && room.status !== 'disbanded' };
+          room = engine.createRoom({ code, hostId: actor, hostName: name, now });
+          room._creator = actor; room._recoveryKey = randomBytes(24).toString('base64url');
+          room._requests = {}; room._lastActive = now;
+          return { value: room, result: true };
+        });
+        if (claimed) return { value: { code }, result: code };
+      }
+      fail('room-code-busy', 'Please try creating a room again.', 503);
+    });
+  }
   async handle(input, address = 'unknown') {
     if (!input || typeof input !== 'object' || Array.isArray(input)) fail('invalid-request', 'Invalid request.');
     const { op, token, requestId } = input;
@@ -37,11 +58,12 @@ class WerewolfService {
     if (op !== 'sync' && (typeof requestId !== 'string' || !/^[a-zA-Z0-9_-]{16,100}$/.test(requestId))) fail('invalid-request-id', 'A unique request ID is required.');
     const actor = hash(token);
     const now = this.clock();
-    const code = op === 'create' ? hash(`werewolf:${token}`).slice(0, 8).toUpperCase() : String(input.code || '').trim().toUpperCase();
-    if (!/^[A-F0-9]{8}$/.test(code)) fail('invalid-room-code', 'Enter the eight-character room code.');
     if (['create', 'join', 'recover'].includes(op)) await this.limit(address, op, now);
+    const code = op === 'create' ? await this.createCode(actor, token, input.name, now) : String(input.code || '').trim().toUpperCase();
+    if (!/^(?:[A-Z]{4}|[A-F0-9]{8})$/.test(code)) fail('invalid-room-code', 'Enter the four-letter room code. Older eight-character invitations still work.');
     return this.store.transact(`rooms/${code}`, old => {
       let room = old;
+      if (room?.status === 'disbanded') fail('room-disbanded', 'The host has disbanded this room.', 410);
       if (op === 'create') {
         if (room) {
           if (room._creator !== actor) fail('room-code-collision', 'Create a new session and try again.', 409);

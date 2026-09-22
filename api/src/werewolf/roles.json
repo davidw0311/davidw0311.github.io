@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "ruleset": {
-    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Night turns finish when all eligible players submit or the host explicitly skips the step. Actions never expire. The host can also skip daytime steps. Offline players keep their identities and do not pause the game. The narrator calls every scheduled role, including dead roles, and closes each turn automatically.",
-    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。所有可行动玩家提交后，夜间回合结束；房主也可强制跳过当前夜间或白天阶段。行动不会超时。离线玩家保留身份，不会暂停牌局。法官依次呼叫所有配置的夜间角色，包括已出局角色，并自动结束每个回合。"
+    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Night turns finish when all eligible players submit or the host explicitly skips the step. Actions never expire. The host can also skip daytime steps. Offline players keep their identities and do not pause the game. The narrator calls every scheduled role, including dead roles, and closes each turn automatically. Everyone must ready up after cards are dealt. Wolves may revise their votes and must all submit with a strict target majority before continuing. Daytime exile votes are mandatory: a first tie triggers a restricted runoff; a second tie kills nobody and starts night.",
+    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。所有可行动玩家提交后，夜间回合结束；房主也可强制跳过当前夜间或白天阶段。行动不会超时。离线玩家保留身份，不会暂停牌局。法官依次呼叫所有配置的夜间角色，包括已出局角色，并自动结束每个回合。 发牌后所有玩家须准备才能开始首夜。狼人可修改选择，所有狼人提交且目标获得严格多数后才继续。白天必须放逐投票：首轮平票仅对平票者复投，第二轮仍平票则无人出局并进入夜晚。"
   },
   "roles": [
     {
@@ -25,8 +25,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Vote with the pack on a night victim. A tied pack vote causes no attack.",
-        "zh": "夜间与狼队选择击杀目标。狼队平票则空刀。"
+        "en": "See and revise pack votes. Every eligible wolf must submit and a target must receive a strict majority before the turn continues. Otherwise wait or ask the host to skip.",
+        "zh": "查看并修改狼队选择。所有可行动狼人提交且目标获得严格多数后才继续，否则等待或由房主强制跳过。"
       },
       "nightStep": "wolves"
     },
@@ -383,8 +383,8 @@
       },
       "team": "village",
       "description": {
-        "en": "When an exile vote ties, you die instead. This app variant has no next-day voter selection.",
-        "zh": "放逐投票平票时替代候选人死亡。本应用规则不包含次日投票资格指定。"
+        "en": "Plays as a villager under this room’s mandatory runoff rules: the first tie triggers a runoff; a second tie kills nobody. The traditional tie sacrifice is disabled.",
+        "zh": "本房间采用强制复投规则：首次平票进行复投，再次平票无人死亡。替罪羊按普通村民行动，传统平票牺牲技能停用。"
       }
     },
     {

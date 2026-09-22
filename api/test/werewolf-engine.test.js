@@ -23,11 +23,20 @@ function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunte
     }
     send(room, 'actor0', 'updateSettings', { settings: { winCondition: 'all', sheriff: true, ...settings } });
     send(room, 'actor0', 'startGame', { roleDeck: roles });
+    for (const seat of room.seats) send(room, seat.actorId, 'ready');
+    send(room, room.hostId, 'startNight');
     // Tests assign deterministic server-only cards after exercising production shuffle.
     room.seats.forEach((s, i) => { s.roleId = roles[i]; s.team = ['werewolf', 'wolfKing', 'whiteWolfKing', 'wolfBeauty', 'hiddenWolf', 'gargoyle', 'mechanicalWolf', 'bloodMoonApostle', 'wolfWitch'].includes(roles[i]) ? 'wolf' : ['angel', 'jester', 'piper'].includes(roles[i]) ? 'independent' : 'village'; s.originalRoleId = s.roleId; s.originalTeam = s.team; });
     return room;
 }
 const id = (r, i) => r.seats[i].id;
+function nextNight(r) {
+    if (r.voteDoneDay === r.day) return send(r,r.hostId,'startNight');
+    send(r,r.hostId,'startVoting');
+    send(r,r.hostId,'resolveVoting');
+    send(r,r.hostId,'resolveVoting');
+    assert.equal(r.phase.kind,'night');
+}
 function advanceTestNight(r) {
     if (r.phase.nightStage === 'opening' || r.phase.nightStage === 'closing') {
         send(r, r.hostId, 'nightNarrationDone');
@@ -39,6 +48,7 @@ function advanceTestNight(r) {
         const data = action.input === 'choice' ? { choice: action.options.includes('guard') ? 'guard' : action.options[0] } : { ability: 'skip' };
         send(r, seat.actorId, 'nightAction', data);
     }
+    if (r.phase.nightStage === 'acting' && r.phase.step === 'wolves' && r.nightFlow.eligibleSeatIds.every(id => r.actions.wolves?.[id])) send(r,r.hostId,'hardSkip');
     if (r.phase.nightStage === 'acting' && !r.nightFlow.eligibleSeatIds.length) {
         time = Math.max(time + 1, r.nightFlow.deadline);
         for (const member of Object.values(r.members)) member.lastSeen = time;
@@ -84,23 +94,23 @@ test('offline narration progresses but daylight waits for the host', () => {
  send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'voting');
 });
 
-test('night schedule never changes when a configured role dies', () => { const r = setup(); const first = [...r.nightSchedule]; dawn(r); r.seats[2].alive = false; send(r, 'actor0', 'startNight'); assert.deepEqual(r.nightSchedule, first); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); });
+test('night schedule never changes when a configured role dies', () => { const r = setup(); const first = [...r.nightSchedule]; dawn(r); r.seats[2].alive = false; nextNight(r); assert.deepEqual(r.nightSchedule, first); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); });
 test('pack ties mean no attack and private votes are not public before resolution', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); nightAct(r, 1, { targetId: id(r, 7) }); dawn(r); assert.ok(r.seats.every(s => s.alive)); send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'vote', { targetId: id(r, 6) }); const v = publicView(r, 'actor1', time); assert.equal(v.voteCount, 1); assert.equal(v.lastVote, null); assert.ok(!Object.hasOwn(v, 'votes')); });
-test('guard blocks wolves; guard restrictions reset after skipping a night', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); dawn(r); assert.equal(r.seats[6].alive, true); send(r, 'actor0', 'startNight'); stepTo(r, 'guard'); assert.throws(() => nightAct(r, 4, { targetId: id(r, 6) }), e => e.code === 'INVALID_TARGET'); nightAct(r, 4, { ability: 'skip' }); dawn(r); send(r, 'actor0', 'startNight'); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); });
-test('witch potion inventories, target secrecy and guard plus antidote rule', () => { const r = setup(); r.settings.guardAntidote = 'kill'; nightAct(r, 0, { targetId: id(r, 6) }); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); stepTo(r, 'witch'); assert.equal(publicView(r, 'actor3', time).me.action.victimId, id(r, 6)); assert.equal(publicView(r, 'actor2', time).me.action, null); nightAct(r, 3, { ability: 'save' }); dawn(r); assert.equal(r.seats[6].alive, false); assert.equal(r.seats[3].state.antidoteUsed, true); send(r, 'actor0', 'startNight'); nightAct(r, 0, { targetId: id(r, 7) }); stepTo(r, 'witch'); assert.equal(publicView(r, 'actor3', time).me.action.victimId, null); assert.throws(() => nightAct(r, 3, { ability: 'save' }), e => e.code === 'INVALID_ACTION'); });
+test('guard blocks wolves; guard restrictions reset after skipping a night', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); dawn(r); assert.equal(r.seats[6].alive, true); nextNight(r); stepTo(r, 'guard'); assert.throws(() => nightAct(r, 4, { targetId: id(r, 6) }), e => e.code === 'INVALID_TARGET'); nightAct(r, 4, { ability: 'skip' }); dawn(r); nextNight(r); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); });
+test('witch potion inventories, target secrecy and guard plus antidote rule', () => { const r = setup(); r.settings.guardAntidote = 'kill'; nightAct(r, 0, { targetId: id(r, 6) }); stepTo(r, 'guard'); nightAct(r, 4, { targetId: id(r, 6) }); stepTo(r, 'witch'); assert.equal(publicView(r, 'actor3', time).me.action.victimId, id(r, 6)); assert.equal(publicView(r, 'actor2', time).me.action, null); nightAct(r, 3, { ability: 'save' }); dawn(r); assert.equal(r.seats[6].alive, false); assert.equal(r.seats[3].state.antidoteUsed, true); nextNight(r); nightAct(r, 0, { targetId: id(r, 7) }); stepTo(r, 'witch'); assert.equal(publicView(r, 'actor3', time).me.action.victimId, null); assert.throws(() => nightAct(r, 3, { ability: 'save' }), e => e.code === 'INVALID_ACTION'); });
 test('hunter death exposes a private shot; poison suppresses it', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 5) }); dawn(r); assert.equal(r.phase.kind, 'reaction'); assert.equal(publicView(r, 'actor5', time).me.action.kind, 'shoot'); send(r, 'actor5', 'shoot', { targetId: id(r, 0) }); assert.equal(r.seats[0].alive, false); const p = setup(); nightAct(p, 0, { targetId: id(p, 5) }); stepTo(p, 'witch'); nightAct(p, 3, { ability: 'poison', targetId: id(p, 5) }); dawn(p); assert.ok(!p.pendingShots.includes(id(p, 5))); });
-test('seer result is private and Hidden Wolf appears village', () => { const r = setup(['werewolf', 'hiddenWolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'seer'); nightAct(r, 2, { targetId: id(r, 1) }); dawn(r); assert.match(publicView(r, 'actor2', time).me.privateLog.at(-1).text.en, /village/); assert.equal(publicView(r, 'actor0', time).me.privateLog.length, 0); assert.deepEqual(publicView(r, 'actor0', time).me.allies, []); assert.deepEqual(publicView(r, 'actor1', time).me.allies, [id(r, 0)]); });
-test('Idiot survives first exile and loses voting rights', () => { const r = setup(custom('idiot')); dawn(r); exile(r, 2); assert.equal(r.seats[2].alive, true); assert.equal(r.seats[2].canVote, false); assert.equal(publicView(r, 'actor0', time).seats[2].roleId, 'idiot'); send(r, 'actor0', 'startVoting'); assert.throws(() => send(r, 'actor2', 'vote', { targetId: id(r, 0) }), e => e.code === 'NO_VOTE'); });
+test('seer result is private and Hidden Wolf appears village', () => { const r = setup(['werewolf', 'hiddenWolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'seer'); nightAct(r, 2, { targetId: id(r, 1) }); dawn(r); assert.match(publicView(r, 'actor2', time).me.privateLog.at(-1).text.en, /village/); assert.ok(publicView(r, 'actor0', time).me.privateLog.every(log => !log.text.en.includes('village'))); assert.deepEqual(publicView(r, 'actor0', time).me.allies, []); assert.deepEqual(publicView(r, 'actor1', time).me.allies, [id(r, 0)]); });
+test('Idiot survives first exile and loses voting rights', () => { const r = setup(custom('idiot')); dawn(r); exile(r, 2); assert.equal(r.seats[2].alive, true); assert.equal(r.seats[2].canVote, false); assert.equal(publicView(r, 'actor0', time).seats[2].roleId, 'idiot'); nextNight(r); dawn(r); send(r, 'actor0', 'startVoting'); assert.throws(() => send(r, 'actor2', 'vote', { targetId: id(r, 0) }), e => e.code === 'NO_VOTE'); });
 test('Cupid death link and Wild Child transformation survive replacement', () => { const r = setup(['werewolf', 'werewolf', 'cupid', 'wildChild', 'seer', 'villager', 'villager', 'villager', 'villager']); nightAct(r, 2, { targetIds: [id(r, 5), id(r, 6)] }); nightAct(r, 3, { targetId: id(r, 5) }); stepTo(r, 'wolves'); nightAct(r, 0, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, false); assert.equal(r.seats[6].alive, false); assert.equal(r.seats[3].team, 'wolf'); assert.ok(publicView(r, 'actor0', time).me.allies.includes(id(r, 3))); });
 test('Thief, Wolf Hound and Mechanical Wolf opening choices are applied', () => { const r = setup(['werewolf', 'mechanicalWolf', 'wolfHound', 'thief', 'seer', 'guard', 'villager', 'villager', 'villager']); nightAct(r, 2, { choice: 'wolf' }); nightAct(r, 3, { choice: 'guard' }); nightAct(r, 1, { targetId: id(r, 4) }); stepTo(r, 'wolves'); assert.equal(r.seats[1].state.copiedRole, 'seer'); assert.equal(r.seats[2].team, 'wolf'); assert.equal(r.seats[3].roleId, 'guard'); stepTo(r, 'seer'); nightAct(r, 1, { targetId: id(r, 4) }); dawn(r); assert.match(r.seats[1].privateLog.at(-1).text.en, /village/); });
 test('Magician swaps all targeted night actions and cannot reuse a pair', () => { const r = setup(custom('magician')); nightAct(r, 0, { targetId: id(r, 5) }); stepTo(r, 'magician'); nightAct(r, 2, { targetIds: [id(r, 5), id(r, 6)] }); dawn(r); assert.equal(r.seats[5].alive, true); assert.equal(r.seats[6].alive, false); });
-test('Dreamweaver protects a target and consecutive dreaming kills', () => { const r = setup(custom('dreamweaver')); nightAct(r, 0, { targetId: id(r, 5) }); stepTo(r, 'dreamweaver'); nightAct(r, 2, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, true); send(r, 'actor0', 'startNight'); stepTo(r, 'dreamweaver'); nightAct(r, 2, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, false); });
+test('Dreamweaver protects a target and consecutive dreaming kills', () => { const r = setup(custom('dreamweaver')); nightAct(r, 0, { targetId: id(r, 5) }); stepTo(r, 'dreamweaver'); nightAct(r, 2, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, true); nextNight(r); stepTo(r, 'dreamweaver'); nightAct(r, 2, { targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, false); });
 test('Knight duel and White Wolf King explosion are server validated', () => { const r = setup(custom('knight')); dawn(r); send(r, 'actor2', 'knightDuel', { targetId: id(r, 0) }); assert.equal(r.seats[0].alive, false); assert.equal(r.seats[2].alive, true); assert.throws(() => send(r, 'actor2', 'knightDuel', { targetId: id(r, 1) }), e => e.code === 'NO_ABILITY'); const w = setup(['whiteWolfKing', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(w); send(w, 'actor0', 'wolfExplode', { targetId: id(w, 5) }); assert.equal(w.seats[0].alive, false); assert.equal(w.seats[5].alive, false); });
 test('Wolf Beauty charm kills the current target on death', () => { const r = setup(['werewolf', 'wolfBeauty', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfBeauty'); nightAct(r, 1, { targetId: id(r, 5) }); dawn(r); exile(r, 1); assert.equal(r.seats[5].alive, false); });
-test('Blood Moon self-destruction suppresses village powers on next night only', () => { const r = setup(['bloodMoonApostle', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(r); send(r, 'actor0', 'wolfExplode'); send(r, 'actor0', 'startNight'); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); dawn(r); send(r, 'actor0', 'startNight'); stepTo(r, 'seer'); assert.ok(publicView(r, 'actor2', time).me.action); });
-test('Pure White kills an inspected wolf only from the second night', () => { const r = setup(custom('pureWhite')); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, true); send(r, 'actor0', 'startNight'); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
-test('Gargoyle and Wolf Witch inspect exact roles; Wolf Witch poison is single use', () => { const r = setup(['werewolf', 'wolfWitch', 'gargoyle', 'seer', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfWitch'); assert.throws(() => nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }), e => e.code === 'INVALID_ACTION'); nightAct(r, 1, { ability: 'inspect', targetId: id(r, 4) }); stepTo(r, 'gargoyle'); nightAct(r, 2, { targetId: id(r, 3) }); dawn(r); assert.match(r.seats[1].privateLog.at(-1).text.en, /Guard/); assert.match(r.seats[2].privateLog.at(-1).text.en, /Seer/); send(r, 'actor0', 'startNight'); stepTo(r, 'wolfWitch'); nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, false); assert.equal(r.seats[1].state.poisonUsed, true); });
-test('Demon Hunter is immune to poison and kills a wolf from night two', () => { const r = setup(custom('demonHunter')); stepTo(r, 'witch'); nightAct(r, 4, { ability: 'poison', targetId: id(r, 2) }); dawn(r); assert.equal(r.seats[2].alive, true); send(r, 'actor0', 'startNight'); stepTo(r, 'demonHunter'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
+test('Blood Moon self-destruction suppresses village powers on next night only', () => { const r = setup(['bloodMoonApostle', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(r); send(r, 'actor0', 'wolfExplode'); nextNight(r); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); dawn(r); nextNight(r); stepTo(r, 'seer'); assert.ok(publicView(r, 'actor2', time).me.action); });
+test('Pure White kills an inspected wolf only from the second night', () => { const r = setup(custom('pureWhite')); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, true); nextNight(r); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
+test('Gargoyle and Wolf Witch inspect exact roles; Wolf Witch poison is single use', () => { const r = setup(['werewolf', 'wolfWitch', 'gargoyle', 'seer', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfWitch'); assert.throws(() => nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }), e => e.code === 'INVALID_ACTION'); nightAct(r, 1, { ability: 'inspect', targetId: id(r, 4) }); stepTo(r, 'gargoyle'); nightAct(r, 2, { targetId: id(r, 3) }); dawn(r); assert.match(r.seats[1].privateLog.at(-1).text.en, /Guard/); assert.match(r.seats[2].privateLog.at(-1).text.en, /Seer/); nextNight(r); stepTo(r, 'wolfWitch'); nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }); dawn(r); assert.equal(r.seats[5].alive, false); assert.equal(r.seats[1].state.poisonUsed, true); });
+test('Demon Hunter is immune to poison and kills a wolf from night two', () => { const r = setup(custom('demonHunter')); stepTo(r, 'witch'); nightAct(r, 4, { ability: 'poison', targetId: id(r, 2) }); dawn(r); assert.equal(r.seats[2].alive, true); nextNight(r); stepTo(r, 'demonHunter'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
 test('Piper wins when all other living players are charmed', () => { const r = setup(custom('piper')); r.seats.forEach(s => { if (s.id !== id(r, 2))
     s.state.charmed = true; }); stepTo(r, 'piper'); nightAct(r, 2, { ability: 'skip' }); dawn(r); assert.equal(r.winner.team, 'piper'); });
 test('Angel and Jester have explicit exile victories', () => { for (const role of ['angel', 'jester']) {
@@ -109,9 +119,9 @@ test('Angel and Jester have explicit exile victories', () => { for (const role o
     exile(r, 2);
     assert.equal(r.winner.team, role);
 } const r = setup(custom('angel')); dawn(r); exile(r, 5); assert.equal(r.seats[2].team, 'village'); });
-test('Elder survives one wolf attack and exile disables village active powers', () => { const r = setup(custom('elder')); nightAct(r, 0, { targetId: id(r, 2) }); dawn(r); assert.equal(r.seats[2].alive, true); exile(r, 2); assert.equal(r.villagePowersLost, true); send(r, 'actor0', 'startNight'); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor3', time).me.action, null); });
-test('Scapegoat dies on a tied exile and Raven adds one vote', () => { const r = setup(custom('scapegoat')); dawn(r); send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'vote', { targetId: id(r, 5) }); send(r, 'actor1', 'vote', { targetId: id(r, 6) }); send(r, 'actor0', 'resolveVoting'); assert.equal(r.seats[2].alive, false); const c = setup(custom('raven')); stepTo(c, 'raven'); nightAct(c, 2, { targetId: id(c, 5) }); dawn(c); send(c, 'actor0', 'startVoting'); send(c, 'actor0', 'vote', { targetId: id(c, 5) }); send(c, 'actor1', 'vote', { targetId: id(c, 6) }); send(c, 'actor0', 'resolveVoting'); assert.equal(c.seats[5].alive, false); });
-test('Gravekeeper learns the actual last exiled alignment', () => { const r = setup(custom('gravekeeper')); dawn(r); exile(r, 0); send(r, 'actor0', 'startNight'); stepTo(r, 'gravekeeper'); nightAct(r, 2, {}); dawn(r); assert.match(r.seats[2].privateLog.at(-1).text.en, /Werewolves/); });
+test('Elder survives one wolf attack and exile disables village active powers', () => { const r = setup(custom('elder')); nightAct(r, 0, { targetId: id(r, 2) }); dawn(r); assert.equal(r.seats[2].alive, true); exile(r, 2); assert.equal(r.villagePowersLost, true); nextNight(r); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor3', time).me.action, null); });
+test('mandatory runoff takes precedence over Scapegoat and Raven adds one vote', () => { const r = setup(custom('scapegoat')); dawn(r); send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'vote', { targetId: id(r, 5) }); send(r, 'actor1', 'vote', { targetId: id(r, 6) }); send(r, 'actor0', 'resolveVoting'); assert.equal(r.seats[2].alive, true); assert.equal(r.voteRound, 2); const c = setup(custom('raven')); stepTo(c, 'raven'); nightAct(c, 2, { targetId: id(c, 5) }); dawn(c); send(c, 'actor0', 'startVoting'); send(c, 'actor0', 'vote', { targetId: id(c, 5) }); send(c, 'actor1', 'vote', { targetId: id(c, 6) }); send(c, 'actor0', 'resolveVoting'); assert.equal(c.seats[5].alive, false); });
+test('Gravekeeper learns the actual last exiled alignment', () => { const r = setup(custom('gravekeeper')); dawn(r); exile(r, 0); nextNight(r); stepTo(r, 'gravekeeper'); nightAct(r, 2, {}); dawn(r); assert.match(r.seats[2].privateLog.at(-1).text.en, /Werewolves/); });
 test('Sheriff vote and badge produce 1.5 votes on exile only', () => { const r = setup(); dawn(r); send(r, 'actor0', 'startSheriff'); send(r, 'actor0', 'vote', { targetId: id(r, 2) }); send(r, 'actor0', 'resolveVoting'); assert.equal(r.sheriffSeatId, id(r, 2)); send(r, 'actor0', 'startVoting'); send(r, 'actor2', 'vote', { targetId: id(r, 6) }); send(r, 'actor0', 'vote', { targetId: id(r, 7) }); send(r, 'actor0', 'resolveVoting'); assert.equal(r.lastVote.tally[id(r, 6)], 1.5); assert.equal(r.seats[6].alive, false); send(r, 'actor2', 'passBadge', { targetId: id(r, 3) }); assert.equal(r.sheriffSeatId, id(r, 3)); });
 test('public, wolf and dead chats enforce faction and phase boundaries', () => { const r = setup(); send(r, 'actor0', 'chat', { text: 'Pack secret', channel: 'wolves' }); assert.equal(publicView(r, 'actor1', time).messages.length, 1); assert.equal(publicView(r, 'actor2', time).messages.length, 0); assert.throws(() => send(r, 'actor2', 'chat', { text: 'Guess', channel: 'wolves' }), e => e.code === 'CHAT_CLOSED'); assert.throws(() => send(r, 'actor2', 'chat', { text: 'Night speech', channel: 'public' }), e => e.code === 'CHAT_CLOSED'); dawn(r); time += 1000; send(r, 'actor2', 'chat', { text: 'Day discussion', channel: 'public' }); assert.equal(publicView(r, 'actor3', time).messages.length, 1); });
 test('victory and finished reveal are explicit; changing rules midgame is rejected', () => { const r = setup(); assert.throws(() => send(r, 'actor0', 'updateSettings', { settings: { winCondition: 'edge' } }), e => e.code === 'WRONG_PHASE'); r.seats[0].alive = false; r.seats[1].alive = false; dawn(r); assert.equal(r.winner.team, 'village'); assert.ok(publicView(r, 'actor2', time).seats.every(s => s.roleId)); });
@@ -119,12 +129,12 @@ test('host hard skips progress daylight and begin the next event-driven night', 
     const r = setup(); r.settings.autoAdvance = true;
     dawn(r);
     const advance = () => send(r,r.hostId,'hardSkip');
-    assert.equal(r.phase.kind, 'day'); advance(); assert.equal(r.phase.kind, 'voting'); advance(); assert.equal(r.phase.step, 'afterVote'); advance();
+    assert.equal(r.phase.kind, 'day'); advance(); assert.equal(r.phase.kind, 'voting'); advance(); assert.equal(r.voteRound, 2); advance();
     assert.equal(r.phase.kind, 'night'); assert.equal(r.phase.nightStage, 'opening'); assert.equal(r.night, 2);
 });
 test('pending Hunter reactions resolve before victory and allow a final reversal', () => { const r = setup(['wolfKing', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); r.seats[1].alive = false; dawn(r); exile(r, 0); assert.equal(r.phase.kind, 'reaction'); assert.equal(r.status, 'playing'); send(r, 'actor0', 'shoot', { targetId: id(r, 3) }); assert.equal(r.winner.team, 'village'); });
 test('mixed lovers can win together and ordinary lovers do not create a new faction', () => { const r = setup(['werewolf', 'werewolf', 'cupid', 'seer', 'witch', 'villager', 'villager', 'villager', 'villager']); nightAct(r, 2, { targetIds: [id(r, 0), id(r, 5)] }); dawn(r); r.seats.forEach((s, i) => { if (i !== 0 && i !== 5)
-    s.alive = false; }); send(r, 'actor0', 'startNight'); dawn(r); assert.equal(r.winner.team, 'lovers'); });
+    s.alive = false; }); nextNight(r); dawn(r); assert.equal(r.winner.team, 'lovers'); });
 test('all-player randomized simulation keeps immutable seat identities and private action boundaries', () => {
     let seed = 7123;
     const rand = n => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed % n; };
@@ -185,7 +195,7 @@ test('legacy timer settings cannot enable action expiry and role rules stay lock
  assert.throws(()=>send(r,r.hostId,'updateSettings',{settings:{witchSelfSave:true}}),{code:'WRONG_PHASE'});
 });
 
-test('night action replay is revealed only when the game is finished and contains seat IDs only', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); dawn(r); assert.deepEqual(publicView(r, 'actor0', time).replay, []); r.seats[0].alive = false; r.seats[1].alive = false; send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'resolveVoting'); const replay = publicView(r, 'actor2', time).replay; assert.equal(replay[0].actions.wolves[id(r, 0)].targetId, id(r, 6)); assert.ok(!JSON.stringify(replay).includes('actor')); });
+test('night action replay is revealed only when the game is finished and contains seat IDs only', () => { const r = setup(); nightAct(r, 0, { targetId: id(r, 6) }); dawn(r); assert.deepEqual(publicView(r, 'actor0', time).replay, []); r.seats[0].alive = false; r.seats[1].alive = false; send(r, 'actor0', 'startVoting'); send(r, 'actor0', 'resolveVoting'); send(r, 'actor0', 'resolveVoting'); dawn(r); const replay = publicView(r, 'actor2', time).replay; assert.equal(replay[0].actions.wolves[id(r, 0)].targetId, id(r, 6)); assert.ok(!JSON.stringify(replay).includes('actor')); });
 
 test('votes remain valid after legacy deadlines and host skip counts submitted votes', () => {
  const r=setup(); dawn(r); send(r,r.hostId,'hardSkip');
@@ -379,7 +389,7 @@ test('first-night-only Witch self-save saves its owner on night one and consumes
 
 test('first-night-only Witch rejects later self-save transactionally while poison remains usable', () => {
     const r = setup(undefined, { witchSelfSave: 'firstNight' });
-    dawn(r); send(r, 'actor0', 'startNight');
+    dawn(r); nextNight(r);
     nightAct(r, 0, { targetId: id(r, 3) });
     stepTo(r, 'witch');
     const action = publicView(r, 'actor3', time).me.action;
@@ -399,7 +409,7 @@ test('first-night-only Witch rejects later self-save transactionally while poiso
 
 test('first-night-only rule still permits saving other players after night one', () => {
     const r = setup(undefined, { witchSelfSave: 'firstNight' });
-    dawn(r); send(r, 'actor0', 'startNight');
+    dawn(r); nextNight(r);
     nightAct(r, 0, { targetId: id(r, 6) });
     stepTo(r, 'witch');
     assert.ok(publicView(r, 'actor3', time).me.action.options.includes('save'));
@@ -412,7 +422,7 @@ test('first-night-only rule still permits saving other players after night one',
 test('legacy boolean Witch self-save settings keep never and any-night behavior', () => {
     for (const witchSelfSave of [false, true]) for (const night of [1, 2]) {
         const r = setup(undefined, { witchSelfSave });
-        if (night === 2) { dawn(r); send(r, 'actor0', 'startNight'); }
+        if (night === 2) { dawn(r); nextNight(r); }
         nightAct(r, 0, { targetId: id(r, 3) });
         stepTo(r, 'witch');
         assert.equal(publicView(r, 'actor3', time).me.action.options.includes('save'), witchSelfSave);
@@ -433,7 +443,7 @@ test('Mechanical Wolf copying Witch obeys the same first-night-only self-save ru
     for (const night of [1, 2]) {
         const r = setup(roles, { witchSelfSave: 'firstNight' });
         nightAct(r, 1, { targetId: id(r, 3) }); stepTo(r, 'wolves');
-        if (night === 2) { dawn(r); send(r, 'actor0', 'startNight'); }
+        if (night === 2) { dawn(r); nextNight(r); }
         nightAct(r, 0, { targetId: id(r, 1) });
         stepTo(r, 'witch');
         assert.equal(publicView(r, 'actor1', time).me.action.options.includes('save'), night === 1);
@@ -492,8 +502,8 @@ test('wolves require every explicit submission, then closing advances only after
     assert.equal(r.phase.id, actingId);
     assert.equal(r.phase.nightStage, 'acting');
     assert.equal(publicView(r, 'actor0', time).me.action.alreadySubmitted, true);
-    assert.throws(() => nightAct(r, 0, { targetId: id(r, 6) }), { code: 'ACTION_ALREADY_SUBMITTED' });
-    nightAct(r, 1, { ability: 'skip' });
+    nightAct(r, 0, { targetId: id(r, 6) });
+    nightAct(r, 1, { targetId: id(r, 6) });
     assert.equal(r.phase.nightStage, 'closing');
     assert.notEqual(r.phase.id, actingId);
     assert.deepEqual(r.phase.nightCues, ['role-sleep']);
@@ -564,7 +574,7 @@ test('narration fallback progresses both edges independently of daytime autoAdva
     assert.equal(tickRoom(r, firstDeadline), true);
     time = firstDeadline;
     assert.equal(r.phase.nightStage, 'acting');
-    nightAct(r, 0, { ability: 'skip' }); nightAct(r, 1, { ability: 'skip' });
+    nightAct(r, 0, { targetId: id(r,6) }); nightAct(r, 1, { targetId: id(r,6) });
     const closeDeadline = r.nightFlow.deadline;
     assert.equal(closeDeadline - time, 12000);
     keepConnected(r, closeDeadline);
@@ -609,7 +619,7 @@ test('host recovery and player replacement preserve the waiting role and submitt
     send(r, 'recovered-host', 'approveJoin', { requestId: r.requests[0].id, replaceSeatId: id(r, 1) });
     send(r, 'recovered-host', 'resume');
     assert.equal(publicView(r, 'recovered-host', time).me.action.alreadySubmitted, true);
-    send(r, 'replacement-wolf', 'nightAction', { ability: 'skip' });
+    send(r, 'replacement-wolf', 'nightAction', { targetId: id(r,6) });
     assert.equal(r.phase.nightStage, 'closing');
     assert.equal(publicView(r, 'actor1', time).me, null);
 });
@@ -636,7 +646,7 @@ test('first-night setup roles take separate turns and choices resolve together b
 test('hard skip is host-only, phase-scoped, and works at every night stage without revealing actors', () => {
  for(const stage of ['opening','acting','closing']) for(const paused of [false,true]) {
  const r=setup(); if(stage!=='opening') stepTo(r,'wolves');
- if(stage==='closing') { nightAct(r,0,{ability:'skip'}); nightAct(r,1,{ability:'skip'}); }
+ if(stage==='closing') { nightAct(r,0,{targetId:id(r,6)}); nightAct(r,1,{targetId:id(r,6)}); }
  if(paused) send(r,r.hostId,'pause');
  const phase=r.phase.id, before=JSON.stringify(r);
  assert.throws(()=>send(r,'actor1','hardSkip'),{code:'HOST_ONLY'});
@@ -662,7 +672,7 @@ test('legacy active nights retain their current actions and upgrade on the follo
     assert.equal(r.phase.nightStage, undefined);
     while (r.phase.kind === 'night') send(r, 'actor0', 'nextPhase');
     assert.equal(r.phase.kind, 'day');
-    send(r, 'actor0', 'startNight');
+    nextNight(r);
     assert.equal(r.phase.nightStage, 'opening');
     assert.deepEqual(r.phase.nightCues, ['night', 'wolves']);
 });
@@ -678,7 +688,7 @@ test('legacy timed actions migrate to indefinite waits including manually paused
  assert.equal(r.phase.paused,paused); assert.equal(r.phase.id,phase);
  const persisted=JSON.parse(JSON.stringify(r)); assert.equal(tickRoom(persisted,time+999999),false);
  if(paused) send(persisted,persisted.hostId,'resume');
- send(persisted,'actor1','nightAction',{ability:'skip'}); assert.equal(persisted.phase.nightStage,'closing');
+ send(persisted,'actor1','nightAction',{targetId:id(r,6)}); assert.equal(persisted.phase.nightStage,'closing');
  assert.equal(persisted.actions.wolves[id(r,0)].targetId,id(r,6));
  }
 });
@@ -741,7 +751,7 @@ test('host hard skips can reach dawn with all other players absent', () => {
 test('replacement can submit long after the former deadline without expiry', () => {
     const r = setup(undefined, { nightSeconds: 10 }); stepTo(r, 'wolves');
     const deadline = r.nightFlow.deadline;
-    nightAct(r, 0, { ability: 'skip' });
+    nightAct(r, 0, { targetId: id(r,6) });
     send(r, 'returning', 'requestJoin', { name: 'Returning' });
     send(r, 'actor0', 'approveJoin', { requestId: r.requests.at(-1).id, replaceSeatId: id(r, 1) });
     send(r, 'actor0', 'updateSettings', { settings: { nightSeconds: 20 } });
@@ -752,4 +762,99 @@ test('replacement can submit long after the former deadline without expiry', () 
     assert.throws(() => send(r, 'actor1', 'nightAction', { ability: 'skip' }), { code: 'NOT_SEATED' });
     stepTo(r, 'guard');
     assert.equal(r.nightFlow.deadline, null);
+});
+
+test('dealing cards waits indefinitely for every player to ready and the host to begin', () => {
+ const r=createRoom({code:'MOON',hostId:'host',hostName:'Host',now:++time});
+ for(let i=1;i<6;i++) send(r,`guest${i}`,'requestJoin',{name:`Guest ${i}`});
+ send(r,'host','startGame');
+ assert.equal(r.phase.kind,'ready'); assert.equal(r.night,0);
+ assert.ok(publicView(r,'guest1',time).me.roleId);
+ assert.ok(publicView(r,'host',time).seats.every(seat=>!Object.hasOwn(seat,'roleId')));
+ assert.equal(tickRoom(r,time+999999),false);
+ assert.throws(()=>send(r,'host','startNight'),{code:'NOT_READY'});
+ assert.throws(()=>send(r,'host','hardSkip'),{code:'WRONG_PHASE'});
+ for(const seat of r.seats) send(r,seat.actorId,'ready');
+ send(r,'guest2','ready',{ready:false});
+ assert.throws(()=>send(r,'host','startNight'),{code:'NOT_READY'});
+ send(r,'guest2','ready');
+ send(r,'replacement','requestJoin',{name:'Guest 2'});
+ send(r,'host','approveJoin',{requestId:r.requests[0].id,replaceSeatId:r.seats[2].id});
+ assert.equal(publicView(r,'replacement',time).me.ready,false);
+ assert.throws(()=>send(r,'host','startNight'),{code:'NOT_READY'});
+ send(r,'replacement','ready');
+ assert.throws(()=>send(r,'guest1','startNight'),{code:'HOST_ONLY'});
+ send(r,'host','startNight'); assert.equal(r.night,1); assert.equal(r.phase.nightStage,'opening');
+});
+
+test('wolves can revise secret pack votes until all have chosen and a strict majority agrees', () => {
+ const r=setup(['werewolf','werewolf','werewolf','werewolf','seer','witch','villager','villager','villager']);
+ send(r,'actor0','transferHost',{seatId:id(r,6)}); stepTo(r,'wolves'); const phase=r.phase.id;
+ for(let i=0;i<4;i++) nightAct(r,i,{targetId:id(r,i<2?7:8)});
+ assert.equal(r.phase.id,phase); assert.equal(tickRoom(r,time+999999),false);
+ assert.deepEqual(publicView(r,'actor6',time).me.packVotes,[]);
+ assert.deepEqual(publicView(r,'actor4',time).me.packVotes,[]);
+ assert.equal(publicView(r,'actor0',time).me.packVotes.length,4);
+ assert.equal(publicView(r,'actor0',time).me.packVotes[3].targetId,id(r,8));
+ nightAct(r,3,{targetId:id(r,7)});
+ assert.equal(r.phase.nightStage,'closing');
+ assert.throws(()=>send(r,'actor3','nightAction',{targetId:id(r,8),expectedPhaseId:phase}),{code:'STALE_PHASE'});
+ assert.deepEqual(publicView(r,'actor0',time).me.packVotes,[]);
+});
+
+test('a majority cannot close the pack action before the last wolf chooses, even offline', () => {
+ const r=setup(['werewolf','werewolf','werewolf','seer','witch','villager','villager','villager','villager']); stepTo(r,'wolves');
+ nightAct(r,0,{targetId:id(r,6)}); nightAct(r,1,{targetId:id(r,6)});
+ send(r,'actor2','leave'); assert.equal(tickRoom(r,time+999999),false);
+ assert.equal(r.phase.nightStage,'acting');
+ nightAct(r,2,{ability:'skip'}); assert.equal(r.phase.nightStage,'closing');
+});
+
+test('the host cannot bypass exile voting and a runoff accepts only tied candidates', () => {
+ const r=setup(); dawn(r);
+ assert.throws(()=>send(r,r.hostId,'startNight'),{code:'VOTE_REQUIRED'});
+ send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'voting');
+ send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)});
+ send(r,r.hostId,'resolveVoting'); assert.equal(r.voteRound,2);
+ assert.deepEqual(new Set(r.runoffIds),new Set([id(r,6),id(r,7)]));
+ assert.deepEqual(publicView(r,'actor2',time).me.action.targets,r.runoffIds);
+ const before=JSON.stringify(r);
+ assert.throws(()=>send(r,'actor2','vote',{targetId:id(r,8)}),{code:'INVALID_TARGET'});
+ assert.equal(JSON.stringify(r),before);
+ send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)});
+ send(r,r.hostId,'hardSkip'); assert.equal(r.phase.kind,'night'); assert.equal(r.night,2);
+ assert.ok(r.seats.every(seat=>seat.alive));
+});
+
+test('a runoff with a winner exiles that player and leaves time for final words', () => {
+ const r=setup(); dawn(r); send(r,r.hostId,'startVoting');
+ send(r,'actor0','vote',{targetId:id(r,6)}); send(r,'actor1','vote',{targetId:id(r,7)}); send(r,r.hostId,'resolveVoting');
+ send(r,'actor0','vote',{targetId:id(r,7)}); send(r,r.hostId,'resolveVoting');
+ assert.equal(r.seats[7].alive,false); assert.equal(r.phase.step,'afterVote');
+ send(r,r.hostId,'startNight'); assert.equal(r.night,2);
+});
+
+test('seat renumbering and profile changes keep role, action and replacement history on immutable seat IDs', () => {
+ const r=setup(); stepTo(r,'wolves'); nightAct(r,0,{targetId:id(r,6)});
+ const original=r.seats[0].id, role=r.seats[0].roleId;
+ send(r,'actor0','setProfile',{photo:'wolf'});
+ assert.throws(()=>send(r,'actor1','moveSeat',{seatId:original,number:4}),{code:'HOST_ONLY'});
+ send(r,'actor0','moveSeat',{seatId:original,number:4});
+ assert.equal(r.seats[3].id,original); assert.equal(r.seats[3].roleId,role);
+ assert.equal(publicView(r,'actor0',time).me.history[0].action.targetId,r.seats[6].id);
+ assert.equal(publicView(r,'actor0',time).seats[3].photo,'wolf');
+ assert.throws(()=>send(r,'actor0','setProfile',{photo:'data:image/svg+xml,<svg onload=alert(1)>'}),{code:'INVALID_PHOTO'});
+ assert.throws(()=>send(r,'actor0','moveSeat',{seatId:original,number:0}),{code:'INVALID_TARGET'});
+ send(r,'actor0','hardSkip'); dawn(r);
+ const own=publicView(r,'actor0',time).me.history;
+ assert.equal(own.filter(item=>item.step==='wolves'&&item.night===1).length,1);
+ assert.ok(publicView(r,'actor0',time).me.privateLog.some(log=>log.night===1&&log.text.en.includes('Pack target')));
+ assert.ok(publicView(r,'actor6',time).me.history.every(item=>item.step!=='wolves'));
+});
+
+test('witch sees the pack target while holding antidote even when self-save is prohibited and poison exhausted', () => {
+ const r=setup(); nightAct(r,0,{targetId:id(r,3)}); r.seats[3].state.poisonUsed=true; stepTo(r,'witch');
+ const action=publicView(r,'actor3',time).me.action;
+ assert.equal(action.victimId,id(r,3)); assert.deepEqual(action.options,['skip']);
+ assert.equal(publicView(r,'actor0',time).me.action,null);
 });

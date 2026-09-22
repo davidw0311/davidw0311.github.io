@@ -6,23 +6,23 @@ export type Language = "en" | "zh";
 export type Localized = { en: string; zh: string };
 export type Role = { id: string; name: Localized; team: string; description: Localized; nightStep?: string };
 export type Catalogue = { version: string; ruleset: Localized; roles: Role[]; presets: { id: string; name: Localized; roles: string[] }[] };
-export type Seat = { id: string; name: string; connected: boolean; occupied: boolean; alive: boolean; isHost: boolean; isSheriff: boolean; canVote: boolean; roleId?: string };
-export type Phase = { id: string; kind: "lobby" | "night" | "day" | "voting" | "reaction" | "finished"; step: string; number: number; deadline: number | null; paused: boolean; nightStage?: "opening" | "acting" | "closing"; nightCues?: string[]; nightRole?: string };
+export type Seat = { id: string; name: string; photo?: string | null; ready?: boolean; connected: boolean; occupied: boolean; alive: boolean; isHost: boolean; isSheriff: boolean; canVote: boolean; roleId?: string };
+export type Phase = { id: string; kind: "ready" | "disbanded" | "lobby" | "night" | "day" | "voting" | "reaction" | "finished"; step: string; number: number; deadline: number | null; paused: boolean; nightStage?: "opening" | "acting" | "closing"; nightCues?: string[]; nightRole?: string };
 export type Settings = { nightSeconds: number; daySeconds: number; voteSeconds: number; autoAdvance: boolean; sheriff: boolean; winCondition: "edge" | "all" | "parity"; witchSelfSave: boolean | "firstNight"; guardAntidote: "save" | "kill"; [key: string]: unknown };
 export type Action = { kind: string; step: string; targets: string[]; canSkip: boolean; input: "single" | "double" | "choice" | "none"; options?: (string | { id?: string; value?: string; name?: Localized; label?: Localized })[]; alreadySubmitted: boolean; ability?: string; minTargets?: number; maxTargets?: number; victimId?: string | null };
 export type GameView = {
   serverTime?: number; clockOffset?: number;
-  code: string; revision: number; hostSeatId: string; isHost: boolean; status: "lobby" | "playing" | "finished"; settings: Settings; roleDeck: string[]; seats: Seat[];
+  code: string; revision: number; hostSeatId: string; isHost: boolean; status: "lobby" | "playing" | "finished" | "disbanded"; settings: Settings; roleDeck: string[]; seats: Seat[];
   requests: { id: string; name: string; createdAt: number }[];
-  me: { seatId: string; roleId: string | null; team: string | null; alive: boolean; roleState: Record<string, unknown>; allies: string[]; privateLog: { id?: string; text: Localized; at?: number }[]; action: Action | null; canDuel?: boolean; canExplode?: boolean; canPassBadge?: boolean } | null;
-  phase: Phase; day: number; events: { id: string; text: Localized; at: number }[]; winner: { team?: string; text?: Localized; reason?: Localized } | string | null; speakerSeatId: string | null; voteCount?: number; lastVote?: { kind: string; votes: Record<string, string | null>; tally: Record<string, number> } | null; replay?: ({ type: "night"; night: number; actions: Record<string, Record<string, { targetId?: string; targetIds?: string[]; ability?: string; choice?: string; skip?: boolean }>>; eliminatedSeatIds: string[] } | { type: "vote"; day: number; kind: string; votes: Record<string, string | null>; tally: Record<string, number>; at: number })[];
+  me: { ready?: boolean; packVotes?: {seatId: string; submitted: boolean; targetId: string | null}[]; history?: {night: number; step: string; action: {targetId?: string; targetIds?: string[]; ability?: string; choice?: string; skip?: boolean}}[]; seatId: string; roleId: string | null; team: string | null; alive: boolean; roleState: Record<string, unknown>; allies: string[]; privateLog: { night?: number; id?: string; text: Localized; at?: number }[]; action: Action | null; canDuel?: boolean; canExplode?: boolean; canPassBadge?: boolean } | null;
+  voteRound?: number; runoffIds?: string[]; phase: Phase; day: number; events: { id: string; text: Localized; at: number }[]; winner: { team?: string; text?: Localized; reason?: Localized } | string | null; speakerSeatId: string | null; voteCount?: number; lastVote?: { kind: string; votes: Record<string, string | null>; tally: Record<string, number> } | null; replay?: ({ type: "night"; night: number; actions: Record<string, Record<string, { targetId?: string; targetIds?: string[]; ability?: string; choice?: string; skip?: boolean }>>; eliminatedSeatIds: string[] } | { type: "vote"; day: number; kind: string; votes: Record<string, string | null>; tally: Record<string, number>; at: number })[];
   messages?: { id: string; seatId?: string; name?: string; text: string; channel: string; at: number }[];
 };
 export type Command = { type: string; [key: string]: unknown };
 type Session = { code: string; token: string; name: string; recoveryKey?: string };
 type Reply = { view: GameView; recoveryKey?: string };
 const endpoint = process.env.NEXT_PUBLIC_WEREWOLF_API_URL || "https://speechlab-assessment-hfh9hpfwhdafh7gz.southeastasia-01.azurewebsites.net/api/werewolf";
-const terminalErrors = new Set(["NOT_SEATED", "SESSION_REPLACED", "ROOM_NOT_FOUND", "ROOM_EXPIRED", "INVALID_TOKEN", "room-not-found", "room-expired", "invalid-session"]);
+const terminalErrors = new Set(["NOT_SEATED", "SESSION_REPLACED", "ROOM_NOT_FOUND", "ROOM_EXPIRED", "INVALID_TOKEN", "room-not-found", "room-expired", "invalid-session", "room-disbanded"]);
 const sessionKey = "nightfall.session.v1";
 const pendingKey = "nightfall.pending.v1";
 export class RoomError extends Error { constructor(public code: string, message: string, public retryable = false) { super(message); } }
@@ -64,7 +64,14 @@ export function useWerewolfRoom() {
   const activeSession = useRef<Session | null>(null);
   const mutationLock = useRef(false);
   const syncNow = useRef<() => void>(() => {});
-  const apply = useCallback((incoming: GameView) => { setView((current) => current && current.code === incoming.code && current.revision > incoming.revision ? current : { ...incoming, clockOffset: (incoming.serverTime || Date.now()) - Date.now() }); }, []);
+  const eject = useCallback(() => {
+    const current = activeSession.current;
+    activeSession.current = null; setSession(null); setView(null); setSessionExpired(false); setConnectivity("online");
+    try { localStorage.removeItem(sessionKey); if (current) localStorage.removeItem(`${sessionKey}.${current.code}`); } catch { /* no-op */ }
+    window.history.replaceState(null, "", window.location.pathname);
+    setError(new RoomError("room-disbanded", "The host has disbanded this room."));
+  }, []);
+  const apply = useCallback((incoming: GameView) => { if (incoming.status === "disbanded") { eject(); return; } setView((current) => current && current.code === incoming.code && current.revision > incoming.revision ? current : { ...incoming, clockOffset: (incoming.serverTime || Date.now()) - Date.now() }); }, [eject]);
   const saveSession = useCallback((next: Session) => { activeSession.current = next; store(sessionKey, next); store(`${sessionKey}.${next.code}`, next); setSession(next); }, []);
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -96,7 +103,7 @@ export function useWerewolfRoom() {
         if (stopped) return;
         failures += 1;
         setConnectivity(navigator.onLine ? "reconnecting" : "offline");
-        if (caught instanceof RoomError && !caught.retryable) { setError(caught); if (terminalErrors.has(caught.code)) { stopped = true; setSessionExpired(true); } }
+        if (caught instanceof RoomError && !caught.retryable) { setError(caught); if (terminalErrors.has(caught.code)) { stopped = true; if (caught.code === "room-disbanded") eject(); else setSessionExpired(true); } }
       } finally {
         inFlight = false;
         if (!stopped) timer = setTimeout(sync, failures ? Math.min(30000, 1500 * 2 ** Math.min(failures, 4)) : nightPolling ? hostPolling ? 1000 : document.hidden ? 3000 : 2000 : document.hidden ? 12000 : 3000);
@@ -107,7 +114,7 @@ export function useWerewolfRoom() {
     const offline = () => setConnectivity("offline");
     void sync(); window.addEventListener("online", wake); window.addEventListener("offline", offline); document.addEventListener("visibilitychange", wake);
     return () => { stopped = true; clearTimeout(timer); controller?.abort(); window.removeEventListener("online", wake); window.removeEventListener("offline", offline); document.removeEventListener("visibilitychange", wake); };
-  }, [session, apply]);
+  }, [session, apply, eject]);
   const enter = useCallback(async (op: "create" | "join" | "recover", name: string, code = "", recoveryKey?: string) => {
     if (mutationLock.current) return;
     mutationLock.current = true; setBusy(op); setError(null); setSessionExpired(false);
@@ -158,10 +165,11 @@ export function useWerewolfRoom() {
       return true;
     } catch (caught) {
       if (!(caught instanceof RoomError) || !caught.retryable) { try { localStorage.removeItem(mutationKey); } catch { /* no-op */ } }
-      setError(caught instanceof RoomError ? caught : new RoomError("unknown", String(caught))); return false;
+      if (caught instanceof RoomError && caught.code === "room-disbanded") eject();
+      else setError(caught instanceof RoomError ? caught : new RoomError("unknown", String(caught))); return false;
     }
     finally { mutationLock.current = false; setBusy(null); }
-  }, [apply]);
+  }, [apply, eject]);
   // Narration completion is an automatic transport event, independent of the
   // player's action lock. Its phase-scoped receipt survives refresh and retries.
   const acknowledgeNightNarration = useCallback(async (phaseId: string): Promise<boolean> => {
