@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "ruleset": {
-    "en": "Nightfall house rules: each role follows this library. Other editions may differ. Attacking wolves may self-destruct during discussion; the host decides when to move on. Night turns finish when all eligible players submit or the host explicitly skips the step. Actions never expire. The host can also skip daytime steps. Offline players keep their identities and do not pause the game. The narrator calls every scheduled role, including dead roles, and closes each turn automatically. Everyone must ready up after cards are dealt. Wolves may revise their votes and must all submit with a strict target majority before continuing. Daytime exile votes are mandatory: a first tie triggers a restricted runoff; a second tie kills nobody and starts night.",
-    "zh": "暗夜自定义规则：以本角色库为准，与其他版本可能不同。参与狼刀的狼人可在白天自爆，之后由房主决定何时推进。所有可行动玩家提交后，夜间回合结束；房主也可强制跳过当前夜间或白天阶段。行动不会超时。离线玩家保留身份，不会暂停牌局。法官依次呼叫所有配置的夜间角色，包括已出局角色，并自动结束每个回合。 发牌后所有玩家须准备才能开始首夜。狼人可修改选择，所有狼人提交且目标获得严格多数后才继续。白天必须放逐投票：首轮平票仅对平票者复投，第二轮仍平票则无人出局并进入夜晚。"
+    "en": "Nightfall Chinese boards + declared house variants (rules 1.1). Presets select cards; the room settings below apply to every preset. All living actors must submit; only the host may emergency-skip. Wolf kills require all submissions and a strict majority, or unanimous no-kill. Emergency skips retain submitted choices. Every normal day still requires exile voting, including after a duel or explosion. Exile and Sheriff ties get one runoff. First-night Witch self-save and Guard + antidote = death are defaults. Mechanical Wolf, Thief, Angel, Piper and Scapegoat use the explicit variants in their cards; these are not full implementations of other editions.",
+    "zh": "暗夜中国板型＋明确标注的自定义变体（规则1.1）。预设决定身份牌，所有预设均遵循本房间设置。存活角色须提交行动，仅房主可紧急跳过；狼队须全部提交且目标获严格多数，或一致空刀。强制跳过会保留已提交选择。决斗或自爆后仍须完成白天放逐投票。放逐和警长平票均复投一次。默认女巫仅首夜可自救、同守同救死亡。机械狼、盗贼、天使、吹笛者及替罪羊采用卡牌注明的变体，不代表其他版本的完整规则。"
   },
   "roles": [
     {
@@ -64,8 +64,8 @@
       },
       "team": "village",
       "description": {
-        "en": "On death, may shoot once unless poisoned, killed by a failed hunt, or killed through a lover, charm, or dream link.",
-        "zh": "死亡时可开枪一次；毒杀、狩猎反噬、殉情、魅惑牵连或摄梦牵连死亡时不能开枪。"
+        "en": "Shoot after a wolf kill or exile. Poison, double dream, linked deaths and other damage do not grant a shot. A wolf attack combined with poison prevents shooting.",
+        "zh": "被狼刀或放逐出局后可开枪；毒杀、连续摄梦、跟随出局及其他伤害不能开枪。同夜中狼刀和毒药也不能开枪。"
       }
     },
     {
@@ -89,8 +89,8 @@
       },
       "team": "village",
       "description": {
-        "en": "Survives the first exile by revealing, then permanently loses their vote.",
-        "zh": "首次被放逐时翻牌存活，此后永久失去投票权。"
+        "en": "Reveal and survive an exile, permanently losing your vote and any Sheriff badge. Once revealed, you cannot be exiled again; other death causes still kill you.",
+        "zh": "被放逐时翻牌免死，永久失去投票权及警徽；翻牌后不能再被放逐，但仍会因其他伤害出局。"
       }
     },
     {
@@ -101,8 +101,8 @@
       },
       "team": "village",
       "description": {
-        "en": "First night: link two lovers. If either dies, the other dies. If their factions differ after first-night choices, they win together by being the last survivors; this condition then stays fixed.",
-        "zh": "首夜连结两名情侣；一人死亡另一人殉情。首夜选择完成后若两人阵营不同，则以仅情侣存活获胜；此胜利条件随后固定。"
+        "en": "Link two lovers on night one; either death kills the other. If their current factions differ, ordinary faction victories wait while both live, and they must be the last pair to win. Transformations update this rule.",
+        "zh": "首夜连接两名情侣，一人死亡则另一人跟随。两人当前阵营不同时，均存活期间暂停普通阵营胜利判定，须成为最后两人才能获胜。阵营转换会更新判定。"
       },
       "nightStep": "opening"
     },
@@ -114,8 +114,8 @@
       },
       "team": "village",
       "description": {
-        "en": "Once, during discussion, duel a player: a wolf dies; otherwise you die.",
-        "zh": "白天发言阶段限一次决斗：对方是狼人则对方死，否则骑士死。"
+        "en": "Once per game, duel another player during discussion before exile voting. A wolf target dies; otherwise you die. Defeating Wolf Beauty does not trigger her charm. This room still requires the daytime vote afterward.",
+        "zh": "每局一次，在白天放逐投票前决斗他人：对方是狼则对方死，否则自己死。决斗狼美人不触发魅惑。本房间决斗后仍须完成放逐投票。"
       }
     },
     {
@@ -126,8 +126,8 @@
       },
       "team": "village",
       "description": {
-        "en": "A dream target is immune to the pack attack and poison. Dreaming the same target twice consecutively kills them. If you die that night, your target dies.",
-        "zh": "梦游目标免疫当夜刀毒；连续两夜摄梦同一目标则目标死亡。摄梦人当夜死亡时目标随之死亡。"
+        "en": "Choose another player or skip. A dreamed player is protected from wolf attacks, poison, hunts and lethal checks. Selecting the same seat on consecutive nights kills it instead. Your night death also kills the selected player. Dream and linked deaths bypass protection.",
+        "zh": "每晚选择他人或空过。梦游目标免疫狼刀、毒药、猎杀及查验伤害；连续两晚选择同一座位则使其死亡。摄梦人夜间死亡会带走本夜目标。摄梦及跟随死亡不受保护。"
       },
       "nightStep": "dreamweaver"
     },
@@ -152,8 +152,8 @@
       },
       "team": "village",
       "description": {
-        "en": "Learn the alignment of the player most recently exiled.",
-        "zh": "每晚得知最近一次被放逐玩家的阵营。"
+        "en": "Learn the alignment of the previous day’s exiled player; if nobody was exiled that day, receive no-exile information.",
+        "zh": "得知上一个白天被放逐玩家的阵营；若当天无人被放逐，则获知无人被放逐。"
       },
       "nightStep": "gravekeeper"
     },
@@ -165,8 +165,8 @@
       },
       "team": "village",
       "description": {
-        "en": "Mark one player at night; they receive one extra exile vote the following day.",
-        "zh": "每晚诅咒一人，使其在次日放逐投票中额外获得一票。"
+        "en": "Mark another player for one extra exile vote the next day. Cannot select the same seat on consecutive nights; skipping breaks the restriction.",
+        "zh": "每晚诅咒他人，使其次日放逐额外获得一票。不能连续两晚选择同一座位，空过可解除连续限制。"
       },
       "nightStep": "raven"
     },
@@ -217,8 +217,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Join the pack and charm one player each night. When you die, the current charmed player dies too. Cannot charm the same player on consecutive nights.",
-        "zh": "参与狼刀并每晚魅惑一人；自己死亡时当晚被魅惑者殉情。不能连续魅惑同一人。"
+        "en": "Join the pack and charm another player; do not repeat the previous night’s selected target. Only exile or a death shot takes the charmed player with you, without a death ability. Cannot self-destruct. Charm expires at the next night.",
+        "zh": "参与狼刀，每晚魅惑他人，不能连续选择同一目标。仅被放逐或开枪带走时，魅惑目标跟随出局且不能发动死亡技能；不能自爆。魅惑在下一夜开始时清除。"
       },
       "nightStep": "wolfBeauty"
     },
@@ -230,8 +230,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Knows the pack, but the pack does not know you. Seer sees you as village. You cannot join the pack attack.",
-        "zh": "认识狼队但狼队不认识你；预言家查验为好人。不参与狼刀。"
+        "en": "See the pack, but stay hidden from it and read as good to Seer. Inherit the pack attack when no ordinary attacking wolves remain. Cannot self-destruct.",
+        "zh": "知道普通狼队身份，不被狼队认识，预言家验为好人。其他可参与狼刀的狼人全部出局后继承狼刀，不能自爆。"
       }
     },
     {
@@ -242,8 +242,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Does not know or join the pack. Inspect one player’s exact role each night.",
-        "zh": "不认识狼队、不参与狼刀；每晚查验一人的具体身份。"
+        "en": "An isolated wolf: inspect an exact role, never the same selected seat twice. Inherit the pack attack when no ordinary attacking wolves remain. Cannot self-destruct.",
+        "zh": "不与普通狼队互认；每晚查验具体身份，每个座位只能验一次。其他可参与狼刀的狼人全部出局后继承狼刀，不能自爆。"
       },
       "nightStep": "gargoyle"
     },
@@ -255,8 +255,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Join the pack. First night copy one player’s starting role: Seer, Guard, Witch, Raven, Gravekeeper, Demon Hunter and Hunter abilities are supported; any other role grants a nightly alignment check. Remain a wolf.",
-        "zh": "参与狼刀；首夜学习一人的初始身份。可复制预言家、守卫、女巫、乌鸦、守墓人、猎魔人、猎人技能；其他身份统一获得阵营查验。阵营仍为狼人。"
+        "en": "House variant: Join the pack. First night copy one player’s starting role: Seer, Guard, Witch, Raven, Gravekeeper, Demon Hunter and Hunter abilities are supported; any other role grants a nightly alignment check. Remain a wolf.",
+        "zh": "自定义变体：参与狼刀；首夜学习一人的初始身份。可复制预言家、守卫、女巫、乌鸦、守墓人、猎魔人、猎人技能；其他身份统一获得阵营查验。阵营仍为狼人。"
       },
       "nightStep": "opening"
     },
@@ -268,8 +268,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Join the pack. Self-destruct during discussion to suppress village night abilities on the next night.",
-        "zh": "参与狼刀；白天自爆后，下一夜好人阵营夜间技能全部失效。"
+        "en": "Self-destruct during pre-vote discussion to suppress village powers next night, not the following day. If exiled as the last wolf, survive for one final night and expire at dawn; a completed wolf objective that night can still win. Daytime voting remains mandatory.",
+        "zh": "白天投票前自爆，封印下一夜好人技能，次日白天恢复。作为最后狼人被放逐时延迟至次日天亮出局，最后一夜达成狼人目标仍可获胜。自爆后仍须完成白天投票。"
       },
       "nightStep": "wolves"
     },
@@ -294,8 +294,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Join the pack. Each night inspect an exact role, or use a single poison from night two.",
-        "zh": "参与狼刀；每晚查验具体身份，或从第二夜起使用全局一次毒药。"
+        "en": "Join the pack. Inspect a non-wolf’s exact role each night. From night two, inspecting Pure White kills her unless protected by a dream. No poison potion.",
+        "zh": "参与狼刀；每晚查验一名非狼人玩家的具体身份。第二夜起验到纯白之女则使其死亡（梦游保护可免疫），没有毒药。"
       },
       "nightStep": "wolfWitch"
     },
@@ -333,8 +333,8 @@
       },
       "team": "village",
       "description": {
-        "en": "First night permanently become a Seer or Guard. This app’s reserve-role variant always offers these two cards. If the host skips your unsubmitted choice, you become a Guard.",
-        "zh": "首夜从预言家或守卫中选择新身份。本应用的备用身份规则固定提供这两张牌。 若房主跳过未提交的选择，则成为守卫。"
+        "en": "House variant: First night permanently become a Seer or Guard. This app’s reserve-role variant always offers these two cards. If the host skips your unsubmitted choice, you become a Guard.",
+        "zh": "自定义变体：首夜从预言家或守卫中选择新身份。本应用的备用身份规则固定提供这两张牌。 若房主跳过未提交的选择，则成为守卫。"
       },
       "nightStep": "opening"
     },
@@ -346,8 +346,8 @@
       },
       "team": "independent",
       "description": {
-        "en": "Charm up to two other players per night. Win when every other living player is charmed. Charmed players learn each other’s names.",
-        "zh": "每晚魅惑最多两名其他玩家；除自己外所有存活玩家均被魅惑时独立获胜。被魅惑者互相认识。"
+        "en": "House variant: charm up to two others each night. Win if every other survivor is charmed when deaths and pending shots have resolved. You must survive that resolution. Charmed players know each other.",
+        "zh": "自定义变体：每晚魅惑最多两名他人。死亡及待开枪行动结算后，自己存活且其他幸存者全部被魅惑时获胜。被魅惑者互相认识。"
       },
       "nightStep": "piper"
     },
@@ -359,8 +359,8 @@
       },
       "team": "independent",
       "description": {
-        "en": "Win alone if exiled in the first completed exile vote. Otherwise become village after that vote.",
-        "zh": "在第一次有效放逐投票中被放逐则独立获胜；否则该次投票后转为好人。"
+        "en": "House variant: win alone if exiled in the first completed exile round. Otherwise become village when that round ends, including no-exile ties. Games still start at night; a night death does not win.",
+        "zh": "自定义变体：首次完整放逐轮次被放逐则独立获胜；否则该轮结束转为好人，包括平票无人出局。本房间仍从夜晚开始，夜间死亡不获胜。"
       }
     },
     {
@@ -371,8 +371,8 @@
       },
       "team": "village",
       "description": {
-        "en": "Survive your first pack attack. If exiled, all village active abilities stop for the rest of the game.",
-        "zh": "免疫首次狼刀；若被放逐，所有好人阵营主动技能永久失效。"
+        "en": "Survive the first unprotected pack attack. If killed by exile, Witch poison or a death shot, village powers are lost for the rest of the game.",
+        "zh": "免疫第一次未被保护的狼刀；若被放逐、毒药或开枪杀死，好人技能永久失效。"
       }
     },
     {
@@ -383,8 +383,8 @@
       },
       "team": "village",
       "description": {
-        "en": "Plays as a villager under this room’s mandatory runoff rules: the first tie triggers a runoff; a second tie kills nobody. The traditional tie sacrifice is disabled.",
-        "zh": "本房间采用强制复投规则：首次平票进行复投，再次平票无人死亡。替罪羊按普通村民行动，传统平票牺牲技能停用。"
+        "en": "House variant: Plays as a villager under this room’s mandatory runoff rules: the first tie triggers a runoff; a second tie kills nobody. The traditional tie sacrifice is disabled.",
+        "zh": "自定义变体：本房间采用强制复投规则：首次平票进行复投，再次平票无人死亡。替罪羊按普通村民行动，传统平票牺牲技能停用。"
       }
     },
     {
@@ -437,8 +437,8 @@
     {
       "id": "12",
       "name": {
-        "en": "12-player classic",
-        "zh": "12人经典局"
+        "en": "12 · Wolf King & Guard",
+        "zh": "12人·狼王守卫"
       },
       "roles": [
         "werewolf",
@@ -458,8 +458,8 @@
     {
       "id": "16",
       "name": {
-        "en": "16-player classic",
-        "zh": "16人经典局"
+        "en": "16 · Nightfall mixed board",
+        "zh": "16人·暗夜混合板型"
       },
       "roles": [
         "werewolf",
@@ -474,6 +474,132 @@
         "knight",
         "raven",
         "villager",
+        "villager",
+        "villager",
+        "villager",
+        "villager"
+      ]
+    },
+    {
+      "id": "12-standard",
+      "name": {
+        "en": "12 · Standard",
+        "zh": "12人·标准场"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "seer",
+        "witch",
+        "hunter",
+        "idiot",
+        "villager",
+        "villager",
+        "villager",
+        "villager"
+      ]
+    },
+    {
+      "id": "12-beauty-knight",
+      "name": {
+        "en": "12 · Beauty & Knight",
+        "zh": "12人·狼美人骑士"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "wolfBeauty",
+        "seer",
+        "witch",
+        "knight",
+        "guard",
+        "villager",
+        "villager",
+        "villager",
+        "villager"
+      ]
+    },
+    {
+      "id": "12-king-dream",
+      "name": {
+        "en": "12 · Wolf King & Dreamweaver",
+        "zh": "12人·狼王摄梦人"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "wolfKing",
+        "seer",
+        "witch",
+        "hunter",
+        "dreamweaver",
+        "villager",
+        "villager",
+        "villager",
+        "villager"
+      ]
+    },
+    {
+      "id": "12-gargoyle-grave",
+      "name": {
+        "en": "12 · Gargoyle & Gravekeeper",
+        "zh": "12人·石像鬼守墓人"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "gargoyle",
+        "seer",
+        "witch",
+        "hunter",
+        "gravekeeper",
+        "villager",
+        "villager",
+        "villager",
+        "villager"
+      ]
+    },
+    {
+      "id": "12-pure-white",
+      "name": {
+        "en": "12 · Pure White & Wolf Witch",
+        "zh": "12人·纯白夜影"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "wolfWitch",
+        "pureWhite",
+        "witch",
+        "hunter",
+        "guard",
+        "villager",
+        "villager",
+        "villager",
+        "villager"
+      ]
+    },
+    {
+      "id": "12-blood-moon",
+      "name": {
+        "en": "12 · Blood Moon & Demon Hunter",
+        "zh": "12人·血月猎魔人"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "bloodMoonApostle",
+        "seer",
+        "witch",
+        "demonHunter",
+        "idiot",
         "villager",
         "villager",
         "villager",

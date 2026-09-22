@@ -9,7 +9,7 @@ const WOLF_ROLES = new Set(['werewolf', 'wolfKing', 'whiteWolfKing', 'wolfBeauty
 const INDEPENDENT_ROLES = new Set(['piper', 'angel', 'jester']);
 const ROLES = new Set(['villager', 'seer', 'witch', 'hunter', 'guard', 'idiot', 'cupid', 'knight', 'dreamweaver', 'magician', 'gravekeeper', 'raven', 'demonHunter', 'pureWhite', 'wildChild', 'wolfHound', 'thief', 'elder', 'scapegoat', ...WOLF_ROLES, ...INDEPENDENT_ROLES]);
 const OPENING_ROLES = ['cupid', 'wildChild', 'wolfHound', 'thief', 'mechanicalWolf'];
-const NIGHT_STEPS = ['opening', 'wolves', 'magician', 'guard', 'dreamweaver', 'seer', 'pureWhite', 'wolfWitch', 'gargoyle', 'witch', 'wolfBeauty', 'raven', 'gravekeeper', 'demonHunter', 'piper'];
+const NIGHT_STEPS = ['opening', 'magician', 'wolves', 'guard', 'dreamweaver', 'seer', 'pureWhite', 'wolfWitch', 'gargoyle', 'witch', 'wolfBeauty', 'raven', 'gravekeeper', 'demonHunter', 'piper'];
 const ROLE_STEP = { cupid: 'opening', wildChild: 'opening', wolfHound: 'opening', thief: 'opening', mechanicalWolf: 'opening', seer: 'seer', guard: 'guard', witch: 'witch', dreamweaver: 'dreamweaver', magician: 'magician', gravekeeper: 'gravekeeper', raven: 'raven', demonHunter: 'demonHunter', pureWhite: 'pureWhite', wolfWitch: 'wolfWitch', gargoyle: 'gargoyle', wolfBeauty: 'wolfBeauty', piper: 'piper' };
 const COPY_ROLES = new Set(['seer', 'guard', 'witch', 'raven', 'gravekeeper', 'demonHunter', 'hunter']);
 const PRESETS = {
@@ -33,9 +33,10 @@ function getSeat(room, id) { const s = room.seats.find(s => s.id === id); if (!s
     fail('INVALID_TARGET', 'That seat does not exist.'); return s; }
 function aliveSeat(room, id) { const s = getSeat(room, id); if (!s.alive)
     fail('INVALID_TARGET', 'Choose a living player.'); return s; }
-function isPack(s) { return s.team === 'wolf' && !['hiddenWolf', 'gargoyle'].includes(s.roleId); }
+function isPack(room, s) { return s.team === 'wolf' && (!['hiddenWolf', 'gargoyle'].includes(s.roleId) || !room.seats.some(t => t.alive && t.team === 'wolf' && !['hiddenWolf', 'gargoyle'].includes(t.roleId))); }
+function canExplode(room, s) { return room.phase.kind === 'day' && room.phase.step === 'discussion' && s.alive && isPack(room, s) && !['wolfBeauty', 'hiddenWolf', 'gargoyle'].includes(s.roleId); }
 function effectiveRole(s) { return s.roleId === 'mechanicalWolf' ? s.state.copiedRole : s.roleId; }
-function powersEnabled(room, s) { return s.team !== 'village' || (!room.villagePowersLost && room.silencedNight !== room.night); }
+function powersEnabled(room, s) { return s.team !== 'village' || (!room.villagePowersLost && !(room.phase.kind === 'night' && room.silencedNight === room.night)); }
 function connected(room, s, now) { return Boolean(s.actorId && room.members[s.actorId] && now - room.members[s.actorId].lastSeen <= 35000); }
 function setPhase(room, kind, step) {
     room.phase = { id: randomUUID(), kind, step: step || null, number: room.night, deadline: null, paused: false };
@@ -231,12 +232,12 @@ function actionDescriptor(room, s) {
     if (room.phase.kind === 'voting' && room.phase.step === 'sheriff' && room.election)
         return room.election.voterIds.includes(s.id) ? { kind: 'vote', step: 'sheriff', input: 'single', targets: [...room.election.candidateIds], canSkip: true, alreadySubmitted: Object.hasOwn(room.votes, s.id) } : null;
     if (room.phase.kind === 'voting')
-        return s.canVote && (!room.voteEligibleIds || room.voteEligibleIds.includes(s.id)) ? { kind: 'vote', step: room.phase.step, input: 'single', targets: room.runoffIds || all, canSkip: true, alreadySubmitted: Object.hasOwn(room.votes, s.id) } : null;
+        return s.canVote && (!room.voteEligibleIds || room.voteEligibleIds.includes(s.id)) ? { kind: 'vote', step: room.phase.step, input: 'single', targets: (room.runoffIds || all).filter(id => !(getSeat(room, id).roleId === 'idiot' && getSeat(room, id).state.revealed)), canSkip: true, alreadySubmitted: Object.hasOwn(room.votes, s.id) } : null;
     if (room.phase.kind !== 'night' || (eventNight(room) && room.phase.nightStage !== 'acting'))
         return null;
     const step = room.phase.step, role = effectiveRole(s);
     let d = null;
-    if (step === 'wolves' && isPack(s))
+    if (step === 'wolves' && isPack(room, s))
         d = { input: 'single', targets: all, canSkip: true };
     else if (step === 'opening' && room.night === 1 && ROLE_STEP[s.roleId] === 'opening' && (!room.phase.nightRole || room.phase.nightRole === s.roleId) && powersEnabled(room, s)) {
         if (s.roleId === 'cupid')
@@ -269,11 +270,15 @@ function actionDescriptor(room, s) {
             d = { input: 'single', targets: all, options, canSkip: true, victimId: !s.state.antidoteUsed ? victim : null };
         }
         else if (step === 'wolfWitch')
-            d = { input: 'single', targets: other, options: room.night >= 2 && !s.state.poisonUsed ? ['inspect', 'poison'] : ['inspect'], canSkip: true };
+            d = { input: 'single', targets: other.filter(id => getSeat(room, id).team !== 'wolf'), options: ['inspect'], canSkip: true };
         else if (step === 'demonHunter') {
             if (room.night >= 2)
                 d = { input: 'single', targets: other, canSkip: true };
         }
+        else if (step === 'gargoyle')
+            d = { input: 'single', targets: other.filter(id => !(s.state.checkedIds || []).includes(id)), canSkip: true };
+        else if (step === 'raven')
+            d = { input: 'single', targets: other.filter(id => id !== s.state.lastRaven), canSkip: true };
         else if (step === 'wolfBeauty')
             d = { input: 'single', targets: other.filter(id => id !== s.state.lastCharm), canSkip: true };
         else
@@ -283,7 +288,7 @@ function actionDescriptor(room, s) {
 }
 function wolfVictim(room) { const tally = {}; for (const [id, a] of Object.entries(room.actions.wolves || {})) {
     const s = getSeat(room, id);
-    if (isPack(s) && a.targetId)
+    if (isPack(room, s) && a.targetId)
         tally[a.targetId] = (tally[a.targetId] || 0) + 1;
 } const values = Object.entries(tally).sort((a, b) => b[1] - a[1]); return values.length && (!values[1] || values[0][1] > values[1][1]) ? values[0][0] : null; }
 function acceptNightAction(room, s, c, now) {
@@ -375,12 +380,13 @@ function kill(room, id, cause, now) {
         return;
     s.alive = false;
     s.state.deathCause = cause;
+    if (s.roleId === 'elder' && ['exile', 'poison', 'shot'].includes(cause)) room.villagePowersLost = true;
     s.state.diedAtNight = room.phase.kind === 'night' ? room.night : null;
-    if ((effectiveRole(s) === 'hunter' || s.roleId === 'wolfKing') && !['poison', 'failedHunt', 'lover', 'charm', 'dreamLink'].includes(cause) && powersEnabled(room, s) && !s.state.shotUsed)
+    if ((effectiveRole(s) === 'hunter' && ['wolves', 'exile'].includes(cause) || s.roleId === 'wolfKing' && !['poison', 'failedHunt', 'lover', 'charm', 'dreamLink'].includes(cause)) && powersEnabled(room, s) && !s.state.shotUsed)
         room.pendingShots.push(s.id);
     if (s.state.loverId)
         kill(room, s.state.loverId, 'lover', now);
-    if (s.roleId === 'wolfBeauty' && s.state.charmId)
+    if (s.roleId === 'wolfBeauty' && s.state.charmId && ['exile', 'shot'].includes(cause))
         kill(room, s.state.charmId, 'charm', now);
     for (const child of room.seats.filter(t => t.alive && t.roleId === 'wildChild' && t.state.idolId === s.id)) {
         child.team = 'wolf';
@@ -391,16 +397,18 @@ function evaluateWin(room, now) {
     if (room.status !== 'playing')
         return true;
     const living = room.seats.filter(s => s.alive);
-    let winner = !living.length ? { team: 'draw', reason: { en: 'No players survived.', zh: '无人存活。' } } : null;
+    let winner = room.finalNightWolfVictory ? { team: 'wolf', reason: { en: 'The Blood Moon completed the wolf objective before its delayed exile.', zh: '血月使徒在延迟出局前达成狼人胜利条件。' } } : !living.length ? { team: 'draw', reason: { en: 'No players survived.', zh: '无人存活。' } } : null;
     for (const piper of living.filter(s => s.roleId === 'piper'))
         if (!winner && living.filter(s => s.id !== piper.id).every(s => s.state.charmed))
             winner = { team: 'piper', seatIds: [piper.id], reason: { en: 'Every other survivor is charmed.', zh: '其他存活玩家均被魅惑。' } };
-    if (!winner && room.mixedLovers && living.length === 2 && room.lovers.every(id => living.some(s => s.id === id)))
-        winner = { team: 'lovers', seatIds: [...room.lovers], reason: { en: 'The cross-faction lovers are the last survivors.', zh: '跨阵营情侣成为最后的幸存者。' } };
+    const lovers = (room.lovers || []).map(id => getSeat(room, id));
+    room.mixedLovers = lovers.length === 2 && lovers[0].team !== lovers[1].team;
+    const mixedAlive = room.mixedLovers && lovers.every(s => s.alive);
+    if (!winner && mixedAlive && living.length === 2) winner = { team: 'lovers', seatIds: [...room.lovers], reason: { en: 'The lovers are the last survivors.', zh: '情侣成为最后的幸存者。' } };
     const wolves = living.filter(s => s.team === 'wolf'), village = living.filter(s => s.team === 'village');
-    if (!winner && !wolves.length)
+    if (!winner && !wolves.length && !mixedAlive)
         winner = { team: 'village', reason: { en: 'All werewolves have been eliminated.', zh: '所有狼人均已出局。' } };
-    else if (!winner) {
+    else if (!winner && !mixedAlive) {
         let wolfWin = false;
         if (room.settings.winCondition === 'all')
             wolfWin = living.every(s => s.team === 'wolf');
@@ -426,7 +434,7 @@ function reactionsOrDay(room, now) { room.pendingShots = [...new Set(room.pendin
     setPhase(room, 'reaction', 'shoot', now);
     return;
 } if (evaluateWin(room, now))
-    return; setPhase(room, 'day', room.voteDoneDay === room.day ? 'afterVote' : 'discussion', now); }
+    return; setPhase(room, 'day', room.sheriffSeatId && !getSeat(room, room.sheriffSeatId).alive ? 'badge' : room.voteDoneDay === room.day ? 'afterVote' : 'discussion', now); }
 function announce(room, step, cues, now) {
     setPhase(room, 'announcement', step, now);
     room.phase.publicCues = cues;
@@ -484,8 +492,9 @@ function revealSeerResult(room, seat, action, now) {
     const targetId = swaps.reduce((id, [a,b]) => id === a ? b : id === b ? a : id, action.targetId);
     const target = getSeat(room, targetId);
     const result = alignment(target) === 'wolf' ? 'wolf' : 'good';
-    action.result = { night: room.night, targetId, alignment: result };
-    secret(seat, `${target.name}: ${result}.`, `${target.name}：${result === 'wolf' ? '狼人' : '好人'}。`, now, room.night);
+    action.result = { night: room.night, targetId: action.targetId, alignment: result };
+    const selected = getSeat(room, action.targetId);
+    secret(seat, `${selected.name}: ${result}.`, `${selected.name}：${result === 'wolf' ? '狼人' : '好人'}。`, now, room.night);
 }
 function publishNightInformation(room, now) {
     if (room.informationNight === room.night) return;
@@ -496,20 +505,21 @@ function publishNightInformation(room, now) {
     const mapped = id => swaps.reduce((value, [a,b]) => value === a ? b : value === b ? a : value, id);
     const entries = step => Object.entries(room.actions[step] || {}).filter(([,action]) => !action.skip).map(([id,action]) => [getSeat(room,id), {...action,targetId:action.targetId ? mapped(action.targetId) : null}]);
     const packTarget = wolfVictim(room);
-    for (const seat of room.seats.filter(seat => seat.alive && isPack(seat))) secret(seat, packTarget ? `Pack target: ${getSeat(room, packTarget).name}.` : 'The pack made no attack.', packTarget ? `狼队目标：${getSeat(room, packTarget).name}。` : '狼队未发动袭击。', now, room.night);
+    for (const seat of room.seats.filter(seat => seat.alive && isPack(room, seat))) secret(seat, packTarget ? `Pack target: ${getSeat(room, packTarget).name}.` : 'The pack made no attack.', packTarget ? `狼队目标：${getSeat(room, packTarget).name}。` : '狼队未发动袭击。', now, room.night);
     for (const [id, action] of Object.entries(room.actions.seer || {})) if (!action.skip) revealSeerResult(room, getSeat(room, id), action, now);
     for (const step of ['pureWhite', 'gargoyle', 'wolfWitch']) for (const [seat, action] of entries(step)) {
         if (step === 'wolfWitch' && action.ability === 'poison') continue;
         const target = getSeat(room, action.targetId);
-        secret(seat, `${target.name}: ${roleName(target.roleId, 'en')}.`, `${target.name} 的身份：${roleName(target.roleId, 'zh')}。`, now, room.night);
+        const selected = getSeat(room, actionAt(room, step, seat.id).targetId);
+        secret(seat, `${selected.name}: ${roleName(target.roleId, 'en')}.`, `${selected.name} 的身份：${roleName(target.roleId, 'zh')}。`, now, room.night);
     }
     for (const [s] of entries('gravekeeper')) {
-        if (room.lastExiledId) {
+        if (room.lastExiledId && room.lastExiledDay === room.night - 1) {
             const t = getSeat(room, room.lastExiledId);
             secret(s, `${t.name} belonged to ${factionName(t.team, 'en')}.`, `${t.name} 的阵营：${factionName(t.team, 'zh')}。`, now, room.night);
         }
         else
-            secret(s, 'No player has been exiled.', '尚无人被放逐。', now, room.night);
+            secret(s, 'No player was exiled on the previous day.', '上一个白天无人被放逐。', now, room.night);
     }
 }
 function resolveNight(room, now) {
@@ -531,12 +541,12 @@ function resolveNight(room, now) {
         s.state.lastGuard = actionAt(room, 'guard', s.id).targetId;
     }
     for (const [s, a] of entries('dreamweaver')) {
-        if (s.state.lastDream === a.targetId)
+        if (s.state.lastDream === actionAt(room, 'dreamweaver', s.id).targetId)
             kills.push([a.targetId, 'dream']);
         else
             dreamed.add(a.targetId);
         dreamLinks.push([s.id, a.targetId]);
-        s.state.lastDream = a.targetId;
+        s.state.lastDream = actionAt(room, 'dreamweaver', s.id).targetId;
     }
     let victim = wolfVictim(room);
     victim = victim ? mapped(victim) : null;
@@ -556,17 +566,20 @@ function resolveNight(room, now) {
         s.state.charmId = a.targetId;
         s.state.lastCharm = actionAt(room, 'wolfBeauty', s.id).targetId;
     }
-    for (const [, a] of entries('raven'))
+    for (const [s, a] of entries('raven')) {
         room.ravenTargetId = a.targetId;
+        s.state.lastRaven = actionAt(room, 'raven', s.id).targetId;
+    }
     for (const step of ['pureWhite', 'gargoyle', 'wolfWitch'])
         for (const [s, a] of entries(step)) {
             const t = getSeat(room, a.targetId);
+            if (step === 'gargoyle') (s.state.checkedIds ||= []).push(actionAt(room, step, s.id).targetId);
             if (step === 'wolfWitch' && a.ability === 'poison') {
                 s.state.poisonUsed = true;
                 kills.push([t.id, 'poison']);
             }
             else {
-                if (step === 'pureWhite' && room.night >= 2 && t.team === 'wolf')
+                if (room.night >= 2 && (step === 'pureWhite' && t.team === 'wolf' || step === 'wolfWitch' && t.roleId === 'pureWhite'))
                     kills.push([t.id, 'inspection']);
             }
         }
@@ -593,7 +606,7 @@ function resolveNight(room, now) {
     kills.sort((a, b) => (a[1] === 'poison' ? -1 : 0) - (b[1] === 'poison' ? -1 : 0));
     for (const [id, cause] of kills) {
         const t = getSeat(room, id);
-        if (cause === 'poison' && (dreamed.has(id) || effectiveRole(t) === 'demonHunter'))
+        if (dreamed.has(id) && ['wolves', 'poison', 'hunt', 'inspection'].includes(cause) || cause === 'poison' && effectiveRole(t) === 'demonHunter')
             continue;
         kill(room, id, cause, now);
     }
@@ -602,6 +615,7 @@ function resolveNight(room, now) {
             if (!getSeat(room, dreamer).alive)
                 kill(room, target, 'dreamLink', now);
     for (const s of room.seats) {
+        if (!actionAt(room, 'raven', s.id)?.targetId) delete s.state.lastRaven;
         if (!actionAt(room, 'guard', s.id)?.targetId)
             delete s.state.lastGuard;
         if (!actionAt(room, 'dreamweaver', s.id)?.targetId)
@@ -609,6 +623,14 @@ function resolveNight(room, now) {
         if (!actionAt(room, 'wolfBeauty', s.id)?.targetId)
             delete s.state.lastCharm;
     }
+    const expiring = room.seats.filter(s => s.alive && s.state.finalExileNight === room.night);
+    if (expiring.length && !room.pendingShots.length && !(room.lovers || []).some(id => getSeat(room, id).alive)) {
+        const living = room.seats.filter(s => s.alive), wolves = living.filter(s => s.team === 'wolf'), village = living.filter(s => s.team === 'village');
+        room.finalNightWolfVictory = room.settings.winCondition === 'all' ? living.every(s => s.team === 'wolf')
+            : room.settings.winCondition === 'parity' ? wolves.length >= living.length - wolves.length
+            : !village.length || room.seats.some(s => s.originalRoleId === 'villager') && !village.some(s => s.originalRoleId === 'villager') || room.seats.some(s => s.originalTeam === 'village' && s.originalRoleId !== 'villager') && !village.some(s => s.originalRoleId !== 'villager');
+    }
+    for (const s of expiring) kill(room, s.id, 'exile', now);
     const dead = room.seats.filter(s => !s.alive && !deathsBefore.has(s.id));
     room.day = room.night;
     (room.replay ||= []).push({ type: 'night', night: room.night, actions: clone(room.actions), eliminatedSeatIds: dead.map(s => s.id) });
@@ -633,7 +655,17 @@ function resolveVoting(room, now) {
     let target = sorted.length && (!sorted[1] || sorted[0][1] > sorted[1][1]) ? getSeat(room, sorted[0][0]) : null;
     room.lastVote = { kind: room.phase.step, votes: clone(room.votes), tally, at: now };
     (room.replay ||= []).push({ type: 'vote', day: room.day, ...clone(room.lastVote) });
-    if (room.phase.step === 'sheriff') { finishElection(room, target?.id || null, now); return; }
+    if (room.phase.step === 'sheriff') {
+        if (!target && sorted.length && room.election.round !== 2) {
+            room.election.round = 2;
+            room.election.candidateIds = sorted.filter(([,count]) => count === sorted[0][1]).map(([id]) => id);
+            room.election.finishedIds = []; room.votes = {};
+            setPhase(room, 'sheriff', 'speeches', now);
+            event(room, 'Sheriff tie: tied candidates speak again, then vote once more.', '警长平票：平票候选人再次发言后复投。', now);
+            progressElection(room, now); return;
+        }
+        finishElection(room, target?.id || null, now); return;
+    }
     if (!target && room.voteRound !== 2) {
         room.runoffIds = sorted.length ? sorted.filter(([,count]) => count === sorted[0][1]).map(([id]) => id) : room.seats.filter(seat => seat.alive).map(seat => seat.id);
         room.voteRound = 2; room.votes = {};
@@ -644,7 +676,9 @@ function resolveVoting(room, now) {
     room.runoffIds = null;
     room.exileRounds++;
     room.voteDoneDay = room.day;
+    for (const s of room.seats.filter(s => s.alive && s.roleId === 'angel' && (s.id !== target?.id || room.exileRounds !== 1))) s.team = 'village';
     if (!target) {
+        room.lastExiledId = null; room.lastExiledDay = room.day;
         event(room, 'The second vote tied. Nobody is exiled; night begins.', '第二轮仍平票，无人出局，直接进入夜晚。', now);
         startNight(room, now);
         return;
@@ -658,11 +692,15 @@ function resolveVoting(room, now) {
         if (target.roleId === 'idiot' && !target.state.revealed) {
             target.state.revealed = true;
             target.canVote = false;
+            if (room.sheriffSeatId === target.id) room.sheriffSeatId = null;
             event(room, `${target.name} revealed as Idiot and survives, without voting rights.`, `${target.name} 翻牌为白痴，存活但失去投票权。`, now);
         }
         else {
-            kill(room, target.id, 'exile', now);
-            room.lastExiledId = target.id;
+            if (target.roleId === 'bloodMoonApostle' && !room.seats.some(s => s.alive && s.team === 'wolf' && s.id !== target.id)) {
+                target.state.finalExileNight = room.night + 1; target.state.revealed = true; target.canVote = false;
+                event(room, 'The last Blood Moon survives exile until the next dawn.', '最后的血月使徒被放逐，延迟至次日天亮出局。', now);
+            } else kill(room, target.id, 'exile', now);
+            room.lastExiledId = target.id; room.lastExiledDay = room.day;
             if (target.roleId === 'elder')
                 room.villagePowersLost = true;
             event(room, `${target.name} was exiled.`, `${target.name} 被放逐。`, now);
@@ -802,6 +840,7 @@ function executeCommand(room, actorId, c, now) {
             break;
         case 'sheriffRejoin':
             requirePhase(room, c, ['sheriff']);
+            if (room.election?.round === 2) fail('WRONG_PHASE', 'Candidacies are locked for the runoff.');
             if (!room.election?.withdrawnIds.includes(s.id)) fail('NO_ABILITY', 'Only withdrawn candidates may rejoin.');
             room.election.withdrawnIds = room.election.withdrawnIds.filter(id => id !== s.id);
             room.election.candidateIds = room.election.participantIds.filter(id => room.election.declarations[id] && !room.election.withdrawnIds.includes(id));
@@ -817,6 +856,7 @@ function executeCommand(room, actorId, c, now) {
             break;
         case 'sheriffWithdraw':
             requirePhase(room, c, ['sheriff']);
+            if (room.election?.round === 2) fail('WRONG_PHASE', 'Candidacies are locked for the runoff.');
             if (!room.election || !room.election.candidateIds.includes(s.id) || room.phase.kind === 'voting' && room.phase.step !== 'sheriff') fail('NO_ABILITY', 'Only a current Sheriff candidate can withdraw.');
             room.election.candidateIds = room.election.candidateIds.filter(id => id !== s.id);
             room.election.withdrawnIds.push(s.id);
@@ -928,7 +968,7 @@ function executeCommand(room, actorId, c, now) {
             room.villagePowersLost = false;
             room.silencedNight = null;
             room.lovers = null;
-            room.mixedLovers = false;
+            room.mixedLovers = false; room.finalNightWolfVictory = false; room.lastExiledDay = null;
             room.lastVote = null; room.lastNight = null; room.election = null; room.sheriffElectionDone = false; room.informationNight = null;
             room.messages = [];
             setPhase(room, 'ready', 'ready', now);
@@ -972,6 +1012,7 @@ function executeCommand(room, actorId, c, now) {
                 room.pendingShots = [];
                 reactionsOrDay(room, now);
             }
+            else if (room.phase.step === 'badge') { room.sheriffSeatId = null; event(room, 'The host skipped badge transfer; the badge is destroyed.', '房主跳过警徽移交，警徽已撕毁。', now); reactionsOrDay(room, now); }
             else if (room.voteDoneDay === room.day)
                 startNight(room, now);
             else {
@@ -988,10 +1029,12 @@ function executeCommand(room, actorId, c, now) {
         case 'startNight':
             requirePhase(room, c, ['day', 'ready']);
             if (room.phase.kind === 'ready' ? room.seats.some(seat => !seat.actorId || !seat.ready) : room.voteDoneDay !== room.day) fail(room.phase.kind === 'ready' ? 'NOT_READY' : 'VOTE_REQUIRED', room.phase.kind === 'ready' ? 'Everyone must read their card and ready up first.' : 'Complete the exile vote before starting the next night.');
+            if (room.phase.step === 'badge') fail('BADGE_PENDING', 'Resolve the Sheriff badge first.');
             startNight(room, now);
             break;
         case 'startVoting':
             requirePhase(room, c, ['day']);
+            if (room.phase.step === 'badge') fail('BADGE_PENDING', 'Resolve the Sheriff badge first.');
             beginVoting(room, now);
             break;
         case 'startSheriff':
@@ -1050,8 +1093,10 @@ function executeCommand(room, actorId, c, now) {
             requirePhase(room, c, ['voting']);
             if (!s.alive || !s.canVote)
                 fail('NO_VOTE', 'You cannot vote.');
-            if (c.targetId !== null)
-                aliveSeat(room, c.targetId);
+            if (c.targetId !== null) {
+                const target = aliveSeat(room, c.targetId);
+                if (room.phase.step !== 'sheriff' && target.roleId === 'idiot' && target.state.revealed) fail('INVALID_TARGET', 'A revealed Idiot cannot be exiled again.');
+            }
             if (room.phase.step === 'sheriff' && (!room.election.voterIds.includes(s.id) || c.targetId !== null && !room.election.candidateIds.includes(c.targetId))) fail('NO_VOTE', 'Only non-candidates may vote for a current candidate.');
             if (room.runoffIds && c.targetId !== null && !room.runoffIds.includes(c.targetId)) fail('INVALID_TARGET', 'Only tied players can receive a runoff vote.');
             room.votes[s.id] = c.targetId;
@@ -1075,7 +1120,7 @@ function executeCommand(room, actorId, c, now) {
             break;
         case 'knightDuel':
             requirePhase(room, c, ['day']);
-            if (!s.alive || s.roleId !== 'knight' || s.state.duelUsed || !powersEnabled(room, s))
+            if (room.phase.step !== 'discussion' || !s.alive || s.roleId !== 'knight' || s.state.duelUsed || !powersEnabled(room, s))
                 fail('NO_ABILITY', 'You cannot duel.');
             {
                 const t = aliveSeat(room, c.targetId);
@@ -1090,7 +1135,7 @@ function executeCommand(room, actorId, c, now) {
             break;
         case 'wolfExplode':
             requirePhase(room, c, ['day']);
-            if (!s.alive || !isPack(s))
+            if (!canExplode(room, s))
                 fail('NO_ABILITY', 'You cannot self-destruct.');
             if (s.roleId === 'whiteWolfKing' && c.targetId) {
                 const t = aliveSeat(room, c.targetId);
@@ -1105,12 +1150,13 @@ function executeCommand(room, actorId, c, now) {
             reactionsOrDay(room, now);
             break;
         case 'passBadge':
-            if (room.sheriffSeatId !== s.id || s.alive || room.status !== 'playing' || room.phase.paused || room.phase.kind === 'announcement')
-                fail('NO_ABILITY', 'Only the Sheriff can pass the badge.');
+            if (room.sheriffSeatId !== s.id || s.alive || room.status !== 'playing' || room.phase.paused || room.phase.kind !== 'day' || room.phase.step !== 'badge')
+                fail('NO_ABILITY', 'Resolve the badge during its dedicated step.');
             if (c.targetId !== null)
                 aliveSeat(room, c.targetId);
             room.sheriffSeatId = c.targetId;
             event(room, c.targetId ? `The Sheriff badge passes to seat ${room.seats.findIndex(seat => seat.id === c.targetId) + 1}.` : 'The Sheriff destroyed the badge.', c.targetId ? `警徽移交给${room.seats.findIndex(seat => seat.id === c.targetId) + 1}号。` : '警长撕毁了警徽。', now);
+            reactionsOrDay(room, now);
             break;
         case 'leave':
             if (room.status === 'lobby') {
@@ -1140,7 +1186,7 @@ function executeCommand(room, actorId, c, now) {
             if (room.status === 'playing') {
                 if (channel === 'public' && (!s.alive || !['day', 'voting', 'sheriff'].includes(room.phase.kind)))
                     fail('CHAT_CLOSED', 'Public chat is open to living players during the day.');
-                if (channel === 'wolves' && (!s.alive || !isPack(s) || room.phase.kind !== 'night'))
+                if (channel === 'wolves' && (!s.alive || !isPack(room, s) || room.phase.kind !== 'night'))
                     fail('CHAT_CLOSED', 'Wolf chat is open to the pack at night.');
                 if (channel === 'dead' && s.alive)
                     fail('CHAT_CLOSED', 'Dead chat is for eliminated players.');
@@ -1250,9 +1296,9 @@ function publicView(room, actorId, now) {
     const s = seatOf(room, actorId), isHost = Boolean(room.hostId && room.hostId === actorId);
     const finished = room.status === 'finished';
     const nominationsComplete = !room.election || room.election.legacy || room.election.participantIds.every(id => Object.hasOwn(room.election.declarations, id));
-    const me = s ? { seatId: s.id, roleId: s.roleId, team: s.team, alive: s.alive, roleState: clone(s.state), allies: s.team === 'wolf' && s.roleId !== 'gargoyle' ? room.seats.filter(t => t.id !== s.id && isPack(t)).map(t => t.id) : [], privateLog: clone(s.privateLog), ready: Boolean(s.ready), inspection: room.actions.seer?.[s.id]?.result ? clone(room.actions.seer[s.id].result) : null, history: [...(room.replay || []).filter(round => round.type === 'night').flatMap(round => Object.entries(round.actions).filter(([,actions]) => actions[s.id]).map(([step, actions]) => ({ night: round.night, step, action: clone(actions[s.id]) }))), ...Object.entries(room.actions || {}).filter(([,actions]) => actions[s.id]).map(([step,actions]) => ({ night: room.night, step, action: clone(actions[s.id]) }))].filter((entry,index,all) => all.findIndex(other => other.night === entry.night && other.step === entry.step) === index), packVotes: room.phase.kind === 'night' && room.phase.step === 'wolves' && room.phase.nightStage === 'acting' && s.alive && isPack(s) ? room.nightFlow.eligibleSeatIds.map(id => ({ seatId: id, submitted: Boolean(actionAt(room, 'wolves', id)), targetId: actionAt(room, 'wolves', id)?.targetId || null })) : [], action: actionDescriptor(room, s), canDuel: room.phase.kind === 'day' && s.alive && s.roleId === 'knight' && !s.state.duelUsed && powersEnabled(room, s), canExplode: room.phase.kind === 'day' && s.alive && isPack(s), canPassBadge: room.sheriffSeatId === s.id && !s.alive && room.status === 'playing' && !room.phase.paused && room.phase.kind !== 'announcement' } : null;
+    const me = s ? { seatId: s.id, roleId: s.roleId, team: s.team, alive: s.alive, roleState: clone(s.state), allies: s.team === 'wolf' && (s.roleId !== 'gargoyle' || isPack(room, s)) ? room.seats.filter(t => t.id !== s.id && isPack(room, t)).map(t => t.id) : [], privateLog: clone(s.privateLog), ready: Boolean(s.ready), inspection: room.actions.seer?.[s.id]?.result ? clone(room.actions.seer[s.id].result) : null, history: [...(room.replay || []).filter(round => round.type === 'night').flatMap(round => Object.entries(round.actions).filter(([,actions]) => actions[s.id]).map(([step, actions]) => ({ night: round.night, step, action: clone(actions[s.id]) }))), ...Object.entries(room.actions || {}).filter(([,actions]) => actions[s.id]).map(([step,actions]) => ({ night: room.night, step, action: clone(actions[s.id]) }))].filter((entry,index,all) => all.findIndex(other => other.night === entry.night && other.step === entry.step) === index), packVotes: room.phase.kind === 'night' && room.phase.step === 'wolves' && room.phase.nightStage === 'acting' && s.alive && isPack(room, s) ? room.nightFlow.eligibleSeatIds.map(id => ({ seatId: id, submitted: Boolean(actionAt(room, 'wolves', id)), targetId: actionAt(room, 'wolves', id)?.targetId || null })) : [], action: actionDescriptor(room, s), canDuel: room.phase.kind === 'day' && room.phase.step === 'discussion' && s.alive && s.roleId === 'knight' && !s.state.duelUsed && powersEnabled(room, s), canExplode: canExplode(room, s), canPassBadge: room.sheriffSeatId === s.id && !s.alive && room.status === 'playing' && !room.phase.paused && room.phase.kind === 'day' && room.phase.step === 'badge' } : null;
     // A replaced client receives no former secrets or private messages, even with an old token.
-    const messages = s ? room.messages.filter(m => m.channel === 'public' || finished || m.channel === 'dead' && !s.alive || m.channel === 'wolves' && isPack(s)) : [];
-    return { gameId: room.gameId || null, code: room.code, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map(t => ({ id: t.id, name: t.name, photo: t.photo || null, ready: Boolean(t.ready), connected: connected(room, t, now), occupied: Boolean(t.actorId), alive: t.alive, canVote: t.canVote, isHost: Boolean(t.actorId && t.actorId === room.hostId), isSheriff: room.sheriffSeatId === t.id, ...(finished ? { roleId: t.roleId, team: t.team } : t.state.revealed ? { roleId: t.roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actorId) ? { status: 'pending' } : null, me, speakingTimer: room.speakingTimer ? clone(room.speakingTimer) : null, election: room.election ? { nominationsComplete: Boolean(nominationsComplete), candidateIds: room.election.candidateIds.filter(id => nominationsComplete || id === s?.id), withdrawnIds: room.election.withdrawnIds.filter(id => nominationsComplete || id === s?.id), declaredIds: Object.keys(room.election.declarations), voterIds: [...room.election.voterIds] } : null, lastNight: room.lastNight ? clone(room.lastNight) : null, phase: clone(room.phase), voteRound: room.voteRound || 1, runoffIds: room.runoffIds || [], day: room.day, night: room.night, events: clone(room.events), messages: clone(messages), winner: clone(room.winner), speakerSeatId: room.speakerSeatId || null, lastVote: room.lastVote ? clone(room.lastVote) : null, pendingVoterIds: room.phase.kind === 'voting' ? pendingVoters(room) : [], voteCount: Object.keys(room.votes || {}).length, replay: finished ? clone(room.replay || []) : [] };
+    const messages = s ? room.messages.filter(m => m.channel === 'public' || finished || m.channel === 'dead' && !s.alive || m.channel === 'wolves' && isPack(room, s)) : [];
+    return { gameId: room.gameId || null, code: room.code, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map(t => ({ id: t.id, name: t.name, photo: t.photo || null, ready: Boolean(t.ready), connected: connected(room, t, now), occupied: Boolean(t.actorId), alive: t.alive, canVote: t.canVote, isHost: Boolean(t.actorId && t.actorId === room.hostId), isSheriff: room.sheriffSeatId === t.id, ...(finished ? { roleId: t.roleId, team: t.team } : t.state.revealed ? { roleId: t.roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actorId) ? { status: 'pending' } : null, me, speakingTimer: room.speakingTimer ? clone(room.speakingTimer) : null, election: room.election ? { round: room.election.round || 1, nominationsComplete: Boolean(nominationsComplete), candidateIds: room.election.candidateIds.filter(id => nominationsComplete || id === s?.id), withdrawnIds: room.election.withdrawnIds.filter(id => nominationsComplete || id === s?.id), declaredIds: Object.keys(room.election.declarations), voterIds: [...room.election.voterIds] } : null, lastNight: room.lastNight ? clone(room.lastNight) : null, phase: clone(room.phase), voteRound: room.voteRound || 1, runoffIds: room.runoffIds || [], day: room.day, night: room.night, events: clone(room.events), messages: clone(messages), winner: clone(room.winner), speakerSeatId: room.speakerSeatId || null, lastVote: room.lastVote ? clone(room.lastVote) : null, pendingVoterIds: room.phase.kind === 'voting' ? pendingVoters(room) : [], voteCount: Object.keys(room.votes || {}).length, replay: finished ? clone(room.replay || []) : [] };
 }
 module.exports = { createRoom, applyCommand, publicView, tickRoom, recoverHost, DEFAULT_SETTINGS, ROLES, PRESETS };
