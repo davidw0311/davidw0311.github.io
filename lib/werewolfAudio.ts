@@ -11,7 +11,7 @@ export type WerewolfAudioPhase = {
 type Phase = WerewolfAudioPhase;
 type Options = { voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
 type AudioSession = { type: string };
-const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
+const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "silencer", "silenced-today", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
 for (let number = 1; number <= 24; number++) CUES.add(`seat-${number}`);
 for (const cue of ["day-deaths", "night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion"]) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);

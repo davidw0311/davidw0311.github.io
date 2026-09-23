@@ -398,6 +398,19 @@
         "en": "Win alone when exiled by a vote. Other causes of death do not win.",
         "zh": "被投票放逐时独立获胜；以其他方式死亡不能获胜。"
       }
+    },
+    {
+      "id": "silencer",
+      "name": {
+        "en": "Silencing Elder",
+        "zh": "禁言长老"
+      },
+      "team": "village",
+      "nightStep": "silencer",
+      "description": {
+        "en": "Each night, silence one living player for the following day, including yourself, or skip. Cannot choose the same player on consecutive nights. Silence covers discussion and final words, but not sheriff speeches, voting or abilities. The effect survives your death that night.",
+        "zh": "每晚可选择一名存活玩家次日禁言，可自选或空过；不能连续两晚选择同一人。禁言包括讨论与遗言，不影响警上发言、投票或技能。即使当夜死亡，禁言仍生效。"
+      }
     }
   ],
   "presets": [
@@ -465,6 +478,33 @@
       "description": {
         "en": "Wolf King can retaliate on death, while Guard and Witch protect the village. Watch the room’s double-protection rule.",
         "zh": "狼王可在出局时反击，守卫与女巫保护好人；需留意本房间的同守同救规则。"
+      }
+    },
+    {
+      "id": "14",
+      "name": {
+        "en": "14 · Wolf King, Silencing Elder & Wild Child",
+        "zh": "14人 · 狼王禁言野孩子"
+      },
+      "roles": [
+        "werewolf",
+        "werewolf",
+        "werewolf",
+        "wolfKing",
+        "seer",
+        "witch",
+        "hunter",
+        "guard",
+        "silencer",
+        "villager",
+        "villager",
+        "villager",
+        "villager",
+        "wildChild"
+      ],
+      "description": {
+        "en": "3 Werewolves + Wolf King; Seer, Witch, Hunter, Guard and Silencing Elder; 4 Villagers + Wild Child. Wild Child starts good and joins the wolves when their idol dies, potentially creating a fifth wolf. House edge-victory rule: while good, Wild Child counts as a special role. Silence begins after sheriff election; silenced players still vote.",
+        "zh": "3小狼＋狼王；预女猎守＋禁言长老；4民＋野孩子。野孩子初始为好人，榜样死亡后加入狼队，可能形成第五狼。本房屠边规则：未变狼的野孩子计入神职边。禁言在警长竞选结束后生效，被禁言者仍可投票。"
       }
     },
     {

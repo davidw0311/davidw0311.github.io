@@ -2,7 +2,7 @@ import {
   Bird, CloudMoon, Crosshair, Crown, Dog, Eye, EyeSlash, Feather, Fire,
   Flask, FlowerTulip, Gear, HandGrabbing, Heart, House, MagicWand,
   MaskHappy, Moon, MoonStars, Mountains, MusicNotes, Plant, Scales,
-  Shield, Shovel, Smiley, Sparkle, StarFour, Sword, Tree, type Icon,
+  SpeakerSlash, Shield, Shovel, Smiley, Sparkle, StarFour, Sword, Tree, type Icon,
 } from "@phosphor-icons/react";
 import type { Role } from "@/lib/werewolfClient";
 import styles from "./werewolf.module.css";
@@ -19,6 +19,7 @@ const roleGlyphs: Partial<Record<string, Icon>> = {
   dreamweaver: CloudMoon,
   magician: MagicWand,
   gravekeeper: Shovel,
+  silencer: SpeakerSlash,
   raven: Bird,
   demonHunter: Fire,
   pureWhite: Sparkle,

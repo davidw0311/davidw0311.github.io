@@ -103,3 +103,51 @@ test('Cross-faction lovers prevent premature parity and follow Wild Child conver
 test('Last Blood Moon survives exile for one last night and then expires',()=>{const r=setup(['werewolf','bloodMoonApostle','seer','witch','guard','villager','villager','villager','villager']);dawn(r);exile(r,0);nextNight(r);dawn(r);exile(r,1);assert.equal(r.status,'playing');assert.equal(r.seats[1].alive,true);nextNight(r);nightAct(r,1,{targetId:id(r,5)});dawn(r);assert.equal(r.seats[5].alive,false);assert.equal(r.seats[1].alive,false);assert.equal(r.winner.team,'village');});
 test('Blood Moon can win on its last attack before delayed expiry',()=>{const r=setup(['werewolf','bloodMoonApostle','seer','witch','guard','villager','villager','villager','villager']);dawn(r);for(const i of [0,2,3,4,6,7,8])r.seats[i].alive=false;exile(r,1);assert.equal(r.status,'playing');nextNight(r);nightAct(r,1,{targetId:id(r,5)});dawn(r);assert.equal(r.seats[1].alive,false);assert.equal(r.winner.team,'wolf');});
 test('Every named board has a valid deck and reaches first dawn',()=>{const catalogue=require('../src/werewolf/roles.json');for(const preset of catalogue.presets){const r=setup(preset.roles);dawn(r);assert.equal(r.phase.kind,'day',preset.id);}});
+
+test('14-player preset has exactly the requested roles and full role support', () => {
+ const {PRESETS,ROLES}=require('../src/werewolf/engine');
+ const preset=require('../src/werewolf/roles.json').presets.find(p=>p.id==='14');
+ assert.deepEqual(preset.roles,PRESETS[14]); assert.equal(preset.roles.length,14);
+ assert.equal(preset.roles.filter(r=>r==='werewolf').length,3);
+ assert.equal(preset.roles.filter(r=>r==='villager').length,4);
+ for(const role of ['wolfKing','seer','witch','hunter','guard','silencer','wildChild']) assert.equal(preset.roles.filter(r=>r===role).length,1);
+ assert.ok(preset.roles.every(role=>ROLES.has(role)));
+ const r=setup(preset.roles); dawn(r); assert.equal(r.phase.kind,'day');
+});
+const silenceDeck=['werewolf','werewolf','silencer','seer','witch','villager','villager','villager','villager'];
+test('silence stays secret at night, blocks daytime speech but preserves voting and replacement',()=>{
+ const r=setup(silenceDeck); stepTo(r,'silencer'); nightAct(r,2,{targetId:id(r,5)});
+ assert.equal(publicView(r,'actor0',time).seats[5].silenced,false);
+ dawn(r); assert.equal(publicView(r,'actor5',time).seats[5].silenced,true);
+ assert.throws(()=>send(r,'actor5','chat',{text:'hello'}),e=>e.code==='SILENCED');
+ assert.throws(()=>send(r,'actor0','setSpeaker',{seatId:id(r,5)}),e=>e.code==='SILENCED');
+ send(r,'replacement','requestJoin',{name:'F'}); send(r,'actor0','approveJoin',{requestId:r.requests.at(-1).id,replaceSeatId:id(r,5)});
+ assert.equal(publicView(r,'replacement',time).seats[5].silenced,true);
+ send(r,'actor0','startVoting'); send(r,'replacement','vote',{targetId:null});
+ assert.ok(!publicView(r,'replacement',time).pendingVoterIds.includes(id(r,5)));
+ closeVotes(r); closeVotes(r); assert.equal(publicView(r,'replacement',time).seats[5].silenced,false);
+ stepTo(r,'silencer'); assert.ok(!publicView(r,'actor2',time).me.action.targets.includes(id(r,5)));
+ assert.throws(()=>nightAct(r,2,{targetId:id(r,5)}),e=>e.code==='INVALID_TARGET');
+ nightAct(r,2,{ability:'skip'}); dawn(r); assert.equal(publicView(r,'replacement',time).seats[5].silenced,false);
+ nextNight(r); stepTo(r,'silencer'); assert.ok(publicView(r,'actor2',time).me.action.targets.includes(id(r,5)));
+ nightAct(r,2,{targetId:id(r,2)}); dawn(r); assert.equal(publicView(r,'actor2',time).seats[2].silenced,true);
+});
+test('silencing elder dying that night still silences, and next night receives a dead-role pause',()=>{
+ const r=setup(silenceDeck); stepTo(r,'wolves'); nightAct(r,0,{targetId:id(r,2)}); nightAct(r,1,{targetId:id(r,2)});
+ stepTo(r,'silencer'); nightAct(r,2,{targetId:id(r,5)}); dawn(r);
+ assert.equal(r.seats[2].alive,false); assert.equal(publicView(r,'actor5',time).seats[5].silenced,true);
+ nextNight(r); stepTo(r,'silencer'); assert.deepEqual(r.nightFlow.eligibleSeatIds,[]); assert.ok(r.nightFlow.deadline>time);
+});
+test('first-night silence waits until sheriff election ends and narration announces the target',()=>{
+ const r=setup(silenceDeck,{sheriff:true}); stepTo(r,'silencer'); nightAct(r,2,{targetId:id(r,5)}); dawn(r);
+ assert.equal(r.phase.kind,'sheriff'); assert.equal(publicView(r,'actor5',time).seats[5].silenced,false);
+ send(r,'actor5','chat',{text:'Sheriff speech allowed'});
+ for(const s of r.seats) send(r,s.actorId,'sheriffInterest',{run:false});
+ send(r,r.hostId,'advanceElection');
+ send(r,r.hostId,'advanceElection');
+ for(let n=0;n<5 && r.phase.kind==='announcement';n++) {
+  if(r.phase.step==='dawn') assert.ok(r.phase.publicCues.includes('silenced-today'));
+  send(r,r.hostId,'nightNarrationDone');
+ }
+ assert.equal(publicView(r,'actor5',time).seats[5].silenced,true);
+});

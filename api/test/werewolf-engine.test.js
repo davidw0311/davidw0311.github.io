@@ -79,7 +79,7 @@ function exile(r, index) { if (r.phase.kind === 'reaction')
     if (s.alive && s.canVote)
         send(r, `actor${i}`, 'vote', { targetId: id(r, index) }); closeVotes(r); }
 function custom(special) { return ['werewolf', 'werewolf', special, 'seer', 'witch', 'villager', 'villager', 'villager', 'villager']; }
-test('catalogues mirror exactly and every advertised role is implemented', () => { const canonical = fs.readFileSync(path.join(__dirname, '../src/werewolf/roles.json'), 'utf8'); assert.equal(canonical, fs.readFileSync(path.join(__dirname, '../../public/assets/werewolf/roles.json'), 'utf8')); const catalogue = JSON.parse(canonical); assert.equal(catalogue.roles.length, 31); assert.deepEqual(new Set(catalogue.roles.map(r => r.id)), ROLES); for (const r of catalogue.roles) {
+test('catalogues mirror exactly and every advertised role is implemented', () => { const canonical = fs.readFileSync(path.join(__dirname, '../src/werewolf/roles.json'), 'utf8'); assert.equal(canonical, fs.readFileSync(path.join(__dirname, '../../public/assets/werewolf/roles.json'), 'utf8')); const catalogue = JSON.parse(canonical); assert.equal(catalogue.roles.length, 32); assert.deepEqual(new Set(catalogue.roles.map(r => r.id)), ROLES); for (const r of catalogue.roles) {
     assert.ok(r.description.en);
     assert.ok(r.description.zh);
 } });

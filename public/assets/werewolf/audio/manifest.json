@@ -750,6 +750,30 @@
       "text": "以下玩家已出局：",
       "duration": 2.448,
       "textHash": "965dde1499c9b267b9a4271359a0fd519dec29eef05d3cd494d1fa66d35351a8"
+    },
+    "en:silencer": {
+      "src": "/assets/werewolf/audio/en/silencer.mp3",
+      "text": "Silencing Elder, open your eyes. Choose a player to silence tomorrow, or skip. Everyone else, keep your eyes closed.",
+      "duration": 8.952,
+      "textHash": "dfd73e5698f95d01c08c30b3dadbcdc773c4ff5d6c27cf09c4435685145fd94e"
+    },
+    "zh:silencer": {
+      "src": "/assets/werewolf/audio/zh/silencer.mp3",
+      "text": "禁言长老请睁眼。请选择明天禁言的玩家，或选择空过。其他玩家请保持闭眼。",
+      "duration": 10.248,
+      "textHash": "a66e8113e32ec06fc0ba6ead7d838b1ce05a0a846544aa190891f9b8cd87fd2a"
+    },
+    "en:silenced-today": {
+      "src": "/assets/werewolf/audio/en/silenced-today.mp3",
+      "text": "The following seats are silenced today. They may still vote and use abilities.",
+      "duration": 5.52,
+      "textHash": "9bb3df75dbb91f259591b9436b96325b20411a31a7527d8504970b2d9e55f623"
+    },
+    "zh:silenced-today": {
+      "src": "/assets/werewolf/audio/zh/silenced-today.mp3",
+      "text": "以下玩家今日禁言，仍可投票及发动技能。",
+      "duration": 5.256,
+      "textHash": "1731bdb66be8ecbe1981b6120bdc175239f3b5f55ece3c0ae750ad7d00c2fd30"
     }
   }
 }
