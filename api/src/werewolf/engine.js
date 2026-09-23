@@ -645,8 +645,10 @@ function resolveNight(room, now) {
     event(room, dead.length ? `Dawn. Eliminated: ${dead.map(s => s.name).join(', ')}.` : 'Dawn. Nobody died.', dead.length ? `天亮了。出局玩家：${dead.map(s => s.name).join('、')}。` : '天亮了，昨夜平安夜。', now);
     room.lastNight = { night: room.night, eliminatedSeatIds: dead.map(seat => seat.id), numbers: dead.map(seat => room.seats.indexOf(seat) + 1) };
     const silencedNumbers = room.seats.flatMap((seat, index) => seat.state.silencedDay === room.day ? [index + 1] : []);
+    const hasSilencer = room.roleDeck.includes('silencer') || room.seats.some(seat => seat.originalRoleId === 'silencer' || effectiveRole(seat) === 'silencer');
+    if (hasSilencer && !silencedNumbers.length) event(room, 'Nobody is silenced today.', '今日无人被禁言。', now);
     if (silencedNumbers.length) event(room, `Silenced today (voting allowed): ${silencedNumbers.join(', ')}.`, `今日禁言（仍可投票）：${silencedNumbers.join('、')}号。`, now);
-    announce(room, 'dawn', [...(dead.length ? ['night-deaths', ...room.lastNight.numbers.map(number => `seat-${number}`)] : ['peaceful-night']), ...(silencedNumbers.length ? ['silenced-today', ...silencedNumbers.map(number => `seat-${number}`)] : [])], now);
+    announce(room, 'dawn', [...(dead.length ? ['night-deaths', ...room.lastNight.numbers.map(number => `seat-${number}`)] : ['peaceful-night']), ...(silencedNumbers.length ? ['silenced-today', ...silencedNumbers.map(number => `seat-${number}`)] : hasSilencer ? ['nobody-silenced'] : [])], now);
 }
 function pendingVoters(room) {
     const eligible = room.phase.step === 'sheriff' ? room.election?.voterIds || [] : room.seats.filter(seat => seat.alive && seat.canVote).map(seat => seat.id);

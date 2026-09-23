@@ -151,3 +151,26 @@ test('first-night silence waits until sheriff election ends and narration announ
  }
  assert.equal(publicView(r,'actor5',time).seats[5].silenced,true);
 });
+
+function dawnCues(r) {
+ let n=0; while(r.phase.kind==='night' && n++<200) advanceTestNight(r);
+ assert.equal(r.phase.step,'dawn'); return r.phase.publicCues;
+}
+test('dawn explicitly announces nobody silenced after a skip and hard skip',()=>{
+ for(const hardSkip of [false,true]) {
+  const r=setup(silenceDeck); stepTo(r,'silencer');
+  if(hardSkip) send(r,r.hostId,'hardSkip'); else nightAct(r,2,{ability:'skip'});
+  assert.deepEqual(dawnCues(r),['peaceful-night','nobody-silenced']);
+  assert.ok(publicView(r,'actor0',time).events.some(e=>e.text.zh==='今日无人被禁言。'));
+ }
+});
+test('dawn announces selected seat numbers, then nobody silenced after elder dies',()=>{
+ const r=setup(silenceDeck); stepTo(r,'wolves'); nightAct(r,0,{targetId:id(r,2)}); nightAct(r,1,{targetId:id(r,2)});
+ stepTo(r,'silencer'); nightAct(r,2,{targetId:id(r,5)});
+ assert.deepEqual(dawnCues(r),['night-deaths','seat-3','silenced-today','seat-6']);
+ send(r,r.hostId,'nightNarrationDone'); nextNight(r);
+ assert.deepEqual(dawnCues(r),['peaceful-night','nobody-silenced']);
+});
+test('decks without Silencing Elder do not announce a silence result',()=>{
+ const r=setup(); assert.deepEqual(dawnCues(r),['peaceful-night']);
+});

@@ -774,6 +774,18 @@
       "text": "以下玩家今日禁言，仍可投票及发动技能。",
       "duration": 5.256,
       "textHash": "1731bdb66be8ecbe1981b6120bdc175239f3b5f55ece3c0ae750ad7d00c2fd30"
+    },
+    "en:nobody-silenced": {
+      "src": "/assets/werewolf/audio/en/nobody-silenced.mp3",
+      "text": "Nobody is silenced today.",
+      "duration": 2.256,
+      "textHash": "f0aaa54b96c7ba2eb53da11f072d27be6af74eae15ff08cde369fc1d4cb977d7"
+    },
+    "zh:nobody-silenced": {
+      "src": "/assets/werewolf/audio/zh/nobody-silenced.mp3",
+      "text": "今日无人被禁言。",
+      "duration": 2.544,
+      "textHash": "0d97b58d2b7d5411cfbd0c86fd0e9d7bb466dd0229e0203fe4cb6bb587e6f729"
     }
   }
 }

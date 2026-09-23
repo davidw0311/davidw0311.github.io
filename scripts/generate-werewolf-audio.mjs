@@ -8,6 +8,7 @@ const voice = 'en-US-BrianMultilingualNeural';
 const region = process.env.AZURE_SPEECH_REGION || 'southeastasia';
 const directory = 'public/assets/werewolf/audio';
 const cues = {
+  'nobody-silenced': ['Nobody is silenced today.', '今日无人被禁言。'],
   silencer: ['Silencing Elder, open your eyes. Choose a player to silence tomorrow, or skip. Everyone else, keep your eyes closed.', '禁言长老请睁眼。请选择明天禁言的玩家，或选择空过。其他玩家请保持闭眼。'],
   'silenced-today': ['The following seats are silenced today. They may still vote and use abilities.', '以下玩家今日禁言，仍可投票及发动技能。'],
   night: ['Night falls. Everyone, close your eyes. Follow the instructions on your device, and keep your identity secret.', '天黑请闭眼。请根据设备上的提示行动，保守自己的身份秘密。'],

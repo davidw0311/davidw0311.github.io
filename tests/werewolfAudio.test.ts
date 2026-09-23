@@ -429,3 +429,17 @@ test("daytime death announcements include seat numbers before a winning game's f
  f.voice().finish(); await flush(); assert.equal(f.latest().url,pathFor("seat-2"));
  f.voice().finish(); await flush(); assert.equal(f.latest().url,pathFor("game-over"));
 });
+
+test('silence results play Brian recordings in both languages before acknowledging dawn',async t=>{
+ for(const language of ['en','zh'] as const) {
+  const f=fixture(t); f.audio.configure({...f.options,language});
+  f.audio.updatePhase({id:'silenced',kind:'announcement',step:'dawn',publicCues:['peaceful-night','silenced-today','seat-6']});
+  await f.unlock(); await flush(); await f.finish(); assert.ok(f.latest().url.endsWith(`/${language}/silenced-today.mp3`));
+  await f.finish(); assert.ok(f.latest().url.endsWith(`/${language}/seat-6.mp3`)); assert.deepEqual(f.acknowledgments,[]);
+  await f.finish(); assert.deepEqual(f.acknowledgments,['silenced']);
+  f.audio.updatePhase({id:'nobody',kind:'announcement',step:'dawn',publicCues:['peaceful-night','nobody-silenced']});
+  await flush(); await f.finish(); assert.ok(f.latest().url.endsWith(`/${language}/nobody-silenced.mp3`));
+  assert.deepEqual(f.acknowledgments,['silenced']); await f.finish(); assert.deepEqual(f.acknowledgments,['silenced','nobody']);
+  f.audio.dispose();
+ }
+});
