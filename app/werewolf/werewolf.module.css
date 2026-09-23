@@ -452,3 +452,9 @@
 .roleExplanation[hidden] { display: none; }
 .otherRoles > summary { cursor: pointer; padding: 12px 0; color: #b9b3c2; font-size: 15px; }
 .otherRoles .deckPicker { margin-top: 4px; }
+
+.characterIcon { display: inline-flex; position: relative; flex-shrink: 0; vertical-align: middle; }
+.characterIconArt { display: flex; position: relative; width: 100%; height: 100%; align-items: center; justify-content: center; }
+.wolfEmblem { position: absolute; right: -2px; bottom: -2px; display: grid; place-items: center; border-radius: 50%; padding: 1px; background: #211e28; box-shadow: 0 0 0 1px #211e28; }
+
+.identityCard > .characterIcon { color: inherit; margin-bottom: 10px; }

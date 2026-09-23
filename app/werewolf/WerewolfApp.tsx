@@ -9,6 +9,7 @@ import audioManifest from "@/public/assets/werewolf/audio/manifest.json";
 import { useWerewolfRoom, type Action, type Catalogue, type Command, type GameView, type Language, type Localized, type Role, type Settings } from "@/lib/werewolfClient";
 import { WerewolfAudio } from "@/lib/werewolfAudio";
 import { CircleSeats, ProfilePicker, WolfHead } from "./PlayerFeatures";
+import { RoleIcon } from "./RoleIcon";
 import { StageBanner, ElectionPanel, VoteReview, SpeakingTimer, stageText } from "./RoomStage";
 import { normalizeRoomCode } from "@/lib/werewolfEntry";
 import musicTracks from "@/public/assets/werewolf/audio/music.json";
@@ -38,7 +39,7 @@ const errorChinese: Record<string, string> = {
   NOT_SEATED: "此会话已失去座位，请重新申请加入。", SESSION_REPLACED: "此座位已在其他设备恢复，请重新申请加入。", ROOM_NOT_FOUND: "未找到房间，请检查房间码。", ROOM_EXPIRED: "房间已过期，请创建新房间。", INVALID_TOKEN: "会话无效，请重新加入。", EXPIRED_PHASE: "当前阶段计时已结束，正在更新进度，请稍后重试。", STALE_PHASE: "游戏已进入新阶段，请按最新提示操作。", WRONG_PHASE: "当前阶段不能进行此操作。", PAUSED: "牌局已暂停，请等待房主继续。", HOST_ONLY: "此操作仅限房主。", HOST_SEAT: "请先移交房主，再替换此座位。", EMPTY_SEATS: "请为所有预留座位安排玩家后再开始。", INVALID_DECK: "角色配置无效。请确保人数相符、包含狼人和平民阵营，并遵循唯一角色限制。", INVALID_SETTINGS: "请检查计时范围及规则设置。", INVALID_TARGET: "请选择符合条件的目标。", INVALID_ACTION: "请选择可用的技能或跳过行动。", INVALID_NAME: "请输入1–24字的有效名字。", NO_ABILITY: "你在当前阶段没有这项技能。", NO_VOTE: "你当前没有投票权。", PLAYER_COUNT: "游戏需要6–24名玩家。", ROOM_FULL: "房间最多支持24个座位。", REPLACEMENT_REQUIRED: "游戏进行中请选择原有座位进行接替。", REQUEST_EXPIRED: "此加入申请已处理或失效。", RATE_LIMIT: "操作频繁，请稍后重试。", ROOM_BUSY: "多人正在操作，请稍后重试。", CHAT_CLOSED: "此阶段无法在当前频道发言。", INVALID_MESSAGE: "消息须包含1–500个字符。", GAME_RUNNING: "请在本局结束后重置游戏。", RECOVERY_SEATED: "此会话已有座位，请使用新的会话恢复房主。", DISABLED: "房间未启用此功能。", connection: "连接中断，游戏已保存。请稍后重试。", "temporarily-unavailable": "房间暂时无法连接，游戏已保存，请稍后重试。", "too-many-requests": "操作频繁，请稍后重试。", "room-not-found": "未找到房间，请检查房间码。", "room-busy": "多人正在操作，请稍后重试。", "invalid-recovery-key": "房主恢复密钥无效，请检查后重试。", "invalid-room-code": "请输入4个字母的房间码，旧版8位邀请码仍可使用。"
 };
 function text(value: Localized | string | undefined | null, lang: Language): string { return typeof value === "string" ? value : value?.[lang] || ""; }
-function roleIcon(role?: Role, size = 24) { return role?.team === "wolf" ? <WolfHead size={size} /> : role?.team === "independent" ? <MaskHappy size={size} /> : role?.id === "seer" ? <Eye size={size} /> : role?.id === "guard" ? <Shield size={size} /> : <Moon size={size} />; }
+function roleIcon(role?: Role, size = 24) { return <RoleIcon role={role} size={size} />; }
 function Modal({ title, children, onClose, dismissOutside = false }: { title: string; children: ReactNode; onClose: () => void; dismissOutside?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
   const titleId = useId();
