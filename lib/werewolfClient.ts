@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 export type Language = "en" | "zh";
 export type Localized = { en: string; zh: string };
 export type Role = { id: string; name: Localized; team: string; description: Localized; nightStep?: string };
-export type Catalogue = { version: string; ruleset: Localized; roles: Role[]; presets: { id: string; name: Localized; roles: string[] }[] };
+export type Catalogue = { version: string; ruleset: Localized; roles: Role[]; presets: { id: string; name: Localized; description: Localized; roles: string[] }[] };
 export type Seat = { id: string; name: string; photo?: string | null; ready?: boolean; connected: boolean; occupied: boolean; alive: boolean; isHost: boolean; isSheriff: boolean; canVote: boolean; roleId?: string };
 export type Phase = { id: string; kind: "sheriff" | "announcement" | "ready" | "disbanded" | "lobby" | "night" | "day" | "voting" | "reaction" | "finished"; step: string; number: number; deadline: number | null; paused: boolean; nightStage?: "opening" | "acting" | "closing"; nightCues?: string[]; nightRole?: string; publicCues?: string[] };
 export type Settings = { nightSeconds: number; daySeconds: number; voteSeconds: number; autoAdvance: boolean; sheriff: boolean; winCondition: "edge" | "all" | "parity"; witchSelfSave: boolean | "firstNight"; guardAntidote: "save" | "kill"; [key: string]: unknown };

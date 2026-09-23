@@ -434,3 +434,21 @@
 
 .readyStatus { color:#b8e2c3; font-size:16px; }
 .notReadyStatus { color:#f0cf99; font-size:16px; }
+
+/* Keep the current board visible; optional roles and explanations open on demand. */
+.presetDescription { margin: 0; color: #d6d2db; font-size: 15px; line-height: 1.65; }
+.deckPicker { max-height: none; }
+.deckRole + .deckRole { border-top: 1px solid #302e34; }
+.deckRow { gap: 10px; padding: 9px 0; }
+.deckRow > span { flex: 1; min-width: 0; gap: 7px; font-size: 15px; }
+.deckRow > span > svg { flex-shrink: 0; }
+.deckRow > div { flex-shrink: 0; gap: 8px; }
+.deckRow > div > span { min-width: 18px; font-size: 16px; font-variant-numeric: tabular-nums; }
+.deckRow button { width: 36px; height: 36px; flex-shrink: 0; }
+.deckRow .roleInfoButton { width: 32px; min-height: 36px; border: 0; background: transparent; color: #bcb2d2; }
+.roleInfoButton[aria-expanded="true"] { color: #e3d0ff; }
+.roleInfoButton:focus-visible { outline: 2px solid #c5a5ef; outline-offset: 2px; }
+.roleExplanation { margin: 0 0 12px; padding: 10px 12px; border-left: 2px solid #8c73ae; background: #211e28; color: #d9d2e2; font-size: 14px; line-height: 1.65; }
+.roleExplanation[hidden] { display: none; }
+.otherRoles > summary { cursor: pointer; padding: 12px 0; color: #b9b3c2; font-size: 15px; }
+.otherRoles .deckPicker { margin-top: 4px; }

@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
-import { ArrowLeft, ArrowRight, ArrowClockwise, BookOpen, Check, CheckCircle, Circle, Copy, Crown, Eye, GearSix, HandPalm, Heart, Hourglass, LockKey, MaskHappy, Moon, MusicNotes, Pause, Play, Plus, QrCode, Shield, SignOut, SpeakerHigh, Sun, Translate, Trash, Users, WarningCircle, WifiHigh, WifiSlash, X } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, ArrowClockwise, BookOpen, Check, CheckCircle, Circle, Copy, Crown, Eye, GearSix, HandPalm, Heart, Hourglass, Info, LockKey, MaskHappy, Moon, MusicNotes, Pause, Play, Plus, QrCode, Shield, SignOut, SpeakerHigh, Sun, Translate, Trash, Users, WarningCircle, WifiHigh, WifiSlash, X } from "@phosphor-icons/react";
 import catalogueData from "@/public/assets/werewolf/roles.json";
 import audioManifest from "@/public/assets/werewolf/audio/manifest.json";
 import { useWerewolfRoom, type Action, type Catalogue, type Command, type GameView, type Language, type Localized, type Role, type Settings } from "@/lib/werewolfClient";
@@ -349,10 +349,42 @@ function RoomSettings({ view, lang, disabled, send, onClose }: { view: GameView;
   const [settings, setSettings] = useState<Settings>(view.settings);
   const [deck, setDeck] = useState(view.roleDeck.length ? view.roleDeck : catalogue.presets.find((preset) => preset.id === String(view.seats.length))?.roles || catalogue.presets.find((preset) => preset.id === "12")!.roles);
   const t = (en: string, zh: string) => lang === "en" ? en : zh;
+  const [presetId, setPresetId] = useState(() => catalogue.presets.find(preset => [...preset.roles].sort().join(",") === [...deck].sort().join(","))?.id || "custom");
+  const [expandedRole, setExpandedRole] = useState<string | null>(null);
+  const preset = catalogue.presets.find(item => item.id === presetId);
+  const customized = !!preset && [...preset.roles].sort().join(",") !== [...deck].sort().join(",");
+  const primaryIds = new Set([...(preset?.roles || []), ...deck]);
+  const primaryRoles = catalogue.roles.filter(role => primaryIds.has(role.id));
+  const otherRoles = catalogue.roles.filter(role => !primaryIds.has(role.id));
+  const infoId = useId();
   const update = (key: string, value: unknown) => setSettings((current) => ({ ...current, [key]: value }));
   const changeCount = (id: string, amount: number) => setDeck((current) => amount > 0 ? current.length < 24 ? [...current, id] : current : current.filter((role, index) => role !== id || index !== current.indexOf(id)));
+  function renderRoleRow(role: Role) {
+    const count = deck.filter(id => id === role.id).length;
+    const expanded = expandedRole === role.id;
+    const descriptionId = `${infoId}-${role.id}`;
+    return <div key={role.id} className={styles.deckRole}>
+      <div className={styles.deckRow}>
+        <span>{roleIcon(role, 19)}<span>{role.name[lang]}</span><button type="button" className={styles.roleInfoButton} aria-label={`${t("About", "查看技能：")} ${role.name[lang]}`} aria-expanded={expanded} aria-controls={descriptionId} onClick={() => setExpandedRole(expanded ? null : role.id)}><Info size={19} /></button></span>
+        <div><button type="button" aria-label={`${t("Remove", "减少")} ${role.name[lang]}`} disabled={!count || disabled} onClick={() => changeCount(role.id, -1)}>−</button><span>{count}</span><button type="button" aria-label={`${t("Add", "增加")} ${role.name[lang]}`} disabled={disabled || deck.length >= 24 || count >= 1 && role.id !== "villager" && role.id !== "werewolf"} onClick={() => changeCount(role.id, 1)}>+</button></div>
+      </div>
+      <p id={descriptionId} className={styles.roleExplanation} hidden={!expanded}>{role.description[lang]}</p>
+    </div>;
+  }
   return <Modal title={t("Set the table", "配置牌局")} onClose={onClose}><form onSubmit={async (event) => { event.preventDefault(); if (await send({ type: "updateSettings", settings: view.status === "lobby" ? settings : { autoAdvance: false, nightSeconds: settings.nightSeconds, daySeconds: settings.daySeconds, voteSeconds: settings.voteSeconds }, ...(view.status === "lobby" ? { roleDeck: deck } : {}) })) onClose(); }} className={styles.settingsForm}>
-    {view.status === "lobby" && <><label>{t("Choose a starting deck", "选择预设角色配置")}<select value={catalogue.presets.find((preset) => JSON.stringify(preset.roles) === JSON.stringify(deck))?.id || "custom"} onChange={(event) => { const preset = catalogue.presets.find((preset) => preset.id === event.target.value); if (preset) setDeck(preset.roles); }}><option value="custom">{t("Custom deck", "自定义配置")}</option>{catalogue.presets.map((preset) => <option key={preset.id} value={preset.id}>{preset.name[lang]}</option>)}</select></label><div className={styles.deckHeading}><h3>{t("Role cards", "身份牌")}</h3><span>{deck.length} / {view.seats.length} {t("players", "位玩家")}</span></div><p className={styles.hint}>{t("Match one card to each player. Most village roles are unique; wolf and villager cards can repeat.", "每位玩家对应一张身份牌。大部分神职只能配置一张；狼人和平民可重复。")}</p><div className={styles.deckPicker}>{catalogue.roles.map((role) => { const count = deck.filter((id) => id === role.id).length; return <div key={role.id} className={styles.deckRow}><span>{roleIcon(role, 17)}{role.name[lang]}</span><div><button type="button" aria-label={`${t("Remove", "减少")} ${role.name[lang]}`} disabled={!count || disabled} onClick={() => changeCount(role.id, -1)}>−</button><span>{count}</span><button type="button" aria-label={`${t("Add", "增加")} ${role.name[lang]}`} disabled={disabled || deck.length >= 24 || count >= 1 && role.id !== "villager" && role.id !== "werewolf"} onClick={() => changeCount(role.id, 1)}>+</button></div></div>; })}</div></>}
+    {view.status === "lobby" && <>
+      <label>{t("Game mode", "游戏板型")}<select value={presetId} onChange={(event) => {
+        const selected = catalogue.presets.find(item => item.id === event.target.value);
+        setPresetId(event.target.value); setExpandedRole(null);
+        if (selected) setDeck([...selected.roles]);
+      }}><option value="custom">{t("Custom deck", "自定义配置")}</option>{catalogue.presets.map(item => <option key={item.id} value={item.id}>{item.name[lang]}</option>)}</select></label>
+      <p className={styles.presetDescription}>{preset ? preset.description[lang] : t("Build your own mix. Selected roles appear first; expand Other roles to add more.", "自由搭配身份牌。已选角色优先显示，可展开其他角色继续添加。")}</p>
+      {customized && <p className={styles.hint}>{t("You’ve customized this preset’s role counts.", "你已调整此预设的角色数量。")}</p>}
+      <div className={styles.deckHeading}><h3>{t("Roles in this setup", "本局角色")}</h3><span>{deck.length} / {view.seats.length} {t("players", "位玩家")}</span></div>
+      <p className={styles.hint}>{t("One card per player. Tap ⓘ to read a role’s ability.", "每位玩家一张身份牌，点击 ⓘ 查看角色技能。")}</p>
+      <div className={styles.deckPicker}>{primaryRoles.map(renderRoleRow)}</div>
+      {!!otherRoles.length && <details className={styles.otherRoles}><summary>{t("Other roles", "其他角色")} · {otherRoles.length}</summary><div className={styles.deckPicker}>{otherRoles.map(renderRoleRow)}</div></details>}
+    </>}
     <h3>{t("Pace & moderation", "节奏与主持")}</h3><p className={styles.hint}>{t("Actions never expire. Nights proceed after players submit; the host can skip the current step at night or during the day without seeing pending players or identities. Disconnections never automatically pause or skip a step.", "行动不会超时。玩家提交后夜间自动继续；房主可强制跳过夜间或白天当前阶段，无需查看待行动玩家或身份。断线不会自动暂停或跳过阶段。")}</p>
     <h3>{t("House rules", "本局规则")}</h3><details><summary>{t("Rules for these boards", "本板型采用的规则")}</summary><p className={styles.hint}>{catalogue.ruleset[lang]}</p></details><label>{t("Werewolf victory", "狼人获胜条件")}<select value={settings.winCondition} onChange={(event) => update("winCondition", event.target.value)} disabled={view.status !== "lobby"}><option value="edge">{t("Eliminate all villagers OR all special village roles", "屠边：消灭所有平民或所有神职")}</option><option value="all">{t("Eliminate the whole village", "屠城：消灭所有好人")}</option><option value="parity">{t("Equal or outnumber all opposition", "达到人数优势")}</option></select></label><label className={styles.toggleRow}><span>{t("Sheriff election enabled", "启用警长竞选")}</span><input type="checkbox" checked={settings.sheriff} onChange={(event) => update("sheriff", event.target.checked)} disabled={view.status !== "lobby"} /></label><label>{t("Witch self-save", "女巫自救")}<select value={witchSelfSaveRule(settings.witchSelfSave)} onChange={(event) => update("witchSelfSave", event.target.value === "firstNight" ? "firstNight" : event.target.value === "always")} disabled={view.status !== "lobby"}>{Object.entries(witchSelfSaveLabels).map(([value, label]) => <option key={value} value={value}>{text(label, lang)}</option>)}</select></label><p className={styles.hint}>{t("Self-saving uses the same single antidote. First night only refers to the game’s first night; saving other players is still allowed later.", "自救同样消耗唯一一瓶解药。「仅首夜」指本局游戏的第一个夜晚；之后仍可用解药救其他玩家。")}</p><label>{t("Guard + antidote on the same target", "同守同救")}<select value={settings.guardAntidote} onChange={(event) => update("guardAntidote", event.target.value)} disabled={view.status !== "lobby"}><option value="save">{t("Target survives", "目标存活")}</option><option value="kill">{t("Target dies", "目标死亡")}</option></select></label><div className={styles.modalActions}><button type="button" className={styles.secondaryButton} onClick={onClose}>{t("Cancel", "取消")}</button><button type="submit" className={styles.primaryButton} disabled={disabled}>{t("Save settings", "保存设置")}</button></div>
   </form></Modal>;

@@ -414,7 +414,11 @@
         "witch",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "A compact game with two wolves, Seer and Witch. A quick introduction to hidden roles and night actions.",
+        "zh": "两狼搭配预言家、女巫的小型局，适合快速熟悉身份推理与夜间行动。"
+      }
     },
     {
       "id": "9",
@@ -432,7 +436,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "Three wolves face Seer, Witch and Hunter. Adds a death shot while keeping the role mix straightforward.",
+        "zh": "三狼对阵预言家、女巫、猎人；在简明配置中加入猎人开枪的变数。"
+      }
     },
     {
       "id": "12",
@@ -453,7 +461,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "Wolf King can retaliate on death, while Guard and Witch protect the village. Watch the room’s double-protection rule.",
+        "zh": "狼王可在出局时反击，守卫与女巫保护好人；需留意本房间的同守同救规则。"
+      }
     },
     {
       "id": "16",
@@ -478,7 +490,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "A larger house-rule mix with Wolf King, Wolf Beauty, Knight and Raven. More interacting powers for experienced groups.",
+        "zh": "含狼王、狼美人、骑士和乌鸦的多人自定义局；技能互动较多，适合熟悉规则的玩家。"
+      }
     },
     {
       "id": "12-standard",
@@ -499,7 +515,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "Four ordinary wolves against Seer, Witch, Hunter and Idiot. The Idiot survives exile by revealing, but loses the vote.",
+        "zh": "四狼对阵预言家、女巫、猎人和白痴；白痴可翻牌免于放逐，但失去投票权。"
+      }
     },
     {
       "id": "12-beauty-knight",
@@ -520,7 +540,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "Wolf Beauty links a victim to her exile or shooting death. Knight can duel her without triggering the charm.",
+        "zh": "狼美人被放逐或开枪带走时会连带魅惑目标；骑士决斗她不会触发魅惑。"
+      }
     },
     {
       "id": "12-king-dream",
@@ -541,7 +565,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "Dreamweaver protects a target at night, but repeated dreams and linked deaths can be fatal. Wolf King adds retaliation.",
+        "zh": "摄梦人提供夜间保护，但连续摄梦或跟随死亡也可能致命；狼王则带来出局反击。"
+      }
     },
     {
       "id": "12-gargoyle-grave",
@@ -562,7 +590,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "An isolated Gargoyle learns exact roles and later inherits the kill. Gravekeeper learns the previous day’s exile alignment.",
+        "zh": "独立行动的石像鬼查验具体身份并可继承狼刀；守墓人获知上个白天被放逐者的阵营。"
+      }
     },
     {
       "id": "12-pure-white",
@@ -583,7 +615,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "A duel of information: from night two, Pure White’s wolf checks kill, and Wolf Witch’s Pure White check kills.",
+        "zh": "查验也能致命：第二夜起纯白之女验狼可击杀，狼巫验到纯白之女也可击杀。"
+      }
     },
     {
       "id": "12-blood-moon",
@@ -604,7 +640,11 @@
         "villager",
         "villager",
         "villager"
-      ]
+      ],
+      "description": {
+        "en": "Blood Moon can silence village powers for a night; Demon Hunter hunts wolves from night two. Includes delayed final-wolf exile.",
+        "zh": "血月使徒可封印一夜好人技能，猎魔人从第二夜开始猎狼；最后血月被放逐时延迟出局。"
+      }
     }
   ]
 }
