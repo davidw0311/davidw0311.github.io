@@ -1,0 +1,149 @@
+[
+  {
+    "id": "first-night-3",
+    "name": {
+      "en": "First night · 3 players",
+      "zh": "初次入夜 · 3人"
+    },
+    "description": {
+      "en": "Learn the essentials: wolves, information, and two kinds of card exchange.",
+      "zh": "两狼、预言家、强盗、捣蛋鬼、村民，学习查看与换牌的基本玩法。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "seer",
+      "robber",
+      "troublemaker",
+      "villager"
+    ]
+  },
+  {
+    "id": "classic-5",
+    "name": {
+      "en": "Classic · 5 players",
+      "zh": "经典牌组 · 5人"
+    },
+    "description": {
+      "en": "Two wolves with a seer, robber, troublemaker, drunk, insomniac, and villager.",
+      "zh": "双狼搭配预言家、强盗、捣蛋鬼、酒鬼、失眠者及村民，信息与交换并重。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "seer",
+      "robber",
+      "troublemaker",
+      "drunk",
+      "insomniac",
+      "villager"
+    ]
+  },
+  {
+    "id": "daybreak-5",
+    "name": {
+      "en": "Daybreak · 5 players",
+      "zh": "破晓 · 5人"
+    },
+    "description": {
+      "en": "A Mystic Wolf, a shield, and a witch make the night harder to untangle.",
+      "zh": "秘术狼、守夜人的保护与女巫的换牌，让夜晚的身份变化更加丰富。"
+    },
+    "roles": [
+      "werewolf",
+      "mysticWolf",
+      "sentinel",
+      "apprenticeSeer",
+      "witch",
+      "troublemaker",
+      "revealer",
+      "villager"
+    ]
+  },
+  {
+    "id": "vampire-6",
+    "name": {
+      "en": "Vampire · 6 players",
+      "zh": "吸血鬼 · 6人"
+    },
+    "description": {
+      "en": "Explore marks, infection, love, and card swaps during dusk and night.",
+      "zh": "体验黄昏标记、感染、爱情和夜间交换，身份之外还有另一层秘密。"
+    },
+    "roles": [
+      "vampire",
+      "master",
+      "renfield",
+      "cupid",
+      "priest",
+      "pickpocket",
+      "gremlin",
+      "assassin",
+      "villager"
+    ]
+  },
+  {
+    "id": "alien-5",
+    "name": {
+      "en": "Alien · 5 players",
+      "zh": "外星人 · 5人"
+    },
+    "description": {
+      "en": "Two aliens face unusual information roles. Uses the published-rule adaptation shown in the room.",
+      "zh": "双外星人搭配特殊信息角色，采用房间显示的公开规则改编版。"
+    },
+    "roles": [
+      "alien",
+      "alien",
+      "oracle",
+      "psychic",
+      "rascal",
+      "exposer",
+      "mortician",
+      "villager"
+    ]
+  },
+  {
+    "id": "bonus-6",
+    "name": {
+      "en": "Bonus roles · 6 players",
+      "zh": "奖励角色 · 6人"
+    },
+    "description": {
+      "en": "Add an Aura Seer, Prince, and Apprentice Tanner to a familiar wolf table.",
+      "zh": "在经典狼人牌局中加入灵光预言家、王子和见习皮匠的特殊目标。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "seer",
+      "robber",
+      "troublemaker",
+      "auraSeer",
+      "prince",
+      "tanner",
+      "apprenticeTanner"
+    ]
+  },
+  {
+    "id": "super-5",
+    "name": {
+      "en": "Super Villains · 5 players",
+      "zh": "超级反派 · 5人"
+    },
+    "description": {
+      "en": "A new cast of secret teams, unusual powers, and an innocent bystander.",
+      "zh": "以全新的秘密阵营、超能力与无辜路人展开一夜推理。"
+    },
+    "roles": [
+      "rapscallion",
+      "drPeeker",
+      "henchman",
+      "detector",
+      "switcheroo",
+      "selfAwarenessGirl",
+      "flipper",
+      "innocentBystander"
+    ]
+  }
+]

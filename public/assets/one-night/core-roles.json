@@ -1,0 +1,594 @@
+[
+  {
+    "id": "doppelganger",
+    "expansion": "base",
+    "name": {
+      "en": "Doppelgänger",
+      "zh": "化身幽灵"
+    },
+    "description": {
+      "en": "Copy another player’s starting role; its ability and copied identity follow the Doppelgänger card.",
+      "zh": "复制另一位玩家的起始身份，执行相应能力。"
+    },
+    "icon": "🪞",
+    "team": "village",
+    "order": -7,
+    "maxCount": 1
+  },
+  {
+    "id": "werewolf",
+    "expansion": "base",
+    "name": {
+      "en": "Werewolf",
+      "zh": "狼人"
+    },
+    "description": {
+      "en": "Recognize fellow wolves. A lone awake wolf may inspect one center card.",
+      "zh": "确认狼队友；独自醒来的狼人可以查看一张中央牌。"
+    },
+    "icon": "🐺",
+    "team": "wolf",
+    "order": 2,
+    "maxCount": 2
+  },
+  {
+    "id": "minion",
+    "expansion": "base",
+    "name": {
+      "en": "Minion",
+      "zh": "爪牙"
+    },
+    "description": {
+      "en": "Learn who the original wolves are, without revealing yourself to them.",
+      "zh": "得知起始狼人是谁，狼人不知道你的身份。"
+    },
+    "icon": "🕯️",
+    "team": "wolf",
+    "order": 3,
+    "maxCount": 1
+  },
+  {
+    "id": "mason",
+    "expansion": "base",
+    "name": {
+      "en": "Mason",
+      "zh": "共济会成员"
+    },
+    "description": {
+      "en": "Recognize the other Mason. Include both Mason cards.",
+      "zh": "确认另一位共济会成员，配置必须包含两张。"
+    },
+    "icon": "🧱",
+    "team": "village",
+    "order": 4,
+    "maxCount": 2
+  },
+  {
+    "id": "seer",
+    "expansion": "base",
+    "name": {
+      "en": "Seer",
+      "zh": "预言家"
+    },
+    "description": {
+      "en": "Inspect another player’s card or two center cards.",
+      "zh": "查看一位其他玩家的牌，或两张中央牌。"
+    },
+    "icon": "🔮",
+    "team": "village",
+    "order": 5,
+    "maxCount": 1
+  },
+  {
+    "id": "robber",
+    "expansion": "base",
+    "name": {
+      "en": "Robber",
+      "zh": "强盗"
+    },
+    "description": {
+      "en": "Optionally exchange your card with another player and inspect your new card.",
+      "zh": "可与另一位玩家交换身份，然后查看自己的新牌。"
+    },
+    "icon": "🎭",
+    "team": "village",
+    "order": 6,
+    "maxCount": 1
+  },
+  {
+    "id": "troublemaker",
+    "expansion": "base",
+    "name": {
+      "en": "Troublemaker",
+      "zh": "捣蛋鬼"
+    },
+    "description": {
+      "en": "Optionally exchange two other players’ cards without looking.",
+      "zh": "可交换两位其他玩家的牌，但不能查看。"
+    },
+    "icon": "🔀",
+    "team": "village",
+    "order": 7,
+    "maxCount": 1
+  },
+  {
+    "id": "drunk",
+    "expansion": "base",
+    "name": {
+      "en": "Drunk",
+      "zh": "酒鬼"
+    },
+    "description": {
+      "en": "Exchange your card with a center card without looking at your new card.",
+      "zh": "必须与一张中央牌交换，不得查看新牌。"
+    },
+    "icon": "🍺",
+    "team": "village",
+    "order": 8,
+    "maxCount": 1
+  },
+  {
+    "id": "insomniac",
+    "expansion": "base",
+    "name": {
+      "en": "Insomniac",
+      "zh": "失眠者"
+    },
+    "description": {
+      "en": "Inspect your own card near the end of the night.",
+      "zh": "夜晚接近结束时查看自己的当前身份。"
+    },
+    "icon": "👁️",
+    "team": "village",
+    "order": 9,
+    "maxCount": 1
+  },
+  {
+    "id": "villager",
+    "expansion": "base",
+    "name": {
+      "en": "Villager",
+      "zh": "村民"
+    },
+    "description": {
+      "en": "No night action. Help the village find a final wolf.",
+      "zh": "没有夜间行动，帮助村庄找出最终的狼人。"
+    },
+    "icon": "🏡",
+    "team": "village",
+    "order": null,
+    "maxCount": 3
+  },
+  {
+    "id": "tanner",
+    "expansion": "base",
+    "name": {
+      "en": "Tanner",
+      "zh": "皮匠"
+    },
+    "description": {
+      "en": "Win if you die. Your death prevents the wolves from winning.",
+      "zh": "自己死亡即获胜，并阻止狼人阵营获胜。"
+    },
+    "icon": "🪓",
+    "team": "tanner",
+    "order": null,
+    "maxCount": 1
+  },
+  {
+    "id": "hunter",
+    "expansion": "base",
+    "name": {
+      "en": "Hunter",
+      "zh": "猎人"
+    },
+    "description": {
+      "en": "If you die, the player you voted for also dies.",
+      "zh": "如果自己死亡，自己投票指向的玩家也死亡。"
+    },
+    "icon": "🏹",
+    "team": "village",
+    "order": null,
+    "maxCount": 1
+  },
+  {
+    "id": "sentinel",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Sentinel",
+      "zh": "哨兵"
+    },
+    "description": {
+      "en": "Optionally shield another player’s card from viewing, movement and artifacts.",
+      "zh": "可保护另一位玩家的牌，防止查看、移动及放置神器。"
+    },
+    "icon": "🛡️",
+    "team": "village",
+    "order": 0,
+    "maxCount": 1
+  },
+  {
+    "id": "alphaWolf",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Alpha Wolf",
+      "zh": "狼王"
+    },
+    "description": {
+      "en": "Recognize wolves, then exchange the extra center wolf with a non-pack player.",
+      "zh": "确认狼队友后，将额外中央狼人牌与非狼队友交换。"
+    },
+    "icon": "🐺",
+    "team": "wolf",
+    "order": 2.2,
+    "maxCount": 1
+  },
+  {
+    "id": "mysticWolf",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Mystic Wolf",
+      "zh": "秘术狼"
+    },
+    "description": {
+      "en": "Recognize wolves, then optionally inspect another player’s card.",
+      "zh": "确认狼队友后，可查看另一位玩家的牌。"
+    },
+    "icon": "🌑",
+    "team": "wolf",
+    "order": 2.3,
+    "maxCount": 1
+  },
+  {
+    "id": "apprenticeSeer",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Apprentice Seer",
+      "zh": "见习预言家"
+    },
+    "description": {
+      "en": "Optionally inspect one center card.",
+      "zh": "可查看一张中央牌。"
+    },
+    "icon": "✨",
+    "team": "village",
+    "order": 5.2,
+    "maxCount": 1
+  },
+  {
+    "id": "paranormalInvestigator",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Paranormal Investigator",
+      "zh": "灵异侦探"
+    },
+    "description": {
+      "en": "Inspect up to two other cards sequentially; seeing a wolf or Tanner transforms you and ends the action.",
+      "zh": "依次查看最多两位其他玩家；看到狼人或皮匠则变为该身份并停止。"
+    },
+    "icon": "🕵️",
+    "team": "village",
+    "order": 5.3,
+    "maxCount": 1
+  },
+  {
+    "id": "witch",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Witch",
+      "zh": "女巫"
+    },
+    "description": {
+      "en": "Optionally view one center card, then you must exchange it with any player’s card.",
+      "zh": "可先查看一张中央牌，查看后必须与任意玩家的牌交换。"
+    },
+    "icon": "🧪",
+    "team": "village",
+    "order": 6.2,
+    "maxCount": 1
+  },
+  {
+    "id": "villageIdiot",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Village Idiot",
+      "zh": "村庄傻瓜"
+    },
+    "description": {
+      "en": "Optionally rotate every movable card except your own left or right.",
+      "zh": "可将除自己外所有未受保护的玩家牌顺时针或逆时针移动一位。"
+    },
+    "icon": "🌀",
+    "team": "village",
+    "order": 7.2,
+    "maxCount": 1
+  },
+  {
+    "id": "revealer",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Revealer",
+      "zh": "揭示者"
+    },
+    "description": {
+      "en": "Optionally reveal another card publicly unless it is a wolf or Tanner.",
+      "zh": "可公开另一位玩家的牌，但狼人或皮匠牌须重新盖回。"
+    },
+    "icon": "☀️",
+    "team": "village",
+    "order": 10,
+    "maxCount": 1
+  },
+  {
+    "id": "curator",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Curator",
+      "zh": "策展人"
+    },
+    "description": {
+      "en": "Optionally give one random artifact to an unshielded player.",
+      "zh": "可给未受保护的玩家一件随机神器。"
+    },
+    "icon": "🏺",
+    "team": "village",
+    "order": 11,
+    "maxCount": 1
+  },
+  {
+    "id": "bodyguard",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Bodyguard",
+      "zh": "保镖"
+    },
+    "description": {
+      "en": "Your ballot protects the chosen player instead of adding a vote.",
+      "zh": "你的投票不计票数，而是保护所指玩家免于被杀。"
+    },
+    "icon": "🛡️",
+    "team": "village",
+    "order": null,
+    "maxCount": 1
+  },
+  {
+    "id": "dreamWolf",
+    "expansion": "daybreak",
+    "name": {
+      "en": "Dream Wolf",
+      "zh": "梦狼"
+    },
+    "description": {
+      "en": "The other wolves see you, but you do not see them or wake at night.",
+      "zh": "其他狼人能认出你，但你不会醒来或得知狼队友。"
+    },
+    "icon": "💤",
+    "team": "wolf",
+    "order": null,
+    "maxCount": 1
+  },
+  {
+    "id": "copycat",
+    "expansion": "vampire",
+    "name": {
+      "en": "Copycat",
+      "zh": "模仿者"
+    },
+    "description": {
+      "en": "Inspect a center card and take its role, acting when that role is called.",
+      "zh": "查看一张中央牌并成为该身份，在对应环节行动。"
+    },
+    "icon": "🪆",
+    "team": "village",
+    "order": -8,
+    "maxCount": 1
+  },
+  {
+    "id": "vampire",
+    "expansion": "vampire",
+    "name": {
+      "en": "Vampire",
+      "zh": "吸血鬼"
+    },
+    "description": {
+      "en": "Recognize vampires and together give a non-vampire the Vampire mark.",
+      "zh": "确认吸血鬼伙伴，共同给予一名非吸血鬼玩家吸血鬼标记。"
+    },
+    "icon": "🧛",
+    "team": "vampire",
+    "order": -6,
+    "maxCount": 1
+  },
+  {
+    "id": "master",
+    "expansion": "vampire",
+    "name": {
+      "en": "The Master",
+      "zh": "吸血鬼领主"
+    },
+    "description": {
+      "en": "Act with vampires. Another final vampire voting for you protects you from the ballot.",
+      "zh": "与吸血鬼共同行动；最终吸血鬼投票指向你时保护你。"
+    },
+    "icon": "🦇",
+    "team": "vampire",
+    "order": -6,
+    "maxCount": 1
+  },
+  {
+    "id": "count",
+    "expansion": "vampire",
+    "name": {
+      "en": "The Count",
+      "zh": "伯爵"
+    },
+    "description": {
+      "en": "Act with vampires, then give Fear to another non-vampire to block their night ability.",
+      "zh": "与吸血鬼共同行动后，给予另一名非吸血鬼恐惧标记，封锁夜间能力。"
+    },
+    "icon": "🩸",
+    "team": "vampire",
+    "order": -5.8,
+    "maxCount": 1
+  },
+  {
+    "id": "renfield",
+    "expansion": "vampire",
+    "name": {
+      "en": "Renfield",
+      "zh": "吸血鬼仆从"
+    },
+    "description": {
+      "en": "Learn vampires and the infected player; place the Bat mark on yourself.",
+      "zh": "得知吸血鬼及感染对象，给自己蝙蝠标记。"
+    },
+    "icon": "🦇",
+    "team": "vampire",
+    "order": -5.7,
+    "maxCount": 1
+  },
+  {
+    "id": "diseased",
+    "expansion": "vampire",
+    "name": {
+      "en": "Diseased",
+      "zh": "病人"
+    },
+    "description": {
+      "en": "Mark an adjacent player Diseased. Anyone voting for the Diseased role or mark cannot win.",
+      "zh": "给相邻玩家疾病标记；投票给病人身份或疾病标记的人无法获胜。"
+    },
+    "icon": "🦠",
+    "team": "village",
+    "order": -5,
+    "maxCount": 1
+  },
+  {
+    "id": "cupid",
+    "expansion": "vampire",
+    "name": {
+      "en": "Cupid",
+      "zh": "丘比特"
+    },
+    "description": {
+      "en": "Give up to two Love marks. Final Love holders share death but keep their teams.",
+      "zh": "可给予最多两枚爱情标记；最终恋人同生共死但保留阵营。"
+    },
+    "icon": "💘",
+    "team": "village",
+    "order": -4,
+    "maxCount": 1
+  },
+  {
+    "id": "instigator",
+    "expansion": "vampire",
+    "name": {
+      "en": "Instigator",
+      "zh": "煽动者"
+    },
+    "description": {
+      "en": "Optionally give a Traitor mark: its holder needs another teammate to die.",
+      "zh": "可给予叛徒标记，持有者需要另一位队友死亡才能获胜。"
+    },
+    "icon": "🔥",
+    "team": "village",
+    "order": -3,
+    "maxCount": 1
+  },
+  {
+    "id": "priest",
+    "expansion": "vampire",
+    "name": {
+      "en": "Priest",
+      "zh": "牧师"
+    },
+    "description": {
+      "en": "Clear your own mark and optionally another player’s mark.",
+      "zh": "清除自己的标记，并可清除另一位玩家的标记。"
+    },
+    "icon": "🕊️",
+    "team": "village",
+    "order": -2,
+    "maxCount": 1
+  },
+  {
+    "id": "assassin",
+    "expansion": "vampire",
+    "name": {
+      "en": "Assassin",
+      "zh": "刺客"
+    },
+    "description": {
+      "en": "Mark any player; win if a final Assassin-mark holder dies.",
+      "zh": "标记任意玩家；最终持有刺客标记的人死亡即可获胜。"
+    },
+    "icon": "🗡️",
+    "team": "assassin",
+    "order": -1,
+    "maxCount": 1
+  },
+  {
+    "id": "apprenticeAssassin",
+    "expansion": "vampire",
+    "name": {
+      "en": "Apprentice Assassin",
+      "zh": "见习刺客"
+    },
+    "description": {
+      "en": "Learn the Assassin and win if they die; if absent, place your own Assassin mark.",
+      "zh": "认出刺客，刺客死亡则获胜；若刺客不在玩家中则自己设置刺客标记。"
+    },
+    "icon": "⚔️",
+    "team": "apprenticeAssassin",
+    "order": -0.8,
+    "maxCount": 1
+  },
+  {
+    "id": "marksman",
+    "expansion": "vampire",
+    "name": {
+      "en": "Marksman",
+      "zh": "神射手"
+    },
+    "description": {
+      "en": "Inspect another player’s card and/or a different player’s mark.",
+      "zh": "可查看一位其他玩家的牌，和／或另一位不同玩家的标记。"
+    },
+    "icon": "🎯",
+    "team": "village",
+    "order": 5.4,
+    "maxCount": 1
+  },
+  {
+    "id": "pickpocket",
+    "expansion": "vampire",
+    "name": {
+      "en": "Pickpocket",
+      "zh": "扒手"
+    },
+    "description": {
+      "en": "Optionally exchange your mark with another player and inspect your new mark.",
+      "zh": "可与另一位玩家交换标记并查看自己的新标记。"
+    },
+    "icon": "🧤",
+    "team": "village",
+    "order": 6.3,
+    "maxCount": 1
+  },
+  {
+    "id": "gremlin",
+    "expansion": "vampire",
+    "name": {
+      "en": "Gremlin",
+      "zh": "小妖精"
+    },
+    "description": {
+      "en": "Optionally exchange any two player cards OR marks, including your own.",
+      "zh": "可交换任意两位玩家的身份牌或标记，可包含自己。"
+    },
+    "icon": "👺",
+    "team": "village",
+    "order": 7.4,
+    "maxCount": 1
+  }
+]

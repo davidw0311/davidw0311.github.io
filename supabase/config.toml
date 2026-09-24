@@ -4,3 +4,8 @@ project_id = "vxbhzddlhopsgbwmjzdm"
 # The handler separately authenticates each player with a high-entropy room token.
 verify_jwt = true
 entrypoint = "./functions/werewolf/index.js"
+
+[functions.one-night]
+# Independent service and private room table. The original game is untouched.
+verify_jwt = true
+entrypoint = "./functions/one-night/index.js"

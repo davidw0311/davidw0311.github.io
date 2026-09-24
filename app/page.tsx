@@ -66,9 +66,9 @@ export default function Home() {
             <h2 id="space-title">Future missions begin here.</h2>
             <p>A reserved launch deck for experiments and project worlds still taking shape.</p>
             <div className={styles.missionIcons} aria-label="Interactive projects and future project placeholders">
-              <Link href="/werewolf/">
+              <Link href="/nightfall/">
                 <Moon size={34} weight="thin" />
-                <span>Werewolf 狼人杀</span>
+                <span>Nightfall / 天黑请闭眼</span>
               </Link>
               <Link href="/projects/blackjack-trainer/">
                 <CardsThree size={34} weight="thin" />

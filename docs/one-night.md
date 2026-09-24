@@ -1,0 +1,46 @@
+# Nightfall / One Night Werewolf
+
+`/nightfall/` is the website's game collection. The existing `/werewolf/` game keeps its own routes, implementation, audio and backend. `/nightfall/one-night/` is a separate bilingual multiplayer game.
+
+## Rules and scope
+
+The catalogue includes the original One Night Ultimate Werewolf, Daybreak, Vampire, Alien, Super Villains / Super Heroes, and the roles from Bonus Packs 1–4. Alternate artwork does not create another role. One Week Ultimate Werewolf and Werewords are separate games.
+
+The factual rules research, source links, copying rules and mixed-expansion edge cases are in [core research](one-night-core-research.md) and [expansion research](one-night-expansions-research.md). The interface contract is in [one-night-contract.md](one-night-contract.md).
+
+Alien's publisher does not document the companion app's entire random-event catalogue. This implementation uses a labeled pool of published-rule variants, not a reproduction of every proprietary random event. It does not implement the app's full-night time loops. Mixed Villain/monster faction conventions and unresolved multi-faction Cursed votes are documented digital rules.
+
+## Architecture and privacy
+
+- Static Next.js client, deployed to GitHub Pages with the existing website.
+- Dedicated `one-night` Supabase Edge Function, with independent `one_night_state`, `one_night_read` and `one_night_cas`. No changes to existing game or PianoParty data.
+- Cards, votes and player-token hashes stay in the service. The host receives only public state and their own private information.
+- Versioned compare-and-swap transactions serialize concurrent moves. Stable request IDs make retries safe after lost responses. Host-approved replacement preserves the seat and revokes the old session.
+- Rooms expire after 24 hours without actions. Rematches clear the completed round. Disbanded rooms expire after one minute. SQL cleanup runs even with no browser connected.
+
+## Narration
+
+All One Night spoken prompts are generated locally with Kokoro: English `am_michael` (Kokoro-82M), Mandarin `zm_010` (Kokoro-82M-v1.1-zh), normal speed. No speech subscription is used. Individual files and transcripts are available at `/assets/one-night/audio/`.
+
+```sh
+node scripts/build-one-night-audio-text.mjs
+~/.local/share/kokoro/.venv/bin/python scripts/generate-one-night-kokoro.py
+node scripts/build-one-night-audio-review.mjs
+```
+
+Audio uses persistent media elements unlocked by a tap for iPhone Safari. Existing licensed ambience and timer sounds are reused without changing their files. Night actions never time out just because a player goes offline; the host may explicitly skip a stuck action without seeing its actors.
+
+## Verification and deployment
+
+```sh
+node scripts/build-one-night-edge.mjs
+node --test api/test/one-night*.test.js
+node --no-warnings --test tests/*.test.ts
+npm run typecheck
+```
+
+The generated Edge modules must match the tested sources in `api/src/one-night/`. Apply `supabase/migrations/202609250001_one_night.sql` once, then deploy only the `one-night` function. The browser config contains a public project key, never the service key. Gateway verification stays enabled.
+
+For local multiplayer testing, run `node scripts/one-night-local-server.mjs`, then Next on port 3010 with `NEXT_PUBLIC_ONE_NIGHT_API_URL=http://localhost:4501`. The local adapter uses disposable memory only; production uses the private Supabase table.
+
+Game mechanics are implemented with original interface text and recordings. Publisher rulebooks are linked for reference; no card scans or publisher narration recordings are included.

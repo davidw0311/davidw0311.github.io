@@ -1,0 +1,40 @@
+name: Verify One Night
+on:
+  push:
+    branches: [main, codex/nightfall-one-night]
+    paths:
+      - 'app/nightfall/**'
+      - 'lib/oneNight*'
+      - 'api/src/one-night/**'
+      - 'api/test/one-night*'
+      - 'supabase/functions/one-night/**'
+      - 'supabase/migrations/*one_night*'
+      - 'scripts/*one-night*'
+      - 'public/assets/one-night/**'
+      - 'tests/one-night*'
+      - '.github/workflows/one-night-checks.yml'
+  pull_request:
+    paths:
+      - 'app/nightfall/**'
+      - 'lib/oneNight*'
+      - 'api/src/one-night/**'
+      - 'api/test/one-night*'
+      - 'supabase/functions/one-night/**'
+      - 'public/assets/one-night/**'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: node scripts/build-one-night-edge.mjs && git diff --exit-code -- supabase/functions/one-night
+      - run: node --test api/test/one-night*.test.js
+      - run: npm test
+      - run: npm run typecheck
+      - run: npx eslint app/nightfall lib/oneNight* api/src/one-night api/test/one-night*.test.js

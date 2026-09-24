@@ -1,0 +1,690 @@
+[
+  {
+    "id": "oracle",
+    "name": {
+      "en": "Oracle",
+      "zh": "神谕者"
+    },
+    "description": {
+      "en": "Answer the night question. The displayed variant may change the team you need to help.",
+      "zh": "回答夜间问题。本局变体可能改变你的胜利阵营。"
+    },
+    "expansion": "alien",
+    "team": "village",
+    "icon": "🔮",
+    "maxCount": 1,
+    "order": -9
+  },
+  {
+    "id": "alien",
+    "name": {
+      "en": "Alien",
+      "zh": "外星人"
+    },
+    "description": {
+      "en": "Meet the other aliens and follow this round’s displayed alien instruction.",
+      "zh": "辨认其他外星人，并执行本局显示的外星行动。"
+    },
+    "expansion": "alien",
+    "team": "alien",
+    "icon": "👽",
+    "maxCount": 2,
+    "order": 1.1
+  },
+  {
+    "id": "syntheticAlien",
+    "name": {
+      "en": "Synthetic Alien",
+      "zh": "合成外星人"
+    },
+    "description": {
+      "en": "Meet the aliens, but you only win if you die. Your death defeats the alien and village teams.",
+      "zh": "与外星人互认，但只有自己死亡才获胜；你的死亡使外星人与村民阵营失败。"
+    },
+    "expansion": "alien",
+    "team": "synthetic",
+    "icon": "🤖",
+    "maxCount": 1,
+    "order": 1.1
+  },
+  {
+    "id": "cow",
+    "name": {
+      "en": "Cow",
+      "zh": "奶牛"
+    },
+    "description": {
+      "en": "Learn whether an alien is sitting next to you, without learning which neighbor.",
+      "zh": "获知相邻玩家中是否有外星人，但不会得知是哪一位。"
+    },
+    "expansion": "alien",
+    "team": "village",
+    "icon": "🐮",
+    "maxCount": 1,
+    "order": 1.3
+  },
+  {
+    "id": "groob",
+    "name": {
+      "en": "Groob",
+      "zh": "古鲁布"
+    },
+    "description": {
+      "en": "Meet the aliens and Zerb. If both of you remain in play, survive while Zerb dies; otherwise win with aliens.",
+      "zh": "与外星人和泽尔布互认。若双方最终都在玩家手中，需自己存活且泽尔布死亡；否则随外星人获胜。"
+    },
+    "expansion": "alien",
+    "team": "alien",
+    "icon": "🛸",
+    "maxCount": 1,
+    "order": 1.4
+  },
+  {
+    "id": "zerb",
+    "name": {
+      "en": "Zerb",
+      "zh": "泽尔布"
+    },
+    "description": {
+      "en": "Meet the aliens and Groob. If both remain in play, survive while Groob dies; otherwise win with aliens.",
+      "zh": "与外星人和古鲁布互认。若双方最终都在玩家手中，需自己存活且古鲁布死亡；否则随外星人获胜。"
+    },
+    "expansion": "alien",
+    "team": "alien",
+    "icon": "🪐",
+    "maxCount": 1,
+    "order": 1.4
+  },
+  {
+    "id": "leader",
+    "name": {
+      "en": "Leader",
+      "zh": "领袖"
+    },
+    "description": {
+      "en": "Identify the original aliens. With Groob and Zerb together, protect both; otherwise help the village.",
+      "zh": "辨认最初的外星人。古鲁布与泽尔布同时在场时需保全双方，否则帮助村民。"
+    },
+    "expansion": "alien",
+    "team": "village",
+    "icon": "📡",
+    "maxCount": 1,
+    "order": 3.2
+  },
+  {
+    "id": "psychic",
+    "name": {
+      "en": "Psychic",
+      "zh": "灵媒"
+    },
+    "description": {
+      "en": "Privately inspect cards according to the count and restrictions announced for this round.",
+      "zh": "按本局公布的数量和限制，秘密查看身份牌。"
+    },
+    "expansion": "alien",
+    "team": "village",
+    "icon": "🧿",
+    "maxCount": 1,
+    "order": 5.6
+  },
+  {
+    "id": "rascal",
+    "name": {
+      "en": "Rascal",
+      "zh": "淘气鬼"
+    },
+    "description": {
+      "en": "Move cards without viewing them according to the round’s displayed instructions.",
+      "zh": "按本局指示移动身份牌，不能查看牌面。"
+    },
+    "expansion": "alien",
+    "team": "village",
+    "icon": "🪀",
+    "maxCount": 1,
+    "order": 7.5
+  },
+  {
+    "id": "exposer",
+    "name": {
+      "en": "Exposer",
+      "zh": "揭露者"
+    },
+    "description": {
+      "en": "Reveal exactly the announced number of center cards to everyone, or reveal none.",
+      "zh": "公开翻开本局指定数量的中央牌，也可选择全部不翻。"
+    },
+    "expansion": "alien",
+    "team": "village",
+    "icon": "🔦",
+    "maxCount": 1,
+    "order": 10.1
+  },
+  {
+    "id": "blob",
+    "name": {
+      "en": "Blob",
+      "zh": "黏液怪"
+    },
+    "description": {
+      "en": "Win if you and the announced neighbors of the final Blob card all survive.",
+      "zh": "最终持有黏液怪者及本局指定的相邻玩家都存活即获胜。"
+    },
+    "expansion": "alien",
+    "team": "blob",
+    "icon": "🫧",
+    "maxCount": 1,
+    "order": 13
+  },
+  {
+    "id": "mortician",
+    "name": {
+      "en": "Mortician",
+      "zh": "殡葬师"
+    },
+    "description": {
+      "en": "Inspect permitted neighboring cards. Win if a neighbor of the final Mortician holder dies.",
+      "zh": "查看本局允许的相邻身份牌。最终持有殡葬师者的任一邻居死亡即获胜。"
+    },
+    "expansion": "alien",
+    "team": "mortician",
+    "icon": "⚰️",
+    "maxCount": 1,
+    "order": 13.1
+  },
+  {
+    "id": "auraSeer",
+    "name": {
+      "en": "Aura Seer",
+      "zh": "灵气预言家"
+    },
+    "description": {
+      "en": "Learn who has actually viewed or moved cards so far tonight.",
+      "zh": "获知今夜截至此时真正查看过或移动过身份牌的玩家。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "✨",
+    "maxCount": 1,
+    "order": 7.3
+  },
+  {
+    "id": "cursed",
+    "name": {
+      "en": "Cursed",
+      "zh": "被诅咒者"
+    },
+    "description": {
+      "en": "Become a werewolf or vampire if one votes for you. This conversion happens before the result.",
+      "zh": "若狼人或吸血鬼投你，你会在结算前变成对应阵营成员。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "🌑",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "prince",
+    "name": {
+      "en": "Prince",
+      "zh": "王子"
+    },
+    "description": {
+      "en": "Votes against you do not count. The next eligible highest vote count may die instead.",
+      "zh": "投给你的票不计入，其他最高有效票数的玩家可能死亡。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "👑",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "apprenticeTanner",
+    "name": {
+      "en": "Apprentice Tanner",
+      "zh": "皮匠学徒"
+    },
+    "description": {
+      "en": "Identify the Tanner and win if the final Tanner dies. If no Tanner remains, you must die instead.",
+      "zh": "辨认皮匠。最终皮匠死亡则获胜；若没有皮匠，则需自己死亡。"
+    },
+    "expansion": "bonus",
+    "team": "tanner",
+    "icon": "🧵",
+    "maxCount": 1,
+    "order": 3.1
+  },
+  {
+    "id": "beholder",
+    "name": {
+      "en": "Beholder",
+      "zh": "观察者"
+    },
+    "description": {
+      "en": "Identify the original Seer and Apprentice Seer; you may inspect their current cards.",
+      "zh": "辨认最初的预言家及预言家学徒，并可查看他们当前的身份牌。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "👁️",
+    "maxCount": 1,
+    "order": 9.9
+  },
+  {
+    "id": "thing",
+    "name": {
+      "en": "Thing",
+      "zh": "夜行怪"
+    },
+    "description": {
+      "en": "You may secretly notify one adjacent player that a Thing touched them.",
+      "zh": "可秘密轻触一位相邻玩家，让其知道受到了夜行怪的触碰。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "🫳",
+    "maxCount": 1,
+    "order": 4.2
+  },
+  {
+    "id": "squire",
+    "name": {
+      "en": "Squire",
+      "zh": "狼人侍从"
+    },
+    "description": {
+      "en": "Identify the original werewolves and inspect their current cards. Help the wolves; with none left, another player must die.",
+      "zh": "辨认最初的狼人并查看他们当前的牌。随狼人获胜；若已无狼人，需另一名玩家死亡。"
+    },
+    "expansion": "bonus",
+    "team": "wolf",
+    "icon": "🛡️",
+    "maxCount": 1,
+    "order": 9.3
+  },
+  {
+    "id": "bodySnatcher",
+    "name": {
+      "en": "Body Snatcher",
+      "zh": "夺身者"
+    },
+    "description": {
+      "en": "Exchange with a non-alien and view that card. Both your original card and the stolen physical card become aliens.",
+      "zh": "与非外星人交换并查看其身份。你的原牌及夺取的那张实体牌都会成为外星牌。"
+    },
+    "expansion": "bonus",
+    "team": "alien",
+    "icon": "🧬",
+    "maxCount": 1,
+    "order": 1.6
+  },
+  {
+    "id": "empath",
+    "name": {
+      "en": "Empath",
+      "zh": "共情者"
+    },
+    "description": {
+      "en": "See the private yes-or-no responses of other players to this round’s question.",
+      "zh": "查看其他玩家对本局问题给出的秘密是非回答。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "💗",
+    "maxCount": 1,
+    "order": 10.4
+  },
+  {
+    "id": "nostradamus",
+    "name": {
+      "en": "Nostradamus",
+      "zh": "诺斯特拉达姆士"
+    },
+    "description": {
+      "en": "View up to three cards. Your last inspected card determines your publicly announced team; survive and help it win.",
+      "zh": "最多依次查看三张牌。最后一张决定并公布你的阵营；须存活且该阵营获胜。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "📜",
+    "maxCount": 1,
+    "order": 5.5
+  },
+  {
+    "id": "familyMan",
+    "name": {
+      "en": "Family Man",
+      "zh": "顾家者"
+    },
+    "description": {
+      "en": "Protect yourself and the announced family neighbors of the final card holder. All must survive.",
+      "zh": "保全最终持牌者及公布的相邻家庭成员；所有人存活才获胜。"
+    },
+    "expansion": "bonus",
+    "team": "family",
+    "icon": "🏡",
+    "maxCount": 1,
+    "order": 9.4
+  },
+  {
+    "id": "windyWendy",
+    "name": {
+      "en": "Windy Wendy",
+      "zh": "疾风温蒂"
+    },
+    "description": {
+      "en": "If a villain votes for you, become a villain before the result is resolved.",
+      "zh": "如果反派投你，你会在结算前变成反派。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "🌪️",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "defenderEr",
+    "name": {
+      "en": "Defender-er",
+      "zh": "守护英雄"
+    },
+    "description": {
+      "en": "The player you vote for cannot be caught. The next eligible highest vote count may die.",
+      "zh": "你所投票的玩家不会被捕，其他最高有效票数玩家可能死亡。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "🦾",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "theSponge",
+    "name": {
+      "en": "The Sponge",
+      "zh": "海绵英雄"
+    },
+    "description": {
+      "en": "Votes against you are ignored when determining who gets caught.",
+      "zh": "决定谁被捕时，投给你的票不计入。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "🧽",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "ricochetRhino",
+    "name": {
+      "en": "Ricochet Rhino",
+      "zh": "反弹犀牛"
+    },
+    "description": {
+      "en": "If the vote would catch you, the player you voted for is caught instead.",
+      "zh": "若你将因投票被捕，改为捕捉你所投的玩家。"
+    },
+    "expansion": "bonus",
+    "team": "village",
+    "icon": "🦏",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "mirrorMan",
+    "name": {
+      "en": "Mirror Man",
+      "zh": "镜像人"
+    },
+    "description": {
+      "en": "Copy one center card. Keep your own card, but act later as that role and take its team.",
+      "zh": "复制一张中央牌。保留自身牌，之后按复制角色行动并加入其阵营。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🪞",
+    "maxCount": 1,
+    "order": -7.9
+  },
+  {
+    "id": "temptress",
+    "name": {
+      "en": "Temptress",
+      "zh": "魅惑女郎"
+    },
+    "description": {
+      "en": "Meet the villains. You may replace a non-villain player’s card with the extra villain reserve card.",
+      "zh": "与反派互认。可将一位非反派玩家的身份与额外反派备用牌交换。"
+    },
+    "expansion": "superVillains",
+    "team": "villain",
+    "icon": "💋",
+    "maxCount": 1,
+    "order": 1.7
+  },
+  {
+    "id": "drPeeker",
+    "name": {
+      "en": "Dr. Peeker",
+      "zh": "窥视博士"
+    },
+    "description": {
+      "en": "Meet the villains; you may privately view another player’s card.",
+      "zh": "与反派互认，并可秘密查看另一名玩家的身份牌。"
+    },
+    "expansion": "superVillains",
+    "team": "villain",
+    "icon": "🥽",
+    "maxCount": 1,
+    "order": 1.7
+  },
+  {
+    "id": "rapscallion",
+    "name": {
+      "en": "Rapscallion",
+      "zh": "恶棍"
+    },
+    "description": {
+      "en": "Meet the villains; you may privately view one center card.",
+      "zh": "与反派互认，并可秘密查看一张中央牌。"
+    },
+    "expansion": "superVillains",
+    "team": "villain",
+    "icon": "🦹",
+    "maxCount": 1,
+    "order": 1.7
+  },
+  {
+    "id": "henchman",
+    "name": {
+      "en": "Henchman #7",
+      "zh": "七号爪牙"
+    },
+    "description": {
+      "en": "Recognize your fellow villains. Win if no villain is caught.",
+      "zh": "辨认其他反派。若没有反派被捕则获胜。"
+    },
+    "expansion": "superVillains",
+    "team": "villain",
+    "icon": "🕶️",
+    "maxCount": 1,
+    "order": 1.7
+  },
+  {
+    "id": "evilometer",
+    "name": {
+      "en": "Evilometer",
+      "zh": "邪恶探测仪"
+    },
+    "description": {
+      "en": "Learn whether at least one neighboring player is an original villain.",
+      "zh": "获知至少一位相邻玩家是否为最初的反派。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🧭",
+    "maxCount": 1,
+    "order": 1.9
+  },
+  {
+    "id": "madScientist",
+    "name": {
+      "en": "Mad Scientist",
+      "zh": "疯狂科学家"
+    },
+    "description": {
+      "en": "Win by being caught. If you are caught, the ordinary hero and villain teams both lose.",
+      "zh": "被捕即可获胜；你被捕时，普通英雄与反派阵营均失败。"
+    },
+    "expansion": "superVillains",
+    "team": "mad",
+    "icon": "🧪",
+    "maxCount": 1,
+    "order": null
+  },
+  {
+    "id": "intern",
+    "name": {
+      "en": "Intern",
+      "zh": "实习生"
+    },
+    "description": {
+      "en": "Recognize the Mad Scientist and help them get caught. With no final Scientist, you must be caught.",
+      "zh": "辨认疯狂科学家并帮助其被捕。若最终没有科学家，则需自己被捕。"
+    },
+    "expansion": "superVillains",
+    "team": "mad",
+    "icon": "🧑‍🔬",
+    "maxCount": 1,
+    "order": 3.4
+  },
+  {
+    "id": "annoyingLad",
+    "name": {
+      "en": "Annoying Lad",
+      "zh": "烦人小子"
+    },
+    "description": {
+      "en": "Secretly notify one adjacent player that Annoying Lad bothered them.",
+      "zh": "必须秘密骚扰一位相邻玩家，让对方收到提示。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "📣",
+    "maxCount": 1,
+    "order": 4.3
+  },
+  {
+    "id": "detector",
+    "name": {
+      "en": "Detector",
+      "zh": "侦测者"
+    },
+    "description": {
+      "en": "View either one other player’s card or two center cards.",
+      "zh": "查看另一名玩家的身份牌，或两张中央牌。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🔍",
+    "maxCount": 1,
+    "order": 5.7
+  },
+  {
+    "id": "roleRetriever",
+    "name": {
+      "en": "Role Retriever",
+      "zh": "寻牌犬"
+    },
+    "description": {
+      "en": "Exchange your card with another player and view your new card, without performing its action.",
+      "zh": "与另一名玩家交换身份并查看新牌，不再执行新身份的夜间技能。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🐕",
+    "maxCount": 1,
+    "order": 6.3
+  },
+  {
+    "id": "voodooLou",
+    "name": {
+      "en": "Voodoo Lou",
+      "zh": "巫毒卢"
+    },
+    "description": {
+      "en": "You may view a center card; if you do, exchange it with any player, including yourself.",
+      "zh": "可查看一张中央牌；查看后必须与任意玩家交换，也可以是自己。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🪄",
+    "maxCount": 1,
+    "order": 6.4
+  },
+  {
+    "id": "switcheroo",
+    "name": {
+      "en": "Switcheroo",
+      "zh": "调包者"
+    },
+    "description": {
+      "en": "You may exchange two other players’ cards without looking at them.",
+      "zh": "可交换另外两名玩家的身份牌，不能查看牌面。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🔀",
+    "maxCount": 1,
+    "order": 7.6
+  },
+  {
+    "id": "selfAwarenessGirl",
+    "name": {
+      "en": "Self-Awareness Girl",
+      "zh": "自省女孩"
+    },
+    "description": {
+      "en": "Look at your own card near the end of the night to see whether it changed.",
+      "zh": "在夜晚后期查看自己的身份牌，确认是否被调换。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🪷",
+    "maxCount": 1,
+    "order": 9.2
+  },
+  {
+    "id": "flipper",
+    "name": {
+      "en": "Flipper",
+      "zh": "翻牌侠"
+    },
+    "description": {
+      "en": "Inspect another card. Leave it public only if it is a hero; Innocent Bystander stays hidden.",
+      "zh": "查看另一位玩家的牌。只有英雄牌可以保持公开；无辜路人不能公开。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🎴",
+    "maxCount": 1,
+    "order": 10.2
+  },
+  {
+    "id": "innocentBystander",
+    "name": {
+      "en": "Innocent Bystander",
+      "zh": "无辜路人"
+    },
+    "description": {
+      "en": "No night action. You win with the heroes but do not count as a hero for Flipper.",
+      "zh": "夜间无行动。随英雄获胜，但翻牌侠不能将你当作英雄公开。"
+    },
+    "expansion": "superVillains",
+    "team": "village",
+    "icon": "🚶",
+    "maxCount": 3,
+    "order": null
+  }
+]

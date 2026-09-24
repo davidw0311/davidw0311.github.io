@@ -1,0 +1,302 @@
+{
+  "night": [
+    "Everyone, close your eyes. Our one night begins.",
+    "天黑了，请所有玩家闭眼。一夜狼人杀，现在开始。"
+  ],
+  "close": [
+    "Close your eyes.",
+    "请闭眼。"
+  ],
+  "ready": [
+    "Check your secret role and read its instructions. Press ready when you understand.",
+    "请查看自己的身份和技能。阅读完毕后，请点击准备。"
+  ],
+  "discussion": [
+    "Everyone, open your eyes. Discuss what happened during the night. Your card may have changed. Do not look at your card again.",
+    "天亮了，请所有玩家睁眼。现在开始讨论。你的身份可能已经改变，请不要再次查看底牌。"
+  ],
+  "voting": [
+    "Time to vote. Choose another player. Everyone must vote before the results are revealed.",
+    "现在开始投票。请选择另一位玩家。所有人投票后，将揭晓结果。"
+  ],
+  "results": [
+    "The votes are in. Reveal the final cards and check who won.",
+    "投票结束。现在揭晓最终身份和胜负结果。"
+  ],
+  "role-markReview": [
+    "Everyone, secretly check your mark, then close your eyes.",
+    "请所有玩家秘密查看自己的印记，然后闭眼。"
+  ],
+  "role-lovers": [
+    "Players with the mark of love, open your eyes and find each other.",
+    "拥有爱情印记的玩家，请睁眼，互相确认。"
+  ],
+  "role-doppelganger": [
+    "Doppelgänger, open your eyes. Follow the instructions on your screen.",
+    "化身幽灵，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-werewolf": [
+    "Werewolf, open your eyes. Follow the instructions on your screen.",
+    "狼人，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-minion": [
+    "Minion, open your eyes. Follow the instructions on your screen.",
+    "爪牙，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-mason": [
+    "Mason, open your eyes. Follow the instructions on your screen.",
+    "共济会成员，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-seer": [
+    "Seer, open your eyes. Follow the instructions on your screen.",
+    "预言家，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-robber": [
+    "Robber, open your eyes. Follow the instructions on your screen.",
+    "强盗，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-troublemaker": [
+    "Troublemaker, open your eyes. Follow the instructions on your screen.",
+    "捣蛋鬼，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-drunk": [
+    "Drunk, open your eyes. Follow the instructions on your screen.",
+    "酒鬼，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-insomniac": [
+    "Insomniac, open your eyes. Follow the instructions on your screen.",
+    "失眠者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-sentinel": [
+    "Sentinel, open your eyes. Follow the instructions on your screen.",
+    "哨兵，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-alphaWolf": [
+    "Alpha Wolf, open your eyes. Follow the instructions on your screen.",
+    "狼王，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-mysticWolf": [
+    "Mystic Wolf, open your eyes. Follow the instructions on your screen.",
+    "秘术狼，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-apprenticeSeer": [
+    "Apprentice Seer, open your eyes. Follow the instructions on your screen.",
+    "见习预言家，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-paranormalInvestigator": [
+    "Paranormal Investigator, open your eyes. Follow the instructions on your screen.",
+    "灵异侦探，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-witch": [
+    "Witch, open your eyes. Follow the instructions on your screen.",
+    "女巫，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-villageIdiot": [
+    "Village Idiot, open your eyes. Follow the instructions on your screen.",
+    "村庄傻瓜，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-revealer": [
+    "Revealer, open your eyes. Follow the instructions on your screen.",
+    "揭示者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-curator": [
+    "Curator, open your eyes. Follow the instructions on your screen.",
+    "策展人，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-copycat": [
+    "Copycat, open your eyes. Follow the instructions on your screen.",
+    "模仿者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-vampire": [
+    "Vampire, open your eyes. Follow the instructions on your screen.",
+    "吸血鬼，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-master": [
+    "The Master, open your eyes. Follow the instructions on your screen.",
+    "吸血鬼领主，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-count": [
+    "The Count, open your eyes. Follow the instructions on your screen.",
+    "伯爵，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-renfield": [
+    "Renfield, open your eyes. Follow the instructions on your screen.",
+    "吸血鬼仆从，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-diseased": [
+    "Diseased, open your eyes. Follow the instructions on your screen.",
+    "病人，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-cupid": [
+    "Cupid, open your eyes. Follow the instructions on your screen.",
+    "丘比特，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-instigator": [
+    "Instigator, open your eyes. Follow the instructions on your screen.",
+    "煽动者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-priest": [
+    "Priest, open your eyes. Follow the instructions on your screen.",
+    "牧师，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-assassin": [
+    "Assassin, open your eyes. Follow the instructions on your screen.",
+    "刺客，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-apprenticeAssassin": [
+    "Apprentice Assassin, open your eyes. Follow the instructions on your screen.",
+    "见习刺客，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-marksman": [
+    "Marksman, open your eyes. Follow the instructions on your screen.",
+    "神射手，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-pickpocket": [
+    "Pickpocket, open your eyes. Follow the instructions on your screen.",
+    "扒手，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-gremlin": [
+    "Gremlin, open your eyes. Follow the instructions on your screen.",
+    "小妖精，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-oracle": [
+    "Oracle, open your eyes. Follow the instructions on your screen.",
+    "神谕者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-alien": [
+    "Alien, open your eyes. Follow the instructions on your screen.",
+    "外星人，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-syntheticAlien": [
+    "Synthetic Alien, open your eyes. Follow the instructions on your screen.",
+    "合成外星人，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-cow": [
+    "Cow, open your eyes. Follow the instructions on your screen.",
+    "奶牛，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-groob": [
+    "Groob, open your eyes. Follow the instructions on your screen.",
+    "古鲁布，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-zerb": [
+    "Zerb, open your eyes. Follow the instructions on your screen.",
+    "泽尔布，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-leader": [
+    "Leader, open your eyes. Follow the instructions on your screen.",
+    "领袖，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-psychic": [
+    "Psychic, open your eyes. Follow the instructions on your screen.",
+    "灵媒，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-rascal": [
+    "Rascal, open your eyes. Follow the instructions on your screen.",
+    "淘气鬼，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-exposer": [
+    "Exposer, open your eyes. Follow the instructions on your screen.",
+    "揭露者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-blob": [
+    "Blob, open your eyes. Follow the instructions on your screen.",
+    "黏液怪，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-mortician": [
+    "Mortician, open your eyes. Follow the instructions on your screen.",
+    "殡葬师，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-auraSeer": [
+    "Aura Seer, open your eyes. Follow the instructions on your screen.",
+    "灵气预言家，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-apprenticeTanner": [
+    "Apprentice Tanner, open your eyes. Follow the instructions on your screen.",
+    "皮匠学徒，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-beholder": [
+    "Beholder, open your eyes. Follow the instructions on your screen.",
+    "观察者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-thing": [
+    "Thing, open your eyes. Follow the instructions on your screen.",
+    "夜行怪，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-squire": [
+    "Squire, open your eyes. Follow the instructions on your screen.",
+    "狼人侍从，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-bodySnatcher": [
+    "Body Snatcher, open your eyes. Follow the instructions on your screen.",
+    "夺身者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-empath": [
+    "Empath, open your eyes. Follow the instructions on your screen.",
+    "共情者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-nostradamus": [
+    "Nostradamus, open your eyes. Follow the instructions on your screen.",
+    "诺斯特拉达姆士，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-familyMan": [
+    "Family Man, open your eyes. Follow the instructions on your screen.",
+    "顾家者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-mirrorMan": [
+    "Mirror Man, open your eyes. Follow the instructions on your screen.",
+    "镜像人，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-temptress": [
+    "Temptress, open your eyes. Follow the instructions on your screen.",
+    "魅惑女郎，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-drPeeker": [
+    "Dr. Peeker, open your eyes. Follow the instructions on your screen.",
+    "窥视博士，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-rapscallion": [
+    "Rapscallion, open your eyes. Follow the instructions on your screen.",
+    "恶棍，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-henchman": [
+    "Henchman #7, open your eyes. Follow the instructions on your screen.",
+    "七号爪牙，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-evilometer": [
+    "Evilometer, open your eyes. Follow the instructions on your screen.",
+    "邪恶探测仪，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-intern": [
+    "Intern, open your eyes. Follow the instructions on your screen.",
+    "实习生，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-annoyingLad": [
+    "Annoying Lad, open your eyes. Follow the instructions on your screen.",
+    "烦人小子，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-detector": [
+    "Detector, open your eyes. Follow the instructions on your screen.",
+    "侦测者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-roleRetriever": [
+    "Role Retriever, open your eyes. Follow the instructions on your screen.",
+    "寻牌犬，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-voodooLou": [
+    "Voodoo Lou, open your eyes. Follow the instructions on your screen.",
+    "巫毒卢，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-switcheroo": [
+    "Switcheroo, open your eyes. Follow the instructions on your screen.",
+    "调包者，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-selfAwarenessGirl": [
+    "Self-Awareness Girl, open your eyes. Follow the instructions on your screen.",
+    "自省女孩，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "role-flipper": [
+    "Flipper, open your eyes. Follow the instructions on your screen.",
+    "翻牌侠，请睁眼。请根据屏幕提示完成行动。"
+  ]
+}

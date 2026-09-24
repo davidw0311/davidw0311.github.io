@@ -1,0 +1,85 @@
+.page {
+  --night-background: #101013;
+  --night-panel: #19191d;
+  --night-line: #343137;
+  --night-accent: #d49a93;
+  --night-text: #f0eae7;
+  --night-muted: #b2aab3;
+  min-height: 100dvh;
+  padding: 0 5%;
+  background: var(--night-background);
+  color: var(--night-text);
+  color-scheme: dark;
+  font-family: Avenir, "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.page :focus-visible { outline: 2px solid var(--night-accent); outline-offset: 5px; }
+.page ::selection { background: var(--night-accent); color: var(--night-background); }
+.container { max-width: 1120px; margin: 0 auto; }
+.skipLink { position: fixed; top: 12px; left: 12px; z-index: 10; padding: 12px 18px; background: var(--night-accent); color: var(--night-background); transform: translateY(-180%); border-radius: 6px; }
+.skipLink:focus { transform: translateY(0); }
+.header { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--night-line); }
+.backLink { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--night-muted); text-decoration: none; font-size: 13px; }
+.backLink:hover { color: var(--night-text); }
+.languages { color: var(--night-muted); font-size: 12px; white-space: nowrap; }
+.languages > span { padding: 0 8px; color: #777078; }
+.introduction { padding: 58px 0 38px; position: relative; }
+.brandIcon { color: var(--night-accent); margin-bottom: 10px; }
+.introduction h1 { margin: 0; font-size: clamp(44px, 5.5vw, 68px); font-weight: 500; line-height: 1.13; letter-spacing: -.05em; }
+.introduction h1 > span { display: inline-block; margin-left: 24px; color: var(--night-accent); font-size: .38em; font-weight: 450; letter-spacing: .14em; vertical-align: middle; }
+.introduction p { margin: 22px 0 0; font-size: 17px; color: var(--night-muted); line-height: 1.6; }
+.introduction p > span { padding-left: 14px; font-size: 15px; }
+.games { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; scroll-margin-top: 24px; }
+.gameCard { display: block; overflow: hidden; text-decoration: none; border: 1px solid var(--night-line); border-radius: 12px; background: var(--night-panel); transition: border-color .2s, transform .2s, background .2s; }
+.gameCard:hover { border-color: #886263; background: #1e1b20; transform: translateY(-3px); }
+.gameCard:active { transform: translateY(-1px); }
+.cardArt { height: 192px; position: relative; display: grid; place-items: center; overflow: hidden; border-bottom: 1px solid var(--night-line); }
+.werewolfArt { background: #231c22; }
+.moonDisc { position: absolute; width: 134px; height: 134px; border-radius: 50%; background: #362830; border: 1px solid #5b3c44; transform: translate(24px, -9px); }
+.wolfHead { display: block; width: 126px; height: 126px; position: relative; background: var(--night-accent); mask: url('/assets/werewolf/wolf-head.svg') center / contain no-repeat; }
+.oneNightArt { background: #1b1b21; }
+.horizon { position: absolute; color: #624a52; transform: translate(45px, -15px); }
+.secretCards { position: relative; color: var(--night-accent); transform: translate(-16px, 20px) rotate(-8deg); }
+.cardBody { padding: 27px 28px 0; }
+.cardHeading { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; }
+.cardHeading h2 { font-size: clamp(23px, 2.4vw, 29px); font-weight: 550; line-height: 1.15; letter-spacing: -.035em; margin: 0 0 19px; }
+.cardHeading h2 > span { display: block; margin-top: 10px; color: var(--night-accent); font-size: 16px; letter-spacing: .08em; font-weight: 450; }
+.cardArrow { color: var(--night-accent); flex-shrink: 0; margin-top: 1px; transition: transform .2s; }
+.gameCard:hover .cardArrow { transform: translate(2px, -2px); }
+.cardBody p { font-size: 16px; line-height: 1.7; color: #d1c8ce; margin: 0; }
+.cardBody p.chineseCopy { font-size: 14px; color: var(--night-muted); margin-top: 12px; line-height: 1.8; }
+.cardFacts { min-height: 68px; margin-top: 25px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 20px; padding: 17px 0; border-top: 1px solid var(--night-line); color: #c9b9c0; font-size: 12px; }
+.cardFacts > span { white-space: nowrap; }
+.cardFacts > span > span { color: var(--night-muted); }
+.footer { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 28px 0 32px; color: #99929b; font-size: 11px; line-height: 1.7; }
+.footer a { text-underline-offset: 3px; }
+
+@media (max-width: 767px) {
+  .page { padding: 0 6%; }
+  .header { min-height: 68px; }
+  .backLink { font-size: 12px; gap: 7px; }
+  .backLink > span > span { display: none; }
+  .introduction { padding: 34px 0 29px; }
+  .brandIcon { width: 29px; height: 29px; margin-bottom: 7px; }
+  .introduction h1 { font-size: 43px; }
+  .introduction h1 > span { display: block; margin: 12px 0 0; font-size: 20px; }
+  .introduction p { margin-top: 18px; font-size: 16px; }
+  .introduction p > span { display: block; padding: 3px 0 0; font-size: 14px; }
+  .games { grid-template-columns: 1fr; gap: 20px; }
+  .cardArt { height: 150px; }
+  .wolfHead { width: 108px; height: 108px; }
+  .moonDisc { width: 118px; height: 118px; }
+  .horizon { width: 160px; height: 160px; }
+  .secretCards { width: 99px; height: 99px; transform: translate(-16px, 10px) rotate(-8deg); }
+  .cardBody { padding: 23px 22px 0; }
+  .cardHeading h2 { font-size: 25px; }
+  .cardBody p { font-size: 16px; }
+  .cardBody p.chineseCopy { font-size: 15px; }
+  .cardFacts { margin-top: 21px; gap: 7px 15px; }
+  .footer { padding-top: 24px; font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameCard, .cardArrow { transition: none; }
+  .gameCard:hover, .gameCard:active, .gameCard:hover .cardArrow { transform: none; }
+}

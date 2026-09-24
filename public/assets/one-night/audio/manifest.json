@@ -1,0 +1,1509 @@
+{
+  "provider": "Kokoro",
+  "clips": {
+    "en:night": {
+      "src": "/assets/one-night/audio/en/night.mp3",
+      "text": "Everyone, close your eyes. Our one night begins.",
+      "duration": 3.95,
+      "textHash": "a5b5fa44e738cbec2f00e6e6568e06ad0db6340f2d7d6eb2eaca570ba01ec1e8",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:close": {
+      "src": "/assets/one-night/audio/en/close.mp3",
+      "text": "Close your eyes.",
+      "duration": 1.9,
+      "textHash": "1bd6d301adb2f9584a1f30a1cdb721f08c545b3cd7b7531f782953dda3ad66c1",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:ready": {
+      "src": "/assets/one-night/audio/en/ready.mp3",
+      "text": "Check your secret role and read its instructions. Press ready when you understand.",
+      "duration": 5.8,
+      "textHash": "067bed9c252d871b2b8bb565f6a39f9c82ec5e8973bc5cf46c5a9da80f3fa7f9",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:discussion": {
+      "src": "/assets/one-night/audio/en/discussion.mp3",
+      "text": "Everyone, open your eyes. Discuss what happened during the night. Your card may have changed. Do not look at your card again.",
+      "duration": 8.275,
+      "textHash": "cc51ddff93586da1ca46664c065b50e04cd746ef718a9aea10a53ccc886c6e0e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:voting": {
+      "src": "/assets/one-night/audio/en/voting.mp3",
+      "text": "Time to vote. Choose another player. Everyone must vote before the results are revealed.",
+      "duration": 6.425,
+      "textHash": "777f265f9455acf52764ca78179a79b4131d08beac3fa2e50f52f846c532047a",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:results": {
+      "src": "/assets/one-night/audio/en/results.mp3",
+      "text": "The votes are in. Reveal the final cards and check who won.",
+      "duration": 4.45,
+      "textHash": "70ae7760ca6c4fe157a8748f79342069e26dd01588ac8df2cb9dea1480d88059",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-markReview": {
+      "src": "/assets/one-night/audio/en/role-markReview.mp3",
+      "text": "Everyone, secretly check your mark, then close your eyes.",
+      "duration": 4.25,
+      "textHash": "632050b4de751083e00d2f0cb42530da679db60adabe8d3ba0775aad3e01bc9b",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-lovers": {
+      "src": "/assets/one-night/audio/en/role-lovers.mp3",
+      "text": "Players with the mark of love, open your eyes and find each other.",
+      "duration": 4.85,
+      "textHash": "57eefebb31d40bcf81afb60c02aec6aa433237b0a212a2ed9334d9572ea9ce6c",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:night": {
+      "src": "/assets/one-night/audio/zh/night.mp3",
+      "text": "天黑了，请所有玩家闭眼。一夜狼人杀，现在开始。",
+      "duration": 5.15,
+      "textHash": "827081411c570515c289eb15b0e7c9857b158cfcd2642963e76decb4630515bd",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:close": {
+      "src": "/assets/one-night/audio/zh/close.mp3",
+      "text": "请闭眼。",
+      "duration": 1.75,
+      "textHash": "18b6d061832d11e20741c38f5947ff799f87a967ff1df6993219e7c82ac84a1f",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:ready": {
+      "src": "/assets/one-night/audio/zh/ready.mp3",
+      "text": "请查看自己的身份和技能。阅读完毕后，请点击准备。",
+      "duration": 5.85,
+      "textHash": "d257c30688f866e0aa17a955a2bae18049cd8eb9658da51303c07d2001b956ab",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:discussion": {
+      "src": "/assets/one-night/audio/zh/discussion.mp3",
+      "text": "天亮了，请所有玩家睁眼。现在开始讨论。你的身份可能已经改变，请不要再次查看底牌。",
+      "duration": 8.475,
+      "textHash": "83c85e54e7760a92e175d4bb04e702415d3b2e3697c3677165644504f74c0cd4",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:voting": {
+      "src": "/assets/one-night/audio/zh/voting.mp3",
+      "text": "现在开始投票。请选择另一位玩家。所有人投票后，将揭晓结果。",
+      "duration": 6.65,
+      "textHash": "cdea7b56ce7f2afcf7313d2a55c5bdf8271a5960afd5a86fe83a9e3d3f76132d",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:results": {
+      "src": "/assets/one-night/audio/zh/results.mp3",
+      "text": "投票结束。现在揭晓最终身份和胜负结果。",
+      "duration": 5.025,
+      "textHash": "c67a8f99be7ac96f26a7b429b18041a3a4234026685a65c25ca35cb769d80f85",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-markReview": {
+      "src": "/assets/one-night/audio/zh/role-markReview.mp3",
+      "text": "请所有玩家秘密查看自己的印记，然后闭眼。",
+      "duration": 4.975,
+      "textHash": "c038b9e3dd4815e8949ea620dad450cabea6937821edb9bff09ed68ce98034b5",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-lovers": {
+      "src": "/assets/one-night/audio/zh/role-lovers.mp3",
+      "text": "拥有爱情印记的玩家，请睁眼，互相确认。",
+      "duration": 4.7,
+      "textHash": "3c1ecf94cfae6529d2a10922d866c669ba6907c257759a1aa738cc98b7134f09",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "en:role-doppelganger": {
+      "src": "/assets/one-night/audio/en/role-doppelganger.mp3",
+      "text": "Doppelgänger, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.25,
+      "textHash": "103af4c036a7b30e54786e1ab27f415f8f5c95bdaa5cd7fd4e7119666dd48c72",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-werewolf": {
+      "src": "/assets/one-night/audio/en/role-werewolf.mp3",
+      "text": "Werewolf, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.975,
+      "textHash": "486d2c033431afc33bb7c082d457fa3da8bec3904e0212e7f42ec32fe600df18",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-minion": {
+      "src": "/assets/one-night/audio/en/role-minion.mp3",
+      "text": "Minion, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.975,
+      "textHash": "6fce02d6c4305de95df391ec3a168bbf86878edf495524d510519f97a72981d2",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-mason": {
+      "src": "/assets/one-night/audio/en/role-mason.mp3",
+      "text": "Mason, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.925,
+      "textHash": "3dddebc3f40e22b53965b6faae6227551a33a258740c4b7835c4ce80b9a6b12d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-seer": {
+      "src": "/assets/one-night/audio/en/role-seer.mp3",
+      "text": "Seer, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.775,
+      "textHash": "0440cdb7ce0df6425ec541cb17cadd715183937afe46e4c73f178808290c4454",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-robber": {
+      "src": "/assets/one-night/audio/en/role-robber.mp3",
+      "text": "Robber, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.925,
+      "textHash": "b74f74788c3a01bc967616aea83f46f8ddce8864819e03ac81ec24b42e978c4b",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-troublemaker": {
+      "src": "/assets/one-night/audio/en/role-troublemaker.mp3",
+      "text": "Troublemaker, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.225,
+      "textHash": "1f8b686be0d8274bf3163eaf2fddb56d4b62ee9fcd14d4c9db101ad4698125d1",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-drunk": {
+      "src": "/assets/one-night/audio/en/role-drunk.mp3",
+      "text": "Drunk, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.75,
+      "textHash": "c931d8a9396097783eb349536567163792d3d43be8f523e44d4af0b0f3abfccf",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-insomniac": {
+      "src": "/assets/one-night/audio/en/role-insomniac.mp3",
+      "text": "Insomniac, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.275,
+      "textHash": "5eb0468f179fc712ae94f9e0f01e2cceb298e46259470eed5caaa00543c66722",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-sentinel": {
+      "src": "/assets/one-night/audio/en/role-sentinel.mp3",
+      "text": "Sentinel, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.025,
+      "textHash": "e370a264a78d359803f2b294070666fefac5fee3e6885a16cdba6d8c330cbc11",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-alphaWolf": {
+      "src": "/assets/one-night/audio/en/role-alphaWolf.mp3",
+      "text": "Alpha Wolf, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.2,
+      "textHash": "fe3aa230960fa8525bf8a750c2f20b1ac33fb3482e6218ac9cc42d74c2794e4c",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-mysticWolf": {
+      "src": "/assets/one-night/audio/en/role-mysticWolf.mp3",
+      "text": "Mystic Wolf, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.25,
+      "textHash": "99fe2a4470f157e7b0ccbe40f29db68ec84558dc6a587f736d9669fbf5fe697d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-apprenticeSeer": {
+      "src": "/assets/one-night/audio/en/role-apprenticeSeer.mp3",
+      "text": "Apprentice Seer, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.35,
+      "textHash": "46140701589cc8e33d2dcc8f72ba9408dc22d2fbc388c94b30b31f48085600df",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-paranormalInvestigator": {
+      "src": "/assets/one-night/audio/en/role-paranormalInvestigator.mp3",
+      "text": "Paranormal Investigator, open your eyes. Follow the instructions on your screen.",
+      "duration": 6.225,
+      "textHash": "387d36a0c90b36a2be17ad6dab18999c866feadccd47590a7f0819b6fa86d87c",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-witch": {
+      "src": "/assets/one-night/audio/en/role-witch.mp3",
+      "text": "Witch, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.75,
+      "textHash": "6a24784b225a201c06a9315ef0d8cdde36b94195c6298da88e736633ae7a3f2d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-villageIdiot": {
+      "src": "/assets/one-night/audio/en/role-villageIdiot.mp3",
+      "text": "Village Idiot, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.375,
+      "textHash": "152f57270066b756642861500000e4f9bad3cf1903bd50e554158c6a2cf18f2d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-revealer": {
+      "src": "/assets/one-night/audio/en/role-revealer.mp3",
+      "text": "Revealer, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.975,
+      "textHash": "10ce65cd25a910c1e1befcd5382672f86657b181f84b69bbc825473dbafe6ab7",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-curator": {
+      "src": "/assets/one-night/audio/en/role-curator.mp3",
+      "text": "Curator, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.95,
+      "textHash": "86a7d92b11cbde0fcd25e38395521d42c67bc34cbd2a91f985a9b9bb826c5a92",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-copycat": {
+      "src": "/assets/one-night/audio/en/role-copycat.mp3",
+      "text": "Copycat, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.025,
+      "textHash": "f0b88896c699f20e168607f22eccc69c69914323a20a91ddb2df5db000012f39",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-vampire": {
+      "src": "/assets/one-night/audio/en/role-vampire.mp3",
+      "text": "Vampire, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.05,
+      "textHash": "3ceae05bf75b7b5f156f0ea8bc8ca099c05276efc56f563b0076839cb6ee099d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-master": {
+      "src": "/assets/one-night/audio/en/role-master.mp3",
+      "text": "The Master, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.1,
+      "textHash": "6cd48201c6b2501bf1953863d61a5d9391938472d6f6180e93683f5182cf8c99",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-count": {
+      "src": "/assets/one-night/audio/en/role-count.mp3",
+      "text": "The Count, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.9,
+      "textHash": "7a9d146e4139e455733448f12d755aeabd766374b3983ac736502ba83e8f178b",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-renfield": {
+      "src": "/assets/one-night/audio/en/role-renfield.mp3",
+      "text": "Renfield, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.025,
+      "textHash": "40714120e16dce6076214560777ad1d1a660c408019810c142dd5643348ea050",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-diseased": {
+      "src": "/assets/one-night/audio/en/role-diseased.mp3",
+      "text": "Diseased, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.075,
+      "textHash": "0f4b3c6facd76392470749206685ad39d2d83e3ffbaf2aa19c2637dc2e23fbfb",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-cupid": {
+      "src": "/assets/one-night/audio/en/role-cupid.mp3",
+      "text": "Cupid, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.8,
+      "textHash": "27eab08002ff4bccbe21d9a72201b76da840460c53def6433bf82aae2472b283",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-instigator": {
+      "src": "/assets/one-night/audio/en/role-instigator.mp3",
+      "text": "Instigator, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.15,
+      "textHash": "02710174c9558599c5ef08f911a56246f396ad49ae83fbdf7032e506ff931266",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-priest": {
+      "src": "/assets/one-night/audio/en/role-priest.mp3",
+      "text": "Priest, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.825,
+      "textHash": "0dcd885350978dc17ffb1a178955a015b86dae499f047bf1d87196a86de56d64",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-assassin": {
+      "src": "/assets/one-night/audio/en/role-assassin.mp3",
+      "text": "Assassin, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.05,
+      "textHash": "59e03556aa13196883e464977647b5122229fd9787cee748dea6d85eaf32386d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-apprenticeAssassin": {
+      "src": "/assets/one-night/audio/en/role-apprenticeAssassin.mp3",
+      "text": "Apprentice Assassin, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.725,
+      "textHash": "4e3c531f7db6dd8c6df83e82262df697151a76dfe0c91ec77e73beb52b06bb59",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-marksman": {
+      "src": "/assets/one-night/audio/en/role-marksman.mp3",
+      "text": "Marksman, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.0,
+      "textHash": "7c33e9ef363662e6d59be83cb6fbd27cc4535cc66a5456d86cbdd7307cfceb70",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-pickpocket": {
+      "src": "/assets/one-night/audio/en/role-pickpocket.mp3",
+      "text": "Pickpocket, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.025,
+      "textHash": "91f5f3e8cc353305c03891803eef7ac9e95cce9d87d8cf0bc36e2df45b2f640e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-gremlin": {
+      "src": "/assets/one-night/audio/en/role-gremlin.mp3",
+      "text": "Gremlin, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.925,
+      "textHash": "6d61baa4274cdf45b7bca14e521381865cb4d4bb9e6941763f9e057456fa116e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:role-doppelganger": {
+      "src": "/assets/one-night/audio/zh/role-doppelganger.mp3",
+      "text": "化身幽灵，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.15,
+      "textHash": "037259d5d04c278433e3679899ecca319b9c069d14bbc7243cabab85387b1b87",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-werewolf": {
+      "src": "/assets/one-night/audio/zh/role-werewolf.mp3",
+      "text": "狼人，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.775,
+      "textHash": "d02642dbf284b213d106d69f84085055bd521c6932ec03e58be7aaa1bd341928",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-minion": {
+      "src": "/assets/one-night/audio/zh/role-minion.mp3",
+      "text": "爪牙，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.8,
+      "textHash": "7f4a00f96e2cb8c7dd589401585dfb5b5f961881df44a0c0a443365aa1b13e20",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-mason": {
+      "src": "/assets/one-night/audio/zh/role-mason.mp3",
+      "text": "共济会成员，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.425,
+      "textHash": "7d3c3c55638884dd6e3eb0ebdfc615f96aa032122ada1e5cca48771c3936af74",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-seer": {
+      "src": "/assets/one-night/audio/zh/role-seer.mp3",
+      "text": "预言家，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.875,
+      "textHash": "44448984d5e1d7a731e3f6393838b45f05ffd1d83ee20d78006a43bbc84a713a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-robber": {
+      "src": "/assets/one-night/audio/zh/role-robber.mp3",
+      "text": "强盗，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.875,
+      "textHash": "261d07944405254f991ccbe2f32597820857147831d416989bbf82b8977dd80c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-troublemaker": {
+      "src": "/assets/one-night/audio/zh/role-troublemaker.mp3",
+      "text": "捣蛋鬼，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.95,
+      "textHash": "42082b876be6d1bb04d2f07d7e7077432c0e159ec63b5bfb7d899f99073cf473",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-drunk": {
+      "src": "/assets/one-night/audio/zh/role-drunk.mp3",
+      "text": "酒鬼，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.85,
+      "textHash": "77c1947df0828ab7d52d78f90e21f3b70c6dfe76f25579ce7a5414429821543e",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-insomniac": {
+      "src": "/assets/one-night/audio/zh/role-insomniac.mp3",
+      "text": "失眠者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "a8b86ce9583c483f2f6bd4b2bd743c600611c7441ca16900c47ba5d5204eacf2",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-sentinel": {
+      "src": "/assets/one-night/audio/zh/role-sentinel.mp3",
+      "text": "哨兵，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.875,
+      "textHash": "361ecf9999364e08824c6cca85309ad21c42604b81dc0431b04a486e39e7f9e0",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-alphaWolf": {
+      "src": "/assets/one-night/audio/zh/role-alphaWolf.mp3",
+      "text": "狼王，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.825,
+      "textHash": "ef4def279a0e4b1181c43927809cacab4f2b1d67bddaf5918ac8f25a3d56cb5c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-mysticWolf": {
+      "src": "/assets/one-night/audio/zh/role-mysticWolf.mp3",
+      "text": "秘术狼，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.95,
+      "textHash": "8c546afd6d23eaba28f6218437f7802fd6d021489999ef3bbcf7f1d3d5f2a6e2",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-apprenticeSeer": {
+      "src": "/assets/one-night/audio/zh/role-apprenticeSeer.mp3",
+      "text": "见习预言家，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.425,
+      "textHash": "607d18b895f5900e1de0bece8463791835eb9d742ad921e3e532e92eeb2b8ae8",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-paranormalInvestigator": {
+      "src": "/assets/one-night/audio/zh/role-paranormalInvestigator.mp3",
+      "text": "灵异侦探，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.15,
+      "textHash": "6f9873de83b46e1db42b9a7438b2b76a1a923201fd0caa25cd43203eae896338",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-witch": {
+      "src": "/assets/one-night/audio/zh/role-witch.mp3",
+      "text": "女巫，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.75,
+      "textHash": "7c2971795088797350fba93255c290d9dc551fa501a034187b6ecbdbda88d02a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-villageIdiot": {
+      "src": "/assets/one-night/audio/zh/role-villageIdiot.mp3",
+      "text": "村庄傻瓜，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.35,
+      "textHash": "13b7ff21dbaffd4bbfe92bd84352e516acd8d7bd3e3257ba47a4083bd7faba66",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-revealer": {
+      "src": "/assets/one-night/audio/zh/role-revealer.mp3",
+      "text": "揭示者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.9,
+      "textHash": "0adb5fc6239ccf8695b3ddb6bccf56c18ac5a8b64541856505a52668e83bd840",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-curator": {
+      "src": "/assets/one-night/audio/zh/role-curator.mp3",
+      "text": "策展人，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.025,
+      "textHash": "3889aab14a4c9bc300b56d09c1aabe1a312151ede91ce1ebe8809d75cba56d7f",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-copycat": {
+      "src": "/assets/one-night/audio/zh/role-copycat.mp3",
+      "text": "模仿者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.95,
+      "textHash": "90a67438aa0e867963df661349c6d169e1bbd331bef1ae13a2b712b481d28bf9",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-vampire": {
+      "src": "/assets/one-night/audio/zh/role-vampire.mp3",
+      "text": "吸血鬼，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.975,
+      "textHash": "7221fc0a09c7ba8a10aba749a7019ff784b39566939bb304f4dff2ba6a6bed21",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-master": {
+      "src": "/assets/one-night/audio/zh/role-master.mp3",
+      "text": "吸血鬼领主，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.275,
+      "textHash": "9903833da89e69600315aa3a5e51ea79bbf94fd4d00d618c808bb91195563d25",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-count": {
+      "src": "/assets/one-night/audio/zh/role-count.mp3",
+      "text": "伯爵，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.825,
+      "textHash": "0a4a8e1c6396f30828a9057ccc90417d463c1f8e47d39089434b0e9237399610",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-renfield": {
+      "src": "/assets/one-night/audio/zh/role-renfield.mp3",
+      "text": "吸血鬼仆从，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.35,
+      "textHash": "05174382a0a87ea8a211c9df5251b9145e0ead00c8d5731dce3f2fd6ba26a48b",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-diseased": {
+      "src": "/assets/one-night/audio/zh/role-diseased.mp3",
+      "text": "病人，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.825,
+      "textHash": "05f36f27003855649074a95b8556dc95c2d1455bf920c524d3ee298694a9fa4a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-cupid": {
+      "src": "/assets/one-night/audio/zh/role-cupid.mp3",
+      "text": "丘比特，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.025,
+      "textHash": "d661733e82f191c43982460f8a8c5e514c0ea35835e25bcb81f0335252b9007e",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-instigator": {
+      "src": "/assets/one-night/audio/zh/role-instigator.mp3",
+      "text": "煽动者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "a075eb1623c4d26f35d91bac31ca7e25251dbb7b091253b2c0a6bdbf2ae17380",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-priest": {
+      "src": "/assets/one-night/audio/zh/role-priest.mp3",
+      "text": "牧师，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.8,
+      "textHash": "da50cd6ebca9472e3c85ce14ebcb9bba86d00cfea0cc2855e38e157b4afa83a1",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-assassin": {
+      "src": "/assets/one-night/audio/zh/role-assassin.mp3",
+      "text": "刺客，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.9,
+      "textHash": "f811670b1c5a71b53d8f1985c897ffd40178bd5ffe5a193b04001ae02f5bfa67",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-apprenticeAssassin": {
+      "src": "/assets/one-night/audio/zh/role-apprenticeAssassin.mp3",
+      "text": "见习刺客，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.225,
+      "textHash": "a0572f0a371e5d84f5adeb19411c47b583f7ff1d71681b30808f1e8f23f4cf3c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-marksman": {
+      "src": "/assets/one-night/audio/zh/role-marksman.mp3",
+      "text": "神射手，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "16eb88d2e68660f4ed98655c9e08aac8cb08a0f34b208d51e8c901e9b3a848fd",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-pickpocket": {
+      "src": "/assets/one-night/audio/zh/role-pickpocket.mp3",
+      "text": "扒手，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.825,
+      "textHash": "19190487aca54599a3b797c89fd71b823d6c23a917ff10363db0e7e67f2478a2",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-gremlin": {
+      "src": "/assets/one-night/audio/zh/role-gremlin.mp3",
+      "text": "小妖精，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.95,
+      "textHash": "27db2f03b67d08d6502779c39c95ca83409b4b73035d60f5a40248dda40ca5ba",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "en:role-oracle": {
+      "src": "/assets/one-night/audio/en/role-oracle.mp3",
+      "text": "Oracle, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.975,
+      "textHash": "aefc71c965606cc233012c629b101cc47f3b1162ee57e1d1f9ee373d646aff1e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-alien": {
+      "src": "/assets/one-night/audio/en/role-alien.mp3",
+      "text": "Alien, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.875,
+      "textHash": "0d229a87e33805061143e7494e208d4c6d948d13a94fd9ce62a45d12e5c0c995",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-syntheticAlien": {
+      "src": "/assets/one-night/audio/en/role-syntheticAlien.mp3",
+      "text": "Synthetic Alien, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.65,
+      "textHash": "383b039f787e8a4068c6b88ba5793cd2680df498a4bab13eb9dc42f20ccf5fcc",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-cow": {
+      "src": "/assets/one-night/audio/en/role-cow.mp3",
+      "text": "Cow, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.725,
+      "textHash": "acfdedb8ab7549d2df607dfc875bafb752c97ff888807210b796e60624d64a81",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-groob": {
+      "src": "/assets/one-night/audio/en/role-groob.mp3",
+      "text": "Groob, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.875,
+      "textHash": "b4f4f48fed7bdb2012cd4f2afcbf73503245affe7be5a42f10797c528393ad09",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-zerb": {
+      "src": "/assets/one-night/audio/en/role-zerb.mp3",
+      "text": "Zerb, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.875,
+      "textHash": "05635ed6149a828c0b4ee6b387c1084b3a81dc1ff6d3aab5b5e0cf3de6ac9e13",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-leader": {
+      "src": "/assets/one-night/audio/en/role-leader.mp3",
+      "text": "Leader, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.85,
+      "textHash": "176f6fc06eebfdb24209de77a5a18632aad2dad54964b51093fdce89225159ae",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-psychic": {
+      "src": "/assets/one-night/audio/en/role-psychic.mp3",
+      "text": "Psychic, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.825,
+      "textHash": "b78ef8f135a39072a03cd308da064df3315814956428093c7f1610bc0aed39b4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-rascal": {
+      "src": "/assets/one-night/audio/en/role-rascal.mp3",
+      "text": "Rascal, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.0,
+      "textHash": "12e02ac3d3e25edf2b535f5dac52c145367e190fe71a5fcf8805601be10a1ca2",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-exposer": {
+      "src": "/assets/one-night/audio/en/role-exposer.mp3",
+      "text": "Exposer, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.05,
+      "textHash": "9885ce4410d27bfa5e2db5e0b821a961c229b17b1623da35bd84fd729d3fff03",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-blob": {
+      "src": "/assets/one-night/audio/en/role-blob.mp3",
+      "text": "Blob, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.8,
+      "textHash": "9359516abd6b8dd9844585b2556c36d7d0ac93d88015a3c9e12a3765c76bdb90",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-mortician": {
+      "src": "/assets/one-night/audio/en/role-mortician.mp3",
+      "text": "Mortician, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.175,
+      "textHash": "1d2035de7a0fabb9deac426bb55e6ba643c0fd29ca63992d785470cd61390638",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-auraSeer": {
+      "src": "/assets/one-night/audio/en/role-auraSeer.mp3",
+      "text": "Aura Seer, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.125,
+      "textHash": "3dcbf96eabd7ca8529679a0cd2abaf00b1deb7eb1d041f9dab340aff2b312c32",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-apprenticeTanner": {
+      "src": "/assets/one-night/audio/en/role-apprenticeTanner.mp3",
+      "text": "Apprentice Tanner, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.425,
+      "textHash": "09b8af73005401d1512d39e2db5b1931e23e0fe847e6dbca4f202d48f5496a87",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-beholder": {
+      "src": "/assets/one-night/audio/en/role-beholder.mp3",
+      "text": "Beholder, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.025,
+      "textHash": "3ca77d08f60d054e3de7237695dce007851068f6ac46948184e2b8defb3ee09e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-thing": {
+      "src": "/assets/one-night/audio/en/role-thing.mp3",
+      "text": "Thing, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.775,
+      "textHash": "abad3b729ffa2487eb39b3acce3eb0a5b01a650ab253127310cb0da9dba444c4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-squire": {
+      "src": "/assets/one-night/audio/en/role-squire.mp3",
+      "text": "Squire, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.95,
+      "textHash": "c227377067a88d52f4b69cc88d1fc70616cefd5613306465b8fcd1c8c0f7df43",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-bodySnatcher": {
+      "src": "/assets/one-night/audio/en/role-bodySnatcher.mp3",
+      "text": "Body Snatcher, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.35,
+      "textHash": "990439b68bec1dd869fdac9b76417dfceb5db41ec6db59c63716ce2eb0dde5db",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-empath": {
+      "src": "/assets/one-night/audio/en/role-empath.mp3",
+      "text": "Empath, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.9,
+      "textHash": "5039fea92d004d74d15b606f1408e73bfd44c92868294a5151af376fa4af4f81",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-nostradamus": {
+      "src": "/assets/one-night/audio/en/role-nostradamus.mp3",
+      "text": "Nostradamus, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.475,
+      "textHash": "07ef0e5adff74ec4fa5c27fc541e168e4471714a9c3b512547ccd6ec30f625ab",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-familyMan": {
+      "src": "/assets/one-night/audio/en/role-familyMan.mp3",
+      "text": "Family Man, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.3,
+      "textHash": "4a95f22b9183547c18a5a41b88b2a4f2345fcca29b72b5a9abf8e1f25563123f",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-mirrorMan": {
+      "src": "/assets/one-night/audio/en/role-mirrorMan.mp3",
+      "text": "Mirror Man, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.175,
+      "textHash": "48b4afa7908e00c4e988798ea7d1a486dcb1711f2710c9164a958bf3679453d0",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-temptress": {
+      "src": "/assets/one-night/audio/en/role-temptress.mp3",
+      "text": "Temptress, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.925,
+      "textHash": "2fa601f5ba586581aadd768316c09ce904aa29885c3f3b583804c3a22a8e74f6",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-drPeeker": {
+      "src": "/assets/one-night/audio/en/role-drPeeker.mp3",
+      "text": "Dr. Peeker, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.275,
+      "textHash": "49dafb5228f2c424263c012cb4ee1d05796cd1f79541791b9e5e2980f9af3bed",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-rapscallion": {
+      "src": "/assets/one-night/audio/en/role-rapscallion.mp3",
+      "text": "Rapscallion, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.15,
+      "textHash": "d27b1986201f72e3be9959b0a7a92c4f99662ff45cafdce89177262362128cb8",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-henchman": {
+      "src": "/assets/one-night/audio/en/role-henchman.mp3",
+      "text": "Henchman #7, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.4,
+      "textHash": "c7b23f479703d45473dbcfb5a1fe73046787163eabf40a9f9744bb170b68af5f",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-evilometer": {
+      "src": "/assets/one-night/audio/en/role-evilometer.mp3",
+      "text": "Evilometer, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.25,
+      "textHash": "e420c605ef1ea7a2f30cd8118c7976ba00302195e3d6686b9b4954d2ab2998ba",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-intern": {
+      "src": "/assets/one-night/audio/en/role-intern.mp3",
+      "text": "Intern, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.95,
+      "textHash": "c5d2be916786f28c38efe19d74ede7ee45285ef1c39edcbab15f0e0197dec988",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-annoyingLad": {
+      "src": "/assets/one-night/audio/en/role-annoyingLad.mp3",
+      "text": "Annoying Lad, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.25,
+      "textHash": "35dacb045048d4a1493859ee4a3a5c35707e13c4f9ee9b9b56fde0def51c7fdf",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-detector": {
+      "src": "/assets/one-night/audio/en/role-detector.mp3",
+      "text": "Detector, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.025,
+      "textHash": "1b90380c6acdef1b1660470a8bc72e2aa02933d43b853c51bf06e5406464666c",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-roleRetriever": {
+      "src": "/assets/one-night/audio/en/role-roleRetriever.mp3",
+      "text": "Role Retriever, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.45,
+      "textHash": "de4cbc50cb04c5746b59b538fc9d3fb31b236f4a5ab374c8ead4e0b8795852c4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-voodooLou": {
+      "src": "/assets/one-night/audio/en/role-voodooLou.mp3",
+      "text": "Voodoo Lou, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.2,
+      "textHash": "67f38ea41866c6bc45a6949efa4595056e75b74e7cb8e8f9b59663ce9401d619",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-switcheroo": {
+      "src": "/assets/one-night/audio/en/role-switcheroo.mp3",
+      "text": "Switcheroo, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.05,
+      "textHash": "e98cd4a50d7ab9edd34c29a40c5d9a380170b5fa2cec2e11da0bbef841a51b9c",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-selfAwarenessGirl": {
+      "src": "/assets/one-night/audio/en/role-selfAwarenessGirl.mp3",
+      "text": "Self-Awareness Girl, open your eyes. Follow the instructions on your screen.",
+      "duration": 5.75,
+      "textHash": "9e5b882ebaf04e6c78966e3aefbc45b7d75573641d6f2050acb824025a2826d4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:role-flipper": {
+      "src": "/assets/one-night/audio/en/role-flipper.mp3",
+      "text": "Flipper, open your eyes. Follow the instructions on your screen.",
+      "duration": 4.875,
+      "textHash": "a02895361bcc730b105f93a8c8c819fee5f85f00d2fce95bf9c6472d1435c735",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:role-oracle": {
+      "src": "/assets/one-night/audio/zh/role-oracle.mp3",
+      "text": "神谕者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.9,
+      "textHash": "1c45f168579437bc966b91401cbc4940d1ecb0e6a3b1ec75b04ec60ffb733398",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-alien": {
+      "src": "/assets/one-night/audio/zh/role-alien.mp3",
+      "text": "外星人，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.925,
+      "textHash": "2bf930a697390a1ff74494a6a982f68ebdcb8c4e95e0494577470a224f115f5c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-syntheticAlien": {
+      "src": "/assets/one-night/audio/zh/role-syntheticAlien.mp3",
+      "text": "合成外星人，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.425,
+      "textHash": "5ea5ca6c6b791d44701d4e9ee9bcb6047b1f30123d73aee40c1a350179d3a288",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-cow": {
+      "src": "/assets/one-night/audio/zh/role-cow.mp3",
+      "text": "奶牛，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.825,
+      "textHash": "5810a0c647301f277b942a850698c2df89762dfee5f151121a4848d4017d726e",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-groob": {
+      "src": "/assets/one-night/audio/zh/role-groob.mp3",
+      "text": "古鲁布，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.925,
+      "textHash": "061211b871d2ac2f20b6df38cb6a32ff0b43b0db051d38f94b62ffa75d79b8bb",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-zerb": {
+      "src": "/assets/one-night/audio/zh/role-zerb.mp3",
+      "text": "泽尔布，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.85,
+      "textHash": "e2dfd104b0875b36df71160952cc7048be2b23a4d02e44cf07e088d7d3881ae1",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-leader": {
+      "src": "/assets/one-night/audio/zh/role-leader.mp3",
+      "text": "领袖，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.825,
+      "textHash": "f8246ba5c03b591c1afa76cd629f9fc85d10279c9a708a93832b1a9716fa34c0",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-psychic": {
+      "src": "/assets/one-night/audio/zh/role-psychic.mp3",
+      "text": "灵媒，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.85,
+      "textHash": "3cd1cc0055eb2fbd0e29b5593ee07afd437f8c750e42ece94d1048e1d598c23b",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-rascal": {
+      "src": "/assets/one-night/audio/zh/role-rascal.mp3",
+      "text": "淘气鬼，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "ffe18e260e2714272f8afa59464cc8a3408adf8eb95f09e44afa870e410ac0ea",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-exposer": {
+      "src": "/assets/one-night/audio/zh/role-exposer.mp3",
+      "text": "揭露者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "9d03793fd5d6a4c70d08f838efd866d261bc465e68d68fb9ed851304e84d074d",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-blob": {
+      "src": "/assets/one-night/audio/zh/role-blob.mp3",
+      "text": "黏液怪，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.925,
+      "textHash": "51ba8afdbe48623ce16693cd753713bfa2867f1ef1fb1443e5ad30e8cffdbdc7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-mortician": {
+      "src": "/assets/one-night/audio/zh/role-mortician.mp3",
+      "text": "殡葬师，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "a22fd78bb533c2e760f8388dca76a5bdc0e44bbf69606c4d7a13d6554d37eec8",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-auraSeer": {
+      "src": "/assets/one-night/audio/zh/role-auraSeer.mp3",
+      "text": "灵气预言家，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.375,
+      "textHash": "ed77e875fdd8ddc662a6ede1197ed80535cb4aeb45f6324c43b7bcb5e64f3876",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-apprenticeTanner": {
+      "src": "/assets/one-night/audio/zh/role-apprenticeTanner.mp3",
+      "text": "皮匠学徒，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.225,
+      "textHash": "680c0a16bed711137da464382d8499e259b2b713dd89d20c82279d0b1943f538",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-beholder": {
+      "src": "/assets/one-night/audio/zh/role-beholder.mp3",
+      "text": "观察者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.95,
+      "textHash": "b99710c0b4431265bf0efad23af011ec229d535cec47a4750466f100b4521337",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-thing": {
+      "src": "/assets/one-night/audio/zh/role-thing.mp3",
+      "text": "夜行怪，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "0d30de14be13652bf5292dc5e1740cf46695e335a90dad020d56e3c87d014a79",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-squire": {
+      "src": "/assets/one-night/audio/zh/role-squire.mp3",
+      "text": "狼人侍从，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.175,
+      "textHash": "7a0ff44913c4de7dbf85a8b2696901215201f3ddf7233e9661f2e3f57cc7fc09",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-bodySnatcher": {
+      "src": "/assets/one-night/audio/zh/role-bodySnatcher.mp3",
+      "text": "夺身者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.05,
+      "textHash": "a7692f56db12a7f188f9a72d9319cef0cc68cdda62038bad81391b7c6125745c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-empath": {
+      "src": "/assets/one-night/audio/zh/role-empath.mp3",
+      "text": "共情者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.925,
+      "textHash": "5bf12664c0de88b42558bccfaa16b72db9cfa7bbec4bba58fd4eca598d99a6d1",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-nostradamus": {
+      "src": "/assets/one-night/audio/zh/role-nostradamus.mp3",
+      "text": "诺斯特拉达姆士，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.825,
+      "textHash": "34e5ba13ff45dc4c506d740e1e612a522ce17e5f2d25d545830301fea70f7569",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-familyMan": {
+      "src": "/assets/one-night/audio/zh/role-familyMan.mp3",
+      "text": "顾家者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.05,
+      "textHash": "5a5a503da9c3d9158befffe1247c2b8f9c2acc526b1bc65635fbe000b3bd42bd",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-mirrorMan": {
+      "src": "/assets/one-night/audio/zh/role-mirrorMan.mp3",
+      "text": "镜像人，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.95,
+      "textHash": "8d40ac241cadbb788c701b84ff2e67305748f30346137d486277ed5bab56b980",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-temptress": {
+      "src": "/assets/one-night/audio/zh/role-temptress.mp3",
+      "text": "魅惑女郎，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.025,
+      "textHash": "e3a12ca80dde0c2a388369ac86e653d8202445b3654a6f45dab9d1390cf9c6f7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-drPeeker": {
+      "src": "/assets/one-night/audio/zh/role-drPeeker.mp3",
+      "text": "窥视博士，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.3,
+      "textHash": "b602c64277f8eaac824b5ff0971677eec68e832fbb96f3f9e4ca9257dd9c1f93",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-rapscallion": {
+      "src": "/assets/one-night/audio/zh/role-rapscallion.mp3",
+      "text": "恶棍，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.85,
+      "textHash": "bea688d6b5afff8fafa9a4ea6fa7f8af089ac75bec7fc1e34acd705ec4c556a0",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-henchman": {
+      "src": "/assets/one-night/audio/zh/role-henchman.mp3",
+      "text": "七号爪牙，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.15,
+      "textHash": "56f3d5de4daaa5abc53aa8f2506b7828f576b18071b29a40afe2439839ef3e45",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-evilometer": {
+      "src": "/assets/one-night/audio/zh/role-evilometer.mp3",
+      "text": "邪恶探测仪，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.375,
+      "textHash": "8df6658d3816682e39f166f9ef3f7f046476e0bb9ad91878b55834b02259b548",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-intern": {
+      "src": "/assets/one-night/audio/zh/role-intern.mp3",
+      "text": "实习生，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "ae59fbdae79d88648df400381c66ca1eb6e77e2d052dd1d5518e380a03abbf9c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-annoyingLad": {
+      "src": "/assets/one-night/audio/zh/role-annoyingLad.mp3",
+      "text": "烦人小子，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.075,
+      "textHash": "dd53bd14dd604409557b00dcfa1b09b0f2ba06d0f1229caab1f6a140d8190776",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-detector": {
+      "src": "/assets/one-night/audio/zh/role-detector.mp3",
+      "text": "侦测者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.025,
+      "textHash": "991e8b633b3b8c210c1dc52fd6e20c078c0e81eca8a5943cba5c9c5b93191a6a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-roleRetriever": {
+      "src": "/assets/one-night/audio/zh/role-roleRetriever.mp3",
+      "text": "寻牌犬，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.975,
+      "textHash": "58c1eac58ba4b71f94bdd74d6a398d5958db4f5fe7be846b73070a30a5448fb4",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-voodooLou": {
+      "src": "/assets/one-night/audio/zh/role-voodooLou.mp3",
+      "text": "巫毒卢，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.0,
+      "textHash": "e4052bb8c0883d39fac8bebf2b3017afb51717d402d72e35c6667df950d69f5a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-switcheroo": {
+      "src": "/assets/one-night/audio/zh/role-switcheroo.mp3",
+      "text": "调包者，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.975,
+      "textHash": "5c5d40ba234de05fb8de104fc72944899abf18d541aad4baa777c10624df5084",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-selfAwarenessGirl": {
+      "src": "/assets/one-night/audio/zh/role-selfAwarenessGirl.mp3",
+      "text": "自省女孩，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 5.025,
+      "textHash": "c9a3048a3b0b7a437d54229b3b62a953786fd88a6c038f02aa6689e59ed75fab",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:role-flipper": {
+      "src": "/assets/one-night/audio/zh/role-flipper.mp3",
+      "text": "翻牌侠，请睁眼。请根据屏幕提示完成行动。",
+      "duration": 4.975,
+      "textHash": "9e9165b51c29fed12b293fade1f4136172e24df6cf2d30a72dfdc0e96a267808",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    }
+  },
+  "voices": {
+    "en": "am_michael",
+    "zh": "zm_010"
+  }
+}
