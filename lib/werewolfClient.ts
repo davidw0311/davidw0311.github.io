@@ -23,10 +23,10 @@ export type GameView = {
 export type Command = { type: string; [key: string]: unknown };
 type Session = { code: string; token: string; name: string; recoveryKey?: string };
 type Reply = { view: GameView; recoveryKey?: string };
-const endpoint = process.env.NEXT_PUBLIC_WEREWOLF_API_URL || "https://speechlab-assessment-hfh9hpfwhdafh7gz.southeastasia-01.azurewebsites.net/api/werewolf";
+const endpoint = process.env.NEXT_PUBLIC_WEREWOLF_API_URL || "https://vxbhzddlhopsgbwmjzdm.supabase.co/functions/v1/werewolf";
 const terminalErrors = new Set(["NOT_SEATED", "SESSION_REPLACED", "ROOM_NOT_FOUND", "ROOM_EXPIRED", "INVALID_TOKEN", "room-not-found", "room-expired", "invalid-session", "room-disbanded"]);
-const sessionKey = "nightfall.session.v1";
-const pendingKey = "nightfall.pending.v1";
+const sessionKey = "nightfall.session.supabase.v2";
+const pendingKey = "nightfall.pending.supabase.v2";
 export class RoomError extends Error { constructor(public code: string, message: string, public retryable = false) { super(message); } }
 export function roomId() { return crypto.randomUUID(); }
 function readStored<T>(key: string): T | null { try { return JSON.parse(localStorage.getItem(key) || "null") as T | null; } catch { return null; } }
@@ -44,7 +44,7 @@ async function request(payload: Record<string, unknown>, signal?: AbortSignal): 
     return body;
   } catch (error) {
     if (error instanceof RoomError) throw error;
-    throw new RoomError("connection", "Connection interrupted. Your seat and game are saved. Reconnecting…", true);
+    throw new RoomError("connection", "Cannot reach the game service. Check your connection and try again.", true);
   } finally { clearTimeout(timeout); signal?.removeEventListener("abort", abort); }
 }
 async function reliableRequest(payload: Record<string, unknown>): Promise<Reply> {
@@ -99,6 +99,7 @@ export function useWerewolfRoom() {
       try {
         const reply = await request({ op: "sync", code: session.code, token: session.token }, controller.signal);
         if (stopped) return;
+        if (reply.view.status === "finished") stopped = true;
         apply(reply.view); failures = 0; nightPolling = reply.view.phase.kind === "night" && !reply.view.phase.paused; hostPolling = reply.view.isHost; setConnectivity("online");
         if (reply.recoveryKey && reply.recoveryKey !== activeSession.current?.recoveryKey && activeSession.current?.token === session.token) { const updated = { ...session, recoveryKey: reply.recoveryKey }; activeSession.current = updated; store(sessionKey, updated); store(`${sessionKey}.${session.code}`, updated); setSession(updated); }
       } catch (caught) {

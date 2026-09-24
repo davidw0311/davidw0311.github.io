@@ -1,6 +1,6 @@
 # Nightfall / 狼人杀
 
-Public game: `/werewolf/`. The GitHub Pages UI connects to `/api/werewolf` on the existing Azure `speechlab-assessment` Function App. The frontend endpoint can be overridden at build time with `NEXT_PUBLIC_WEREWOLF_API_URL`.
+Public game: `/werewolf/`. The GitHub Pages UI connects to `https://vxbhzddlhopsgbwmjzdm.supabase.co/functions/v1/werewolf`. Supabase Edge Functions and private Postgres storage own all live gameplay; Azure is no longer used by Werewolf at runtime.
 
 ## Playing
 
@@ -41,15 +41,15 @@ Existing rooms keep their saved never/any-night setting. New rooms default to fi
 - Offline players retain their seats without pausing the room or causing automatic skips. The host may wait, replace a player, pause, or explicitly skip a non-voting step. Ballots never auto-abstain for absent players.
 - A voluntary lobby departure releases the seat; a refresh, closed tab, or network interruption preserves it. If the host leaves the lobby, hosting passes to an occupied player (preferring one who is connected), and the recovery key rotates. If no occupied seats remain, the next lobby arrival becomes host. During play, leaving preserves the game identity and hosting until explicitly transferred.
 - The host can transfer hosting to an occupied seat. The new host receives a new recovery key. Recovering on a new device requires that key and revokes the old host browser. Save the key privately; it grants host access and the host's game identity.
-- Rooms expire after seven days without activity. Browser storage loss does not erase the server room; use host-approved replacement or host recovery.
+- Rooms expire after 24 hours without a player action; automatic polling and narration acknowledgements do not extend this. Finished/disbanded rooms expire after a 60-second result-delivery window, and a SQL cron job physically deletes expired records every minute. Results already received stay in browser memory until navigation; there is no game archive. Browser storage loss does not erase the server room; use host-approved replacement or host recovery.
 
 ## Backend
 
-`api/src/werewolf/engine.js` owns authorization, role assignment, phase order, abilities, voting, victory, and filtered snapshots. `service.js` handles request idempotency, session hashing, recovery, and durable request limits. `storage.js` persists private JSON blobs in the `werewolf-private` container using Azure Blob conditional writes (ETags). Concurrent workers retry against current state rather than overwriting another action. Failed validation rolls back the entire command.
+`api/src/werewolf/engine.js` owns authorization, role assignment, phase order, abilities, voting, victory, and filtered snapshots. `service.js` handles request idempotency, session hashing, recovery, and durable request limits. `supabase-storage.js` persists private JSON room state using Postgres compare-and-swap RPCs and unique UUID versions. Concurrent workers retry against current state rather than overwriting another action. Failed validation rolls back the entire command.
 
-No secret role state or Azure credentials are shipped in the static export. Tokens are random per-device capabilities, sent only in POST bodies over HTTPS, and represented as SHA-256 hashes in game state. Public views omit session hashes, request receipts, and recovery secrets; the current host alone receives its recovery key separately. Lobby admission is immediate and capped at 24 seats. After play begins, new-device join requests are bounded and require host approval to replace an existing seat.
+No secret role state or Supabase service credentials are shipped in the static export. Tokens are random per-device capabilities, sent only in POST bodies over HTTPS, and represented as SHA-256 hashes in game state. Public views omit session hashes, request receipts, and recovery secrets; the current host alone receives its recovery key separately. Lobby admission is immediate and capped at 24 seats. After play begins, new-device join requests are bounded and require host approval to replace an existing seat.
 
-Configuration reuses `AzureWebJobsStorage` in the existing Function App, or accepts `WEREWOLF_STORAGE_CONNECTION_STRING`. This connection must allow private blob container creation/read/write. Existing pronunciation endpoints remain in the same deployment. The production origin must remain in `ALLOWED_ORIGINS`.
+The Edge Function uses built-in `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` secrets. Table access and RPC execution are revoked from public/anon/authenticated roles; only the Edge Function service role can access them. Guest sessions still use the existing high-entropy room tokens, so no PianoParty account is required. No PianoParty/Auth schema or settings are changed.
 
 Polling is normally 3 seconds in the foreground and 12 seconds in background tabs, with backoff on failures and immediate synchronization after connectivity/visibility changes. During an unpaused night the host polls every second; other players poll every 2 seconds in the foreground or 3 seconds in the background. Heartbeats persist at most once per actor per ten seconds. Server time owns narration and dead-role pacing deadlines. Automatic transitions are evaluated on requests. Keep at least one room screen connected for live progression; everyone else may go offline. If every device closes the page, state stays saved and overdue narration/dead-role stages continue on the next connection, one stage per request rather than silently simulating an entire unattended game.
 
@@ -64,7 +64,7 @@ npm --prefix api ci
 npm --prefix api test
 npm run typecheck
 npm test
-npx eslint app/werewolf lib/werewolfClient.ts lib/werewolfAudio.ts api/src/werewolf api/src/functions/werewolf.js api/test/werewolf-*.test.js
+npx eslint app/werewolf lib/werewolfClient.ts lib/werewolfAudio.ts api/src/werewolf api/test/werewolf-*.test.js
 npx next build --webpack
 ```
 
@@ -92,7 +92,7 @@ A sticky bilingual banner always names the stage and scheduled acting role, incl
 
 ## Joining, private results, and speaking timers
 
-The entry screen defaults to Join. The room-code button copies only the code; the field accepts pasted codes, whitespace, labelled codes, and full invitation URLs. New room allocation prefers a curated pool of memorable four-letter words, checking every reservation atomically. Disbanded and seven-day-expired rooms can release a word for reuse; old seat tokens and recovery keys cannot access a new room. If every word is occupied, allocation safely falls back to four letters. Legacy eight-character codes remain accepted.
+The entry screen defaults to Join. The room-code button copies only the code; the field accepts pasted codes, whitespace, labelled codes, and full invitation URLs. New room allocation prefers a curated pool of memorable four-letter words, checking every reservation atomically. Disbanded and 24-hour-idle rooms can release a word for reuse; old seat tokens and recovery keys cannot access a new room. If every word is occupied, allocation safely falls back to four letters. Legacy eight-character codes remain accepted.
 
 Viewing a card and keeping it visible are separate: Ready stays available after the card is hidden. Game IDs prevent a card viewed in an earlier game from satisfying the next game’s readiness gate.
 
@@ -145,3 +145,13 @@ References: [NetEase character reference](https://langrensha.res.netease.com/pc/
 Preset `14`: 3 Werewolves, Wolf King, Seer, Witch, Hunter, Guard, Silencing Elder, 4 Villagers, Wild Child. The Wild Child uses the existing house rule: starts village, counts on the special-role edge while good, and joins the wolf pack when their idol dies. This is a custom board, not a universally standardized balance claim.
 
 Silencing Elder follows the [2017 Werewolves league rules](https://www.sohu.com/a/138501023_729113): may silence self or skip, cannot target the same seat on consecutive nights, sheriff speeches are exempt, and the effect survives the elder dying that night. Silence applies to daytime discussion and final words, while voting and abilities remain available. In-person speech relies on players following the visible mute indicator; public text chat and host speaker selection enforce it. Private eliminated-player chat is unaffected. Dawn announces silenced seat numbers, or explicitly announces nobody is silenced, using Brian in both languages whenever the Silencing Elder is in the deck (including after death).
+
+## Supabase deployment and retention
+
+1. Apply `supabase/migrations/202609240001_werewolf.sql` in the project SQL editor or via `supabase db push`. It creates only Werewolf state, restricted RPCs, and the `werewolf-expired-rooms` cron job.
+2. Run `node scripts/build-werewolf-edge.mjs`. This converts the exact tested engine/service modules to deployable ESM. CI checks generated files stay in sync.
+3. Deploy `supabase functions deploy werewolf --project-ref vxbhzddlhopsgbwmjzdm`. `supabase/config.toml` disables gateway JWT verification for this guest-only endpoint; the handler enforces its own session capabilities and host authorization. Never disable RLS or put the service key in the frontend.
+4. Without CLI credentials, the dashboard editor can deploy a single import of the generated `index.js` from a pinned Git commit URL. Supabase bundles these dependencies at deploy time; there is no runtime GitHub source fetch.
+5. Run `node scripts/werewolf-live-smoke.mjs --url=https://vxbhzddlhopsgbwmjzdm.supabase.co/functions/v1/werewolf` before publishing the frontend.
+
+The free Supabase project may pause for inactivity and requires dashboard resume. Old Azure rooms are not migrated: they belonged to the previous unavailable backend. Local session storage has a new version so old Azure seats cannot be confused with fresh Supabase rooms. The existing Brian MP3s and music remain static GitHub Pages assets. The optional audio-generation script uses Azure only when deliberately authoring new recordings, not for running the app. Other website apps' Azure dependencies are outside this migration.

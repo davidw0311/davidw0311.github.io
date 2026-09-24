@@ -1,0 +1,5 @@
+project_id = "vxbhzddlhopsgbwmjzdm"
+[functions.werewolf]
+# Guest players authenticate with high-entropy room session tokens in the handler.
+verify_jwt = false
+entrypoint = "./functions/werewolf/index.js"

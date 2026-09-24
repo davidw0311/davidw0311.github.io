@@ -6,6 +6,8 @@ on:
       - 'app/werewolf/**'
       - 'lib/werewolf*'
       - 'api/**'
+      - 'supabase/**'
+      - 'scripts/build-werewolf-edge.mjs'
       - 'public/assets/werewolf/**'
       - 'tests/werewolf*'
       - '.github/workflows/werewolf-checks.yml'
@@ -14,6 +16,8 @@ on:
       - 'app/werewolf/**'
       - 'lib/werewolf*'
       - 'api/**'
+      - 'supabase/**'
+      - 'scripts/build-werewolf-edge.mjs'
       - 'public/assets/werewolf/**'
       - 'tests/werewolf*'
 permissions:
@@ -32,7 +36,8 @@ jobs:
             api/package-lock.json
       - run: npm ci
       - run: npm ci --prefix api
+      - run: node scripts/build-werewolf-edge.mjs && git diff --exit-code -- supabase/functions/werewolf
       - run: npm test --prefix api
       - run: npm test
       - run: npm run typecheck
-      - run: npx eslint app/werewolf lib/werewolfClient.ts lib/werewolfAudio.ts api/src/werewolf api/src/functions/werewolf.js api/test/werewolf-*.test.js
+      - run: npx eslint app/werewolf lib/werewolfClient.ts lib/werewolfAudio.ts api/src/werewolf api/test/werewolf-*.test.js

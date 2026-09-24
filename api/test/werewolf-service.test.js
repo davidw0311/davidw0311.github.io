@@ -2,7 +2,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { randomUUID } = require('node:crypto');
 const { WerewolfService } = require('../src/werewolf/service.js');
-const { BlobRoomStore } = require('../src/werewolf/storage.js');
+const { SupabaseRoomStore } = require('../src/werewolf/supabase-storage.js');
 
 class MemoryStore {
   constructor() { this.data = new Map(); this.queues = new Map(); }
@@ -107,9 +107,9 @@ test('inactive rooms expire, malformed requests rejected without creating state'
   t.advance(8 * 86400000);
   await assert.rejects(t.call({ op: 'sync', code: created.view.code }), { code: 'room-expired' });
 });
-test('Blob CAS retries against latest state instead of overwriting a concurrent action', async () => {
-  const store = Object.create(BlobRoomStore.prototype); let stored = { count: 0 }; let version = 1, writes = 0;
-  store.read = async () => ({ value: structuredClone(stored), etag: String(version) });
+test('Supabase CAS retries against latest state instead of overwriting a concurrent action', async () => {
+  const store = Object.create(SupabaseRoomStore.prototype); let stored = { count: 0 }; let version = 1, writes = 0;
+  store.read = async () => ({ value: structuredClone(stored), version: String(version) });
   store.write = async (_key, value, etag) => {
     writes++;
     if (writes === 1) { stored.count += 10; version++; return false; }
@@ -452,4 +452,45 @@ test('a full word pool safely falls back to four letters without overwriting occ
  for(const code of words) t.store.data.set(`rooms/${code}`,{_creator:'other',_lastActive:100000,secret:'private'});
  const created=await t.call({op:'create',name:'Host'}); assert.match(created.view.code,/^[A-Z]{4}$/); assert.ok(!words.includes(created.view.code));
  for(const code of words) assert.equal(t.store.data.get(`rooms/${code}`).secret,'private');
+});
+
+test('idle rooms expire after 24 hours even when an abandoned browser keeps polling',async()=>{
+ const t=setup();const {view}=await t.call({op:'create',name:'Host'});
+ t.advance(23*3600000); await t.call({op:'sync',code:view.code});
+ t.advance(3600001);await assert.rejects(t.call({op:'sync',code:view.code}),{code:'room-expired'});
+});
+test('a real player action extends the idle deadline',async()=>{
+ const t=setup();const {view}=await t.call({op:'create',name:'Host'});
+ t.advance(23*3600000);await t.call({op:'command',code:view.code,command:{type:'updateSettings',settings:{sheriff:false}}});
+ t.advance(2*3600000);assert.equal((await t.call({op:'sync',code:view.code})).view.code,view.code);
+});
+test('finished room results expire without being extended by sync or reset',async()=>{
+ const t=await sixPlayerGame(); const room=t.store.data.get(`rooms/${t.code}`);
+ room.status='finished';room.phase={...room.phase,kind:'finished'};
+ // Persist a final result as if the engine just finished on this request.
+ await t.call({op:'sync',code:t.code});
+ const expiry=t.store.data.get(`rooms/${t.code}`)._expiresAt;
+ // A sync without a heartbeat change still must persist the expiry marker.
+ assert.ok(expiry);
+ await assert.rejects(t.call({op:'command',code:t.code,command:{type:'resetGame',expectedPhaseId:room.phase.id}}),{code:'room-finished'});
+ t.advance(30000);assert.equal((await t.call({op:'sync',code:t.code})).view.status,'finished');
+ assert.equal(t.store.data.get(`rooms/${t.code}`)._expiresAt,expiry);
+ t.advance(30001);await assert.rejects(t.call({op:'sync',code:t.code}),{code:'room-expired'});
+});
+
+test('Supabase transport keeps service credentials server-side and fails closed on storage errors',async()=>{
+ const calls=[];const store=new SupabaseRoomStore('https://project.supabase.co','server-secret',async(url,init)=>{
+  calls.push({url,init});return new Response(JSON.stringify(url.endsWith('werewolf_read')?null:true),{status:200});
+ });
+ assert.equal(await store.transact('rooms/MOON',old=>{assert.equal(old,null);return {value:{code:'MOON'},result:'saved'};}),'saved');
+ assert.equal(calls.length,2);assert.equal(calls[0].init.headers.Authorization,'Bearer server-secret');
+ assert.deepEqual(JSON.parse(calls[1].init.body),{p_key:'rooms/MOON',p_value:{code:'MOON'},p_version:null});
+ const broken=new SupabaseRoomStore('https://project.supabase.co','server-secret',async()=>new Response('private SQL error',{status:500}));
+ await assert.rejects(broken.read('rooms/MOON'),error=>!error.message.includes('private SQL'));
+});
+test('Supabase conflicts never return an uncommitted action as successful',async()=>{
+ const store=Object.create(SupabaseRoomStore.prototype);let calls=0;
+ store.read=async()=>({value:{},version:'old'});store.write=async()=>{calls++;return false;};
+ await assert.rejects(store.transact('rooms/MOON',()=>({value:{},result:'not committed'})),{code:'room-busy'});
+ assert.equal(calls,12);
 });
