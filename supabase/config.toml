@@ -1,5 +1,6 @@
 project_id = "vxbhzddlhopsgbwmjzdm"
 [functions.werewolf]
-# Guest players authenticate with high-entropy room session tokens in the handler.
-verify_jwt = false
+# Keep gateway verification enabled; the browser supplies the project publishable key.
+# The handler separately authenticates each player with a high-entropy room token.
+verify_jwt = true
 entrypoint = "./functions/werewolf/index.js"

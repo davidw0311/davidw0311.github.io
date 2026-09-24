@@ -150,7 +150,7 @@ Silencing Elder follows the [2017 Werewolves league rules](https://www.sohu.com/
 
 1. Apply `supabase/migrations/202609240001_werewolf.sql` in the project SQL editor or via `supabase db push`. It creates only Werewolf state, restricted RPCs, and the `werewolf-expired-rooms` cron job.
 2. Run `node scripts/build-werewolf-edge.mjs`. This converts the exact tested engine/service modules to deployable ESM. CI checks generated files stay in sync.
-3. Deploy `supabase functions deploy werewolf --project-ref vxbhzddlhopsgbwmjzdm`. `supabase/config.toml` disables gateway JWT verification for this guest-only endpoint; the handler enforces its own session capabilities and host authorization. Never disable RLS or put the service key in the frontend.
+3. Deploy `supabase functions deploy werewolf --project-ref vxbhzddlhopsgbwmjzdm`. `supabase/config.toml` keeps gateway verification enabled; clients send the project publishable key. The handler separately enforces player session capabilities and host authorization. Never disable RLS or put the service key in the frontend.
 4. Without CLI credentials, the dashboard editor can deploy a single import of the generated `index.js` from a pinned Git commit URL. Supabase bundles these dependencies at deploy time; there is no runtime GitHub source fetch.
 5. Run `node scripts/werewolf-live-smoke.mjs --url=https://vxbhzddlhopsgbwmjzdm.supabase.co/functions/v1/werewolf` before publishing the frontend.
 

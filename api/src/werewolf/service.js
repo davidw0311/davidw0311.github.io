@@ -10,7 +10,7 @@ function fail(code, message, status = 400) { const error = new Error(message); e
 function validToken(value) { return typeof value === 'string' && /^[a-zA-Z0-9_-]{24,160}$/.test(value); }
 function sameSecret(a, b) {
   if (typeof a !== 'string' || typeof b !== 'string') return false;
-  return timingSafeEqual(Buffer.from(hash(a)), Buffer.from(hash(b)));
+  return timingSafeEqual(createHash('sha256').update(a).digest(), createHash('sha256').update(b).digest());
 }
 
 class WerewolfService {

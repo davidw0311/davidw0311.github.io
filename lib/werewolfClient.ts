@@ -1,5 +1,7 @@
 "use client";
 
+import backend from "@/public/assets/werewolf/backend.json";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type Language = "en" | "zh";
@@ -23,7 +25,8 @@ export type GameView = {
 export type Command = { type: string; [key: string]: unknown };
 type Session = { code: string; token: string; name: string; recoveryKey?: string };
 type Reply = { view: GameView; recoveryKey?: string };
-const endpoint = process.env.NEXT_PUBLIC_WEREWOLF_API_URL || "https://vxbhzddlhopsgbwmjzdm.supabase.co/functions/v1/werewolf";
+const endpoint = process.env.NEXT_PUBLIC_WEREWOLF_API_URL || backend.url;
+const publishableKey = process.env.NEXT_PUBLIC_WEREWOLF_PUBLISHABLE_KEY || backend.publishableKey;
 const terminalErrors = new Set(["NOT_SEATED", "SESSION_REPLACED", "ROOM_NOT_FOUND", "ROOM_EXPIRED", "INVALID_TOKEN", "room-not-found", "room-expired", "invalid-session", "room-disbanded"]);
 const sessionKey = "nightfall.session.supabase.v2";
 const pendingKey = "nightfall.pending.supabase.v2";
@@ -37,7 +40,7 @@ async function request(payload: Record<string, unknown>, signal?: AbortSignal): 
   const abort = () => controller.abort();
   signal?.addEventListener("abort", abort, { once: true });
   try {
-    const response = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: controller.signal, cache: "no-store" });
+    const response = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json", apikey: publishableKey, Authorization: `Bearer ${publishableKey}` }, body: JSON.stringify(payload), signal: controller.signal, cache: "no-store" });
     const body = await response.json().catch(() => ({}));
     if (!response.ok || body.error) throw new RoomError(body.error || "server_error", body.message || "The room could not be reached.", response.status >= 500 || response.status === 429 || body.error === "room-busy");
     if (!body.view?.code) throw new RoomError("invalid_response", "The server returned an incomplete room.", true);

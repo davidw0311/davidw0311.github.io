@@ -494,3 +494,10 @@ test('Supabase conflicts never return an uncommitted action as successful',async
  await assert.rejects(store.transact('rooms/MOON',()=>({value:{},result:'not committed'})),{code:'room-busy'});
  assert.equal(calls,12);
 });
+test('host key verification works without Node global Buffer in the Edge runtime',()=>{
+ const vm=require('node:vm'),fs=require('node:fs'),{createRequire}=require('node:module');
+ const file=require.resolve('../src/werewolf/service');const scope={module:{exports:{}},require:createRequire(file),Buffer:undefined};
+ vm.runInNewContext(fs.readFileSync(file,'utf8'),scope);
+ assert.equal(scope.module.exports.sameSecret('host-key','host-key'),true);
+ assert.equal(scope.module.exports.sameSecret('host-key','wrong-key'),false);
+});

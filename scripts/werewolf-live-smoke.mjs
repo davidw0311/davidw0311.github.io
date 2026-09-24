@@ -1,12 +1,13 @@
 // Explicit endpoint required: this creates one disposable room that expires after inactivity.
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
+import backend from '../public/assets/werewolf/backend.json' with {type:'json'};
 const endpoint = process.argv.find(arg => arg.startsWith('--url='))?.slice(6);
 if (!endpoint || !/^https?:\/\//.test(endpoint)) throw new Error('Pass --url=<werewolf API endpoint>.');
 let code;
 async function call(token, op, fields = {}, expectedError) {
   const response = await fetch(endpoint, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'Origin': 'https://davidw0311.github.io' },
+    method: 'POST', headers: { 'Content-Type': 'application/json', ...(new URL(endpoint).origin === new URL(backend.url).origin ? {apikey:backend.publishableKey,Authorization:`Bearer ${backend.publishableKey}`} : {}), 'Origin': 'https://davidw0311.github.io' },
     body: JSON.stringify({ token, op, code, requestId: randomUUID(), ...fields }), signal: AbortSignal.timeout(45000),
   });
   const body = await response.json();
