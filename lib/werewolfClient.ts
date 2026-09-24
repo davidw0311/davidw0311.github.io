@@ -90,7 +90,7 @@ export function useWerewolfRoom() {
   }, []);
   useEffect(() => {
     if (!session) return;
-    let stopped = false, failures = 0, inFlight = false, nightPolling = false, hostPolling = false;
+    let stopped = false, finished = false, failures = 0, inFlight = false, nightPolling = false, hostPolling = false;
     let timer: ReturnType<typeof setTimeout>;
     let controller: AbortController | null = null;
     const sync = async () => {
@@ -102,11 +102,14 @@ export function useWerewolfRoom() {
       try {
         const reply = await request({ op: "sync", code: session.code, token: session.token }, controller.signal);
         if (stopped) return;
-        if (reply.view.status === "finished") stopped = true;
+        finished = reply.view.status === "finished";
         apply(reply.view); failures = 0; nightPolling = reply.view.phase.kind === "night" && !reply.view.phase.paused; hostPolling = reply.view.isHost; setConnectivity("online");
         if (reply.recoveryKey && reply.recoveryKey !== activeSession.current?.recoveryKey && activeSession.current?.token === session.token) { const updated = { ...session, recoveryKey: reply.recoveryKey }; activeSession.current = updated; store(sessionKey, updated); store(`${sessionKey}.${session.code}`, updated); setSession(updated); }
       } catch (caught) {
         if (stopped) return;
+        // Keep listening for host disband while results are retained. Expiry
+        // ends polling quietly so the final result remains readable.
+        if (finished && caught instanceof RoomError && ["room-expired", "room-not-found"].includes(caught.code)) { stopped = true; setConnectivity("online"); return; }
         failures += 1;
         setConnectivity(navigator.onLine ? "reconnecting" : "offline");
         if (caught instanceof RoomError && !caught.retryable) { setError(caught); if (terminalErrors.has(caught.code)) { stopped = true; if (caught.code === "room-disbanded") eject(); else setSessionExpired(true); } }

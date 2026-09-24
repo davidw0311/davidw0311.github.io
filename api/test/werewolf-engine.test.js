@@ -133,7 +133,7 @@ test('Sheriff badge gives 1.5 exile votes and only a deceased Sheriff can transf
  send(r,'actor0','startVoting'); send(r,'actor2','vote',{targetId:id(r,6)}); send(r,'actor0','vote',{targetId:id(r,7)}); closeVotes(r);
  assert.equal(r.lastVote.tally[id(r,6)],1.5); assert.equal(r.seats[6].alive,false);
  r.seats[2].alive=false; r.phase.step='badge'; send(r,'actor2','passBadge',{targetId:id(r,3)}); assert.equal(r.sheriffSeatId,id(r,3));
- r.seats[3].alive=false; r.phase.step='badge'; send(r,'actor3','passBadge',{targetId:null}); assert.equal(r.sheriffSeatId,null);
+ send(r,r.hostId,'nightNarrationDone'); r.seats[3].alive=false; r.phase.step='badge'; send(r,'actor3','passBadge',{targetId:null}); assert.equal(r.sheriffSeatId,null);
 });
 test('public, wolf and dead chats enforce faction and phase boundaries', () => { const r = setup(); send(r, 'actor0', 'chat', { text: 'Pack secret', channel: 'wolves' }); assert.equal(publicView(r, 'actor1', time).messages.length, 1); assert.equal(publicView(r, 'actor2', time).messages.length, 0); assert.throws(() => send(r, 'actor2', 'chat', { text: 'Guess', channel: 'wolves' }), e => e.code === 'CHAT_CLOSED'); assert.throws(() => send(r, 'actor2', 'chat', { text: 'Night speech', channel: 'public' }), e => e.code === 'CHAT_CLOSED'); dawn(r); time += 1000; send(r, 'actor2', 'chat', { text: 'Day discussion', channel: 'public' }); assert.equal(publicView(r, 'actor3', time).messages.length, 1); });
 test('victory and finished reveal are explicit; changing rules midgame is rejected', () => { const r = setup(); assert.throws(() => send(r, 'actor0', 'updateSettings', { settings: { winCondition: 'edge' } }), e => e.code === 'WRONG_PHASE'); r.seats[0].alive = false; r.seats[1].alive = false; dawn(r); assert.equal(r.winner.team, 'village'); assert.ok(publicView(r, 'actor2', time).seats.every(s => s.roleId)); });
@@ -853,12 +853,12 @@ test('seat renumbering and profile changes keep role, action and replacement his
  const original=r.seats[0].id, role=r.seats[0].roleId;
  send(r,'actor0','setProfile',{photo:'wolf'});
  assert.throws(()=>send(r,'actor1','moveSeat',{seatId:original,number:4}),{code:'HOST_ONLY'});
- send(r,'actor0','moveSeat',{seatId:original,number:4});
- assert.equal(r.seats[3].id,original); assert.equal(r.seats[3].roleId,role);
+ assert.throws(()=>send(r,'actor0','moveSeat',{seatId:original,number:4}),{code:'WRONG_PHASE'});
+ assert.equal(r.seats[0].id,original); assert.equal(r.seats[0].roleId,role);
  assert.equal(publicView(r,'actor0',time).me.history[0].action.targetId,r.seats[6].id);
- assert.equal(publicView(r,'actor0',time).seats[3].photo,'wolf');
+ assert.equal(publicView(r,'actor0',time).seats[0].photo,'wolf');
  assert.throws(()=>send(r,'actor0','setProfile',{photo:'data:image/svg+xml,<svg onload=alert(1)>'}),{code:'INVALID_PHOTO'});
- assert.throws(()=>send(r,'actor0','moveSeat',{seatId:original,number:0}),{code:'INVALID_TARGET'});
+ assert.throws(()=>send(r,'actor0','moveSeat',{seatId:original,number:0}),{code:'WRONG_PHASE'});
  send(r,'actor0','hardSkip'); dawn(r);
  const own=publicView(r,'actor0',time).me.history;
  assert.equal(own.filter(item=>item.step==='wolves'&&item.night===1).length,1);
@@ -893,9 +893,9 @@ test('automatic Sheriff election hides deaths, excludes candidates and withdrawa
  assert.ok(!publicView(r,'actor3',time).me.privateLog.some(entry=>entry.text.en==='A: wolf.'));
  assert.throws(()=>send(r,r.hostId,'startSheriff'),{code:'ELECTION_AUTOMATIC'});
  assert.throws(()=>send(r,r.hostId,'startNight'),{code:'WRONG_PHASE'});
- nominate(r,[0,2]); assert.equal(r.speakerSeatId,id(r,0));
- assert.throws(()=>send(r,'actor2','sheriffSpeechDone'),{code:'NO_ABILITY'});
- send(r,'actor0','sheriffSpeechDone'); assert.equal(r.speakerSeatId,id(r,2));
+ nominate(r,[0,2]); const first=r.speakerSeatId; const other=first===id(r,0)?2:0;
+ assert.throws(()=>send(r,`actor${other}`,'sheriffSpeechDone'),{code:'NO_ABILITY'});
+ send(r,r.seats.find(seat=>seat.id===first).actorId,'sheriffSpeechDone'); assert.equal(r.speakerSeatId,id(r,other));
  send(r,'actor2','sheriffWithdraw'); send(r,r.hostId,'advanceElection'); assert.equal(r.phase.kind,'voting');
  assert.throws(()=>send(r,'actor2','vote',{targetId:id(r,0)}),{code:'NO_VOTE'});
  assert.equal(publicView(r,'actor0',time).me.action,null);
@@ -908,7 +908,7 @@ test('automatic Sheriff election hides deaths, excludes candidates and withdrawa
  assert.ok(publicView(r,'actor4',time).seats[0].isSheriff);
  send(r,r.hostId,'nightNarrationDone');
  assert.equal(r.phase.step,'dawn'); assert.equal(r.seats[4].alive,false);
- assert.deepEqual(r.phase.publicCues,['night-deaths','seat-5']);
+ assert.deepEqual(r.phase.publicCues,['night-deaths','seat-5','last-words-5']);
  assert.deepEqual(r.lastNight.numbers,[5]);
  assert.equal(publicView(r,'actor2',time).me.privateLog.filter(entry=>entry.text.en==='A: wolf.').length,1);
  send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.kind,'day');
@@ -958,7 +958,7 @@ test('sixty neutral avatars are accepted; unsupported IDs cannot become profile 
 
 test('candidate speech changes invalidate stale skip dialogs and seat numbers stay fixed through announcements',()=>{
  const r=electionRoom(); nominate(r,[0,2]); const first=r.phase.id;
- send(r,'actor0','sheriffSpeechDone'); assert.notEqual(r.phase.id,first);
+ send(r,r.seats.find(seat=>seat.id===r.speakerSeatId).actorId,'sheriffSpeechDone'); assert.notEqual(r.phase.id,first);
  assert.throws(()=>send(r,r.hostId,'hardSkip',{expectedPhaseId:first}),{code:'STALE_PHASE'});
  assert.throws(()=>send(r,r.hostId,'moveSeat',{seatId:id(r,2),number:1}),{code:'WRONG_PHASE'});
 });
@@ -1018,7 +1018,7 @@ test('speaking timers are host-only, adjustable, pause-safe and never advance th
 });
 test('candidate speech timers end when the next candidate takes the floor',()=>{
  const r=electionRoom(); nominate(r,[0,2]); send(r,r.hostId,'setSpeechTimer',{seconds:45});
- send(r,'actor0','sheriffSpeechDone'); assert.equal(r.speakingTimer,null); assert.equal(r.speakerSeatId,id(r,2));
+ const first=r.speakerSeatId; send(r,r.seats.find(seat=>seat.id===first).actorId,'sheriffSpeechDone'); assert.equal(r.speakingTimer,null); assert.notEqual(r.speakerSeatId,first);
 });
 
 test('all eligible ballots including abstention are required across every host advance route',()=>{
@@ -1034,7 +1034,7 @@ test('all eligible ballots including abstention are required across every host a
  }
  time+=3600000; tickRoom(r,time); assert.equal(r.phase.kind,'voting');
  abstainPending(r); send(r,r.hostId,'resolveVoting'); assert.equal(r.phase.step,'dayDeaths');
- assert.deepEqual(r.phase.publicCues,['day-deaths','seat-7']);
+ assert.deepEqual(r.phase.publicCues,['exiled','seat-7','last-words-7']);
  send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.step,'afterVote');
 });
 test('daytime shots announce all linked casualties before another Hunter action',()=>{
@@ -1093,4 +1093,50 @@ test('Hunter morning shot waits for dawn narration; poison overrides a simultane
   if(poisoned) { assert.equal(r.phase.kind,'day'); assert.equal(publicView(r,'actor5',time).me.action,null); assert.throws(()=>send(r,'actor5','shoot',{targetId:id(r,0)}),{code:'WRONG_PHASE'}); }
   else { assert.equal(publicView(r,'actor5',time).me.action.kind,'shoot'); send(r,'actor5','shoot',{targetId:id(r,0)}); assert.equal(r.seats[0].alive,false); }
  }
+});
+
+test('sheriff runoff admits former candidates and withdrawals but excludes tied candidates', () => {
+ const r=setup(undefined,{sheriff:true}); dawn(r);
+ nominate(r,[0,2,3,4]); send(r,'actor4','sheriffWithdraw'); send(r,r.hostId,'advanceElection');
+ assert.deepEqual(r.election.voterIds,[1,5,6,7,8].map(i=>id(r,i)));
+ for(const i of [1,5,6,7,8]) send(r,`actor${i}`,'vote',{targetId:i===8?null:id(r,i<6?0:2)});
+ assert.equal(r.election.round,2); send(r,r.hostId,'advanceElection');
+ assert.deepEqual(new Set(r.election.voterIds),new Set([1,3,4,5,6,7,8].map(i=>id(r,i))));
+ for(const i of [0,2]) assert.throws(()=>send(r,`actor${i}`,'vote',{targetId:id(r,0)}),{code:'NO_VOTE'});
+ for(const i of [1,3,4,5,6,7,8]) send(r,`actor${i}`,'vote',{targetId:id(r,2)});
+ assert.equal(r.sheriffSeatId,id(r,2));
+});
+test('sheriff speeches choose one random first candidate and continue clockwise with no repeated announcement',()=>{
+ const r=electionRoom(); nominate(r,[0,2,4]);
+ const first=r.seats.findIndex(seat=>seat.id===r.speakerSeatId);
+ assert.ok([0,2,4].includes(first));
+ assert.deepEqual(r.phase.publicCues,['sheriff-speeches-start',`seat-${first+1}`,'clockwise']);
+ const expected=[0,2,4].sort((a,b)=>(a-first+6)%6-(b-first+6)%6);
+ for(const index of expected){assert.equal(r.speakerSeatId,id(r,index));send(r,`actor${index}`,'sheriffSpeechDone');assert.deepEqual(r.phase.publicCues,[]);}
+ assert.equal(r.speakerSeatId,null);
+});
+test('seats lock when cards are dealt, including readiness, daytime and finished states',()=>{
+ const r=createRoom({code:'MOON',hostId:'actor0',hostName:'A',now:++time});
+ for(let i=1;i<6;i++)send(r,`actor${i}`,'requestJoin',{name:`P${i}`});
+ const original=id(r,0);send(r,'actor0','moveSeat',{seatId:original,number:4});assert.equal(id(r,3),original);
+ send(r,'actor0','startGame');
+ for(const phase of ['ready','night','day','voting','reaction','finished']){
+  r.phase.kind=phase;if(phase==='finished')r.status='finished';
+  const before=JSON.stringify(r);assert.throws(()=>send(r,'actor0','moveSeat',{seatId:original,number:1}),{code:'WRONG_PHASE'});assert.equal(JSON.stringify(r),before);
+ }
+});
+test('dawn grants last words only on night one and starts public discussion once',()=>{
+ const r=setup();stepTo(r,'wolves');nightAct(r,0,{targetId:id(r,6)});nightAct(r,1,{targetId:id(r,6)});
+ while(r.phase.kind==='night')advanceTestNight(r);
+ assert.ok(r.phase.publicCues.includes('last-words-7'));send(r,r.hostId,'nightNarrationDone');
+ assert.ok(r.seats.find(s=>s.id===r.speakerSeatId).alive);assert.equal(r.phase.publicCues[0],'discussion-start');assert.equal(r.phase.publicCues.at(-1),'clockwise');
+ nextNight(r);stepTo(r,'wolves');nightAct(r,0,{targetId:id(r,7)});nightAct(r,1,{targetId:id(r,7)});
+ while(r.phase.kind==='night')advanceTestNight(r);
+ assert.deepEqual(r.phase.publicCues,['night-deaths','seat-8']);
+});
+test('surviving Sheriff is asked for speaking direction after dawn; badge decision is announced first',()=>{
+ const r=setup();r.sheriffSeatId=id(r,6);nightAct(r,0,{targetId:id(r,6)});nightAct(r,1,{targetId:id(r,6)});dawn(r);
+ assert.equal(r.phase.step,'badge');send(r,'actor6','passBadge',{targetId:id(r,2)});
+ assert.deepEqual(r.phase.publicCues,['badge-passed','seat-3']);send(r,r.hostId,'nightNarrationDone');
+ assert.deepEqual(r.phase.publicCues,['sheriff-direction']);assert.equal(r.speakerSeatId,null);
 });

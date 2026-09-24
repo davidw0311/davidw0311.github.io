@@ -396,7 +396,7 @@ function PeopleManager({ view, lang, disabled, send, onClose }: { view: GameView
   const [replacement, setReplacement] = useState<Record<string, string>>({});
   const [confirmSeat, setConfirmSeat] = useState("");
   const [dragTarget, setDragTarget] = useState<number | null>(null);
-  const canArrange = view.isHost && !disabled && !["sheriff", "announcement", "voting"].includes(view.phase.kind);
+  const canArrange = view.isHost && !disabled && view.status === "lobby" && view.phase.kind === "lobby";
 
   const t = (en: string, zh: string) => lang === "en" ? en : zh;
   return <Modal title={t("Around the table", "座位与玩家")} onClose={onClose}><p className={styles.hint}>{t("Invite with room code", "邀请房间码")} <strong>{view.code}</strong> · {t("Rejoining players keep their role when you replace their existing seat.", "将重连玩家接替至原座位，可保留其身份与进度。")}</p>

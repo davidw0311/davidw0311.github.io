@@ -91,7 +91,7 @@ class WerewolfService {
         if (room._requests[receiptKey].fingerprint !== fingerprint) fail('request-id-reused', 'Retry the original action or use a new request.', 409);
         return { value: room, changed: false, result: this.response(room, actor, now) };
       }
-      if (room.status === 'finished' && op !== 'sync') fail('room-finished', 'This game has ended. Please create a new room.', 410);
+      if (room.status === 'finished' && op !== 'sync' && !(op === 'command' && input.command?.type === 'disbandRoom')) fail('room-finished', 'This game has ended. Please create a new room.', 410);
       const before = room.revision;
       const previousExpiry = room._expiresAt;
       const previousHost = room.hostId;
@@ -121,7 +121,7 @@ class WerewolfService {
       }
       if (engine.tickRoom) engine.tickRoom(room, now);
       // A transferred host receives a fresh recovery secret; the old host loses it.
-      if (previousHost !== room.hostId && op !== 'recover') room._recoveryKey = randomBytes(24).toString('base64url');
+      if (previousHost !== room.hostId && room.hostId && op !== 'recover') room._recoveryKey = randomBytes(24).toString('base64url');
       if (op !== 'sync') {
         room._requests ??= {};
         room._requests[receiptKey] = { fingerprint, at: now };

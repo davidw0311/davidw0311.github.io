@@ -501,3 +501,14 @@ test('host key verification works without Node global Buffer in the Edge runtime
  assert.equal(scope.module.exports.sameSecret('host-key','host-key'),true);
  assert.equal(scope.module.exports.sameSecret('host-key','wrong-key'),false);
 });
+
+test('finished games remain disbandable by the host; retries and all other clients see closure',async()=>{
+ const t=await sixPlayerGame();const record=t.store.data.get(`rooms/${t.code}`);
+ record.status='finished';record.phase.kind='finished';record._expiresAt=160000;
+ await assert.rejects(t.call({op:'command',code:t.code,token:t.members[1],command:{type:'disbandRoom'}}),{code:'HOST_ONLY'});
+ const packet={op:'command',code:t.code,requestId:randomUUID(),command:{type:'disbandRoom'}};
+ const result=await t.call(packet);assert.equal(result.view.status,'disbanded');assert.equal(result.recoveryKey,undefined);
+ assert.equal(t.store.data.get(`rooms/${t.code}`)._recoveryKey,null);
+ await assert.rejects(t.call(packet),{code:'room-disbanded'});
+ for(const token of t.members)await assert.rejects(t.call({op:'sync',code:t.code,token}),{code:'room-disbanded'});
+});

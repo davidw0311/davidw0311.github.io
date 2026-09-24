@@ -1,0 +1,126 @@
+{
+  "sheriff-speeches-start": [
+    "Sheriff speeches begin. The first speaker is:",
+    "现在开始警上发言。首先发言的是："
+  ],
+  "clockwise": [
+    "Continue in clockwise order.",
+    "请按顺时针顺序发言。"
+  ],
+  "discussion-start": [
+    "Village discussion begins. The first speaker is:",
+    "现在开始白天发言。首先发言的是："
+  ],
+  "sheriff-direction": [
+    "Sheriff, choose whether discussion starts to the left or right of the eliminated player. If nobody died, choose the first speaker.",
+    "请警长决定死左还是死右发言。如果是平安夜，请警长指定起始发言玩家。"
+  ],
+  "exiled": [
+    "The following player was voted out:",
+    "本轮被放逐的玩家是："
+  ],
+  "badge-passed": [
+    "The Sheriff badge passes to:",
+    "警徽移交给："
+  ],
+  "badge-destroyed": [
+    "The Sheriff badge has been destroyed. There is no Sheriff.",
+    "警徽已被撕毁。本局不再有警长。"
+  ],
+  "last-words-1": [
+    "Player 1, please give your last words.",
+    "请1号玩家留遗言。"
+  ],
+  "last-words-2": [
+    "Player 2, please give your last words.",
+    "请2号玩家留遗言。"
+  ],
+  "last-words-3": [
+    "Player 3, please give your last words.",
+    "请3号玩家留遗言。"
+  ],
+  "last-words-4": [
+    "Player 4, please give your last words.",
+    "请4号玩家留遗言。"
+  ],
+  "last-words-5": [
+    "Player 5, please give your last words.",
+    "请5号玩家留遗言。"
+  ],
+  "last-words-6": [
+    "Player 6, please give your last words.",
+    "请6号玩家留遗言。"
+  ],
+  "last-words-7": [
+    "Player 7, please give your last words.",
+    "请7号玩家留遗言。"
+  ],
+  "last-words-8": [
+    "Player 8, please give your last words.",
+    "请8号玩家留遗言。"
+  ],
+  "last-words-9": [
+    "Player 9, please give your last words.",
+    "请9号玩家留遗言。"
+  ],
+  "last-words-10": [
+    "Player 10, please give your last words.",
+    "请10号玩家留遗言。"
+  ],
+  "last-words-11": [
+    "Player 11, please give your last words.",
+    "请11号玩家留遗言。"
+  ],
+  "last-words-12": [
+    "Player 12, please give your last words.",
+    "请12号玩家留遗言。"
+  ],
+  "last-words-13": [
+    "Player 13, please give your last words.",
+    "请13号玩家留遗言。"
+  ],
+  "last-words-14": [
+    "Player 14, please give your last words.",
+    "请14号玩家留遗言。"
+  ],
+  "last-words-15": [
+    "Player 15, please give your last words.",
+    "请15号玩家留遗言。"
+  ],
+  "last-words-16": [
+    "Player 16, please give your last words.",
+    "请16号玩家留遗言。"
+  ],
+  "last-words-17": [
+    "Player 17, please give your last words.",
+    "请17号玩家留遗言。"
+  ],
+  "last-words-18": [
+    "Player 18, please give your last words.",
+    "请18号玩家留遗言。"
+  ],
+  "last-words-19": [
+    "Player 19, please give your last words.",
+    "请19号玩家留遗言。"
+  ],
+  "last-words-20": [
+    "Player 20, please give your last words.",
+    "请20号玩家留遗言。"
+  ],
+  "last-words-21": [
+    "Player 21, please give your last words.",
+    "请21号玩家留遗言。"
+  ],
+  "last-words-22": [
+    "Player 22, please give your last words.",
+    "请22号玩家留遗言。"
+  ],
+  "last-words-23": [
+    "Player 23, please give your last words.",
+    "请23号玩家留遗言。"
+  ],
+  "last-words-24": [
+    "Player 24, please give your last words.",
+    "请24号玩家留遗言。"
+  ]
+}

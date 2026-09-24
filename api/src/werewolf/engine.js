@@ -437,7 +437,21 @@ function reactionsOrDay(room, now) { room.pendingShots = [...new Set(room.pendin
     setPhase(room, 'reaction', 'shoot', now);
     return;
 } if (evaluateWin(room, now))
-    return; setPhase(room, 'day', room.sheriffSeatId && !getSeat(room, room.sheriffSeatId).alive ? 'badge' : room.voteDoneDay === room.day ? 'afterVote' : 'discussion', now); }
+    return;
+    setPhase(room, 'day', room.sheriffSeatId && !getSeat(room, room.sheriffSeatId).alive ? 'badge' : room.voteDoneDay === room.day ? 'afterVote' : 'discussion', now);
+    room.phase.publicCues = [];
+    if (room.phase.step === 'discussion' && room.discussionDay !== room.day) {
+        room.discussionDay = room.day;
+        if (room.sheriffSeatId) room.phase.publicCues = ['sheriff-direction'];
+        else {
+            const speakers = room.seats.filter(seat => seat.alive && !isSilenced(room, seat));
+            if (speakers.length) {
+                room.speakerSeatId = speakers[randomInt(speakers.length)].id;
+                room.phase.publicCues = ['discussion-start', `seat-${room.seats.findIndex(seat => seat.id === room.speakerSeatId) + 1}`, 'clockwise'];
+            }
+        }
+    }
+}
 function announce(room, step, cues, now) {
     setPhase(room, 'announcement', step, now);
     room.phase.publicCues = cues;
@@ -475,16 +489,23 @@ function progressElection(room, now) {
         return; // The host explicitly opens speeches after all declarations.
     }
     if (room.phase.kind === 'sheriff' && room.phase.step === 'speeches') {
-        const next = election.candidateIds.find(id => !election.finishedIds.includes(id));
+        if (!election.speechOrder && election.candidateIds.length) {
+            const first = election.candidateIds[randomInt(election.candidateIds.length)];
+            const offset = room.seats.findIndex(seat => seat.id === first);
+            election.speechOrder = [...room.seats.slice(offset), ...room.seats.slice(0, offset)].map(seat => seat.id);
+        }
+        const next = (election.speechOrder || []).find(id => election.candidateIds.includes(id) && !election.finishedIds.includes(id));
         if (next) {
             if (room.speakerSeatId !== next) {
                 setPhase(room, 'sheriff', 'speeches', now);
                 room.speakerSeatId = next;
-                room.phase.publicCues = ['sheriff-discussion', `seat-${room.seats.findIndex(seat => seat.id === next) + 1}`];
+                room.phase.publicCues = election.speechAnnounced ? [] : ['sheriff-speeches-start', `seat-${room.seats.findIndex(seat => seat.id === next) + 1}`, 'clockwise'];
+                election.speechAnnounced = true;
             }
             return;
         }
         if (room.speakerSeatId) setPhase(room, 'sheriff', 'speeches', now);
+        room.phase.publicCues = [];
         return; // The host explicitly opens the ballot.
     }
     if (room.phase.kind === 'voting' && election.voterIds.every(id => Object.hasOwn(room.votes, id))) resolveVoting(room, now);
@@ -648,7 +669,7 @@ function resolveNight(room, now) {
     const hasSilencer = room.roleDeck.includes('silencer') || room.seats.some(seat => seat.originalRoleId === 'silencer' || effectiveRole(seat) === 'silencer');
     if (hasSilencer && !silencedNumbers.length) event(room, 'Nobody is silenced today.', '今日无人被禁言。', now);
     if (silencedNumbers.length) event(room, `Silenced today (voting allowed): ${silencedNumbers.join(', ')}.`, `今日禁言（仍可投票）：${silencedNumbers.join('、')}号。`, now);
-    announce(room, 'dawn', [...(dead.length ? ['night-deaths', ...room.lastNight.numbers.map(number => `seat-${number}`)] : ['peaceful-night']), ...(silencedNumbers.length ? ['silenced-today', ...silencedNumbers.map(number => `seat-${number}`)] : hasSilencer ? ['nobody-silenced'] : [])], now);
+    announce(room, 'dawn', [...(dead.length ? ['night-deaths', ...room.lastNight.numbers.map(number => `seat-${number}`)] : ['peaceful-night']), ...(room.night === 1 ? dead.filter(seat => seat.state.silencedDay !== room.day).map(seat => `last-words-${room.seats.indexOf(seat) + 1}`) : []), ...(silencedNumbers.length ? ['silenced-today', ...silencedNumbers.map(number => `seat-${number}`)] : hasSilencer ? ['nobody-silenced'] : [])], now);
 }
 function pendingVoters(room) {
     const eligible = room.phase.step === 'sheriff' ? room.election?.voterIds || [] : room.seats.filter(seat => seat.alive && seat.canVote).map(seat => seat.id);
@@ -671,7 +692,7 @@ function resolveVoting(room, now) {
         if (!target && sorted.length && room.election.round !== 2) {
             room.election.round = 2;
             room.election.candidateIds = sorted.filter(([,count]) => count === sorted[0][1]).map(([id]) => id);
-            room.election.finishedIds = []; room.votes = {};
+            room.election.finishedIds = []; room.election.speechOrder = null; room.election.speechAnnounced = false; room.votes = {};
             setPhase(room, 'sheriff', 'speeches', now);
             event(room, 'Sheriff tie: tied candidates speak again, then vote once more.', '警长平票：平票候选人再次发言后复投。', now);
             progressElection(room, now); return;
@@ -812,17 +833,18 @@ function executeCommand(room, actorId, c, now) {
         fail('NOT_SEATED', 'You do not occupy a seat in this room.');
     if (s)
         room.members[actorId].lastSeen = now;
+    const discussionDayBefore = room.discussionDay;
     const aliveBefore = new Set(room.seats.filter(seat => seat.alive).map(seat => seat.id));
     const publicDeathAction = ['shoot', 'knightDuel', 'wolfExplode', 'resolveVoting', 'nextPhase', 'hardSkip'].includes(c.type) && ['day', 'voting', 'reaction'].includes(room.phase.kind);
     switch (c.type) {
         case 'disbandRoom':
             room.status = 'disbanded'; room.members = {}; room.requests = []; room.hostId = null;
             room.seats = []; room.actions = {}; room.replay = []; room.messages = []; room.events = [];
-            room._recoveryKey = null;
+            room._recoveryKey = null; room.election = null; room.pendingShots = []; room.lastNight = null; room.lastVote = null; room.sheriffSeatId = null;
             setPhase(room, 'disbanded', null, now);
             break;
         case 'moveSeat': {
-            if (room.phase.kind === 'announcement' || room.phase.kind === 'sheriff' || room.phase.kind === 'voting' && room.phase.step === 'sheriff') fail('WRONG_PHASE', 'Seat numbers stay fixed during election speeches and announcements.');
+            if (room.status !== 'lobby' || room.phase.kind !== 'lobby') fail('WRONG_PHASE', 'Seats can only be rearranged before cards are dealt.');
             const source = room.seats.findIndex(seat => seat.id === c.seatId);
             if (source < 0 || !Number.isInteger(c.number) || c.number < 1 || c.number > room.seats.length) fail('INVALID_TARGET', 'Choose a valid seat number.');
             const target = c.number - 1;
@@ -844,7 +866,7 @@ function executeCommand(room, actorId, c, now) {
                 progressElection(room, now);
             } else {
                 if (!room.election.candidateIds.length) { finishElection(room, null, now); break; }
-                room.election.voterIds = room.election.participantIds.filter(id => !room.election.declarations[id] && getSeat(room, id).canVote);
+                room.election.voterIds = room.election.participantIds.filter(id => (room.election.round === 2 ? !room.election.candidateIds.includes(id) : !room.election.declarations[id]) && getSeat(room, id).canVote);
                 room.votes = {};
                 setPhase(room, 'voting', 'sheriff', now);
                 progressElection(room, now);
@@ -981,7 +1003,7 @@ function executeCommand(room, actorId, c, now) {
             room.silencedNight = null;
             room.lovers = null;
             room.mixedLovers = false; room.finalNightWolfVictory = false; room.lastExiledDay = null;
-            room.lastVote = null; room.lastNight = null; room.election = null; room.sheriffElectionDone = false; room.informationNight = null;
+            room.discussionDay = null; room.lastVote = null; room.lastNight = null; room.election = null; room.sheriffElectionDone = false; room.informationNight = null;
             room.messages = [];
             setPhase(room, 'ready', 'ready', now);
             event(room, 'Cards are dealt. Read your role and ready up before the first night.', '身份已发放，请查看身份并准备，之后由房主开始首夜。', now);
@@ -1024,7 +1046,7 @@ function executeCommand(room, actorId, c, now) {
                 room.pendingShots = [];
                 reactionsOrDay(room, now);
             }
-            else if (room.phase.step === 'badge') { room.sheriffSeatId = null; event(room, 'The host skipped badge transfer; the badge is destroyed.', '房主跳过警徽移交，警徽已撕毁。', now); reactionsOrDay(room, now); }
+            else if (room.phase.step === 'badge') { room.sheriffSeatId = null; event(room, 'The host skipped badge transfer; the badge is destroyed.', '房主跳过警徽移交，警徽已撕毁。', now); announce(room, 'badgeResult', ['badge-destroyed'], now); }
             else if (room.voteDoneDay === room.day)
                 startNight(room, now);
             else {
@@ -1094,7 +1116,7 @@ function executeCommand(room, actorId, c, now) {
             room.replay = [];
             room.pendingShots = [];
             room.sheriffSeatId = null;
-            room.lastVote = null; room.lastNight = null; room.election = null; room.sheriffElectionDone = false; room.informationNight = null;
+            room.discussionDay = null; room.lastVote = null; room.lastNight = null; room.election = null; room.sheriffElectionDone = false; room.informationNight = null;
             room.requests = [];
             setPhase(room, 'lobby', null, now);
             break;
@@ -1169,7 +1191,7 @@ function executeCommand(room, actorId, c, now) {
                 aliveSeat(room, c.targetId);
             room.sheriffSeatId = c.targetId;
             event(room, c.targetId ? `The Sheriff badge passes to seat ${room.seats.findIndex(seat => seat.id === c.targetId) + 1}.` : 'The Sheriff destroyed the badge.', c.targetId ? `警徽移交给${room.seats.findIndex(seat => seat.id === c.targetId) + 1}号。` : '警长撕毁了警徽。', now);
-            reactionsOrDay(room, now);
+            announce(room, 'badgeResult', c.targetId ? ['badge-passed', `seat-${room.seats.findIndex(seat => seat.id === c.targetId) + 1}`] : ['badge-destroyed'], now);
             break;
         case 'leave':
             if (room.status === 'lobby') {
@@ -1219,7 +1241,10 @@ function executeCommand(room, actorId, c, now) {
     if (publicDeathAction) {
         const deaths = room.seats.filter(seat => aliveBefore.has(seat.id) && !seat.alive);
         if (deaths.length) {
-            const cues = ['day-deaths', ...deaths.map(seat => `seat-${room.seats.indexOf(seat) + 1}`)];
+            room.discussionDay = discussionDayBefore;
+            const exiled = deaths.filter(seat => seat.state.deathCause === 'exile');
+            const others = deaths.filter(seat => seat.state.deathCause !== 'exile');
+            const cues = [...(exiled.length ? ['exiled', ...exiled.map(seat => `seat-${room.seats.indexOf(seat) + 1}`)] : []), ...(others.length ? ['day-deaths', ...others.map(seat => `seat-${room.seats.indexOf(seat) + 1}`)] : []), ...exiled.filter(seat => !isSilenced(room, seat)).map(seat => `last-words-${room.seats.indexOf(seat) + 1}`)];
             // Finished games still announce the casualties before the game-over cue.
             if (room.status === 'finished') room.phase.publicCues = [...cues, 'game-over'];
             else announce(room, 'dayDeaths', cues, now);

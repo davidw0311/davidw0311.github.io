@@ -443,3 +443,20 @@ test('silence results play Brian recordings in both languages before acknowledgi
   f.audio.dispose();
  }
 });
+
+test('sheriff opening plays once; subsequent clockwise speakers remain quiet',async t=>{
+ const f=fixture(t);f.audio.configure(f.options);
+ f.audio.updatePhase({id:'first',kind:'sheriff',step:'speeches',publicCues:['sheriff-speeches-start','seat-4','clockwise']});
+ await f.unlock();await flush();await f.finish();await f.finish();await f.finish();
+ assert.deepEqual(f.played(),['sheriff-speeches-start','seat-4','clockwise'].map(cue=>pathFor(cue)));
+ f.audio.updatePhase({id:'second',kind:'sheriff',step:'speeches',publicCues:[]});await flush();
+ assert.equal(f.played().length,3);assert.deepEqual(f.acknowledgments,[]);
+});
+test('badge and last-word cues finish before acknowledging and day directions use the server-selected seat',async t=>{
+ const f=fixture(t);f.audio.configure({...f.options,language:'zh'});
+ f.audio.updatePhase({id:'badge',kind:'announcement',step:'badgeResult',publicCues:['badge-passed','seat-3']});
+ await f.unlock();await flush();await f.finish();assert.deepEqual(f.acknowledgments,[]);await f.finish();assert.deepEqual(f.acknowledgments,['badge']);
+ f.audio.updatePhase({id:'day',kind:'day',step:'discussion',publicCues:['sheriff-direction']});await flush();assert.equal(f.latest().url,pathFor('sheriff-direction','zh'));await f.finish();
+ f.audio.updatePhase({id:'exile',kind:'announcement',step:'dayDeaths',publicCues:['exiled','seat-5','last-words-5']});await flush();await f.finish();await f.finish();
+ assert.equal(f.latest().url,pathFor('last-words-5','zh'));assert.deepEqual(f.acknowledgments,['badge']);await f.finish();assert.deepEqual(f.acknowledgments,['badge','exile']);
+});

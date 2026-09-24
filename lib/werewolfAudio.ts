@@ -12,8 +12,8 @@ type Phase = WerewolfAudioPhase;
 type Options = { voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
 type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "silencer", "silenced-today", "nobody-silenced", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
-for (let number = 1; number <= 24; number++) CUES.add(`seat-${number}`);
-for (const cue of ["day-deaths", "night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion"]) CUES.add(cue);
+for (let number = 1; number <= 24; number++) { CUES.add(`seat-${number}`); CUES.add(`last-words-${number}`); }
+for (const cue of ["day-deaths", "night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion", "sheriff-speeches-start", "clockwise", "discussion-start", "sheriff-direction", "exiled", "badge-passed", "badge-destroyed"]) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 
 // A short, valid, unmuted PCM audio track for granting each persistent media
@@ -184,10 +184,10 @@ export class WerewolfAudio {
     this.phaseKey = key;
     if (phase.paused) this.cues = ["paused"];
     else if (phase.kind === "announcement") this.cues = [...(phase.publicCues || [])];
-    else if (phase.kind === "sheriff") this.cues = phase.publicCues?.length ? [...phase.publicCues] : [phase.step === "nomination" ? "sheriff-nomination" : "sheriff-discussion"];
+    else if (phase.kind === "sheriff") this.cues = phase.publicCues ? [...phase.publicCues] : [phase.step === "nomination" ? "sheriff-nomination" : "sheriff-discussion"];
     else if (phase.kind === "night" && phase.nightStage) this.cues = phase.nightStage === "acting" ? [] : [...(phase.nightCues ?? [])];
     else if (phase.kind === "night") this.cues = [...(previous?.kind !== "night" ? ["night"] : previous.paused ? [] : ["role-sleep"]), phase.step || "night"];
-    else if (phase.kind === "day") this.cues = phase.step === "afterVote" ? ["vote-result"] : previous?.kind === "night" ? ["dawn", "discussion"] : ["discussion"];
+    else if (phase.kind === "day") this.cues = phase.publicCues ? [...phase.publicCues] : phase.step === "afterVote" ? ["vote-result"] : previous?.kind === "night" ? ["dawn", "discussion"] : ["discussion"];
     else if (phase.kind === "voting") this.cues = [phase.step === "sheriff" ? "sheriff-voting" : "voting"];
     else if (phase.kind === "reaction") this.cues = [...(previous?.kind === "night" ? ["dawn"] : []), "reaction"];
     else this.cues = phase.kind === "finished" ? phase.publicCues?.length ? [...phase.publicCues] : ["game-over"] : [];
