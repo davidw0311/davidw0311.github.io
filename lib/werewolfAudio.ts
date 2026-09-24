@@ -252,7 +252,7 @@ export class WerewolfAudio {
       this.stopNarration();
       this.report(locked ? "locked" : "error", locked
         ? this.message("Playback was interrupted. Tap Enable sound or Replay to continue.", "播放已中断，请点击开启声音或重播继续。")
-        : this.message("Brian's recording could not play. Check the connection and tap Replay.", "Brian 的语音未能播放，请检查网络后点击重播。"));
+        : this.message("The narration recording could not play. Check the connection and tap Replay.", "法官语音未能播放，请检查网络后点击重播。"));
     };
     media.onplaying = () => { if (current()) { started = true; lastTime = media.currentTime; this.narrationReady = true; this.clearStall(); this.report("playing"); } };
     media.ontimeupdate = () => { if (current() && !media.paused && media.currentTime > lastTime) { lastTime = media.currentTime; this.clearStall(); } };

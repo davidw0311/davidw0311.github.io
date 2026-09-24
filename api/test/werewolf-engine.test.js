@@ -1140,3 +1140,16 @@ test('surviving Sheriff is asked for speaking direction after dawn; badge decisi
  assert.deepEqual(r.phase.publicCues,['badge-passed','seat-3']);send(r,r.hostId,'nightNarrationDone');
  assert.deepEqual(r.phase.publicCues,['sheriff-direction']);assert.equal(r.speakerSeatId,null);
 });
+
+test('new public announcements have male Kokoro recordings and preserve Brian for existing cues',()=>{
+ const root=path.join(__dirname,'../../public/assets/werewolf');
+ const manifest=JSON.parse(fs.readFileSync(path.join(root,'audio/manifest.json'),'utf8'));
+ const texts=JSON.parse(fs.readFileSync(path.join(root,'announcement-text.json'),'utf8'));
+ assert.equal(Object.keys(texts).length,31);
+ for(const [cue,translations] of Object.entries(texts)) for(const [i,language] of ['en','zh'].entries()) {
+  const clip=manifest.clips[`${language}:${cue}`];
+  assert.equal(clip.provider,'Kokoro');assert.equal(clip.voice,language==='en'?'am_michael':'zm_010');assert.equal(clip.text,translations[i]);assert.ok(clip.duration>0&&clip.duration<45);
+  assert.ok(fs.statSync(path.join(__dirname,'../../public',clip.src)).size>1000);
+ }
+ for(const cue of ['night','wolves','seer','witch','night-deaths','day-deaths','sheriff-elected','seat-1']) for(const lang of ['en','zh']) assert.notEqual(manifest.clips[`${lang}:${cue}`].provider,'Kokoro');
+});

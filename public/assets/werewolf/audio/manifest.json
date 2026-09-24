@@ -1,6 +1,6 @@
 {
   "voice": "en-US-BrianMultilingualNeural",
-  "provider": "Microsoft Azure AI Speech",
+  "provider": "Microsoft Azure AI Speech + local Kokoro",
   "music": {
     "src": "/assets/werewolf/audio/night-ambience.wav",
     "title": "Moonlit clearing",
@@ -786,6 +786,630 @@
       "text": "今日无人被禁言。",
       "duration": 2.544,
       "textHash": "0d97b58d2b7d5411cfbd0c86fd0e9d7bb466dd0229e0203fe4cb6bb587e6f729"
+    },
+    "en:sheriff-speeches-start": {
+      "src": "/assets/werewolf/audio/en/sheriff-speeches-start.mp3",
+      "text": "Sheriff speeches begin. The first speaker is:",
+      "duration": 3.775,
+      "textHash": "83e7a5ba07c4b0f3ed464dc8dd67fc7d0c6a3b18dd0fbaeb30b49f7ed41e0e7e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:clockwise": {
+      "src": "/assets/werewolf/audio/en/clockwise.mp3",
+      "text": "Continue in clockwise order.",
+      "duration": 2.875,
+      "textHash": "15c0b527208fe2022ac3dde740b69cc087a2fa8722d20291cbb9ca90d87fb256",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:discussion-start": {
+      "src": "/assets/werewolf/audio/en/discussion-start.mp3",
+      "text": "Village discussion begins. The first speaker is:",
+      "duration": 4.125,
+      "textHash": "ff32882ff208946f0ad2db4da5c62f61b76d4c5c7fa1af863a92e6e9d48ac880",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:sheriff-direction": {
+      "src": "/assets/werewolf/audio/en/sheriff-direction.mp3",
+      "text": "Sheriff, choose whether discussion starts to the left or right of the eliminated player. If nobody died, choose the first speaker.",
+      "duration": 8.9,
+      "textHash": "5700c0612050c983492597097ce5b26ee6beffe01446df280f3811059f0de957",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:exiled": {
+      "src": "/assets/werewolf/audio/en/exiled.mp3",
+      "text": "The following player was voted out:",
+      "duration": 2.8,
+      "textHash": "9b97e8e6e4616d6f99ba1abd029edde69db0840ed069bcb003e6fc57375426be",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:badge-passed": {
+      "src": "/assets/werewolf/audio/en/badge-passed.mp3",
+      "text": "The Sheriff badge passes to:",
+      "duration": 2.55,
+      "textHash": "77effcf33e39796c05c97a5bf4acbca6e660788ea2d26728076ce45d269a99e1",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:badge-destroyed": {
+      "src": "/assets/werewolf/audio/en/badge-destroyed.mp3",
+      "text": "The Sheriff badge has been destroyed. There is no Sheriff.",
+      "duration": 4.075,
+      "textHash": "e35e93befc097bbf1b3c8c134ee6619dce422cfb2cb95e86fa7059abcc295eef",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-1": {
+      "src": "/assets/werewolf/audio/en/last-words-1.mp3",
+      "text": "Player 1, please give your last words.",
+      "duration": 3.275,
+      "textHash": "b428672f977053849de63d8eac20b7201fd0cbd65fce4c7211b4e70420e0c521",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-2": {
+      "src": "/assets/werewolf/audio/en/last-words-2.mp3",
+      "text": "Player 2, please give your last words.",
+      "duration": 3.3,
+      "textHash": "60c26914a2f44b3070d49fb746a38cd3678a97cb304c72a5f25f21ef798769a4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-3": {
+      "src": "/assets/werewolf/audio/en/last-words-3.mp3",
+      "text": "Player 3, please give your last words.",
+      "duration": 3.3,
+      "textHash": "641e023f138af43c08d67ff2e43c6154098702b18d6c38733b6b50bc80d4c7b5",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-4": {
+      "src": "/assets/werewolf/audio/en/last-words-4.mp3",
+      "text": "Player 4, please give your last words.",
+      "duration": 3.225,
+      "textHash": "4029bbb701dfcdcca4faaaff02249573b480fd6a1cf55d2a6cc7fccb30c7c4fc",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-5": {
+      "src": "/assets/werewolf/audio/en/last-words-5.mp3",
+      "text": "Player 5, please give your last words.",
+      "duration": 3.3,
+      "textHash": "0a256b364e426870223b5cc0d698e03a12ae1f235e65b2ef4662d6d4b7160df5",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-6": {
+      "src": "/assets/werewolf/audio/en/last-words-6.mp3",
+      "text": "Player 6, please give your last words.",
+      "duration": 3.275,
+      "textHash": "0cc837528ec7b466aeb2f7f0fd2b161d67f3ee529912731916b51288dab8fd33",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-7": {
+      "src": "/assets/werewolf/audio/en/last-words-7.mp3",
+      "text": "Player 7, please give your last words.",
+      "duration": 3.425,
+      "textHash": "3195a0a3c40a012643809501a9b8a82542878eae2c07d0f41c5045ec1277cba0",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-8": {
+      "src": "/assets/werewolf/audio/en/last-words-8.mp3",
+      "text": "Player 8, please give your last words.",
+      "duration": 3.1,
+      "textHash": "88adbe475d3dc617d8b3e050c0852e46634e2e71c399cc4e5ef50c6e9eb76fba",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-9": {
+      "src": "/assets/werewolf/audio/en/last-words-9.mp3",
+      "text": "Player 9, please give your last words.",
+      "duration": 3.3,
+      "textHash": "9289ec6d2caba40a7ac94be07a2672120cf2aa24acc87e10ca76ea04ef0aba05",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-10": {
+      "src": "/assets/werewolf/audio/en/last-words-10.mp3",
+      "text": "Player 10, please give your last words.",
+      "duration": 3.3,
+      "textHash": "0a28d7f49f553c71d3a437c4a7c6bf6cc86ab2f9b6517a7bde997b32dd4d107e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-11": {
+      "src": "/assets/werewolf/audio/en/last-words-11.mp3",
+      "text": "Player 11, please give your last words.",
+      "duration": 3.45,
+      "textHash": "d4fbee49e15d4aa8cb5514f0c5ec6a8bb2cdcb2f75d2f15c59c66f548b281521",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-12": {
+      "src": "/assets/werewolf/audio/en/last-words-12.mp3",
+      "text": "Player 12, please give your last words.",
+      "duration": 3.35,
+      "textHash": "ca9bbdb7175e9beeed6ae5103ec581adf390268d1b49c4736bb261d92ab7aeb6",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-13": {
+      "src": "/assets/werewolf/audio/en/last-words-13.mp3",
+      "text": "Player 13, please give your last words.",
+      "duration": 3.55,
+      "textHash": "8a5e3e8b47f0c61f6ff81c5e0f96f4f8c8db2af71b3ec47f01439d5932b1748b",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-14": {
+      "src": "/assets/werewolf/audio/en/last-words-14.mp3",
+      "text": "Player 14, please give your last words.",
+      "duration": 3.625,
+      "textHash": "043d0ebbbcb766eb3b2808f84e33226d4eb2da28d068962b62b3594054258c95",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-15": {
+      "src": "/assets/werewolf/audio/en/last-words-15.mp3",
+      "text": "Player 15, please give your last words.",
+      "duration": 3.55,
+      "textHash": "2a8ea4b4b1066a9cdff4d5f3c019ef4f9a0fa90eadd755a28dd473c5fff821ce",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-16": {
+      "src": "/assets/werewolf/audio/en/last-words-16.mp3",
+      "text": "Player 16, please give your last words.",
+      "duration": 3.575,
+      "textHash": "7ae18731ec7b5d6a20afd9c72d5cf39cee5a7df31a36b53db2e0bf7b3888e12e",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-17": {
+      "src": "/assets/werewolf/audio/en/last-words-17.mp3",
+      "text": "Player 17, please give your last words.",
+      "duration": 3.775,
+      "textHash": "89bf1b6efbaddbc0a083063b5d5992ead3349f6259cd4eb1b3a548ad384de093",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-18": {
+      "src": "/assets/werewolf/audio/en/last-words-18.mp3",
+      "text": "Player 18, please give your last words.",
+      "duration": 3.575,
+      "textHash": "fb7e912fe81dadbb8e7275f564b96377a8122bf81397f11736af145c33b5bd1f",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-19": {
+      "src": "/assets/werewolf/audio/en/last-words-19.mp3",
+      "text": "Player 19, please give your last words.",
+      "duration": 3.575,
+      "textHash": "a55c75920493ea2d33b4c1a4ea3267b8789fe0b3b74e7df3405afcb676b2ec88",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-20": {
+      "src": "/assets/werewolf/audio/en/last-words-20.mp3",
+      "text": "Player 20, please give your last words.",
+      "duration": 3.4,
+      "textHash": "813570d96b0823e337a7c2a26bc31464d434a326673203a798636ba1a39dd0ac",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-21": {
+      "src": "/assets/werewolf/audio/en/last-words-21.mp3",
+      "text": "Player 21, please give your last words.",
+      "duration": 3.625,
+      "textHash": "25b5f0407fecc6979b1ea484c521e502593d45ba776a5c78285b1ae0ae931710",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-22": {
+      "src": "/assets/werewolf/audio/en/last-words-22.mp3",
+      "text": "Player 22, please give your last words.",
+      "duration": 3.625,
+      "textHash": "1c48876123022456acbb42fb453d24890ab301a776c4aef0f3c24451aaab7c9c",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-23": {
+      "src": "/assets/werewolf/audio/en/last-words-23.mp3",
+      "text": "Player 23, please give your last words.",
+      "duration": 3.625,
+      "textHash": "f3dca74a8cef6c002008a5471a4245c2e609d10466d0745b2991b63de6c22cc3",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:last-words-24": {
+      "src": "/assets/werewolf/audio/en/last-words-24.mp3",
+      "text": "Player 24, please give your last words.",
+      "duration": 3.675,
+      "textHash": "4a72774915ab05dc46c93ee5efbe005a2ab4e91af67635023bd550940440d39b",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:sheriff-speeches-start": {
+      "src": "/assets/werewolf/audio/zh/sheriff-speeches-start.mp3",
+      "text": "现在开始警上发言。首先发言的是：",
+      "duration": 4.35,
+      "textHash": "d8fea72a392a7da4d3a5a238cc75708482fa0fdb1fa1684146f886966bd18d94",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:clockwise": {
+      "src": "/assets/werewolf/audio/zh/clockwise.mp3",
+      "text": "请按顺时针顺序发言。",
+      "duration": 3.175,
+      "textHash": "de3ce46392c866eeb0aacb1c0e1121e378e909293bf79c6b0ed85ad8e0d97a6d",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:discussion-start": {
+      "src": "/assets/werewolf/audio/zh/discussion-start.mp3",
+      "text": "现在开始白天发言。首先发言的是：",
+      "duration": 4.475,
+      "textHash": "cfdb57108b5eccc73db20a9375acd740bcbb57f5b5790b383ac130b30e0d1022",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:sheriff-direction": {
+      "src": "/assets/werewolf/audio/zh/sheriff-direction.mp3",
+      "text": "请警长决定死左还是死右发言。如果是平安夜，请警长指定起始发言玩家。",
+      "duration": 7.6,
+      "textHash": "6e5f3eb7bda6066f189495a84ed9e89d89bf658fa1ef3b5fff495ac87cddd8f7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:exiled": {
+      "src": "/assets/werewolf/audio/zh/exiled.mp3",
+      "text": "本轮被放逐的玩家是：",
+      "duration": 3.0,
+      "textHash": "d4a7a9393447ba28d76d14ee1e87ee5b5d062c86dba2ceac0786c2a7fffa9895",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:badge-passed": {
+      "src": "/assets/werewolf/audio/zh/badge-passed.mp3",
+      "text": "警徽移交给：",
+      "duration": 2.15,
+      "textHash": "9d48ce2474e574e7df8f51919a8b4a8503cc6ff6a4b425bf57ec1c6963963c86",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:badge-destroyed": {
+      "src": "/assets/werewolf/audio/zh/badge-destroyed.mp3",
+      "text": "警徽已被撕毁。本局不再有警长。",
+      "duration": 4.125,
+      "textHash": "290733f18edf2f6f172080e7100224b4027824170f64d221270fd5f0ba49f40a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-1": {
+      "src": "/assets/werewolf/audio/zh/last-words-1.mp3",
+      "text": "请1号玩家留遗言。",
+      "duration": 2.85,
+      "textHash": "2640a1ba6ec3f4c2e625222f8137831819eaee9749b1f79a160c392062fd8d1c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-2": {
+      "src": "/assets/werewolf/audio/zh/last-words-2.mp3",
+      "text": "请2号玩家留遗言。",
+      "duration": 2.9,
+      "textHash": "4e182754d3a0d0d29fb0d8339b5abfb1029ceb304cd6ab05c7356edca228cc02",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-3": {
+      "src": "/assets/werewolf/audio/zh/last-words-3.mp3",
+      "text": "请3号玩家留遗言。",
+      "duration": 2.95,
+      "textHash": "121d2c0a8baf18a40bfef593178ba824ab1e3508eb7939acb4a5a4374fbe8aa4",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-4": {
+      "src": "/assets/werewolf/audio/zh/last-words-4.mp3",
+      "text": "请4号玩家留遗言。",
+      "duration": 2.95,
+      "textHash": "1277cf4a70e9fe2bd27d52c80126caba736dafc8da466000bc8763265c7c62f9",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-5": {
+      "src": "/assets/werewolf/audio/zh/last-words-5.mp3",
+      "text": "请5号玩家留遗言。",
+      "duration": 2.925,
+      "textHash": "011f0665c7e1097ac770ca40468da8bf3c52268a9879ff3c67e2d8024f4c7419",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-6": {
+      "src": "/assets/werewolf/audio/zh/last-words-6.mp3",
+      "text": "请6号玩家留遗言。",
+      "duration": 2.9,
+      "textHash": "603f76542ba1729758e8905d2c5521093cf870cb730b54199d4d09e25e5fbcc8",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-7": {
+      "src": "/assets/werewolf/audio/zh/last-words-7.mp3",
+      "text": "请7号玩家留遗言。",
+      "duration": 2.925,
+      "textHash": "317fc99c67fd9e2d644579a9f98eb00b8699db0e17ff7d3ca86f2ca31ac0b5cc",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-8": {
+      "src": "/assets/werewolf/audio/zh/last-words-8.mp3",
+      "text": "请8号玩家留遗言。",
+      "duration": 2.925,
+      "textHash": "3fe6b30aa745376ea4359211bb28afd7d11ac76c8efd1b195eba33c49c76ec9a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-9": {
+      "src": "/assets/werewolf/audio/zh/last-words-9.mp3",
+      "text": "请9号玩家留遗言。",
+      "duration": 2.9,
+      "textHash": "24d09190a07aa0a44041049270e64b174e6250bf6c5f93bb10400db70acbe8cc",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-10": {
+      "src": "/assets/werewolf/audio/zh/last-words-10.mp3",
+      "text": "请10号玩家留遗言。",
+      "duration": 2.925,
+      "textHash": "12a4f9d65de58de7d524a996809ff6851173879a994e592de8788c87c5222852",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-11": {
+      "src": "/assets/werewolf/audio/zh/last-words-11.mp3",
+      "text": "请11号玩家留遗言。",
+      "duration": 3.025,
+      "textHash": "28e1a6340084e3717bbfa0b804aae06564181aa2cce22aec6510b97fe2027d50",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-12": {
+      "src": "/assets/werewolf/audio/zh/last-words-12.mp3",
+      "text": "请12号玩家留遗言。",
+      "duration": 3.075,
+      "textHash": "d2574557dafa1a0b010d9a9e3af59a96a34b1c9bd41d5cf74e3c3253a0a101d7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-13": {
+      "src": "/assets/werewolf/audio/zh/last-words-13.mp3",
+      "text": "请13号玩家留遗言。",
+      "duration": 3.2,
+      "textHash": "9f9d384151bdbac9352cc21d80734153341968ab7c5f5c7c8c197e477b8e20fc",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-14": {
+      "src": "/assets/werewolf/audio/zh/last-words-14.mp3",
+      "text": "请14号玩家留遗言。",
+      "duration": 3.125,
+      "textHash": "67c4117207afc6bb106bd989be4d19cbd2c3e829d29e78807268547bb273f0c0",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-15": {
+      "src": "/assets/werewolf/audio/zh/last-words-15.mp3",
+      "text": "请15号玩家留遗言。",
+      "duration": 3.075,
+      "textHash": "3d9365b57cd1a3efbcb86534a6d0e6b4f61b12cf7c3160bc390604a5b5f00296",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-16": {
+      "src": "/assets/werewolf/audio/zh/last-words-16.mp3",
+      "text": "请16号玩家留遗言。",
+      "duration": 3.125,
+      "textHash": "573a18465649c4ac14c3865a5fb17aea7d7a16684213cc2f47b35c40190f0bc5",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-17": {
+      "src": "/assets/werewolf/audio/zh/last-words-17.mp3",
+      "text": "请17号玩家留遗言。",
+      "duration": 3.075,
+      "textHash": "21a0ff8efd570b96ab6fde27314980ad2bd1a332643354eaa9b8b887642aeafa",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-18": {
+      "src": "/assets/werewolf/audio/zh/last-words-18.mp3",
+      "text": "请18号玩家留遗言。",
+      "duration": 3.125,
+      "textHash": "e797ad73a2eb8510c6b0c2fbdef458ba136fd59dd9759a951446998b682462a7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-19": {
+      "src": "/assets/werewolf/audio/zh/last-words-19.mp3",
+      "text": "请19号玩家留遗言。",
+      "duration": 3.1,
+      "textHash": "871c201e86fc7cdaee31b5d5551df3118499d77c2239cde4eb771c395e6d573a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-20": {
+      "src": "/assets/werewolf/audio/zh/last-words-20.mp3",
+      "text": "请20号玩家留遗言。",
+      "duration": 3.1,
+      "textHash": "9d33b67ddf1676155ffa189b1d1d967c0b9adc653aae6c09e3797cb271d38a5d",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-21": {
+      "src": "/assets/werewolf/audio/zh/last-words-21.mp3",
+      "text": "请21号玩家留遗言。",
+      "duration": 3.25,
+      "textHash": "f6bd3025b2d26767603a22e75ae0c39a9a86c255a604d79e9cbac8e43d16f75f",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-22": {
+      "src": "/assets/werewolf/audio/zh/last-words-22.mp3",
+      "text": "请22号玩家留遗言。",
+      "duration": 3.3,
+      "textHash": "a9d1da9d160823d50a7b7164b291a096f2b11196fdf2b74fc293b5fafb2cb8d0",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-23": {
+      "src": "/assets/werewolf/audio/zh/last-words-23.mp3",
+      "text": "请23号玩家留遗言。",
+      "duration": 3.425,
+      "textHash": "72aad51e5695d7f1facbd021b3fa9a117987e7cd2d2e2f065f95da7028b841ee",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:last-words-24": {
+      "src": "/assets/werewolf/audio/zh/last-words-24.mp3",
+      "text": "请24号玩家留遗言。",
+      "duration": 3.425,
+      "textHash": "701a0339c95508296258e474cef13bf8514219812529045f0b92056b5a33f14f",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
     }
+  },
+  "additionalVoices": {
+    "en": "am_michael",
+    "zh": "zm_010"
   }
 }

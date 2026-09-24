@@ -76,6 +76,7 @@ let lastRequest = 0;
 for (const [cue, translations] of Object.entries(cues)) {
   if (selected && selected !== cue) continue;
   for (const [i, language] of ['en', 'zh'].entries()) {
+    if (manifest.clips[`${language}:${cue}`]?.provider === 'Kokoro') continue; // Keep the approved mixed narrator library.
     const locale = language === 'en' ? 'en-US' : 'zh-CN';
     const text = translations[i];
     const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${locale}"><voice name="${voice}"><lang xml:lang="${locale}"><prosody rate="-8%">${escape(text)}</prosody></lang></voice></speak>`;
