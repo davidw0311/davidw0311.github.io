@@ -68,7 +68,13 @@ try {
   view=await command(players[0],'startVote');
   await assert.rejects(command(players[0],'finishVote'),{code:'PENDING_VOTES'});
   const seats=view.seats;
-  for(let i=0;i<players.length;i++)await command(players[i],'vote',{targetId:seats[(i+1)%seats.length].id});
+  // Concurrent joins may settle in any seat order. Bind votes to each session's
+  // actual seat instead of assuming that network completion preserves the list.
+  for(const player of players) {
+    const own=await sync(player),index=seats.findIndex(seat=>seat.id===own.me.seatId);
+    assert.ok(index>=0);
+    await command(player,'vote',{targetId:seats[(index+1)%seats.length].id});
+  }
   view=await command(players[0],'finishVote');
   assert.equal(view.status,'finished');assert.equal(view.result.players.length,players.length);
   assert.equal(Object.keys(view.result.votes).length,players.length);
