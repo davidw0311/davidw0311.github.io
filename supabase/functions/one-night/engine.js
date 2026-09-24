@@ -194,7 +194,32 @@ function perform(room, seat, command) {
     else if (!['minion', 'mason', 'renfield', 'markReview', 'lovers', 'apprenticeAssassin'].includes(role) && !NO_ACTION.has(role)) { if (!expansion.perform?.(ctx, role, command)) fail('UNSUPPORTED_ROLE', `The ${role} action is unavailable.`); return; }
     complete(room, seat);
 }
-function startDiscussion(room, now) { phase(room, 'discussion', 'discussion', now); room.phase.cueIds = ['discussion']; for (const seat of room.seats) if (room.artifacts[seat.id]) learn(room, seat, `Your artifact: ${room.artifacts[seat.id]}.`, `你的神器：${({ claw: '狼人之爪：变为狼人', brand: '村民烙印：变为村民', cudgel: '皮匠棍棒：变为皮匠', void: '虚无：没有效果', mask: '禁言面具：不可说话', shroud: '羞耻裹布：背对其他玩家' })[room.artifacts[seat.id]] || room.artifacts[seat.id]}。`); event(room, 'The night is over. Discuss what changed, without viewing your current card.', '天亮了。讨论夜里发生的变化，但不能查看当前身份。', now); }
+const ARTIFACT_GUIDANCE = {
+    claw: ['Claw of the Werewolf. Your role is now Werewolf; join the wolf team.', '狼人之爪。你的身份变为狼人，加入狼人阵营。'],
+    brand: ['Brand of the Villager. Your role is now Villager, with no special ability.', '村民烙印。你的身份变为普通村民，没有特殊技能。'],
+    cudgel: ['Cudgel of the Tanner. Your role is now Tanner. Your goal is to be eliminated.', '皮匠之棍。你的身份变为皮匠，以自己出局为获胜目标。'],
+    void: ['Void of Nothingness. Nothing changes; keep the role and powers of your final card.', '虚无之境。没有额外效果，按最终身份牌及其能力结算。'],
+    mask: ['Mask of Muting. Stay silent during discussion; gestures are allowed.', '禁言面具。讨论时不能说话，可以用手势交流。'],
+    shroud: ['Shroud of Shame. Face away from the table. You may speak, but cannot look at players, cards or tokens, even while voting.', '羞耻之布。背对牌桌，可以说话，但不能看其他玩家、身份牌或标记，投票时也不能转身。'],
+    bowOfHunter: ['Bow of the Hunter. Your role is now Hunter. If you die, the player you voted for also dies.', '猎人之弓。你的身份变为猎人。若你死亡，你投票指向的玩家也会死亡。'],
+    cloakOfPrince: ['Cloak of the Prince. Your role is now Prince. Votes cannot eliminate you, but other death effects still apply.', '王子斗篷。你的身份变为王子，不会被投票放逐，但仍可能被其他死亡效果带走。'],
+    swordOfBodyguard: ['Sword of the Bodyguard. Your role is now Bodyguard. Your vote protects its target instead of counting against them.', '保镖之剑。你的身份变为保镖。你投票指向的人受到保护，该票不计入其得票数。'],
+    mistOfVampire: ['Mist of the Vampire. Your role is now Vampire; join the vampire team.', '吸血鬼迷雾。你的身份变为吸血鬼，加入吸血鬼阵营。'],
+    alienArtifact: ['Alien Artifact. Your role is now Alien; join the alien team.', '外星神器。你的身份变为外星人，加入外星人阵营。'],
+    daggerOfTraitor: ['Dagger of the Traitor. To win, another player on your final team must die.', '叛徒匕首。要获胜，必须有另一位与你最终阵营相同的玩家死亡。'],
+};
+function startDiscussion(room, now) {
+    phase(room, 'discussion', 'discussion', now); room.phase.cueIds = ['discussion'];
+    for (const seat of room.seats) {
+        const artifact = room.artifacts[seat.id];
+        if (!artifact) continue;
+        const guidance = ARTIFACT_GUIDANCE[artifact];
+        const changesRole = ['claw', 'brand', 'cudgel'].includes(artifact) || Boolean(expansion.BONUS_ARTIFACTS?.[artifact]?.roleId);
+        const suffix = changesRole ? [' This replaces your card’s previous role and end-of-game powers.', '这会替换原身份及其终局能力。'] : ['', ''];
+        learn(room, seat, `Your artifact: ${guidance?.[0] || 'Check the artifact rules.'}${suffix[0]}`, `你的神器：${guidance?.[1] || '请查看神器规则。'}${suffix[1]}`);
+    }
+    event(room, 'The night is over. Discuss what changed, without viewing your current card.', '天亮了。讨论夜里发生的变化，但不能查看当前身份。', now);
+}
 function start(room, now) {
     const deck = room.roleDeck.length ? room.roleDeck : defaultDeck(room.seats.length); validateDeck(deck, room.seats.length); if (room.seats.some(s => !s.actorId)) fail('EMPTY_SEATS', 'Every seat must have a player before dealing.');
     room.roleDeck = [...deck]; const shuffled = shuffle(deck); room.gameId = randomUUID(); room.status = 'playing'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {};
@@ -281,6 +306,7 @@ function recoverHost(room, actor, now) { now = nowMs(now); if (room.status === '
 function publicView(room, actor, now) {
     room = clone(room);
     now = nowMs(now); const seat = seatOf(room, actor), isHost = Boolean(room.hostId && actor === room.hostId), finished = room.status === 'finished';
-    return { code: room.code, gameId: room.gameId || null, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map((s, i) => ({ id: s.id, number: i + 1, name: s.name, photo: s.photo, ready: s.ready, connected: connected(room, s, now), occupied: Boolean(s.actorId), isHost: s.actorId === room.hostId, ...(room.revealed.includes(s.id) && room.cards[s.id] ? { revealedRoleId: room.cards[s.id].roleId } : {}), ...(finished ? { roleId: room.result?.players.find(p => p.seatId === s.id)?.roleId || effective(room, s.id).roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actor) ? { status: 'pending' } : null, me: seat ? { seatId: seat.id, roleId: seat.originalRoleId, originalRoleId: seat.originalRoleId, ready: seat.ready, knowledge: clone(seat.knowledge), action: descriptor(room, seat), vote: room.votes[seat.id] || null } : null, phase: { ...clone(room.phase), ...(room.phase.kind === 'night' && room.phase.nightStage === 'acting' ? { deadline: null } : {}) }, events: clone(room.events), result: finished ? clone(room.result) : null, pendingVoterIds: room.phase.kind === 'voting' ? room.seats.filter(s => !room.votes[s.id]).map(s => s.id) : [], publicRules: clone(room.expansion?.publicRules || []), centerCards: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, ...(finished || room.revealed.includes(id) ? { roleId: card.roleId } : {}) })), centerCount: Object.keys(room.cards).filter(id => id.startsWith('center:')).length || 3 };
+    const publicTokens = finished || ['discussion', 'voting'].includes(room.phase.kind);
+    return { code: room.code, gameId: room.gameId || null, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map((s, i) => ({ id: s.id, number: i + 1, name: s.name, photo: s.photo, ready: s.ready, connected: connected(room, s, now), occupied: Boolean(s.actorId), isHost: s.actorId === room.hostId, ...(publicTokens ? { shielded: room.shields.includes(s.id), hasArtifact: Boolean(room.artifacts[s.id]) } : {}), ...(room.revealed.includes(s.id) && room.cards[s.id] ? { revealedRoleId: room.cards[s.id].roleId } : {}), ...(finished ? { roleId: room.result?.players.find(p => p.seatId === s.id)?.roleId || effective(room, s.id).roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actor) ? { status: 'pending' } : null, me: seat ? { seatId: seat.id, roleId: seat.originalRoleId, originalRoleId: seat.originalRoleId, ready: seat.ready, knowledge: clone(seat.knowledge), action: descriptor(room, seat), vote: room.votes[seat.id] || null } : null, phase: { ...clone(room.phase), ...(room.phase.kind === 'night' && room.phase.nightStage === 'acting' ? { deadline: null } : {}) }, events: clone(room.events), result: finished ? clone(room.result) : null, pendingVoterIds: room.phase.kind === 'voting' ? room.seats.filter(s => !room.votes[s.id]).map(s => s.id) : [], publicRules: clone(room.expansion?.publicRules || []), centerCards: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, ...(finished || room.revealed.includes(id) ? { roleId: card.roleId } : {}) })), centerCount: Object.keys(room.cards).filter(id => id.startsWith('center:')).length || 3 };
 }
 export { createRoom, applyCommand, publicView, tickRoom, recoverHost, DEFAULT_SETTINGS, catalogue, validateDeck, defaultDeck,effective as effectiveCard};

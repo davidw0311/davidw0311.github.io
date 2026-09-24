@@ -7,12 +7,22 @@ const config=JSON.parse(await readFile(new URL('../public/assets/one-night/backe
 const endpoint=process.env.ONE_NIGHT_API_URL||config.url;
 const key=config.publishableKey;
 const players=Array.from({length:5},(_,i)=>({token:randomUUID(),name:`Release check ${i+1}`}));
-let code,view,cleaned=false;
+let code,view,cleaned=false,retries=0;
 async function call(player,input) {
-  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json',apikey:key,Authorization:`Bearer ${key}`},body:JSON.stringify({token:player.token,requestId:randomUUID(),code,...input})});
-  const result=await response.json();
-  if(!response.ok||result.error){const error=new Error(result.message||result.error);error.code=result.error;throw error;}
-  return result;
+  const body=JSON.stringify({token:player.token,requestId:randomUUID(),code,...input});
+  // Retry the exact packet, as the browser does, so a lost response cannot
+  // duplicate an action. Surface a sustained failure instead of hiding it.
+  for(let attempt=0;attempt<2;attempt++) {
+    try {
+      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json',apikey:key,Authorization:`Bearer ${key}`},body,signal:AbortSignal.timeout(16000)});
+      const result=await response.json();
+      if(!response.ok||result.error){const error=new Error(result.message||result.error);error.code=result.error;error.retryable=response.status>=500||response.status===429||result.error==='room-busy';throw error;}
+      return result;
+    } catch(error) {
+      if(attempt||error.retryable===false)throw error;
+      retries++;await new Promise(resolve=>setTimeout(resolve,1200));
+    }
+  }
 }
 const sync=async(player=players[0])=>(await call(player,{op:'sync'})).view;
 async function command(player,type,fields={}) {
@@ -65,7 +75,7 @@ try {
   view=await command(players[0],'rematch');assert.equal(view.status,'lobby');assert.equal(view.result,null);assert.equal(view.me.roleId,null);
   await command(players[0],'disbandRoom');cleaned=true;
   await assert.rejects(sync(players[1]),{code:'room-disbanded'});
-  console.log(JSON.stringify({ok:true,endpoint,players:players.length,nightActions:actions,absentRolesSkipped:skips,checks:['private deal','readiness gate','new-device replacement','old session revoked','seating locked','night sequence','all-voters gate','results','rematch','disband']},null,2));
+  console.log(JSON.stringify({ok:true,endpoint,players:players.length,nightActions:actions,absentRolesSkipped:skips,retries,checks:['private deal','readiness gate','new-device replacement','old session revoked','seating locked','night sequence','all-voters gate','results','rematch','disband']},null,2));
 } finally {
   if(code&&!cleaned)await command(players[0],'disbandRoom').catch(()=>{});
 }
