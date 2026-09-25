@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { LockKey } from "@phosphor-icons/react";
 import { Portrait } from "./PlayerFeatures";
 import type { Command, GameView, Language } from "@/lib/werewolfClient";
 import catalogue from "@/public/assets/werewolf/roles.json";
@@ -30,19 +31,23 @@ export function stageText(view: GameView, lang: Language) {
   return view.status === "finished" ? t("Game over", "游戏结束") : t("Lobby · waiting for players", "大厅 · 等待玩家加入");
 }
 
-export function StageBanner({ view, lang }: { view: GameView; lang: Language }) {
+export function StageBanner({ view, lang, onCard, onProfile }: { view: GameView; lang: Language; onCard: () => void; onProfile: () => void }) {
   const t = (en: string, zh: string) => lang === "en" ? en : zh;
   const ownIndex = view.seats.findIndex(seat => seat.id === view.me?.seatId);
   const ownSeat = view.seats[ownIndex];
   const dead = ownSeat && !ownSeat.alive && view.status !== "lobby";
   const result = view.phase.kind !== "night" && view.phase.kind !== "ready" && view.phase.kind !== "sheriff" ? view.lastNight : null;
-  return <div className={styles.stageBanner}>
-    {ownSeat && <div className={`${styles.playerIdentity} ${dead ? styles.youEliminated : ""}`}><div className={styles.selfPortrait}><Portrait seat={ownSeat} /></div><div><span>{t(`YOU · SEAT ${ownIndex + 1}`, `你 · ${ownIndex + 1}号`)}</span><strong>{ownSeat.name}</strong></div><b>{dead ? t("ELIMINATED", "已出局") : view.status === "lobby" ? t("In lobby", "已入座") : t("ALIVE", "存活")}</b></div>}
-    <div className={styles.stageLine} role="status" aria-live="polite"><span>{view.phase.kind === "night" ? t(`Night ${view.phase.number}`, `第${view.phase.number}夜`) : view.day ? t(`Day ${view.day}`, `第${view.day}天`) : t("Your table", "当前牌局")}</span><strong>{stageText(view, lang)}</strong></div>
-    {view.phase.kind === "ready" && <p className={styles.pendingVotes} role="status">{view.seats.some(seat => !seat.ready || !seat.occupied) ? t("Still to ready: ", "等待准备：") + view.seats.map((seat, index) => !seat.ready || !seat.occupied ? `${index + 1} · ${seat.name}` : null).filter(Boolean).join(", ") : t("Everyone is ready", "所有人已准备")}</p>}
-    {view.phase.kind === "voting" && <p className={styles.pendingVotes} role="status">{view.pendingVoterIds?.length ? t("Still to vote: ", "等待投票：") + view.pendingVoterIds.map(id => `${view.seats.findIndex(seat => seat.id === id)+1} · ${view.seats.find(seat => seat.id === id)?.name}`).join(", ") : t("Everyone has voted", "所有人已投票")}</p>}
-    {result && <div className={styles.daybreakSummary} role="status"><strong>{t(`Night ${result.night} result: `, `第${result.night}夜结果：`)}</strong>{result.numbers.length ? t(`Eliminated — ${result.numbers.map((number,index) => `${number} · ${view.seats.find(seat => seat.id === result.eliminatedSeatIds[index])?.name || ""}`).join(", ")}`, `出局 — ${result.numbers.map((number,index) => `${number}号 ${view.seats.find(seat => seat.id === result.eliminatedSeatIds[index])?.name || ""}`).join("、")}`) : t("Nobody died", "平安夜，无人出局")}</div>}
-  </div>;
+  const ready = view.phase.kind === "ready", voting = view.phase.kind === "voting";
+  const waiting = ready ? view.seats.filter(seat => !seat.ready || !seat.occupied) : voting ? view.seats.filter(seat => view.pendingVoterIds?.includes(seat.id)) : [];
+  const total = ready ? view.seats.length : voting ? view.phase.step === "sheriff" ? view.election?.voterIds.length || 0 : view.seats.filter(seat => seat.alive && seat.canVote).length : 0;
+  return <>
+    {ownSeat && <div className={`${styles.playerIdentity} ${dead ? styles.youEliminated : ""}`}><button className={styles.selfPortrait} onClick={onProfile} aria-label={t("Change your profile photo", "更换你的头像")}><Portrait seat={ownSeat}/></button><div className={styles.selfName}><span>{t(`YOU · SEAT ${ownIndex + 1}`, `你 · ${ownIndex + 1}号`)}</span><strong title={ownSeat.name}>{ownSeat.name}</strong><small>{dead ? t("Eliminated · keep the game’s secrets", "已出局 · 请保守游戏秘密") : ready ? view.me?.ready ? t("Ready for the night", "已准备，等待入夜") : t("Read your card, then ready up", "查看身份，然后准备") : view.status === "lobby" ? t("Your seat at the table", "你在本桌的座位") : t("Alive", "存活")}</small></div>{view.me?.roleId && <button className={styles.identityShortcut} onClick={onCard}><LockKey size={19}/>{t("My card", "身份牌")}</button>}</div>}
+    <div className={styles.stageBanner}>
+      <div className={styles.stageLine} role="status" aria-live="polite"><span>{view.phase.kind === "night" ? t(`Night ${view.phase.number}`, `第${view.phase.number}夜`) : view.day ? t(`Day ${view.day}`, `第${view.day}天`) : t("Your table", "当前牌局")}</span><strong>{stageText(view, lang)}</strong>{(ready || voting) && <span className={styles.stageCount}>{Math.max(0, total - waiting.length)} / {total}<small>{ready ? t("ready", "已准备") : t("voted", "已投票")}</small></span>}</div>
+      {(ready || voting) && (waiting.length ? <details className={styles.pendingDisclosure}><summary><span>{ready ? t("Waiting for", "等待准备") : t("Still to vote", "等待投票")}</span><span className={styles.pendingSeatNumbers}>{waiting.map(seat => <b key={seat.id} title={seat.name}>{view.seats.indexOf(seat) + 1}</b>)}</span></summary><ul>{waiting.map(seat => <li key={seat.id}><b>{view.seats.indexOf(seat) + 1}</b><span>{seat.name}</span>{!seat.connected && <small>{t("offline", "离线")}</small>}</li>)}</ul></details> : <p className={styles.allDecisionsDone} role="status">{ready ? t("Everyone is ready · the host can begin", "全员已准备，房主可以开始") : t("Everyone has voted", "全员已投票")}</p>)}
+      {result && <div className={styles.daybreakSummary} role="status"><strong>{t(`Night ${result.night}: `, `第${result.night}夜：`)}</strong>{result.numbers.length ? t(`Eliminated — ${result.numbers.map((number,index) => `${number} · ${view.seats.find(seat => seat.id === result.eliminatedSeatIds[index])?.name || ""}`).join(", ")}`, `出局 — ${result.numbers.map((number,index) => `${number}号 ${view.seats.find(seat => seat.id === result.eliminatedSeatIds[index])?.name || ""}`).join("、")}`) : t("Nobody died", "平安夜")}</div>}
+    </div>
+  </>;
 }
 
 export function ElectionPanel({ view, lang, disabled, send }: { view: GameView; lang: Language; disabled: boolean; send: (command: Command) => Promise<boolean> }) {

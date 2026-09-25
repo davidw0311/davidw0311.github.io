@@ -458,3 +458,254 @@
 .wolfEmblem { position: absolute; right: -2px; bottom: -2px; display: grid; place-items: center; border-radius: 50%; padding: 1px; background: #211e28; box-shadow: 0 0 0 1px #211e28; }
 
 .identityCard > .characterIcon { color: inherit; margin-bottom: 10px; }
+
+/* Classic Werewolf: personal context first, then the decision and the table. */
+.playerIdentity { max-width:1320px; margin:16px auto 10px; padding:13px 16px; border:1px solid #4b3d49; border-radius:10px; background:#211b23; }
+.playerIdentity .selfPortrait { border:1px solid #715668; padding:0; width:48px; height:48px; color:#f4e7ed; cursor:pointer; }
+.playerIdentity .selfName { min-width:0; flex:1; display:grid; gap:2px; }
+.playerIdentity .selfName>strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:21px; line-height:1.3; }
+.playerIdentity .selfName>small { font-size:12px; color:#c2b4c2; }
+.playerIdentity .selfName>span { font-size:12px; color:#dbaba8; letter-spacing:.04em; }
+.identityShortcut { display:inline-flex; align-items:center; gap:7px; min-height:46px; flex-shrink:0; padding:10px 13px; border:1px solid #ab757b; border-radius:7px; background:#56323c; color:#ffdde0; font-size:15px!important; }
+.playerIdentity.youEliminated { background:#45222b; border:2px solid #d58494; }
+.youEliminated .selfName>small { color:#ffd3db; }
+.stageBanner { max-width:1320px; margin:0 auto; padding:15px 17px; border-radius:9px; background:#241e28f7; }
+.stageLine { align-items:center; gap:13px; }
+.stageLine>strong { flex:1; min-width:0; font-size:18px; }
+.stageLine .stageCount { margin-left:auto; text-align:right; line-height:1.3; font-size:18px; color:#f1c5bd; font-weight:650; font-variant-numeric:tabular-nums; }
+.stageCount>small { display:block; font-size:10px; font-weight:450; color:#c8b6cb; }
+.pendingDisclosure { margin-top:11px; padding-top:10px; border-top:1px solid #564352; }
+.pendingDisclosure>summary { display:flex; align-items:center; gap:9px; cursor:pointer; list-style:none; font-size:12px; color:#e8c79b; }
+.pendingDisclosure>summary::-webkit-details-marker { display:none; }
+.pendingDisclosure>summary::after { content:'+'; font-size:20px; margin-left:auto; flex-shrink:0; }
+.pendingDisclosure[open]>summary::after { content:'−'; }
+.pendingSeatNumbers { display:flex; flex-wrap:wrap; gap:4px; }
+.pendingSeatNumbers>b { font-size:12px; font-weight:650; min-width:23px; height:25px; padding:2px 4px; display:grid; place-items:center; border:1px solid #785766; background:#36262f; color:#f2d4d4; border-radius:4px; }
+.pendingDisclosure>ul { list-style:none; padding:12px 0 0; margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px 15px; max-height:180px; overflow:auto; }
+.pendingDisclosure li { display:flex; align-items:baseline; gap:7px; min-width:0; font-size:13px; }
+.pendingDisclosure li>b { color:#e8b9b4; }
+.pendingDisclosure li>span { overflow-wrap:anywhere; }
+.pendingDisclosure li>small { color:#b5a8b7; font-size:10px; }
+.app .allDecisionsDone { margin:9px 0 0; font-size:13px; color:#bad9c1; }
+.daybreakSummary { font-size:14px; line-height:1.5; max-height:75px; }
+.roomBar { min-height:88px; }
+.gameColumns,.tablePanel,.sidebar { min-width:0; }
+.cardToolbar { padding:0 20px; gap:10px; }
+.cardToolbar>strong { font-size:13px; }
+.hostMore { border-top:1px solid #453845; padding-top:6px; margin-top:12px; }
+.hostMore>summary { min-height:42px; display:flex; align-items:center; cursor:pointer; font-size:13px; color:#c5b5c7; }
+.hostMore>summary::after { content:'+'; margin-left:auto; font-size:19px; }
+.hostMore[open]>summary::after { content:'−'; }
+.hostMore>summary::-webkit-details-marker { display:none; }
+.hostMore>.textButton { display:flex; min-height:42px; font-size:13px!important; }
+.activityDisclosure { margin-top:20px; border:1px solid #443744; border-radius:9px; background:#18151c; }
+.activityDisclosure>summary { min-height:52px; padding:13px 18px; display:flex; align-items:center; gap:12px; cursor:pointer; font-size:15px; color:#dbcbdc; }
+.activityDisclosure>summary>span { margin-left:auto; border:1px solid #605066; min-width:28px; text-align:center; font-size:12px; padding:2px 5px; border-radius:5px; }
+.activityDisclosure>summary::-webkit-details-marker { display:none; }
+.activityDisclosure>summary::after { content:'+'; font-size:20px; }
+.activityDisclosure[open]>summary::after { content:'−'; }
+.activityDisclosure .activityPanel { margin-top:0; border:0; background:transparent; }
+.app .targetButton { min-height:52px; }
+.targetButton .targetNumber { flex-shrink:0; display:grid; place-items:center; min-width:26px; height:29px; border-radius:5px; border:1px solid #74616f; color:#f2d5d5; font-weight:650; opacity:1; font-size:17px; }
+.targetButton .targetName { font-size:14px; opacity:1; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.targetButton>svg { width:16px; }
+.settingsSaveBar { position:sticky; top:-27px; z-index:4; display:flex; align-items:center; gap:12px; padding:14px 0; background:#19181bf7; border-bottom:1px solid #66505e; backdrop-filter:blur(8px); }
+.settingsSaveBar>div { flex:1; }
+.settingsSaveBar strong { color:#f0bbb5; font-size:21px; font-variant-numeric:tabular-nums; }
+.settingsSaveBar small { display:block; color:#b8a9bb; font-size:11px; }
+.advancedRules { border:1px solid #443746; border-radius:7px; padding:0 13px; }
+.advancedRules>summary { display:flex; align-items:center; min-height:48px; cursor:pointer; font-size:15px; }
+.advancedRules>summary::-webkit-details-marker { display:none; }
+.advancedRules>summary::after { content:'+'; margin-left:auto; color:#d9b2c2; font-size:20px; }
+.advancedRules[open]>summary::after { content:'−'; }
+.advancedRules>div { display:grid; gap:13px; padding-bottom:17px; }
+.advancedRules .toggleRow { margin:4px 0; }
+.advancedRules h3 { font-size:15px; }
+.settingsForm>.deckPicker,.otherRoles>.deckPicker { max-height:350px; overflow:auto; overscroll-behavior:contain; }
+.settingsForm .deckHeading h3 { margin-top:3px; }
+.deckRow>span>span { min-width:0; overflow-wrap:anywhere; }
+.deckRow button { min-width:44px; min-height:44px; }
+.deckRow .roleInfoButton { min-width:30px; min-height:44px; }
+
+/* Two readable clockwise arcs keep large tables entirely within the viewport. */
+.circleScroll { width:100%; max-width:100%; overflow:visible; padding:22px 15px; }
+.circleTable { width:100%; height:auto; max-width:540px; aspect-ratio:1; }
+.circleTable::before { inset:12%; }
+.circleSeat.seat { width:82px; transform:translate(-50%,-50%); gap:7px; padding:0; }
+.circleAvatarWrap { position:relative; flex-shrink:0; }
+.circleSeat .avatar { width:48px; height:48px; min-height:48px; margin:0; }
+.circleSeat .circleNumber { top:auto; left:auto; right:-7px; bottom:-6px; min-width:29px; height:29px; font-size:18px; z-index:2; background:#372735; color:#f9dfdb; }
+.circleSeat .sheriffBadge { top:-7px; left:-7px; z-index:3; width:20px; height:20px; }
+.circleSeat .hostCrown { right:-7px; top:-9px; }
+.circleSeatInfo { min-width:0; width:100%; }
+.circleSeatInfo>strong { display:block; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:550; color:#e0d4df; }
+.circleSeatInfo .seatStatus { display:block; margin-top:3px; font-size:11px; min-height:16px; line-height:1.3; }
+.circleSeatInfo>small { display:block; color:#d4b2ba; font-size:11px; line-height:1.4; }
+.circleSeatInfo .silencedLabel { font-size:10px; color:#e8c398; }
+.circleSeat.mySeat .circleSeatInfo>strong { color:#f3b7b6; }
+.circleSeat.deadSeat .circleSeatInfo>strong { text-decoration:line-through; color:#d4a1ad; }
+.circleSeat.deadSeat .seatStatus { display:inline-block; padding:2px 5px; font-weight:600; font-size:10px; }
+.circleSeat .deadCross { font-size:57px!important; inset:-4px; }
+.ovalTable { display:grid; grid-template-columns:minmax(0,1fr) 104px minmax(0,1fr); grid-template-rows:repeat(var(--seat-rows),minmax(72px,auto)); gap:11px 13px; aspect-ratio:auto; max-width:720px; padding:9px 0; }
+.ovalTable::before { inset:0 10%; border-radius:120px; background:#1c171f; box-shadow:inset 0 0 0 9px #17131a,inset 0 0 0 10px #382b37; }
+.ovalTable .circleCenter { position:relative; inset:auto; grid-column:2; grid-row:1 / span var(--seat-rows); align-self:center; justify-self:center; width:104px; gap:8px; z-index:1; }
+.ovalTable .circleCenter>strong { font-size:12px; letter-spacing:.07em; }
+.ovalTable .clockwiseHint { display:flex; align-items:center; justify-content:center; gap:4px; margin-top:7px; font-size:10px; }
+.ovalTable .circleSeat.seat { position:relative; left:auto; top:auto; transform:none; width:100%; min-height:72px; display:flex; flex-direction:row; gap:11px; align-items:center; padding:10px 9px; background:#241d28; border:1px solid #514151; border-radius:9px; box-shadow:0 3px 8px #100b1644; text-align:left; }
+.ovalTable .circleSeatInfo { flex:1; }
+.ovalTable .circleSeatInfo>strong { font-size:14px; }
+.ovalTable .circleSeat .avatar { width:46px; height:46px; min-height:46px; }
+.ovalTable .circleSeat .avatarEmoji { font-size:25px; }
+.ovalTable .circleSeat.mySeat { background:#36232d; border-color:#b87f86; }
+.ovalTable .circleSeat.speakingSeat { border-color:#c4a06a; background:#31291f; }
+.ovalTable .circleSeat.offlineSeat { border-style:dashed; }
+.ovalTable .circleSeat.deadSeat { border-color:#955668; background:#2b1d27; }
+.ovalTable .tableHourglass svg { width:42px; height:58px; }
+.ovalTable .tableHourglass strong { font-size:22px; text-align:center; }
+
+@media (max-width:1000px) and (min-width:901px) {
+  .ovalTable { grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr); gap:10px 7px; }
+  .ovalTable .circleCenter { width:72px; }
+  .ovalTable .circleSeat.seat { gap:8px; padding:9px 6px; }
+  .ovalTable .circleSeatInfo>strong { font-size:12px; }
+}
+@media (max-width:900px) {
+  .gameColumns { display:flex; flex-direction:column; align-items:stretch; gap:14px; }
+  .gameColumns>.tablePanel,.gameColumns>.sidebar { display:contents; }
+  .phaseHeading,.nightProgress,.voteProgress,.waitingAction { display:none; }
+  .cardToolbar { order:-60; padding:0; margin:0; }
+  .inspectionResult { order:-55; margin:0; }
+  .electionPanel { order:-50; margin:0; }
+  .actionPanel { order:-45; border:1px solid #655063; border-radius:10px; padding:20px; background:#241d28; }
+  .notice,.pendingNotice { order:-65; margin:0; }
+  .hostPanel { order:-30; }
+  .hostPanel>.hint { display:block; font-size:13px; line-height:1.55; margin-bottom:0; }
+  .hostPanel .hostButtons { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .hostPanel .hostButtons>.primaryButton { grid-column:1 / -1; }
+  .hostPanel .sectionHeading { margin-bottom:10px; }
+  .hostPanel .sectionHeading h2 { font-size:15px; }
+  .hostMore { margin-top:8px; }
+  .hostPanel .manageButton { min-height:44px; margin-top:9px; padding-top:9px; font-size:14px!important; }
+  .speakingTimer { order:-20; margin:0; }
+  .circleScroll { order:0; padding:10px 0; }
+  .tableFooter { order:1; padding:0 0 6px; margin:0; }
+  .result { order:2; border-radius:10px; }
+  .soundDetails { order:10; }
+  .circleTable { max-width:650px; }
+  .targetGrid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .tableFooter>.secondaryButton { width:auto; }
+  .tableFooter>.textButton { display:inline-flex; }
+  .tableFooter { justify-content:space-between; }
+}
+@media (max-width:650px) {
+  .app { padding:0 12px; }
+  .header { min-width:0; height:67px; }
+  .headerActions { gap:10px; }
+  .headerActions .navButton { width:34px; justify-content:center; }
+  .headerActions .languageButton { font-size:13px!important; padding:7px; }
+  .playerIdentity { margin-top:9px; padding:11px 12px; gap:10px; }
+  .playerIdentity .selfPortrait { width:44px; height:44px; min-height:44px; }
+  .playerIdentity .selfName>strong { font-size:19px; }
+  .playerIdentity .selfName>span { font-size:11px; }
+  .playerIdentity .selfName>small { font-size:11px; line-height:1.4; }
+  .app .identityShortcut { padding:8px 10px; font-size:14px!important; gap:5px; }
+  .stageBanner { padding:12px; }
+  .stageLine { gap:9px; }
+  .stageLine>span { font-size:12px; }
+  .stageLine>strong { font-size:16px; line-height:1.4; }
+  .stageLine .stageCount { font-size:17px; }
+  .pendingDisclosure { padding-top:9px; margin-top:9px; }
+  .pendingDisclosure>summary { gap:7px; font-size:11px; }
+  .pendingDisclosure>summary>span:first-child { flex-shrink:0; max-width:70px; }
+  .pendingSeatNumbers { gap:3px; }
+  .pendingSeatNumbers>b { min-width:21px; height:24px; font-size:11px; }
+  .pendingDisclosure>ul { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .daybreakSummary { font-size:13px; line-height:1.5; max-height:68px; }
+  .roomBar { min-height:75px; gap:8px; }
+  .roomBarActions { gap:4px; flex-wrap:nowrap; }
+  .roomBarActions .iconButton { width:37px; min-width:37px; min-height:44px; }
+  .roomBarActions .secondaryButton { min-height:44px; padding:7px 9px; font-size:13px!important; gap:6px; }
+  .roomCode { font-size:21px!important; letter-spacing:.12em; gap:8px; }
+  .cardToolbar { gap:8px; }
+  .cardToolbar .secondaryButton { margin-left:auto; font-size:14px!important; }
+  .cardToolbar .primaryButton { font-size:14px!important; flex:1; }
+  .cardToolbar>strong { width:100%; font-size:13px; }
+  .actionPanel { padding:17px 15px; }
+  .sectionHeading h2 { font-size:18px; }
+  .actionHelp { font-size:14px!important; line-height:1.6; }
+  .actionPanel .notice { padding:11px; font-size:14px; }
+  .targetGrid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+  .targetButton { padding:10px 8px; gap:8px; min-height:52px; }
+  .targetButton .targetName { font-size:15px; }
+  .actionButtons>.primaryButton { flex:1; }
+  .actionButtons>.secondaryButton { min-width:100px; }
+  .app .submitted { font-size:12px; }
+  .packVotes p { font-size:14px; }
+  .hostPanel { padding:16px; }
+  .hostPanel .primaryButton,.hostPanel .secondaryButton { min-height:46px; font-size:15px!important; }
+  .hostPanel .textButton { min-height:44px; font-size:14px!important; }
+  .soundDetails>summary { min-height:50px; padding:13px 16px; font-size:15px; }
+  .speakingTimer summary { font-size:15px; min-height:30px; }
+  .circleTable { max-width:520px; }
+  .circleSeat.seat { width:74px; }
+  .circleSeatInfo>strong { font-size:12px; }
+  .circleSeat .avatar { width:44px; height:44px; min-height:44px; }
+  .circleSeat .circleNumber { font-size:18px; min-width:27px; height:27px; }
+  .circleCenter>span { font-size:11px; }
+  .ovalTable { grid-template-columns:minmax(0,1fr) 62px minmax(0,1fr); grid-template-rows:repeat(var(--seat-rows),minmax(69px,auto)); gap:10px 8px; padding:8px 0; }
+  .ovalTable .circleCenter { width:62px; }
+  .ovalTable .circleCenter>svg { width:27px; height:27px; }
+  .ovalTable .circleCenter>span { font-size:10px; text-align:center; }
+  .ovalTable .clockwiseHint { flex-direction:column; gap:4px; }
+  .ovalTable .circleSeat.seat { min-height:69px; padding:9px 7px; gap:9px; }
+  .ovalTable .circleSeat .avatar { width:44px; height:44px; min-height:44px; }
+  .ovalTable .circleSeatInfo>strong { font-size:13px; }
+  .ovalTable .circleSeatInfo .seatStatus { font-size:10px; }
+  .ovalTable .circleSeatInfo>small { font-size:10px; }
+  .ovalTable .circleSeat .circleNumber { right:-6px; bottom:-5px; }
+  .circleSeat .sheriffBadge { width:18px; height:18px; }
+  .circleSeat .hostCrown { width:13px; height:13px; }
+  .tableFooter>.secondaryButton,.tableFooter>.textButton { font-size:14px!important; min-height:44px; }
+  .activityDisclosure { margin-top:18px; }
+  .activityDisclosure .activityPanel { padding:0 15px 15px; }
+  .activityDisclosure>summary { font-size:15px; }
+  .settingsSaveBar { top:-22px; padding:11px 0; }
+  .settingsSaveBar>.primaryButton { font-size:15px!important; }
+  .settingsForm .deckPicker { padding:6px 10px; max-height:325px; }
+  .deckRow { gap:7px; }
+  .deckRow>span { font-size:14px; gap:5px; }
+  .deckRow>div { gap:5px; }
+  .deckRow>span>.characterIcon { display:none; }
+  .deckRow .roleInfoButton { min-width:28px; width:28px; }
+  .deckRow>div>span { min-width:16px; }
+  .modal .roleDescription { font-size:15px; line-height:1.65; }
+  .readyPanel { margin:16px 0 0; padding:15px; }
+  .readyPanel .primaryButton { margin-top:0; }
+}
+@media (max-width:359px) {
+  .roomBarActions .secondaryButton { font-size:12px!important; padding:7px; }
+  .roomBarActions .iconButton { width:31px; min-width:31px; }
+  .roomCode { font-size:19px!important; gap:6px; }
+  .ovalTable { grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr); gap:9px 6px; }
+  .ovalTable .circleCenter { width:46px; }
+  .ovalTable .circleSeat.seat { gap:7px; padding:9px 4px; }
+  .ovalTable .circleSeatInfo>strong { font-size:12px; }
+  .identityShortcut { max-width:86px; }
+  .deckRow { gap:5px; }
+  .deckRow>span { font-size:13px; }
+  .deckRow>div { gap:4px; }
+}
+
+.app .identityShortcut { white-space:nowrap; }
+.identityShortcut svg { flex-shrink:0; }
+@media (max-width:359px) {
+  .app .identityShortcut { padding:8px; gap:4px; }
+}
+.modal .readyPanel { position:sticky; bottom:0; z-index:5; margin:18px 0 0; padding:14px; border-color:#967386; background:#30232f; box-shadow:0 -9px 22px #19181be8; }
+.modal .readyPanel>span { display:block; margin-top:8px; font-size:12px; color:#cdbbce; text-align:center; }
+
+/* Keep all pending seats available without letting a 24-player status fill the phone. */
+@media (max-width:650px) {
+  .pendingSeatNumbers { max-height:52px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#a17b8a #30212c; padding-right:3px; }
+  .pendingDisclosure>summary { align-items:center; }
+}

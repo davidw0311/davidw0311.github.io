@@ -157,3 +157,12 @@ The automated large-game suite (`node --test api/test/werewolf-large-games.test.
 5. Run `node scripts/werewolf-live-smoke.mjs --url=https://vxbhzddlhopsgbwmjzdm.supabase.co/functions/v1/werewolf` before publishing the frontend.
 
 The free Supabase project may pause for inactivity and requires dashboard resume. Old Azure rooms are not migrated: they belonged to the previous unavailable backend. Local session storage has a new version so old Azure seats cannot be confused with fresh Supabase rooms. The existing Brian MP3s and music remain static GitHub Pages assets. The optional audio-generation script uses Azure only when deliberately authoring new recordings, not for running the app. Other website apps' Azure dependencies are outside this migration.
+
+
+## Beginner guidance and phone layout
+
+Classic Werewolf has bilingual private guidance for all 32 roles. `lib/werewolfGuidance.ts` derives card rules from room settings and turn hints from the player's authorized action and remaining abilities. Witch self-save alternatives, one potion per night, spent potions, Guard repeat targets, copied Mechanical abilities, and death reactions follow the existing engine rules. Optional strategy tips appear inside the revealed role card; hiding the card hides its guide. No game rules or backend behavior change.
+
+On phones, the player’s seat/card and sticky stage come first, followed by their available action. Seven or more players use a clockwise oval that fits the viewport; six retain the circle. Pending readiness/votes show seat numbers with expandable names. Audio, history and advanced host settings use disclosures, and the card’s Ready control stays visible while reading.
+
+Run `node --no-warnings --test tests/werewolfGuidance.test.ts` for settings/state/privacy regressions and engine-backed unavailable-action checks.

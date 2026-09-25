@@ -1,0 +1,49 @@
+.guide {
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid #494139;
+  border-radius: 10px;
+  background: #26221f;
+  color: #e3dcd2;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.guide .heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  color: #edcba3;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.heading svg { flex-shrink: 0; }
+.lines {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.lines li + li { margin-top: 7px; }
+.lines li::marker { color: #bda080; }
+.tips { margin-top: 12px; border-top: 1px solid #494139; }
+.tips summary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 8px 0;
+  color: #edcba3;
+  font-size: 15px;
+  cursor: pointer;
+  list-style: none;
+}
+.tips summary::-webkit-details-marker { display: none; }
+.tips summary::after { content: "+"; margin-left: auto; font-size: 20px; }
+.tips[open] summary::after { content: "−"; }
+.turn { margin: 14px 0; }
+@media (max-width: 600px) {
+  .guide { padding: 14px; }
+  .guide .heading, .lines, .tips summary { font-size: 16px; }
+}
