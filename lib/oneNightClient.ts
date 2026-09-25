@@ -114,9 +114,15 @@ export function useOneNightRoom() {
         // Keep listening for host disband while results are retained. Expiry
         // ends polling quietly so the final result remains readable.
         if (finished && caught instanceof RoomError && ["room-expired", "room-not-found"].includes(caught.code)) { stopped = true; setConnectivity("online"); return; }
+        if (caught instanceof RoomError && !caught.retryable && terminalErrors.has(caught.code)) {
+          stopped = true; setConnectivity("online");
+          if (caught.code === "room-disbanded") eject();
+          else { setError(caught); setView(null); setSessionExpired(true); }
+          return;
+        }
         failures += 1;
         setConnectivity(navigator.onLine ? "reconnecting" : "offline");
-        if (caught instanceof RoomError && !caught.retryable) { setError(caught); if (terminalErrors.has(caught.code)) { stopped = true; if (caught.code === "room-disbanded") eject(); else setSessionExpired(true); } }
+        if (caught instanceof RoomError && !caught.retryable) setError(caught);
       } finally {
         inFlight = false;
         if (!stopped) timer = setTimeout(sync, failures ? Math.min(30000, 1500 * 2 ** Math.min(failures, 4)) : nightPolling ? hostPolling ? 1000 : document.hidden ? 3000 : 2000 : document.hidden ? 12000 : 3000);
@@ -124,7 +130,7 @@ export function useOneNightRoom() {
     };
     syncNow.current = () => { void sync(); };
     const wake = () => { if (!document.hidden) void sync(); };
-    const offline = () => setConnectivity("offline");
+    const offline = () => { if (!stopped) setConnectivity("offline"); };
     void sync(); window.addEventListener("online", wake); window.addEventListener("offline", offline); document.addEventListener("visibilitychange", wake);
     return () => { stopped = true; clearTimeout(timer); controller?.abort(); window.removeEventListener("online", wake); window.removeEventListener("offline", offline); document.removeEventListener("visibilitychange", wake); };
   }, [session, apply, eject]);

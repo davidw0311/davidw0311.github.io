@@ -163,7 +163,7 @@ function buildAction(ctx) {
     }
     case "rascal": {
       let ids = others, n = 2;
-      if (st.rascalVariant === "swapSelf") n = 1;
+      if (st.rascalVariant === "swapSelf") { n = 1; if ((ctx.room.shields || []).includes(ctx.seat.id)) return descriptor(ctx, "Your card is shielded. Confirm without exchanging it.", "你的身份牌受到保护，请确认，不进行交换。"); }
       if (st.rascalVariant === "higher") ids = ids.filter((id) => seatNumber(ctx, id) > ctx.seat.number);
       if (["rotateLeft", "rotateRight"].includes(st.rascalVariant)) return descriptor(ctx, `You may move all other unshielded player cards one seat ${st.rascalVariant === "rotateLeft" ? "left" : "right"}. Your own card stays.`, `可将除你以外未受护盾保护的玩家身份牌全部向${st.rascalVariant === "rotateLeft" ? "左" : "右"}移动一位。你的牌不动。`, [], 0, 0, true);
       if (ids.length < n) return descriptor(ctx, "This round permits only higher-numbered targets, but there are too few. Confirm to take no action.", "本局只允许选择更大座位号，但合法目标不足。确认不执行行动。" );
@@ -196,7 +196,7 @@ function buildAction(ctx) {
     case "detector":
       if (!data.mode) return descriptor(ctx, "Choose one other player’s card or two center cards.", "选择查看另一名玩家的牌，或两张中央牌。", [], 0, 0, true, [["player", "One player", "一名玩家"], ["center", "Two center cards", "两张中央牌"]]);
       return descriptor(ctx, "Select the card(s) to inspect.", "选择要查看的身份牌。", data.mode === "player" ? others : center, data.mode === "player" ? 1 : 2);
-    case "roleRetriever": return descriptor(ctx, "Exchange your card with another player, then view your new card.", "与另一位玩家交换身份，然后查看新牌。", others, 1, 1, true);
+    case "roleRetriever": return (ctx.room.shields || []).includes(ctx.seat.id) ? descriptor(ctx, "Your card is shielded. Confirm without exchanging it.", "你的身份牌受到保护，请确认，不进行交换。") : descriptor(ctx, "Exchange your card with another player, then view your new card.", "与另一位玩家交换身份，然后查看新牌。", others, 1, 1, true);
     case "voodooLou": return data.center ? descriptor(ctx, "Exchange the center card you viewed with any unshielded player, including yourself.", "将刚查看的中央牌与任一未受护盾保护的玩家交换，包括自己。", ordinaryTargets(ctx, true), 1) : descriptor(ctx, "You may inspect one center card; if you do, you must exchange it with a player.", "可查看一张中央牌；查看后必须与一位玩家交换。", center, 1, 1, true);
     case "switcheroo": return descriptor(ctx, "Exchange two other unshielded players’ cards without looking.", "交换另外两位未受护盾保护的玩家身份，不能查看。", others, 2, 2, true);
     case "selfAwarenessGirl": return descriptor(ctx, "Look at your own card to see if it changed.", "查看自己的身份牌，确认是否改变。" );
@@ -323,7 +323,7 @@ function perform(ctx, roleOrCommand, maybeCommand) {
     case "detector":
       if (!data.mode) { if (!["player", "center"].includes(command.choice)) fail(ctx, "Choose player or center."); data.mode = command.choice; data.stage = 1; return true; }
       selected.forEach((id) => ctx.inspectCard(id)); return finish(ctx);
-    case "roleRetriever": ctx.swapCards(ctx.seat.id, one); ctx.inspectCard(ctx.seat.id); return finish(ctx);
+    case "roleRetriever": if (one) { ctx.swapCards(ctx.seat.id, one); ctx.inspectCard(ctx.seat.id); } return finish(ctx);
     case "voodooLou":
       if (!data.center) { ctx.inspectCard(one); data.center = one; data.stage = 1; return true; }
       ctx.swapCards(data.center, one); return finish(ctx);

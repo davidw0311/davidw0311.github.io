@@ -54,6 +54,58 @@ test('concurrent lobby joins seat immediately and repeated join receipts never d
   assert.equal(retry.view.seats.length, 4);
   await assert.rejects(t.call({ ...packets[0], name: 'Injected' }), { code: 'request-id-reused' });
 });
+for (const count of [12, 14, 16, 24]) test(`${count} concurrent players retain every readiness decision and runoff ballot across retries`, async () => {
+  const t = setup();
+  const created = await t.call({ op: 'create', name: 'Host' });
+  const code = created.view.code;
+  const tokens = [t.token, ...Array.from({ length: count - 1 }, () => randomUUID())];
+  await Promise.all(tokens.slice(1).map((token, index) => t.call({ op: 'join', code, token, name: `Player ${index + 2}` })));
+  const command = (token, phaseId, type, data = {}) => ({ op: 'command', code, token, requestId: randomUUID(), command: { type, expectedPhaseId: phaseId, ...data } });
+  let host = await t.call({ op: 'sync', code });
+  await t.call(command(t.token, host.view.phase.id, 'updateSettings', { settings: { sheriff: false } }));
+  host = await t.call(command(t.token, host.view.phase.id, 'startGame'));
+  assert.equal(host.view.seats.length, count);
+  const readyPackets = tokens.map(token => command(token, host.view.phase.id, 'ready'));
+  await Promise.all(readyPackets.flatMap(packet => [t.call(packet), t.call(packet)]));
+  host = await t.call({ op: 'sync', code });
+  assert.ok(host.view.seats.every(seat => seat.ready));
+  const ids = host.view.seats.map(seat => seat.id);
+  host = await t.call(command(t.token, host.view.phase.id, 'startNight'));
+  for (let turns = 0; host.view.phase.kind === 'night' && turns < 80; turns++) {
+    if (host.view.phase.nightStage === 'acting') {
+      const views = await Promise.all(tokens.map(token => t.call({ op: 'sync', code, token })));
+      const packets = views.flatMap((reply, index) => {
+        const action = reply.view.me.action;
+        if (!action) return [];
+        return [command(tokens[index], reply.view.phase.id, 'nightAction', action.input === 'choice' ? { choice: action.options[0] } : { ability: 'skip' })];
+      });
+      if (packets.length) await Promise.all(packets.flatMap(packet => [t.call(packet), t.call(packet)]));
+      else t.advance(16000);
+      host = await t.call({ op: 'sync', code });
+    } else host = await t.call(command(t.token, host.view.phase.id, 'nightNarrationDone'));
+  }
+  assert.equal(host.view.phase.kind, 'announcement');
+  host = await t.call(command(t.token, host.view.phase.id, 'nightNarrationDone'));
+  assert.equal(host.view.phase.kind, 'day');
+  assert.ok(host.view.seats.every(seat => seat.alive));
+  host = await t.call(command(t.token, host.view.phase.id, 'startVoting'));
+  for (const round of [1, 2]) {
+    const phaseId = host.view.phase.id;
+    const packets = tokens.map((token, index) => command(token, phaseId, 'vote', { targetId: ids[round === 1 ? index % 2 : 1] }));
+    await Promise.all(packets.flatMap(packet => [t.call(packet), t.call(packet)]));
+    host = await t.call({ op: 'sync', code });
+    assert.equal(host.view.voteCount, count);
+    assert.deepEqual(host.view.pendingVoterIds, []);
+    host = await t.call(command(t.token, phaseId, 'resolveVoting'));
+    if (round === 1) {
+      assert.equal(host.view.voteRound, 2);
+      assert.deepEqual(new Set(host.view.runoffIds), new Set(ids.slice(0, 2)));
+    } else {
+      assert.equal(host.view.lastVote.tally[ids[1]], count);
+      assert.equal(Object.keys(host.view.lastVote.votes).length, count);
+    }
+  }
+});
 test('replacement revokes prior token, keeps seat, and never exposes host recovery key', async () => {
   const t = setup(); const { view } = await t.call({ op: 'create', name: 'Host' });
   const oldToken = randomUUID(), newToken = randomUUID();

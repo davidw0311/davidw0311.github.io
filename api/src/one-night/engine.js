@@ -140,7 +140,8 @@ function descriptor(room, seat) {
     if (role === 'apprenticeAssassin') return base('Remember the Assassin, then continue.', '记住刺客身份，然后继续。');
     if (role === 'marksman') return data.cardDone ? base('You may inspect a different player’s mark.', '可查看另一位不同玩家的标记。', others.filter(id => id !== data.cardTarget), 0, 1) : base('You may inspect another player’s card; then inspect a different mark.', '可先查看另一位玩家的牌，再查看不同玩家的标记。', cards(others), 0, 1);
     if (role === 'pickpocket') return base('Exchange your mark with another player and view the new mark.', '与另一位玩家交换标记并查看自己的新标记。', others, 1, 1, true);
-    if (role === 'gremlin') return base('Exchange two player cards OR two marks.', '交换两位玩家的牌或标记。', all, 2, 2, true, choices([['cards', 'Cards', '身份牌'], ['marks', 'Marks', '标记']]));
+    if (role === 'gremlin' && !data.mode) return base('Choose whether to exchange cards or marks.', '选择交换身份牌或标记。', [], 0, 0, true, choices([['cards', 'Cards', '身份牌'], ['marks', 'Marks', '标记']]));
+    if (role === 'gremlin') return base(data.mode === 'cards' ? 'Exchange two unshielded player cards.' : 'Exchange two player marks. Card shields do not protect marks.', data.mode === 'cards' ? '交换两位未受保护玩家的身份牌。' : '交换两位玩家的标记。护盾不会保护标记。', data.mode === 'cards' ? cards(all) : all, 2, 2, true);
     const extra = expansion.buildAction?.(ctx, role); if (extra) return { ...extra, id: base('', '').id, roleId: role };
     if (NO_ACTION.has(role)) return base('This role has no night action. Continue.', '此身份没有夜间行动，请继续。');
     fail('UNSUPPORTED_ROLE', `The ${role} action is unavailable.`);
@@ -157,9 +158,12 @@ function copyRole(room, seat, targetCard, mode) {
     } else complete(room, seat);
 }
 function perform(room, seat, command) {
-    const action = descriptor(room, seat); if (!action) fail('NO_ACTION', 'You have no action in this phase.');
+    let action = descriptor(room, seat); if (!action) fail('NO_ACTION', 'You have no action in this phase.');
     if (command.actionId !== action.id) fail('STALE_ACTION', 'Your action changed; refresh and try again.');
     const targets = command.targets || []; if (!Array.isArray(targets) || new Set(targets).size !== targets.length) fail('INVALID_TARGET', 'Choose distinct targets.');
+    // Accept an already-open pre-upgrade Gremlin form, while new clients choose
+    // a mode first so its target list never offers shielded cards.
+    if (action.roleId === 'gremlin' && !currentData(room, seat, 'gremlin').mode && targets.length === 2 && ['cards', 'marks'].includes(command.choice)) { currentData(room, seat, 'gremlin').mode = command.choice; action = descriptor(room, seat); }
     if (command.skip) { if (!action.canSkip) fail('MANDATORY_ACTION', 'This action must be completed.'); if (extraRoles.some(r => r.id === action.roleId) && expansion.perform?.(makeCtx(room, seat, action.roleId), action.roleId, command)) return; complete(room, seat); return; }
     if (targets.length < action.min || targets.length > action.max || targets.some(id => !action.targets.some(t => t.id === id))) fail('INVALID_TARGET', 'Choose the permitted number of valid targets.');
     if (action.options?.length && !action.options.some(o => o.id === command.choice)) fail('INVALID_CHOICE', 'Choose one of the available actions.');
@@ -189,7 +193,7 @@ function perform(room, seat, command) {
     else if (role === 'assassin' || role === 'apprenticeAssassin' && !data.assassins?.length) room.marks[a] = 'assassin';
     else if (role === 'marksman') { if (!data.cardDone) { if (a) ctx.inspectCard(a); data.cardDone = true; data.cardTarget = a; return; } if (a) ctx.inspectMark(a); }
     else if (role === 'pickpocket') { ctx.swapMarks(seat.id, a); ctx.inspectMark(seat.id); }
-    else if (role === 'gremlin') { if (command.choice === 'cards') ctx.swapCards(a, b); else ctx.swapMarks(a, b); }
+    else if (role === 'gremlin') { if (!data.mode) { data.mode = command.choice; return; } if (data.mode === 'cards') ctx.swapCards(a, b); else ctx.swapMarks(a, b); }
     else if (!['minion', 'mason', 'renfield', 'markReview', 'lovers', 'apprenticeAssassin'].includes(role) && !NO_ACTION.has(role)) { if (!expansion.perform?.(ctx, role, command)) fail('UNSUPPORTED_ROLE', `The ${role} action is unavailable.`); return; }
     complete(room, seat);
 }

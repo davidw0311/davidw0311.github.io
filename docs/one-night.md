@@ -43,4 +43,8 @@ The generated Edge modules must match the tested sources in `api/src/one-night/`
 
 For local multiplayer testing, run `node scripts/one-night-local-server.mjs`, then Next on port 3010 with `NEXT_PUBLIC_ONE_NIGHT_API_URL=http://localhost:4501`. The local adapter uses disposable memory only; production uses the private Supabase table.
 
+`api/test/one-night-large-games.test.js` runs reproducible full games with 12–16 players, varied actions and votes, replacement sessions, and private-information checks. Increase the per-preset sample count with `ONE_NIGHT_SIMULATIONS`. Mixed-expansion games separately exercise copies, shields, and independent teams.
+
+To verify an entire preset through the public HTTP API, run `ONE_NIGHT_PRESET=grand-wolf-table-16 node scripts/one-night-live-smoke.mjs`. Set `ONE_NIGHT_API_URL=http://localhost:4501` for the disposable local server; without it this creates and disbands a test room on the configured production backend.
+
 Game mechanics are implemented with original interface text and recordings. Publisher rulebooks are linked for reference; no card scans or publisher narration recordings are included.

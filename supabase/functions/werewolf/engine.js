@@ -228,7 +228,7 @@ function actionDescriptor(room, s) {
         return null;
     const all = room.seats.filter(t => t.alive).map(t => t.id), other = all.filter(id => id !== s.id);
     if (room.phase.kind === 'reaction')
-        return room.pendingShots.includes(s.id) ? { kind: 'shoot', step: 'shoot', input: 'single', targets: other, canSkip: true, alreadySubmitted: false } : null;
+        return room.pendingShots.includes(s.id) && powersEnabled(room, s) ? { kind: 'shoot', step: 'shoot', input: 'single', targets: other, canSkip: true, alreadySubmitted: false } : null;
     if (!s.alive)
         return null;
     if (room.phase.kind === 'voting' && room.phase.step === 'sheriff' && room.election)
@@ -434,7 +434,9 @@ function evaluateWin(room, now) {
     return false;
 }
 function finish(room, winner, now) { room.winner = winner; room.status = 'finished'; room.pendingShots = []; setPhase(room, 'finished', null, now); event(room, `Game over: ${factionName(winner.team, 'en')}. ${winner.reason.en}`, `游戏结束：${factionName(winner.team, 'zh')}。${winner.reason.zh}`, now); }
-function reactionsOrDay(room, now) { room.pendingShots = [...new Set(room.pendingShots)].filter(id => !getSeat(room, id).state.shotUsed); if (room.pendingShots.length) {
+function reactionsOrDay(room, now) {
+    // An earlier shot can kill Elder and revoke a village shot queued at dawn.
+    room.pendingShots = [...new Set(room.pendingShots)].filter(id => !getSeat(room, id).state.shotUsed && powersEnabled(room, getSeat(room, id))); if (room.pendingShots.length) {
     setPhase(room, 'reaction', 'shoot', now);
     return;
 } if (evaluateWin(room, now))
@@ -1140,7 +1142,7 @@ function executeCommand(room, actorId, c, now) {
             break;
         case 'shoot':
             requirePhase(room, c, ['reaction']);
-            if (!room.pendingShots.includes(s.id))
+            if (!room.pendingShots.includes(s.id) || !powersEnabled(room, s))
                 fail('NO_ABILITY', 'You cannot shoot now.');
             if (c.targetId === s.id)
                 fail('INVALID_TARGET', 'Choose another player.');

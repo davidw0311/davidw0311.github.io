@@ -90,6 +90,46 @@ test('Dream protection blocks hunting, and double dream does not give Hunter a s
  const p=setup(['werewolf','werewolf','dreamweaver','hunter','witch','villager','villager','villager','villager']);for(let n=1;n<=2;n++){stepTo(p,'dreamweaver');nightAct(p,2,{targetId:id(p,3)});dawn(p);if(n===1)nextNight(p);}assert.equal(p.seats[3].alive,false);assert.ok(!p.pendingShots.includes(id(p,3)));
 });
 test('Elder poison removes future village powers',()=>{const r=setup(custom('elder'));stepTo(r,'witch');nightAct(r,4,{ability:'poison',targetId:id(r,2)});dawn(r);assert.equal(r.villagePowersLost,true);nextNight(r);stepTo(r,'seer');assert.equal(view(r,3).me.action,null);});
+test('shooting Elder cancels a village Hunter shot already queued at the same dawn', () => {
+ const roles=['werewolf','wolfKing','pureWhite','witch','guard','hunter','elder','villager','villager','villager','villager','villager'];
+ const r=setup(roles); dawn(r); nextNight(r);
+ stepTo(r,'wolves'); nightAct(r,0,{targetId:id(r,5)}); nightAct(r,1,{targetId:id(r,5)});
+ stepTo(r,'pureWhite'); nightAct(r,2,{targetId:id(r,1)});
+ while(r.phase.kind==='night') advanceTestNight(r);
+ assert.equal(r.phase.step,'dawn');
+ for(const actor of ['actor0','actor1','actor5','observer']) {
+  const state=publicView(r,actor,time);
+  assert.ok(state.seats.every(s=>!Object.hasOwn(s,'roleId')&&!Object.hasOwn(s,'team')));
+  assert.equal(state.me?.action||null,null);
+  assert.equal(Object.hasOwn(state,'pendingShots'),false);
+  assert.deepEqual(state.replay,[]);
+ }
+ send(r,r.hostId,'nightNarrationDone');
+ assert.deepEqual(new Set(r.pendingShots),new Set([id(r,1),id(r,5)]));
+ assert.equal(view(r,1).me.action.kind,'shoot');
+ assert.equal(view(r,5).me.action.kind,'shoot');
+ assert.equal(view(r,0).me.action,null);
+ send(r,'actor1','shoot',{targetId:id(r,6)});
+ assert.equal(r.villagePowersLost,true);
+ assert.deepEqual(r.pendingShots,[]);
+ finishDeathAnnouncement(r);
+ assert.equal(r.phase.kind,'day');
+ assert.equal(view(r,5).me.action,null);
+ assert.throws(()=>send(r,'actor5','shoot',{targetId:id(r,0)}),{code:'WRONG_PHASE'});
+});
+test('Elder power loss preserves a Mechanical Wolf copied Hunter shot', () => {
+ const roles=['werewolf','wolfKing','mechanicalWolf','pureWhite','witch','guard','hunter','elder','villager','villager','villager','villager'];
+ const r=setup(roles); stepTo(r,'opening','mechanicalWolf'); nightAct(r,2,{targetId:id(r,6)}); dawn(r); nextNight(r);
+ stepTo(r,'wolves'); for(const i of [0,1,2])nightAct(r,i,{targetId:id(r,2)});
+ stepTo(r,'pureWhite'); nightAct(r,3,{targetId:id(r,1)}); dawn(r);
+ assert.deepEqual(new Set(r.pendingShots),new Set([id(r,1),id(r,2)]));
+ send(r,'actor1','shoot',{targetId:id(r,7)}); finishDeathAnnouncement(r);
+ assert.equal(r.villagePowersLost,true);
+ assert.deepEqual(r.pendingShots,[id(r,2)]);
+ assert.equal(view(r,2).me.action.kind,'shoot');
+ send(r,'actor2','shoot',{targetId:id(r,8)});
+ assert.equal(r.seats[8].alive,false);
+});
 test('Revealed Idiot cannot receive further exile votes',()=>{const r=setup(custom('idiot'));dawn(r);exile(r,2);nextNight(r);dawn(r);send(r,r.hostId,'startVoting');assert.ok(!view(r,0).me.action.targets.includes(id(r,2)));assert.throws(()=>send(r,'actor0','vote',{targetId:id(r,2)}),{code:'INVALID_TARGET'});});
 test('Gravekeeper reports no exile following a tied day',()=>{const r=setup(custom('gravekeeper'));dawn(r);exile(r,8);nextNight(r);dawn(r);nextNight(r);stepTo(r,'gravekeeper');nightAct(r,2,{});dawn(r);assert.match(view(r,2).me.privateLog.at(-1).text.en,/No player/);});
 test('Swaps precede pack attacks and never disclose redirected inspection seats',()=>{const r=setup(['werewolf','werewolf','magician','seer','witch','villager','villager','villager','villager']);assert.equal(r.nightSchedule[0].step,'magician');stepTo(r,'magician');nightAct(r,2,{targetIds:[id(r,0),id(r,5)]});stepTo(r,'seer');nightAct(r,3,{targetId:id(r,5)});assert.deepEqual(view(r,3).me.inspection,{night:1,targetId:id(r,5),alignment:'wolf'});assert.equal(view(r,3).me.privateLog.at(-1).text.en,'F: wolf.');});

@@ -6,7 +6,10 @@ import {readFile} from 'node:fs/promises';
 const config=JSON.parse(await readFile(new URL('../public/assets/one-night/backend.json',import.meta.url),'utf8'));
 const endpoint=process.env.ONE_NIGHT_API_URL||config.url;
 const key=config.publishableKey;
-const players=Array.from({length:5},(_,i)=>({token:randomUUID(),name:`Release check ${i+1}`}));
+const presets=JSON.parse(await readFile(new URL('../public/assets/one-night/presets.json',import.meta.url),'utf8'));
+const preset=process.env.ONE_NIGHT_PRESET?presets.find(item=>item.id===process.env.ONE_NIGHT_PRESET):null;
+if(process.env.ONE_NIGHT_PRESET&&!preset)throw new Error(`Unknown preset: ${process.env.ONE_NIGHT_PRESET}`);
+const players=Array.from({length:preset?.players||5},(_,i)=>({token:randomUUID(),name:`Release check ${i+1}`}));
 let code,view,cleaned=false,retries=0;
 async function call(player,input) {
   const body=JSON.stringify({token:player.token,requestId:randomUUID(),code,...input});
@@ -33,8 +36,8 @@ try {
   const created=await call(players[0],{op:'create',name:players[0].name});
   view=created.view;code=view.code;assert.match(code,/^[A-Z]{4}$/);
   await Promise.all(players.slice(1).map(player=>call(player,{op:'join',name:player.name})));
-  view=await sync();assert.equal(view.seats.length,5);
-  await command(players[0],'configure',{roleDeck:['werewolf','werewolf','seer','robber','troublemaker','insomniac','villager','tanner']});
+  view=await sync();assert.equal(view.seats.length,players.length);
+  await command(players[0],'configure',{roleDeck:preset?.roles||['werewolf','werewolf','seer','robber','troublemaker','insomniac','villager','tanner']});
   view=await command(players[0],'start');
   assert.equal(view.phase.kind,'ready');assert.ok(view.seats.every(s=>!s.roleId));
   await assert.rejects(command(players[0],'startNight'),{code:'NOT_READY'});
@@ -50,7 +53,7 @@ try {
   await assert.rejects(command(players[0],'reorderSeats',{seatIds:view.seats.map(s=>s.id).reverse()}),{code:'WRONG_PHASE'});
   view=await command(players[0],'startNight');let steps=0,actions=0,skips=0;
   while(view.phase.kind==='night') {
-    assert.ok(++steps<80,`Night stalled at ${view.phase.step}`);
+    assert.ok(++steps<200,`Night stalled at ${view.phase.step}`);
     if(view.phase.nightStage!=='acting')view=await command(players[0],'narrationDone');
     else {
       const acting=(await Promise.all(players.map(async player=>({player,view:await sync(player)})))).filter(p=>p.view.me?.action);
@@ -81,7 +84,7 @@ try {
   view=await command(players[0],'rematch');assert.equal(view.status,'lobby');assert.equal(view.result,null);assert.equal(view.me.roleId,null);
   await command(players[0],'disbandRoom');cleaned=true;
   await assert.rejects(sync(players[1]),{code:'room-disbanded'});
-  console.log(JSON.stringify({ok:true,endpoint,players:players.length,nightActions:actions,absentRolesSkipped:skips,retries,checks:['private deal','readiness gate','new-device replacement','old session revoked','seating locked','night sequence','all-voters gate','results','rematch','disband']},null,2));
+  console.log(JSON.stringify({ok:true,endpoint,preset:preset?.id||'release-check',players:players.length,nightActions:actions,absentRolesSkipped:skips,retries,checks:['private deal','readiness gate','new-device replacement','old session revoked','seating locked','night sequence','all-voters gate','results','rematch','disband']},null,2));
 } finally {
   if(code&&!cleaned)await command(players[0],'disbandRoom').catch(()=>{});
 }
