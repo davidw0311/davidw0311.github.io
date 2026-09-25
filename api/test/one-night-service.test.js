@@ -112,3 +112,18 @@ test('HTTP rejects cross-origin requests, oversized bodies, and suppresses inter
   const failure=await handler(new Request('https://example.test',{method:'POST',body:'{}'}));
   assert.equal(failure.status,503); assert.ok(!(await failure.text()).includes('private secret'));
 });
+
+test('host restart is idempotent and rejects stale commands after a fresh deal', async () => {
+  const t = await dealt();
+  const packet = {op:'command', code:t.code, requestId:randomUUID(), command:{type:'restartRound',expectedPhaseId:t.reply.view.phase.id}};
+  const [first, second] = await Promise.all([t.call(packet), t.call(packet)]);
+  assert.equal(first.view.phase.id, second.view.phase.id);
+  assert.equal(first.view.status, 'lobby'); assert.equal(second.view.revision, first.view.revision);
+  assert.equal(first.view.gameId, null); assert.deepEqual(first.view.me.knowledge, []);
+  const started = await t.call({op:'command',code:t.code,command:{type:'start',expectedPhaseId:first.view.phase.id}});
+  assert.notEqual(started.view.gameId, t.reply.view.gameId);
+  await assert.rejects(t.call({...packet,requestId:randomUUID()}), {code:'STALE_PHASE'});
+  await assert.rejects(t.call({op:'command',code:t.code,token:t.tokens[1],command:{type:'restartRound',expectedPhaseId:started.view.phase.id}}), {code:'HOST_ONLY'});
+  const guest = await t.call({op:'sync',code:t.code,token:t.tokens[1]});
+  assert.equal(guest.view.me.ready, false); assert.deepEqual(guest.view.me.knowledge, []); assert.equal(guest.view.me.action, null);
+});

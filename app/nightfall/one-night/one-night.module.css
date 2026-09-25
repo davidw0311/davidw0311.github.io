@@ -225,3 +225,12 @@
 
 .targetGroup .targetGrid>button { min-width:0; }
 .targetGroup .targetGrid>button>span { min-width:0; overflow-wrap:anywhere; }
+
+/* Pointer handles support mouse, touch and pen without blocking list scrolling. */
+.peopleList .dragHandle { touch-action:none; user-select:none; flex:0 0 36px; min-height:46px; border:1px solid #76576c; border-radius:6px; background:#302432; color:#e5cadb; font-size:24px; cursor:grab; }
+.peopleList .dragTarget { background:#3a2a36; outline:1px solid #ab758e; border-radius:8px; }
+.peopleList li>div:first-of-type { min-width:0; }
+.peopleList .seatNumber { width:52px; min-width:0; min-height:40px; margin:0; padding:6px; font-size:18px; text-align:center; font-variant-numeric:tabular-nums; }
+.peopleList .seatMoves { align-items:center; flex-wrap:wrap; max-width:82px; justify-content:center; }
+.peopleList .seatMoves .seatNumber { flex-basis:100%; }
+@media(max-width:420px) { .peopleList li { gap:8px; } .peopleList li>.avatar { display:none; } .peopleList .smallActions { flex:0 0 82px; } }

@@ -151,7 +151,7 @@ test('real One Night bots complete seeded 3–16-player games across every expan
   }
   assert.equal(totals.games, boards.length * 3);
   const expectedRoles = new Set(catalogue.filter(role => role.order !== null).map(role => role.id === 'master' ? 'vampire' : role.id === 'syntheticAlien' ? 'alien' : role.id));
-  expectedRoles.add('markReview'); expectedRoles.add('lovers');
+  expectedRoles.add('markReview'); expectedRoles.add('lovers'); expectedRoles.add('dreamWolf');
   assert.deepEqual([...totals.roles].sort(), [...expectedRoles].sort(), 'Every active role category must make a real bot decision');
   for (const role of ['vampire', 'empath', 'nostradamus', 'oracle', 'detector', 'witch', 'voodooLou', 'marksman', 'gremlin', 'doppelganger', 'copycat', 'mirrorMan', 'paranormalInvestigator']) assert.ok(totals.roles.has(role), `${role} must receive a bot decision`);
   for (const role of ['seer', 'witch', 'voodooLou', 'detector', 'gremlin']) assert.ok(totals.multiStepRoles.has(role), `${role} must exercise response subphases`);

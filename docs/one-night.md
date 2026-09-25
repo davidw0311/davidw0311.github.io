@@ -72,3 +72,11 @@ This implementation uses an explicit center-swap house rule for Robber and Troub
 The **Night order / 夜间流程** switch in **Current roles / 本局角色** shows the public schedule and descriptions for the selected deck in both games. Classic first-night setup steps are labeled; copied-role calls and expansion steps remain public schedule entries regardless of who can act. No live actors, private decisions, deaths, or center-card identities are used to build this reference.
 
 `node scripts/one-night-center-swaps-smoke.mjs --url=<endpoint>` checks both center swaps, private results, retry safety and final movement history through disposable public-API rooms, then disbands them.
+
+## Table controls and Dream Wolf confirmation
+
+Before dealing, the host can move a seat by dragging its handle (mouse, touch or pen), entering its number, or using the arrows. Other seats shift in order; stable seat IDs stay attached to the same players. Seating stays locked after dealing. **Restart round / 重新开始本局** returns the same room to setup after confirmation, keeping players, profiles, bot settings and the deck while clearing cards, readiness, clues, votes, timers and expansion state. New cards are dealt from setup; the host must again wait for everyone to ready up.
+
+Dream Wolf now has a private **Continue / 继续** action in the shared wolves stage. It does not learn teammates or inspect a center card. This app confirmation is a digital adaptation of its usual sleeping role. Other wolves still recognize Dream Wolf, and their own actions and its confirmation must finish before the closing call. Alpha Wolf and Mystic Wolf then receive their separate ability calls. Fear, copied abilities, absent-role pauses and host hard skips keep their existing rules.
+
+`node scripts/one-night-round-controls-smoke.mjs --url=<endpoint>` verifies seating, shared Dream Wolf confirmation, separate Alpha/Mystic calls, restart retries, cleared secrets and redealing with 12 synthetic players through the public API. It disbands its room afterward.

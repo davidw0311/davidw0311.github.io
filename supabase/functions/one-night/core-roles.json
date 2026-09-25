@@ -359,8 +359,8 @@
       "zh": "梦狼"
     },
     "description": {
-      "en": "The other wolves see you, but you do not see them or wake at night.",
-      "zh": "其他狼人能认出你，但你不会醒来或得知狼队友。"
+      "en": "Wolf team. During the shared wolves turn, tap Continue without learning teammates or inspecting cards. Other wolves can recognize you.",
+      "zh": "狼人阵营。在狼人共同阶段点击继续，不会获知队友或查看身份牌；其他狼人可以认出你。"
     },
     "icon": "💤",
     "team": "wolf",

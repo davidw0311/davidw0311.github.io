@@ -55,7 +55,7 @@ function nightActorRole(room, seat, step) {
     if (step === 'lovers') return seat.duskMark === 'love' ? 'lovers' : null;
     if (seat.copyMode === 'copycatPassive') return null;
     if (seat.copyMode === 'doppel' && !['werewolf', 'vampire', 'mason', 'alien'].includes(step)) return step === 'doppelganger' ? (seat.doppelImmediate || null) : null;
-    if (step === 'werewolf') return WOLVES.has(seat.nightRoleId) && seat.nightRoleId !== 'dreamWolf' ? 'werewolf' : null;
+    if (step === 'werewolf') return WOLVES.has(seat.nightRoleId) ? (seat.nightRoleId === 'dreamWolf' ? 'dreamWolf' : 'werewolf') : null;
     if (step === 'vampire') return VAMPIRES.has(seat.nightRoleId) ? 'vampire' : null;
     if (seat.nightRoleId === step) return step;
     if (expansion.getActors || expansion.actors) { const ids = (expansion.getActors || expansion.actors)(makeCtx(room, seat, step), step); if (ids?.includes(seat.id)) return step; }
@@ -118,6 +118,7 @@ function descriptor(room, seat) {
     const base = (en, zh, ids = [], min = 0, max = min, canSkip = false, options) => ({ id: `${room.phase.id}:${seat.id}:${data.count}`, roleId: role, prompt: text(en, zh), targets: ctx.targets(ids), min, max, canSkip, ...(options ? { options } : {}) });
     const choices = values => values.map(([id, en, zh]) => ({ id, label: text(en, zh) }));
     if (['minion', 'mason', 'renfield', 'markReview', 'lovers'].includes(role)) return base('Read your private information, then continue.', '请阅读私密信息，然后继续。');
+    if (role === 'dreamWolf') return base('Confirm your part of the shared wolves turn. Dream Wolf does not learn teammates or inspect cards. Tap Continue, then close your eyes.', '与其他狼人同时确认本阶段。梦狼不会获知狼队友，也不能查牌。点击继续后请闭眼。');
     if (role === 'werewolf') { const awake = room.seats.filter(s => WOLVES.has(s.nightRoleId) && s.duskMark !== 'fear' && s.copyMode !== 'copycatPassive').length; return base(awake === 1 && room.settings.loneWolf ? 'You may inspect one center card, or continue without looking.' : 'Recognize your fellow wolves, then continue.', awake === 1 && room.settings.loneWolf ? '你可以查看一张中央牌，或直接继续。' : '确认狼队友后继续。', awake === 1 && room.settings.loneWolf ? ctx.centers() : [], 0, awake === 1 && room.settings.loneWolf ? 1 : 0, false); }
     if (['doppelganger', 'copycat'].includes(role)) return base('Choose a card to copy.', '选择要复制的身份牌。', role === 'copycat' ? ctx.centers() : cards(others), 1, 1);
     if (role === 'seer' && !data.mode) return base('Choose how to inspect cards.', '选择查验方式。', [], 0, 0, true, choices([['player', 'One other player', '一位其他玩家'], ['center', 'Two center cards', '两张中央牌']]));
@@ -230,6 +231,13 @@ function startDiscussion(room, now) {
     }
     event(room, 'The night is over. Discuss what changed, without viewing your current card.', '天亮了。讨论夜里发生的变化，但不能查看当前身份。', now);
 }
+function resetRound(room, now) {
+    room.status = 'lobby'; room.gameId = null; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {}; room.events = [];
+    room.schedule = []; room.nightActors = []; room.nightIndex = 0;
+    if (room.botState) room.botState.nextActionAt = now + BOT_ACTION_DELAY;
+    room.seats.forEach(seat => { seat.ready = false; seat.originalRoleId = null; seat.nightRoleId = null; seat.originalCardId = null; seat.knowledge = []; delete seat.copyMode; delete seat.copySourceId; delete seat.doppelImmediate; delete seat.duskMark; });
+    phase(room, 'lobby', 'lobby', now);
+}
 function start(room, now) {
     const deck = room.roleDeck.length ? room.roleDeck : defaultDeck(room.seats.length); validateDeck(deck, room.seats.length); if (room.seats.some(s => !s.actorId)) fail('EMPTY_SEATS', 'Every seat must have a player before dealing.');
     room.roleDeck = [...deck]; const shuffled = shuffle(deck); room.gameId = randomUUID(); room.status = 'playing'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {};
@@ -332,6 +340,13 @@ function execute(room, actor, command, now) {
         case 'leave': if (!seat) { room.requests = room.requests.filter(r => r.actorId !== actor); return; } if (actor === room.hostId) fail('HOST_LEAVE', 'Transfer host control or disband the room.'); delete room.members[actor]; if (room.status === 'lobby') room.seats = room.seats.filter(s => s.id !== seat.id); else { seat.actorId = null; seat.isBot = false; } return;
         case 'addSeat': host(room, actor); checkPhase(room, command, ['lobby']); if (room.seats.length >= 16) fail('ROOM_FULL', 'This room is full.'); room.seats.push(makeSeat(cleanName(command.name), null)); return;
         case 'removeSeat': { host(room, actor); checkPhase(room, command, ['lobby']); const target = getSeat(room, command.seatId); if (target.actorId === room.hostId) fail('HOST_SEAT', 'You cannot remove the host.'); delete room.members[target.actorId]; room.seats = room.seats.filter(s => s.id !== target.id); return; }
+        case 'moveSeat': {
+            host(room, actor); checkPhase(room, command, ['lobby']);
+            if (!Number.isInteger(command.number) || command.number < 1 || command.number > room.seats.length) fail('INVALID_SEATS', 'Choose a valid seat number.');
+            const target = getSeat(room, command.seatId);
+            room.seats.splice(room.seats.indexOf(target), 1); room.seats.splice(command.number - 1, 0, target);
+            return;
+        }
         case 'reorderSeats': { host(room, actor); checkPhase(room, command, ['lobby']); const ids = command.seatIds; if (!Array.isArray(ids) || ids.length !== room.seats.length || new Set(ids).size !== ids.length || ids.some(id => !room.seats.some(s => s.id === id))) fail('INVALID_SEATS', 'Include each seat exactly once.'); room.seats = ids.map(id => getSeat(room, id)); return; }
         case 'profile': case 'updateProfile': if (!seat) fail('NOT_SEATED', 'Join a seat first.'); if (command.name != null) seat.name = cleanName(command.name); if (command.photo != null) { if (typeof command.photo !== 'string' || command.photo.length > 200) fail('INVALID_PHOTO', 'Choose a valid profile image.'); seat.photo = command.photo; } return;
         case 'configure': host(room, actor); checkPhase(room, command, ['lobby']); if (command.roleDeck) { if (!Array.isArray(command.roleDeck) || command.roleDeck.length > 19 || command.roleDeck.some(id => !roleMap.has(id))) fail('INVALID_DECK', 'Choose valid role cards.'); room.roleDeck = [...command.roleDeck]; } if (command.settings) { if (command.settings.discussionSeconds != null) { const value = Number(command.settings.discussionSeconds); if (!Number.isInteger(value) || value < 30 || value > 1800) fail('INVALID_SETTINGS', 'Discussion time must be 30–1800 seconds.'); room.settings.discussionSeconds = value; } if (command.settings.loneWolf != null) room.settings.loneWolf = Boolean(command.settings.loneWolf); if (command.settings.artifacts != null) { const artifacts = command.settings.artifacts; if (!Array.isArray(artifacts) || !artifacts.length || artifacts.some(x => !ARTIFACTS.includes(x)) || new Set(artifacts).size !== artifacts.length) fail('INVALID_SETTINGS', 'Choose valid unique artifacts.'); room.settings.artifacts = artifacts; } if (command.settings.alienVariant != null) { if (!['recognize', 'center', 'convert', 'random'].includes(command.settings.alienVariant)) fail('INVALID_SETTINGS', 'Choose a supported alien variant.'); room.settings.alienVariant = command.settings.alienVariant; } } return;
@@ -344,7 +359,14 @@ function execute(room, actor, command, now) {
         case 'startVote': host(room, actor); checkPhase(room, command, ['discussion']); phase(room, 'voting', 'voting', now); room.phase.cueIds = ['voting']; room.votes = {}; return;
         case 'vote': checkPhase(room, command, ['voting']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); getSeat(room, command.targetId); if (command.targetId === seat.id) fail('SELF_VOTE', 'Vote for another player.'); room.votes[seat.id] = command.targetId; return;
         case 'finishVote': host(room, actor); checkPhase(room, command, ['voting']); if (!room.seats.every(s => room.votes[s.id])) fail('PENDING_VOTES', 'Every player must vote before results.'); finishVotes(room, now); return;
-        case 'rematch': host(room, actor); checkPhase(room, command, ['finished']); room.status = 'lobby'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {}; room.seats.forEach(s => { s.ready = false; s.originalRoleId = null; s.nightRoleId = null; s.knowledge = []; delete s.copyMode; delete s.copySourceId; delete s.doppelImmediate; delete s.duskMark; }); phase(room, 'lobby', 'lobby', now); return;
+        case 'restartRound':
+            host(room, actor);
+            if (command.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed; refresh and try again.');
+            checkPhase(room, command, ['ready', 'night', 'discussion', 'voting', 'finished']);
+            resetRound(room, now);
+            event(room, 'The host restarted the round. Review the setup and deal new cards.', '房主已重新开始本局。请确认配置后重新发牌。', now);
+            return;
+        case 'rematch': host(room, actor); checkPhase(room, command, ['finished']); resetRound(room, now); return;
         case 'transferHost': { host(room, actor); const target = getSeat(room, command.seatId); if (!target.actorId || target.isBot) fail('EMPTY_SEAT', 'Choose an occupied human seat.'); room.hostId = target.actorId; return; }
         case 'disband': case 'disbandRoom': host(room, actor); room.status = 'disbanded'; room.hostId = null; room.requests = []; room.members = {}; room.seats.forEach(s => { s.actorId = null; s.isBot = false; }); room.cards = {}; room.marks = {}; room.artifacts = {}; room.actions = {}; room.result = null; phase(room, 'finished', 'disbanded', now); return;
         default: fail('INVALID_COMMAND', 'Unknown room action.');
