@@ -16,7 +16,8 @@
       "robber",
       "troublemaker",
       "villager"
-    ]
+    ],
+    "players": 3
   },
   {
     "id": "classic-5",
@@ -37,7 +38,8 @@
       "drunk",
       "insomniac",
       "villager"
-    ]
+    ],
+    "players": 5
   },
   {
     "id": "daybreak-5",
@@ -58,7 +60,8 @@
       "troublemaker",
       "revealer",
       "villager"
-    ]
+    ],
+    "players": 5
   },
   {
     "id": "vampire-6",
@@ -80,7 +83,8 @@
       "gremlin",
       "assassin",
       "villager"
-    ]
+    ],
+    "players": 6
   },
   {
     "id": "alien-5",
@@ -101,7 +105,8 @@
       "exposer",
       "mortician",
       "villager"
-    ]
+    ],
+    "players": 5
   },
   {
     "id": "bonus-6",
@@ -123,7 +128,8 @@
       "prince",
       "tanner",
       "apprenticeTanner"
-    ]
+    ],
+    "players": 6
   },
   {
     "id": "super-5",
@@ -144,6 +150,406 @@
       "selfAwarenessGirl",
       "flipper",
       "innocentBystander"
+    ],
+    "players": 5
+  },
+  {
+    "id": "morning-check-4",
+    "players": 4,
+    "name": {
+      "en": "Morning check · 4 players",
+      "zh": "清晨核对 · 4人"
+    },
+    "description": {
+      "en": "House preset: two wolves, familiar swaps, and an Insomniac to check one final card.",
+      "zh": "自选组合：双狼搭配预言家、强盗与捣蛋鬼，失眠者在清晨核对自己的牌。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "seer",
+      "robber",
+      "troublemaker",
+      "insomniac",
+      "villager"
+    ]
+  },
+  {
+    "id": "hidden-allies-7",
+    "players": 7,
+    "name": {
+      "en": "Hidden allies · 7 players",
+      "zh": "暗夜盟友 · 7人"
+    },
+    "description": {
+      "en": "House preset: two wolves and their Minion face paired Masons, a Seer, and shifting cards.",
+      "zh": "自选组合：双狼与爪牙迎战两位共济会成员和预言家，强盗、捣蛋鬼与酒鬼带来身份变化。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "minion",
+      "mason",
+      "mason",
+      "seer",
+      "robber",
+      "troublemaker",
+      "drunk",
+      "insomniac"
+    ]
+  },
+  {
+    "id": "wolf-council-8",
+    "players": 8,
+    "name": {
+      "en": "Wolf council · 8 players",
+      "zh": "三狼议会 · 8人"
+    },
+    "description": {
+      "en": "House preset: three wolves and a Minion; two seers and three swapping roles keep everyone guessing.",
+      "zh": "自选组合：三狼与爪牙对阵预言家、见习预言家，强盗、捣蛋鬼和女巫让身份不断变化。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "minion",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "insomniac",
+      "villager"
+    ]
+  },
+  {
+    "id": "mason-alibis-9",
+    "players": 9,
+    "name": {
+      "en": "Mason alibis · 9 players",
+      "zh": "共济会证词 · 9人"
+    },
+    "description": {
+      "en": "House preset: three wolves, a Minion, paired Masons, and a Hunter make claims and the final vote matter.",
+      "zh": "自选组合：三狼、爪牙、两位共济会成员与猎人同场，查看和换牌之后还要谨慎投票。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "minion",
+      "mason",
+      "mason",
+      "seer",
+      "robber",
+      "troublemaker",
+      "drunk",
+      "insomniac",
+      "hunter"
+    ]
+  },
+  {
+    "id": "shielded-secrets-10",
+    "players": 10,
+    "name": {
+      "en": "Shielded secrets · 10 players",
+      "zh": "护盾之下 · 10人"
+    },
+    "description": {
+      "en": "House preset: four wolves and a Minion meet a Sentinel, two seers, card swaps, and a late Revealer.",
+      "zh": "自选组合：四狼与爪牙对阵哨兵、两位预言家及换牌角色，揭示者在夜末留下公开线索。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "dreamWolf",
+      "minion",
+      "sentinel",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "insomniac",
+      "revealer"
+    ]
+  },
+  {
+    "id": "alpha-changes-11",
+    "players": 11,
+    "name": {
+      "en": "Alpha changes · 11 players",
+      "zh": "狼王变局 · 11人"
+    },
+    "description": {
+      "en": "Advanced house preset: four wolf cards including the Alpha, a Minion, paired Masons, and several swaps. The extra center wolf is added automatically.",
+      "zh": "进阶自选组合：四张狼牌含狼王，搭配爪牙、双共济会成员与多种换牌；狼王的额外中央狼牌会自动加入。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "alphaWolf",
+      "mysticWolf",
+      "minion",
+      "mason",
+      "mason",
+      "seer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "drunk",
+      "insomniac",
+      "hunter"
+    ]
+  },
+  {
+    "id": "full-moon-action-12",
+    "players": 12,
+    "name": {
+      "en": "Full-moon action · 12 players",
+      "zh": "满月行动 · 12人"
+    },
+    "description": {
+      "en": "Advanced house preset: five wolf cards plus a Minion, shields, inspections, and four village swapping roles. One monster faction; Alpha adds its reserve automatically.",
+      "zh": "进阶自选组合：五张狼牌与爪牙，搭配保护、查验及四种村庄换牌角色。仅狼人一种怪物阵营；狼王储备牌自动加入。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "alphaWolf",
+      "mysticWolf",
+      "dreamWolf",
+      "minion",
+      "sentinel",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "villageIdiot",
+      "insomniac",
+      "revealer"
+    ]
+  },
+  {
+    "id": "epic-clash-12",
+    "players": 12,
+    "name": {
+      "en": "Epic clash · 12 players",
+      "zh": "史诗混战 · 12人"
+    },
+    "description": {
+      "en": "Advanced house preset: wolves, vampires, and aliens share the table with card and mark swaps. Multi-faction voting may apply; uses the app's Alien adaptation.",
+      "zh": "高复杂度自选组合：狼人、吸血鬼与外星人同场，牌与标记分别流转；可能采用多阵营投票，外星人使用本应用的改编规则。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "vampire",
+      "master",
+      "alien",
+      "alien",
+      "seer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "insomniac",
+      "priest",
+      "marksman",
+      "gremlin"
+    ]
+  },
+  {
+    "id": "rotating-suspicions-13",
+    "players": 13,
+    "name": {
+      "en": "Rotating suspicions · 13 players",
+      "zh": "轮转疑云 · 13人"
+    },
+    "description": {
+      "en": "Advanced house preset: five wolf cards and a Minion face paired Masons and a Village Idiot rotation. Alpha adds a reserve; the Hunter raises the voting stakes.",
+      "zh": "进阶自选组合：五张狼牌与爪牙对阵双共济会成员，村庄傻瓜可轮转身份；狼王自动增加储备牌，猎人让投票更有变数。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "alphaWolf",
+      "mysticWolf",
+      "dreamWolf",
+      "minion",
+      "mason",
+      "mason",
+      "seer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "villageIdiot",
+      "drunk",
+      "insomniac",
+      "hunter"
+    ]
+  },
+  {
+    "id": "pack-intelligence-14",
+    "players": 14,
+    "name": {
+      "en": "Pack intelligence · 14 players",
+      "zh": "狼群情报网 · 14人"
+    },
+    "description": {
+      "en": "Advanced house preset: four wolves, a Minion, and a Squire against shields, investigators, and five village swapping roles. Track information as carefully as cards.",
+      "zh": "进阶自选组合：四狼、爪牙与狼人侍从对阵保护、查验及五种村庄换牌角色，既要追踪牌，也要核对情报的时机。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "dreamWolf",
+      "minion",
+      "squire",
+      "sentinel",
+      "seer",
+      "apprenticeSeer",
+      "paranormalInvestigator",
+      "robber",
+      "troublemaker",
+      "witch",
+      "villageIdiot",
+      "drunk",
+      "insomniac",
+      "revealer"
+    ]
+  },
+  {
+    "id": "epic-council-14",
+    "players": 14,
+    "name": {
+      "en": "Epic council · 14 players",
+      "zh": "异族议会 · 14人"
+    },
+    "description": {
+      "en": "Advanced house preset: three monster factions, a protective Sentinel, and extra center information. Card and mark swaps complicate multi-faction voting; Alien rules are adapted.",
+      "zh": "高复杂度自选组合：三种怪物阵营、哨兵保护与额外中央牌情报；换牌和标记变化增加多阵营投票的难度，外星人规则采用应用改编版。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "vampire",
+      "master",
+      "alien",
+      "alien",
+      "sentinel",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "insomniac",
+      "priest",
+      "marksman",
+      "gremlin"
+    ]
+  },
+  {
+    "id": "crowded-moon-15",
+    "players": 15,
+    "name": {
+      "en": "Crowded moon · 15 players",
+      "zh": "满座月夜 · 15人"
+    },
+    "description": {
+      "en": "Advanced house preset: five wolf cards, a Minion, and a Squire; paired Masons, two seers, and several swaps supply competing stories. Alpha adds its reserve automatically.",
+      "zh": "进阶自选组合：五张狼牌、爪牙与狼人侍从，搭配双共济会成员、两位预言家及多种换牌，形成交错证词；狼王储备牌自动加入。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "alphaWolf",
+      "mysticWolf",
+      "dreamWolf",
+      "minion",
+      "squire",
+      "sentinel",
+      "mason",
+      "mason",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "villageIdiot",
+      "insomniac",
+      "revealer"
+    ]
+  },
+  {
+    "id": "grand-wolf-table-16",
+    "players": 16,
+    "name": {
+      "en": "Grand wolf table · 16 players",
+      "zh": "群狼长桌 · 16人"
+    },
+    "description": {
+      "en": "Advanced house preset: the full five-card wolf pack and two allies face Masons, shields, inspections, and five village swapping roles. One monster faction; Alpha reserve added automatically.",
+      "zh": "进阶自选组合：五张狼牌与两位狼队盟友对阵共济会成员、保护、查验及五种村庄换牌角色。仅狼人一种怪物阵营；狼王储备牌自动加入。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "alphaWolf",
+      "mysticWolf",
+      "dreamWolf",
+      "minion",
+      "squire",
+      "sentinel",
+      "mason",
+      "mason",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "villageIdiot",
+      "drunk",
+      "insomniac",
+      "revealer"
+    ]
+  },
+  {
+    "id": "epic-midnight-16",
+    "players": 16,
+    "name": {
+      "en": "Epic midnight · 16 players",
+      "zh": "午夜史诗 · 16人"
+    },
+    "description": {
+      "en": "Advanced house preset: wolves, vampires, aliens, Love marks, shields, and card/mark swaps. Several factions may change the vote and victory rules; uses the app's Alien adaptation.",
+      "zh": "高复杂度自选组合：狼人、吸血鬼、外星人、爱情标记、护盾与牌／标记交换；多阵营可能改变投票和胜利规则，外星人采用应用改编版。"
+    },
+    "roles": [
+      "werewolf",
+      "werewolf",
+      "mysticWolf",
+      "vampire",
+      "master",
+      "alien",
+      "alien",
+      "sentinel",
+      "seer",
+      "apprenticeSeer",
+      "robber",
+      "troublemaker",
+      "witch",
+      "drunk",
+      "insomniac",
+      "priest",
+      "marksman",
+      "gremlin",
+      "cupid"
     ]
   }
 ]
