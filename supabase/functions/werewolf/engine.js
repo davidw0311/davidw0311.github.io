@@ -903,7 +903,8 @@ function executeCommand(room, actorId, c, now) {
             const source = room.seats.findIndex(seat => seat.id === c.seatId);
             if (source < 0 || !Number.isInteger(c.number) || c.number < 1 || c.number > room.seats.length) fail('INVALID_TARGET', 'Choose a valid seat number.');
             const target = c.number - 1;
-            [room.seats[source], room.seats[target]] = [room.seats[target], room.seats[source]];
+            const [moved] = room.seats.splice(source, 1);
+            room.seats.splice(target, 0, moved);
             break;
         }
         case 'setProfile': {

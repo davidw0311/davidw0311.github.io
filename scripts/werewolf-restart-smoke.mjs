@@ -27,7 +27,7 @@ try{
  const reset=await call(tokens[0],'command',packet);const retry=await call(tokens[0],'command',packet);view=retry.view;
  assert.equal(reset.view.revision,retry.view.revision);assert.equal(reset.recoveryKey,created.recoveryKey);assert.equal(view.status,'lobby');assert.equal(view.gameId,null);assert.equal(view.phase.paused,false);assert.deepEqual(view.seats.map(seat=>seat.id),seats);
  for(const token of tokens){const own=(await call(token,'sync')).view;assert.equal(own.me.ready,false);assert.equal(own.me.roleId,null);assert.equal(own.me.action,null);assert.deepEqual(own.me.privateLog,[]);assert.deepEqual(own.me.history,[]);assert.deepEqual(own.messages,[]);assert.equal(own.election,null);assert.equal(own.lastNight,null);assert.equal(own.lastVote,null);assert.ok(own.seats.every(seat=>seat.alive&&!seat.isSheriff&&!seat.roleId));}
- view=await send(tokens[0],'moveSeat',{seatId:seats[0],number:6});assert.equal(view.seats[5].id,seats[0]);
+ view=await send(tokens[0],'moveSeat',{seatId:seats[0],number:6});assert.deepEqual(view.seats.map(seat=>seat.id),[...seats.slice(1),seats[0]]);
  view=await send(tokens[0],'startGame');assert.notEqual(view.gameId,oldGame);assert.equal(view.phase.kind,'ready');assert.ok(view.seats.every(seat=>!seat.ready));
  const freshGame=view.gameId;view=(await call(tokens[0],'command',packet)).view;assert.equal(view.gameId,freshGame);assert.equal(view.phase.kind,'ready');
 }finally{if(code){const closed=await call(tokens[0],'command',{command:{type:'disbandRoom'}});assert.equal(closed.view.status,'disbanded');cleaned=true;}}

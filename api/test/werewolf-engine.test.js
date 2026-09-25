@@ -1153,3 +1153,28 @@ test('new public announcements have male Kokoro recordings and preserve Brian fo
  }
  for(const cue of ['night','wolves','seer','witch','night-deaths','day-deaths','sheriff-elected','seat-1']) for(const lang of ['en','zh']) assert.notEqual(manifest.clips[`${lang}:${cue}`].provider,'Kokoro');
 });
+
+
+test('lobby seat moves insert in both directions and preserve all other players in order', () => {
+ const r=createRoom({code:'TEST',hostId:'host',hostName:'Host',now:time});
+ for(let i=1;i<6;i++) send(r,`p${i}`,'requestJoin',{name:`Player ${i}`});
+ send(r,'host','setProfile',{photo:'avatar-12'});
+ const original=structuredClone(r.seats), ids=original.map(s=>s.id);
+ const order=()=>r.seats.map(s=>s.id);
+ send(r,'host','moveSeat',{seatId:ids[0],number:4});
+ assert.deepEqual(order(),[ids[1],ids[2],ids[3],ids[0],ids[4],ids[5]]);
+ send(r,'host','moveSeat',{seatId:ids[5],number:2});
+ assert.deepEqual(order(),[ids[1],ids[5],ids[2],ids[3],ids[0],ids[4]]);
+ send(r,'host','moveSeat',{seatId:ids[0],number:1});
+ send(r,'host','moveSeat',{seatId:ids[5],number:6});
+ assert.deepEqual(order(),ids);
+ send(r,'host','moveSeat',{seatId:ids[2],number:3});
+ assert.deepEqual(r.seats,original);
+ assert.equal(publicView(r,'host',time).me.seatId,ids[0]);
+ for(const number of [0,7,1.5,'2',null]) {
+  assert.throws(()=>send(r,'host','moveSeat',{seatId:ids[0],number}),{code:'INVALID_TARGET'});
+  assert.deepEqual(r.seats,original);
+ }
+ assert.throws(()=>send(r,'p1','moveSeat',{seatId:ids[0],number:3}),{code:'HOST_ONLY'});
+ assert.deepEqual(r.seats,original);
+});
