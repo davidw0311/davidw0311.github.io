@@ -9,6 +9,7 @@ const roleMap = new Map(catalogue.map(r => [r.id, r]));
 const WOLVES = new Set(['werewolf', 'alphaWolf', 'mysticWolf', 'dreamWolf']);
 const VAMPIRES = new Set(['vampire', 'master', 'count']);
 const DEFAULT_SETTINGS = { discussionSeconds: 300, loneWolf: true };
+const BOT_ACTION_DELAY = 1500;
 const ARTIFACTS = ['claw', 'brand', 'cudgel', 'void', 'mask', 'shroud', ...Object.keys(expansion.BONUS_ARTIFACTS || {})];
 const COPY_LATE = new Set(['insomniac', 'revealer', 'curator', 'count', 'renfield', 'priest', 'assassin', 'apprenticeAssassin', 'marksman', 'pickpocket', 'gremlin', 'auraSeer', 'squire', 'beholder', 'apprenticeTanner', 'groob', 'zerb', 'oracle', 'leader', 'psychic', 'rascal', 'exposer', 'blob', 'mortician', 'empath', 'nostradamus']);
 const NO_ACTION = new Set(catalogue.filter(r => r.order == null).map(r => r.id));
@@ -26,8 +27,8 @@ function seatOf(room, actor) { return room.seats.find(s => s.id === room.members
 function getSeat(room, id) { const seat = room.seats.find(s => s.id === id); if (!seat) fail('INVALID_TARGET', 'Choose a player in this room.'); return seat; }
 function host(room, actor) { if (!room.hostId || actor !== room.hostId) fail('HOST_ONLY', 'Only the room host can do that.'); }
 function checkPhase(room, command, kinds) { if (!kinds.includes(room.phase.kind)) fail('WRONG_PHASE', 'This action is not available now.'); const expected = command.expectedPhaseId || command.phaseId; if (expected && expected !== room.phase.id) fail('STALE_PHASE', 'The phase changed; refresh and try again.'); }
-function connected(room, s, now) { return Boolean(s.actorId && room.members[s.actorId] && now - room.members[s.actorId].lastSeen < 35000); }
-function createRoom({ code, hostId, hostName, now }) { now = nowMs(now); if (!hostId) fail('INVALID_HOST', 'A host session is required.'); const seat = makeSeat(cleanName(hostName), hostId); const room = { version: 1, code, revision: 1, createdAt: now, updatedAt: now, hostId, status: 'lobby', members: { [hostId]: { seatId: seat.id, lastSeen: now } }, seats: [seat], requests: [], settings: { ...DEFAULT_SETTINGS }, roleDeck: [], phase: null, events: [], cards: {}, marks: {}, artifacts: {}, shields: [], revealed: [], actions: {}, nightState: {}, actionLog: [], votes: {}, result: null, expansion: {} }; phase(room, 'lobby', 'lobby', now); event(room, 'A new One Night room is ready.', '一夜狼人杀房间已创建。', now); return room; }
+function connected(room, s, now) { return Boolean(s.actorId && room.members[s.actorId] && (s.isBot || now - room.members[s.actorId].lastSeen < 35000)); }
+function createRoom({ code, hostId, hostName, now }) { now = nowMs(now); if (!hostId) fail('INVALID_HOST', 'A host session is required.'); const seat = makeSeat(cleanName(hostName), hostId); const room = { version: 1, code, revision: 1, createdAt: now, updatedAt: now, hostId, status: 'lobby', members: { [hostId]: { seatId: seat.id, lastSeen: now } }, seats: [seat], requests: [], settings: { ...DEFAULT_SETTINGS }, botState: { mode: 'automatic', nextActionAt: 0 }, roleDeck: [], phase: null, events: [], cards: {}, marks: {}, artifacts: {}, shields: [], revealed: [], actions: {}, nightState: {}, actionLog: [], votes: {}, result: null, expansion: {} }; phase(room, 'lobby', 'lobby', now); event(room, 'A new One Night room is ready.', '一夜狼人杀房间已创建。', now); return room; }
 function validateDeck(deck, n) {
     if (!Array.isArray(deck) || deck.length !== n + 3 || deck.some(id => !roleMap.has(id))) fail('INVALID_DECK', 'Choose exactly three more role cards than players.');
     for (const role of catalogue) { const count = deck.filter(id => id === role.id).length; if (count > (role.maxCount || 1)) fail('INVALID_DECK', `Too many ${role.name.en} cards.`); }
@@ -131,7 +132,12 @@ function descriptor(room, seat) {
     if (role === 'villageIdiot') return base('Rotate movable cards, skipping your card and shields.', '移动其他未受保护的玩家牌，跳过自己和受保护的牌。', [], 0, 0, true, choices([['clockwise', 'Clockwise', '顺时针'], ['counterclockwise', 'Counterclockwise', '逆时针']]));
     if (role === 'revealer') return base('Inspect and reveal another card unless it is a wolf or Tanner.', '查看并公开另一位玩家的牌，狼人或皮匠除外。', cards(others).filter(id => !room.revealed.includes(id)), 1, 1, true);
     if (role === 'curator') return base('Give a random artifact to a player.', '给一位玩家随机神器。', cards(all).filter(id => !room.artifacts[id]), 1, 1, true);
-    if (role === 'vampire') { const ids = all.filter(id => !VAMPIRES.has(getSeat(room, id).nightRoleId)); const votes = room.nightActors.map(id => { const t = currentData(room, getSeat(room, id), role).target; return t ? `#${getSeat(room, id).number} → #${getSeat(room, t).number}` : `#${getSeat(room, id).number} → …`; }).join('; '); return base(`Agree on one player to receive the Vampire mark. ${votes}`, `共同选定吸血鬼标记对象。${votes}`, ids, ids.length ? 1 : 0); }
+    if (role === 'vampire') {
+        const ids = all.filter(id => !VAMPIRES.has(getSeat(room, id).nightRoleId));
+        const votes = room.nightActors.map(id => ({ seatId: id, targetId: currentData(room, getSeat(room, id), role).target || null }));
+        const summary = votes.map(vote => vote.targetId ? `#${getSeat(room, vote.seatId).number} → #${getSeat(room, vote.targetId).number}` : `#${getSeat(room, vote.seatId).number} → …`).join('; ');
+        return { ...base(`Agree on one player to receive the Vampire mark. ${summary}`, `共同选定吸血鬼标记对象。${summary}`, ids, ids.length ? 1 : 0), votes };
+    }
     if (role === 'count') { const ids = all.filter(id => !VAMPIRES.has(getSeat(room, id).nightRoleId) && room.marks[id] !== 'vampire'); return base('Give Fear to a non-vampire.', '给非吸血鬼玩家恐惧标记。', ids, ids.length ? 1 : 0); }
     if (role === 'diseased') { const i = room.seats.indexOf(seat), n = room.seats.length; return base('Give Disease to a neighboring player.', '给相邻玩家疾病标记。', [room.seats[(i + n - 1) % n].id, room.seats[(i + 1) % n].id], 1, 1); }
     if (role === 'cupid') return base('Give up to two Love marks.', '给予最多两枚爱情标记。', all, 0, 2, true);
@@ -143,7 +149,7 @@ function descriptor(room, seat) {
     if (role === 'pickpocket') return base('Exchange your mark with another player and view the new mark.', '与另一位玩家交换标记并查看自己的新标记。', others, 1, 1, true);
     if (role === 'gremlin' && !data.mode) return base('Choose whether to exchange cards or marks.', '选择交换身份牌或标记。', [], 0, 0, true, choices([['cards', 'Cards', '身份牌'], ['marks', 'Marks', '标记']]));
     if (role === 'gremlin') return base(data.mode === 'cards' ? 'Exchange two unshielded player cards.' : 'Exchange two player marks. Card shields do not protect marks.', data.mode === 'cards' ? '交换两位未受保护玩家的身份牌。' : '交换两位玩家的标记。护盾不会保护标记。', data.mode === 'cards' ? cards(all) : all, 2, 2, true);
-    const extra = expansion.buildAction?.(ctx, role); if (extra) return { ...extra, id: base('', '').id, roleId: role };
+    const extra = expansion.buildAction?.(ctx, role); if (extra) return { ...extra, id: base('', '').id, roleId: role, ...(role === 'empath' ? { questionId: room.expansion.empathQuestion } : {}) };
     if (NO_ACTION.has(role)) return base('This role has no night action. Continue.', '此身份没有夜间行动，请继续。');
     fail('UNSUPPORTED_ROLE', `The ${role} action is unavailable.`);
 }
@@ -227,6 +233,7 @@ function startDiscussion(room, now) {
 function start(room, now) {
     const deck = room.roleDeck.length ? room.roleDeck : defaultDeck(room.seats.length); validateDeck(deck, room.seats.length); if (room.seats.some(s => !s.actorId)) fail('EMPTY_SEATS', 'Every seat must have a player before dealing.');
     room.roleDeck = [...deck]; const shuffled = shuffle(deck); room.gameId = randomUUID(); room.status = 'playing'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {};
+    if (room.botState) room.botState.nextActionAt = now + BOT_ACTION_DELAY;
     room.seats.forEach((seat, i) => { const roleId = shuffled[i]; seat.number = i + 1; seat.originalRoleId = roleId; seat.nightRoleId = roleId; seat.originalCardId = null; seat.ready = false; seat.knowledge = []; delete seat.copyMode; delete seat.copySourceId; delete seat.doppelImmediate; delete seat.duskMark; room.cards[seat.id] = { id: randomUUID(), roleId }; seat.originalCardId = room.cards[seat.id].id; room.marks[seat.id] = 'clarity'; });
     shuffled.slice(room.seats.length).forEach((roleId, i) => { room.cards[`center:${i}`] = { id: randomUUID(), roleId }; }); if (deck.includes('alphaWolf')) room.cards['center:3'] = { id: randomUUID(), roleId: 'werewolf' };
     phase(room, 'ready', 'ready', now); room.phase.cueIds = ['ready']; expansion.prepare?.(makeCtx(room, null, 'prepare')); room.schedule = schedule(room); room.nightIndex = 0; event(room, 'Read your role card and ready up.', '请查看身份牌并确认准备。', now);
@@ -273,17 +280,56 @@ function finishVotes(room, now) {
     room.result = { deaths: [...dead], winners: [...result.winners], counts: result.counts, votes: result.votes, epic, players: ids.map(seatId => ({ seatId, ...e[seatId], originalRoleId: getSeat(room, seatId).originalRoleId, mark: room.marks[seatId], artifact: room.artifacts[seatId] || null, won: result.winners.has(seatId), died: dead.has(seatId) })), center: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, roleId: cardRole(card) })), timeline: clone(room.actionLog) };
     room.status = 'finished'; phase(room, 'finished', 'finished', now); room.phase.cueIds = ['results']; event(room, 'Reveal every card. The result uses your final card, mark and artifact.', '公布所有身份。胜负依据最终身份、标记和神器结算。', now);
 }
-function replace(room, seat, actor, name, now) { if (seat.actorId) delete room.members[seat.actorId]; seat.actorId = actor; seat.name = name; room.members[actor] = { seatId: seat.id, lastSeen: now }; }
+function replace(room, seat, actor, name, now) { if (seat.actorId) delete room.members[seat.actorId]; seat.actorId = actor; seat.name = name; seat.isBot = false; if (room.phase.kind === 'ready') seat.ready = false; room.members[actor] = { seatId: seat.id, lastSeen: now }; }
 function execute(room, actor, command, now) {
     if (!command || typeof command.type !== 'string') fail('INVALID_COMMAND', 'Choose a valid action.');
     if (room.status === 'disbanded') fail('ROOM_CLOSED', 'This room has been disbanded.');
     const seat = seatOf(room, actor); if (room.members[actor]) room.members[actor].lastSeen = now;
     switch (command.type) {
+        case 'addBots': {
+            host(room, actor); checkPhase(room, command, ['lobby']);
+            if (!Number.isInteger(command.count) || command.count < 1 || command.count > 15) fail('INVALID_BOT_COUNT', 'Choose 1–15 test bots.');
+            if (room.seats.length + command.count > 16) fail('ROOM_FULL', 'One Night rooms support at most 16 players.');
+            for (let index = 0; index < command.count; index++) {
+                let number = 1;
+                while (room.seats.some(player => player.name === `Test Bot ${number}`)) number++;
+                const bot = makeSeat(`Test Bot ${number}`, `bot:${randomUUID()}`);
+                bot.isBot = true;
+                room.seats.push(bot);
+                room.members[bot.actorId] = { seatId: bot.id, lastSeen: now };
+            }
+            room.botState ||= { mode: 'automatic', nextActionAt: 0 };
+            event(room, `${command.count} test bots joined the lobby.`, `${command.count} 个测试机器人加入大厅。`, now);
+            return;
+        }
+        case 'removeBots': {
+            host(room, actor); checkPhase(room, command, ['lobby']);
+            const bots = room.seats.filter(player => player.isBot);
+            for (const bot of bots) delete room.members[bot.actorId];
+            room.seats = room.seats.filter(player => !player.isBot);
+            if (bots.length) event(room, 'The host removed the test bots.', '房主已移除测试机器人。', now);
+            return;
+        }
+        case 'setBotMode':
+            host(room, actor);
+            if (!['lobby', 'playing'].includes(room.status)) fail('WRONG_PHASE', 'Bot controls are available before or during a game.');
+            if (command.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed; refresh and try again.');
+            if (!['automatic', 'manual'].includes(command.mode)) fail('INVALID_BOT_MODE', 'Choose automatic or manual bot control.');
+            room.botState = { mode: command.mode, nextActionAt: now + BOT_ACTION_DELAY };
+            return;
+        case 'botStep':
+            host(room, actor);
+            if (command.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed; refresh and try again.');
+            checkPhase(room, command, ['ready', 'night', 'discussion', 'voting']);
+            if (room.phase.paused) fail('PAUSED', 'The game is paused.');
+            if (room.status !== 'playing') fail('WRONG_PHASE', 'Start a game before stepping test bots.');
+            if (!performBotDecision(room, now)) fail('BOT_IDLE', 'No test bot needs to act now. Complete the human decision or use the host phase controls.');
+            return;
         case 'heartbeat': if (!room.members[actor] && !room.requests.some(r => r.actorId === actor)) fail('NOT_SEATED', 'Request to join this room.'); return;
         case 'requestJoin': { const name = cleanName(command.name); if (seat) return; if (room.status === 'lobby') { const vacant = room.seats.find(s => !s.actorId && s.name === name); if (vacant) replace(room, vacant, actor, name, now); else { if (room.seats.length >= 16) fail('ROOM_FULL', 'This room is full.'); const added = makeSeat(name, actor); room.seats.push(added); room.members[actor] = { seatId: added.id, lastSeen: now }; } } else { room.requests = room.requests.filter(r => r.actorId !== actor); room.requests.push({ id: randomUUID(), actorId: actor, name, createdAt: now }); } return; }
         case 'approveJoin': { host(room, actor); const req = room.requests.find(r => r.id === command.requestId); if (!req) fail('INVALID_REQUEST', 'That join request no longer exists.'); const id = command.replaceSeatId || command.seatId; if (id) { const target = getSeat(room, id); if (target.actorId === room.hostId) fail('HOST_SEAT', 'Transfer host control before replacing the host.'); replace(room, target, req.actorId, req.name, now); } else { checkPhase(room, command, ['lobby']); if (room.seats.length >= 16) fail('ROOM_FULL', 'This room is full.'); const added = makeSeat(req.name, req.actorId); room.seats.push(added); room.members[req.actorId] = { seatId: added.id, lastSeen: now }; } room.requests = room.requests.filter(r => r.id !== req.id); return; }
         case 'rejectJoin': host(room, actor); room.requests = room.requests.filter(r => r.id !== command.requestId); return;
-        case 'leave': if (!seat) { room.requests = room.requests.filter(r => r.actorId !== actor); return; } if (actor === room.hostId) fail('HOST_LEAVE', 'Transfer host control or disband the room.'); delete room.members[actor]; if (room.status === 'lobby') room.seats = room.seats.filter(s => s.id !== seat.id); else seat.actorId = null; return;
+        case 'leave': if (!seat) { room.requests = room.requests.filter(r => r.actorId !== actor); return; } if (actor === room.hostId) fail('HOST_LEAVE', 'Transfer host control or disband the room.'); delete room.members[actor]; if (room.status === 'lobby') room.seats = room.seats.filter(s => s.id !== seat.id); else { seat.actorId = null; seat.isBot = false; } return;
         case 'addSeat': host(room, actor); checkPhase(room, command, ['lobby']); if (room.seats.length >= 16) fail('ROOM_FULL', 'This room is full.'); room.seats.push(makeSeat(cleanName(command.name), null)); return;
         case 'removeSeat': { host(room, actor); checkPhase(room, command, ['lobby']); const target = getSeat(room, command.seatId); if (target.actorId === room.hostId) fail('HOST_SEAT', 'You cannot remove the host.'); delete room.members[target.actorId]; room.seats = room.seats.filter(s => s.id !== target.id); return; }
         case 'reorderSeats': { host(room, actor); checkPhase(room, command, ['lobby']); const ids = command.seatIds; if (!Array.isArray(ids) || ids.length !== room.seats.length || new Set(ids).size !== ids.length || ids.some(id => !room.seats.some(s => s.id === id))) fail('INVALID_SEATS', 'Include each seat exactly once.'); room.seats = ids.map(id => getSeat(room, id)); return; }
@@ -299,18 +345,84 @@ function execute(room, actor, command, now) {
         case 'vote': checkPhase(room, command, ['voting']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); getSeat(room, command.targetId); if (command.targetId === seat.id) fail('SELF_VOTE', 'Vote for another player.'); room.votes[seat.id] = command.targetId; return;
         case 'finishVote': host(room, actor); checkPhase(room, command, ['voting']); if (!room.seats.every(s => room.votes[s.id])) fail('PENDING_VOTES', 'Every player must vote before results.'); finishVotes(room, now); return;
         case 'rematch': host(room, actor); checkPhase(room, command, ['finished']); room.status = 'lobby'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {}; room.seats.forEach(s => { s.ready = false; s.originalRoleId = null; s.nightRoleId = null; s.knowledge = []; delete s.copyMode; delete s.copySourceId; delete s.doppelImmediate; delete s.duskMark; }); phase(room, 'lobby', 'lobby', now); return;
-        case 'transferHost': { host(room, actor); const target = getSeat(room, command.seatId); if (!target.actorId) fail('EMPTY_SEAT', 'Choose an occupied seat.'); room.hostId = target.actorId; return; }
-        case 'disband': case 'disbandRoom': host(room, actor); room.status = 'disbanded'; room.hostId = null; room.requests = []; room.members = {}; room.seats.forEach(s => { s.actorId = null; }); room.cards = {}; room.marks = {}; room.artifacts = {}; room.actions = {}; room.result = null; phase(room, 'finished', 'disbanded', now); return;
+        case 'transferHost': { host(room, actor); const target = getSeat(room, command.seatId); if (!target.actorId || target.isBot) fail('EMPTY_SEAT', 'Choose an occupied human seat.'); room.hostId = target.actorId; return; }
+        case 'disband': case 'disbandRoom': host(room, actor); room.status = 'disbanded'; room.hostId = null; room.requests = []; room.members = {}; room.seats.forEach(s => { s.actorId = null; s.isBot = false; }); room.cards = {}; room.marks = {}; room.artifacts = {}; room.actions = {}; room.result = null; phase(room, 'finished', 'disbanded', now); return;
         default: fail('INVALID_COMMAND', 'Unknown room action.');
     }
 }
 function applyCommand(room, actor, command, now) { now = nowMs(now); if (command?.type === 'heartbeat' && room.members[actor] && now - room.members[actor].lastSeen < 10000) return room; const working = clone(room); execute(working, actor, command, now); working.revision++; working.updatedAt = now; Object.keys(room).forEach(k => delete room[k]); Object.assign(room, working); return room; }
-function tickRoom(room, now) { now = nowMs(now); if (room.status !== 'playing' || room.phase.kind !== 'night' || room.phase.deadline == null || now < room.phase.deadline) return false; if (room.phase.nightStage === 'opening') beginActing(room, now); else if (room.phase.nightStage === 'closing') nextTurn(room, now); else if (!room.nightActors.length) finishActing(room, now); else return false; room.revision++; room.updatedAt = now; return true; }
+// Deliberately takes the same private projection as a player, never the room.
+// These are simple legal test decisions, not an attempt at strategic play.
+function chooseBotCommand(view) {
+    const { me, phase } = view;
+    if (!me || view.status !== 'playing' || phase.paused || !view.seats.find(seat => seat.id === me.seatId)?.isBot) return null;
+    const command = { expectedPhaseId: phase.id };
+    if (phase.kind === 'ready') return me.ready ? null : { ...command, type: 'ready' };
+    const offset = value => [...value].reduce((hash, char) => (Math.imul(hash, 31) + char.charCodeAt(0)) >>> 0, 0);
+    if (phase.kind === 'voting') {
+        const targets = view.seats.filter(seat => seat.id !== me.seatId);
+        return me.vote || !targets.length ? null : { ...command, type: 'vote', targetId: targets[offset(me.seatId + phase.id) % targets.length].id };
+    }
+    const action = me.action;
+    if (phase.kind !== 'night' || phase.nightStage !== 'acting' || !action) return null;
+    const act = { ...command, type: 'act', actionId: action.id, targets: [] };
+    const targets = action.targets.map(target => target.id);
+    if (targets.length < action.min) return action.canSkip ? { ...act, skip: true } : null;
+    if (action.roleId === 'vampire' && targets.length) {
+        // Every vampire sees these ballots. Follow a human's choice if present;
+        // otherwise all bots use one shared choice. Waiting bots must yield.
+        const votes = action.votes || [];
+        const human = votes.find(vote => targets.includes(vote.targetId) && view.seats.some(seat => seat.id === vote.seatId && !seat.isBot));
+        const targetId = human?.targetId || targets[offset(phase.id) % targets.length];
+        if (votes.find(vote => vote.seatId === me.seatId)?.targetId === targetId) return null;
+        return { ...act, targets: [targetId] };
+    }
+    if (action.options?.length) {
+        act.choice = action.options[offset(action.id) % action.options.length].id;
+        if (action.roleId === 'nostradamus') act.choice = targets.length && action.options.some(option => option.id === 'inspect') ? 'inspect' : 'finish';
+        if (action.roleId === 'empath') {
+            const original = me.originalRoleId || me.roleId;
+            const yes = action.questionId === 'viewed' ? me.botActivity?.viewed
+                : action.questionId === 'moved' ? me.botActivity?.moved
+                : WOLVES.has(original) || VAMPIRES.has(original) || expansion.ALIENS.includes(original) || expansion.VILLAINS.includes(original);
+            act.choice = yes ? 'yes' : 'no';
+        }
+    }
+    const count = action.roleId === 'nostradamus' ? Number(act.choice === 'inspect') : Math.min(action.max, targets.length);
+    const start = targets.length ? offset(action.id) % targets.length : 0;
+    act.targets = [...targets.slice(start), ...targets.slice(0, start)].slice(0, count);
+    return act;
+}
+function performBotDecision(room, now) {
+    for (const seat of room.seats) {
+        if (!seat.isBot || !seat.actorId || room.members[seat.actorId]?.seatId !== seat.id || seat.actorId === room.hostId) continue;
+        const command = chooseBotCommand(publicView(room, seat.actorId, now));
+        if (!command) continue;
+        applyCommand(room, seat.actorId, command, now);
+        room.botState ||= { mode: 'automatic', nextActionAt: 0 };
+        // Also set after manual steps, preventing the service's following tick
+        // from performing a second decision in the same transaction.
+        room.botState.nextActionAt = now + BOT_ACTION_DELAY;
+        return true;
+    }
+    return false;
+}
+function tickRoom(room, now) {
+    now = nowMs(now);
+    if (room.status !== 'playing' || room.phase.paused) return false;
+    if ((room.botState?.mode || 'automatic') === 'automatic' && now >= (room.botState?.nextActionAt || 0) && performBotDecision(room, now)) return true;
+    if (room.phase.kind !== 'night' || room.phase.deadline == null || now < room.phase.deadline) return false;
+    if (room.phase.nightStage === 'opening') beginActing(room, now);
+    else if (room.phase.nightStage === 'closing') nextTurn(room, now);
+    else if (!room.nightActors.length) finishActing(room, now);
+    else return false;
+    room.revision++; room.updatedAt = now; return true;
+}
 function recoverHost(room, actor, now) { now = nowMs(now); if (room.status === 'disbanded') fail('ROOM_CLOSED', 'This room has closed.'); const existing = seatOf(room, room.hostId); const own = seatOf(room, actor); if (own && own.id !== existing?.id) fail('RECOVERY_SEATED', 'Use an unseated browser to recover the host.'); const old = room.hostId; if (existing) replace(room, existing, actor, existing.name, now); else { const added = makeSeat('Host', actor); room.seats.push(added); room.members[actor] = { seatId: added.id, lastSeen: now }; } delete room.members[old]; if (existing) room.members[actor] = { seatId: existing.id, lastSeen: now }; room.hostId = actor; room.requests = room.requests.filter(r => r.actorId !== actor); room.revision++; room.updatedAt = now; return room; }
 function publicView(room, actor, now) {
     room = clone(room);
     now = nowMs(now); const seat = seatOf(room, actor), isHost = Boolean(room.hostId && actor === room.hostId), finished = room.status === 'finished';
     const publicTokens = finished || ['discussion', 'voting'].includes(room.phase.kind);
-    return { code: room.code, gameId: room.gameId || null, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map((s, i) => ({ id: s.id, number: i + 1, name: s.name, photo: s.photo, ready: s.ready, connected: connected(room, s, now), occupied: Boolean(s.actorId), isHost: s.actorId === room.hostId, ...(publicTokens ? { shielded: room.shields.includes(s.id), hasArtifact: Boolean(room.artifacts[s.id]) } : {}), ...(room.revealed.includes(s.id) && room.cards[s.id] ? { revealedRoleId: room.cards[s.id].roleId } : {}), ...(finished ? { roleId: room.result?.players.find(p => p.seatId === s.id)?.roleId || effective(room, s.id).roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actor) ? { status: 'pending' } : null, me: seat ? { seatId: seat.id, roleId: seat.originalRoleId, originalRoleId: seat.originalRoleId, ready: seat.ready, knowledge: clone(seat.knowledge), action: descriptor(room, seat), vote: room.votes[seat.id] || null } : null, phase: { ...clone(room.phase), ...(room.phase.kind === 'night' && room.phase.nightStage === 'acting' ? { deadline: null } : {}) }, events: clone(room.events), result: finished ? clone(room.result) : null, pendingVoterIds: room.phase.kind === 'voting' ? room.seats.filter(s => !room.votes[s.id]).map(s => s.id) : [], publicRules: clone(room.expansion?.publicRules || []), centerCards: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, ...(finished || room.revealed.includes(id) ? { roleId: card.roleId } : {}) })), centerCount: Object.keys(room.cards).filter(id => id.startsWith('center:')).length || 3 };
+    return { code: room.code, gameId: room.gameId || null, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, bots: { mode: room.botState?.mode === 'manual' ? 'manual' : 'automatic', count: room.seats.filter(s => s.isBot).length }, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map((s, i) => ({ id: s.id, number: i + 1, name: s.name, photo: s.photo, ready: s.ready, connected: connected(room, s, now), occupied: Boolean(s.actorId), isBot: Boolean(s.isBot), isHost: s.actorId === room.hostId, ...(publicTokens ? { shielded: room.shields.includes(s.id), hasArtifact: Boolean(room.artifacts[s.id]) } : {}), ...(room.revealed.includes(s.id) && room.cards[s.id] ? { revealedRoleId: room.cards[s.id].roleId } : {}), ...(finished ? { roleId: room.result?.players.find(p => p.seatId === s.id)?.roleId || effective(room, s.id).roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actor) ? { status: 'pending' } : null, me: seat ? { seatId: seat.id, roleId: seat.originalRoleId, originalRoleId: seat.originalRoleId, ready: seat.ready, ...(seat.isBot ? { botActivity: { viewed: room.actionLog.some(a => a.seatId === seat.id && a.type === 'view'), moved: room.actionLog.some(a => a.seatId === seat.id && a.type === 'move') } } : {}), knowledge: clone(seat.knowledge), action: descriptor(room, seat), vote: room.votes[seat.id] || null } : null, phase: { ...clone(room.phase), ...(room.phase.kind === 'night' && room.phase.nightStage === 'acting' ? { deadline: null } : {}) }, events: clone(room.events), result: finished ? clone(room.result) : null, pendingVoterIds: room.phase.kind === 'voting' ? room.seats.filter(s => !room.votes[s.id]).map(s => s.id) : [], publicRules: clone(room.expansion?.publicRules || []), centerCards: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, ...(finished || room.revealed.includes(id) ? { roleId: card.roleId } : {}) })), centerCount: Object.keys(room.cards).filter(id => id.startsWith('center:')).length || 3 };
 }
-export { createRoom, applyCommand, publicView, tickRoom, recoverHost, DEFAULT_SETTINGS, catalogue, validateDeck, defaultDeck,effective as effectiveCard};
+export { createRoom, applyCommand, publicView, tickRoom, recoverHost, chooseBotCommand, DEFAULT_SETTINGS, catalogue, validateDeck, defaultDeck,effective as effectiveCard};

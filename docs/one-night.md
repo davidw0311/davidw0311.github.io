@@ -48,3 +48,13 @@ For local multiplayer testing, run `node scripts/one-night-local-server.mjs`, th
 To verify an entire preset through the public HTTP API, run `ONE_NIGHT_PRESET=grand-wolf-table-16 node scripts/one-night-live-smoke.mjs`. Set `ONE_NIGHT_API_URL=http://localhost:4501` for the disposable local server; without it this creates and disbands a test room on the configured production backend.
 
 Game mechanics are implemented with original interface text and recordings. Publisher rulebooks are linked for reference; no card scans or publisher narration recordings are included.
+
+## Test bots
+
+Open **Host controls → Test bots** to add individual bots or fill the table to a chosen size, within the existing 3–16-player limit. The saved deck target excludes its three center cards. Bots are labeled for everyone and can be removed in the lobby.
+
+Automatic mode makes one eligible bot decision per room refresh, at least 1.5 seconds apart, while someone has the room open. Manual mode waits for **Run one bot action**. Bots read their cards, complete legal night actions and response prompts, and vote. They use only their own private player view and are simple test helpers, without reasoning or chat. Your actions and the host controls for starting the night, opening voting and revealing the result stay under your control.
+
+Bots cannot become host. A host-approved human replacement keeps the seat and its private information while disabling that seat's bot. Rematches keep the bot seats and reset their cards, readiness and knowledge. No additional service or AI key is needed.
+
+`node scripts/one-night-bots-smoke.mjs --url=<endpoint>` creates and disbands a disposable 12-player room to verify manual retry safety, automatic actions, human readiness and voting, replacing a bot, the complete round and rematching through the public HTTP API. Use `http://localhost:4501` with the local adapter for an isolated test.
