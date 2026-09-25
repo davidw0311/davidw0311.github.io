@@ -1,0 +1,174 @@
+{
+  "victory-village": [
+    "The village team wins.",
+    "好人阵营获胜。"
+  ],
+  "victory-wolf": [
+    "The werewolf team wins.",
+    "狼人阵营获胜。"
+  ],
+  "victory-lovers": [
+    "The lovers win.",
+    "情侣阵营获胜。"
+  ],
+  "victory-piper": [
+    "The Piper wins.",
+    "吹笛者获胜。"
+  ],
+  "victory-angel": [
+    "The Angel wins.",
+    "天使获胜。"
+  ],
+  "victory-jester": [
+    "The Jester wins.",
+    "小丑获胜。"
+  ],
+  "victory-tanner": [
+    "The Tanner side wins.",
+    "皮匠阵营获胜。"
+  ],
+  "victory-vampire": [
+    "The vampire team wins.",
+    "吸血鬼阵营获胜。"
+  ],
+  "victory-assassin": [
+    "The Assassin wins.",
+    "刺客获胜。"
+  ],
+  "victory-apprenticeAssassin": [
+    "The Apprentice Assassin wins.",
+    "刺客学徒获胜。"
+  ],
+  "victory-alien": [
+    "The alien side wins.",
+    "外星人阵营获胜。"
+  ],
+  "victory-synthetic": [
+    "The Synthetic Alien wins.",
+    "合成外星人获胜。"
+  ],
+  "victory-blob": [
+    "The Blob wins.",
+    "黏液怪获胜。"
+  ],
+  "victory-mortician": [
+    "The Mortician wins.",
+    "殡葬师获胜。"
+  ],
+  "victory-family": [
+    "The Family Man wins.",
+    "顾家者获胜。"
+  ],
+  "victory-villain": [
+    "The villain team wins.",
+    "反派阵营获胜。"
+  ],
+  "victory-mad": [
+    "The Mad Scientist side wins.",
+    "疯狂科学家阵营获胜。"
+  ],
+  "victory-draw": [
+    "The round is a draw. No player wins.",
+    "本局平局，没有玩家获胜。"
+  ],
+  "victory-none": [
+    "No player wins this round.",
+    "本局没有玩家获胜。"
+  ],
+  "winner-seat-1": [
+    "Player number 1 wins.",
+    "一号玩家获胜。"
+  ],
+  "winner-seat-2": [
+    "Player number 2 wins.",
+    "二号玩家获胜。"
+  ],
+  "winner-seat-3": [
+    "Player number 3 wins.",
+    "三号玩家获胜。"
+  ],
+  "winner-seat-4": [
+    "Player number 4 wins.",
+    "四号玩家获胜。"
+  ],
+  "winner-seat-5": [
+    "Player number 5 wins.",
+    "五号玩家获胜。"
+  ],
+  "winner-seat-6": [
+    "Player number 6 wins.",
+    "六号玩家获胜。"
+  ],
+  "winner-seat-7": [
+    "Player number 7 wins.",
+    "七号玩家获胜。"
+  ],
+  "winner-seat-8": [
+    "Player number 8 wins.",
+    "八号玩家获胜。"
+  ],
+  "winner-seat-9": [
+    "Player number 9 wins.",
+    "九号玩家获胜。"
+  ],
+  "winner-seat-10": [
+    "Player number 10 wins.",
+    "十号玩家获胜。"
+  ],
+  "winner-seat-11": [
+    "Player number 11 wins.",
+    "十一号玩家获胜。"
+  ],
+  "winner-seat-12": [
+    "Player number 12 wins.",
+    "十二号玩家获胜。"
+  ],
+  "winner-seat-13": [
+    "Player number 13 wins.",
+    "十三号玩家获胜。"
+  ],
+  "winner-seat-14": [
+    "Player number 14 wins.",
+    "十四号玩家获胜。"
+  ],
+  "winner-seat-15": [
+    "Player number 15 wins.",
+    "十五号玩家获胜。"
+  ],
+  "winner-seat-16": [
+    "Player number 16 wins.",
+    "十六号玩家获胜。"
+  ],
+  "winner-seat-17": [
+    "Player number 17 wins.",
+    "十七号玩家获胜。"
+  ],
+  "winner-seat-18": [
+    "Player number 18 wins.",
+    "十八号玩家获胜。"
+  ],
+  "winner-seat-19": [
+    "Player number 19 wins.",
+    "十九号玩家获胜。"
+  ],
+  "winner-seat-20": [
+    "Player number 20 wins.",
+    "二十号玩家获胜。"
+  ],
+  "winner-seat-21": [
+    "Player number 21 wins.",
+    "二十一号玩家获胜。"
+  ],
+  "winner-seat-22": [
+    "Player number 22 wins.",
+    "二十二号玩家获胜。"
+  ],
+  "winner-seat-23": [
+    "Player number 23 wins.",
+    "二十三号玩家获胜。"
+  ],
+  "winner-seat-24": [
+    "Player number 24 wins.",
+    "二十四号玩家获胜。"
+  ]
+}

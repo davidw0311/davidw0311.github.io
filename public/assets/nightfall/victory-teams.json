@@ -1,0 +1,70 @@
+{
+  "village": {
+    "en": "Village",
+    "zh": "好人阵营"
+  },
+  "wolf": {
+    "en": "Werewolves",
+    "zh": "狼人阵营"
+  },
+  "lovers": {
+    "en": "Lovers",
+    "zh": "情侣阵营"
+  },
+  "piper": {
+    "en": "Piper",
+    "zh": "吹笛者"
+  },
+  "angel": {
+    "en": "Angel",
+    "zh": "天使"
+  },
+  "jester": {
+    "en": "Jester",
+    "zh": "小丑"
+  },
+  "tanner": {
+    "en": "Tanner",
+    "zh": "皮匠阵营"
+  },
+  "vampire": {
+    "en": "Vampires",
+    "zh": "吸血鬼阵营"
+  },
+  "assassin": {
+    "en": "Assassin",
+    "zh": "刺客"
+  },
+  "apprenticeAssassin": {
+    "en": "Apprentice Assassin",
+    "zh": "刺客学徒"
+  },
+  "alien": {
+    "en": "Aliens",
+    "zh": "外星人阵营"
+  },
+  "synthetic": {
+    "en": "Synthetic Alien",
+    "zh": "合成外星人"
+  },
+  "blob": {
+    "en": "Blob",
+    "zh": "黏液怪"
+  },
+  "mortician": {
+    "en": "Mortician",
+    "zh": "殡葬师"
+  },
+  "family": {
+    "en": "Family Man",
+    "zh": "顾家者"
+  },
+  "villain": {
+    "en": "Villains",
+    "zh": "反派阵营"
+  },
+  "mad": {
+    "en": "Mad Scientist",
+    "zh": "疯狂科学家阵营"
+  }
+}

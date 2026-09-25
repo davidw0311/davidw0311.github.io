@@ -1,3 +1,4 @@
+import victoryText from "../public/assets/nightfall/audio/text.json" with { type: "json" };
 export type WerewolfAudioStatus = "locked" | "ready" | "playing" | "error";
 export type WerewolfAudioPhase = {
   id: string;
@@ -14,6 +15,7 @@ type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "silencer", "silenced-today", "nobody-silenced", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
 for (let number = 1; number <= 24; number++) { CUES.add(`seat-${number}`); CUES.add(`last-words-${number}`); }
 for (const cue of ["day-deaths", "night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion", "sheriff-speeches-start", "clockwise", "discussion-start", "sheriff-direction", "exiled", "badge-passed", "badge-destroyed"]) CUES.add(cue);
+for (const cue of Object.keys(victoryText)) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 
 // A short, valid, unmuted PCM audio track for granting each persistent media
@@ -245,7 +247,7 @@ export class WerewolfAudio {
     let started = false;
     let lastTime = 0;
     const current = () => !this.disposed && generation === this.generation && clip === this.clip && (test ? this.testing : this.options.active && this.options.voice);
-    this.prepare(media, cue === "timer-bell" ? "/assets/werewolf/audio/timer-bell.wav" : `/assets/werewolf/audio/${this.options.language}/${cue}.mp3`, false);
+    this.prepare(media, cue === "timer-bell" ? "/assets/werewolf/audio/timer-bell.wav" : Object.hasOwn(victoryText, cue) ? `/assets/nightfall/audio/${this.options.language}/${cue}.mp3` : `/assets/werewolf/audio/${this.options.language}/${cue}.mp3`, false);
     const fail = (locked: boolean) => {
       if (!current()) return;
       if (locked) this.narrationReady = false;

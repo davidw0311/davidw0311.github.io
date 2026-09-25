@@ -1,3 +1,4 @@
+import victoryText from "../public/assets/nightfall/audio/text.json" with { type: "json" };
 import manifest from "../public/assets/one-night/audio/manifest.json" with { type: "json" };
 
 export type OneNightAudioStatus = "locked" | "ready" | "playing" | "error";
@@ -15,6 +16,7 @@ type Phase = OneNightAudioPhase;
 type Options = { voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
 type AudioSession = { type: string };
 const CUES = new Set(Object.keys(manifest.clips).map(key => key.slice(3)));
+for (const cue of Object.keys(victoryText)) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 
 // A short, valid, unmuted PCM audio track for granting each persistent media
@@ -237,7 +239,7 @@ export class OneNightAudio {
     let started = false;
     let lastTime = 0;
     const current = () => !this.disposed && generation === this.generation && clip === this.clip && (test ? this.testing : this.options.active && this.options.voice);
-    this.prepare(media, cue === "timer-bell" ? "/assets/werewolf/audio/timer-bell.wav" : `/assets/one-night/audio/${this.options.language}/${cue}.mp3`, false);
+    this.prepare(media, cue === "timer-bell" ? "/assets/werewolf/audio/timer-bell.wav" : Object.hasOwn(victoryText, cue) ? `/assets/nightfall/audio/${this.options.language}/${cue}.mp3` : `/assets/one-night/audio/${this.options.language}/${cue}.mp3`, false);
     const fail = (locked: boolean) => {
       if (!current()) return;
       if (locked) this.narrationReady = false;

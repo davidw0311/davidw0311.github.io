@@ -449,7 +449,16 @@ function evaluateWin(room, now) {
     }
     return false;
 }
-function finish(room, winner, now) { room.winner = winner; room.status = 'finished'; room.pendingShots = []; setPhase(room, 'finished', null, now); event(room, `Game over: ${factionName(winner.team, 'en')}. ${winner.reason.en}`, `游戏结束：${factionName(winner.team, 'zh')}。${winner.reason.zh}`, now); }
+function finish(room, winner, now) {
+    // Faction victories include eliminated teammates; personal victories use the
+    // explicit IDs resolved above, including cross-faction lovers.
+    const winningIds = new Set(winner.seatIds || (winner.team === 'draw' ? [] : room.seats.filter(seat => seat.team === winner.team).map(seat => seat.id)));
+    room.winner = { ...winner, seatIds: room.seats.filter(seat => winningIds.has(seat.id)).map(seat => seat.id) };
+    room.status = 'finished'; room.pendingShots = []; room.speakingTimer = null;
+    setPhase(room, 'finished', null, now);
+    room.phase.publicCues = [`victory-${winner.team}`, ...room.seats.flatMap((seat, index) => winningIds.has(seat.id) ? [`winner-seat-${index + 1}`] : [])];
+    event(room, `Game over: ${factionName(winner.team, 'en')}. ${winner.reason.en}`, `游戏结束：${factionName(winner.team, 'zh')}。${winner.reason.zh}`, now);
+}
 function reactionsOrDay(room, now) {
     // An earlier shot can kill Elder and revoke a village shot queued at dawn.
     room.pendingShots = [...new Set(room.pendingShots)].filter(id => !getSeat(room, id).state.shotUsed && powersEnabled(room, getSeat(room, id))); if (room.pendingShots.length) {
@@ -1293,8 +1302,8 @@ function executeCommand(room, actorId, c, now) {
             const exiled = deaths.filter(seat => seat.state.deathCause === 'exile');
             const others = deaths.filter(seat => seat.state.deathCause !== 'exile');
             const cues = [...(exiled.length ? ['exiled', ...exiled.map(seat => `seat-${room.seats.indexOf(seat) + 1}`)] : []), ...(others.length ? ['day-deaths', ...others.map(seat => `seat-${room.seats.indexOf(seat) + 1}`)] : []), ...exiled.filter(seat => !isSilenced(room, seat)).map(seat => `last-words-${room.seats.indexOf(seat) + 1}`)];
-            // Finished games still announce the casualties before the game-over cue.
-            if (room.status === 'finished') room.phase.publicCues = [...cues, 'game-over'];
+            // Announce the winning side and players first, then explain the final deaths.
+            if (room.status === 'finished') room.phase.publicCues = [...room.phase.publicCues, ...cues];
             else announce(room, 'dayDeaths', cues, now);
         }
     }

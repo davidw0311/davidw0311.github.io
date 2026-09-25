@@ -1047,10 +1047,10 @@ test('daytime shots announce all linked casualties before another Hunter action'
  send(r,r.hostId,'nightNarrationDone'); assert.equal(r.phase.kind,'reaction');
  send(r,'actor3','shoot',{targetId:id(r,0)}); assert.deepEqual(r.phase.publicCues,['day-deaths','seat-1']);
 });
-test('a winning daytime kill keeps the death announcement before game over',()=>{
+test('a winning daytime kill announces the team and every winner before final casualties',()=>{
  const r=setup(); dawn(r); r.seats[0].alive=false; r.seats[5].alive=false; r.pendingShots=[id(r,5)]; r.phase={id:'last-shot',kind:'reaction',step:'shoot',paused:false};
  send(r,'actor5','shoot',{targetId:id(r,1)});
- assert.equal(r.status,'finished'); assert.deepEqual(r.phase.publicCues,['day-deaths','seat-2','game-over']);
+ assert.equal(r.status,'finished'); assert.deepEqual(r.winner.seatIds,r.seats.slice(2).map(seat=>seat.id)); assert.deepEqual(r.phase.publicCues,['victory-village',...r.seats.slice(2).map((_,index)=>`winner-seat-${index+3}`),'day-deaths','seat-2']); assert.ok(r.winner.seatIds.includes(id(r,5)), 'eliminated Hunter still wins with village');
 });
 
 test('wolves may unanimously choose no kill, but mixed no-kill votes still wait for consensus',()=>{
@@ -1177,4 +1177,18 @@ test('lobby seat moves insert in both directions and preserve all other players 
  }
  assert.throws(()=>send(r,'p1','moveSeat',{seatId:ids[0],number:3}),{code:'HOST_ONLY'});
  assert.deepEqual(r.seats,original);
+});
+
+
+test('personal and draw outcomes publish only the exact winning seats',()=>{
+ for(const role of ['angel','jester']) {
+  const r=setup(custom(role)); dawn(r); exile(r,2);
+  assert.equal(r.winner.team,role); assert.deepEqual(r.winner.seatIds,[id(r,2)]);
+  assert.deepEqual(r.phase.publicCues.slice(0,2),[`victory-${role}`,'winner-seat-3']);
+ }
+ const r=setup(); r.seats.forEach(seat=>{seat.alive=false;}); r.pendingShots=[];
+ tickRoom(r,++time); // Force the engine's public host progression through win resolution.
+ send(r,r.hostId,'hardSkip');
+ let steps=0; while(r.status==='playing' && steps++<50) send(r,r.hostId,'hardSkip');
+ assert.equal(r.winner.team,'draw');assert.deepEqual(r.winner.seatIds,[]);assert.deepEqual(r.phase.publicCues,['victory-draw']);
 });

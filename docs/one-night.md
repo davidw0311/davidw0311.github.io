@@ -80,3 +80,9 @@ Before dealing, the host can move a seat by dragging its handle (mouse, touch or
 Dream Wolf now has a private **Continue / 继续** action in the shared wolves stage. It does not learn teammates or inspect a center card. This app confirmation is a digital adaptation of its usual sleeping role. Other wolves still recognize Dream Wolf, and their own actions and its confirmation must finish before the closing call. Alpha Wolf and Mystic Wolf then receive their separate ability calls. Fear, copied abilities, absent-role pauses and host hard skips keep their existing rules.
 
 `node scripts/one-night-round-controls-smoke.mjs --url=<endpoint>` verifies seating, shared Dream Wolf confirmation, separate Alpha/Mystic calls, restart retries, cleared secrets and redealing with 12 synthetic players through the public API. It disbands its room afterward.
+
+## End-of-round results
+
+The shared Nightfall result panel appears above the table, identifies winning sides and exact winning seat numbers/names/photos, and states each player's own outcome. Winners also receive a gold table highlight. Classic Werewolf includes eliminated members of the winning faction and uses explicit seat IDs for Lovers/Piper/Angel/Jester victories. One Night uses the resolved final cards, marks, artifacts and per-player win exceptions, so multiple sides may win or nobody may win.
+
+When narration is enabled/unlocked, local Kokoro announces every winning side first, then each winning seat in table order. Draw/no-winner rounds have dedicated announcements. The result panel's Announce winners button enables/replays sound; repeated synchronization does not replay it and restarting cancels it. Shared English (`am_michael`) and Mandarin (`zm_010`) recordings live in `public/assets/nightfall/audio/`; regenerate with `~/.local/share/kokoro/.venv/bin/python scripts/generate-nightfall-victory-kokoro.py`. Existing Brian/One Night recordings remain unchanged.

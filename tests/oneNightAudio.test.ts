@@ -191,3 +191,17 @@ test("One Night disband deactivation silences speech and music without sending s
   assert.equal(f.audioSession.type, "auto");
   assert.ok(f.elements.every(media => media.src === "" && media.loadCalls > 0));
 });
+
+
+test('Kokoro winners play team first, then each seat once, in both languages',async t=>{
+ for(const language of ['en','zh'] as const) {
+  const f=fixture(t);f.audio.configure({...f.options,language});
+  const cues=['victory-village','winner-seat-2','winner-seat-12'];
+  const phase={id:`result-${language}`,kind:'finished',cueIds:cues};
+  f.audio.updatePhase(phase);await f.unlock();await flush();
+  for(const cue of cues){assert.equal(f.latest().url,`/assets/nightfall/audio/${language}/${cue}.mp3`);await f.finish();}
+  const plays=f.played().length;f.audio.updatePhase({...phase});await flush();assert.equal(f.played().length,plays);
+  assert.deepEqual(f.acknowledgments,[]);
+  f.audio.updatePhase({id:'restart',kind:'lobby',cueIds:[]});f.audio.replay();await flush();assert.equal(f.played().length,plays);
+ }
+});

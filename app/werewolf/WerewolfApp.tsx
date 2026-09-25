@@ -10,6 +10,8 @@ import { useWerewolfRoom, type Action, type Catalogue, type Command, type GameVi
 import { WerewolfAudio } from "@/lib/werewolfAudio";
 import { CircleSeats, ProfilePicker, WolfHead } from "./PlayerFeatures";
 import { RoleIcon } from "./RoleIcon";
+import { VictorySummary } from "@/app/nightfall/VictorySummary";
+import { classicVictory } from "@/lib/nightfallVictory";
 import { RoleLineup } from "@/app/nightfall/RoleLineup";
 import { BotControls, BotLabel, BotNotice } from "./BotControls";
 import { RoleGuidance } from "./RoleGuidance";
@@ -27,7 +29,6 @@ const stepLabels: Record<string, Localized> = {
   lobby: { en: "Gather your village", zh: "召集你的村庄" }, opening: { en: "The first secrets", zh: "首夜身份行动" }, wolves: { en: "Werewolves, wake up", zh: "狼人请睁眼" }, seer: { en: "Seer, wake up", zh: "预言家请睁眼" }, witch: { en: "Witch, wake up", zh: "女巫请睁眼" }, guard: { en: "Guard, wake up", zh: "守卫请睁眼" }, discussion: { en: "The village has the floor", zh: "天亮了，请发言" }, exile: { en: "Who do you suspect?", zh: "请投票放逐" }, sheriff: { en: "Elect your sheriff", zh: "警长竞选" }, shoot: { en: "One last shot", zh: "请发动开枪技能" }, finished: { en: "The truth comes out", zh: "真相揭晓" }, dawn: { en: "Day breaks", zh: "天亮了" }, night: { en: "Night falls", zh: "天黑请闭眼" }, day: { en: "The village has the floor", zh: "天亮了，请发言" }, voting: { en: "Cast your vote", zh: "请投票" }, reaction: { en: "A final decision", zh: "最后的选择" }, gravekeeper: { en: "Gravekeeper, wake up", zh: "守墓人请睁眼" }, dreamweaver: { en: "Dreamweaver, wake up", zh: "摄梦人请睁眼" }, magician: { en: "Magician, wake up", zh: "魔术师请睁眼" }, raven: { en: "Raven, wake up", zh: "乌鸦请睁眼" }, demonHunter: { en: "Demon Hunter, wake up", zh: "猎魔人请睁眼" }, wolfBeauty: { en: "Wolf Beauty, wake up", zh: "狼美人请睁眼" }, gargoyle: { en: "Gargoyle, wake up", zh: "石像鬼请睁眼" }, pureWhite: { en: "Pure White Seer, wake up", zh: "纯白之女请睁眼" }, wolfWitch: { en: "Wolf Witch, wake up", zh: "狼巫请睁眼" }, piper: { en: "Piper, wake up", zh: "吹笛者请睁眼" }, badge: { en: "Pass the sheriff badge", zh: "移交警徽" }, vote: { en: "Cast your vote", zh: "请投票" }, firstNight: { en: "The first night", zh: "第一个夜晚" }, resolve: { en: "The night is ending", zh: "结算夜间行动" }, hunter: { en: "Hunter, take your shot", zh: "猎人请开枪" }, sheriffVote: { en: "Elect your sheriff", zh: "警长竞选" }, exileVote: { en: "Who do you suspect?", zh: "请投票放逐" }, nightResult: { en: "Day breaks", zh: "天亮了" }, gameOver: { en: "The truth comes out", zh: "真相揭晓" }, bloodMoon: { en: "A blood moon rises", zh: "血月降临" }, copied: { en: "Copied abilities", zh: "复制技能行动" }, mechanicalWolf: { en: "Mechanical Wolf, wake up", zh: "机械狼请睁眼" }, lovers: { en: "Lovers, meet each other", zh: "情侣请相认" }, charm: { en: "A secret enchantment", zh: "秘密魅惑" }, end: { en: "The truth comes out", zh: "真相揭晓" },
 };
 const choiceLabels: Record<string, Localized> = { save: { en: "Use antidote", zh: "使用解药" }, antidote: { en: "Use antidote", zh: "使用解药" }, poison: { en: "Use poison", zh: "使用毒药" }, inspect: { en: "Inspect", zh: "查验" }, skip: { en: "Do nothing", zh: "不使用技能" }, village: { en: "Village", zh: "好人阵营" }, wolf: { en: "Werewolves", zh: "狼人阵营" }, none: { en: "No ability", zh: "不使用技能" }, protect: { en: "Protect", zh: "守护" }, attack: { en: "Attack", zh: "击杀" }, seer: { en: "Become Seer", zh: "成为预言家" }, guard: { en: "Become Guard", zh: "成为守卫" } };
-const winnerLabels: Record<string, Localized> = { village: { en: "The village wins", zh: "好人阵营获胜" }, wolf: { en: "The werewolves win", zh: "狼人阵营获胜" }, lovers: { en: "The lovers win", zh: "情侣阵营获胜" }, piper: { en: "The Piper wins", zh: "吹笛者获胜" }, angel: { en: "The Angel wins", zh: "天使获胜" }, jester: { en: "The Jester wins", zh: "小丑获胜" }, draw: { en: "No one survived", zh: "无人幸存" } };
 const witchSelfSaveLabels: Record<string, Localized> = {
   never: { en: "Never", zh: "不能自救" },
   firstNight: { en: "First night only", zh: "仅首夜可自救" },
@@ -79,6 +80,8 @@ export default function WerewolfApp() {
   const audioRef = useRef<WerewolfAudio | null>(null);
   const [now, setNow] = useState(0);
   const view = room.view;
+  const victory = view ? classicVictory(view) : null;
+  useEffect(() => { if (view?.status === "finished") { const frame = requestAnimationFrame(() => setModal(null)); return () => cancelAnimationFrame(frame); } }, [view?.status]);
   const identityKey = `${view?.code}:${view?.gameId}:${view?.status}:${view?.me?.seatId}:${view?.me?.roleId}`;
   const revealed = revealedKey === identityKey;
   const setRevealed = (show: boolean) => { setRevealedKey(show ? identityKey : null); if (show) setSeenKey(identityKey); };
@@ -229,6 +232,7 @@ export default function WerewolfApp() {
     {!view && room.session && <div className={styles.loading}><Moon size={44} /><h1>{t("Finding your table…", "正在返回房间…")}</h1><p>{t("Restoring your private seat and the latest game state.", "正在恢复你的身份与最新游戏进度。")}</p><button className={styles.secondaryButton} onClick={() => room.disconnect()}>{t("Return to room selection", "返回房间选择")}</button></div>}
     {view && <div className={styles.roomLayout}>
       <div className={styles.roomBar}><div><span className={styles.eyebrow}>{t("PRIVATE TABLE", "私人牌局")}</span><button className={styles.roomCode} onClick={copyCode} title={t("Copy room code", "复制房间码")}>{view.code}{copied ? <Check size={19} /> : <Copy size={19} />}</button></div><div className={styles.roomBarActions}><span className={`${styles.connectionState} ${room.connectivity === "online" ? styles.isOnline : ""}`}>{room.connectivity === "online" ? <WifiHigh size={15} /> : <WifiSlash size={15} />}{room.connectivity === "online" ? t("Connected", "已连接") : t("Reconnecting", "重连中")}</span><button className={styles.secondaryButton} onClick={showInvite}><QrCode size={18} />{t("Invite / QR code", "邀请 / 二维码")}</button>{view.isHost && <button className={styles.iconButton} onClick={() => setModal("settings")} aria-label={t("Room settings", "房间设置")}><GearSix size={21} /></button>}<button className={styles.iconButton} onClick={() => setModal("leave")} aria-label={t("Leave room", "离开房间")}><SignOut size={21} /></button></div></div>
+      {victory && <VictorySummary key={`${view.code}:${view.gameId}:result`} result={victory} lang={lang} mySeatId={view.me?.seatId} players={view.seats.map((seat,index) => ({ ...seat, number:index+1, role:seat.roleId ? text(roleMap[seat.roleId]?.name,lang) : undefined }))} reason={typeof view.winner === "object" ? text(view.winner?.reason,lang) : undefined} onReplay={() => {setAudioEnabled(true);const audio=moderatorAudio();audio.configure({voice:true,music:musicEnabled,track:musicTrack,language:lang,active:true});audio.updatePhase(view.phase);void audio.unlock();audio.replay();}}/>}
       <BotNotice view={view} lang={lang}/>
       <div className={styles.gameColumns}>
         <section className={styles.tablePanel}>
@@ -251,7 +255,6 @@ export default function WerewolfApp() {
           <CircleSeats view={view} lang={lang} now={now} onProfile={() => setModal("profile")} />
 
           <div className={styles.tableFooter}><span><Users size={17} />{connected} {t("at the table", "人已入座")}{view.status !== "lobby" && ` · ${view.seats.filter((seat) => seat.alive).length} ${t("alive", "人存活")}`}</span></div>
-          {view.status === "finished" && <div className={styles.result}><Crown size={30} /><h2>{text(winnerLabels[typeof view.winner === "string" ? view.winner : view.winner?.team || ""], lang) || t("The game has ended", "本局游戏结束")}</h2><p>{typeof view.winner === "object" && view.winner?.reason ? text(view.winner.reason, lang) : t("Every secret is now on the table. See the game record below.", "所有秘密现已揭晓。下方可查看本局游戏记录。")}</p></div>}
           {view.phase.kind === "voting" && <p className={styles.voteProgress}><HandPalm size={16} />{t(`${view.voteCount || 0} votes submitted. Choices stay hidden until voting closes.`, `已提交 ${view.voteCount || 0} 票，投票结束前不公开选择。`)}</p>}
 
 

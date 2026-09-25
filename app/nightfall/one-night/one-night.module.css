@@ -234,3 +234,5 @@
 .peopleList .seatMoves { align-items:center; flex-wrap:wrap; max-width:82px; justify-content:center; }
 .peopleList .seatMoves .seatNumber { flex-basis:100%; }
 @media(max-width:420px) { .peopleList li { gap:8px; } .peopleList li>.avatar { display:none; } .peopleList .smallActions { flex:0 0 82px; } }
+
+.winnerSeat .seatAvatar{border:2px solid #e1bd70;box-shadow:0 0 0 3px #d8b56b33;opacity:1}.winnerSeat .seatText small{color:#f3cf83;font-weight:750}.winnerSeat .seatAvatar b{background:#e1bd70;color:#211a10}.winnerSeat.offlineSeat{opacity:1}

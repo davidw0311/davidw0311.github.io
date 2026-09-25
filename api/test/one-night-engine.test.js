@@ -70,3 +70,15 @@ test('Dream Wolf confirms privately without creating a lone wolf', () => { const
 test('a full sixteen-seat lobby still admits players into reserved matching seats', () => { const r = createRoom({ code: 'FULL', hostId: 'a0', hostName: 'Host', now: clock }); for (let i = 1; i < 16; i++) applyCommand(r, 'a0', { type: 'addSeat', name: `Reserved ${i}` }, clock); const reservedId = r.seats[15].id; applyCommand(r, 'joined', { type: 'requestJoin', name: 'Reserved 15' }, clock); assert.equal(r.seats.length, 16); assert.equal(publicView(r, 'joined', clock).me.seatId, reservedId); assert.throws(() => applyCommand(r, 'overflow', { type: 'requestJoin', name: 'Unexpected' }, clock), /full/); });
 test('Gremlin separates shielded card targets from marks and refreshes its action token', () => { const r = game(['gremlin', 'werewolf', 'villager']); r.shields = [sid(r, 1)]; at(r, 'gremlin', [0]); const first = publicView(r, 'a0', clock).me.action; assert.equal(first.targets.length, 0); act(r, 0, [], { choice: 'cards' }); const second = publicView(r, 'a0', clock).me.action; assert.notEqual(first.id, second.id); assert.ok(!second.targets.some(t => t.id === sid(r, 1))); assert.throws(() => act(r, 0, [0, 1]), /valid targets/); act(r, 0, [0, 2]); });
 test('Gremlin accepts old open forms but still rejects shielded card swaps atomically', () => { const r = game(['gremlin', 'werewolf', 'villager']); r.shields = [sid(r, 1)]; r.marks[sid(r, 1)] = 'vampire'; at(r, 'gremlin', [0]); const before = JSON.stringify(r); assert.throws(() => act(r, 0, [0, 1], { choice: 'cards' }), /valid targets/); assert.equal(JSON.stringify(r), before); act(r, 0, [0, 1], { choice: 'marks' }); assert.equal(r.marks[sid(r, 0)], 'vampire'); });
+
+
+test('results announce every winning team first, then exact winners in seat order',()=>{
+ const r=game(['assassin','apprenticeAssassin','werewolf','villager']);r.marks[sid(r,2)]='assassin';
+ vote(r,[2,2,3,2]);
+ assert.deepEqual(r.result.winners,[sid(r,0),sid(r,3)]);
+ assert.deepEqual(r.phase.cueIds,['victory-assassin','victory-village','winner-seat-1','winner-seat-4']);
+ const empty=game(['werewolf','diseased','villager','seer']);empty.marks[sid(empty,0)]='disease';vote(empty,[1,0,0,0]);
+ assert.deepEqual(empty.phase.cueIds,['victory-none']);
+ const swapped=game(['robber','werewolf','villager']);at(swapped,'robber',[0]);act(swapped,0,[1]);vote(swapped,[1,2,1]);
+ assert.deepEqual(swapped.result.winners,[sid(swapped,0)]);assert.deepEqual(swapped.phase.cueIds,['victory-wolf','winner-seat-1']);
+});

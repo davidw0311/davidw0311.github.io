@@ -721,3 +721,5 @@
   .tableTools { gap:6px; }
   .tableTools>.secondaryButton { flex:1; padding:9px 7px; white-space:nowrap; }
 }
+
+.winnerSeat .avatar{border:2px solid #e1bd70;box-shadow:0 0 0 3px #d8b56b33;opacity:1}.winnerSeat .seatStatus{color:#f3cf83;font-weight:750}.winnerSeat .circleNumber{background:#e1bd70;color:#211a10}.winnerSeat.offlineSeat{opacity:1}

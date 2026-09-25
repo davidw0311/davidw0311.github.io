@@ -1,0 +1,869 @@
+{
+  "provider": "Kokoro",
+  "voices": {
+    "en": "am_michael",
+    "zh": "zm_010"
+  },
+  "clips": {
+    "en:victory-village": {
+      "src": "/assets/nightfall/audio/en/victory-village.mp3",
+      "text": "The village team wins.",
+      "duration": 2.2,
+      "textHash": "b5f91aeec1e8b3a92aca908efffe765af6f09e95e7202c9da3e2a0665e3e88d9",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-wolf": {
+      "src": "/assets/nightfall/audio/en/victory-wolf.mp3",
+      "text": "The werewolf team wins.",
+      "duration": 2.275,
+      "textHash": "817009c5263303066e2661083063530f60c60866cb4db226b7551e9dab528bf4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-lovers": {
+      "src": "/assets/nightfall/audio/en/victory-lovers.mp3",
+      "text": "The lovers win.",
+      "duration": 1.825,
+      "textHash": "cce25a27b1d51755b40359f4e05bf0cc63257c38267778f469aab4edd1559212",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-piper": {
+      "src": "/assets/nightfall/audio/en/victory-piper.mp3",
+      "text": "The Piper wins.",
+      "duration": 1.875,
+      "textHash": "c4deba93e3d3467d2ef910524cd48b751d7520fdf2c902610ce175fd6d72d4a9",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-angel": {
+      "src": "/assets/nightfall/audio/en/victory-angel.mp3",
+      "text": "The Angel wins.",
+      "duration": 1.9,
+      "textHash": "2f6bbc6459184822d6e43470503998aa50cf80f5d3ef3e6b88bf393ffe3f727d",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-jester": {
+      "src": "/assets/nightfall/audio/en/victory-jester.mp3",
+      "text": "The Jester wins.",
+      "duration": 2.0,
+      "textHash": "7ee5e94614907edbcbe2e10c3a8848a5038fbfef335751c19a32cae9cf6e96e2",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-tanner": {
+      "src": "/assets/nightfall/audio/en/victory-tanner.mp3",
+      "text": "The Tanner side wins.",
+      "duration": 2.25,
+      "textHash": "bb508109210a55ea071ac2cadfadcaa106a696cd60f0ce1bd334ef70e0d2f777",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-vampire": {
+      "src": "/assets/nightfall/audio/en/victory-vampire.mp3",
+      "text": "The vampire team wins.",
+      "duration": 2.325,
+      "textHash": "28fd90a23edf9ae9eeeea56d288af1bc59a9245e45db2b28bfc079a8987ae67a",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-assassin": {
+      "src": "/assets/nightfall/audio/en/victory-assassin.mp3",
+      "text": "The Assassin wins.",
+      "duration": 2.125,
+      "textHash": "56c4b1466f614d2fae97762785889897d59e2e0411053e4570d5d0359ffe9dd0",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-apprenticeAssassin": {
+      "src": "/assets/nightfall/audio/en/victory-apprenticeAssassin.mp3",
+      "text": "The Apprentice Assassin wins.",
+      "duration": 2.65,
+      "textHash": "b9a82e540916735a5994e68102338c4ab9fcefbec18e98bfd9b0eb62a3c2d86f",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-alien": {
+      "src": "/assets/nightfall/audio/en/victory-alien.mp3",
+      "text": "The alien side wins.",
+      "duration": 2.325,
+      "textHash": "862e927a9a1c250c9048262a370379896cb426c48c21986bf8a349a6779eb2ec",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-synthetic": {
+      "src": "/assets/nightfall/audio/en/victory-synthetic.mp3",
+      "text": "The Synthetic Alien wins.",
+      "duration": 2.55,
+      "textHash": "9bee2b2c4147dc2429a3ad9cfc5aee53fced72de91141d38e0247d46fd693c77",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-blob": {
+      "src": "/assets/nightfall/audio/en/victory-blob.mp3",
+      "text": "The Blob wins.",
+      "duration": 1.925,
+      "textHash": "992a7b172ab5a65f095aa938367a69a65326c83a229b8c16afc2371cb984be42",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-mortician": {
+      "src": "/assets/nightfall/audio/en/victory-mortician.mp3",
+      "text": "The Mortician wins.",
+      "duration": 2.075,
+      "textHash": "5c34955e877b1098cb6bd6a261f017d5344b963eab3859db22261cc23b8904b3",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-family": {
+      "src": "/assets/nightfall/audio/en/victory-family.mp3",
+      "text": "The Family Man wins.",
+      "duration": 2.325,
+      "textHash": "432842f9141e63ab96b51dad5c1e5a2f6de7e0ba8a818e5b93c04f9be83c5f87",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-villain": {
+      "src": "/assets/nightfall/audio/en/victory-villain.mp3",
+      "text": "The villain team wins.",
+      "duration": 2.125,
+      "textHash": "252455632f4695f0a4560a975f3f2997eeb77ad5449c2bf8815fe1063aff0d74",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-mad": {
+      "src": "/assets/nightfall/audio/en/victory-mad.mp3",
+      "text": "The Mad Scientist side wins.",
+      "duration": 2.65,
+      "textHash": "577dc91ac5a25ff376922778db4ad9ebc6551cba1e7192dab8a36bb11d6a6447",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-draw": {
+      "src": "/assets/nightfall/audio/en/victory-draw.mp3",
+      "text": "The round is a draw. No player wins.",
+      "duration": 3.425,
+      "textHash": "5ebe1bde1f4b47065a57115fe89a6b5fb15c05af5c28df114bc113915cb7e4e5",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:victory-none": {
+      "src": "/assets/nightfall/audio/en/victory-none.mp3",
+      "text": "No player wins this round.",
+      "duration": 2.625,
+      "textHash": "2caecc4dac36bc5cad5061893fd68bb0e6477b10af956420e4679efce462a3f2",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-1": {
+      "src": "/assets/nightfall/audio/en/winner-seat-1.mp3",
+      "text": "Player number 1 wins.",
+      "duration": 2.3,
+      "textHash": "f2761960deb0a32ab335b8499fd4d11ce891358ed6820e6c14a065d5269c8638",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-2": {
+      "src": "/assets/nightfall/audio/en/winner-seat-2.mp3",
+      "text": "Player number 2 wins.",
+      "duration": 2.25,
+      "textHash": "9e5c83a57fa178151ed2195581435ce174334ec284e23f97500ed23bc3265808",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-3": {
+      "src": "/assets/nightfall/audio/en/winner-seat-3.mp3",
+      "text": "Player number 3 wins.",
+      "duration": 2.4,
+      "textHash": "cd1ad2e7e795c28950216611da83e0c058e79e1a92d728e66f9dfb5dc232f16a",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-4": {
+      "src": "/assets/nightfall/audio/en/winner-seat-4.mp3",
+      "text": "Player number 4 wins.",
+      "duration": 2.3,
+      "textHash": "1573967f2037e068979f017078043f534b7b60a760013fd4fe519f20b9cd3237",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-5": {
+      "src": "/assets/nightfall/audio/en/winner-seat-5.mp3",
+      "text": "Player number 5 wins.",
+      "duration": 2.375,
+      "textHash": "6600cf702d6d0017c0caf3ea8124af6de52488ed8889b4e2792c03f5185fe094",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-6": {
+      "src": "/assets/nightfall/audio/en/winner-seat-6.mp3",
+      "text": "Player number 6 wins.",
+      "duration": 2.375,
+      "textHash": "52625565f25656bcf8b867e5683ba2f6c532eba8b54dfcee1c0c3fff22c63e63",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-7": {
+      "src": "/assets/nightfall/audio/en/winner-seat-7.mp3",
+      "text": "Player number 7 wins.",
+      "duration": 2.425,
+      "textHash": "ec112ffb169fa8ee3bed6b81bf9f108dc366f2c1ea88b305b9709bb7ae8b63f7",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-8": {
+      "src": "/assets/nightfall/audio/en/winner-seat-8.mp3",
+      "text": "Player number 8 wins.",
+      "duration": 2.325,
+      "textHash": "20462f62553b375d799f6dd5716fb7f04649e34bee01f5f8d1df96820d61f486",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-9": {
+      "src": "/assets/nightfall/audio/en/winner-seat-9.mp3",
+      "text": "Player number 9 wins.",
+      "duration": 2.35,
+      "textHash": "58fd004c9d925bbda46a5efaa08bb5266f9368b02ea1fde850e579ddf024fd58",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-10": {
+      "src": "/assets/nightfall/audio/en/winner-seat-10.mp3",
+      "text": "Player number 10 wins.",
+      "duration": 2.35,
+      "textHash": "111f895d4a89644dd942436742b261eccce7952be3ad9c680c328b282c061d09",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-11": {
+      "src": "/assets/nightfall/audio/en/winner-seat-11.mp3",
+      "text": "Player number 11 wins.",
+      "duration": 2.55,
+      "textHash": "6287603610bd745ae46f75aef11105c10cf63ade71d5640d008416fae285cf28",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-12": {
+      "src": "/assets/nightfall/audio/en/winner-seat-12.mp3",
+      "text": "Player number 12 wins.",
+      "duration": 2.5,
+      "textHash": "bd8247ba1ae763af2fe9ba7d1ae98f22718cbaf7ee3379a879bd16ed3c720207",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-13": {
+      "src": "/assets/nightfall/audio/en/winner-seat-13.mp3",
+      "text": "Player number 13 wins.",
+      "duration": 2.55,
+      "textHash": "2e850a726b5220ae5f51978da686586a810f06c89a6db7ea016e300420501a68",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-14": {
+      "src": "/assets/nightfall/audio/en/winner-seat-14.mp3",
+      "text": "Player number 14 wins.",
+      "duration": 2.6,
+      "textHash": "d7faa2484032ce87c21ff5ac518f12b9c93b1de77621712af42aff4d9001a7d4",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-15": {
+      "src": "/assets/nightfall/audio/en/winner-seat-15.mp3",
+      "text": "Player number 15 wins.",
+      "duration": 2.5,
+      "textHash": "40f361032dc84eb846cf47feaf9667c9965806e7fdee39cf7ac68d6472daebcd",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-16": {
+      "src": "/assets/nightfall/audio/en/winner-seat-16.mp3",
+      "text": "Player number 16 wins.",
+      "duration": 2.525,
+      "textHash": "f59dd6e6de5dbbc44cb2d07200b8e24ce2fb426e0a9531610048bdb4492b8a30",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-17": {
+      "src": "/assets/nightfall/audio/en/winner-seat-17.mp3",
+      "text": "Player number 17 wins.",
+      "duration": 2.725,
+      "textHash": "3105fa758907c0f633d1fffdf95f8092a5fddb68c151bf52e898b363db0a0ee6",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-18": {
+      "src": "/assets/nightfall/audio/en/winner-seat-18.mp3",
+      "text": "Player number 18 wins.",
+      "duration": 2.55,
+      "textHash": "75597cf7c3d2af302d02fa789dfeb0e7c30dc1d1fc9f3c6e08f9ba6fce4648b1",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-19": {
+      "src": "/assets/nightfall/audio/en/winner-seat-19.mp3",
+      "text": "Player number 19 wins.",
+      "duration": 2.55,
+      "textHash": "2649b5158e2b46d8bb22425534da991a1af71c3b2886a61ab91e0ba5674a0906",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-20": {
+      "src": "/assets/nightfall/audio/en/winner-seat-20.mp3",
+      "text": "Player number 20 wins.",
+      "duration": 2.5,
+      "textHash": "77883b11f7d5039e1c24ddb5bc49b19984748afd5d6048f8a7bd8b272828e902",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-21": {
+      "src": "/assets/nightfall/audio/en/winner-seat-21.mp3",
+      "text": "Player number 21 wins.",
+      "duration": 2.65,
+      "textHash": "063c0c55c5e039576e56bd696fcde367163570d60fe76fa6090848a06c1d5f36",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-22": {
+      "src": "/assets/nightfall/audio/en/winner-seat-22.mp3",
+      "text": "Player number 22 wins.",
+      "duration": 2.675,
+      "textHash": "cd8e788f5ba62ca82f2d977118f35faa60ce35bb9f52bb99e96c7dc7d4d45ff7",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-23": {
+      "src": "/assets/nightfall/audio/en/winner-seat-23.mp3",
+      "text": "Player number 23 wins.",
+      "duration": 2.675,
+      "textHash": "a3564b516d4dc1bd9b83dcf4352e0634eaba2b7432a7d241f6472e9a2ec6bc29",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:winner-seat-24": {
+      "src": "/assets/nightfall/audio/en/winner-seat-24.mp3",
+      "text": "Player number 24 wins.",
+      "duration": 2.65,
+      "textHash": "1e31416c76c085ed51e39acd8c9a5912f61f0f6ebdbb11958ee924cfb355ff8b",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:victory-village": {
+      "src": "/assets/nightfall/audio/zh/victory-village.mp3",
+      "text": "好人阵营获胜。",
+      "duration": 2.4,
+      "textHash": "34979a277794adb7b1d7b175500758791ab53cd2c9d0706db13307aa0672f6f2",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-wolf": {
+      "src": "/assets/nightfall/audio/zh/victory-wolf.mp3",
+      "text": "狼人阵营获胜。",
+      "duration": 2.4,
+      "textHash": "58f1080eb79bb85aa74ea5d714f2480a66be5a889609eb059d5322037a785df7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-lovers": {
+      "src": "/assets/nightfall/audio/zh/victory-lovers.mp3",
+      "text": "情侣阵营获胜。",
+      "duration": 2.425,
+      "textHash": "1f8d909897031483124293d9cdbb5b184f853f54b07e94d9b61761769ede3d7c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-piper": {
+      "src": "/assets/nightfall/audio/zh/victory-piper.mp3",
+      "text": "吹笛者获胜。",
+      "duration": 2.2,
+      "textHash": "804c7b3ac31df80a33cc11b47cfce541f0a9dd166dd03cf545d285edc233c1c1",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-angel": {
+      "src": "/assets/nightfall/audio/zh/victory-angel.mp3",
+      "text": "天使获胜。",
+      "duration": 2.0,
+      "textHash": "c34a3cf8a03c8b16da53e80b0a775bd263d3de5766a33583abd49766d55a28c3",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-jester": {
+      "src": "/assets/nightfall/audio/zh/victory-jester.mp3",
+      "text": "小丑获胜。",
+      "duration": 2.025,
+      "textHash": "75e26b792485c06b026e111a1c896ecb32130a052bfea1294ee0ff518039e2fd",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-tanner": {
+      "src": "/assets/nightfall/audio/zh/victory-tanner.mp3",
+      "text": "皮匠阵营获胜。",
+      "duration": 2.4,
+      "textHash": "82e8f331eb58aef437e50951949c564e77507febc91abf95be42855e0445b4f6",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-vampire": {
+      "src": "/assets/nightfall/audio/zh/victory-vampire.mp3",
+      "text": "吸血鬼阵营获胜。",
+      "duration": 2.65,
+      "textHash": "2fe8a0402edfd81c9492eae41410c288afeb025f741f73d9e4cf92bf233f7f36",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-assassin": {
+      "src": "/assets/nightfall/audio/zh/victory-assassin.mp3",
+      "text": "刺客获胜。",
+      "duration": 1.95,
+      "textHash": "a4149369cebb9f0cee21e48fb59a848d7f57e2f6d96af55c8f9ea88130098f38",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-apprenticeAssassin": {
+      "src": "/assets/nightfall/audio/zh/victory-apprenticeAssassin.mp3",
+      "text": "刺客学徒获胜。",
+      "duration": 2.45,
+      "textHash": "9e0d2d56666e8509b94adb5a4b9845082038943d3ec1e39caf7b27aaee210a55",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-alien": {
+      "src": "/assets/nightfall/audio/zh/victory-alien.mp3",
+      "text": "外星人阵营获胜。",
+      "duration": 2.725,
+      "textHash": "89ec9b2190036ec5740fedf814c66201ace5ae67891f436fcecaa1f01b49b16a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-synthetic": {
+      "src": "/assets/nightfall/audio/zh/victory-synthetic.mp3",
+      "text": "合成外星人获胜。",
+      "duration": 2.7,
+      "textHash": "81a76637dc28197e246f83b2be2ff3e27130b8593944d25241a2d90b5a329191",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-blob": {
+      "src": "/assets/nightfall/audio/zh/victory-blob.mp3",
+      "text": "黏液怪获胜。",
+      "duration": 2.175,
+      "textHash": "3812b93693406546687ffd7eee6166294818b22dbd138363dfc17a79611b4c6c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-mortician": {
+      "src": "/assets/nightfall/audio/zh/victory-mortician.mp3",
+      "text": "殡葬师获胜。",
+      "duration": 2.225,
+      "textHash": "9142d67b89524fbc471118da9162e08ac4501567021bf2d77fc404ff3447741e",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-family": {
+      "src": "/assets/nightfall/audio/zh/victory-family.mp3",
+      "text": "顾家者获胜。",
+      "duration": 2.15,
+      "textHash": "f1661612d643dc7ff282831492ac89c7a215f6994862d156b7a683091c7ed976",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-villain": {
+      "src": "/assets/nightfall/audio/zh/victory-villain.mp3",
+      "text": "反派阵营获胜。",
+      "duration": 2.45,
+      "textHash": "509f2985903dd8690f3b3a4580fbc552e42a583567b161042df8024d7f0de4d9",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-mad": {
+      "src": "/assets/nightfall/audio/zh/victory-mad.mp3",
+      "text": "疯狂科学家阵营获胜。",
+      "duration": 3.175,
+      "textHash": "e760a39507d4c1a5f3e0a364c5a5ee139ca8a4f841470aa29cb641585bb8f895",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-draw": {
+      "src": "/assets/nightfall/audio/zh/victory-draw.mp3",
+      "text": "本局平局，没有玩家获胜。",
+      "duration": 3.6,
+      "textHash": "bc376ae7e3833ee7c67f9d92715002b6f2299c0ecc7d3ca1409d8f5744a734a3",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:victory-none": {
+      "src": "/assets/nightfall/audio/zh/victory-none.mp3",
+      "text": "本局没有玩家获胜。",
+      "duration": 2.85,
+      "textHash": "1f77d92285c1803c1d753872cdc6fd057a65ba0caed309918d005c0641d91c79",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-1": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-1.mp3",
+      "text": "一号玩家获胜。",
+      "duration": 2.4,
+      "textHash": "3ef0bae67a2a7259bdc70170b6f51dee46f4f1e48a8a89d7a59d9efc88af2b2c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-2": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-2.mp3",
+      "text": "二号玩家获胜。",
+      "duration": 2.45,
+      "textHash": "fdc3f1bea02d7c778298cb004644598a5cae5de2ad180da9ab07627e8efb61da",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-3": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-3.mp3",
+      "text": "三号玩家获胜。",
+      "duration": 2.475,
+      "textHash": "354ac7817c38631d1d95b9565403e5864061167b9d5b9231b553a94fc3be6459",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-4": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-4.mp3",
+      "text": "四号玩家获胜。",
+      "duration": 2.5,
+      "textHash": "34deb07ad740944520d8c3e62c78f652cbb61498c2f4ee800c9253e45e232bf7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-5": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-5.mp3",
+      "text": "五号玩家获胜。",
+      "duration": 2.45,
+      "textHash": "80b58307d1760cfba397bbd3a8742fd46ff51868ed5f7c6fbb19b17e190c0979",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-6": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-6.mp3",
+      "text": "六号玩家获胜。",
+      "duration": 2.5,
+      "textHash": "e5fc968a1d3fa1fdee94124d366b73fef8bc81061de12a7e7ef6a5c2c4bef041",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-7": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-7.mp3",
+      "text": "七号玩家获胜。",
+      "duration": 2.5,
+      "textHash": "766a8110325e94ad1bd81f5ad4db50e9450fac8b854a79ab0cd3c5930177d414",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-8": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-8.mp3",
+      "text": "八号玩家获胜。",
+      "duration": 2.475,
+      "textHash": "058f92833a88a65cbf1da5713303660b8892fbd4469572d821cfaaac12f60ab0",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-9": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-9.mp3",
+      "text": "九号玩家获胜。",
+      "duration": 2.425,
+      "textHash": "38f5bda6bb49571c936c59b26fcaf23c4d49a8209df9372f5ca0aed17575ce0f",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-10": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-10.mp3",
+      "text": "十号玩家获胜。",
+      "duration": 2.45,
+      "textHash": "2fada74b9b43880b7047d1c71fc737f29aadcefb1eef05eb7b7bbe96fb417c63",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-11": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-11.mp3",
+      "text": "十一号玩家获胜。",
+      "duration": 2.675,
+      "textHash": "95b276b6685fa4cc1d1aae7d918a719a891bcd583c667a2c114bc756e482a20b",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-12": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-12.mp3",
+      "text": "十二号玩家获胜。",
+      "duration": 2.7,
+      "textHash": "28cb4bbc475982e25db470cd269ec9b2c3e078b54d00d5b0fd2cd9ad69f7d46b",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-13": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-13.mp3",
+      "text": "十三号玩家获胜。",
+      "duration": 2.75,
+      "textHash": "d3707672e189e0ccf9b6b0debbd1f5a3698b3ead7eda5c76ee31b83e2f59b34c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-14": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-14.mp3",
+      "text": "十四号玩家获胜。",
+      "duration": 2.7,
+      "textHash": "9462a357a58c33c8dfa27e756a6bd97f3b8d4928ecc77a3f2525e299ae6c6b53",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-15": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-15.mp3",
+      "text": "十五号玩家获胜。",
+      "duration": 2.65,
+      "textHash": "8b3444bc476de2d61ea873639304384d6b19cc20e9a5ed506c25b74c618a21ed",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-16": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-16.mp3",
+      "text": "十六号玩家获胜。",
+      "duration": 2.7,
+      "textHash": "426eef80faf791aebc5a921c371c530d96af8a01e08d0333fd07659bb3da9649",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-17": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-17.mp3",
+      "text": "十七号玩家获胜。",
+      "duration": 2.7,
+      "textHash": "03c23fce2e58c48bc209a4939f5fdf0b2a88cbe06d4b537257158fcca71ba3f7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-18": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-18.mp3",
+      "text": "十八号玩家获胜。",
+      "duration": 2.7,
+      "textHash": "97cef4f1f6d853c07f73e136224f25adb6e211e4ec593e52850d240853808bc7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-19": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-19.mp3",
+      "text": "十九号玩家获胜。",
+      "duration": 2.725,
+      "textHash": "9a8faa6c36640079b5fece40f7660e2323afe504e49c75cbfea6dada4061b9ad",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-20": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-20.mp3",
+      "text": "二十号玩家获胜。",
+      "duration": 2.7,
+      "textHash": "cceaad98a84b514b72c212ccfe7cd68b86162a45f2856b877fd252897893ce7a",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-21": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-21.mp3",
+      "text": "二十一号玩家获胜。",
+      "duration": 2.875,
+      "textHash": "7440003545d529ab15a98a1ce542df66bf9b00385ff338d7be4f723902abe937",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-22": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-22.mp3",
+      "text": "二十二号玩家获胜。",
+      "duration": 2.85,
+      "textHash": "67d76c64fe718cab45173ffd2e01a01c16bd12ad410ccd0cffce6c6b193e4a5c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-23": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-23.mp3",
+      "text": "二十三号玩家获胜。",
+      "duration": 2.925,
+      "textHash": "18a7284f3206b5ad03dd044e69c64d20e02c13a8c903da6fd2d600d3fcd5471f",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:winner-seat-24": {
+      "src": "/assets/nightfall/audio/zh/winner-seat-24.mp3",
+      "text": "二十四号玩家获胜。",
+      "duration": 2.825,
+      "textHash": "3aafbf39880226b642f8edb0f9a28ff1f522c930fd97b7ed9ffdd000aaa00e99",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    }
+  }
+}

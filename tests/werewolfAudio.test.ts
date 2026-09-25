@@ -460,3 +460,17 @@ test('badge and last-word cues finish before acknowledging and day directions us
  f.audio.updatePhase({id:'exile',kind:'announcement',step:'dayDeaths',publicCues:['exiled','seat-5','last-words-5']});await flush();await f.finish();await f.finish();
  assert.equal(f.latest().url,pathFor('last-words-5','zh'));assert.deepEqual(f.acknowledgments,['badge']);await f.finish();assert.deepEqual(f.acknowledgments,['badge','exile']);
 });
+
+
+test('Kokoro winners play team first, then each seat once, in both languages',async t=>{
+ for(const language of ['en','zh'] as const) {
+  const f=fixture(t);f.audio.configure({...f.options,language});
+  const cues=['victory-village','winner-seat-2','winner-seat-12'];
+  const phase={id:`result-${language}`,kind:'finished',publicCues:cues};
+  f.audio.updatePhase(phase);await f.unlock();await flush();
+  for(const cue of cues){assert.equal(f.latest().url,`/assets/nightfall/audio/${language}/${cue}.mp3`);await f.finish();}
+  const plays=f.played().length;f.audio.updatePhase({...phase});await flush();assert.equal(f.played().length,plays);
+  assert.deepEqual(f.acknowledgments,[]);
+  f.audio.updatePhase({id:'restart',kind:'lobby',publicCues:[]});f.audio.replay();await flush();assert.equal(f.played().length,plays);
+ }
+});

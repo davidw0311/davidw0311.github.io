@@ -286,7 +286,8 @@ function finishVotes(room, now) {
         const target = result.votes[id]; if (target && (e[target].roleId === 'diseased' || room.marks[target] === 'disease')) result.winners.delete(id);
     }
     room.result = { deaths: [...dead], winners: [...result.winners], counts: result.counts, votes: result.votes, epic, players: ids.map(seatId => ({ seatId, ...e[seatId], originalRoleId: getSeat(room, seatId).originalRoleId, mark: room.marks[seatId], artifact: room.artifacts[seatId] || null, won: result.winners.has(seatId), died: dead.has(seatId) })), center: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, roleId: cardRole(card) })), timeline: clone(room.actionLog) };
-    room.status = 'finished'; phase(room, 'finished', 'finished', now); room.phase.cueIds = ['results']; event(room, 'Reveal every card. The result uses your final card, mark and artifact.', '公布所有身份。胜负依据最终身份、标记和神器结算。', now);
+    room.status = 'finished'; phase(room, 'finished', 'finished', now); const winningTeams = [...new Set(room.result.players.filter(player => player.won).map(player => player.team))];
+    room.phase.cueIds = [...(winningTeams.length ? winningTeams.map(team => `victory-${team}`) : ['victory-none']), ...room.seats.flatMap((seat, index) => result.winners.has(seat.id) ? [`winner-seat-${index + 1}`] : [])]; event(room, 'Reveal every card. The result uses your final card, mark and artifact.', '公布所有身份。胜负依据最终身份、标记和神器结算。', now);
 }
 function replace(room, seat, actor, name, now) { if (seat.actorId) delete room.members[seat.actorId]; seat.actorId = actor; seat.name = name; seat.isBot = false; if (room.phase.kind === 'ready') seat.ready = false; room.members[actor] = { seatId: seat.id, lastSeen: now }; }
 function execute(room, actor, command, now) {
