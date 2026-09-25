@@ -91,7 +91,7 @@ class WerewolfService {
         if (room._requests[receiptKey].fingerprint !== fingerprint) fail('request-id-reused', 'Retry the original action or use a new request.', 409);
         return { value: room, changed: false, result: this.response(room, actor, now) };
       }
-      if (room.status === 'finished' && op !== 'sync' && !(op === 'command' && input.command?.type === 'disbandRoom')) fail('room-finished', 'This game has ended. Please create a new room.', 410);
+      if (room.status === 'finished' && op !== 'sync' && !(op === 'command' && ['disbandRoom', 'restartRound'].includes(input.command?.type))) fail('room-finished', 'This game has ended. Please create a new room.', 410);
       const before = room.revision;
       const previousExpiry = room._expiresAt;
       const previousHost = room.hostId;
@@ -130,6 +130,7 @@ class WerewolfService {
       }
       if (op !== 'sync' && input.command?.type !== 'nightNarrationDone') room._lastActive = Math.max(room._lastActive || 0, now);
       if (['finished', 'disbanded'].includes(room.status)) room._expiresAt ??= now + RESULT_TTL;
+      else delete room._expiresAt; // An authorized restart leaves no finished-room expiry behind.
       const changed = op !== 'sync' || room.revision !== before || room._expiresAt !== previousExpiry;
       return { value: room, changed, result: this.response(room, actor, now) };
     });

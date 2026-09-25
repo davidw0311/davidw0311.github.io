@@ -564,3 +564,24 @@ test('finished games remain disbandable by the host; retries and all other clien
  await assert.rejects(t.call(packet),{code:'room-disbanded'});
  for(const token of t.members)await assert.rejects(t.call({op:'sync',code:t.code,token}),{code:'room-disbanded'});
 });
+
+test('restart retries retain the same lobby and cannot cancel a later round',async()=>{
+ const t=await sixPlayerGame();const packet={op:'command',code:t.code,requestId:randomUUID(),command:{type:'restartRound',expectedPhaseId:t.started.view.phase.id}};
+ const [a,b]=await Promise.all([t.call(packet),t.call(packet)]);
+ assert.equal(a.view.phase.id,b.view.phase.id);assert.equal(a.view.revision,b.view.revision);assert.equal(a.view.status,'lobby');assert.equal(a.recoveryKey,t.started.recoveryKey);
+ const fresh=await t.call({op:'command',code:t.code,command:{type:'startGame',expectedPhaseId:a.view.phase.id}});
+ assert.notEqual(fresh.view.gameId,t.started.view.gameId);
+ const retried=await t.call(packet);assert.equal(retried.view.gameId,fresh.view.gameId);assert.equal(retried.view.status,'playing');
+ await assert.rejects(t.call({...packet,requestId:randomUUID()}),{code:'STALE_PHASE'});
+ const guest=await t.call({op:'sync',code:t.code,token:t.members[1]});assert.equal(guest.view.me.ready,false);assert.deepEqual(guest.view.me.history,[]);
+});
+test('host can restart before result expiry; the finished expiry is removed, but expired rooms cannot revive',async()=>{
+ const t=await sixPlayerGame();const room=t.store.data.get(`rooms/${t.code}`);room.status='finished';room.phase.kind='finished';
+ const finished=await t.call({op:'sync',code:t.code});assert.ok(t.store.data.get(`rooms/${t.code}`)._expiresAt);
+ await assert.rejects(t.call({op:'command',code:t.code,token:t.members[1],command:{type:'restartRound',expectedPhaseId:finished.view.phase.id}}),{code:'HOST_ONLY'});
+ t.advance(30000);
+ const reset=await t.call({op:'command',code:t.code,command:{type:'restartRound',expectedPhaseId:finished.view.phase.id}});assert.equal(reset.view.status,'lobby');assert.equal(t.store.data.get(`rooms/${t.code}`)._expiresAt,undefined);
+ t.advance(31000);assert.equal((await t.call({op:'sync',code:t.code})).view.status,'lobby');
+ const record=t.store.data.get(`rooms/${t.code}`);record.status='finished';record.phase.kind='finished';record._expiresAt=100000;
+ await assert.rejects(t.call({op:'command',code:t.code,command:{type:'restartRound',expectedPhaseId:record.phase.id}}),{code:'room-expired'});
+});

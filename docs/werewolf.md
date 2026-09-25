@@ -183,3 +183,9 @@ For an isolated local game, run `node scripts/werewolf-local-server.mjs`, then `
 `node scripts/werewolf-bots-smoke.mjs --url=<endpoint>` verifies a disposable 12-player room through readiness and the first night, including manual retry safety, pause behavior, host authorization, human readiness and replacing a bot. It disbands its test room afterward.
 
 **Night order / 夜间流程** inside **Current roles / 本局角色** shows the deck’s public nighttime sequence with bilingual descriptions and first-night-only labels. The reference retains calls after deaths and includes possible copied-ability calls without revealing which power was copied or who can act.
+
+## Restarting a round
+
+The host can choose **Restart round / 重新开始本局**, including while paused, and confirm returning to setup. The room, stable seat IDs, names, photos, bots, pending joins, deck and settings remain. All round state is rebuilt: cards, readiness, deaths, potions and other powers, sheriff progress, votes, timers, clues, chat, history and pending reactions are cleared. The host can rearrange seats and deal again; every player must read their new card and ready up. A finished round can be restarted during its existing result-delivery window; an expired room cannot be restored. Duplicate restart requests cannot reset a later round.
+
+`node scripts/werewolf-restart-smoke.mjs --url=<endpoint>` verifies a paused-night restart, private-state cleanup for six players, retry safety, seating changes and fresh readiness through a disposable public-API room.

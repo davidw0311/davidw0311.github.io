@@ -72,6 +72,21 @@ function createRoom({ code, hostId, hostName, now }) {
     event(room, 'The room is open. Join a seat and get ready.', '房间已创建，请入座准备。', now);
     return room;
 }
+// Rebuild gameplay from the lobby template so no night, election or reaction
+// state can survive. Underscored service metadata retains sessions and receipts.
+function resetRound(room, now) {
+    const fresh = createRoom({ code: room.code, hostId: room.hostId, hostName: seatOf(room, room.hostId)?.name || 'Host', now });
+    Object.assign(fresh, {
+        createdAt: room.createdAt, revision: room.revision, members: room.members,
+        requests: room.requests, settings: room.settings, roleDeck: room.roleDeck,
+        botState: { mode: room.botState?.mode || 'automatic', nextActionAt: now + BOT_ACTION_DELAY },
+        seats: room.seats.map(seat => ({ ...makeSeat(seat.name, seat.actorId), id: seat.id, photo: seat.photo || null, isBot: Boolean(seat.isBot), ready: false })),
+        gameId: null, events: [],
+    });
+    for (const key of Object.keys(room)) if (!key.startsWith('_')) delete room[key];
+    Object.assign(room, fresh);
+    event(room, 'The host restarted the round. Review the setup and deal new cards.', '房主已重新开始本局。请确认配置后重新发牌。', now);
+}
 function requireHost(room, actorId) { if (!room.hostId || actorId !== room.hostId)
     fail('HOST_ONLY', 'Only the room host can do that.'); }
 function requirePhase(room, c, kinds) { if (!kinds.includes(room.phase.kind))
@@ -825,7 +840,7 @@ function executeCommand(room, actorId, c, now) {
         return;
     }
     upgradeLegacyElection(room);
-    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'nightNarrationDone', 'skipNightTurn', 'hardSkip', 'disbandRoom', 'moveSeat', 'setSpeechTimer', 'cancelSpeechTimer', 'advanceElection', 'addBots', 'removeBots', 'setBotMode', 'botStep']);
+    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'restartRound', 'nightNarrationDone', 'skipNightTurn', 'hardSkip', 'disbandRoom', 'moveSeat', 'setSpeechTimer', 'cancelSpeechTimer', 'advanceElection', 'addBots', 'removeBots', 'setBotMode', 'botStep']);
     if (hostTypes.has(c.type))
         requireHost(room, actorId);
     const s = seatOf(room, actorId);
@@ -1142,24 +1157,15 @@ function executeCommand(room, actorId, c, now) {
             room.speakerSeatId = c.seatId ? aliveSeat(room, c.seatId).id : null;
             room.speakingTimer = null;
             break;
+        case 'restartRound':
+            if (c.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed.');
+            if (!['playing', 'finished'].includes(room.status)) fail('WRONG_PHASE', 'There is no round to restart.');
+            resetRound(room, now);
+            break;
         case 'resetGame':
-            if (c.expectedPhaseId !== room.phase.id)
-                fail('STALE_PHASE', 'The phase changed.');
-            if (room.status === 'playing')
-                fail('GAME_RUNNING', 'Finish the current game before resetting.');
-            room.status = 'lobby';
-            room.winner = null;
-            room.night = 0;
-            room.day = 0;
-            room.seats.forEach(t => { t.roleId = null; t.team = null; t.state = {}; t.alive = true; t.canVote = true; t.privateLog = []; });
-            room.events = [];
-            room.messages = [];
-            room.replay = [];
-            room.pendingShots = [];
-            room.sheriffSeatId = null;
-            room.discussionDay = null; room.lastVote = null; room.lastNight = null; room.election = null; room.sheriffElectionDone = false; room.informationNight = null;
-            room.requests = [];
-            setPhase(room, 'lobby', null, now);
+            if (c.expectedPhaseId !== room.phase.id) fail('STALE_PHASE', 'The phase changed.');
+            if (room.status === 'playing') fail('GAME_RUNNING', 'Use Restart round to return to setup.');
+            resetRound(room, now);
             break;
         case 'nightAction':
             acceptNightAction(room, s, c, now);
