@@ -181,3 +181,5 @@ Bot seats cannot become host. A host-approved human replacement inherits the sea
 For an isolated local game, run `node scripts/werewolf-local-server.mjs`, then `NEXT_PUBLIC_WEREWOLF_API_URL=http://localhost:4502 npm run dev -- -p 3010`. Create a room at `http://localhost:3010/werewolf/` and add bots through the host controls. The local adapter uses disposable memory; production remains on Supabase.
 
 `node scripts/werewolf-bots-smoke.mjs --url=<endpoint>` verifies a disposable 12-player room through readiness and the first night, including manual retry safety, pause behavior, host authorization, human readiness and replacing a bot. It disbands its test room afterward.
+
+**Night order / 夜间流程** inside **Current roles / 本局角色** shows the deck’s public nighttime sequence with bilingual descriptions and first-night-only labels. The reference retains calls after deaths and includes possible copied-ability calls without revealing which power was copied or who can act.

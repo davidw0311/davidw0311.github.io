@@ -87,8 +87,8 @@
       "zh": "强盗"
     },
     "description": {
-      "en": "Optionally exchange your card with another player and inspect your new card.",
-      "zh": "可与另一位玩家交换身份，然后查看自己的新牌。"
+      "en": "House rule: you may exchange your card with another player’s or a center card, then view only the card you receive. Shielded cards cannot move.",
+      "zh": "房规：可将自己的牌与另一位玩家的牌或一张中央牌交换，仅查看换入的牌。受保护的牌不可移动。"
     },
     "icon": "🎭",
     "team": "village",
@@ -103,8 +103,8 @@
       "zh": "捣蛋鬼"
     },
     "description": {
-      "en": "Optionally exchange two other players’ cards without looking.",
-      "zh": "可交换两位其他玩家的牌，但不能查看。"
+      "en": "House rule: you may exchange any two different unshielded cards other than your own, including other players’ cards and center cards. Do not look at either.",
+      "zh": "房规：可交换自己以外任意两张不同且未受保护的牌，包括其他玩家的牌和中央牌；不得查看。"
     },
     "icon": "🔀",
     "team": "village",

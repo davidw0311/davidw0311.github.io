@@ -217,3 +217,11 @@
   .roomTools>.secondary { padding:8px 10px; font-size:13px!important; min-height:44px; gap:6px; }
   .readyPanel>.readyStatus { font-size:14px; }
 }
+
+.targetGroup { min-width:0; padding:0; margin:0 0 18px; border:0; }
+.targetGroup>legend { margin-bottom:9px; padding:0; color:#d9bdce; font-size:14px; font-weight:650; }
+.targetGroup .targetGrid { margin-bottom:0; }
+.targetGroup .targetGrid>button>svg { flex-shrink:0; }
+
+.targetGroup .targetGrid>button { min-width:0; }
+.targetGroup .targetGrid>button>span { min-width:0; overflow-wrap:anywhere; }

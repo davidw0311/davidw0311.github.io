@@ -64,3 +64,11 @@ Automatic mode makes one eligible bot decision per room refresh, at least 1.5 se
 Bots cannot become host. A host-approved human replacement keeps the seat and its private information while disabling that seat's bot. Rematches keep the bot seats and reset their cards, readiness and knowledge. No additional service or AI key is needed.
 
 `node scripts/one-night-bots-smoke.mjs --url=<endpoint>` creates and disbands a disposable 12-player room to verify manual retry safety, automatic actions, human readiness and voting, replacing a bot, the complete round and rematching through the public HTTP API. Use `http://localhost:4501` with the local adapter for an isolated test.
+
+## Center swaps and night order
+
+This implementation uses an explicit center-swap house rule for Robber and Troublemaker. Robber may exchange their own unshielded card with another player or any center card, then see only the card received. Troublemaker may exchange any two different unshielded cards other than their own, including player/center or center/center, without viewing either. Alpha Wolf’s fourth center card is eligible; Temptress’s separate reserve is not. Copied abilities use the same legal targets, and either role can skip. Existing Kokoro role calls direct players to the screen and need no replacement.
+
+The **Night order / 夜间流程** switch in **Current roles / 本局角色** shows the public schedule and descriptions for the selected deck in both games. Classic first-night setup steps are labeled; copied-role calls and expansion steps remain public schedule entries regardless of who can act. No live actors, private decisions, deaths, or center-card identities are used to build this reference.
+
+`node scripts/one-night-center-swaps-smoke.mjs --url=<endpoint>` checks both center swaps, private results, retry safety and final movement history through disposable public-API rooms, then disbands them.
