@@ -8,11 +8,12 @@ export type Language = "en" | "zh";
 export type Localized = { en: string; zh: string };
 export type Role = { id: string; name: Localized; team: string; description: Localized; nightStep?: string };
 export type Catalogue = { version: string; ruleset: Localized; roles: Role[]; presets: { id: string; name: Localized; description: Localized; roles: string[] }[] };
-export type Seat = { id: string; name: string; photo?: string | null; ready?: boolean; connected: boolean; occupied: boolean; alive: boolean; isHost: boolean; isSheriff: boolean; canVote: boolean; silenced?: boolean; roleId?: string };
+export type Seat = { id: string; name: string; isBot?: boolean; photo?: string | null; ready?: boolean; connected: boolean; occupied: boolean; alive: boolean; isHost: boolean; isSheriff: boolean; canVote: boolean; silenced?: boolean; roleId?: string };
 export type Phase = { id: string; kind: "sheriff" | "announcement" | "ready" | "disbanded" | "lobby" | "night" | "day" | "voting" | "reaction" | "finished"; step: string; number: number; deadline: number | null; paused: boolean; nightStage?: "opening" | "acting" | "closing"; nightCues?: string[]; nightRole?: string; publicCues?: string[] };
 export type Settings = { nightSeconds: number; daySeconds: number; voteSeconds: number; autoAdvance: boolean; sheriff: boolean; winCondition: "edge" | "all" | "parity"; witchSelfSave: boolean | "firstNight"; guardAntidote: "save" | "kill"; [key: string]: unknown };
 export type Action = { kind: string; step: string; targets: string[]; canSkip: boolean; input: "single" | "double" | "choice" | "none"; options?: (string | { id?: string; value?: string; name?: Localized; label?: Localized })[]; alreadySubmitted: boolean; ability?: string; minTargets?: number; maxTargets?: number; victimId?: string | null };
 export type GameView = {
+  bots?: { mode: "automatic" | "manual"; count: number };
   serverTime?: number; clockOffset?: number;
   gameId?: string; speakingTimer?: {id: string; phaseId: string; speakerSeatId: string | null; seconds: number; endsAt: number | null; remainingMs?: number} | null;
   code: string; revision: number; hostSeatId: string; isHost: boolean; status: "lobby" | "playing" | "finished" | "disbanded"; settings: Settings; roleDeck: string[]; seats: Seat[];

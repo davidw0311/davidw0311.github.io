@@ -166,3 +166,16 @@ Classic Werewolf has bilingual private guidance for all 32 roles. `lib/werewolfG
 On phones, the player’s seat/card and sticky stage come first, followed by their available action. Seven or more players use a clockwise oval that fits the viewport; six retain the circle. Pending readiness/votes show seat numbers with expandable names. Audio, history and advanced host settings use disclosures, and the card’s Ready control stays visible while reading.
 
 Run `node --no-warnings --test tests/werewolfGuidance.test.ts` for settings/state/privacy regressions and engine-backed unavailable-action checks.
+
+
+## Test bots
+
+The host can open **Host controls → Test bots** in a classic Werewolf lobby to add one bot or fill the table to the saved deck size (12 by default), up to 24 total seats. Bots are marked publicly and can be removed before cards are dealt. Choose a matching role deck in room settings when changing the table size.
+
+Automatic mode makes one eligible bot decision per room refresh, with at least 1.5 seconds between decisions, while a player has the room open. Manual mode waits for **Run one bot action**. Bots ready up, choose legal night actions, participate in sheriff elections and votes, and resolve their available death/badge abilities. They are deterministic testing helpers, not reasoning or chat AI, and do not initiate optional Knight duels or wolf self-destructs. They use their own private view rather than hidden information from other seats. Human decisions, narration, host phase controls and the normal empty-role night delays remain in force; pausing the table also pauses bots.
+
+Bot seats cannot become host. A host-approved human replacement inherits the seat’s role and history and immediately stops that seat’s automation. Bot state is stored with the existing room; no extra service or AI API is used.
+
+For an isolated local game, run `node scripts/werewolf-local-server.mjs`, then `NEXT_PUBLIC_WEREWOLF_API_URL=http://localhost:4502 npm run dev -- -p 3010`. Create a room at `http://localhost:3010/werewolf/` and add bots through the host controls. The local adapter uses disposable memory; production remains on Supabase.
+
+`node scripts/werewolf-bots-smoke.mjs --url=<endpoint>` verifies a disposable 12-player room through readiness and the first night, including manual retry safety, pause behavior, host authorization, human readiness and replacing a bot. It disbands its test room afterward.
