@@ -10,6 +10,7 @@ import { useWerewolfRoom, type Action, type Catalogue, type Command, type GameVi
 import { WerewolfAudio } from "@/lib/werewolfAudio";
 import { CircleSeats, ProfilePicker, WolfHead } from "./PlayerFeatures";
 import { RoleIcon } from "./RoleIcon";
+import { RoleLineup } from "@/app/nightfall/RoleLineup";
 import { BotControls, BotLabel, BotNotice } from "./BotControls";
 import { RoleGuidance } from "./RoleGuidance";
 import { StageBanner, ElectionPanel, VoteReview, SpeakingTimer, stageText } from "./RoomStage";
@@ -58,7 +59,7 @@ export default function WerewolfApp() {
   const [code, setCode] = useState("");
   const [recovery, setRecovery] = useState("");
   const [skipPhaseId, setSkipPhaseId] = useState<string | null>(null);
-  const [modal, setModal] = useState<"library" | "settings" | "people" | "recovery" | "rules" | "leave" | "invite" | "hardSkip" | "profile" | "history" | "disband" | "credits" | "votes" | "card" | null>(null);
+  const [modal, setModal] = useState<"lineup" | "library" | "settings" | "people" | "recovery" | "rules" | "leave" | "invite" | "hardSkip" | "profile" | "history" | "disband" | "credits" | "votes" | "card" | null>(null);
   const [seenKey, setSeenKey] = useState<string | null>(null);
   const [dismissedInspection, setDismissedInspection] = useState("");
   const rungTimers = useRef(new Set<string>());
@@ -245,9 +246,10 @@ export default function WerewolfApp() {
           {role && view.phase.kind === "ready" && <div className={styles.cardToolbar}>{view.phase.kind === "ready" && !view.me?.ready && <button className={styles.primaryButton} onClick={() => {setRevealed(true);setModal("card");}}><LockKey size={18}/>{t("Read card & ready up", "查看身份并准备")}</button>}{view.phase.kind === "ready" && <strong className={view.me?.ready ? styles.readyStatus : styles.notReadyStatus} role="status">{view.me?.ready ? t("✓ You are ready", "✓ 你已准备") : t("Not ready · read your card and tap Ready", "尚未准备 · 查看身份后点击准备")}</strong>}</div>}
           {view.me && view.status === "playing" && view.phase.kind !== "ready" && <><ElectionPanel view={view} lang={lang} disabled={disabled || view.phase.paused} send={send} />
           <ActionPanel key={view.phase.id} view={view} lang={lang} disabled={disabled || view.phase.paused} send={send} /></>}
+          <div className={styles.tableTools}><button className={styles.secondaryButton} onClick={() => setModal("lineup")}><BookOpen size={17} />{t("Current roles", "本局角色")}</button>{role && <button className={styles.secondaryButton} onClick={() => setModal("history")}>{t("My actions", "我的行动")}</button>}<button className={styles.secondaryButton} onClick={() => setModal("votes")}>{t("Last votes", "上轮投票")}</button></div>
           <CircleSeats view={view} lang={lang} now={now} onProfile={() => setModal("profile")} />
 
-          <div className={styles.tableFooter}><button className={styles.secondaryButton} onClick={() => setModal("votes")}>{t("Last votes", "上轮投票")}</button>{role && <button className={styles.secondaryButton} onClick={() => setModal("history")}>{t("My actions", "我的行动")}</button>}<span><Users size={17} />{connected} {t("at the table", "人已入座")}{view.status !== "lobby" && ` · ${view.seats.filter((seat) => seat.alive).length} ${t("alive", "人存活")}`}</span><button className={styles.textButton} onClick={() => setModal("library")}>{t("View the deck", "查看角色配置")}<ArrowRight size={15} /></button></div>
+          <div className={styles.tableFooter}><span><Users size={17} />{connected} {t("at the table", "人已入座")}{view.status !== "lobby" && ` · ${view.seats.filter((seat) => seat.alive).length} ${t("alive", "人存活")}`}</span></div>
           {view.status === "finished" && <div className={styles.result}><Crown size={30} /><h2>{text(winnerLabels[typeof view.winner === "string" ? view.winner : view.winner?.team || ""], lang) || t("The game has ended", "本局游戏结束")}</h2><p>{typeof view.winner === "object" && view.winner?.reason ? text(view.winner.reason, lang) : t("Every secret is now on the table. See the game record below.", "所有秘密现已揭晓。下方可查看本局游戏记录。")}</p></div>}
           {view.phase.kind === "voting" && <p className={styles.voteProgress}><HandPalm size={16} />{t(`${view.voteCount || 0} votes submitted. Choices stay hidden until voting closes.`, `已提交 ${view.voteCount || 0} 票，投票结束前不公开选择。`)}</p>}
 
@@ -295,6 +297,7 @@ export default function WerewolfApp() {
         {copyFailed && <span className={styles.hint} role="status">{t("Copy unavailable. Select the link above to copy it manually.", "无法自动复制，请选中上方链接手动复制。")}</span>}
       </div>
     </Modal>}
+    {modal === "lineup" && view && <Modal dismissOutside title={t("Current roles", "本局角色")} onClose={() => setModal(null)}><RoleLineup deck={view.roleDeck} roles={catalogue.roles} lang={lang} renderIcon={id => roleIcon(roleMap[id], 28)} variant="werewolf" /></Modal>}
     {modal === "library" && <RoleLibrary lang={lang} view={view} onClose={() => setModal(null)} />}
     {modal === "settings" && view?.isHost && <RoomSettings view={view} lang={lang} disabled={disabled} send={send} onClose={() => setModal(null)} />}
     {modal === "people" && view && <PeopleManager view={view} lang={lang} disabled={disabled} send={send} onClose={() => setModal(null)} />}

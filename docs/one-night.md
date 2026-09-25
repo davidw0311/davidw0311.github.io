@@ -49,6 +49,12 @@ To verify an entire preset through the public HTTP API, run `ONE_NIGHT_PRESET=gr
 
 Game mechanics are implemented with original interface text and recordings. Publisher rulebooks are linked for reference; no card scans or publisher narration recordings are included.
 
+## Shared Nightfall interface
+
+One Night follows classic Werewolf’s seat strip, sticky stage banner, room tools, and clockwise table layout. Tables of up to six players use a circle; seven or more use an oval. On phones, the player’s current action appears before host controls and the table. The One Night center cards, public shields/artifacts, and private clue history remain available.
+
+**Current roles / 本局角色**, above the table in both games, opens the same public starting-deck viewer with quantities and expandable descriptions. It never shows player assignments or changes after swaps, transformations, or deaths. One Night includes three center cards in the configured deck; Alpha Wolf’s extra initial Werewolf center card and Temptress’s initial Henchman #7 reserve are explained separately. **My actions / 我的行动** opens the player’s private clues.
+
 ## Test bots
 
 Open **Host controls → Test bots** to add individual bots or fill the table to a chosen size, within the existing 3–16-player limit. The saved deck target excludes its three center cards. Bots are labeled for everyone and can be removed in the lobby.

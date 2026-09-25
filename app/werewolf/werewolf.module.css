@@ -709,3 +709,15 @@
   .pendingSeatNumbers { max-height:52px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#a17b8a #30212c; padding-right:3px; }
   .pendingDisclosure>summary { align-items:center; }
 }
+
+/* Shared table shortcuts stay easy to reach above even the largest table. */
+.tableTools { display:flex; flex-wrap:wrap; gap:8px; padding-top:14px; }
+.tableTools>.secondaryButton { min-height:44px; font-size:14px!important; padding:9px 12px; }
+.pendingDisclosure>ul { max-height:24vh; overflow-y:auto; overscroll-behavior:contain; }
+@media (max-width:900px) {
+  .tableTools { order:-1; padding-top:0; }
+}
+@media (max-width:420px) {
+  .tableTools { gap:6px; }
+  .tableTools>.secondaryButton { flex:1; padding:9px 7px; white-space:nowrap; }
+}

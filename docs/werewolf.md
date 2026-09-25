@@ -165,6 +165,8 @@ Classic Werewolf has bilingual private guidance for all 32 roles. `lib/werewolfG
 
 On phones, the player’s seat/card and sticky stage come first, followed by their available action. Seven or more players use a clockwise oval that fits the viewport; six retain the circle. Pending readiness/votes show seat numbers with expandable names. Audio, history and advanced host settings use disclosures, and the card’s Ready control stays visible while reading.
 
+**Current roles / 本局角色** above the table opens the shared Nightfall role viewer: public starting quantities and expandable descriptions, with no player assignments. The list stays unchanged after deaths or transformations. An unconfigured lobby explains that a balanced deck will be chosen when cards are dealt. One Night uses the same viewer and table hierarchy, with its center cards and expansion rules retained.
+
 Run `node --no-warnings --test tests/werewolfGuidance.test.ts` for settings/state/privacy regressions and engine-backed unavailable-action checks.
 
 

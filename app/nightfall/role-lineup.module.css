@@ -1,0 +1,26 @@
+.lineup { color: #f5eef2; }
+.summary { display: flex; align-items: center; gap: 10px; padding: 4px 0 12px; }
+.summary strong { flex: 1; font-size: 18px; }
+.summary > span { color: #d9b9bf; font-size: 16px; white-space: nowrap; }
+.note, .empty p { margin: 0; color: #c8bac6; font-size: 16px; line-height: 1.6; }
+.hint { margin: 16px 0 10px; color: #a99ba9; font-size: 14px; }
+.rows { display: grid; gap: 8px; }
+.role { border: 1px solid #4b3c4c; border-radius: 9px; background: #241d28; overflow: hidden; }
+.role summary { display: flex; align-items: center; gap: 12px; min-height: 62px; padding: 10px 13px; cursor: pointer; list-style: none; }
+.role summary::-webkit-details-marker { display: none; }
+.role summary:focus-visible { outline: 2px solid #e5b3bd; outline-offset: -3px; border-radius: 9px; }
+.role summary:hover { background: #302530; }
+.icon { display: flex; flex: 0 0 30px; justify-content: center; color: #d8a8b6; }
+.name { flex: 1; min-width: 0; font-size: 17px; font-weight: 650; overflow-wrap: anywhere; }
+.count { font-size: 18px; font-weight: 700; color: #f3cdc9; font-variant-numeric: tabular-nums; }
+.chevron { color: #ad9aab; flex-shrink: 0; }
+.role[open] .chevron { transform: rotate(180deg); }
+.role > p { margin: 0; padding: 2px 14px 16px; color: #d0c2cf; font-size: 16px; line-height: 1.65; }
+.extra { margin-top: 16px; border-top: 1px solid #4b3c4c; padding-top: 14px; }
+.extra strong { font-size: 16px; }
+.extra p { color: #c8bac6; font-size: 16px; line-height: 1.6; margin: 6px 0 0; }
+.empty { display: grid; justify-items: start; gap: 14px; padding: 12px 0; color: #d8a8b6; }
+@media (max-width: 420px) {
+  .role summary { gap: 9px; padding-inline: 11px; }
+  .summary { flex-wrap: wrap; }
+}
