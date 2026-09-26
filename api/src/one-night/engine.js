@@ -1,5 +1,6 @@
 'use strict';
 const { randomUUID, randomInt } = require('node:crypto');
+const { Buffer } = require('node:buffer');
 const coreRoles = require('./core-roles.json');
 const extraRoles = require('./expansion-roles.json');
 const expansion = require('./expansions.js');
@@ -348,7 +349,20 @@ function execute(room, actor, command, now) {
             return;
         }
         case 'reorderSeats': { host(room, actor); checkPhase(room, command, ['lobby']); const ids = command.seatIds; if (!Array.isArray(ids) || ids.length !== room.seats.length || new Set(ids).size !== ids.length || ids.some(id => !room.seats.some(s => s.id === id))) fail('INVALID_SEATS', 'Include each seat exactly once.'); room.seats = ids.map(id => getSeat(room, id)); return; }
-        case 'profile': case 'updateProfile': if (!seat) fail('NOT_SEATED', 'Join a seat first.'); if (command.name != null) seat.name = cleanName(command.name); if (command.photo != null) { if (typeof command.photo !== 'string' || command.photo.length > 200) fail('INVALID_PHOTO', 'Choose a valid profile image.'); seat.photo = command.photo; } return;
+        case 'profile': case 'updateProfile': {
+            if (!seat) fail('NOT_SEATED', 'Join a seat first.');
+            if (Object.hasOwn(command, 'photo')) {
+                const photo = command.photo;
+                const icon = typeof photo === 'string' && /^[a-z][a-z0-9-]{0,199}$/.test(photo);
+                const jpeg = typeof photo === 'string' && photo.length <= 12000 && /^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(photo)
+                    ? Buffer.from(photo.split(',')[1], 'base64') : null;
+                if (photo !== null && !icon && !(jpeg?.length > 4 && jpeg[0] === 255 && jpeg[1] === 216 && jpeg[2] === 255 && jpeg.at(-2) === 255 && jpeg.at(-1) === 217))
+                    fail('INVALID_PHOTO', 'Choose a profile icon or a small JPEG photo.');
+                seat.photo = photo;
+            }
+            if (command.name != null) seat.name = cleanName(command.name);
+            return;
+        }
         case 'configure': host(room, actor); checkPhase(room, command, ['lobby']); if (command.roleDeck) { if (!Array.isArray(command.roleDeck) || command.roleDeck.length > 19 || command.roleDeck.some(id => !roleMap.has(id))) fail('INVALID_DECK', 'Choose valid role cards.'); room.roleDeck = [...command.roleDeck]; } if (command.settings) { if (command.settings.discussionSeconds != null) { const value = Number(command.settings.discussionSeconds); if (!Number.isInteger(value) || value < 30 || value > 1800) fail('INVALID_SETTINGS', 'Discussion time must be 30–1800 seconds.'); room.settings.discussionSeconds = value; } if (command.settings.loneWolf != null) room.settings.loneWolf = Boolean(command.settings.loneWolf); if (command.settings.artifacts != null) { const artifacts = command.settings.artifacts; if (!Array.isArray(artifacts) || !artifacts.length || artifacts.some(x => !ARTIFACTS.includes(x)) || new Set(artifacts).size !== artifacts.length) fail('INVALID_SETTINGS', 'Choose valid unique artifacts.'); room.settings.artifacts = artifacts; } if (command.settings.alienVariant != null) { if (!['recognize', 'center', 'convert', 'random'].includes(command.settings.alienVariant)) fail('INVALID_SETTINGS', 'Choose a supported alien variant.'); room.settings.alienVariant = command.settings.alienVariant; } } return;
         case 'start': host(room, actor); checkPhase(room, command, ['lobby']); start(room, now); return;
         case 'ready': checkPhase(room, command, ['ready']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); seat.ready = true; return;

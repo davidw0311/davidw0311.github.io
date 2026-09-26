@@ -130,3 +130,27 @@ test('copied Dream Wolf joins only the shared confirmation; fear still suppresse
     const copied = publicView(room, 'p0', now).me; assert.equal(copied.action.roleId, 'dreamWolf'); assert.deepEqual(copied.knowledge, copyKnowledge); // no new teammate knowledge
     assert.equal(publicView(room, 'p1', now).me.action, null); act(room, 'p0'); assert.equal(room.phase.nightStage, 'closing');
 });
+
+test('uploaded JPEG photos follow seats through moves, reconnects and restarts and can be cleared', () => {
+    const photo = 'data:image/jpeg;base64,' + require('node:fs').readFileSync(require('node:path').join(__dirname, 'fixtures/profile-photo.jpg')).toString('base64');
+    const room = lobby(6), seatId = room.seats[1].id;
+    send(room, 'p1', 'updateProfile', { photo });
+    assert.equal(publicView(room, 'p0', now).seats[1].photo, photo);
+    send(room, 'p0', 'moveSeat', { seatId, number: 5 });
+    assert.equal(publicView(room, 'p1', now).seats[4].photo, photo);
+    send(room, 'p0', 'start');
+    send(room, 'returning', 'requestJoin', { name: 'Returning player' });
+    send(room, 'p0', 'approveJoin', { requestId: room.requests[0].id, replaceSeatId: seatId });
+    assert.equal(publicView(room, 'returning', now).me.seatId, seatId);
+    assert.equal(publicView(room, 'returning', now).seats[4].photo, photo);
+    send(room, 'p0', 'restartRound');
+    assert.equal(room.seats[4].photo, photo);
+    send(room, 'returning', 'updateProfile', { photo: null });
+    assert.equal(room.seats[4].photo, null);
+    send(room, 'returning', 'profile', { photo: 'avatar-60' });
+    assert.equal(room.seats[4].photo, 'avatar-60');
+    for (const bad of ['https://example.com/photo.jpg', 'data:image/svg+xml,<svg/>', 'data:image/jpeg;base64,YWJj', 'data:image/jpeg;base64,/9j/AA==', 'data:image/jpeg;base64,' + 'A'.repeat(12000), 42, {}, undefined]) {
+        unchangedOnError(room, 'returning', 'updateProfile', { name: 'Should not persist', photo: bad }, 'INVALID_PHOTO');
+    }
+    unchangedOnError(room, 'stranger', 'updateProfile', { photo }, 'NOT_SEATED');
+});
