@@ -1,0 +1,7 @@
+.control { display:grid; gap:8px; margin:16px 0; min-width:0; }
+.control>label { color:#eddfeb; font-size:15px; font-weight:600; }
+.control>select { width:100%; min-height:48px; padding:10px 12px; border:1px solid #665061; border-radius:10px; background:#201925; color:#fff1f8; font:inherit; font-size:16px; color-scheme:dark; }
+.control>select:focus-visible { outline:2px solid #e0abae; outline-offset:3px; }
+.control>p { margin:0!important; color:#bfaec0; font-size:14px!important; line-height:1.6; }
+
+.preview { color:#edb7bc; font-size:14px; min-height:44px; display:inline-flex; align-items:center; }

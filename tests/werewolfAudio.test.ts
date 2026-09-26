@@ -1,3 +1,4 @@
+import { narrationSource } from "../lib/nightfallNarrators.ts";
 import { fakeAudioContext } from "./helpers/nightfallAudioContext.ts";
 import assert from "node:assert/strict";
 import test, { type TestContext } from "node:test";
@@ -500,4 +501,42 @@ test("an interrupted Web Audio context does not falsely unlock or acknowledge na
  f.audio.configure(f.options);f.audio.updatePhase(staged("suspended","opening",["night"]));
  await f.unlock();await flush();
  assert.deepEqual(f.acknowledgments,[]);assert.deepEqual(f.played(),[]);assert.equal(f.statuses.at(-1)?.status,"locked");
+});
+
+
+test("Chinese narrator changes wait for the next clip without interrupting music or acknowledging early", async t => {
+  const f=fixture(t);
+  const options={...f.options,music:true,language:"zh" as const,narrator:"m10" as const};
+  f.audio.configure(options);
+  const phase=staged("voice-switch","opening",["night","wolves"]);
+  f.audio.updatePhase(phase); await f.unlock(); await flush();
+  const original=f.latest();
+  assert.equal(original.url,narrationSource("werewolf","night","zh","m10"));
+  const musicPlays=f.records.filter(record=>record.url===musicPath).length;
+  f.audio.configure({...options,narrator:"f13"}); f.audio.updatePhase(phase); await flush();
+  assert.equal(f.latest(),original); assert.equal(original.stopped,false);
+  assert.deepEqual(f.acknowledgments,[]);
+  await f.finish();
+  assert.equal(f.latest().url,narrationSource("werewolf","wolves","zh","f13"));
+  assert.deepEqual(f.acknowledgments,[]);
+  await f.finish();
+  assert.deepEqual(f.acknowledgments,["voice-switch"]);
+  f.audio.configure({...options,narrator:"f18"}); f.audio.updatePhase(phase); await flush();
+  assert.equal(f.played().length,2,"Changing a voice after completion must not replay or advance the phase");
+  assert.equal(f.records.filter(record=>record.url===musicPath).length,musicPlays);
+  assert.ok(!f.music().paused);
+});
+
+test("new Chinese narrator playback failures never acknowledge a wake announcement", async t => {
+  const f=fixture(t);
+  f.audio.configure({...f.options,language:"zh",narrator:"m07"});
+  await f.unlock(); await flush();
+  f.failNext();
+  f.audio.updatePhase(staged("voice-failed","opening",["wolves"])); await flush();
+  assert.equal(f.statuses.at(-1)?.status,"error");
+  assert.deepEqual(f.acknowledgments,[]);
+  f.audio.configure({...f.options,language:"zh",narrator:"m04"});
+  f.audio.replay(); await flush();
+  assert.equal(f.latest().url,narrationSource("werewolf","wolves","zh","m04"));
+  await f.finish(); assert.deepEqual(f.acknowledgments,["voice-failed"]);
 });

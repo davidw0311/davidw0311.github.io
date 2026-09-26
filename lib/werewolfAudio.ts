@@ -1,3 +1,4 @@
+import { narrationSource, type ChineseNarrator } from "./nightfallNarrators.ts";
 import { NightfallAudioMixer, audioLevels, type AudioLevels } from "./nightfallAudioMixer.ts";
 import victoryText from "../public/assets/nightfall/audio/text.json" with { type: "json" };
 export type WerewolfAudioStatus = "locked" | "ready" | "playing" | "error";
@@ -11,7 +12,7 @@ export type WerewolfAudioPhase = {
   publicCues?: string[];
 };
 type Phase = WerewolfAudioPhase;
-type Options = Partial<AudioLevels> & { voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
+type Options = Partial<AudioLevels> & { narrator?: ChineseNarrator; voice: boolean; music: boolean; track?: string; language: "en" | "zh"; active: boolean };
 type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "silencer", "silenced-today", "nobody-silenced", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
 for (let number = 1; number <= 24; number++) { CUES.add(`seat-${number}`); CUES.add(`last-words-${number}`); }
@@ -250,7 +251,7 @@ export class WerewolfAudio {
     let started = false;
     let lastTime = 0;
     const current = () => !this.disposed && generation === this.generation && clip === this.clip && (test ? this.testing : this.options.active && this.options.voice);
-    this.prepare(media, cue === "timer-bell" ? "/assets/werewolf/audio/timer-bell.wav" : Object.hasOwn(victoryText, cue) ? `/assets/nightfall/audio/${this.options.language}/${cue}.mp3` : `/assets/werewolf/audio/${this.options.language}/${cue}.mp3`, false);
+    this.prepare(media, narrationSource("werewolf", cue, this.options.language, this.options.narrator), false);
     const fail = (locked: boolean) => {
       if (!current()) return;
       if (locked) this.narrationReady = false;

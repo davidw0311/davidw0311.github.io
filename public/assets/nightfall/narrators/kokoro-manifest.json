@@ -1,0 +1,444 @@
+{
+  "model": "hexgrad/Kokoro-82M-v1.1-zh",
+  "voice": "zm_010",
+  "clips": {
+    "0735621579fab08e": {
+      "text": "天黑请闭眼。请根据设备上的提示行动，保守自己的身份秘密。",
+      "duration": 6.275,
+      "src": "/assets/nightfall/narrators/kokoro/0735621579fab08e.mp3",
+      "textHash": "0735621579fab08e5031dd418d5e479d82165d5d6a889835602fcff979b03ac0"
+    },
+    "c824a1274f3b4954": {
+      "text": "天亮了，请睁眼。请查看设备上的昨夜结果。",
+      "duration": 4.8,
+      "src": "/assets/nightfall/narrators/kokoro/c824a1274f3b4954.mp3",
+      "textHash": "c824a1274f3b495444a3a6051e66c49ef0d3000dc89fa5ca6cf51c7234bdd274"
+    },
+    "98f1fc9ab041461e": {
+      "text": "现在开始白天讨论。请认真听取发言，等待房主开启投票。",
+      "duration": 6.5,
+      "src": "/assets/nightfall/narrators/kokoro/98f1fc9ab041461e.mp3",
+      "textHash": "98f1fc9ab041461e5398e1cf5764b15bf5ec6f22271580358fcbdc6edbd7aba3"
+    },
+    "72510a6b6bdd50cd": {
+      "text": "现在开始警长投票。请选择你希望当选警长的玩家，或选择弃票。",
+      "duration": 6.775,
+      "src": "/assets/nightfall/narrators/kokoro/72510a6b6bdd50cd.mp3",
+      "textHash": "72510a6b6bdd50cd32c66506406c0233a33df83e17b9ca96edb24bd8e3b52638"
+    },
+    "0fd06459148508b0": {
+      "text": "现在开始放逐投票。请选择你要放逐的玩家，或选择弃票，并在设备上提交。",
+      "duration": 7.625,
+      "src": "/assets/nightfall/narrators/kokoro/0fd06459148508b0.mp3",
+      "textHash": "0fd06459148508b0409303ad37d64d32c4014467c045db48615f4861255d8142"
+    },
+    "bf86fd9382fd8e9d": {
+      "text": "投票结束。请查看设备上的投票结果，并按提示发动技能。",
+      "duration": 6.075,
+      "src": "/assets/nightfall/narrators/kokoro/bf86fd9382fd8e9d.mp3",
+      "textHash": "bf86fd9382fd8e9d071e3b6437f1e52601e6f129703cc6c8138329faccc2d6f4"
+    },
+    "f9e3742286493478": {
+      "text": "游戏结束。现在可以公开身份。请一起查看结果，回顾这场对局。",
+      "duration": 6.7,
+      "src": "/assets/nightfall/narrators/kokoro/f9e3742286493478.mp3",
+      "textHash": "f9e37422864934781c9b1e1b450f9509cd92fff2a18f25c857920aa036bb2375"
+    },
+    "1fb07ee62dd3d8c1": {
+      "text": "游戏已暂停。请等待房主恢复房间。",
+      "duration": 4.45,
+      "src": "/assets/nightfall/narrators/kokoro/1fb07ee62dd3d8c1.mp3",
+      "textHash": "1fb07ee62dd3d8c1d502b32b3f7fdff7ec0b0caecb5f11dd917d34bf744f9a43"
+    },
+    "9e0924dc38dbfd8d": {
+      "text": "现在需要结算一项技能。相关玩家请根据设备上的私密提示行动，其他玩家请稍候。",
+      "duration": 8.1,
+      "src": "/assets/nightfall/narrators/kokoro/9e0924dc38dbfd8d.mp3",
+      "textHash": "9e0924dc38dbfd8d005ecddcd0ac906f0dc88c452bbadd6bcfae507fe8b77f5b"
+    },
+    "cc0a6da448c25403": {
+      "text": "行动结束。请闭眼，并保持安静。",
+      "duration": 3.975,
+      "src": "/assets/nightfall/narrators/kokoro/cc0a6da448c25403.mp3",
+      "textHash": "cc0a6da448c2540317acb0804a749c79a1fb1c15d01f1826bb42273809f67b7a"
+    },
+    "e545c27b67b8f694": {
+      "text": "拥有首夜技能的角色，请根据设备上的私密提示行动。其他玩家请保持闭眼。",
+      "duration": 7.475,
+      "src": "/assets/nightfall/narrators/kokoro/e545c27b67b8f694.mp3",
+      "textHash": "e545c27b67b8f6946660056b78cdddfd1c914b8313bb61618e9c70d0525d0829"
+    },
+    "30373db5a0305723": {
+      "text": "狼人请睁眼。请在设备上选择今晚的目标。其他玩家请保持闭眼。",
+      "duration": 6.525,
+      "src": "/assets/nightfall/narrators/kokoro/30373db5a0305723.mp3",
+      "textHash": "30373db5a03057231bcb1275b6cb8997f2c3835167caba9cf0c337d83ad87ef9"
+    },
+    "f6cfc1735117250c": {
+      "text": "守卫请睁眼。请选择今晚要守护的玩家。",
+      "duration": 4.7,
+      "src": "/assets/nightfall/narrators/kokoro/f6cfc1735117250c.mp3",
+      "textHash": "f6cfc1735117250cfabb724240a34e33a257400fd722d7c3d55874e71f02f450"
+    },
+    "56a384bac2bef11f": {
+      "text": "魔术师请睁眼。请按私密提示交换两名玩家，或选择跳过。",
+      "duration": 6.075,
+      "src": "/assets/nightfall/narrators/kokoro/56a384bac2bef11f.mp3",
+      "textHash": "56a384bac2bef11fcd2bc130efe44a734e72053d785591617a2349b376686f22"
+    },
+    "c0898d99089c6248": {
+      "text": "摄梦人请睁眼。请选择今晚的梦游者。",
+      "duration": 4.525,
+      "src": "/assets/nightfall/narrators/kokoro/c0898d99089c6248.mp3",
+      "textHash": "c0898d99089c6248961146f709491221488498156ee2f8e66e37eade4e4e98a8"
+    },
+    "a880911336adf19d": {
+      "text": "预言家请睁眼。请选择要查验的玩家，并私下查看结果。",
+      "duration": 6.0,
+      "src": "/assets/nightfall/narrators/kokoro/a880911336adf19d.mp3",
+      "textHash": "a880911336adf19d3bc86cd6234f8ded126763b4b5affadfe56aa057f3137517"
+    },
+    "161d95e00d8b9166": {
+      "text": "纯白之女请睁眼。请选择要查验的玩家。",
+      "duration": 4.7,
+      "src": "/assets/nightfall/narrators/kokoro/161d95e00d8b9166.mp3",
+      "textHash": "161d95e00d8b9166dd3da3fcf25488255a3498a30d9a9502afa8f9d24301e4d7"
+    },
+    "6dfff36a07d14431": {
+      "text": "狼巫请睁眼。请根据设备上的私密技能提示行动。",
+      "duration": 5.35,
+      "src": "/assets/nightfall/narrators/kokoro/6dfff36a07d14431.mp3",
+      "textHash": "6dfff36a07d144310a2975357dc3f5f2eea0c0bb01031b2589b2cb5308a1d07e"
+    },
+    "0ba3103a60f83b66": {
+      "text": "石像鬼请睁眼。请选择要查验的玩家。",
+      "duration": 4.525,
+      "src": "/assets/nightfall/narrators/kokoro/0ba3103a60f83b66.mp3",
+      "textHash": "0ba3103a60f83b669bf85ee0f7c5a389978e598df64be285e6797301dde16eb6"
+    },
+    "e2cbf1700d157f7d": {
+      "text": "女巫请睁眼。请查看私密信息，然后决定是否使用药水。",
+      "duration": 6.0,
+      "src": "/assets/nightfall/narrators/kokoro/e2cbf1700d157f7d.mp3",
+      "textHash": "e2cbf1700d157f7d362ac790a2c5e970b497be8596b739ea70680592e8dcfa82"
+    },
+    "a629d85b8c335def": {
+      "text": "狼美人请睁眼。请选择要魅惑的玩家。",
+      "duration": 4.425,
+      "src": "/assets/nightfall/narrators/kokoro/a629d85b8c335def.mp3",
+      "textHash": "a629d85b8c335def577af099d2aebb6657ed7860838cca7573f738bf5c1f9091"
+    },
+    "b19bc389594e585d": {
+      "text": "乌鸦请睁眼。请选择要诅咒的玩家。",
+      "duration": 4.325,
+      "src": "/assets/nightfall/narrators/kokoro/b19bc389594e585d.mp3",
+      "textHash": "b19bc389594e585db4d84ed4b8496687b520d7458b036e1e385f3bebd8f249bd"
+    },
+    "669eee0cc81c7263": {
+      "text": "守墓人请睁眼。请查看设备上的私密信息。",
+      "duration": 4.825,
+      "src": "/assets/nightfall/narrators/kokoro/669eee0cc81c7263.mp3",
+      "textHash": "669eee0cc81c7263d252f535ab0fbc16093477965ded65676064a6df2c4449ab"
+    },
+    "43e0e49c89dc96dd": {
+      "text": "猎魔人请睁眼。请根据私密提示选择狩猎，或跳过。",
+      "duration": 5.525,
+      "src": "/assets/nightfall/narrators/kokoro/43e0e49c89dc96dd.mp3",
+      "textHash": "43e0e49c89dc96dd7af7a0ca6cf791632b4d9669b6c9963af3e381416f0de8f7"
+    },
+    "039f90c23b4dc967": {
+      "text": "吹笛者请睁眼。请选择要迷惑的玩家。",
+      "duration": 4.5,
+      "src": "/assets/nightfall/narrators/kokoro/039f90c23b4dc967.mp3",
+      "textHash": "039f90c23b4dc967e9cf0b014fc3e21fde983d4b4322481a65daae94c6ca248f"
+    },
+    "56a5b9d5bbae86b9": {
+      "text": "血月使徒请睁眼。请根据设备上的私密技能提示行动。",
+      "duration": 5.7,
+      "src": "/assets/nightfall/narrators/kokoro/56a5b9d5bbae86b9.mp3",
+      "textHash": "56a5b9d5bbae86b914c9737875ea2a32d2611cf21839218f33bf5ba73c2c1eaa"
+    },
+    "3c2012faab5c608d": {
+      "text": "丘比特请睁眼。请根据设备上的私密提示，选择两名情侣。其他玩家请保持闭眼。",
+      "duration": 8.0,
+      "src": "/assets/nightfall/narrators/kokoro/3c2012faab5c608d.mp3",
+      "textHash": "3c2012faab5c608df7c1d99dfa3b09dc833a35a314638ab5eb85de066ed7f3b2"
+    },
+    "8cc248aa1701100a": {
+      "text": "野孩子请睁眼。请根据设备上的私密提示，选择你的榜样。其他玩家请保持闭眼。",
+      "duration": 7.6,
+      "src": "/assets/nightfall/narrators/kokoro/8cc248aa1701100a.mp3",
+      "textHash": "8cc248aa1701100ad5d13ac54974c548290ba3923bb8e28d23942308613ec62c"
+    },
+    "8274c76a5cee5094": {
+      "text": "狼狗请睁眼。请根据设备上的私密提示，选择好人或狼人阵营。其他玩家请保持闭眼。",
+      "duration": 8.35,
+      "src": "/assets/nightfall/narrators/kokoro/8274c76a5cee5094.mp3",
+      "textHash": "8274c76a5cee509409a7dbf6898525f528a017d8b934957b6f075ec4c9588d49"
+    },
+    "a5648c46ffa1c81f": {
+      "text": "盗贼请睁眼。请根据设备上的私密提示，从提供的两个身份中选择一个。其他玩家请保持闭眼。",
+      "duration": 9.2,
+      "src": "/assets/nightfall/narrators/kokoro/a5648c46ffa1c81f.mp3",
+      "textHash": "a5648c46ffa1c81f3d717a097ea091c27015bd81fa042b1c65001fa12950099b"
+    },
+    "73f7f2b1cd679e2e": {
+      "text": "机械狼请睁眼。请根据设备上的私密提示，选择一名玩家，学习其身份。其他玩家请保持闭眼。",
+      "duration": 9.425,
+      "src": "/assets/nightfall/narrators/kokoro/73f7f2b1cd679e2e.mp3",
+      "textHash": "73f7f2b1cd679e2ef168e496c10e066cfe79018dd4190fec4665e4dd33372340"
+    },
+    "2840162cd4838468": {
+      "text": "昨夜出局的玩家是：",
+      "duration": 2.7,
+      "src": "/assets/nightfall/narrators/kokoro/2840162cd4838468.mp3",
+      "textHash": "2840162cd483846821adeea380b14e8e77cbe1f1caa75d736c6a3ccb209c6d5b"
+    },
+    "0454664836a93984": {
+      "text": "昨夜是平安夜，无人出局。",
+      "duration": 3.45,
+      "src": "/assets/nightfall/narrators/kokoro/0454664836a93984.mp3",
+      "textHash": "0454664836a93984e8eefbcf1f0be74eda0f63a0cf8295889901a08f6da90221"
+    },
+    "6e95ef0a45ab0dca": {
+      "text": "本届警长是：",
+      "duration": 2.175,
+      "src": "/assets/nightfall/narrators/kokoro/6e95ef0a45ab0dca.mp3",
+      "textHash": "6e95ef0a45ab0dcabc10272326bbaa4091bbbffda27215e519f7a887ebedfec7"
+    },
+    "5490aec7e9f07a7f": {
+      "text": "本局没有选出警长，不设警徽。",
+      "duration": 3.825,
+      "src": "/assets/nightfall/narrators/kokoro/5490aec7e9f07a7f.mp3",
+      "textHash": "5490aec7e9f07a7f63e766e4a9e8f6460d1c8d245f799ee3b74ce82ce6393ab2"
+    },
+    "fd52a2f22708ac3c": {
+      "text": "暂不公布昨夜结果。所有玩家请在设备上选择是否上警。",
+      "duration": 5.975,
+      "src": "/assets/nightfall/narrators/kokoro/fd52a2f22708ac3c.mp3",
+      "textHash": "fd52a2f22708ac3ced443e9627f683b57d0b36df89dfc29060df663da3bf6108"
+    },
+    "7bcc1869313d1d1f": {
+      "text": "警长候选人按座位顺序发言。发言结束后请点击完成。可以退水，但退水玩家不能投票。",
+      "duration": 8.675,
+      "src": "/assets/nightfall/narrators/kokoro/7bcc1869313d1d1f.mp3",
+      "textHash": "7bcc1869313d1d1f91abe5249c41272c832e5ea92043ea2d20269cc5a0dd9c30"
+    },
+    "4edd3793e965f771": {
+      "text": "1号。",
+      "generationText": "一号玩家。",
+      "duration": 1.975,
+      "src": "/assets/nightfall/narrators/kokoro/4edd3793e965f771.mp3",
+      "textHash": "4edd3793e965f7714d7aa8c03818951c37b7ef88994bf4bf9c38c14ade4d430b",
+      "fingerprint": "bac6b708333d015f7e8600d7d8d3cf029bfe6960a6465ccaf9e6665fa338f686"
+    },
+    "94d4c46d4135fe55": {
+      "text": "2号。",
+      "generationText": "二号玩家。",
+      "duration": 2.0,
+      "src": "/assets/nightfall/narrators/kokoro/94d4c46d4135fe55.mp3",
+      "textHash": "94d4c46d4135fe55703ffdc9fba35d7745e8f25e501434bc7ca33b88c08a106b",
+      "fingerprint": "090ba81f9d2a882c3e44d781bad55ed5db49daf02997fb2762151e35042a6d01"
+    },
+    "61ab79fcedc6dbbe": {
+      "text": "3号。",
+      "generationText": "三号玩家。",
+      "duration": 2.0,
+      "src": "/assets/nightfall/narrators/kokoro/61ab79fcedc6dbbe.mp3",
+      "textHash": "61ab79fcedc6dbbec931730735d4e641b9fdd95b95582bd34df34f8e6ff53211",
+      "fingerprint": "e96fcd7e4c5bfc91721e4bf29bf65df75cb7508d565b344edee1efaa305f6d39"
+    },
+    "b56c33ee837f0abe": {
+      "text": "4号。",
+      "generationText": "四号玩家。",
+      "duration": 1.95,
+      "src": "/assets/nightfall/narrators/kokoro/b56c33ee837f0abe.mp3",
+      "textHash": "b56c33ee837f0abe2578b4e5a961607dccf29981ce4920e3e8dd3c4d1f328a96",
+      "fingerprint": "362132829f7750c41a7b125e42dabcb3c4751ba9e40e743f0b16cfbb76657d9c"
+    },
+    "f8e39b2807dd3ccb": {
+      "text": "5号。",
+      "generationText": "五号玩家。",
+      "duration": 1.975,
+      "src": "/assets/nightfall/narrators/kokoro/f8e39b2807dd3ccb.mp3",
+      "textHash": "f8e39b2807dd3ccbc1664e72b94b60b593c37809ed1a6bbc160141febc942e4d",
+      "fingerprint": "36984b236ca142cb321a00534b3f192dd223e5db5763b4c4fc928e9d1f3e9c1a"
+    },
+    "929a30f8440f8e35": {
+      "text": "6号。",
+      "generationText": "六号玩家。",
+      "duration": 2.025,
+      "src": "/assets/nightfall/narrators/kokoro/929a30f8440f8e35.mp3",
+      "textHash": "929a30f8440f8e35cf9c52f438aaae8d7711a35057db56a4ef33b0affabd4553",
+      "fingerprint": "c3e780dd13dba1d3b83112d2ee93a85c540b1cbb2945fe493a29de3d0f69a580"
+    },
+    "01d14c154c38aadc": {
+      "text": "7号。",
+      "generationText": "七号玩家。",
+      "duration": 1.95,
+      "src": "/assets/nightfall/narrators/kokoro/01d14c154c38aadc.mp3",
+      "textHash": "01d14c154c38aadc5c963ceb1d02d8a20f60489205ae97b40d9b4d66e02e361c",
+      "fingerprint": "211babc3453d5a5bee1207ef32dc336a1874bb5e47e5e10165aa0eb3a1191105"
+    },
+    "c4aa4e4290591ece": {
+      "text": "8号。",
+      "generationText": "八号玩家。",
+      "duration": 1.975,
+      "src": "/assets/nightfall/narrators/kokoro/c4aa4e4290591ece.mp3",
+      "textHash": "c4aa4e4290591ece4f1e880c150b6bfce99bdc0515bc88c0bc0d04088fd824d3",
+      "fingerprint": "15e8f33c5ce0ff66f35d8b55bd97091530d2d2af3573cff84903c08b71231083"
+    },
+    "492bdf5813592998": {
+      "text": "9号。",
+      "generationText": "九号玩家。",
+      "duration": 1.95,
+      "src": "/assets/nightfall/narrators/kokoro/492bdf5813592998.mp3",
+      "textHash": "492bdf581359299849369e68e432ca6fdca3b0bcad02ff28ba95e3d87d1d795a",
+      "fingerprint": "9ebf0c5d3031c753977a81083521dc9938e69eaaa3e2d73fc3fecfdb800292e5"
+    },
+    "2be5c94924eb2184": {
+      "text": "10号。",
+      "generationText": "十号玩家。",
+      "duration": 2.025,
+      "src": "/assets/nightfall/narrators/kokoro/2be5c94924eb2184.mp3",
+      "textHash": "2be5c94924eb2184aa73bb66c9de6f1d236bff59700c68093bf0a2f960eee6a0",
+      "fingerprint": "10a8c2639b29110ab2549e39c088ea2a6e19be97b5e900b6665939e7e37d4f1f"
+    },
+    "2e00d311093b028c": {
+      "text": "11号。",
+      "generationText": "十一号玩家。",
+      "duration": 2.125,
+      "src": "/assets/nightfall/narrators/kokoro/2e00d311093b028c.mp3",
+      "textHash": "2e00d311093b028c6344421ebd08b5b3f4349ad5ff4bc4517327c1ba92d631dd",
+      "fingerprint": "63c67b576614d236ec964b86ccac39b58c4c2abcea20265f257f327af7e6f50d"
+    },
+    "38e7b38f3e1db16d": {
+      "text": "12号。",
+      "generationText": "十二号玩家。",
+      "duration": 2.125,
+      "src": "/assets/nightfall/narrators/kokoro/38e7b38f3e1db16d.mp3",
+      "textHash": "38e7b38f3e1db16dcf54fb12dbd37f9870568f2ae6893ed45df2668470befe4f",
+      "fingerprint": "61a4ce740405a1b127d4b4401bd51291e3e5fe12ddb28b83ff3da3f61507629b"
+    },
+    "949cb9bd9af68c04": {
+      "text": "13号。",
+      "generationText": "十三号玩家。",
+      "duration": 2.15,
+      "src": "/assets/nightfall/narrators/kokoro/949cb9bd9af68c04.mp3",
+      "textHash": "949cb9bd9af68c044b5d39558b111fdac385554db47421b8fa2da6c5eb8fb51b",
+      "fingerprint": "1b3f15c9e74f7c43ae1001ba2cee8be52f1b1e886a099378a36aac6bddb1d878"
+    },
+    "33326414876401f8": {
+      "text": "14号。",
+      "generationText": "十四号玩家。",
+      "duration": 2.15,
+      "src": "/assets/nightfall/narrators/kokoro/33326414876401f8.mp3",
+      "textHash": "33326414876401f80ee2573d9f0b80613048e511eb081bd264d01d0ab74e2cc0",
+      "fingerprint": "37d9a5959c1571676666501a761dae9ca40dbc465ee26d5e0f77deec961bb9ad"
+    },
+    "c2d8a66f133c4168": {
+      "text": "15号。",
+      "generationText": "十五号玩家。",
+      "duration": 2.125,
+      "src": "/assets/nightfall/narrators/kokoro/c2d8a66f133c4168.mp3",
+      "textHash": "c2d8a66f133c4168f24d46c672b7e7f8237b5749d2d5b0a9a0213abdc58e0ea5",
+      "fingerprint": "06437a7bba6bc4ee31424fa8369e571515ecca9f4b5a2f9fe37e88d251f28035"
+    },
+    "0f9ce7f3f05a9b31": {
+      "text": "16号。",
+      "generationText": "十六号玩家。",
+      "duration": 2.225,
+      "src": "/assets/nightfall/narrators/kokoro/0f9ce7f3f05a9b31.mp3",
+      "textHash": "0f9ce7f3f05a9b31d4f449ee147c7f705fb81bef28b9d64b02d29494d0ef7f23",
+      "fingerprint": "40e4ab79f05454ac75e7b8e9f9763ea81cd118280d3d1e746862b081a06ee9cd"
+    },
+    "8850555999a439e8": {
+      "text": "17号。",
+      "generationText": "十七号玩家。",
+      "duration": 2.175,
+      "src": "/assets/nightfall/narrators/kokoro/8850555999a439e8.mp3",
+      "textHash": "8850555999a439e86a0e3529cb95157041bd6f1fb5eb73d193d98dcd751ddd38",
+      "fingerprint": "5cc317be470253bdc1d07b47c2545d096a2a34b68639ad2364067dc3c77c106e"
+    },
+    "d44b435acd77ba37": {
+      "text": "18号。",
+      "generationText": "十八号玩家。",
+      "duration": 2.2,
+      "src": "/assets/nightfall/narrators/kokoro/d44b435acd77ba37.mp3",
+      "textHash": "d44b435acd77ba379f223732ef99a89a4c8ff3f8edc334f8bc74f8c0e3f6200f",
+      "fingerprint": "b8e373f1ab70a0a5383a62aa36f9765502ee9f73bf2fb5790134f529286d8853"
+    },
+    "926a4696a2c7dc17": {
+      "text": "19号。",
+      "generationText": "十九号玩家。",
+      "duration": 2.175,
+      "src": "/assets/nightfall/narrators/kokoro/926a4696a2c7dc17.mp3",
+      "textHash": "926a4696a2c7dc177d5ac9370f0024cb6e8e6e5ee9dedb5cc4c6da681a76dba6",
+      "fingerprint": "8e4b46517d3fb837fb7704b1a3acc1df3d3317999ebf467985223033f3878c2c"
+    },
+    "073fb408d9f525ec": {
+      "text": "20号。",
+      "generationText": "二十号玩家。",
+      "duration": 2.2,
+      "src": "/assets/nightfall/narrators/kokoro/073fb408d9f525ec.mp3",
+      "textHash": "073fb408d9f525ec23716bb437cac0bec1c63ee7f0050e4964497d11ff04f309",
+      "fingerprint": "70b08b4164b0b5b3c202eff5259dc15fb9eadfe0510228a40c9b101429063124"
+    },
+    "1306203a5dace973": {
+      "text": "21号。",
+      "generationText": "二十一号玩家。",
+      "duration": 2.325,
+      "src": "/assets/nightfall/narrators/kokoro/1306203a5dace973.mp3",
+      "textHash": "1306203a5dace9736cb411a1de39f74d7b6f407b871bdbafcce4aa2cdaf8a124",
+      "fingerprint": "131375c5c651057c629f036c48f49d25e6df80fb15040f5b22edb8635fdc066d"
+    },
+    "65e7b1bacc956e9e": {
+      "text": "22号。",
+      "generationText": "二十二号玩家。",
+      "duration": 2.325,
+      "src": "/assets/nightfall/narrators/kokoro/65e7b1bacc956e9e.mp3",
+      "textHash": "65e7b1bacc956e9eb13143680ffc86b24b0f6884bba2691704b84fde69fb8ea4",
+      "fingerprint": "d4e04e9a437800fad6e0fb78b1c55cd989cec29fb5ff81d8aacd6103a0c9c43d"
+    },
+    "4892a7f38156119d": {
+      "text": "23号。",
+      "generationText": "二十三号玩家。",
+      "duration": 2.4,
+      "src": "/assets/nightfall/narrators/kokoro/4892a7f38156119d.mp3",
+      "textHash": "4892a7f38156119d8425e174ea5e15f82df121dbe3776826c65f5d1505a6b2c9",
+      "fingerprint": "93193546a621f61953569303317132c7f8bd49301481f61f5e75987c21c85a72"
+    },
+    "1a2c7e4879d93707": {
+      "text": "24号。",
+      "generationText": "二十四号玩家。",
+      "duration": 2.35,
+      "src": "/assets/nightfall/narrators/kokoro/1a2c7e4879d93707.mp3",
+      "textHash": "1a2c7e4879d937074a3fe3af312b792bca520abc20bacf20b34da2befcb17a0c",
+      "fingerprint": "28b10972c3d612f762a24fc5f615f9ef512693dd11f91809044d2ecb9b5d98bf"
+    },
+    "7ac00f9e05150e65": {
+      "text": "以下玩家已出局：",
+      "duration": 2.625,
+      "src": "/assets/nightfall/narrators/kokoro/7ac00f9e05150e65.mp3",
+      "textHash": "7ac00f9e05150e65e3a08c351c7b9c52888b3a78278acbf1cd06c7c3f3a8dfea"
+    },
+    "0915767fa4bbabe2": {
+      "text": "禁言长老请睁眼。请选择明天禁言的玩家，或选择空过。其他玩家请保持闭眼。",
+      "duration": 7.825,
+      "src": "/assets/nightfall/narrators/kokoro/0915767fa4bbabe2.mp3",
+      "textHash": "0915767fa4bbabe2287bdc29d13e29a7ebcd6e3876e77f23d0e4ef5cca8d9ab9"
+    },
+    "e28886258a485a30": {
+      "text": "以下玩家今日禁言，仍可投票及发动技能。",
+      "duration": 4.95,
+      "src": "/assets/nightfall/narrators/kokoro/e28886258a485a30.mp3",
+      "textHash": "e28886258a485a304e8309899b53cf94ec159bc01b634c3901a12c350e389e57"
+    },
+    "3fe3a584f91a2b77": {
+      "text": "今日无人被禁言。",
+      "duration": 2.625,
+      "src": "/assets/nightfall/narrators/kokoro/3fe3a584f91a2b77.mp3",
+      "textHash": "3fe3a584f91a2b770ae5d9ffeafcdd6c38d705df95e5fd3b575699007c6e5a6d"
+    }
+  }
+}
