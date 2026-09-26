@@ -71,13 +71,6 @@
 .loading h1 { font-family: Georgia, serif; color: #e3e2e5; font-size: 36px; margin: 20px 0 12px; }
 .loading p { font-size: 14px; }
 .roomLayout { max-width: 1320px; margin: auto; padding-bottom: 40px; }
-.roomBar { min-height: 112px; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
-.roomBar > div:first-child { display: flex; flex-direction: column; }
-.roomCode { display: flex; align-items: center; gap: 12px; border: 0; background: transparent; color: #ede4e8; padding: 3px 0; font-size: 25px !important; letter-spacing: .19em; font-weight: 500; }
-.roomCode svg { color: #8b8a8d; }
-.roomBarActions { display: flex; gap: 15px; align-items: center; }
-.connectionState { display: inline-flex; gap: 6px; align-items: center; font-size: 10px; color: #c29c70; }
-.isOnline { color: #92b39e; }
 .gameColumns { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 25px; align-items: start; }
 .tablePanel { border: 1px solid #353437; border-radius: 11px; overflow: hidden; background: #18171a; }
 .phaseHeading { min-height: 113px; display: flex; align-items: center; gap: 16px; padding: 25px 30px; }
@@ -86,23 +79,7 @@
 .timer { margin-left: auto; display: flex; align-items: center; gap: 6px; color: #c9aaa8; font-size: 14px; font-variant-numeric: tabular-nums; }
 .seatArea { position: relative; padding: 40px 25px 25px; background: radial-gradient(ellipse at 50% 42%, #2d2c2f44 0, transparent 68%); }
 .seatGrid { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 29px 12px; }
-.seat { display: flex; flex-direction: column; align-items: center; min-width: 0; text-align: center; position: relative; border: 0; background: none; padding: 4px 0; color: #ddd2de; }
-.avatar { position: relative; width: 56px; height: 56px; border: 1px solid #4c4b4e; background: #29282b; border-radius: 50%; display: grid; place-items: center; margin-bottom: 12px; color: #bcbbbe; }
-.avatar > span:first-child { font-family: Georgia, serif; font-size: 25px; }
-.presence { position: absolute; bottom: 1px; right: 1px; width: 10px; height: 10px; border: 2px solid #1a191c; border-radius: 50%; background: #6b6a6d; }
-.present { background: #8ca993; }
-.hostCrown { position: absolute; top: -8px; right: -4px; color: #d3ad7b; }
-.seatNumber { position: absolute; top: 4px; left: calc(50% - 47px); font-size: 9px; font-variant-numeric: tabular-nums; color: #878689; }
-.seat > strong { max-width: 100%; font-size: 12px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.seat strong small { color: #98979a; font-size: 9px; }
-.seatStatus { font-size: 9px; color: #919093; margin-top: 3px; }
-.mySeat .avatar { border-color: #c49091; background: #493039; color: #f2c9c7; box-shadow: 0 0 0 4px #9a606217; }
-.mySeat > strong { color: #f1c5c8; }
-.emptySeat .avatar { border-style: dashed; background: #1c1b1e; border-color: #3b3a3d; color: #6f6e71; }
 .emptySeat strong { color: #838285; }
-.emptySeat .seatStatus { color: #6d6c6f; }
-.deadSeat { opacity: .55; }
-.speakingSeat .avatar { box-shadow: 0 0 0 4px #b2976238; border-color: #d3ad7b; }
 .revealedSeatRole { color: #d6b596; font-size: 10px; margin-top: 4px; }
 .tableWatermark { pointer-events: none; display: none; }
 .tableFooter { display: flex; align-items: center; justify-content: space-between; padding: 23px 30px; margin-top: 8px; gap: 10px; }
@@ -112,11 +89,6 @@
 .sectionHeading { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
 .sectionHeading h2 { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 550; color: #d0cfd2; margin: 0; }
 .sectionHeading .iconButton { margin: -6px; }
-.identityCard { width: 100%; min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px solid #4a494c; background: #252427; border-radius: 7px; color: #b7b6b9; }
-.identityCard > svg { margin-bottom: 10px; }
-.identityCard > strong { font-family: Georgia, "Songti SC", serif; font-size: 19px; font-weight: 400; color: #dfdee1; }
-.identityCard > span { font-size: 10px; color: #9a999c; }
-.identityRevealed { background: #332128; border-color: #93565a; color: #e1a5aa; }
 .hiddenIdentity { padding: 22px 15px 6px; text-align: center; color: #969598; }
 .hiddenIdentity p { font-size: 12px; line-height: 1.7; margin: 12px 0; }
 .roleDescription, .allies, .privateLog { font-size: 11px; color: #b8b7ba; margin: 14px 0 0; line-height: 1.7; }
@@ -172,20 +144,8 @@
 .chatMessages p { color: #b5b4b7; font-size: 12px; margin: 3px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .chatForm { display: flex; gap: 10px; margin-top: 12px; }
 .chatForm input { font-size: 12px; }
-.modal { color-scheme: dark; width: min(680px, calc(100vw - 32px)); max-height: min(90dvh, 900px); margin: auto; padding: 27px; border: 1px solid #4d4c4f; border-radius: 11px; background: #19181b; color: #dbdadd; font-family: Avenir, "Avenir Next", "Segoe UI", "PingFang SC", sans-serif; font-size: 13px; line-height: 1.6; box-shadow: 0 28px 100px #0008; }
-.modal::backdrop { background: #08070abd; backdrop-filter: blur(5px); }
-.modalHeading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 20px; }
-.modalHeading h2 { font-family: Georgia, "Songti SC", serif; font-size: 27px; font-weight: 400; margin: 0; }
 .modal .hint { font-size: 11px; }
 .modalActions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; padding-top: 22px; margin-top: 12px; border-top: 1px solid #3c3b3e; }
-.invitePanel { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
-.invitePanel > p { margin: 0; color: #bebdc0; max-width: 410px; }
-.qrFrame { width: min(256px, 100%); background: #fff; border-radius: 6px; overflow: hidden; margin: 6px 0; }
-.qrFrame svg { display: block; width: 100%; height: auto; }
-.inviteCode { font-size: 27px; letter-spacing: .18em; font-variant-numeric: tabular-nums; line-height: 1; }
-.invitePanel .inviteHint { margin: 3px 0 8px; font-size: 12px; }
-.inviteLink { width: 100%; max-width: 450px; text-align: left; margin-top: 5px; }
-.inviteLink input { font-size: 12px; }
 .searchInput { margin: 7px 0 19px; }
 .filterTabs { display: flex; gap: 20px; border-bottom: 1px solid #3b3a3d; overflow-x: auto; }
 .filterTabs button { white-space: nowrap; font-size: 11px; }
@@ -236,10 +196,10 @@
 .addPlayerForm .hint { grid-column: 1 / -1; }
 .recoveryBox { padding: 14px; border: 1px solid #5e3e4b; border-radius: 6px; margin: 15px 0; }
 .recoveryBox input { font-family: monospace; font-size: 11px; }
-@media (min-width: 1200px) { .seatGrid { gap: 37px 16px; } .avatar { width: 62px; height: 62px; } .seatArea { padding: 34px 35px 20px; } .seat > strong { font-size: 13px; } }
-@media (max-width: 1050px) { .app { padding: 0 4%; } .entryLayout { gap: 42px; } .entryPanel { padding: 26px; } .gameColumns { gap: 18px; grid-template-columns: minmax(0, 1fr) 280px; } .phaseHeading { padding: 24px 20px; gap: 12px; } .phaseHeading h1 { font-size: 24px; } .seatArea { padding: 30px 16px 20px; } .seatGrid { gap: 25px 8px; } .tableFooter { padding: 18px 20px; } .avatar { width: 48px; height: 48px; } .seatNumber { left: calc(50% - 36px); } .entryFacts { gap: 13px; } }
-@media (max-width: 800px) { .header { height: 80px; gap: 10px; } .headerActions { gap: 18px; } .wordmark > span { font-size: 15px; } .navButton span { display: none; } .entryLayout { grid-template-columns: 1fr 1fr; gap: 30px; min-height: calc(100dvh - 150px); padding: 55px 0; } .introduction h1 { font-size: 49px; } .introCopy { font-size: 13px; } .entryPanel { padding: 22px; } .entryFormHeading h2 { font-size: 21px; } .roleFan { transform: scale(.82); transform-origin: left center; margin-right: -50px; height: 210px; padding-left: 19px; } .entryFacts { font-size: 10px; } .gameColumns { grid-template-columns: minmax(0, 1fr) 250px; gap: 15px; } .seatGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .sidebar { gap: 15px; } .identityPanel, .hostPanel, .audioPanel { padding: 16px; } .phaseHeading { align-items: start; gap: 9px; } .phaseIcon { width: 36px; height: 36px; flex-shrink: 0; } .phaseIcon svg { width: 22px; } .phaseHeading h1 { font-size: 22px; } .timer { font-size: 11px; flex-shrink: 0; } .phaseHeading .eyebrow { font-size: 8px; } .roomBarActions { gap: 10px; } .targetGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .actionPanel { padding: 20px; } }
-@media (max-width: 650px) { .app { padding: 0 18px; } .header { height: 75px; gap: 7px; } .headerActions { gap: 17px; } .wordmark > span { font-size: 14px; } .wordmark small { font-size: 7px; } .wordmark > svg { width: 21px; } .backLink { width: 18px; margin-right: 3px; } .languageButton { font-size: 10px !important; padding: 6px 8px; } .headerActions .navButton:first-child { display: none; } .entryLayout { display: flex; flex-direction: column; gap: 28px; align-items: stretch; padding: 42px 0; } .introduction h1 { font-size: 55px; margin: 20px 0 16px; } .introCopy { max-width: 350px; line-height: 1.75; } .roleFan { position: absolute; top: 170px; right: 4px; transform: rotate(5deg) scale(.45); transform-origin: right center; width: 335px; padding-left: 0; opacity: .56; pointer-events: none; margin-right: 0; } .introduction { position: relative; padding-bottom: 10px; } .introduction > .eyebrow { font-size: 9px; } .entryFacts { margin-top: 25px; gap: 14px; max-width: 235px; font-size: 10px; } .entryPanel { padding: 25px; position: relative; } .entryFormHeading h2 { font-size: 24px; } .entryTabs { margin-bottom: 23px; } .entryTabs button { font-size: 12px; } .gameColumns { display: flex; flex-direction: column; gap: 17px; } .tablePanel { width: 100%; } .sidebar { width: 100%; grid-template-columns: 1fr; } .identityPanel { order: 0; } .hostPanel { order: 1; } .audioPanel { order: 2; } .roomBar { min-height: 100px; gap: 8px; } .roomCode { font-size: 22px !important; } .roomBarActions { gap: 5px; flex-wrap: wrap; justify-content: flex-end; } .roomBarActions .secondaryButton { padding: 7px 10px; min-height: 33px; font-size: 10px !important; } .connectionState { width: 100%; justify-content: flex-end; font-size: 9px; } .roomBarActions .iconButton { width: 29px; height: 29px; } .phaseHeading { padding: 22px 19px 12px; align-items: center; } .phaseHeading h1 { font-size: 24px; } .phaseIcon { width: 39px; height: 39px; } .timer { margin-left: auto; } .seatArea { padding-top: 26px; } .seatGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 27px 12px; } .avatar { width: 53px; height: 53px; } .seatNumber { left: calc(50% - 40px); } .seat > strong { font-size: 12px; } .seatStatus { font-size: 9px; } .tableFooter { padding: 16px 18px; } .tableFooter > span { font-size: 10px; } .identityCard { min-height: 135px; } .hiddenIdentity { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0; } .hiddenIdentity p { max-width: 245px; text-align: left; } .hostButtons { grid-template-columns: repeat(2, 1fr); } .hostButtons .primaryButton { grid-column: 1 / -1; } .activityPanel { padding: 0 16px 16px; margin-top: 18px; } .activityHeading > .hint { display: none; } .activityTabs { gap: 23px; } .actionPanel { padding: 20px 18px; } .actionPanel .sectionHeading { flex-wrap: wrap; } .targetGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .targetButton { font-size: 10px !important; padding: 10px 8px; gap: 5px; } .footer { font-size: 9px; min-height: 65px; } .footer > span > span { padding: 0 5px; } .footer button { font-size: 9px; } .modal { padding: 22px 19px; } .modalHeading h2 { font-size: 25px; } .filterTabs { gap: 16px; } .modalActions { padding-top: 18px; } .timeSettings { gap: 7px; } .timeSettings input { padding: 10px; } .timeSettings label { font-size: 9px; } .notice, .pendingNotice { margin: 8px 16px; } .error, .connectionBanner { font-size: 11px; padding: 12px; flex-wrap: wrap; } .connectionBanner button { margin-left: 28px; } }
+@media (min-width: 1200px) { .seatGrid { gap: 37px 16px; } .seatArea { padding: 34px 35px 20px; } }
+@media (max-width: 1050px) { .app { padding: 0 4%; } .entryLayout { gap: 42px; } .entryPanel { padding: 26px; } .gameColumns { gap: 18px; grid-template-columns: minmax(0, 1fr) 280px; } .phaseHeading { padding: 24px 20px; gap: 12px; } .phaseHeading h1 { font-size: 24px; } .seatArea { padding: 30px 16px 20px; } .seatGrid { gap: 25px 8px; } .tableFooter { padding: 18px 20px; } .entryFacts { gap: 13px; } }
+@media (max-width: 800px) { .header { height: 80px; gap: 10px; } .headerActions { gap: 18px; } .wordmark > span { font-size: 15px; } .navButton span { display: none; } .entryLayout { grid-template-columns: 1fr 1fr; gap: 30px; min-height: calc(100dvh - 150px); padding: 55px 0; } .introduction h1 { font-size: 49px; } .introCopy { font-size: 13px; } .entryPanel { padding: 22px; } .entryFormHeading h2 { font-size: 21px; } .roleFan { transform: scale(.82); transform-origin: left center; margin-right: -50px; height: 210px; padding-left: 19px; } .entryFacts { font-size: 10px; } .gameColumns { grid-template-columns: minmax(0, 1fr) 250px; gap: 15px; } .seatGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .sidebar { gap: 15px; } .identityPanel, .hostPanel, .audioPanel { padding: 16px; } .phaseHeading { align-items: start; gap: 9px; } .phaseIcon { width: 36px; height: 36px; flex-shrink: 0; } .phaseIcon svg { width: 22px; } .phaseHeading h1 { font-size: 22px; } .timer { font-size: 11px; flex-shrink: 0; } .phaseHeading .eyebrow { font-size: 8px; } .targetGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .actionPanel { padding: 20px; } }
+@media (max-width: 650px) { .app { padding: 0 18px; } .header { height: 75px; gap: 7px; } .headerActions { gap: 17px; } .wordmark > span { font-size: 14px; } .wordmark small { font-size: 7px; } .wordmark > svg { width: 21px; } .backLink { width: 18px; margin-right: 3px; } .languageButton { font-size: 10px !important; padding: 6px 8px; } .headerActions .navButton:first-child { display: none; } .entryLayout { display: flex; flex-direction: column; gap: 28px; align-items: stretch; padding: 42px 0; } .introduction h1 { font-size: 55px; margin: 20px 0 16px; } .introCopy { max-width: 350px; line-height: 1.75; } .roleFan { position: absolute; top: 170px; right: 4px; transform: rotate(5deg) scale(.45); transform-origin: right center; width: 335px; padding-left: 0; opacity: .56; pointer-events: none; margin-right: 0; } .introduction { position: relative; padding-bottom: 10px; } .introduction > .eyebrow { font-size: 9px; } .entryFacts { margin-top: 25px; gap: 14px; max-width: 235px; font-size: 10px; } .entryPanel { padding: 25px; position: relative; } .entryFormHeading h2 { font-size: 24px; } .entryTabs { margin-bottom: 23px; } .entryTabs button { font-size: 12px; } .gameColumns { display: flex; flex-direction: column; gap: 17px; } .tablePanel { width: 100%; } .sidebar { width: 100%; grid-template-columns: 1fr; } .identityPanel { order: 0; } .hostPanel { order: 1; } .audioPanel { order: 2; } .phaseHeading { padding: 22px 19px 12px; align-items: center; } .phaseHeading h1 { font-size: 24px; } .phaseIcon { width: 39px; height: 39px; } .timer { margin-left: auto; } .seatArea { padding-top: 26px; } .seatGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 27px 12px; } .tableFooter { padding: 16px 18px; } .tableFooter > span { font-size: 10px; } .hiddenIdentity { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 0; } .hiddenIdentity p { max-width: 245px; text-align: left; } .hostButtons { grid-template-columns: repeat(2, 1fr); } .hostButtons .primaryButton { grid-column: 1 / -1; } .activityPanel { padding: 0 16px 16px; margin-top: 18px; } .activityHeading > .hint { display: none; } .activityTabs { gap: 23px; } .actionPanel { padding: 20px 18px; } .actionPanel .sectionHeading { flex-wrap: wrap; } .targetGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .targetButton { font-size: 10px !important; padding: 10px 8px; gap: 5px; } .footer { font-size: 9px; min-height: 65px; } .footer > span > span { padding: 0 5px; } .footer button { font-size: 9px; } .filterTabs { gap: 16px; } .modalActions { padding-top: 18px; } .timeSettings { gap: 7px; } .timeSettings input { padding: 10px; } .timeSettings label { font-size: 9px; } .notice, .pendingNotice { margin: 8px 16px; } .error, .connectionBanner { font-size: 11px; padding: 12px; flex-wrap: wrap; } .connectionBanner button { margin-left: 28px; } }
 @media (max-width: 370px) { .app { padding: 0 12px; } .headerActions { gap: 10px; } .wordmark { gap: 6px; } .wordmark > span { font-size: 12px; } .entryPanel { padding: 21px; } .introduction h1 { font-size: 48px; } .targetGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (prefers-reduced-motion: reduce) { .app *, .app *::before, .app *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 
@@ -263,20 +223,7 @@
 .nightProgress svg { flex-shrink: 0; }
 
 .wolfHead { display: inline-block; flex-shrink: 0; background: currentColor; mask: url('/assets/werewolf/wolf-head.svg') center / contain no-repeat; }
-.circleScroll { overflow: auto; max-width: 100%; padding: 18px 0 65px; overscroll-behavior: contain; }
-.circleTable { position: relative; margin: 0 auto; flex-shrink: 0; }
-.circleTable::before { content: ''; position: absolute; inset: 16%; border: 1px solid #51424f; border-radius: 50%; background: radial-gradient(circle, #32273588, #17151b); }
-.circleCenter { position: absolute; inset: 37%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: #a397ab; font-size: 11px; }
-.circleSeat.seat { position: absolute; width: 94px; transform: translate(-50%, -50%); gap: 3px; }
-.circleSeat > strong { max-width: 94px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 11px; }
-.circleSeat .avatar { width: 46px; height: 46px; padding: 0; display: flex; align-items: center; justify-content: center; color: #e9dbe8; }
-.circleSeat .avatar:disabled { opacity: 1; cursor: default; }
-.circleNumber { position: absolute; top: 29px; left: 17px; border-radius: 50%; background: #302738; border: 1px solid #78647c; min-width: 21px; height: 21px; font-size: 11px; display: grid; place-items: center; }
-.profilePhoto { display: block; width: 100%; height: 100%; background-size: cover; background-position: center; border-radius: inherit; }
 .eliminatedBadge { position: absolute; right: -4px; bottom: -4px; background: #241924; border-radius: 50%; }
-.profileOptions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0; }
-.uploadPhoto { display: flex; flex-direction: column; gap: 12px; margin: 18px 0; }
-.uploadPhoto input { max-width: 100%; }
 .historyList { display: grid; gap: 12px; margin-top: 16px; }
 .historyList article { border-bottom: 1px solid #403341; padding-bottom: 10px; }
 .historyList article strong { display: block; margin-bottom: 5px; }
@@ -290,16 +237,6 @@
 .seatNumberSelect { width: 62px; background: #251f29; color: #eee; border: 1px solid #65566b; padding: 6px; border-radius: 6px; }
 
 .hostPanel > .textButton, .audioPanel > .textButton { display: flex; margin-top: 5px; }
-
-.stageBanner { position: sticky; top: 0; z-index: 30; padding: 14px 20px; margin: 0 -1px; background: #211c27f5; border: 1px solid #655269; border-radius: 0 0 12px 12px; backdrop-filter: blur(12px); display: flex; align-items: center; gap: 16px; box-shadow: 0 8px 25px #0004; }
-.stageBanner > span { font-size: 13px; color: #c5aaca; flex-shrink: 0; }
-.stageBanner > strong { font-size: 18px; line-height: 1.4; color: #f7edf7; }
-.circleTable::before { inset: 11%; }
-.circleSeat.seat { transform: translate(-50%, -23px); }
-.sheriffBadge { position: absolute; left: calc(50% + 12px); top: 30px; color: #ffd877; filter: drop-shadow(0 1px 2px #000); }
-.avatarEmoji { font-size: 29px; line-height: 1; }
-.profileOptions { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); max-height: 46vh; overflow: auto; padding: 4px; }
-.profileOptions > button { min-width: 0; min-height: 52px; padding: 8px; }
 .electionPanel { margin: 18px; padding: 20px; background: #242029; border: 1px solid #5b4b61; border-radius: 12px; }
 .electionPanel h2 { font-size: 20px; margin: 0 0 14px; }
 .electionPanel p { font-size: 15px; line-height: 1.6; }
@@ -313,18 +250,7 @@
   .app button, .app input, .app select, .app textarea { font-size: 16px !important; }
   .app button { min-height: 44px; }
   .app p { font-size: 16px; line-height: 1.65; }
-  .stageBanner { padding: 12px 14px; display: block; }
-  .stageBanner > span { font-size: 13px; display: block; margin-bottom: 3px; }
-  .stageBanner > strong { font-size: 19px; }
   .phaseHeading, .nightProgress { display: none; }
-  .circleScroll { padding: 18px 0 40px; }
-  .circleSeat > strong { font-size: 14px; max-width: 96px; }
-  .circleSeat .seatStatus { font-size: 12px; line-height: 1.4; }
-  .circleSeat .circleNumber { font-size: 13px; min-width: 24px; height: 24px; }
-  .circleCenter { font-size: 12px; gap: 5px; }
-  .circleCenter > strong { display: none; }
-  .roomBar { min-height: 84px; }
-  .roomBar .eyebrow, .connectionState { display: none; }
   .tableFooter > span, .tableFooter > .textButton { display: none; }
   .tableFooter { justify-content: center; padding: 12px; }
   .tableFooter > button { width: 100%; }
@@ -333,13 +259,11 @@
   .targetGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .targetButton { min-height: 52px; }
   .targetButton > span { font-size: 17px; }
-  .hint, .submitted, .seatStatus, .notice, .eventText, .voteProgress { font-size: 14px; }
+.hint, .submitted, .notice, .eventText, .voteProgress{ font-size: 14px; }
   .activityPanel { margin-top: 20px; }
   .activityTabs button { font-size: 16px; }
   .activityList { max-height: 230px; overflow: auto; }
-  .modal { padding: 22px 18px; }
   .modal p, .modal label, .historyList p, .replayRows > div { font-size: 16px; }
-  .profileOptions { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
   .electionPanel { margin: 12px; padding: 16px; }
   .footer > span { display: none; }
 }
@@ -351,28 +275,8 @@
   .actionPanel { order: -1; }
   .overnightResult { order: -3; }
   .waitingAction { display: none; }
-  .circleScroll { padding-bottom: 65px; }
 }
-
-/* Keep the three essential facts together: who I am, the current step, and dawn. */
-.stageBanner { display: block; padding: 12px 16px; }
-.playerIdentity { display: flex; align-items: center; gap: 12px; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #64516b; }
-.selfPortrait { width: 44px; height: 44px; border-radius: 50%; background: #47384f; display: grid; place-items: center; flex-shrink: 0; font-size: 24px; overflow: hidden; }
-.playerIdentity > div:nth-child(2) { display: grid; min-width: 0; }
-.playerIdentity span { font-size: 12px; color: #d5bddb; font-weight: 700; letter-spacing: .06em; }
-.playerIdentity strong { font-size: 19px; line-height: 1.4; overflow-wrap: anywhere; }
-.playerIdentity > b { margin-left: auto; color: #b4ddc1; font-size: 12px; padding: 5px 9px; border: 1px solid #59836a; border-radius: 6px; flex-shrink: 0; }
-.youEliminated { background: #4d242d; border: 2px solid #de8996; padding: 10px; border-radius: 8px; }
-.youEliminated > b { background: #923e50; color: white; border-color: #efa5b1; }
-.stageLine { display: flex; align-items: baseline; gap: 12px; }
-.stageLine > span { font-size: 13px; color: #ccb5d1; flex-shrink: 0; }
-.stageLine > strong { font-size: 18px; line-height: 1.4; }
 .daybreakSummary { margin-top: 10px; border-top: 1px solid #675169; padding-top: 10px; color: #f6d7b7; font-size: 16px; max-height: 95px; overflow: auto; }
-.circleSeat.deadSeat { opacity: 1; }
-.deadSeat .avatar { filter: grayscale(1); border: 2px solid #d98494; background: #34202a; }
-.deadCross { position: absolute; inset: -6px; display: grid; place-items: center; color: #ffb5c5; font-size: 70px !important; font-weight: 500; line-height: 1; text-shadow: 0 1px 4px #000; }
-.deadSeat .seatStatus { background: #6e2c3b; color: #fff0f3; border: 1px solid #c77487; border-radius: 4px; padding: 2px 6px; font-weight: 800; }
-.deadSeat > strong { color: #d6a5af; text-decoration: line-through; }
 .inspectionResult { margin: 16px; padding: 20px; border: 2px solid #aa87c0; border-radius: 12px; background: #34253f; }
 .inspectionResult p { font-size: 22px; margin: 12px 0; }
 .speakingTimer { margin: 16px; padding: 16px; border: 1px solid #5f4e68; border-radius: 10px; background: #201b26; }
@@ -382,16 +286,8 @@
 .timerReadout { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
 .timerReadout strong { font-size: 26px; font-variant-numeric: tabular-nums; color: #f2dba4; }
 @media (max-width:650px) {
-  .stageBanner { padding: 10px 12px; }
-  .stageLine { gap: 8px; }
-  .stageLine > strong { font-size: 17px; }
-  .selfPortrait { width: 40px; height: 40px; }
-  .playerIdentity strong { font-size: 18px; }
-  .playerIdentity > b { font-size: 11px; padding: 4px 6px; }
-  .playerIdentity { gap: 9px; }
   .inspectionResult { order: -4; }
   .speakingTimer { order: -3; }
-  .circleSeat.deadSeat .seatStatus { font-size: 12px; }
   .entryLayout { padding-top: 24px; }
   .introduction > h1 { font-size: 36px; margin: 12px 0; }
   .introduction .introCopy, .roleFan, .entryFacts { display: none; }
@@ -399,19 +295,12 @@
   .entryPanel { padding: 20px; }
   .readyPanel .primaryButton { margin-top: 12px; width: 100%; }
 }
-.deadSeat .avatar { filter: none; }
-.deadSeat .profilePhoto, .deadSeat .avatarEmoji { filter: grayscale(1); opacity: .45; }
 
 /* Keep the table's state, private card, and next action in one compact area. */
 .redundantHeading { display:none; }
 .cardToolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:12px 0; }
 .cardToolbar > span { color:#c9c2ce; }
 .pendingVotes { margin:8px 0 0; color:#e9cf98; font-size:15px; line-height:1.5; }
-.tableHourglass { display:grid; justify-items:center; gap:4px; }
-.tableHourglass svg { width:52px; height:72px; }
-.tableHourglass strong { font-size:24px; font-variant-numeric:tabular-nums; color:#f2deaf; }
-.tableHourglass span { font-size:13px; }
-.circleSeat .circleNumber { font-size:17px; min-width:28px; height:28px; font-weight:750; top:27px; left:12px; }
 .voteDiagram { width:100%; max-height:440px; color:#c7acee; }
 .personNumber { width:60px; flex-shrink:0; font-size:19px; }
 .seatNumberSelect { width:56px; font-size:18px; min-height:42px; padding:6px; }
@@ -456,39 +345,7 @@
 .characterIcon { display: inline-flex; position: relative; flex-shrink: 0; vertical-align: middle; }
 .characterIconArt { display: flex; position: relative; width: 100%; height: 100%; align-items: center; justify-content: center; }
 .wolfEmblem { position: absolute; right: -2px; bottom: -2px; display: grid; place-items: center; border-radius: 50%; padding: 1px; background: #211e28; box-shadow: 0 0 0 1px #211e28; }
-
-.identityCard > .characterIcon { color: inherit; margin-bottom: 10px; }
-
-/* Classic Werewolf: personal context first, then the decision and the table. */
-.playerIdentity { max-width:1320px; margin:16px auto 10px; padding:13px 16px; border:1px solid #4b3d49; border-radius:10px; background:#211b23; }
-.playerIdentity .selfPortrait { border:1px solid #715668; padding:0; width:48px; height:48px; color:#f4e7ed; cursor:pointer; }
-.playerIdentity .selfName { min-width:0; flex:1; display:grid; gap:2px; }
-.playerIdentity .selfName>strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:21px; line-height:1.3; }
-.playerIdentity .selfName>small { font-size:12px; color:#c2b4c2; }
-.playerIdentity .selfName>span { font-size:12px; color:#dbaba8; letter-spacing:.04em; }
-.identityShortcut { display:inline-flex; align-items:center; gap:7px; min-height:46px; flex-shrink:0; padding:10px 13px; border:1px solid #ab757b; border-radius:7px; background:#56323c; color:#ffdde0; font-size:15px!important; }
-.playerIdentity.youEliminated { background:#45222b; border:2px solid #d58494; }
-.youEliminated .selfName>small { color:#ffd3db; }
-.stageBanner { max-width:1320px; margin:0 auto; padding:15px 17px; border-radius:9px; background:#241e28f7; }
-.stageLine { align-items:center; gap:13px; }
-.stageLine>strong { flex:1; min-width:0; font-size:18px; }
-.stageLine .stageCount { margin-left:auto; text-align:right; line-height:1.3; font-size:18px; color:#f1c5bd; font-weight:650; font-variant-numeric:tabular-nums; }
-.stageCount>small { display:block; font-size:10px; font-weight:450; color:#c8b6cb; }
-.pendingDisclosure { margin-top:11px; padding-top:10px; border-top:1px solid #564352; }
-.pendingDisclosure>summary { display:flex; align-items:center; gap:9px; cursor:pointer; list-style:none; font-size:12px; color:#e8c79b; }
-.pendingDisclosure>summary::-webkit-details-marker { display:none; }
-.pendingDisclosure>summary::after { content:'+'; font-size:20px; margin-left:auto; flex-shrink:0; }
-.pendingDisclosure[open]>summary::after { content:'−'; }
-.pendingSeatNumbers { display:flex; flex-wrap:wrap; gap:4px; }
-.pendingSeatNumbers>b { font-size:12px; font-weight:650; min-width:23px; height:25px; padding:2px 4px; display:grid; place-items:center; border:1px solid #785766; background:#36262f; color:#f2d4d4; border-radius:4px; }
-.pendingDisclosure>ul { list-style:none; padding:12px 0 0; margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px 15px; max-height:180px; overflow:auto; }
-.pendingDisclosure li { display:flex; align-items:baseline; gap:7px; min-width:0; font-size:13px; }
-.pendingDisclosure li>b { color:#e8b9b4; }
-.pendingDisclosure li>span { overflow-wrap:anywhere; }
-.pendingDisclosure li>small { color:#b5a8b7; font-size:10px; }
-.app .allDecisionsDone { margin:9px 0 0; font-size:13px; color:#bad9c1; }
 .daybreakSummary { font-size:14px; line-height:1.5; max-height:75px; }
-.roomBar { min-height:88px; }
 .gameColumns,.tablePanel,.sidebar { min-width:0; }
 .cardToolbar { padding:0 20px; gap:10px; }
 .cardToolbar>strong { font-size:13px; }
@@ -526,49 +383,6 @@
 .deckRow>span>span { min-width:0; overflow-wrap:anywhere; }
 .deckRow button { min-width:44px; min-height:44px; }
 .deckRow .roleInfoButton { min-width:30px; min-height:44px; }
-
-/* Two readable clockwise arcs keep large tables entirely within the viewport. */
-.circleScroll { width:100%; max-width:100%; overflow:visible; padding:22px 15px; }
-.circleTable { width:100%; height:auto; max-width:540px; aspect-ratio:1; }
-.circleTable::before { inset:12%; }
-.circleSeat.seat { width:82px; transform:translate(-50%,-50%); gap:7px; padding:0; }
-.circleAvatarWrap { position:relative; flex-shrink:0; }
-.circleSeat .avatar { width:48px; height:48px; min-height:48px; margin:0; }
-.circleSeat .circleNumber { top:auto; left:auto; right:-7px; bottom:-6px; min-width:29px; height:29px; font-size:18px; z-index:2; background:#372735; color:#f9dfdb; }
-.circleSeat .sheriffBadge { top:-7px; left:-7px; z-index:3; width:20px; height:20px; }
-.circleSeat .hostCrown { right:-7px; top:-9px; }
-.circleSeatInfo { min-width:0; width:100%; }
-.circleSeatInfo>strong { display:block; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:550; color:#e0d4df; }
-.circleSeatInfo .seatStatus { display:block; margin-top:3px; font-size:11px; min-height:16px; line-height:1.3; }
-.circleSeatInfo>small { display:block; color:#d4b2ba; font-size:11px; line-height:1.4; }
-.circleSeatInfo .silencedLabel { font-size:10px; color:#e8c398; }
-.circleSeat.mySeat .circleSeatInfo>strong { color:#f3b7b6; }
-.circleSeat.deadSeat .circleSeatInfo>strong { text-decoration:line-through; color:#d4a1ad; }
-.circleSeat.deadSeat .seatStatus { display:inline-block; padding:2px 5px; font-weight:600; font-size:10px; }
-.circleSeat .deadCross { font-size:57px!important; inset:-4px; }
-.ovalTable { display:grid; grid-template-columns:minmax(0,1fr) 104px minmax(0,1fr); grid-template-rows:repeat(var(--seat-rows),minmax(72px,auto)); gap:11px 13px; aspect-ratio:auto; max-width:720px; padding:9px 0; }
-.ovalTable::before { inset:0 10%; border-radius:120px; background:#1c171f; box-shadow:inset 0 0 0 9px #17131a,inset 0 0 0 10px #382b37; }
-.ovalTable .circleCenter { position:relative; inset:auto; grid-column:2; grid-row:1 / span var(--seat-rows); align-self:center; justify-self:center; width:104px; gap:8px; z-index:1; }
-.ovalTable .circleCenter>strong { font-size:12px; letter-spacing:.07em; }
-.ovalTable .clockwiseHint { display:flex; align-items:center; justify-content:center; gap:4px; margin-top:7px; font-size:10px; }
-.ovalTable .circleSeat.seat { position:relative; left:auto; top:auto; transform:none; width:100%; min-height:72px; display:flex; flex-direction:row; gap:11px; align-items:center; padding:10px 9px; background:#241d28; border:1px solid #514151; border-radius:9px; box-shadow:0 3px 8px #100b1644; text-align:left; }
-.ovalTable .circleSeatInfo { flex:1; }
-.ovalTable .circleSeatInfo>strong { font-size:14px; }
-.ovalTable .circleSeat .avatar { width:46px; height:46px; min-height:46px; }
-.ovalTable .circleSeat .avatarEmoji { font-size:25px; }
-.ovalTable .circleSeat.mySeat { background:#36232d; border-color:#b87f86; }
-.ovalTable .circleSeat.speakingSeat { border-color:#c4a06a; background:#31291f; }
-.ovalTable .circleSeat.offlineSeat { border-style:dashed; }
-.ovalTable .circleSeat.deadSeat { border-color:#955668; background:#2b1d27; }
-.ovalTable .tableHourglass svg { width:42px; height:58px; }
-.ovalTable .tableHourglass strong { font-size:22px; text-align:center; }
-
-@media (max-width:1000px) and (min-width:901px) {
-  .ovalTable { grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr); gap:10px 7px; }
-  .ovalTable .circleCenter { width:72px; }
-  .ovalTable .circleSeat.seat { gap:8px; padding:9px 6px; }
-  .ovalTable .circleSeatInfo>strong { font-size:12px; }
-}
 @media (max-width:900px) {
   .gameColumns { display:flex; flex-direction:column; align-items:stretch; gap:14px; }
   .gameColumns>.tablePanel,.gameColumns>.sidebar { display:contents; }
@@ -587,11 +401,9 @@
   .hostMore { margin-top:8px; }
   .hostPanel .manageButton { min-height:44px; margin-top:9px; padding-top:9px; font-size:14px!important; }
   .speakingTimer { order:-20; margin:0; }
-  .circleScroll { order:0; padding:10px 0; }
   .tableFooter { order:1; padding:0 0 6px; margin:0; }
   .result { order:2; border-radius:10px; }
   .soundDetails { order:10; }
-  .circleTable { max-width:650px; }
   .targetGrid { grid-template-columns:repeat(3,minmax(0,1fr)); }
   .tableFooter>.secondaryButton { width:auto; }
   .tableFooter>.textButton { display:inline-flex; }
@@ -603,29 +415,7 @@
   .headerActions { gap:10px; }
   .headerActions .navButton { width:34px; justify-content:center; }
   .headerActions .languageButton { font-size:13px!important; padding:7px; }
-  .playerIdentity { margin-top:9px; padding:11px 12px; gap:10px; }
-  .playerIdentity .selfPortrait { width:44px; height:44px; min-height:44px; }
-  .playerIdentity .selfName>strong { font-size:19px; }
-  .playerIdentity .selfName>span { font-size:11px; }
-  .playerIdentity .selfName>small { font-size:11px; line-height:1.4; }
-  .app .identityShortcut { padding:8px 10px; font-size:14px!important; gap:5px; }
-  .stageBanner { padding:12px; }
-  .stageLine { gap:9px; }
-  .stageLine>span { font-size:12px; }
-  .stageLine>strong { font-size:16px; line-height:1.4; }
-  .stageLine .stageCount { font-size:17px; }
-  .pendingDisclosure { padding-top:9px; margin-top:9px; }
-  .pendingDisclosure>summary { gap:7px; font-size:11px; }
-  .pendingDisclosure>summary>span:first-child { flex-shrink:0; max-width:70px; }
-  .pendingSeatNumbers { gap:3px; }
-  .pendingSeatNumbers>b { min-width:21px; height:24px; font-size:11px; }
-  .pendingDisclosure>ul { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .daybreakSummary { font-size:13px; line-height:1.5; max-height:68px; }
-  .roomBar { min-height:75px; gap:8px; }
-  .roomBarActions { gap:4px; flex-wrap:nowrap; }
-  .roomBarActions .iconButton { width:37px; min-width:37px; min-height:44px; }
-  .roomBarActions .secondaryButton { min-height:44px; padding:7px 9px; font-size:13px!important; gap:6px; }
-  .roomCode { font-size:21px!important; letter-spacing:.12em; gap:8px; }
   .cardToolbar { gap:8px; }
   .cardToolbar .secondaryButton { margin-left:auto; font-size:14px!important; }
   .cardToolbar .primaryButton { font-size:14px!important; flex:1; }
@@ -646,25 +436,6 @@
   .hostPanel .textButton { min-height:44px; font-size:14px!important; }
   .soundDetails>summary { min-height:50px; padding:13px 16px; font-size:15px; }
   .speakingTimer summary { font-size:15px; min-height:30px; }
-  .circleTable { max-width:520px; }
-  .circleSeat.seat { width:74px; }
-  .circleSeatInfo>strong { font-size:12px; }
-  .circleSeat .avatar { width:44px; height:44px; min-height:44px; }
-  .circleSeat .circleNumber { font-size:18px; min-width:27px; height:27px; }
-  .circleCenter>span { font-size:11px; }
-  .ovalTable { grid-template-columns:minmax(0,1fr) 62px minmax(0,1fr); grid-template-rows:repeat(var(--seat-rows),minmax(69px,auto)); gap:10px 8px; padding:8px 0; }
-  .ovalTable .circleCenter { width:62px; }
-  .ovalTable .circleCenter>svg { width:27px; height:27px; }
-  .ovalTable .circleCenter>span { font-size:10px; text-align:center; }
-  .ovalTable .clockwiseHint { flex-direction:column; gap:4px; }
-  .ovalTable .circleSeat.seat { min-height:69px; padding:9px 7px; gap:9px; }
-  .ovalTable .circleSeat .avatar { width:44px; height:44px; min-height:44px; }
-  .ovalTable .circleSeatInfo>strong { font-size:13px; }
-  .ovalTable .circleSeatInfo .seatStatus { font-size:10px; }
-  .ovalTable .circleSeatInfo>small { font-size:10px; }
-  .ovalTable .circleSeat .circleNumber { right:-6px; bottom:-5px; }
-  .circleSeat .sheriffBadge { width:18px; height:18px; }
-  .circleSeat .hostCrown { width:13px; height:13px; }
   .tableFooter>.secondaryButton,.tableFooter>.textButton { font-size:14px!important; min-height:44px; }
   .activityDisclosure { margin-top:18px; }
   .activityDisclosure .activityPanel { padding:0 15px 15px; }
@@ -683,37 +454,16 @@
   .readyPanel .primaryButton { margin-top:0; }
 }
 @media (max-width:359px) {
-  .roomBarActions .secondaryButton { font-size:12px!important; padding:7px; }
-  .roomBarActions .iconButton { width:31px; min-width:31px; }
-  .roomCode { font-size:19px!important; gap:6px; }
-  .ovalTable { grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr); gap:9px 6px; }
-  .ovalTable .circleCenter { width:46px; }
-  .ovalTable .circleSeat.seat { gap:7px; padding:9px 4px; }
-  .ovalTable .circleSeatInfo>strong { font-size:12px; }
-  .identityShortcut { max-width:86px; }
   .deckRow { gap:5px; }
   .deckRow>span { font-size:13px; }
   .deckRow>div { gap:4px; }
 }
-
-.app .identityShortcut { white-space:nowrap; }
-.identityShortcut svg { flex-shrink:0; }
-@media (max-width:359px) {
-  .app .identityShortcut { padding:8px; gap:4px; }
-}
 .modal .readyPanel { position:sticky; bottom:0; z-index:5; margin:18px 0 0; padding:14px; border-color:#967386; background:#30232f; box-shadow:0 -9px 22px #19181be8; }
 .modal .readyPanel>span { display:block; margin-top:8px; font-size:12px; color:#cdbbce; text-align:center; }
-
-/* Keep all pending seats available without letting a 24-player status fill the phone. */
-@media (max-width:650px) {
-  .pendingSeatNumbers { max-height:52px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#a17b8a #30212c; padding-right:3px; }
-  .pendingDisclosure>summary { align-items:center; }
-}
 
 /* Shared table shortcuts stay easy to reach above even the largest table. */
 .tableTools { display:flex; flex-wrap:wrap; gap:8px; padding-top:14px; }
 .tableTools>.secondaryButton { min-height:44px; font-size:14px!important; padding:9px 12px; }
-.pendingDisclosure>ul { max-height:24vh; overflow-y:auto; overscroll-behavior:contain; }
 @media (max-width:900px) {
   .tableTools { order:-1; padding-top:0; }
 }
@@ -721,5 +471,3 @@
   .tableTools { gap:6px; }
   .tableTools>.secondaryButton { flex:1; padding:9px 7px; white-space:nowrap; }
 }
-
-.winnerSeat .avatar{border:2px solid #e1bd70;box-shadow:0 0 0 3px #d8b56b33;opacity:1}.winnerSeat .seatStatus{color:#f3cf83;font-weight:750}.winnerSeat .circleNumber{background:#e1bd70;color:#211a10}.winnerSeat.offlineSeat{opacity:1}
