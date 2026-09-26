@@ -1,3 +1,4 @@
+import { fakeAudioContext } from "./helpers/nightfallAudioContext.ts";
 import assert from "node:assert/strict";
 import test, { type TestContext } from "node:test";
 import { WerewolfAudio, type WerewolfAudioStatus, type WerewolfAudioPhase } from "../lib/werewolfAudio.ts";
@@ -367,13 +368,14 @@ test("all five music choices replace only ambience and continue through day and 
  f.audio.configure({...f.options,music:false}); assert.ok(f.music().paused);
 });
 
-test("iPhone ambience uses Web Audio gain while Brian retains its HTML playback path", async t => {
+test("both persistent media elements use gain controls without changing narration acknowledgments", async t => {
  const original=Object.getOwnPropertyDescriptor(globalThis,"AudioContext");
  const changes:number[]=[]; let sources=0,resumes=0,closed=0;
  class FakeContext {
   currentTime=0; destination={};
-  createGain(){return {connect(){},gain:{value:1,cancelScheduledValues(){},setTargetAtTime(value:number){changes.push(value);}}};}
-  createMediaElementSource(){sources++;return {connect(){}};}
+  createDynamicsCompressor(){return {connect(){},disconnect(){},threshold:{value:0},knee:{value:0},ratio:{value:0},attack:{value:0},release:{value:0}};}
+  createGain(){return {connect(){},disconnect(){},gain:{value:1,cancelScheduledValues(){},setTargetAtTime(value:number){changes.push(value);}}};}
+  createMediaElementSource(){sources++;return {connect(){},disconnect(){}};}
   resume(){resumes++;return Promise.resolve();}
   close(){closed++;return Promise.resolve();}
  }
@@ -382,7 +384,7 @@ test("iPhone ambience uses Web Audio gain while Brian retains its HTML playback 
  const f=fixture(t);f.options.music=true;
  f.audio.configure(f.options);f.audio.updatePhase(staged("open","opening",["wolves"]));
  await f.unlock();await flush();
- assert.equal(sources,1,"Only music is routed through Web Audio");assert.equal(resumes,1);
+ assert.equal(sources,2,"Both streams have independent Web Audio gain");assert.equal(resumes,1);
  assert.ok(!f.music().paused);assert.ok(!f.voice().paused);assert.equal(changes.at(-1),.045);
  await f.finish();assert.equal(changes.at(-1),.3);
  assert.deepEqual(f.acknowledgments,["open"]);
@@ -473,4 +475,29 @@ test('Kokoro winners play team first, then each seat once, in both languages',as
   assert.deepEqual(f.acknowledgments,[]);
   f.audio.updatePhase({id:'restart',kind:'lobby',publicCues:[]});f.audio.replay();await flush();assert.equal(f.played().length,plays);
  }
+});
+
+
+test("independent boosted volumes update live without restarting either stream or acknowledging early", async t => {
+ const graph=fakeAudioContext(t), f=fixture(t);
+ const options={...f.options,music:true,voiceVolume:1.8,musicVolume:1.4};
+ f.audio.configure(options);f.audio.updatePhase(staged("volumes","opening",["night"]));
+ await f.unlock();await flush();
+ assert.equal(graph.sources.length,2);assert.equal(graph.gains[0].value,1.8);assert.equal(graph.gains[1].value,1.4*.15);
+ const plays=f.records.length;
+ f.audio.configure({...options,voiceVolume:.5,musicVolume:2});
+ assert.equal(f.records.length,plays,"Changing sliders must not play or pause media");
+ assert.equal(graph.gains[0].value,.5);assert.equal(graph.gains[1].value,.3);assert.deepEqual(f.acknowledgments,[]);
+ f.audio.configure({...options,voiceVolume:0,musicVolume:2});
+ assert.equal(graph.gains[0].value,0);assert.equal(graph.gains[1].value,2,"Silent narration need not duck music");
+ await f.finish();assert.deepEqual(f.acknowledgments,["volumes"]);assert.equal(graph.gains[1].value,2);
+ f.audio.configure({...options,musicVolume:0});assert.equal(graph.gains[0].value,1.8);assert.equal(graph.gains[1].value,0);
+ f.audio.dispose();assert.equal(graph.closed(),1);
+});
+
+test("an interrupted Web Audio context does not falsely unlock or acknowledge narration", async t => {
+ fakeAudioContext(t,true);const f=fixture(t);
+ f.audio.configure(f.options);f.audio.updatePhase(staged("suspended","opening",["night"]));
+ await f.unlock();await flush();
+ assert.deepEqual(f.acknowledgments,[]);assert.deepEqual(f.played(),[]);assert.equal(f.statuses.at(-1)?.status,"locked");
 });

@@ -1,3 +1,4 @@
+import { fakeAudioContext } from "./helpers/nightfallAudioContext.ts";
 import assert from "node:assert/strict";
 import test, { type TestContext } from "node:test";
 import { OneNightAudio, type OneNightAudioStatus, type OneNightAudioPhase } from "../lib/oneNightAudio.ts";
@@ -204,4 +205,29 @@ test('Kokoro winners play team first, then each seat once, in both languages',as
   assert.deepEqual(f.acknowledgments,[]);
   f.audio.updatePhase({id:'restart',kind:'lobby',cueIds:[]});f.audio.replay();await flush();assert.equal(f.played().length,plays);
  }
+});
+
+
+test("independent boosted volumes update live without restarting either stream or acknowledging early", async t => {
+ const graph=fakeAudioContext(t), f=fixture(t);
+ const options={...f.options,music:true,voiceVolume:1.8,musicVolume:1.4};
+ f.audio.configure(options);f.audio.updatePhase(staged("volumes","opening",["night"]));
+ await f.unlock();await flush();
+ assert.equal(graph.sources.length,2);assert.equal(graph.gains[0].value,1.8);assert.equal(graph.gains[1].value,1.4*.15);
+ const plays=f.records.length;
+ f.audio.configure({...options,voiceVolume:.5,musicVolume:2});
+ assert.equal(f.records.length,plays,"Changing sliders must not play or pause media");
+ assert.equal(graph.gains[0].value,.5);assert.equal(graph.gains[1].value,.3);assert.deepEqual(f.acknowledgments,[]);
+ f.audio.configure({...options,voiceVolume:0,musicVolume:2});
+ assert.equal(graph.gains[0].value,0);assert.equal(graph.gains[1].value,2,"Silent narration need not duck music");
+ await f.finish();assert.deepEqual(f.acknowledgments,["volumes"]);assert.equal(graph.gains[1].value,2);
+ f.audio.configure({...options,musicVolume:0});assert.equal(graph.gains[0].value,1.8);assert.equal(graph.gains[1].value,0);
+ f.audio.dispose();assert.equal(graph.closed(),1);
+});
+
+test("an interrupted Web Audio context does not falsely unlock or acknowledge narration", async t => {
+ fakeAudioContext(t,true);const f=fixture(t);
+ f.audio.configure(f.options);f.audio.updatePhase(staged("suspended","opening",["night"]));
+ await f.unlock();await flush();
+ assert.deepEqual(f.acknowledgments,[]);assert.deepEqual(f.played(),[]);assert.equal(f.statuses.at(-1)?.status,"locked");
 });

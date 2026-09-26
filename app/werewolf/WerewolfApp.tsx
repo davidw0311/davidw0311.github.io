@@ -9,6 +9,7 @@ import audioManifest from "@/public/assets/werewolf/audio/manifest.json";
 import { useWerewolfRoom, type Action, type Catalogue, type Command, type GameView, type Language, type Localized, type Role, type Settings } from "@/lib/werewolfClient";
 import { WerewolfAudio } from "@/lib/werewolfAudio";
 import { CircleSeats, ProfilePicker, WolfHead } from "./PlayerFeatures";
+import { AudioVolumeControls, useAudioLevels } from "@/app/nightfall/ui/AudioVolumeControls";
 import { RoleCard } from "@/app/nightfall/ui/RoleCard";
 import { RoleIcon } from "./RoleIcon";
 import { VictorySummary } from "@/app/nightfall/VictorySummary";
@@ -69,6 +70,7 @@ export default function WerewolfApp() {
   const [inviteUrl, setInviteUrl] = useState("");
   const [copyFailed, setCopyFailed] = useState(false);
   const [tab, setTab] = useState<"events" | "chat">("events");
+  const { levels, changeLevels } = useAudioLevels();
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [musicTrack, setMusicTrack] = useState(musicTracks[0].id);
   const [musicEnabled, setMusicEnabled] = useState(true);
@@ -104,9 +106,9 @@ export default function WerewolfApp() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.configure({ voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: !!view?.me });
+    audio.configure({...levels, voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: !!view?.me });
     if (view?.phase) audio.updatePhase(view.phase);
-  }, [audioEnabled, musicEnabled, musicTrack, lang, view?.me, view?.phase, room.connectivity]);
+  }, [audioEnabled, musicEnabled, musicTrack, lang, view?.me, view?.phase, room.connectivity, levels]);
   useEffect(() => () => { audioRef.current?.dispose(); audioRef.current = null; }, []);
   const moderatorAudio = () => {
     if (!audioRef.current) audioRef.current = new WerewolfAudio((status, message) => {
@@ -120,14 +122,14 @@ export default function WerewolfApp() {
     setAudioEnabled(voice); setMusicEnabled(music); setAudioError("");
     try { localStorage.setItem("nightfall.audio", JSON.stringify({ voice, music, track: musicTrack })); } catch { /* no-op */ }
     const audio = moderatorAudio();
-    audio.configure({ voice, music, track: musicTrack, language: lang, active: !!view?.me });
+    audio.configure({...levels, voice, music, track: musicTrack, language: lang, active: !!view?.me });
     if (view?.phase) audio.updatePhase(view.phase);
     // Unlock directly in the opt-in gesture, before any network request.
     if (voice || music) void audio.unlock().catch(() => setAudioError("unavailable"));
   };
   const testSound = () => {
     const audio = moderatorAudio();
-    audio.configure({ voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: !!view?.me });
+    audio.configure({...levels, voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: !!view?.me });
     if (view?.phase) audio.updatePhase(view.phase);
     void audio.testSound();
   };
@@ -166,7 +168,7 @@ export default function WerewolfApp() {
     if (!soundReady && (audioEnabled || musicEnabled)) {
       const audio = moderatorAudio();
       // Start the audio context in this gesture without replaying the old phase.
-      audio.configure({ voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: false });
+      audio.configure({...levels, voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: false });
       void audio.unlock();
     }
     await send({ type });
@@ -231,7 +233,7 @@ export default function WerewolfApp() {
     {!view && room.session && <div className={styles.loading}><Moon size={44} /><h1>{t("Finding your table…", "正在返回房间…")}</h1><p>{t("Restoring your private seat and the latest game state.", "正在恢复你的身份与最新游戏进度。")}</p><button className={styles.secondaryButton} onClick={() => room.disconnect()}>{t("Return to room selection", "返回房间选择")}</button></div>}
     {view && <div className={styles.roomLayout}>
       <RoomToolbar code={view.code} lang={lang} connected={room.connectivity === "online"} copied={copied} onCode={copyCode} onInvite={showInvite} onLeave={() => setModal("leave")} onSettings={view.isHost ? () => setModal("settings") : undefined}/>
-      {victory && <VictorySummary key={`${view.code}:${view.gameId}:result`} result={victory} lang={lang} mySeatId={view.me?.seatId} players={view.seats.map((seat,index) => ({ ...seat, number:index+1, role:seat.roleId ? text(roleMap[seat.roleId]?.name,lang) : undefined }))} reason={typeof view.winner === "object" ? text(view.winner?.reason,lang) : undefined} onReplay={() => {setAudioEnabled(true);const audio=moderatorAudio();audio.configure({voice:true,music:musicEnabled,track:musicTrack,language:lang,active:true});audio.updatePhase(view.phase);void audio.unlock();audio.replay();}}/>}
+      {victory && <VictorySummary key={`${view.code}:${view.gameId}:result`} result={victory} lang={lang} mySeatId={view.me?.seatId} players={view.seats.map((seat,index) => ({ ...seat, number:index+1, role:seat.roleId ? text(roleMap[seat.roleId]?.name,lang) : undefined }))} reason={typeof view.winner === "object" ? text(view.winner?.reason,lang) : undefined} onReplay={() => {setAudioEnabled(true);const audio=moderatorAudio();audio.configure({...levels,voice:true,music:musicEnabled,track:musicTrack,language:lang,active:true});audio.updatePhase(view.phase);void audio.unlock();audio.replay();}}/>}
       <BotNotice view={view} lang={lang}/>
       <div className={styles.gameColumns}>
         <section className={styles.tablePanel}>
@@ -240,9 +242,9 @@ export default function WerewolfApp() {
           {view.phase.nightStage && !view.phase.paused && <div className={styles.nightProgress} role="status"><SpeakerHigh size={18} /><span>{view.phase.nightStage === "opening" ? t("Listen to the narrator. Your action appears after the announcement.", "请听语音提示，播报结束后将显示你的行动。") : view.phase.nightStage === "closing" ? t("Keep your eyes closed. The next role will be called automatically.", "请保持闭眼，稍后将自动呼叫下一个角色。") : t("Submit your action or skip. Actions wait until submitted or the host skips this step.", "请提交行动或跳过。行动将等待提交，或由房主强制跳过当前阶段。")}</span></div>}
           {!view.me && <div className={styles.pendingNotice}><Hourglass size={20} /><div><strong>{view.status === "lobby" ? t("Waiting for a free seat", "等待空余座位") : t("Your seat is waiting for approval", "正在等待房主安排座位")}</strong><p>{view.status === "lobby" ? t("This lobby is full. You’ll join automatically when a seat becomes available.", "大厅已满。出现空余座位后，你将自动加入。") : t("Your host can restore an existing seat, including its original role and history.", "房主可安排你接替已有座位，保留其原有身份与历史。")}</p></div></div>}
 
-          <SpeakingTimer view={view} lang={lang} disabled={disabled || view.phase.paused} soundReady={soundReady} onEnable={() => { const audio = moderatorAudio(); audio.configure({voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: true}); if(view.phase) audio.updatePhase(view.phase); void audio.unlock(); }} send={async command => {
+          <SpeakingTimer view={view} lang={lang} disabled={disabled || view.phase.paused} soundReady={soundReady} onEnable={() => { const audio = moderatorAudio(); audio.configure({...levels,voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: true}); if(view.phase) audio.updatePhase(view.phase); void audio.unlock(); }} send={async command => {
             if (command.type === "setSpeechTimer" && !soundReady) {
-              const audio = moderatorAudio(); audio.configure({voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: true}); void audio.unlock();
+              const audio = moderatorAudio(); audio.configure({...levels,voice: audioEnabled, music: musicEnabled, track: musicTrack, language: lang, active: true}); void audio.unlock();
             }
             return send(command);
           }} />
@@ -273,6 +275,7 @@ export default function WerewolfApp() {
             {(audioEnabled || musicEnabled) && !soundReady && <button className={styles.primaryButton} disabled={!view.me} onClick={() => changeAudio(audioEnabled, musicEnabled)}><SpeakerHigh size={18} />{t("Enable sound on this device", "开启本机声音")}</button>}
             <label className={styles.toggleRow}><span><SpeakerHigh size={17} /><span>{t("Voice moderator", "语音法官")}<small>{t("Brian + Kokoro · English or Chinese · this device", "Brian + Kokoro · 英文或中文 · 本机播放")}</small></span></span><input type="checkbox" checked={audioEnabled} disabled={!view.me} onChange={(event) => changeAudio(event.target.checked, musicEnabled)} /></label>
             <label className={styles.toggleRow}><span><MusicNotes size={17} />{t("Ambient music", "氛围音乐")}</span><input type="checkbox" checked={musicEnabled} disabled={!view.me} onChange={(event) => changeAudio(audioEnabled, event.target.checked)} /></label>
+            <AudioVolumeControls levels={levels} onChange={changeLevels} lang={lang} disabled={!view.me}/>
             <label className={styles.musicSelect}>{t("Music selection", "选择音乐")}<select value={musicTrack} onChange={event => { const track = event.target.value; setMusicTrack(track); try { localStorage.setItem("nightfall.audio", JSON.stringify({voice: audioEnabled, music: musicEnabled, track})); } catch { /* no-op */ } }}>{musicTracks.map(track => <option key={track.id} value={track.id}>{lang === "zh" ? track.zh : track.title}</option>)}</select></label><button className={styles.textButton} onClick={() => setModal("credits")}>{t("Music & artwork credits", "音乐与图标来源")}</button>
             <button className={styles.textButton} disabled={!view.me} onClick={testSound}>{t("Test sound", "测试声音")}</button>
             {audioEnabled && <button className={styles.textButton} disabled={!view.me} onClick={() => moderatorAudio().replay()}>{t("Replay announcement", "重播本阶段提示")}</button>}

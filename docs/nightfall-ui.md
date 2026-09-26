@@ -5,6 +5,7 @@ Change that layer once to update both games. Do not copy it into a game director
 
 - `RoomChrome.tsx`: native dialogs (focus trap, Escape, optional backdrop dismissal), player identity header, sticky stage banner, pending-player disclosure, room toolbar, QR invitations.
 - `PlayerTable.tsx`: clockwise circular/large-table layout, player numbers, status styling, host/sheriff/bot badges, public tokens, countdown hourglass. The center is a content slot for the classic table label or One Night center cards.
+- `AudioVolumeControls.tsx`: shared 0–200% narrator/music sliders and device preferences (`nightfall.audio.levels`). Both audio engines use `lib/nightfallAudioMixer.ts` for gain, peak compression and music ducking. Volume changes do not restart media or acknowledge phases. Browsers without Web Audio fall back to HTML attenuation (boost requires Web Audio).
 - `RoleCard.tsx`: common role-card face with an optional reveal/hide toggle; descriptions and game-specific guidance remain in the adapters.
 - `ProfilePhoto.tsx`: portraits and the shared upload/icon/initial picker. Its `onSave(photo)` callback is independent of backend command names.
 - `BotControls.tsx`: bot setup/actions and test-room notice. Adapters provide seat limits, center-card count, eligibility and command routing.
