@@ -1,0 +1,49 @@
+{
+  "title": "Odin asks the seeress",
+  "story": "voluspa",
+  "note": "A dramatized adaptation of the first paragraph. Dialogue has been newly written for this scene; it is not a quotation or literal translation of the manuscript.",
+  "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+  "lines": [
+    {
+      "id": "narrator",
+      "speaker": "Narrator",
+      "description": "Warm, measured storyteller",
+      "instruction": "A male English-language audiobook narrator in his fifties. A warm, rounded mid-low baritone, smooth and intimate, with clear neutral British English pronunciation. Tell an ancient story at an unhurried but flowing pace. Quiet gravity, natural phrasing, restrained emotion. Keep the voice audibly distinct from a gravelly bass. Speak naturally, do not whisper, shout or sing. Read only the supplied text.",
+      "seed": 2026092701,
+      "text": "Odin stood before the seeress, a woman whose memory reached beyond the beginnings of his rule. He had come seeking knowledge.",
+      "generationSeconds": 5.51,
+      "src": "/audio/codex-regius/drama-v1/narrator.wav",
+      "duration": 10.32,
+      "fingerprint": "b9e4378cfa310b7e43c16da42e1eeb309787c9e9b0be962813ca686709f48a5e",
+      "start": 0.0
+    },
+    {
+      "id": "odin",
+      "speaker": "Odin",
+      "description": "Weathered, commanding bass",
+      "instruction": "An elderly male voice, around seventy, speaking clear English. A very deep resonant bass with a restrained, naturally weathered rasp. An old king who has travelled far: commanding, intelligent and solemn, yet curious about what he does not know. Measured delivery with weight on important words. Natural audible speech, not a monster voice, not theatrical shouting, not a whisper. Read only the supplied text.",
+      "seed": 2026092702,
+      "text": "Tell me what you remember. Speak of the world's beginning, and what is yet to come.",
+      "generationSeconds": 5.2,
+      "src": "/audio/codex-regius/drama-v1/odin.wav",
+      "duration": 9.92,
+      "fingerprint": "f68981ea654ce356b405ddc2ff6b4e2a3b25852dff375d42cd6061ce736e2726",
+      "start": 11.02
+    },
+    {
+      "id": "seeress",
+      "speaker": "The seeress",
+      "description": "Older, low-voiced and quietly formidable",
+      "instruction": "An elderly woman, around seventy-five, speaking clear fluent English. A low female contralto, textured with a little natural age and breath, but steady and fully audible. Wise, composed and quietly formidable. She speaks to a powerful god without fear. Unhurried prophetic storytelling with meaningful pauses, gently rising and falling intonation, restrained ominous warmth. A natural older woman's voice, not a cartoon witch, no cackling, no whispering, no singing. Read only the supplied text.",
+      "seed": 2026092703,
+      "text": "Then listen, great and small, children of Heimdall. I remember a world older than your power, Odin. In my sight, what has happened and what must happen stand close together. You ask for knowledge. I will give it to you, but I promise no comfort.",
+      "generationSeconds": 16.01,
+      "src": "/audio/codex-regius/drama-v1/seeress.wav",
+      "duration": 32.0,
+      "fingerprint": "fd6f56598062e9b55a627d35a097f3ec78af63fdcf7daf3771e8b025947d5372",
+      "start": 21.64
+    }
+  ],
+  "src": "/audio/codex-regius/drama-v1/voluspa-opening.mp3",
+  "duration": 53.64
+}

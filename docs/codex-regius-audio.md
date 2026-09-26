@@ -1,5 +1,13 @@
 # Codex Regius narration
 
+## Qwen3-TTS character preview
+
+`/projects/codex-regius/voice-scene/` contains one English dramatization of Völuspá’s opening paragraph, with a warm narrator, an elderly bass Odin, and an older contralto seeress. New dialogue is explicitly labeled as adaptation, not manuscript quotation. The published story text and production narration are unchanged.
+
+`data/regiusDramaSample.json` stores the exact script, VoiceDesign instructions, seeds, model ID, generation fingerprints, durations and offsets. Regenerate offline using `HF_HUB_OFFLINE=1 ~/.local/share/qwen3-tts/venv/bin/python scripts/generate-regius-drama.py`. This reuses the local Werewolf Qwen runtime and `voice-design-model` (MLX 4-bit Qwen3-TTS 1.7B); Apple GPU access is required. All three voices are synthetic designs. Lossless 24 kHz WAVs preserve each role for future voice-reference work; the combined MP3 has a 0.7-second gap between roles and matched levels. The preview uses one native media player, no autoplay, and a visible transcript.
+
+## Published narration
+
 The first three retellings (Völuspá, Hávamál and Vafþrúðnismál / Odin’s Wisdom Contest) use prerecorded Azure `en-US-AdamMultilingualNeural` narration at natural pitch. Völuspá alone adds `en-US-AvaMultilingualNeural` for the seeress’s three quotations in both languages (six clips), at -8% rate and pitch. Its prose retains the original narrator clips. There is no direct dialogue for Odin or the other gods in this retelling, so no dialogue is invented. All other stories retain device speech. The reader labels recordings as AI narration and offers device voices as a fallback.
 
 Each displayed paragraph is synthesized intact. Quotations have separate Old Norse and English clips, so readers can omit Norse without losing the translation. Norse uses the voice’s modern Icelandic locale as an approximation, not a claim of reconstructed historical pronunciation. One HTML audio element plays the clips in page order, supports jumps to any section, and retains the exact position during pause. Speed preserves pitch. Audio uses ordinary media routing; the phone chooses its Bluetooth output.
