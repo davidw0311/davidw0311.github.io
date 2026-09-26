@@ -35,6 +35,7 @@ function finishDeathAnnouncement(r) { if(r.phase.kind==='announcement' && r.phas
 function closeVotes(r) { abstainPending(r); send(r,r.hostId,'resolveVoting'); finishDeathAnnouncement(r); }
 
 function nextNight(r) {
+    if (r.phase.step === 'explosion') { if (r.phase.kind === 'announcement') send(r,r.hostId,'nightNarrationDone'); if (r.status === 'playing') send(r,r.hostId,'confirmExplosionNight'); return; }
     finishDeathAnnouncement(r);
     if (r.voteDoneDay === r.day) return send(r,r.hostId,'startNight');
     send(r,r.hostId,'startVoting');
@@ -1147,7 +1148,7 @@ test('new public announcements have male Kokoro recordings and preserve Brian fo
  const root=path.join(__dirname,'../../public/assets/werewolf');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'audio/manifest.json'),'utf8'));
  const texts=JSON.parse(fs.readFileSync(path.join(root,'announcement-text.json'),'utf8'));
- assert.equal(Object.keys(texts).length,37);
+ assert.equal(Object.keys(texts).length,40);
  for(const [cue,translations] of Object.entries(texts)) for(const [i,language] of ['en','zh'].entries()) {
   const clip=manifest.clips[`${language}:${cue}`];
   assert.equal(clip.provider,'Kokoro');assert.equal(clip.voice,language==='en'?'am_michael':'zm_010');assert.equal(clip.text,translations[i]);assert.ok(clip.duration>0&&clip.duration<45);

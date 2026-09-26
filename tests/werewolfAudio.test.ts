@@ -540,3 +540,17 @@ test("new Chinese narrator playback failures never acknowledge a wake announceme
   assert.equal(f.latest().url,narrationSource("werewolf","wolves","zh","m04"));
   await f.finish(); assert.deepEqual(f.acknowledgments,["voice-failed"]);
 });
+
+test("self-destruction interrupts old speech, announces the seat and deaths, and stops at host confirmation", async t => {
+ const f=fixture(t);f.audio.configure({...f.options,music:true,language:"zh",narrator:"f18"});await f.unlock();await flush();
+ f.audio.updatePhase({id:"election-speech",kind:"sheriff",step:"speeches",publicCues:["sheriff-speeches-start","seat-3","clockwise"]});await flush();
+ const old=f.latest();const staleEnd=old.end;
+ const cues=["seat-2","wolf-exploded","explosion-deaths","seat-5","explosion-confirm-night"];
+ f.audio.updatePhase({id:"explosion",kind:"announcement",step:"explosion",publicCues:cues});await flush();
+ assert.equal(old.stopped,true);staleEnd?.();assert.deepEqual(f.acknowledgments,[]);
+ for(const cue of cues) {assert.equal(f.latest().url,narrationSource("werewolf",cue,"zh","f18"));await f.finish();}
+ assert.deepEqual(f.acknowledgments,["explosion"]);
+ const count=f.played().length;
+ f.audio.updatePhase({id:"host-confirmation",kind:"day",step:"explosion",publicCues:[]});await flush();
+ assert.equal(f.played().length,count);assert.equal(f.music().paused,false);
+});

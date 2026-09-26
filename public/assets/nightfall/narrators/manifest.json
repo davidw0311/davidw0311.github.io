@@ -13285,6 +13285,168 @@
       "referenceHash": "8d3c43c09106c50056dfff3e1895f9193b2f8d0ed2ad1e7e95a9ad70170816dc",
       "sourceReferenceHash": "3314dbcb574fbd7c87e5c245c88527c6e67712ab1dab5adf4cca3c1afbea8ebf",
       "sample": "F18"
+    },
+    "m10:b101ffb3c2af542f": {
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 3.52,
+      "src": "/assets/nightfall/narrators/m10/b101ffb3c2af542f.mp3",
+      "fingerprint": "48bd1bbc7957cee6e1ab004c885a71713d006a7b0bf96566156c8f3a29f1b4cc",
+      "referenceHash": "72d19d0a3f5f5ad12880679fbc70a58c78c305b29824d7e2a8b42a0f92a293a6",
+      "sourceReferenceHash": "49ff5ec969fbae7b925599537aaa07a4050f0764b9c7b6c321465e3dc43ff7e0",
+      "sample": "M10"
+    },
+    "m10:e57a1b8c2b2bd4a1": {
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 5.2,
+      "src": "/assets/nightfall/narrators/m10/e57a1b8c2b2bd4a1.mp3",
+      "fingerprint": "19a75830c33a104cfbdee7f4cf69f9bf5015403a5a12989aaa82aa72db02051d",
+      "referenceHash": "72d19d0a3f5f5ad12880679fbc70a58c78c305b29824d7e2a8b42a0f92a293a6",
+      "sourceReferenceHash": "49ff5ec969fbae7b925599537aaa07a4050f0764b9c7b6c321465e3dc43ff7e0",
+      "sample": "M10"
+    },
+    "m10:14e874feb07a57d1": {
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 9.786,
+      "src": "/assets/nightfall/narrators/m10/14e874feb07a57d1.mp3",
+      "fingerprint": "adef8f084aa9e51afec731aa46f1f6bb1d78f63729b91b45be0a112b3c0ce11b",
+      "referenceHash": "72d19d0a3f5f5ad12880679fbc70a58c78c305b29824d7e2a8b42a0f92a293a6",
+      "sourceReferenceHash": "49ff5ec969fbae7b925599537aaa07a4050f0764b9c7b6c321465e3dc43ff7e0",
+      "sample": "M10"
+    },
+    "m07:b101ffb3c2af542f": {
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 3.2,
+      "src": "/assets/nightfall/narrators/m07/b101ffb3c2af542f.mp3",
+      "fingerprint": "32b28a9c043d8d7589451c47173393fd4845c558dc2a2c50916fe7176f8b6bc6",
+      "referenceHash": "56aec007ee2f9a690f17036957b96d5a0ddd3af8ceee7751a3b9ee9fbde0d662",
+      "sourceReferenceHash": "1dfd9d131c0c712eee13c7d68924bd96102d4a0fcb5f22e8cadedc2a9aa0833c",
+      "sample": "M07"
+    },
+    "m07:e57a1b8c2b2bd4a1": {
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 4.24,
+      "src": "/assets/nightfall/narrators/m07/e57a1b8c2b2bd4a1.mp3",
+      "fingerprint": "092e2c39242c6ed5472e6b3812d37b30cdbfc6413d976e16fe7cf54dffb09e0f",
+      "referenceHash": "56aec007ee2f9a690f17036957b96d5a0ddd3af8ceee7751a3b9ee9fbde0d662",
+      "sourceReferenceHash": "1dfd9d131c0c712eee13c7d68924bd96102d4a0fcb5f22e8cadedc2a9aa0833c",
+      "sample": "M07"
+    },
+    "m07:14e874feb07a57d1": {
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 9.464,
+      "src": "/assets/nightfall/narrators/m07/14e874feb07a57d1.mp3",
+      "fingerprint": "b5d0a295a4b48e6f5f4b3b2aef486250acf44752d00727d47e7b349be3fb23ae",
+      "referenceHash": "56aec007ee2f9a690f17036957b96d5a0ddd3af8ceee7751a3b9ee9fbde0d662",
+      "sourceReferenceHash": "1dfd9d131c0c712eee13c7d68924bd96102d4a0fcb5f22e8cadedc2a9aa0833c",
+      "sample": "M07"
+    },
+    "m04:b101ffb3c2af542f": {
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 2.64,
+      "src": "/assets/nightfall/narrators/m04/b101ffb3c2af542f.mp3",
+      "fingerprint": "1bb7c953817ea076ff1265848a99f0a9276324da579680e907c27f870bd7aa41",
+      "referenceHash": "bf2d9855a802d50db9081fe44fdcdc4380485452805adf326f0d56cbd6b3b33e",
+      "sourceReferenceHash": "884c736a97c38792dd363632d4c248965500d696c2e8992358a87699411d23d2",
+      "sample": "M04"
+    },
+    "m04:e57a1b8c2b2bd4a1": {
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 3.76,
+      "src": "/assets/nightfall/narrators/m04/e57a1b8c2b2bd4a1.mp3",
+      "fingerprint": "a717677c69657d934b06bdccaedd738b33f29a52ff4a980e0c1748854df2a6b4",
+      "referenceHash": "bf2d9855a802d50db9081fe44fdcdc4380485452805adf326f0d56cbd6b3b33e",
+      "sourceReferenceHash": "884c736a97c38792dd363632d4c248965500d696c2e8992358a87699411d23d2",
+      "sample": "M04"
+    },
+    "m04:14e874feb07a57d1": {
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 8.342,
+      "src": "/assets/nightfall/narrators/m04/14e874feb07a57d1.mp3",
+      "fingerprint": "031ecd5b3ef36ce5f522f501e33a9007e8bc6cd79ba645a1e7b1322bf5cef2ec",
+      "referenceHash": "bf2d9855a802d50db9081fe44fdcdc4380485452805adf326f0d56cbd6b3b33e",
+      "sourceReferenceHash": "884c736a97c38792dd363632d4c248965500d696c2e8992358a87699411d23d2",
+      "sample": "M04"
+    },
+    "f13:b101ffb3c2af542f": {
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 3.36,
+      "src": "/assets/nightfall/narrators/f13/b101ffb3c2af542f.mp3",
+      "fingerprint": "276aad887fa73b176da7a2671d3cd02c2ffb2c5c6c871cf1fbfb623fd61169ad",
+      "referenceHash": "d17ff10c24d1c06e65677defc326a7f93ec7520b2c5b082d345d508ee9d08612",
+      "sourceReferenceHash": "c2037ee03912710aec55af3b4ef2991f4a958ac2bd69a04832bb5b18b7deddcd",
+      "sample": "F13"
+    },
+    "f13:e57a1b8c2b2bd4a1": {
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 3.36,
+      "src": "/assets/nightfall/narrators/f13/e57a1b8c2b2bd4a1.mp3",
+      "fingerprint": "f6eb5fa3c03e6c44d5011b1b27ae7592a091a83eaaf0ffc70bfae22817a3cc83",
+      "referenceHash": "d17ff10c24d1c06e65677defc326a7f93ec7520b2c5b082d345d508ee9d08612",
+      "sourceReferenceHash": "c2037ee03912710aec55af3b4ef2991f4a958ac2bd69a04832bb5b18b7deddcd",
+      "sample": "F13"
+    },
+    "f13:14e874feb07a57d1": {
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 8.663,
+      "src": "/assets/nightfall/narrators/f13/14e874feb07a57d1.mp3",
+      "fingerprint": "d923b84bee045655564e34c4cad9fca711c2bdefa01f26580c4f83fa833d6dcf",
+      "referenceHash": "d17ff10c24d1c06e65677defc326a7f93ec7520b2c5b082d345d508ee9d08612",
+      "sourceReferenceHash": "c2037ee03912710aec55af3b4ef2991f4a958ac2bd69a04832bb5b18b7deddcd",
+      "sample": "F13"
+    },
+    "f12:b101ffb3c2af542f": {
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 3.84,
+      "src": "/assets/nightfall/narrators/f12/b101ffb3c2af542f.mp3",
+      "fingerprint": "4db4c62e07189b547ddc671037b1ab736efbe4cdf63e1cde50d4b9d17500a944",
+      "referenceHash": "8a365ff93ceed25b5cc662593fc90e057ab654fd277e00ed2c527c8624896f47",
+      "sourceReferenceHash": "4b622d99d1aed6f4aacd12bf211926d58696277a504cbad07862cf09bbea14d7",
+      "sample": "F12"
+    },
+    "f12:e57a1b8c2b2bd4a1": {
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 6.0,
+      "src": "/assets/nightfall/narrators/f12/e57a1b8c2b2bd4a1.mp3",
+      "fingerprint": "53ce2b26d0cf507c4e88d44a21f98cf432e662244121fa320eab2d12eabf7ba2",
+      "referenceHash": "8a365ff93ceed25b5cc662593fc90e057ab654fd277e00ed2c527c8624896f47",
+      "sourceReferenceHash": "4b622d99d1aed6f4aacd12bf211926d58696277a504cbad07862cf09bbea14d7",
+      "sample": "F12"
+    },
+    "f12:14e874feb07a57d1": {
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 9.468,
+      "src": "/assets/nightfall/narrators/f12/14e874feb07a57d1.mp3",
+      "fingerprint": "4380858e16d18acba5658dabde743cda9b7f0e05aa0a151eab5256945692ac20",
+      "referenceHash": "8a365ff93ceed25b5cc662593fc90e057ab654fd277e00ed2c527c8624896f47",
+      "sourceReferenceHash": "4b622d99d1aed6f4aacd12bf211926d58696277a504cbad07862cf09bbea14d7",
+      "sample": "F12"
+    },
+    "f18:b101ffb3c2af542f": {
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 3.28,
+      "src": "/assets/nightfall/narrators/f18/b101ffb3c2af542f.mp3",
+      "fingerprint": "8d04b59bd24777a41aab491a8b331f38939f075a353e7a4c0b840d68652178d4",
+      "referenceHash": "8d3c43c09106c50056dfff3e1895f9193b2f8d0ed2ad1e7e95a9ad70170816dc",
+      "sourceReferenceHash": "3314dbcb574fbd7c87e5c245c88527c6e67712ab1dab5adf4cca3c1afbea8ebf",
+      "sample": "F18"
+    },
+    "f18:e57a1b8c2b2bd4a1": {
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 3.92,
+      "src": "/assets/nightfall/narrators/f18/e57a1b8c2b2bd4a1.mp3",
+      "fingerprint": "7d70dcc8891a55da6df76fb21e4a3e7051c77a008262c149ebb8ef7d648ad7cb",
+      "referenceHash": "8d3c43c09106c50056dfff3e1895f9193b2f8d0ed2ad1e7e95a9ad70170816dc",
+      "sourceReferenceHash": "3314dbcb574fbd7c87e5c245c88527c6e67712ab1dab5adf4cca3c1afbea8ebf",
+      "sample": "F18"
+    },
+    "f18:14e874feb07a57d1": {
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 8.343,
+      "src": "/assets/nightfall/narrators/f18/14e874feb07a57d1.mp3",
+      "fingerprint": "f17deb45d6c9515f5e13d77e26801f3fd33c200bc59a19cc1a8b7d6812164b09",
+      "referenceHash": "8d3c43c09106c50056dfff3e1895f9193b2f8d0ed2ad1e7e95a9ad70170816dc",
+      "sourceReferenceHash": "3314dbcb574fbd7c87e5c245c88527c6e67712ab1dab5adf4cca3c1afbea8ebf",
+      "sample": "F18"
     }
   }
 }

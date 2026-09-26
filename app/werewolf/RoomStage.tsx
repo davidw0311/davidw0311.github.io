@@ -14,6 +14,7 @@ export function stageText(view: GameView, lang: Language) {
   const victory = classicVictory(view);
   if (victory) return victoryHeading(victory, lang);
   if (phase.paused) return t("Game paused", "游戏已暂停");
+  if (phase.step === "explosion") return phase.kind === "announcement" ? t(`Seat ${phase.explosionSeat} self-destructed · announcing`, `${phase.explosionSeat}号自曝 · 正在播报`) : t("Day cancelled · waiting for host to confirm night", "白天已终止 · 等待房主确认进入夜晚");
   if (phase.kind === "night") {
     const roleId = phase.nightRole || (phase.step === "wolves" ? "werewolf" : phase.step);
     const baseRole = catalogue.roles.find(role => role.id === roleId)?.name[lang] || t("First-night roles", "首夜角色");
@@ -92,7 +93,7 @@ export function SpeakingTimer({view, lang, disabled, soundReady, onEnable, send}
   const [seconds,setSeconds]=useState("60");
   const t=(en:string,zh:string)=>lang==="en"?en:zh;
   const active=view.phase.kind==="day" || view.phase.kind==="sheriff" && view.phase.step==="speeches";
-  if(!active || !view.isHost && (!view.speakingTimer || soundReady)) return null;
+  if(view.phase.step === "explosion" || !active || !view.isHost && (!view.speakingTimer || soundReady)) return null;
   const timer=view.speakingTimer;
 
   return <section className={styles.speakingTimer}>

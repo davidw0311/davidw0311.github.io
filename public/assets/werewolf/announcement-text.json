@@ -146,5 +146,17 @@
   "mechanical-demonHunter": [
     "Only the Mechanical Wolf with the Demon Hunter ability, open your eyes. The original Demon Hunter stays asleep. Follow your screen.",
     "仅学会猎魔人技能的机械狼，请睁眼。原本的猎魔人请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "wolf-exploded": [
+    "has self-destructed. This day ends immediately. All unresolved votes, sheriff elections and abilities are cancelled.",
+    "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。"
+  ],
+  "explosion-deaths": [
+    "The self-destruction also eliminated these players:",
+    "本次自曝同时带走的玩家是："
+  ],
+  "explosion-confirm-night": [
+    "Wait for the host to confirm before the next night begins.",
+    "请等待房主确认后，进入下一夜。"
   ]
 }

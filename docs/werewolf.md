@@ -199,3 +199,9 @@ When narration is enabled/unlocked, local Kokoro announces every winning side fi
 ## Face-to-face night play
 
 Private inspections now arrive during the acting role’s turn and wait for an explicit read acknowledgment before closing. Mechanical Wolf has separate reserved copied-power calls. See [the night-flow audit](nightfall-face-to-face-audit.md) for the physical wake contract, regressions and existing-room behavior.
+
+## Daytime self-destruction
+
+An eligible wolf may self-destruct during daytime discussion, votes, sheriff nomination/speeches/votes, public announcements, or pending death reactions. The selected phase ID must still match. Self-destruction ends the day, clears pending votes/runoffs/election state, speech timers and pending death abilities, and rejects subsequent stale or new daytime action requests. A partially completed election is cancelled permanently for that game. An already elected, surviving Sheriff keeps the badge; a dead Sheriff's badge is destroyed and announced. Previously resolved deaths are never undone. If the first election delayed dawn, completed night actions settle once, without last words or queued death abilities.
+
+Wolf King and White Wolf King can optionally select one other living player before confirming the public ability. The carry-along kill is immediate and does not grant a second shot. Existing automatic lover/death links still resolve, but cancelled active death abilities do not run. Blood Moon's next-night suppression remains in effect. The narrator names the exploding seat, any accompanying deaths, and the cancellation. After narration, an untimed waiting stage survives disconnections and requires the host's explicit **Confirm next night** action. Generic Next, Start night, voting and hard-skip commands cannot bypass that confirmation. If the deaths end the game, announce the result instead of starting another night.

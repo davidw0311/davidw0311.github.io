@@ -191,8 +191,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Join the pack attack. On death, may shoot once unless poisoned, killed by a failed hunt, or killed through a lover, charm, or dream link.",
-        "zh": "参与狼刀。死亡时可开枪一次；毒杀、狩猎反噬、殉情、魅惑牵连或摄梦牵连死亡时不能开枪。"
+        "en": "Join the pack attack. On death, may shoot once unless poisoned, killed by a failed hunt, or killed through a lover, charm, or dream link. During daytime self-destruction, optionally take one living player with you; unresolved daytime actions are cancelled and there is no second shot.",
+        "zh": "参与狼刀。死亡时可开枪一次；毒杀、狩猎反噬、殉情、魅惑牵连或摄梦牵连死亡时不能开枪。 白天自曝时可选择带走一名存活玩家，取消未结算的白天行动，且不再额外开枪。"
       },
       "nightStep": "wolves"
     },
@@ -204,8 +204,8 @@
       },
       "team": "wolf",
       "description": {
-        "en": "Join the pack. Once during discussion, self-destruct and take one other player with you.",
-        "zh": "参与狼刀；白天发言时可自爆并带走一名其他玩家。"
+        "en": "Join the pack. Self-destruct during the day, optionally taking one living player with you. Cancel unresolved daytime actions and await host confirmation for night.",
+        "zh": "参与狼刀；白天可自曝并选择带走一名存活玩家，取消未结算的白天行动，等待房主确认进入下一夜。"
       },
       "nightStep": "wolves"
     },

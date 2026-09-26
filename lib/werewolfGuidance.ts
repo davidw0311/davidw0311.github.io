@@ -76,10 +76,10 @@ const guides: Record<string, RoleGuide> = {
   },
   wolfKing: {
     rules: [line("Join the pack attack. On death you may shoot once, except after poison, failed hunt, lover, charm or dream-link deaths.", "参与狼队袭击，死亡后通常可开枪一次；中毒、狩猎失败、情侣、魅惑或梦境连带死亡除外。")],
-    tips: [line("Coordinate the pack vote and wait for your private shooting prompt after death.", "统一狼队票型，死亡后等待仅自己可见的开枪提示。")],
+    tips: [line("On a daytime self-destruct, optionally choose one living player to take with you before confirming. No second shot follows.", "白天自曝时，可在确认前选择一名存活玩家带走；此后不再获得第二次开枪机会。")],
   },
   whiteWolfKing: {
-    rules: [line("Join the pack attack. During discussion before voting, self-destruct and optionally take another living player with you.", "参与狼队袭击；可在投票前讨论阶段自爆，并选择带走另一名存活玩家。")],
+    rules: [line("Join the pack attack. During the day, including voting or sheriff elections, self-destruct and optionally take another living player with you. This cancels unresolved daytime actions.", "参与狼队袭击；可在白天（含投票和警长竞选）自曝，并选择带走另一名存活玩家；取消所有未结算的白天行动。")],
     tips: [line("Self-destruction costs your own life. Choose the accompanying target before confirming.", "自爆会让自己出局，如需带人，请先选好目标再确认。")],
   },
   wolfBeauty: {
@@ -102,8 +102,8 @@ const guides: Record<string, RoleGuide> = {
     action: line("Choose another player whose starting ability you want to copy, or skip copying.", "选择另一名玩家复制其初始技能，或跳过复制。"),
   },
   bloodMoonApostle: {
-    rules: [line("Self-destruct during discussion to suppress village powers for the next night. This seal only affects that night, not daytime abilities.", "讨论阶段自爆可封印下一夜的好人技能；这个封印仅影响该夜，不封印白天技能。"), line("If exiled as the last wolf, remain alive for one final night, then die at dawn. You can still complete the wolf objective that night.", "作为最后一狼被放逐时，会再存活一夜并在次日天亮出局；那一夜仍可达成狼人胜利条件。")],
-    tips: [line("The daytime vote still happens after a self-destruction. Plan the next night’s attack with your pack.", "自爆后仍须完成白天投票，请和狼队规划下一夜的袭击。")],
+    rules: [line("Self-destruct during the day to suppress village powers for the next night. This seal only affects that night, not daytime abilities.", "白天自曝可封印下一夜的好人技能；这个封印仅影响该夜，不封印白天技能。"), line("If exiled as the last wolf, remain alive for one final night, then die at dawn. You can still complete the wolf objective that night.", "作为最后一狼被放逐时，会再存活一夜并在次日天亮出局；那一夜仍可达成狼人胜利条件。")],
+    tips: [line("Self-destruction cancels the day and its pending votes, election and abilities. The host must confirm the next night.", "自曝会取消白天及未结算的投票、警长竞选和技能，等待房主确认进入下一夜。")],
   },
   pureWhite: {
     rules: [line("Inspect another player’s exact role each night. From night two, inspecting a wolf also kills that target unless dream-protected.", "每夜查验另一名玩家的具体身份；第二夜起，验到狼人还会将其击杀，梦境保护可挡住击杀。")],
@@ -260,7 +260,7 @@ function turnGuidance(view: GameView, role: string, effectiveRole: string): Loca
     if (view.seats.find(seat => seat.id === me.seatId)?.silenced) turn.push(line("You are silenced for discussion and final words today. You may still vote and use available abilities.", "你今天不能讨论或说遗言，但仍可投票和使用可用技能。"));
     else turn.push(line("Listen to the discussion and prepare a reason for your vote.", "听取讨论，并准备说明自己的投票理由。"));
     if (me.canDuel) turn.push(line("Your one duel is available before voting. Use it only when you are ready to risk being wrong.", "投票前可使用唯一一次决斗，请在愿意承担误判风险时再使用。"));
-    else if (me.canExplode) turn.push(line("Self-destruct is available before voting and will eliminate you. Confirm only if that is your intended move.", "投票前可以自爆，自爆会让你出局，确认前请想清楚。"));
+    else if (me.canExplode) turn.push(line("Self-destruct eliminates you and cancels all pending daytime actions. A Wolf King may select one player to take with them before confirming.", "自曝会让你出局，并取消所有未结算的白天行动。狼王可在确认前选择一名玩家一起带走。"));
     return turn;
   }
   return [];

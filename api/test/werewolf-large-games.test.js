@@ -203,12 +203,13 @@ function simulation(board, seed) {
                 const living = room.seats.filter(s => s.alive);
                 send(seat(room.sheriffSeatId).actorId, 'passBadge', { targetId: random(4) ? choose(living).id : null });
                 stats.badges++;
-            } else if (room.phase.step === 'afterVote') host('startNight');
+            } else if (room.phase.step === 'explosion') host('confirmExplosionNight');
+            else if (room.phase.step === 'afterVote') host('startNight');
             else {
                 const knight = room.seats.find(s => view(s.actorId).me.canDuel);
                 const explosive = room.seats.find(s => view(s.actorId).me.canExplode);
                 if (knight && random(3) === 0) send(knight.actorId, 'knightDuel', { targetId: choose(room.seats.filter(s => s.alive && s.id !== knight.id)).id });
-                else if (explosive && random(12) === 0) send(explosive.actorId, 'wolfExplode', { targetId: choose(room.seats.filter(s => s.alive && s.id !== explosive.id)).id });
+                else if (explosive && random(12) === 0) send(explosive.actorId, 'wolfExplode', ['wolfKing','whiteWolfKing'].includes(explosive.roleId) ? { targetId: choose(room.seats.filter(s => s.alive && s.id !== explosive.id)).id } : {});
                 else host('startVoting');
             }
         } else assert.fail(`Unrecognized phase: ${JSON.stringify(room.phase)}`);

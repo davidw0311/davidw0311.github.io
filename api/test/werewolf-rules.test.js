@@ -23,6 +23,7 @@ function finishDeathAnnouncement(r) { if(r.phase.kind==='announcement' && r.phas
 function closeVotes(r) { abstainPending(r); send(r,r.hostId,'resolveVoting'); finishDeathAnnouncement(r); }
 
 function nextNight(r) {
+    if (r.phase.step === 'explosion') { if (r.phase.kind === 'announcement') send(r,r.hostId,'nightNarrationDone'); if (r.status === 'playing') send(r,r.hostId,'confirmExplosionNight'); return; }
     finishDeathAnnouncement(r);
     if (r.voteDoneDay === r.day) return send(r,r.hostId,'startNight');
     send(r,r.hostId,'startVoting');

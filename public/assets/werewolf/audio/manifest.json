@@ -1526,6 +1526,66 @@
       "voice": "zm_010",
       "model": "hexgrad/Kokoro-82M-v1.1-zh",
       "speed": 1.0
+    },
+    "en:wolf-exploded": {
+      "src": "/assets/werewolf/audio/en/wolf-exploded.mp3",
+      "text": "has self-destructed. This day ends immediately. All unresolved votes, sheriff elections and abilities are cancelled.",
+      "duration": 8.75,
+      "textHash": "e7149b3b6c107a0978ccf14cdeaf1827df67d437043e373474bb6a8b19969b58",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:explosion-deaths": {
+      "src": "/assets/werewolf/audio/en/explosion-deaths.mp3",
+      "text": "The self-destruction also eliminated these players:",
+      "duration": 4.075,
+      "textHash": "d3002d033dce3a096b90446aee8ce13be7019337fd24426afef1b3fde08bd198",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:explosion-confirm-night": {
+      "src": "/assets/werewolf/audio/en/explosion-confirm-night.mp3",
+      "text": "Wait for the host to confirm before the next night begins.",
+      "duration": 4.45,
+      "textHash": "7beecd2e124653e138592c329233a29c92e042f54e2349b35857b28b65f79208",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:wolf-exploded": {
+      "src": "/assets/werewolf/audio/zh/wolf-exploded.mp3",
+      "text": "自曝。本轮白天立即结束，所有未结算的投票、警长竞选及技能均已取消。",
+      "duration": 7.125,
+      "textHash": "edabc1ba92fcaa372548398fadd3bae0b3bebe5a5d21766efc890d24d1994d10",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:explosion-deaths": {
+      "src": "/assets/werewolf/audio/zh/explosion-deaths.mp3",
+      "text": "本次自曝同时带走的玩家是：",
+      "duration": 3.75,
+      "textHash": "084f552320b9b403e5cc8abd8006ebfd43f78b7ab5290a2d0a2399ef0d240a65",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:explosion-confirm-night": {
+      "src": "/assets/werewolf/audio/zh/explosion-confirm-night.mp3",
+      "text": "请等待房主确认后，进入下一夜。",
+      "duration": 4.075,
+      "textHash": "70a35c03db77bd69fd2cbb8d1f2f870b0a0b21e830a7f0b51c4bf22dd7e5322c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
     }
   },
   "additionalVoices": {

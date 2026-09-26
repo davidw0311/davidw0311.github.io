@@ -15,7 +15,7 @@ Kokoro · 沉稳男声 is available in both games, including a complete Chinese 
 
 ## Assets and reproduction
 
-`scripts/build-nightfall-narrators.mjs` gathers Chinese scripts from both existing game manifests and the shared victory manifest. A content-addressed pool contains 246 distinct phrases; all six Qwen voices cover the complete pool, including dead roles, copied abilities, announcements, seat numbers, last words, winning teams and individual winners. This avoids duplicating shared recordings between games. A separate Kokoro fill adds 65 originally Brian-only phrases and reuses existing Kokoro recordings elsewhere.
+`scripts/build-nightfall-narrators.mjs` gathers Chinese scripts from both existing game manifests and the shared victory manifest. A content-addressed pool contains 249 distinct phrases; all six Qwen voices cover the complete pool, including dead roles, copied abilities, announcements, seat numbers, last words, winning teams and individual winners. This avoids duplicating shared recordings between games. A separate Kokoro fill adds 65 originally Brian-only phrases and reuses existing Kokoro recordings elsewhere.
 
 The source auditions are the user's locally generated synthetic Qwen3-TTS VoiceDesign samples in `~/Downloads/werewolf-tts-samples/chinese-20-voices`. These are reference voices, not recordings of real people. The first complete sentence of each audition is used as a 3.2–5.1-second reference, cut inside the following silent pause. Measured cut points are stored in `catalogue.json`. This keeps the original voice while avoiding repeatedly decoding the complete audition before every short command.
 

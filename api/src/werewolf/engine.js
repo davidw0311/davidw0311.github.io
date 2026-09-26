@@ -36,7 +36,7 @@ function getSeat(room, id) { const s = room.seats.find(s => s.id === id); if (!s
 function aliveSeat(room, id) { const s = getSeat(room, id); if (!s.alive)
     fail('INVALID_TARGET', 'Choose a living player.'); return s; }
 function isPack(room, s) { return s.team === 'wolf' && (!['hiddenWolf', 'gargoyle'].includes(s.roleId) || !room.seats.some(t => t.alive && t.team === 'wolf' && !['hiddenWolf', 'gargoyle'].includes(t.roleId))); }
-function canExplode(room, s) { return room.phase.kind === 'day' && room.phase.step === 'discussion' && s.alive && isPack(room, s) && !['wolfBeauty', 'hiddenWolf', 'gargoyle'].includes(s.roleId); }
+function canExplode(room, s) { return room.status === 'playing' && !room.explosion && !room.phase.paused && ['day', 'sheriff', 'voting', 'reaction', 'announcement'].includes(room.phase.kind) && s.alive && isPack(room, s) && !['wolfBeauty', 'hiddenWolf', 'gargoyle'].includes(s.roleId); }
 function effectiveRole(s) { return s.roleId === 'mechanicalWolf' ? s.state.copiedRole : s.roleId; }
 function powersEnabled(room, s) { return s.team !== 'village' || (!room.villagePowersLost && !(room.phase.kind === 'night' && room.silencedNight === room.night)); }
 function connected(room, s, now) { return Boolean(s.actorId && room.members[s.actorId] && (s.isBot || now - room.members[s.actorId].lastSeen <= 35000)); }
@@ -146,6 +146,7 @@ function beginNightTurn(room, now) {
     setNightStage(room, 'opening', now);
 }
 function startNight(room, now) {
+    room.explosion = null;
     room.voteDoneDay = null; room.runoffIds = null; room.voteRound = 1;
     room.night++;
     for (const s of room.seats) s.state.charmId = null;
@@ -244,7 +245,7 @@ function targetArray(c) { const xs = c.targetIds || (c.targetId ? [c.targetId] :
     fail('INVALID_TARGET', 'Choose different valid players.'); return xs; }
 function alignment(s, exact = false) { return !exact && s.roleId === 'hiddenWolf' ? 'village' : s.team; }
 function actionDescriptor(room, s) {
-    if (!s || room.phase.paused || room.status !== 'playing')
+    if (!s || room.explosion || room.phase.paused || room.status !== 'playing')
         return null;
     const all = room.seats.filter(t => t.alive).map(t => t.id), other = all.filter(id => id !== s.id);
     if (room.phase.kind === 'reaction')
@@ -497,6 +498,10 @@ function announce(room, step, cues, now) {
     room.phase.deadline = now + 18000 + cues.length * 6000;
 }
 function finishAnnouncement(room, now) {
+    if (room.explosion) {
+        if (!evaluateWin(room, now)) { setPhase(room, 'day', 'explosion', now); room.phase.publicCues = []; room.phase.explosionSeat = room.seats.findIndex(seat => seat.id === room.explosion.seatId) + 1; }
+        return;
+    }
     if (room.phase.step === 'sheriffResult' && !room.election?.legacy) resolveNight(room, now);
     else reactionsOrDay(room, now);
 }
@@ -860,7 +865,7 @@ function executeCommand(room, actorId, c, now) {
         return;
     }
     upgradeLegacyElection(room);
-    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'restartRound', 'nightNarrationDone', 'skipNightTurn', 'hardSkip', 'disbandRoom', 'moveSeat', 'setSpeechTimer', 'cancelSpeechTimer', 'advanceElection', 'addBots', 'removeBots', 'setBotMode', 'botStep']);
+    const hostTypes = new Set(['approveJoin', 'rejectJoin', 'addSeat', 'removeSeat', 'transferHost', 'updateSettings', 'startGame', 'confirmExplosionNight', 'nextPhase', 'startNight', 'startVoting', 'resolveVoting', 'startSheriff', 'pause', 'resume', 'setSpeaker', 'resetGame', 'restartRound', 'nightNarrationDone', 'skipNightTurn', 'hardSkip', 'disbandRoom', 'moveSeat', 'setSpeechTimer', 'cancelSpeechTimer', 'advanceElection', 'addBots', 'removeBots', 'setBotMode', 'botStep']);
     if (hostTypes.has(c.type))
         requireHost(room, actorId);
     const s = seatOf(room, actorId);
@@ -872,9 +877,11 @@ function executeCommand(room, actorId, c, now) {
         fail('NOT_SEATED', 'You do not occupy a seat in this room.');
     if (s)
         room.members[actorId].lastSeen = now;
+    if (room.explosion && ['nightAction', 'vote', 'shoot', 'knightDuel', 'wolfExplode', 'passBadge', 'startNight', 'nextPhase', 'startVoting', 'resolveVoting', 'startSheriff', 'advanceElection', 'sheriffInterest', 'sheriffWithdraw', 'sheriffRejoin', 'sheriffSpeechDone', 'setSpeaker', 'setSpeechTimer', 'skipNightTurn'].includes(c.type)) fail('DAY_CANCELLED', 'Self-destruction ended this day. Wait for the host to confirm the next night.');
+    if (room.explosion && c.type === 'hardSkip' && room.phase.kind !== 'announcement') fail('HOST_CONFIRMATION_REQUIRED', 'Confirm the next night explicitly.');
     const discussionDayBefore = room.discussionDay;
     const aliveBefore = new Set(room.seats.filter(seat => seat.alive).map(seat => seat.id));
-    const publicDeathAction = ['shoot', 'knightDuel', 'wolfExplode', 'resolveVoting', 'nextPhase', 'hardSkip'].includes(c.type) && ['day', 'voting', 'reaction'].includes(room.phase.kind);
+    const publicDeathAction = ['shoot', 'knightDuel', 'resolveVoting', 'nextPhase', 'hardSkip'].includes(c.type) && ['day', 'voting', 'reaction'].includes(room.phase.kind);
     switch (c.type) {
         case 'addBots': {
             if (room.status !== 'lobby' || room.phase.kind !== 'lobby') fail('WRONG_PHASE', 'Add test bots before cards are dealt.');
@@ -1137,6 +1144,11 @@ function executeCommand(room, actorId, c, now) {
                 fail('WRONG_PHASE', 'Narration completion is only available while a role opens or closes its eyes.');
             finishNightNarration(room, now);
             break;
+        case 'confirmExplosionNight':
+            requirePhase(room, c, ['day']);
+            if (!room.explosion || room.phase.step !== 'explosion') fail('WRONG_PHASE', 'There is no interrupted day to confirm.');
+            startNight(room, now);
+            break;
         case 'startNight':
             requirePhase(room, c, ['day', 'ready']);
             if (room.phase.kind === 'ready' ? room.seats.some(seat => !seat.actorId || !seat.ready) : room.voteDoneDay !== room.day) fail(room.phase.kind === 'ready' ? 'NOT_READY' : 'VOTE_REQUIRED', room.phase.kind === 'ready' ? 'Everyone must read their card and ready up first.' : 'Complete the exile vote before starting the next night.');
@@ -1240,22 +1252,40 @@ function executeCommand(room, actorId, c, now) {
                 reactionsOrDay(room, now);
             }
             break;
-        case 'wolfExplode':
-            requirePhase(room, c, ['day']);
-            if (!canExplode(room, s))
-                fail('NO_ABILITY', 'You cannot self-destruct.');
-            if (s.roleId === 'whiteWolfKing' && c.targetId) {
-                const t = aliveSeat(room, c.targetId);
-                if (t.id === s.id)
-                    fail('INVALID_TARGET', 'Choose another player.');
-                kill(room, t.id, 'explosion', now);
-            }
-            if (s.roleId === 'bloodMoonApostle')
-                room.silencedNight = room.night + 1;
+        case 'wolfExplode': {
+            requirePhase(room, c, ['day', 'sheriff', 'voting', 'reaction', 'announcement']);
+            if (!canExplode(room, s)) fail('NO_ABILITY', 'You cannot self-destruct.');
+            const king = ['wolfKing', 'whiteWolfKing'].includes(s.roleId);
+            if (c.targetId && !king) fail('INVALID_TARGET', 'Only a Wolf King may take a player with them.');
+            if (c.targetId) { aliveSeat(room, c.targetId); if (c.targetId === s.id) fail('INVALID_TARGET', 'Choose another player.'); }
+            const before = new Set(room.seats.filter(seat => seat.alive).map(seat => seat.id));
+            const pendingDawn = room.night === 1 && room.settings.sheriff && room.lastNight?.night !== room.night;
+            const cancelledElection = room.election && (!room.sheriffElectionDone || pendingDawn);
+            // Invalidate all daytime work first. The completed night's actions
+            // still settle if an election had delayed dawn; they are not undone.
+            room.explosion = { seatId: s.id, targetId: c.targetId || null, night: room.night };
+            room.votes = {}; room.runoffIds = null; room.voteRound = 1; room.voteEligibleIds = null;
+            for (const round of room.replay || []) if (round.type === 'vote' && round.day === room.day) { round.cancelled = true; if (room.lastVote?.at === round.at) room.lastVote = null; }
+            room.election = null; room.sheriffElectionDone = true;
+            if (cancelledElection) room.sheriffSeatId = null;
+            if (s.roleId === 'bloodMoonApostle') room.silencedNight = room.night + 1;
+            if (king) s.state.shotUsed = true;
             kill(room, s.id, 'explosion', now);
-            event(room, `${s.name} self-destructed.`, `${s.name} 自爆。`, now);
-            reactionsOrDay(room, now);
+            if (c.targetId) kill(room, c.targetId, 'explosion', now);
+            const explosionDeaths = room.seats.filter(seat => before.has(seat.id) && !seat.alive);
+            if (pendingDawn) resolveNight(room, now);
+            room.pendingShots = []; room.speakingTimer = null; room.speakerSeatId = null;
+            room.voteDoneDay = null;
+            const badgeLost = room.sheriffSeatId && !getSeat(room, room.sheriffSeatId).alive;
+            if (badgeLost) room.sheriffSeatId = null;
+            const number = seat => room.seats.indexOf(seat) + 1;
+            event(room, `Seat ${number(s)} self-destructed. All unresolved daytime actions are cancelled.`, `${number(s)}号玩家自曝，所有未结算的白天行动均已取消。`, now);
+            if (c.targetId) event(room, `The Wolf King took seat ${number(getSeat(room,c.targetId))} with them.`, `狼王自曝带走${number(getSeat(room,c.targetId))}号玩家。`, now);
+            const taken = explosionDeaths.filter(seat => seat.id !== s.id);
+            announce(room, 'explosion', [`seat-${number(s)}`, 'wolf-exploded', ...(taken.length ? ['explosion-deaths', ...taken.map(seat => `seat-${number(seat)}`)] : []), ...(pendingDawn && room.lastNight.numbers.length ? ['night-deaths', ...room.lastNight.numbers.map(n => `seat-${n}`)] : []), ...(badgeLost ? ['badge-destroyed'] : []), 'explosion-confirm-night'], now);
+            room.phase.explosionSeat = number(s);
             break;
+        }
         case 'passBadge':
             if (room.sheriffSeatId !== s.id || s.alive || room.status !== 'playing' || room.phase.paused || room.phase.kind !== 'day' || room.phase.step !== 'badge')
                 fail('NO_ABILITY', 'Resolve the badge during its dedicated step.');
