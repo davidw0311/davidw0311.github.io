@@ -2,8 +2,8 @@
 import {execFileSync} from 'node:child_process';
 import {mkdir,readFile,writeFile,stat,rename} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {regiusStories} from '../data/codexRegius.ts';
-const paragraph=regiusStories[0].paragraphs[0];
+import originalVoluspa from '../data/codex-regius/voluspa.ts';
+const paragraph=originalVoluspa.prose.split('\n\n')[0];
 const textHash=createHash('sha256').update(paragraph).digest('hex');
 const choices=[
  ['brian','Brian','en-US-BrianMultilingualNeural','American · male · kept from your shortlist'],

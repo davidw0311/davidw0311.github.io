@@ -1,3 +1,4 @@
+// Legacy Azure edition only. New character readings use generate-regius-cast.py.
 // Node 24 and afinfo (macOS) or ffprobe required. Only the first three stories are authorized.
 // Credentials stay in this generation process, never in the website or files.
 import { execFileSync } from 'node:child_process';
@@ -6,11 +7,15 @@ import { readFile, writeFile, mkdir, stat, rename } from 'node:fs/promises';
 import path from 'node:path';
 import { regiusStories } from '../data/codexRegius.ts';
 import { storyNarration } from '../lib/regiusNarration.ts';
+import voluspa from '../data/codex-regius/voluspa.ts';
+import havamal from '../data/codex-regius/havamal.ts';
+import vafthrudnismal from '../data/codex-regius/vafthrudnismal.ts';
 const voice = 'en-US-AdamMultilingualNeural';
 const seeressVoice = 'en-US-AvaMultilingualNeural';
 const region = process.env.AZURE_SPEECH_REGION || 'southeastasia';
 const target = process.argv.find(arg => arg.startsWith('--story='))?.split('=')[1];
-const stories = regiusStories.slice(0, 3).filter(story => !target || story.slug === target);
+const originalTexts = [voluspa, havamal, vafthrudnismal];
+const stories = regiusStories.slice(0, 3).map((story, index) => ({ ...story, drama: undefined, paragraphs: originalTexts[index].prose.split('\n\n') })).filter(story => !target || story.slug === target);
 if (!stories.length) throw new Error('Choose one of the first three stories.');
 const key = process.env.AZURE_SPEECH_KEY || JSON.parse(execFileSync('az', ['cognitiveservices','account','keys','list','--name','SpeechLab','--resource-group','SpeechLab','-o','json'], {encoding:'utf8',stdio:['ignore','pipe','pipe']})).key1;
 const escape = s => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&apos;');

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync,statSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {regiusStories} from '../data/codexRegius.ts';
+import originalVoluspa from '../data/codex-regius/voluspa.ts';
 import {AuditionPlayer,type AuditionMedia,type AuditionStatus} from '../lib/regiusAuditionPlayer.ts';
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 function fixture(){
@@ -12,10 +12,10 @@ function fixture(){
  const player=new AuditionPlayer(voice,music,async yes=>{prepared.push(yes);},status=>states.push(status));
  return {player,voice,music,states,pending,prepared};
 }
-test('ten distinct complete voices use exactly the current first paragraph; six retained music excerpts exist',()=>{
+test('ten distinct complete voices use exactly the original audition paragraph; six retained music excerpts exist',()=>{
  const voices=JSON.parse(readFileSync('data/regiusAuditionVoices.json','utf8'));
  const music=JSON.parse(readFileSync('data/regiusAuditionMusic.json','utf8'));
- assert.equal(voices.paragraph,regiusStories[0].paragraphs[0]);
+ assert.equal(voices.paragraph,originalVoluspa.prose.split("\n\n")[0]);
  assert.equal(voices.textHash,createHash('sha256').update(voices.paragraph).digest('hex'));
  assert.equal(voices.voices.length,10);assert.equal(new Set(voices.voices.map((v:{voice:string})=>v.voice)).size,10);
  assert.equal(music.length,6);assert.equal(new Set(music.map((m:{src:string})=>m.src)).size,6);

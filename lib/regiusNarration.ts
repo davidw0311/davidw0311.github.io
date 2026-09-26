@@ -1,12 +1,13 @@
-export type NarrationSection = { id: string; label: string; parts: { text: string; lang: "en" | "non" }[] };
+import type { RegiusDrama } from "../data/regiusDrama.ts";
+export type NarrationSection = { id: string; label: string; parts: { text: string; lang: "en" | "non"; character?: string }[] };
 export type NarrationChunk = { section: number; text: string; lang: "en" | "non" };
 export type NarrationState = { status: "idle" | "playing" | "paused" | "finished" | "error"; section: number; error?: string };
 export type NarrationOptions = { rate: number; pitch: number; voice: string; includeNorse: boolean };
 
-export function storyNarration(story: { paragraphs: string[]; quotes: { after: number; norse: string; english: string; stanza: string }[] }): NarrationSection[] {
+export function storyNarration(story: { drama?: RegiusDrama; paragraphs: string[]; quotes: { after: number; norse: string; english: string; stanza: string }[] }): NarrationSection[] {
   return story.paragraphs.flatMap((text, index) => [
-    { id: `paragraph-${index}`, label: text.split(/(?<=[.!?])\s/u)[0], parts: [{ text, lang: "en" as const }] },
-    ...story.quotes.filter(quote => quote.after === index + 1).map(quote => ({ id: `quote-${index}-${quote.stanza}`, label: `Quotation ${quote.stanza}`, parts: [{ text: quote.norse, lang: "non" as const }, { text: quote.english, lang: "en" as const }] })),
+    { id: `paragraph-${index}`, label: text.split(/(?<=[.!?])\s/u)[0], parts: story.drama ? story.drama.sections[index].turns.map(turn => ({ text: turn.text, lang: "en" as const, character: turn.character })) : [{ text, lang: "en" as const }] },
+    ...story.quotes.filter(quote => quote.after === index + 1).map(quote => ({ id: `quote-${index}-${quote.stanza}`, label: `Quotation ${quote.stanza}`, parts: [{ text: quote.norse, lang: "non" as const }, { text: quote.english, lang: "en" as const, ...(story.drama ? { character: story.drama.quoteCharacter } : {}) }] })),
   ]);
 }
 

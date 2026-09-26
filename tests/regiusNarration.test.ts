@@ -21,7 +21,8 @@ test("every story reads its exact prose and paired quotations in page order from
     const sections = storyNarration(story);
     const expected: string[] = [];
     story.paragraphs.forEach((paragraph, i) => {
-      expected.push(paragraph);
+      if (story.drama) expected.push(...story.drama.sections[i].turns.map(turn => turn.text));
+      else expected.push(paragraph);
       for (const quote of story.quotes.filter(quote => quote.after === i + 1)) expected.push(quote.norse, quote.english);
     });
     assert.equal(sections.flatMap(section => section.parts.map(part => part.text)).join(""), expected.join(""), story.slug);

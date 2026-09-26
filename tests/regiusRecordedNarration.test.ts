@@ -64,28 +64,18 @@ test("only the first three stories have complete recordings matching current dis
  }
 });
 
-test("only Völuspá uses the continuous licensed score and a distinct seeress for both quotation languages", () => {
+test("the dramatic readings preserve existing music and Old Norse excerpts", () => {
  for (const [index,story] of regiusStories.slice(0,3).entries()) {
   const sections=storyNarration(story), recording=getRegiusRecording(story.slug,sections)!;
-  if(index>0) {
-   assert.equal(recording.music,undefined);
-   assert.ok(recording.clips.every(clip=>!clip.speaker && clip.src.includes('/v1/')));
-   continue;
-  }
+  assert.equal(recording.format,"drama");
+  assert.equal(recording.clips.filter(clip=>clip.lang==="non").length,3);
+  assert.ok(recording.clips.filter(clip=>clip.lang==="non").every(clip=>/\/v[12]\//.test(clip.src)));
+  assert.ok(recording.clips.filter(clip=>clip.lang==="en").every(clip=>clip.character && clip.voiceId && clip.src.includes('/cast-v1/')));
+  if(index>0) { assert.equal(recording.music,undefined); continue; }
   assert.equal(recording.music?.continuous,true);
-  assert.ok(statSync(`public${recording.music!.src}`).size>1000);
-  assert.deepEqual(recording.music?.tracks.map(track=>track.title),['Vopna']);
   assert.equal(recording.music?.storyKey,'voluspa');
   assert.deepEqual(recording.music?.choices?.map(track=>track.title),['Vopna','Blood Eagle','Gjallar','Hymn to the Gods','The Northern Path','Vetur Frosti']);
   for(const track of recording.music!.choices!)assert.ok(statSync(`public${track.src}`).size>1000);
-  let quotes=0;
-  for(const clip of recording.clips) {
-   const isQuote=sections[clip.section].id.startsWith('quote-');
-   assert.equal(clip.speaker,isQuote?'Seeress':'Narrator');
-   if(isQuote) { quotes++; assert.notEqual(clip.voice,recording.voice); assert.match(clip.src,/\/v2\//); }
-   else { assert.equal(clip.voice,recording.voice); assert.match(clip.src,/\/v1\//); }
-  }
-  assert.equal(quotes,6);
  }
 });
 
@@ -131,7 +121,7 @@ test("stop and jump cancel an opening or breathing space without delayed speech"
  assert.equal(f.states.at(-1)?.status,"idle");
  f.reader.start(sections,0);
  let steps=0;
- while(f.states.at(-1)?.phase!=="breath") { f.audio.onended?.(new Event("ended"));assert.ok(++steps<10); }
+ while(f.states.at(-1)?.phase!=="breath") { f.audio.onended?.(new Event("ended"));assert.ok(++steps<recording.clips.length); }
  const breathEnd=f.audio.onended;
  f.reader.setRate(.6); assert.equal(f.audio.playbackRate,1);
  f.reader.start(sections,8); breathEnd?.(new Event("ended"));

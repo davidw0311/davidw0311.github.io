@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "note": "A dramatized adaptation for distinct character voices. Dialogue is newly rendered from the poem and this retelling; it is not a literal manuscript translation. The paired verse excerpts remain separately identified.",
+  "quoteCharacter": "odin",
+  "sections": [
+    {
+      "id": "paragraph-0",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "The voice at the doorway is a traveller's. It belongs to the High One, Odin, and begins with the hazards of entering a hall."
+        },
+        {
+          "character": "odin",
+          "text": "Before crossing a threshold, look around. No one knows where an enemy may be sitting. But when a traveller comes to your own door, give him a fire for cold knees, food, dry clothing, water for washing, and a welcome that permits him to speak."
+        },
+        {
+          "character": "narrator",
+          "text": "The first wisdom is made of such exchanges. Survival requires caution, yet a world without hospitality would leave every person stranded."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-1",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Watch before speaking. Listen to others without imagining that every smile proves friendship. Do not eat so greedily that your appetite becomes the room's entertainment. Drink with care: ale can steal judgement while seeming to offer pleasure."
+        },
+        {
+          "character": "odin",
+          "text": "The foolish man thinks himself safe if he avoids a fight, but age will find him even if spears do not. Another fool lies awake worrying all night and is too tired the next morning to face the troubles that remain."
+        },
+        {
+          "character": "narrator",
+          "text": "The advice arrives in clusters, rather than as the events of a single adventure."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-2",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "A person may seem wise while remaining silent. Once he speaks, his listeners can measure what he knows. Yet someone who never speaks may be unable to defend his place among other people. Learn when to hold your tongue, and when to use it."
+        },
+        {
+          "character": "narrator",
+          "text": "Wisdom consists in knowing the occasion, not obeying one rule without exception. The poem repeatedly places an attractive maxim beside another that complicates it. The traveller must judge which counsel belongs to the hall he has actually entered."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-3",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Visit the friend you trust. Grass and brush grow over a path that no one walks. Give gifts, exchange thoughts, and answer warmth with warmth. The gift need not be splendid. A small present, given in the right spirit, can secure a welcome."
+        },
+        {
+          "character": "narrator",
+          "text": "Friendship requires work. A modest home has value when its owner can stand as his own master within it. The poem knows the shame of dependence and the loneliness of having no one with whom to share what is in the heart."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-4",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Wealth does not establish wisdom. Do not mock another's poverty. The lame can ride, the handless can tend animals, and the deaf can fight. Living still offers possibilities that a funeral pyre cannot. The herds that fill a rich man's yard today may be gone tomorrow."
+        },
+        {
+          "character": "narrator",
+          "text": "These judgements are practical, sometimes generous, and sometimes harsh. Kin can preserve a name by raising a memorial stone, but even prosperity and family are vulnerable. Possessions are poor guarantees against change."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-5",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "Then comes the saying that gathers these counsels into a larger reckoning. Cattle die, relatives die, and the speaker himself must die. What can outlast a person is the judgement others make of the life that has ended."
+        },
+        {
+          "character": "odin",
+          "text": "Cleverness cannot abolish mortality. Consider the life you leave in the memory of others, and what they will say when you are gone."
+        },
+        {
+          "character": "narrator",
+          "text": "The poem is concerned with living among other mortal people, leaving a reputation not wholly at the mercy of the last misfortune. Fame is attached to conduct, memory, and the stories survivors tell."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-6",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "The voice turns to desire, and its authority becomes less comfortable. Some sayings make sweeping accusations against women. Others admit that men speak beautifully while intending deceit, and that love makes even a wise person foolish. These are not consistent instructions from a disembodied moral judge."
+        },
+        {
+          "character": "odin",
+          "text": "I know how desire can mislead. I waited in the reeds for a woman I wanted, imagining that to have her would be worth more than the wealth and standing of a ruler."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-7",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "I found Billingr's woman resting in bed. She told me to return later, when our meeting could remain secret. Hope carried me away. When I returned at night, armed people and bright lights blocked my approach. At dawn I tried again, believing the household finally asleep. A dog lay tethered where I expected to find her."
+        },
+        {
+          "character": "narrator",
+          "text": "The god who can mislead giants has himself been made ridiculous. His account is resentful, but the listener can see a limit to his powers."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-8",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "I entered Suttungr's dwelling in search of the precious mead. Rati drilled a passage through stone. I risked my head among the giants. Gunnlöð gave me the drink and helped me escape. I repaid her badly. Where I had received aid, I left sorrow."
+        },
+        {
+          "character": "narrator",
+          "text": "This encounter has a different result and a darker cost. Odin wins the mead associated with poetry, but his success depends on Gunnlöð's trust and affection. When the frost-giants come asking after him, the deed is already beyond their recovery."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-9",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "The poem questions the trustworthiness of Odin's oath. His broken promise stands beside his advice about honest dealings. The same voice knows the necessity of trust and exploits another being's willingness to offer it. That contradiction remains unresolved."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-10",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "Now the setting changes to a speaker's seat and the well of Urðr. Counsel is addressed repeatedly to Loddfáfnir: listen, learn, and benefit."
+        },
+        {
+          "character": "odin",
+          "text": "Loddfáfnir, do not let a wicked person determine your actions. Keep faith with a good friend. Do not take pleasure in another's misfortune. Beware desire for another man's wife, and the destructive words that pass between people. Do not ridicule an old speaker because his body has grown frail. Knowledge can remain where strength and beauty have gone."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-11",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Do not mock a guest or drive away someone in need. The person sitting safely inside may know very little about the stranger outside."
+        },
+        {
+          "character": "narrator",
+          "text": "Much of the counsel returns to the earlier hall. These generous passages stand among the poem's more suspicious sayings. Hospitality remains an obligation even in a world where strangers may bring danger."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-12",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "Then ordinary experience opens into ordeal. Odin speaks of a tree beaten by the wind and a sacrifice in which giver and recipient are the same god."
+        },
+        {
+          "character": "odin",
+          "text": "For nine whole nights I hung there, wounded with a spear, given to Odin: myself to myself. No one gave me bread or a drinking horn. I looked downward. With a cry I took up the runes, and fell back from the tree."
+        },
+        {
+          "character": "narrator",
+          "text": "No named companion rescues him. This knowledge is won through exposure, hunger, pain, and an offering of himself."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-13",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Then my understanding grew. Word led to word, deed to deed. Do you know how to carve the signs, how to interpret them, how to colour and test them? Do you know how to request, sacrifice, send, and destroy?"
+        },
+        {
+          "character": "narrator",
+          "text": "The poem speaks of powerful songs and a drink of precious mead. Knowing the shapes of signs is only part of knowing what to do with them. Even offerings require proportion: better not to ask than to demand too much. A gift looks for a return. Reciprocal obligations reach into relations with divine powers."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-14",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "I know songs that help in distress and songs that concern healing. I know how to blunt weapons, loosen fetters, and stop a flying shaft. I can quench a burning hall, reconcile enemies, and calm a dangerous sea. I can protect companions going into battle, and speak with a hanged man."
+        },
+        {
+          "character": "narrator",
+          "text": "The final movement names powers beyond ordinary counsel. It is an account of capacities, not a set of complete spells supplied for a listener to perform. We hear what the knowledge can accomplish without receiving every word that makes it work."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-15",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "There is a song I will not disclose freely. Not everything I know is for every listener."
+        },
+        {
+          "character": "narrator",
+          "text": "The traveller who began at a threshold has carried us through friendship, humiliation, betrayal, self-sacrifice, and magic. His changing subjects form the poem's shape. Even now, he distinguishes what he can teach from what he keeps."
+        }
+      ]
+    }
+  ]
+}

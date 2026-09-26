@@ -1,3 +1,4 @@
+import { regiusDramas, displayTurn, type RegiusDrama } from "./regiusDrama.ts";
 import story0 from "./codex-regius/voluspa.ts";
 import story1 from "./codex-regius/havamal.ts";
 import story2 from "./codex-regius/vafthrudnismal.ts";
@@ -35,7 +36,7 @@ export type RegiusStory = {
   slug: string; number: number; title: string; subtitle: string; kind: string;
   group: "gods" | "heroes"; paragraphs: string[]; sourcePage: number; minutes: number;
   image?: string; imageAlt?: string; quotes: RegiusQuote[]; note: string;
-  norseSource: string; translationSource: string; wordCount: number;
+  norseSource: string; translationSource: string; wordCount: number; drama?: RegiusDrama;
 };
 export const regiusSource = "https://chatgpt.com/share/6aa4e0f4-0a50-83ec-95fb-a3ffb640060d";
 export const regiusWordsPerMinute = 170;
@@ -76,7 +77,8 @@ const edition: (Omit<RegiusStory, "paragraphs" | "minutes" | "wordCount"> & { pr
   { ...{"slug": "hamdismal", "number": 31, "title": "Hamðismál", "subtitle": "The Last Vengeance", "kind": "Heroic poem 18", "group": "heroes", "sourcePage": 33, "norseSource": "https://www.heimskringla.no/wiki/Hamðismál", "translationSource": "https://sacred-texts.com/neu/poe/poe37.htm"}, ...story30 }
 ];
 export const regiusStories: RegiusStory[] = edition.map(({ prose, ...story }) => {
-  const paragraphs = prose.split("\n\n");
-  const wordCount = [prose, ...story.quotes.map(quote => quote.english)].join(" ").trim().split(/\s+/u).length;
-  return { ...story, paragraphs, wordCount, minutes: Math.ceil(wordCount / regiusWordsPerMinute) };
+  const drama = regiusDramas[story.slug];
+  const paragraphs = drama ? drama.sections.map(section => section.turns.map(displayTurn).join(" ")) : prose.split("\n\n");
+  const wordCount = [...paragraphs, ...story.quotes.map(quote => quote.english)].join(" ").trim().split(/\s+/u).length;
+  return { ...story, ...(drama ? { drama } : {}), paragraphs, wordCount, minutes: Math.ceil(wordCount / regiusWordsPerMinute) };
 });

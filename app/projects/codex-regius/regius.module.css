@@ -238,3 +238,7 @@
 
 .narrationTrack { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: .72rem; color: var(--muted); }
 .narrationTrack select { flex: 1; min-width: 0; max-width: 300px; min-height: 44px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 4px; background: var(--sheet); color: var(--text); font: inherit; }
+
+.dramaNote{font-size:.8rem;line-height:1.6;color:var(--muted);margin:18px 0 26px;padding-left:14px;border-left:2px solid var(--rule)}
+.dramaTurn+.dramaTurn{margin-top:20px}
+.characterName{display:block;font-family:Avenir,"Segoe UI",sans-serif;font-size:.7rem;line-height:1.5;font-weight:600;letter-spacing:.055em;color:var(--book-accent);margin-bottom:7px}

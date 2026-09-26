@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "note": "A dramatized adaptation for distinct character voices. Dialogue is newly rendered from the poem and this retelling; it is not a literal manuscript translation. The paired verse excerpts remain separately identified.",
+  "quoteCharacter": "vafthrudnir",
+  "sections": [
+    {
+      "id": "paragraph-0",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "Odin tells Frigg that he intends to visit Vafþrúðnir. The giant's wisdom is famous, and Odin wants to test it for himself."
+        },
+        {
+          "character": "frigg",
+          "text": "I would rather keep you here among the gods. I know no giant equal to Vafþrúðnir in strength of understanding. This journey may end badly."
+        },
+        {
+          "character": "odin",
+          "text": "I have travelled widely and learned much. I would know how great his wisdom is."
+        },
+        {
+          "character": "narrator",
+          "text": "Experience has not quieted Odin's desire to learn. It has brought him to the threshold of another contest."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-1",
+      "turns": [
+        {
+          "character": "frigg",
+          "text": "Go safely, then, and return safely. May your mind be sharp in the exchange of words ahead."
+        },
+        {
+          "character": "narrator",
+          "text": "Frigg sees that advice will not keep him back. Odin enters the giant's hall under the name Gagnráðr."
+        },
+        {
+          "character": "odin",
+          "text": "Greetings, Vafþrúðnir. I have come to discover whether you are truly wise."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Who is this stranger speaking in my house? Unless you prove wiser than I am, you will not leave it alive."
+        },
+        {
+          "character": "narrator",
+          "text": "The welcome has become a challenge."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-2",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "I am a thirsty traveller. I ask for hospitality after my journey."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Come forward, then, and take a place to sit."
+        },
+        {
+          "character": "odin",
+          "text": "A poor man entering a wealthy person's hall should say what is useful or keep silent. Too much talk before a hard-hearted listener can turn against its speaker."
+        },
+        {
+          "character": "narrator",
+          "text": "The god does not announce his authority. He occupies the dangerous position of a guest who must establish his value through answers, with no assurance that courtesy will protect him."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-3",
+      "turns": [
+        {
+          "character": "vafthrudnir",
+          "text": "Tell me the name of the horse that brings day to humankind."
+        },
+        {
+          "character": "odin",
+          "text": "Skinfaxi. His shining mane illuminates the world."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "And the horse that carries the night?"
+        },
+        {
+          "character": "odin",
+          "text": "Hrímfaxi. Foam falls from his bit at morning and becomes dew in the valleys."
+        },
+        {
+          "character": "narrator",
+          "text": "Day and night are not abstractions in this exchange. They move through the world with named animals, visible effects, and a place in a remembered order that both speakers must know."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-4",
+      "turns": [
+        {
+          "character": "vafthrudnir",
+          "text": "What river divides the gods' territory from the giants'?"
+        },
+        {
+          "character": "odin",
+          "text": "Ífing. It runs open and never freezes."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "What is the field where Surtr and the gods will meet?"
+        },
+        {
+          "character": "odin",
+          "text": "Vígríðr. A hundred leagues it stretches in every direction. That is the field appointed for their battle."
+        },
+        {
+          "character": "narrator",
+          "text": "The questions have moved from the daily passage of light to the place of the final battle. A correct answer requires knowledge of the catastrophe appointed within the world."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-5",
+      "turns": [
+        {
+          "character": "vafthrudnir",
+          "text": "You are learned, guest. Let us sit together and stake our heads on which of us is wiser."
+        },
+        {
+          "character": "odin",
+          "text": "Then tell me where earth and heaven came from."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "The earth was made from Ymir's flesh, the mountains from his bones, heaven from his skull, and the sea from his blood."
+        },
+        {
+          "character": "narrator",
+          "text": "Beneath the ordered world lies the body of a primordial being. The giant knows the ancestry of the landscape because it is bound to the ancestry of his own kind."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-6",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Tell me the origins of sun and moon, of day and night, of winter and summer."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Mundilfari is the father of the heavenly lights. Dellingr belongs to the account of day, Nörvi to that of night. Vindsvalr is winter's father, and Svásuðr is summer's."
+        },
+        {
+          "character": "narrator",
+          "text": "The exchange is patterned and formal. Odin numbers his questions, and the giant answers without hesitation. Each successful reply postpones the moment at which one of them must fail. The names unfold an ancestry for the changing seasons and the measures of time."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-7",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Who was oldest among the giants? How did Aurgelmir come into being, and how could he have descendants without a giant woman?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Venomous drops came from Élivágar and grew into the first great being. Beneath his arm a man and woman grew. One foot begot a six-headed son with the other."
+        },
+        {
+          "character": "narrator",
+          "text": "This is a world before human measures of ordinary birth. Vafþrúðnir treats the strange genealogy as knowledge inherited and held, not a riddle to be explained away."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-8",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "What is the earliest event you remember?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "I remember Bergelmir, born long before the earth was made. I remember his being placed upon a lúðr."
+        },
+        {
+          "character": "narrator",
+          "text": "That last word is difficult: a wooden vessel, or perhaps a mill-like container. The ancient object is less clear than later storytellers sometimes make it. What matters here is the reach of the giant's memory. He speaks from a depth of time beyond ordinary listeners, making the stranger's challenge increasingly formidable."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-9",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Whence comes the wind that passes unseen over the sea?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "At the edge of heaven sits Hræsvelgr in the form of an eagle. The movement of his wings sends wind over the world."
+        },
+        {
+          "character": "odin",
+          "text": "And Njörðr? How did he come among the Æsir, when he was not born one of them?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "He was made among the Vanir and given as a hostage to the gods. When the world reaches its end, he will return to his own people."
+        },
+        {
+          "character": "narrator",
+          "text": "Even a question about present company carries a future departure inside it."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-10",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Tell me of the warriors in Odin's hall."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "They go out to fight each day. They strike one another down, then return restored to sit together."
+        },
+        {
+          "character": "odin",
+          "text": "How do you know the hidden arrangements of gods and giants so well?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "I have travelled through the worlds, as far as Niflhel beneath the earth."
+        },
+        {
+          "character": "narrator",
+          "text": "His learning is not merely a collection of stories received from others. His journeys match the travel with which Odin justified leaving home."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-11",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Who will remain of humankind after the terrible winter?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Líf and Lífþrasir will shelter in Hoddmímir's wood. Morning dew will sustain them, and human generations will descend from them."
+        },
+        {
+          "character": "odin",
+          "text": "How can the sun return after the wolf has taken it?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Before her death she will bear a daughter. That daughter will follow her mother's path in the sky."
+        },
+        {
+          "character": "narrator",
+          "text": "The old world will be broken, but these answers preserve continuities that destruction cannot wholly consume."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-12",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "Who will inhabit the gods' dwellings after Surtr's fire?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "Víðarr and Váli will remain. Móði and Magni will possess Mjölnir after Thor has fallen."
+        },
+        {
+          "character": "odin",
+          "text": "And what will bring death to Odin at the world's ending?"
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "The wolf will kill the father of men. Víðarr will avenge him by tearing apart the monster's jaws."
+        },
+        {
+          "character": "narrator",
+          "text": "The names of sons answer the question of what survives the fathers. Still in disguise, Odin has listened to the sentence of his own death."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-13",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "Vafþrúðnir is still answering correctly. Odin does not bargain for another outcome. Instead, he brings the contest toward something no traveller could have discovered. The giant's journeys reach deep beneath the earth, and his memory reaches back beyond its making. But one question remains outside all that learning."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-14",
+      "turns": [
+        {
+          "character": "odin",
+          "text": "What did Odin whisper into his son's ear before the body was placed on the funeral pyre?"
+        },
+        {
+          "character": "narrator",
+          "text": "At once the giant knows who has been questioning him. No one else can know that private utterance. The question names the edge of his immense learning, and reveals the visitor's identity."
+        },
+        {
+          "character": "vafthrudnir",
+          "text": "No one knows what you said in your son's ear. With a doomed mouth I have spoken ancient lore and the doom of the gods."
+        }
+      ]
+    },
+    {
+      "id": "paragraph-15",
+      "turns": [
+        {
+          "character": "narrator",
+          "text": "There the poem stops. The stakes make the consequence plain, but it describes no blow, no execution, and no journey home to Frigg. Nor does it disclose the whispered words. Odin wins by asking about knowledge that belongs to him alone, not by obtaining an answer that will overturn his fate."
+        },
+        {
+          "character": "narrator",
+          "text": "The giant's last recognition leaves both triumph and unease in the hall. One speaker has lost the contest. The other has heard how he will die, and still keeps the secret that made him victorious."
+        }
+      ]
+    }
+  ]
+}

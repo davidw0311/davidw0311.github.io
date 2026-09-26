@@ -12,6 +12,8 @@ import { createGlossedText } from "../glossed-text";
 import { NarrationScope, NarrationSectionView } from "../narration";
 import { storyNarration } from "@/lib/regiusNarration";
 import { getRegiusRecording } from "@/data/codexRegiusRecordings";
+import { displayTurn } from "@/data/regiusDrama";
+import voiceRegistry from "@/data/regiusVoiceRegistry.json";
 import styles from "../regius.module.css";
 
 export function generateStaticParams() { return regiusStories.map(story => ({ slug: story.slug })); }
@@ -32,6 +34,7 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
   const glossary = usedGlossary(glossaryForStory(slug), [...story.paragraphs, ...story.quotes.flatMap(quote => [quote.norse, quote.english])]);
   const renderText = createGlossedText(glossary);
   const sections = storyNarration(story);
+  const characterNames = Object.fromEntries(Object.entries(voiceRegistry.characters).map(([id, character]) => [id, character.name]));
   return <main id="book-content" className={styles.readingPage}>
     <RememberStory slug={slug} />
     <nav className={styles.readingNav} aria-label="Collection navigation"><Link href="/projects/codex-regius/#contents"><ListBullets size={19} /> All stories</Link><span>{String(story.number).padStart(2, "0")} / 31</span></nav>
@@ -42,11 +45,12 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
         <p className={styles.originalTitle} lang="non">{story.title}</p>
       </header>
       <div className={styles.readingEditions}><Link href={`/projects/codex-regius/${slug}/original/`}>Read the full original & translation <ArrowRight size={17} /></Link><p>Tap an underlined name for a short explanation.</p></div>
+      {story.drama && <p className={styles.dramaNote}>{story.drama.note}</p>}
       {story.image && <figure className={styles.storyArt}><Image src={story.image} alt={story.imageAlt ?? "Illustration from the original booklet"} width={1122} height={1402} priority sizes="(max-width: 767px) calc(100vw - 44px), 480px" /></figure>}
       <GlossaryScope entries={glossary}>
       <NarrationScope sections={sections} recording={getRegiusRecording(slug, sections)} key={slug}>
       <div className={styles.prose}>{story.paragraphs.map((paragraph, i) => <Fragment key={i}>
-        <NarrationSectionView index={sections.findIndex(section => section.id === `paragraph-${i}`)} label={sections.find(section => section.id === `paragraph-${i}`)!.label}><p>{renderText({ text: paragraph })}</p></NarrationSectionView>
+        <NarrationSectionView index={sections.findIndex(section => section.id === `paragraph-${i}`)} label={sections.find(section => section.id === `paragraph-${i}`)!.label}>{story.drama ? story.drama.sections[i].turns.map((turn, turnIndex) => <div className={styles.dramaTurn} key={turnIndex}><span className={styles.characterName}>{renderText({ text: characterNames[turn.character] })}</span><p>{renderText({ text: displayTurn(turn) })}</p></div>) : <p>{renderText({ text: paragraph })}</p>}</NarrationSectionView>
         {story.quotes.filter(quote => quote.after === i + 1).map(quote => <NarrationSectionView key={quote.stanza} index={sections.findIndex(section => section.id === `quote-${i}-${quote.stanza}`)} label={`Quotation ${quote.stanza}`}><figure className={styles.excerpt}>
           <figcaption>Old Norse · {quote.stanza.startsWith("Prose") ? quote.stanza : `Stanza ${quote.stanza}`}</figcaption>
           <blockquote lang="non">{renderText({ text: quote.norse })}</blockquote>

@@ -1,0 +1,824 @@
+{
+  "vafthrudnismal:1:4": {
+    "fingerprint": "902f3a2329266bfeacc32934a8668488eefb7cc706a6128b28f634fc7b261309",
+    "expected": "The welcome has become a challenge.",
+    "heard": "The welcome has become a challenge.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:11:4": {
+    "fingerprint": "3d2eb0defe60be30dabfcd90f6948c9ed723230d52a9271646cf1ae0f492d5e6",
+    "expected": "Even a question about present company carries a future departure inside it.",
+    "heard": "Even a question about present company carries a future departure inside it.",
+    "similarity": 1.0
+  },
+  "havamal:2:2": {
+    "fingerprint": "b56079cf24292043e6cde288be0dd9262f9d46484a468474e1caf6d46420472b",
+    "expected": "The advice arrives in clusters, rather than as the events of a single adventure.",
+    "heard": "The advice arrives in clusters rather than as the events of a single adventure.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:1:1": {
+    "fingerprint": "60d03ea5fb48b6d8be30b5ac6d87532b49ee422542692fb06f58ccb2b37ea6b4",
+    "expected": "Frigg sees that advice will not keep him back. Odin enters the giant's hall under the name Gagnráðr.",
+    "heard": "Frigg sees that advice will not keep him back. Odin enters the giant's hall under the name Gagnardar.",
+    "similarity": 0.947
+  },
+  "voluspa:12:2": {
+    "fingerprint": "dc7cde7fda6d04a060c164f18df3bedf032dd1c4cc36dac114634162b466a68a",
+    "expected": "The vision moves between armies and landscapes as though the entire world has become one battlefield.",
+    "heard": "The vision moves between armies and landscapes, as though the entire world has become one battlefield.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:0:3": {
+    "fingerprint": "355f5f5db64d47f673a7a80e99beb430b3e96dc0bc11261240163e347ce4317c",
+    "expected": "Experience has not quieted Odin's desire to learn. It has brought him to the threshold of another contest.",
+    "heard": "Experience has not quieted Odin's desire to learn. It has brought him to the threshold of another contest.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:13:4": {
+    "fingerprint": "bb8c4f7e153f19d1f1cd5bd5d13d58d5ebf6795bacccfe9f1bc2381e2b4f1a33",
+    "expected": "The old world will be broken, but these answers preserve continuities that destruction cannot wholly consume.",
+    "heard": "The old world will be broken, but these answers preserve continuities that destruction cannot wholly consume.",
+    "similarity": 1.0
+  },
+  "havamal:14:2": {
+    "fingerprint": "f955cd6f6aad0073eac0abb42f39711f5d489a045f2f7f5c5b054dff8769ebf0",
+    "expected": "No named companion rescues him. This knowledge is won through exposure, hunger, pain, and an offering of himself.",
+    "heard": "No named companion rescues him. This knowledge is one through exposure, hunger, pain, and an offering of himself.",
+    "similarity": 0.944
+  },
+  "vafthrudnismal:0:0": {
+    "fingerprint": "a6d73a3a3d417afccdb899d673fa91df608db802b443174754bf78fc768a8603",
+    "expected": "Odin tells Frigg that he intends to visit Vafþrúðnir. The giant's wisdom is famous, and Odin wants to test it for himself.",
+    "heard": "Odin tells Frigg that he intends to visit Vathruunir. The giant's wisdom is famous, and Odin wants to test it for himself.",
+    "similarity": 0.957
+  },
+  "havamal:0:0": {
+    "fingerprint": "07057d56b67507ac88adbb7b9cd7a02193e50948a1b3d4064b3ea019cc9b628a",
+    "expected": "The voice at the doorway is a traveller's. It belongs to the High One, Odin, and begins with the hazards of entering a hall.",
+    "heard": "The voice at the doorway is a traveller's. It belongs to the High One, Odin, and begins with the hazards of entering a hall.",
+    "similarity": 1.0
+  },
+  "voluspa:0:0": {
+    "fingerprint": "27ef83a68a2ccbc8ca76f327a03adb70aaaa94b72305cfe1311b6d996e799edf",
+    "expected": "Odin stood before the seeress, a woman whose memory reached beyond the beginnings of his rule. He had come seeking knowledge.",
+    "heard": "Odin stood before the Cirrus, a woman whose memory reached beyond the beginnings of his rule. He had come seeking knowledge.",
+    "similarity": 0.952
+  },
+  "voluspa:9:1": {
+    "fingerprint": "66214a4900f37d6bd9067a9ea1807107c58583c9727eec19b4fcf346104bf633",
+    "expected": "Danger is gathering in the creatures, halls, and borders around the gods. It is no longer confined to quarrels inside their assembly.",
+    "heard": "Danger is gathering in the creatures, holes and borders around the gods. It is no longer confined to quarrels inside their assembly.",
+    "similarity": 0.955
+  },
+  "havamal:0:2": {
+    "fingerprint": "ef2c3e19d2f37eb6277bb525eb282f5ded0b645bfc2847533706e460e003478c",
+    "expected": "The first wisdom is made of such exchanges. Survival requires caution, yet a world without hospitality would leave every person stranded.",
+    "heard": "The first wisdom is made of such exchanges. Survival requires caution. Yet a world without hospitality would leave every person stranded.",
+    "similarity": 1.0
+  },
+  "havamal:9:1": {
+    "fingerprint": "799d6537e709542848aa475e5a04f148fdd458d02fc9a102a84b4ca5250fc1f0",
+    "expected": "The god who can mislead giants has himself been made ridiculous. His account is resentful, but the listener can see a limit to his powers.",
+    "heard": "The God who can mislead giants has himself been made ridiculous. His account is resentful, but the listener can see a limit to his powers.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:14:4": {
+    "fingerprint": "b54da671046e9bf8f4e5b130de73dc3befb17f9b2b0b2c41c34b22afe989b39f",
+    "expected": "The names of sons answer the question of what survives the fathers. Still in disguise, Odin has listened to the sentence of his own death.",
+    "heard": "The names of sons answer the question of what survives the fathers. Still in disguise, Odin has listened to the sentence of his own death.",
+    "similarity": 1.0
+  },
+  "havamal:12:0": {
+    "fingerprint": "40b90ed2220abe61008c613eba686efd242c4d6fb6d636e9dc7d21fa096c9cc7",
+    "expected": "Now the setting changes to a speaker's seat and the well of Urðr. Counsel is addressed repeatedly to Loddfáfnir: listen, learn, and benefit.",
+    "heard": "Now the setting changes to a speaker's seat and the well of earth. Council is addressed repeatedly to Lodfafnir. Listen, learn and benefit.",
+    "similarity": 0.875
+  },
+  "vafthrudnismal:12:4": {
+    "fingerprint": "393355192ff76d92a3282de8cd3bec3d39bdc9b69016d2aa91fd4448ee7b3be4",
+    "expected": "His learning is not merely a collection of stories received from others. His journeys match the travel with which Odin justified leaving home.",
+    "heard": "His learning is not merely a collection of stories received from others. His journeys match the travel with which Odin justified leaving home.",
+    "similarity": 1.0
+  },
+  "havamal:14:0": {
+    "fingerprint": "14d3c2fc07238e05481396e0a57ffc79b58f7f7f8a8b9fd73f63fe061e2e84c7",
+    "expected": "Then ordinary experience opens into ordeal. Odin speaks of a tree beaten by the wind and a sacrifice in which giver and recipient are the same god.",
+    "heard": "Then ordinary experience opens into ordeal. Odin speaks of a tree, beaten by the wind, and a sacrifice in which giver and recipient are the same God.",
+    "similarity": 1.0
+  },
+  "voluspa:3:2": {
+    "fingerprint": "deff485204694e72f9a4bbbc52b2e6efb4d9c2b48e7723c29fa8720e941504e2",
+    "expected": "Human life begins as a giving of powers. The precise force of some of those ancient words remains uncertain; the gifts themselves are unmistakable.",
+    "heard": "Human life begins as a giving of powers. The precise force of some of those ancient words remains uncertain. The gifts themselves are unmistakable.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:5:3": {
+    "fingerprint": "3cb86e9740adcb4fd1999fdaa8b669ac48e061e2956b91b326855fe1d45a33b1",
+    "expected": "Beneath the ordered world lies the body of a primordial being. The giant knows the ancestry of the landscape because it is bound to the ancestry of his own kind.",
+    "heard": "Beneath the ordered world lies the body of a primordial being. The Giant knows the ancestry of the landscape, because it is bound to the ancestry of his own kind.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:9:2": {
+    "fingerprint": "74aa1cabcd401390e9a4ce00b132f04205e3e2936e340bf51a21455ac4940604",
+    "expected": "This is a world before human measures of ordinary birth. Vafþrúðnir treats the strange genealogy as knowledge inherited and held, not a riddle to be explained away.",
+    "heard": "This is a world before human measures of ordinary birth. Vaphthrunir treats the strange genealogy as knowledge inherited and held, not a riddle to be explained away.",
+    "similarity": 0.963
+  },
+  "vafthrudnismal:4:4": {
+    "fingerprint": "337adaf2358fc6f30430db82252c10d3dcd31e784325f2fa0ed1f49c37b2442a",
+    "expected": "The questions have moved from the daily passage of light to the place of the final battle. A correct answer requires knowledge of the catastrophe appointed within the world.",
+    "heard": "The questions have moved from the daily passage of light to the place of the final battle. A correct answer requires knowledge of the catastrophe appointed within the world.",
+    "similarity": 1.0
+  },
+  "voluspa:4:1": {
+    "fingerprint": "2e2cae3454898bdbac5874632d69600f02f2c48328ba2dd68e5f561efeca792f",
+    "expected": "Even when the world seems newly furnished, its inhabitants have limits. The gods can shape land and confer life. The poem does not say that they can simply order fate to disappear.",
+    "heard": "Even when the world seems newly furnished, its inhabitants have limits. The gods can shape land and confer life. The poem does not say that they can simply order fate to disappear.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:3:4": {
+    "fingerprint": "2b58c76b75ab7bbf819e0c2ba4335c269ecc612d4e85c7ca48bc100598e78d9b",
+    "expected": "Day and night are not abstractions in this exchange. They move through the world with named animals, visible effects, and a place in a remembered order that both speakers must know.",
+    "heard": "Day and night are not abstractions in this exchange. They move through the world with named animals, visible effects, and a place in a remembered order that both speakers must know.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:2:3": {
+    "fingerprint": "9cf823e11daf079430f0bbcafdac1e0717a0512cf8d4d87231ad1c83dea61f38",
+    "expected": "The god does not announce his authority. He occupies the dangerous position of a guest who must establish his value through answers, with no assurance that courtesy will protect him.",
+    "heard": "The God does not announce his authority. He occupies the dangerous position of a guest who must establish his value through answers, with no assurance that courtesy will protect him.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:16:1": {
+    "fingerprint": "ae225810ec659d3e76c278733e2704f5d354a8d68026042a30191bc7fbe7dca0",
+    "expected": "At once the giant knows who has been questioning him. No one else can know that private utterance. The question names the edge of his immense learning, and reveals the visitor's identity.",
+    "heard": "At once the giant knows who has been questioning him. No one else can know that private utterance. The question names the edge of his immense learning and reveals the visitor's identity.",
+    "similarity": 1.0
+  },
+  "voluspa:8:1": {
+    "fingerprint": "b8522670b00ecad8c637586af1785f0dd3d976c7b078f2f99515c026fe1f3fa4",
+    "expected": "These incidents arrive in swift, hard flashes. The poem does not recount all the familiar details supplied elsewhere about the gods' games or the promises gathered from every living thing.",
+    "heard": "These incidents arrive in swift hard flashes. The poem does not recount all the familiar details supplied elsewhere about the gods' games or the promises gathered from every living thing.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:18:1": {
+    "fingerprint": "45c51c1b07cb9752a2630d28d074d79f7ef85fb001f527a1e2f5bc7849201c68",
+    "expected": "The giant's last recognition leaves both triumph and unease in the hall. One speaker has lost the contest. The other has heard how he will die, and still keeps the secret that made him victorious.",
+    "heard": "The Giant's last recognition leaves both triumph and unease in the hall. One speaker has lost the contest. The other has heard how he will die and still keeps the secret that made him victorious.",
+    "similarity": 1.0
+  },
+  "havamal:6:2": {
+    "fingerprint": "0f3344018bc983cc387b9da023d00f881242f540663171940941c6387c1c801f",
+    "expected": "The poem is concerned with living among other mortal people, leaving a reputation not wholly at the mercy of the last misfortune. Fame is attached to conduct, memory, and the stories survivors tell.",
+    "heard": "The poem is concerned with living among other mortal people, leaving a reputation not wholly at the mercy of the last misfortune. Fame is attached to conduct, memory, and the story's survivors tell.",
+    "similarity": 0.955
+  },
+  "havamal:13:1": {
+    "fingerprint": "2ea444f7da47f06296152b2ed67ba707203adaaed37c06b98caf62aa4d45e4e1",
+    "expected": "Much of the counsel returns to the earlier hall. These generous passages stand among the poem's more suspicious sayings. Hospitality remains an obligation even in a world where strangers may bring danger.",
+    "heard": "Much of the council returns to the earlier hall. These generous passages stand among the poems more suspicious sayings. Hospitality remains an obligation even in a world where strangers may bring danger.",
+    "similarity": 0.923
+  },
+  "voluspa:14:1": {
+    "fingerprint": "acd9d76be61eb1c501d5014e896856827e66df78d59112bce595caa375809683",
+    "expected": "The quiet objects of the first age return after the noise of its destruction. Unsown fields bear crops. Baldr and Höðr are together again, no longer held apart by the killing that defined their former lives.",
+    "heard": "The quiet objects of the first age return after the noise of its destruction. Unsewn fields bear crops. Boulder and Heather are together again, no longer held apart by the killing that defined their former lives.",
+    "similarity": 0.917
+  },
+  "voluspa:10:1": {
+    "fingerprint": "2fc0fdf683fce47835ae8fbc54c7b27848677e442555dc83f031b7a2e04659af",
+    "expected": "The warning travels through different realms. The approaching ruin is also a collapse of the relationships that made life within the world possible. The seeress names an age of axes and swords, of wind and wolves.",
+    "heard": "The warning travels through different realms. The approaching ruin is also a collapse of the relationships that made life within the world possible. The cirrus names an age of axes and swords of wind and wolves.",
+    "similarity": 0.972
+  },
+  "havamal:6:0": {
+    "fingerprint": "eb9ca1bd79649c8c13bcffa754bf24abf586908cedbeee43661dc3bd8211c3b6",
+    "expected": "Then comes the saying that gathers these counsels into a larger reckoning. Cattle die, relatives die, and the speaker himself must die. What can outlast a person is the judgement others make of the life that has ended.",
+    "heard": "Then comes the saying that gathers these councils into a larger reckoning. Cattle die, relatives die, and the speaker himself must die. What can outlast a person is the judgment others make of the life that has ended.",
+    "similarity": 0.947
+  },
+  "voluspa:13:1": {
+    "fingerprint": "3e8b87380b24cfa56e41df4fcccc15dd9d077c24d1a380f759395db804b39cbc",
+    "expected": "These are not defeats caused by a failure to fight bravely. The defenders do what their identities demand, and the world still ends. The sun blackens; the earth sinks into the sea; stars vanish and fire reaches heaven.",
+    "heard": "These are not defeats caused by a failure to fight bravely. The defenders do what their identities demand, and the world still ends, the sun blackens. The earth sinks into the sea, stars vanish, and fire reaches heaven.",
+    "similarity": 1.0
+  },
+  "havamal:4:1": {
+    "fingerprint": "6f6de3e76009e40c3b0639634f69da583a83223c0836510212d4e63b40a5d5ad",
+    "expected": "Friendship requires work. A modest home has value when its owner can stand as his own master within it. The poem knows the shame of dependence and the loneliness of having no one with whom to share what is in the heart.",
+    "heard": "Friendship requires work. A modest home has value when its owner can stand as his own master within it. The poem knows the shame of dependence and the loneliness of having no one with whom to share what is in the heart.",
+    "similarity": 1.0
+  },
+  "havamal:5:1": {
+    "fingerprint": "a7586beb0d149405f21078cd98c5253afbd3fdcf4268f1b3fb235c237695c1fe",
+    "expected": "These judgements are practical, sometimes generous, and sometimes harsh. Kin can preserve a name by raising a memorial stone, but even prosperity and family are vulnerable. Possessions are poor guarantees against change.",
+    "heard": "These judgments are practical, sometimes generous and sometimes harsh. Kin can preserve a name by raising a memorial stone, but even prosperity and family are vulnerable. Possessions are poor guarantees against change.",
+    "similarity": 0.969
+  },
+  "havamal:18:1": {
+    "fingerprint": "5727d93c467004cd9489259319633738da6ecc3e1dd36d81e7904552a3472e50",
+    "expected": "The traveller who began at a threshold has carried us through friendship, humiliation, betrayal, self-sacrifice, and magic. His changing subjects form the poem's shape. Even now, he distinguishes what he can teach from what he keeps.",
+    "heard": "The traveller who began at a threshold has carried us through friendship, humiliation, betrayal, self-sacrifice, and magic. His changing subjects form the poem's shape, even now he distinguishes what he can teach from what he keeps.",
+    "similarity": 1.0
+  },
+  "voluspa:7:1": {
+    "fingerprint": "adff77310710e7c6a059ace6b0c4cbeac4657324c995811cd9ca28005848d039",
+    "expected": "She sees secrets as well as public disasters. Her recurring question presses him onward. The answer costs him nothing as simple as money. The knowledge he seeks includes his own destruction, and every new image brings that destruction nearer.",
+    "heard": "She sees secrets as well as public disasters. Her recurring question presses him onward. The answer costs him nothing as simple as money. The knowledge he seeks includes his own destruction, and every new image brings that destruction nearer.",
+    "similarity": 1.0
+  },
+  "havamal:17:1": {
+    "fingerprint": "c7579f17955213aa8d647c9ae3ff72f3f38164612946b442cc3ab4cc9e134be5",
+    "expected": "The final movement names powers beyond ordinary counsel. It is an account of capacities, not a set of complete spells supplied for a listener to perform. We hear what the knowledge can accomplish without receiving every word that makes it work.",
+    "heard": "The final movement names powers beyond ordinary counsel. It is an account of capacities, not a set of complete spells supplied for a listener to perform. We hear what the knowledge can accomplish without receiving every word that makes it work.",
+    "similarity": 1.0
+  },
+  "havamal:10:1": {
+    "fingerprint": "5c436195f37f57e3659576feac076fcd3423a4e0424987172b8d46b8641eb266",
+    "expected": "This encounter has a different result and a darker cost. Odin wins the mead associated with poetry, but his success depends on Gunnlöð's trust and affection. When the frost-giants come asking after him, the deed is already beyond their recovery.",
+    "heard": "This encounter has a different result and a darker cost. Odin wins the mead associated with poetry, but his success depends on Gunlow's trust and affection. When the Frost Giants come asking after him, the deed is already beyond their recovery.",
+    "similarity": 0.976
+  },
+  "havamal:3:1": {
+    "fingerprint": "72a84affbd0763537d06e7970370ae33b9de11b6117659a6c9ddb7aef1378681",
+    "expected": "Wisdom consists in knowing the occasion, not obeying one rule without exception. The poem repeatedly places an attractive maxim beside another that complicates it. The traveller must judge which counsel belongs to the hall he has actually entered.",
+    "heard": "Wisdom consists in knowing the occasion, not obeying one rule without exception. The poem repeatedly places an attractive maxim beside another that complicates it. The traveller must judge which council belongs to the hall he has actually entered.",
+    "similarity": 0.974
+  },
+  "voluspa:3:0": {
+    "fingerprint": "7d3264d7133cf25b1b24874fb969d4ac4a37ef4b227ccb782d2a179d7ad20a1e",
+    "expected": "Now come the dwarfs, named in a long roll call. Mótsognir and Durinn stand at its beginning; many others follow. Their names suggest directions, objects, powers, and qualities. The catalogue remembers the inhabitants of the world, not merely its rulers.",
+    "heard": "Now come the dwarfs, named in a long roll call Motsubnier and Durin stand at its beginning, many others follow. Their names suggest directions, objects, powers, and qualities. The catalogue remembers the inhabitants of the world, not merely its rulers.",
+    "similarity": 0.95
+  },
+  "havamal:11:0": {
+    "fingerprint": "ce16319b08c4eb1c8f6106890bafe1b0d4e9a6bec29e39a3209edca09f565f08",
+    "expected": "The poem questions the trustworthiness of Odin's oath. His broken promise stands beside his advice about honest dealings. The same voice knows the necessity of trust and exploits another being's willingness to offer it. That contradiction remains unresolved.",
+    "heard": "The poem questions the trustworthiness of Odin's oath. His broken promise stands beside his advice about honest dealings. The same voice knows the necessity of trust and exploits another being's willingness to offer it. That contradiction remains unresolved.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:7:2": {
+    "fingerprint": "fe746680a0555cc8cc2ac762e0446b60bc2e33b74dd590cf059de9a087683c3f",
+    "expected": "The exchange is patterned and formal. Odin numbers his questions, and the giant answers without hesitation. Each successful reply postpones the moment at which one of them must fail. The names unfold an ancestry for the changing seasons and the measures of time.",
+    "heard": "The exchange is patterned and formal, Odin numbers his questions, and the giant answers without hesitation. Each successful reply postpones the moment at which one of them must fail. The names unfold in ancestry for the changing seasons and the measures of time.",
+    "similarity": 0.977
+  },
+  "voluspa:2:1": {
+    "fingerprint": "4d6de9239a5b979086f83a9c1e0333ba2e8e7ab5b8c2ea86c521540ee65ec5ae",
+    "expected": "The first age does not last. The vision shifts, leaving some connections unexplained. Its hearers are expected to recognize fragments of a much larger store of stories. But the golden pieces lying in the grass will return to the seeress's vision before she is done.",
+    "heard": "The first age does not last. The vision shifts, leaving some connections unexplained. Its hearers are expected to recognize fragments of a much larger store of stories. But the golden pieces lying in the grass will return to the Cirrus' vision before she is done.",
+    "similarity": 0.967
+  },
+  "voluspa:6:1": {
+    "fingerprint": "e72418b835429b2e1f556d9ee1dc294773f3cb5d61b72ac4c757fda61c939c47",
+    "expected": "The relation between Gullveig and Heiðr is suggested rather than explained. In another compressed scene the gods ask who has promised Freyja to the giants. Thor rises in anger, and solemn agreements are broken. Divine society has entered the world of violence and damaged oaths.",
+    "heard": "The relation between Golveg and Hath is suggested rather than explained. In another compressed scene the gods ask who has promised Frazier to the giants. Thor rises in anger, and solemn agreements are broken. Divine society has entered the world of violence and damaged oaths.",
+    "similarity": 0.933
+  },
+  "voluspa:16:1": {
+    "fingerprint": "fba977bb0a30fb770db63e262c9735314deef62a09b5cb21680173bb35470c7c",
+    "expected": "She does not explain away this last image or turn her prophecy into an untroubled promise. Odin has heard the making of a world, the breaking of its bonds, and the possibility of another beginning. The voice that showed him all this withdraws, leaving him with knowledge rather than escape.",
+    "heard": "She does not explain away this last image or turn her prophecy into an untroubled promise. Odin has heard the making of a world, the breaking of its bonds, and the possibility of another beginning. The voice that showed him all this withdraws, leaving him with knowledge rather than escape.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:18:0": {
+    "fingerprint": "fbafa7330fc88ce9081d03da226a7eeff0fda87cbe0b2c78f3b719081c3dd987",
+    "expected": "There the poem stops. The stakes make the consequence plain, but it describes no blow, no execution, and no journey home to Frigg. Nor does it disclose the whispered words. Odin wins by asking about knowledge that belongs to him alone, not by obtaining an answer that will overturn his fate.",
+    "heard": "There the poem stops. The stakes make the consequence plain, but it describes no blow, no execution, and no journey home to frig, nor does it disclose the whispered words. Odin wins by asking about knowledge that belongs to him alone, not by obtaining an answer that will overturn his fate.",
+    "similarity": 0.98
+  },
+  "havamal:16:1": {
+    "fingerprint": "7a82f22cbe8888e12b56cb7beaa90cf3d96859c0ae714cc5d38103490a5b3f5f",
+    "expected": "The poem speaks of powerful songs and a drink of precious mead. Knowing the shapes of signs is only part of knowing what to do with them. Even offerings require proportion: better not to ask than to demand too much. A gift looks for a return. Reciprocal obligations reach into relations with divine powers.",
+    "heard": "The poem speaks of powerful songs and a drink of precious mead. Knowing the shapes of signs is only part of knowing what to do with them. Even offerings require proportion. Better not to ask than to demand too much. A gift looks for a return. Reciprocal obligations reach into relations with divine powers.",
+    "similarity": 1.0
+  },
+  "havamal:8:0": {
+    "fingerprint": "46140c4f9ff373dd99050e0b32605543a1a4e29be682f4f9d0eb4441139eba8d",
+    "expected": "The voice turns to desire, and its authority becomes less comfortable. Some sayings make sweeping accusations against women. Others admit that men speak beautifully while intending deceit, and that love makes even a wise person foolish. These are not consistent instructions from a disembodied moral judge.",
+    "heard": "The voice turns to desire, and its authority becomes less comfortable. Some sayings make sweeping accusations against women, others admit that men speak beautifully while intending deceit, and that love makes even a wise person foolish. These are not consistent instructions from a disembodied moral judge.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:15:0": {
+    "fingerprint": "e4e1876d02fdf180830c0930f02bc8ae021bae059bc4115ffec68f4d0adef73b",
+    "expected": "Vafþrúðnir is still answering correctly. Odin does not bargain for another outcome. Instead, he brings the contest toward something no traveller could have discovered. The giant's journeys reach deep beneath the earth, and his memory reaches back beyond its making. But one question remains outside all that learning.",
+    "heard": "Vafthruunir is still answering correctly. Odin does not bargain for another outcome. Instead he brings the contest towards something no traveller could have discovered. The giant's journeys reach deep beneath the earth, and his memory reaches back beyond its making. But one question remains outside all that learning.",
+    "similarity": 0.959
+  },
+  "vafthrudnismal:10:2": {
+    "fingerprint": "dfa9bd8d9d83cb59480655bb5f9d03d764b1f07a48d835552002c49e0cf82024",
+    "expected": "That last word is difficult: a wooden vessel, or perhaps a mill-like container. The ancient object is less clear than later storytellers sometimes make it. What matters here is the reach of the giant's memory. He speaks from a depth of time beyond ordinary listeners, making the stranger's challenge increasingly formidable.",
+    "heard": "That last word is difficult, a wooden vessel or perhaps a mill-like container. The ancient object is less clear than later storytellers sometimes make it. What matters here is the reach of the giant's memory. He speaks from a depth of time beyond ordinary listeners, making the strangest challenge increasingly formidable.",
+    "similarity": 0.972
+  },
+  "vafthrudnismal:4:1": {
+    "fingerprint": "5cb30062ff90f3f84361a72d9642f9b14f2d0ed062864f3cb2d9141561a5c8fd",
+    "expected": "Ífing. It runs open and never freezes.",
+    "heard": "Ifing, it runs open and never freezes.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:12:0": {
+    "fingerprint": "5d523fbd51f22c70e46119210f55040fab815bf1c1e542ad693bd6bb71297f9f",
+    "expected": "Tell me of the warriors in Odin's hall.",
+    "heard": "Tell me of the warriors in Odin's Hall.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:10:0": {
+    "fingerprint": "87d137add96d9ed198f1c15116b9891bb7483141ab44859e935db393c286192e",
+    "expected": "What is the earliest event you remember?",
+    "heard": "What is the earliest event you remember?",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:5:1": {
+    "fingerprint": "2e9c9257f1351acd6f8fa7816ec78bb6e17738fd26c827c061448f61600d0bfd",
+    "expected": "Then tell me where earth and heaven came from.",
+    "heard": "then tell me where earth and heaven came from.\"",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:3:1": {
+    "fingerprint": "d63a46fa8e0e300e41c8de3a24e4d92461178d3b0da1fa29748d41a2a529afe7",
+    "expected": "Skinfaxi. His shining mane illuminates the world.",
+    "heard": "Skin Faxi. His shining mane illuminates the world.",
+    "similarity": 0.8
+  },
+  "vafthrudnismal:13:2": {
+    "fingerprint": "80851a63b5f02ef203b8ef1186a7bb0d3c11f9765bcdd7f5af0c46a9092cb5c6",
+    "expected": "How can the sun return after the wolf has taken it?",
+    "heard": "How can the sun return after the wolf has taken it?",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:11:0": {
+    "fingerprint": "989d75a4e76bfeb43b3363eb856e01c1f31ffaf4abb8ff9a301fbed80bacf7a5",
+    "expected": "Whence comes the wind that passes unseen over the sea?",
+    "heard": "Whence comes the wind that passes unseen over the sea?",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:13:0": {
+    "fingerprint": "0c80f8396f71d394fd5e3a9cd3a8c3242d8bade47f9ccc477e4804c056306e1b",
+    "expected": "Who will remain of humankind after the terrible winter?",
+    "heard": "Who will remain of humankind after the terrible winter?",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:14:0": {
+    "fingerprint": "d88e1b099490e3e4ec2f91f991465007d42205b318fd306b8d2c046b71b5bedc",
+    "expected": "Who will inhabit the gods' dwellings after Surtr's fire?",
+    "heard": "Who will inhabit the gods dwellings after Surtur's fire?",
+    "similarity": 0.9
+  },
+  "vafthrudnismal:14:2": {
+    "fingerprint": "5d4b34205afff8736652c46b86ce3485e1809cc5f0009d081186660b99fbc43c",
+    "expected": "And what will bring death to Odin at the world's ending?",
+    "heard": "and what will bring death to Odin at the world's ending.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:2:0": {
+    "fingerprint": "1f0f4ea48b7cac4459b827c4a23b7bc3a60525a7bb6646acae973d96390328b7",
+    "expected": "I am a thirsty traveller. I ask for hospitality after my journey.",
+    "heard": "I am a thirsty traveler. I ask for hospitality after my journey.",
+    "similarity": 0.917
+  },
+  "vafthrudnismal:12:2": {
+    "fingerprint": "af978bc8100b71118ed545097960dc22afb7c082be53825d16874c6d47be2cf9",
+    "expected": "How do you know the hidden arrangements of gods and giants so well?",
+    "heard": "How do you know the hidden arrangements of gods and giants so well?",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:1:2": {
+    "fingerprint": "e49c435607ad1fe74cb29ca6cbde028ad8d22e9c2566034e8dc9e2544f7300e9",
+    "expected": "Greetings, Vafþrúðnir. I have come to discover whether you are truly wise.",
+    "heard": "Greetings, Vafthruneer. I have come to discover whether you are truly wise.",
+    "similarity": 0.917
+  },
+  "vafthrudnismal:3:3": {
+    "fingerprint": "6b0d0672c4020a927f92e13d5984aede8f7683b34eed775cd0581dabcc0b1d94",
+    "expected": "Hrímfaxi. Foam falls from his bit at morning and becomes dew in the valleys.",
+    "heard": "Rheem Faxi, foam falls from his bit at morning and becomes dew in the valleys.",
+    "similarity": 0.897
+  },
+  "vafthrudnismal:7:0": {
+    "fingerprint": "f5eb8591bfcf27e2a8a091a08566ca40b6022ed3d8a98f245952a03954dea0b6",
+    "expected": "Tell me the origins of sun and moon, of day and night, of winter and summer.",
+    "heard": "Tell me the origins of sun and moon, of day and night, of winter and summer.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:11:2": {
+    "fingerprint": "93c98e9e7af478dce14ed506752416fc71082bf95bd8a729e6384e18b3d0379b",
+    "expected": "And Njörðr? How did he come among the Æsir, when he was not born one of them?",
+    "heard": "And you're there? How did he come among the Acer when he was not born one of them?",
+    "similarity": 0.833
+  },
+  "vafthrudnismal:0:2": {
+    "fingerprint": "ccb7c0190dea686675178c1c878bd8caf3dd1be055707e13546f929d6c0e7662",
+    "expected": "I have travelled widely and learned much. I would know how great his wisdom is.",
+    "heard": "I have traveled widely and learned much. I would know how great his wisdom is.",
+    "similarity": 0.933
+  },
+  "voluspa:0:1": {
+    "fingerprint": "6104fe2759a477d7bf29e9db2ad9837060e0c8670fc92341ebfbf5ffee57e266",
+    "expected": "Tell me what you remember. Speak of the world's beginning, and what is yet to come.",
+    "heard": "Tell me what you remember, speak of the world's beginning and what is yet to come.",
+    "similarity": 1.0
+  },
+  "havamal:18:0": {
+    "fingerprint": "dbfd43fdf803c62732d629890b3c226555040b65acda729ee4d683f84806ddea",
+    "expected": "There is a song I will not disclose freely. Not everything I know is for every listener.",
+    "heard": "There is a song I will not disclose freely. Not everything I know is for every listener.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:16:0": {
+    "fingerprint": "33157a3ef7253700179340a57ed6ae02a69559598d2a3fff6d8726719d0e9515",
+    "expected": "What did Odin whisper into his son's ear before the body was placed on the funeral pyre?",
+    "heard": "What did Odin whisper into his son's ear before the body was placed on the funeral pyre?",
+    "similarity": 1.0
+  },
+  "havamal:1:1": {
+    "fingerprint": "4ee856f218dc015373783c7f3090da1b76e9feafcbd133fa2dbc4b7fbabe6f7c",
+    "expected": "At every doorway,\nbefore going forward,\none should look around,\none should look carefully.",
+    "heard": "At every doorway before going forward one should look around, one should look carefully.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:4:3": {
+    "fingerprint": "6374d756ffaa91437b4bc87d84ed184c72c1a3789916d8b3eab392aa6cbfb0f1",
+    "expected": "Vígríðr. A hundred leagues it stretches in every direction. That is the field appointed for their battle.",
+    "heard": "Vigri there a hundred leagues it stretches in every direction that is the field appointed for their battle.",
+    "similarity": 0.914
+  },
+  "havamal:15:1": {
+    "fingerprint": "97350d63af49456fb1a4396e669e7e64d125f0a5e0d469ef76d66fee4cf03796",
+    "expected": "I know that I hung\non a wind-beaten tree\nfor nine whole nights,\nwounded with a spear\nand given to Odin,\nmyself to myself.",
+    "heard": "I know that I hung on a wind-beaten tree for nine whole nights wounded with a spear and given to Odin myself to myself.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:9:0": {
+    "fingerprint": "8631f141eaf2b7f2f0cc23a74c22ebc0fd889802aaf5d2c54537f1572d31d785",
+    "expected": "Who was oldest among the giants? How did Aurgelmir come into being, and how could he have descendants without a giant woman?",
+    "heard": "Who was oldest among the giants? How did Argil Mir come into being, and how could he have descendants without a giant woman?",
+    "similarity": 0.933
+  },
+  "havamal:7:1": {
+    "fingerprint": "85ed5c22e789490751c510b1bc04292d6bd7eccedcf53a138909a43d87298480",
+    "expected": "Cattle die,\nkinsfolk die,\none dies oneself as well.\nI know one thing\nthat never dies:\nthe judgement of each person who has died.",
+    "heard": "Cattle die, kinsfolk die, one dies oneself as well. I know one thing that never dies the judgment of each person who has died.",
+    "similarity": 0.958
+  },
+  "havamal:6:1": {
+    "fingerprint": "c405075d04523d892f3c632e373bd208c5bc232bfd0e756dd7324add1bf0be12",
+    "expected": "Cleverness cannot abolish mortality. Consider the life you leave in the memory of others, and what they will say when you are gone.",
+    "heard": "Cleverness cannot abolish mortality. Consider the life you leave in the memory of others and what they will say when you are gone.",
+    "similarity": 1.0
+  },
+  "havamal:13:0": {
+    "fingerprint": "04820ae73c94512f8bfe1606ec0d91c1bdd5001e960260aa587ee8082df634dd",
+    "expected": "Do not mock a guest or drive away someone in need. The person sitting safely inside may know very little about the stranger outside.",
+    "heard": "Do not mock a guest or drive away someone in need. The person sitting safely inside may know very little about the stranger outside.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:2:2": {
+    "fingerprint": "9a85e1311d272904ff0b9f84f3349eaf5728f2dfaea4eba7c1dc912b6b9e4f45",
+    "expected": "A poor man entering a wealthy person's hall should say what is useful or keep silent. Too much talk before a hard-hearted listener can turn against its speaker.",
+    "heard": "A poor man entering a wealthy person's hall should say what is useful or keep silent. Too much talk before a hard-hearted listener can turn against its speaker.",
+    "similarity": 1.0
+  },
+  "havamal:8:1": {
+    "fingerprint": "4d3f8bd5e098b642c2ca3e87615503342bd2bb492ea0fd13f1efad68ea4b23df",
+    "expected": "I know how desire can mislead. I waited in the reeds for a woman I wanted, imagining that to have her would be worth more than the wealth and standing of a ruler.",
+    "heard": "I know how desire can mislead. I waited in the reeds for a woman I wanted, imagining that to have her would be worth more than the wealth and standing of a ruler.",
+    "similarity": 1.0
+  },
+  "havamal:16:0": {
+    "fingerprint": "9bd6b3d1cc58c6ba42542598f0f9385366cbf787ce8ca0400f1dd9bb73a552fb",
+    "expected": "Then my understanding grew. Word led to word, deed to deed. Do you know how to carve the signs, how to interpret them, how to colour and test them? Do you know how to request, sacrifice, send, and destroy?",
+    "heard": "Then my understanding grew, word led to word, deed to deed. Do you know how to carve the signs, how to interpret them, how to color and test them? Do you know how to request, sacrifice, send and destroy?",
+    "similarity": 0.974
+  },
+  "havamal:14:1": {
+    "fingerprint": "68a281bc57b19be4dd3b215bd4e988db59b033214e8c4d4ebaef78b5eec0905e",
+    "expected": "For nine whole nights I hung there, wounded with a spear, given to Odin: myself to myself. No one gave me bread or a drinking horn. I looked downward. With a cry I took up the runes, and fell back from the tree.",
+    "heard": "For nine whole nights I hung there, wounded with a spear given to Odin, myself to myself. No one gave me bread or a drinking horn I looked downward, with a cry I took up the runes and fell back from the tree.",
+    "similarity": 1.0
+  },
+  "havamal:2:1": {
+    "fingerprint": "06b0c07d04490319ba65ca8292340f1444880bec220023ede9fbe40a86013d35",
+    "expected": "The foolish man thinks himself safe if he avoids a fight, but age will find him even if spears do not. Another fool lies awake worrying all night and is too tired the next morning to face the troubles that remain.",
+    "heard": "The foolish man thinks himself safe if he avoids a fight. But age will find him even if spears do not. Another fool lies awake, worrying all night, and is too tired the next morning to face the troubles that remain.",
+    "similarity": 1.0
+  },
+  "havamal:3:0": {
+    "fingerprint": "d79841dfec8b84afd2fe84e8cb3a22e6b443f1c4d4a2c24e395cd9cd3a157d04",
+    "expected": "A person may seem wise while remaining silent. Once he speaks, his listeners can measure what he knows. Yet someone who never speaks may be unable to defend his place among other people. Learn when to hold your tongue, and when to use it.",
+    "heard": "A person may seem wise while remaining silent. Once he speaks, his listeners can measure what he knows. Yet someone who never speaks may be unable to defend his place among other people. Learn when to hold your tongue and when to use it.",
+    "similarity": 1.0
+  },
+  "havamal:4:0": {
+    "fingerprint": "e2757c2625f395ade032da26ac84566d1ed1a71949d2c03ac10c618310c541e4",
+    "expected": "Visit the friend you trust. Grass and brush grow over a path that no one walks. Give gifts, exchange thoughts, and answer warmth with warmth. The gift need not be splendid. A small present, given in the right spirit, can secure a welcome.",
+    "heard": "Visit the friend you trust. Grass and brush grow over a path that no one walks. Give gifts, exchange thoughts, and answer warmth with warmth. The gift need not be splendid. A small present given in the right spirit can secure a welcome.",
+    "similarity": 1.0
+  },
+  "havamal:0:1": {
+    "fingerprint": "d867ed9702f2fe73644a6a0dfb77dcd0d933af03d351bcc57f6f7652e08bd7a8",
+    "expected": "Before crossing a threshold, look around. No one knows where an enemy may be sitting. But when a traveller comes to your own door, give him a fire for cold knees, food, dry clothing, water for washing, and a welcome that permits him to speak.",
+    "heard": "Before crossing a threshold, look around. No one knows where an enemy may be sitting. But when a traveler comes to your own door, give him a fire for cold knees, food, dry clothing, water for washing, and a welcome that permits him to speak.",
+    "similarity": 0.978
+  },
+  "havamal:10:0": {
+    "fingerprint": "e7c9b84ef5d03f2f8841a4d95923a5ff8d8306fdf4da9de300c190a6f150691d",
+    "expected": "I entered Suttungr's dwelling in search of the precious mead. Rati drilled a passage through stone. I risked my head among the giants. Gunnlöð gave me the drink and helped me escape. I repaid her badly. Where I had received aid, I left sorrow.",
+    "heard": "I entered Satungra's dwelling in search of the precious mead. Rathi drilled a passage through stone. I risked my head among the giants. Gunload gave me the drink and helped me escape. I repaid her badly, where I had received aid I left sorrow.",
+    "similarity": 0.933
+  },
+  "havamal:2:0": {
+    "fingerprint": "a666648f01aa668bd8c57defcf5c1ffa2806a610211d688f6419ca2ff2f1b2b0",
+    "expected": "Watch before speaking. Listen to others without imagining that every smile proves friendship. Do not eat so greedily that your appetite becomes the room's entertainment. Drink with care: ale can steal judgement while seeming to offer pleasure.",
+    "heard": "Watch before speaking. Listen to others without imagining that every smile proves friendship. Do not eat so greedily that your appetite becomes the room's entertainment. Drink with care. Ales can steal judgment while seeming to offer pleasure.",
+    "similarity": 0.947
+  },
+  "havamal:5:0": {
+    "fingerprint": "caec89fc80de5bff5f63c77eb5792fe0ce590e65efa25a8f5145f441974c1216",
+    "expected": "Wealth does not establish wisdom. Do not mock another's poverty. The lame can ride, the handless can tend animals, and the deaf can fight. Living still offers possibilities that a funeral pyre cannot. The herds that fill a rich man's yard today may be gone tomorrow.",
+    "heard": "Wealth does not establish wisdom. Do not mock another's poverty. The lame can ride, the handless contend animals and the deaf can fight. Living still offers possibilities that a funeral pyre cannot. The herds that fill a rich man's yard today may be gone tomorrow.",
+    "similarity": 0.968
+  },
+  "havamal:17:0": {
+    "fingerprint": "a4f0ddae6b36db5d4a3a82eacd892ba9f056258810745455683b29ebb643a0df",
+    "expected": "I know songs that help in distress and songs that concern healing. I know how to blunt weapons, loosen fetters, and stop a flying shaft. I can quench a burning hall, reconcile enemies, and calm a dangerous sea. I can protect companions going into battle, and speak with a hanged man.",
+    "heard": "I know songs that help in distress, and songs that concern healing. I know how to blunt weapons, loosen fetters, and stop a flying shaft. I can quench a burning hall, reconcile enemies, and calm a dangerous sea. I can protect companions going into battle, and speak with a hanged man.",
+    "similarity": 1.0
+  },
+  "havamal:9:0": {
+    "fingerprint": "7629ef512fdd729646a32fc167a5b1d3dce4fb8dbc63be86eede0c29e9bd62d8",
+    "expected": "I found Billingr's woman resting in bed. She told me to return later, when our meeting could remain secret. Hope carried me away. When I returned at night, armed people and bright lights blocked my approach. At dawn I tried again, believing the household finally asleep. A dog lay tethered where I expected to find her.",
+    "heard": "I found Billinger's woman resting in bed. She told me to return later, when our meeting could remain secret. Hope carried me away. When I returned at night, armed people in bright lights blocked my approach. At dawn I tried again, believing the household finally asleep. A dog lay tethered where I expected to find her.",
+    "similarity": 0.965
+  },
+  "havamal:12:1": {
+    "fingerprint": "4b3789012c1a6a099bdb18a2790d9a03de8520e1c756fae3ebf3dad57fb32ee3",
+    "expected": "Loddfáfnir, do not let a wicked person determine your actions. Keep faith with a good friend. Do not take pleasure in another's misfortune. Beware desire for another man's wife, and the destructive words that pass between people. Do not ridicule an old speaker because his body has grown frail. Knowledge can remain where strength and beauty have gone.",
+    "heard": "Lod Favnear, do not let a wicked person determine your actions. Keep faith with a good friend. Do not take pleasure in another's misfortune. Beware desire for another man's wife, and the destructive words that pass between people. Do not ridicule an old speaker, because his body has grown frail. Knowledge can remain where strength and beauty have gone.",
+    "similarity": 0.975
+  },
+  "voluspa:15:1": {
+    "fingerprint": "abc154a77d38c475dcd40965b4da1db51798b9f6f0020cc43eb7272dfe227972",
+    "expected": "She sees rising\nfor a second time\nearth from the sea,\never green.",
+    "heard": "She sees rising for a second time earth from the sea evergreen.",
+    "similarity": 0.88
+  },
+  "voluspa:5:1": {
+    "fingerprint": "c7a9e35efed3f09ab4b69831ec697aa9a73e9df68f7a94eb9d365219b4574822",
+    "expected": "I know an ash standing,\ncalled Yggdrasill,\na tall tree, sprinkled\nwith pale moisture.",
+    "heard": "I know an ash standing called Yggdrasil, a tall tree sprinkled with pale moisture.",
+    "similarity": 0.929
+  },
+  "voluspa:11:1": {
+    "fingerprint": "5eb8252d328460090d75978a3113049b5c618702653bb4e9ca861d5625f8f1bd",
+    "expected": "An axe-age, a sword-age,\nshields are split;\na wind-age, a wolf-age,\nbefore the world falls.",
+    "heard": "An axe age, a sword age, shields are split, a wind age, a wolf age before the world falls.",
+    "similarity": 1.0
+  },
+  "voluspa:7:0": {
+    "fingerprint": "ef9b419ff5c2f48273c11c5c7236d83a054d800530b8a9399dad4506ed3c6b4b",
+    "expected": "I know where you have hidden your eye, Odin, in Mímir's famous well. You came to me alone and offered rings and necklaces for knowledge. Would you know more?",
+    "heard": "I know where you have hidden your eye, Odin. In Mimir's famous well, you came to me alone and offered rings and necklaces for knowledge. Would you know more?",
+    "similarity": 1.0
+  },
+  "voluspa:12:1": {
+    "fingerprint": "f76dca419401710cabee41bbc8dfc68c029b1c5d02ec14829aa77cde6bfe96fb",
+    "expected": "Surtr comes from the south carrying destructive fire, his sword shining like the sun. Rocks break, beings crowd the road to Hel, and the sky itself is torn apart.",
+    "heard": "Surtur comes from the south carrying destructive fire, his sword shining like the sun. Rocks break, beings crowd the road to hell, and the sky itself is torn apart.",
+    "similarity": 0.931
+  },
+  "voluspa:16:0": {
+    "fingerprint": "31e63970ea73032946b06afccd90f214fe1d383226f34a85c805e66be398a115",
+    "expected": "A hall roofed with gold stands brighter than the sun, offering dwelling and happiness. But there comes Níðhöggr, the dark dragon, flying with corpses upon his wings. Now I must sink.",
+    "heard": "A hall roofed with gold stands brighter than the sun, offering dwelling and happiness. But there comes Nihigra, the dark dragon, flying with corpses upon his wings. Now I must sink.",
+    "similarity": 0.968
+  },
+  "voluspa:1:0": {
+    "fingerprint": "6a9312fa57d3bf03fa979a9c8657a205d92b9f543eec5770bce2332ad07bbc39",
+    "expected": "I remember the giants who fostered me long ago, and nine worlds beneath the earth. In that first age there was no shore to stand on, no cool waves coming in, no heaven raised above a field of grass.",
+    "heard": "I remember the giants who fostered me long ago, and nine worlds beneath the earth. In that first age there was no shore to stand on, no cool waves coming in, no heaven raised above a field of grass.",
+    "similarity": 1.0
+  },
+  "voluspa:3:1": {
+    "fingerprint": "2742586949a5762d06a17521f95abd9a447af7fd109d2dddfa4b20f259df0191",
+    "expected": "Then three gods found Ask and Embla on the land. They had no settled destiny, no breath or understanding of their own. You gave them breath, Odin. Hœnir gave understanding, and Lóðurr gave warmth and good colour.",
+    "heard": "Then three gods found Ask and Embla on the land. They had no settled destiny, no breath or understanding of their own. You gave them breath, Odin. Honir gave understanding, and Lodur gave warmth and good color.",
+    "similarity": 0.919
+  },
+  "voluspa:4:0": {
+    "fingerprint": "84ab263fccbd37414b9e5a2a5e987c736d1442fb6546aeffe6b21dab9f4f5af6",
+    "expected": "Above these beginnings stands the ash Yggdrasill, nourished by pale moisture, its dew falling into valleys. Beneath it are the women who determine lives. Urðr, Verðandi, and Skuld establish laws, choose lives, and set the fates of human beings.",
+    "heard": "Above these beginnings stands the ash-igdrasil, nourished by pale moisture, its dew falling into valleys. Beneath it are the women who determine lives. Urther verandhi and sculled established laws choose lives and set the fates of human beings.",
+    "similarity": 0.872
+  },
+  "voluspa:0:2": {
+    "fingerprint": "bff0de58c48b1d30d208bda62457d695b455f50a01749d66d6a15b98f85adcc8",
+    "expected": "Then listen, great and small, children of Heimdall. I remember a world older than your power, Odin. In my sight, what has happened and what must happen stand close together. You ask for knowledge. I will give it to you, but I promise no comfort.",
+    "heard": "Then listen, great and small, children of Heimdall. I remember a world older than your power, Odin. In my sight, what has happened and what must happen stand close together. You ask for knowledge. I will give it to you, but I promise no comfort.",
+    "similarity": 1.0
+  },
+  "voluspa:2:0": {
+    "fingerprint": "e3ad9d248b8188e4bd7338eda3a596aea5cae1f657819a0a265989899d508b5b",
+    "expected": "At Iðavöllr they built high sanctuaries and halls. They established forges, made tongs, and worked metal. In the grass they played with golden gaming pieces, possessing gold without anxiety about its lack. Then three powerful giant women arrived.",
+    "heard": "At Aval they built high sanctuaries and halls. They established forges, made tongs, and worked metal. In the grass they played with golden gaming pieces, possessing gold without anxiety about its lack. Then three powerful giant women arrived.",
+    "similarity": 0.974
+  },
+  "voluspa:10:0": {
+    "fingerprint": "dc47110c87549767b5efae387d5200b88cc4912a30d165f41ab166206f4a3606",
+    "expected": "A red cock crows among the giants. Gullinkambi wakes Odin's warriors, and another cock cries below the earth. Garmr howls before Gnipahellir. Bonds strain and break. Brothers kill brothers. Cousins destroy the obligations of kinship. Would you know more?",
+    "heard": "A red cock crows among the giants. Gullingkambi wakes Odin's warriors, and another cock cries below the earth. Garmor howls before a Nipahillier, bonds strain and break brothers kill brothers. Cousins destroy the obligations of kinship. Would you know more?",
+    "similarity": 0.914
+  },
+  "voluspa:12:0": {
+    "fingerprint": "59bc353950149a9bfd925bfa226222c66c5611b567267e8d06eb59c89016c2e4",
+    "expected": "Heimdall raises the Gjallarhorn. You consult Mímir's head, Odin, while the old ash shakes and its branches tremble. Hrymr advances with his shield. The great serpent churns the sea. Naglfar is loose, and Loki comes with the force approaching over the water.",
+    "heard": "Heimdall raises the Gallerhorn. You consult Mimir's head Odin while the old ash shakes and its branches tremble. Hrimmer advances with his shield. The great serpent churns the sea. Naglfar is loose and Loki comes with the force approaching over the water.",
+    "similarity": 0.953
+  },
+  "voluspa:14:0": {
+    "fingerprint": "5cbcd7bc44d3d1ac6e66267e90b90eb42d4f7333adeed116e93dcf92ad493b88",
+    "expected": "Yet I see the earth rise again, green from the water. Waterfalls run. An eagle flies above them and catches fish beneath the cliffs. At Iðavöllr the gods who remain speak of the great serpent and remember the old powers. They find the golden gaming pieces in the grass.",
+    "heard": "Yet I see the earth rise again, green from the water. Waterfalls run, an eagle flies above them and catches fish beneath the cliffs. At Iteval the gods who remain speak of the great serpent and remember the old powers. They find the golden gaming pieces in the grass.",
+    "similarity": 0.98
+  },
+  "voluspa:13:0": {
+    "fingerprint": "0ec55018e2fdc015fdef9032b0c2f09adbaf764f1a284442e877cf43cee7b097",
+    "expected": "You meet the wolf, Odin, and you fall. Víðarr comes to avenge his father, driving his sword into the monster's heart. Freyr, the slayer of Beli, confronts Surtr. Thor kills the world-serpent, but victory does not save him. He takes nine steps before sinking beneath its venom.",
+    "heard": "You meet the wolf, Odin, and you fall. Vidar comes to avenge his father, driving his sword into the monster's heart. Freyr, the slayer of Belly, confronts Surtur. Thor kills the world serpent, but victory does not save him. He takes nine steps before sinking beneath its venom.",
+    "similarity": 0.939
+  },
+  "voluspa:8:0": {
+    "fingerprint": "921d40651935957be38b9215cd24acb4968828af397311bcb71a5a3a039f4af7",
+    "expected": "I see valkyries ready to ride. I see Baldr, your son, within the reach of death. A slender mistletoe shoot becomes the weapon Höðr will use. A brother born to avenge Baldr acts while scarcely a day old. He will not wash his hands or comb his hair before the killing is answered. Frigg weeps in Fensalir.",
+    "heard": "I see Valkyries ready to ride. I see Baldr, your son, within the reach of death. A slender mistletoe shoot becomes the weapon Hothr will use. A brother born to avenge Baldr axe while scarcely a day old. He will not wash his hands or comb his hair before the killing is answered. Frig weeps in Fensaldir.",
+    "similarity": 0.93
+  },
+  "voluspa:1:1": {
+    "fingerprint": "533e2117421353cad102a662ed1e4c1ee709703e9cd8e8c30634f0dee6da53c4",
+    "expected": "Then the sons of Borr lifted the land and shaped the human dwelling of Midgard. Sunlight reached the stones from the south, and green growth covered the ground. Sun, moon, and stars did not yet know their places. The gods sat in council and named the divisions of time: morning, evening, and the reckoning of years.",
+    "heard": "Then the sons of Bohr lifted the land and shaped the human dwelling of Midgard. Sunlight reached the stones from the south and green growth covered the ground. Sun, moon and stars did not yet know their places. The gods sat in council and named the divisions of time, morning, evening and the reckoning of years.",
+    "similarity": 0.982
+  },
+  "voluspa:6:0": {
+    "fingerprint": "77d1797027a99eff91baf23e3a56fd6dff12125c661a755414f17041a9b6219b",
+    "expected": "I remember the first war. Gullveig was pierced with spears and burned in the High One's hall: three times burned, three times born, still living. Heiðr practised powerful magic. The gods debated responsibility and compensation. You cast a spear into the host, Odin. The defences of the Æsir broke, and the Vanir trod the field.",
+    "heard": "I remember the First War. Gullvague was pierced with spears and burned in the High One's Hall, three times burned, three times born still living. Haired practiced powerful magic. The gods debated responsibility and compensation. You cast a spear into the host Odin. The defenses of the Aesir broke, and the Vanir trod the field.",
+    "similarity": 0.911
+  },
+  "voluspa:9:0": {
+    "fingerprint": "000f7cd0236d7524e52b584af4517c32a1ae845760e9c110166ddd6191bdbdb7",
+    "expected": "A bound figure resembling Loki lies with unhappy Sigyn beside him. Rivers run through poisoned valleys. Far from the sun stands a hall with doors facing north and walls woven with serpents. There I see oath-breakers and murderers enduring punishment. In Ironwood a giant woman breeds wolves. One of their kin will take the heavenly light.",
+    "heard": "A bound figure resembling Loki lies with unhappy Seagin beside him. Rivers run through poisoned valleys. Far from the sun stands a hall with doors facing north and walls woven with serpents. There I see oathbreakers and murderers enduring punishment. In Ironwood a giant woman breeds wolves. One of their kin will take the heavenly light.",
+    "similarity": 0.956
+  },
+  "vafthrudnismal:1:0": {
+    "fingerprint": "2855990b11f9eb79bcb4f2bb484522f82c02b44550f78ec57355143b85c53669",
+    "expected": "Go safely, then, and return safely. May your mind be sharp in the exchange of words ahead.",
+    "heard": "Go safely then and return safely. May your mind be sharp in the exchange of words ahead.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:0:1": {
+    "fingerprint": "e4224b915c7ab434bc4d81df58e6fa5bc7157927d1830baa294cbfc543b1adeb",
+    "expected": "I would rather keep you here among the gods. I know no giant equal to Vafþrúðnir in strength of understanding. This journey may end badly.",
+    "heard": "I would rather keep you here among the gods. I know no giant equal to Vafthrunir in strength of understanding. This journey may end badly.",
+    "similarity": 0.96
+  },
+  "vafthrudnismal:3:2": {
+    "fingerprint": "20ab032d021c312c95f55c45f275d0d25368b973f9ca4ae21eb67aa457c48952",
+    "expected": "And the horse that carries the night?",
+    "heard": "And the horse that carries the knight.",
+    "similarity": 0.857
+  },
+  "vafthrudnismal:2:1": {
+    "fingerprint": "f3ba04f959a8fee8461c12f7a341361efe2459e9f0466997fffbf5badf7c9408",
+    "expected": "Come forward, then, and take a place to sit.",
+    "heard": "Come forward then and take a place to sit.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:4:2": {
+    "fingerprint": "791495dd6a06c6bf8e99bdb9bd274cc9d738ff0ab60bccc5ebd927c8ae685da5",
+    "expected": "What is the field where Surtr and the gods will meet?",
+    "heard": "What is the field where Surtur and the gods will meet?",
+    "similarity": 0.909
+  },
+  "vafthrudnismal:4:0": {
+    "fingerprint": "478c1ef55149d69dd6fbd25c9810f679a4620f6d88cca0cb5697bb81a086f7c3",
+    "expected": "What river divides the gods' territory from the giants'?",
+    "heard": "What river divides the God's territory from the giants?",
+    "similarity": 0.842
+  },
+  "vafthrudnismal:3:0": {
+    "fingerprint": "3861ce2995b21d926587da59adc1ed19487ebf269400c34af610ac362e2632da",
+    "expected": "Tell me the name of the horse that brings day to humankind.",
+    "heard": "Tell me the name of the horse that brings day to humankind.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:6:1": {
+    "fingerprint": "e6cecba981be21806b4f544bc0923601291f46ef93cd4e19117b97d7e8552652",
+    "expected": "We shall wager our heads\nhere in the hall,\nguest, on our wisdom.",
+    "heard": "We shall wager our heads here in the hall, Guest on our wisdom.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:12:3": {
+    "fingerprint": "a8a69b7bcc8d8d6650e2de096ee075c6839be157cc3be095fe68a30f5c40bb94",
+    "expected": "I have travelled through the worlds, as far as Niflhel beneath the earth.",
+    "heard": "I have traveled through the worlds as far as Niflel beneath the earth.",
+    "similarity": 0.846
+  },
+  "vafthrudnismal:8:1": {
+    "fingerprint": "2218d4e248e104a3ef4c7835dce5e92a20884a4966495f6200a3ea92388eb6ae",
+    "expected": "From Ymir’s flesh\nthe earth was fashioned,\nand from his bones the mountains.",
+    "heard": "From Ymir's flesh the earth was fashioned and from his bones the mountains.",
+    "similarity": 0.889
+  },
+  "vafthrudnismal:17:1": {
+    "fingerprint": "a88111e0f957fdad4049e473945641f1c8999973c45c1445f262456ac75ab033",
+    "expected": "Now I have matched\nmy wisdom in words with Odin;\nyou are always the wisest of beings.",
+    "heard": "Now I have matched my wisdom in words with Odin. You are always the wisest of beings.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:14:1": {
+    "fingerprint": "ba7675fb432381aee248de19e434fb09cceb943f178b392bd31983fca8e7c8fc",
+    "expected": "Víðarr and Váli will remain. Móði and Magni will possess Mjölnir after Thor has fallen.",
+    "heard": "Vidar and Vali will remain. Moe and Magni will possess Mjolnir after Thor has fallen.",
+    "similarity": 0.867
+  },
+  "vafthrudnismal:5:0": {
+    "fingerprint": "5f845fcccff3480aeb8cccb2ed0c9ea67f6f980bb9d7cddc92c1849d6c263be7",
+    "expected": "You are learned, guest. Let us sit together and stake our heads on which of us is wiser.",
+    "heard": "You are learned guests. Let us sit together and stake our heads on which of us is wiser.",
+    "similarity": 0.944
+  },
+  "vafthrudnismal:14:3": {
+    "fingerprint": "54acb601b51c4657bc0f7be71717a406ec47b25750568caff6ffd8b874424c06",
+    "expected": "The wolf will kill the father of men. Víðarr will avenge him by tearing apart the monster's jaws.",
+    "heard": "The wolf will kill the father of men. Vidar will avenge him by tearing apart the monster's jaws.",
+    "similarity": 0.947
+  },
+  "vafthrudnismal:12:1": {
+    "fingerprint": "4ea173302c33e043c6b9880224d23676a4db3bdd80d4a89356309668fa34b3fe",
+    "expected": "They go out to fight each day. They strike one another down, then return restored to sit together.",
+    "heard": "They go out to fight each day, they strike one another down, then return restored to sit together.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:13:3": {
+    "fingerprint": "a286739c1761002ec711a1d40d16de9b50733ca3ee4189c9042fd88387ef1362",
+    "expected": "Before her death she will bear a daughter. That daughter will follow her mother's path in the sky.",
+    "heard": "Before her death, she will bear a daughter. That daughter will follow her mother's path in the sky.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:10:1": {
+    "fingerprint": "3a4783fc5a5573e40467a74be82a05e5897e3ae398d17d8d391e62ef6b2a9544",
+    "expected": "I remember Bergelmir, born long before the earth was made. I remember his being placed upon a lúðr.",
+    "heard": "I remember Bergelmere, born long before the earth was made. I remember his being placed upon a loother.",
+    "similarity": 0.889
+  },
+  "vafthrudnismal:1:3": {
+    "fingerprint": "834f1a1e18b1079a0796437611e6d7f9bc1f84611ed78080f43328b2f9961658",
+    "expected": "Who is this stranger speaking in my house? Unless you prove wiser than I am, you will not leave it alive.",
+    "heard": "Who is this stranger speaking in my house? Unless you prove wiser than I am, you will not leave it alive.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:11:1": {
+    "fingerprint": "0405ff9774a5c240b4c29d3228d87601689c56e88d33fffce01de7b754ebbfa8",
+    "expected": "At the edge of heaven sits Hræsvelgr in the form of an eagle. The movement of his wings sends wind over the world.",
+    "heard": "At the edge of heaven sits Raysvelger in the form of an eagle. The movement of his wings sends wind over the world.",
+    "similarity": 0.957
+  },
+  "vafthrudnismal:16:2": {
+    "fingerprint": "3c8465e7a0b144c33ef0cd6c4c9eb2e9b2beca7579ef6b4e9773f399e3d2a19f",
+    "expected": "No one knows what you said in your son's ear. With a doomed mouth I have spoken ancient lore and the doom of the gods.",
+    "heard": "No one knows what you said in your son's ear. With the doomed mouth I have spoken ancient lore and the doom of the gods.",
+    "similarity": 0.962
+  },
+  "vafthrudnismal:5:2": {
+    "fingerprint": "59e79e31fc69f32f25530ef2fca687201a2f9158f9a5f331b7cce27677a88e46",
+    "expected": "The earth was made from Ymir's flesh, the mountains from his bones, heaven from his skull, and the sea from his blood.",
+    "heard": "The earth was made from Ymir's flesh, the mountains from his bones, heaven from his skull, and the sea from his blood.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:13:1": {
+    "fingerprint": "9e2ccd3138bf7063a87358b9329042ac0680ef5c0bddbf3a97f5d1ccd9d7850f",
+    "expected": "Líf and Lífþrasir will shelter in Hoddmímir's wood. Morning dew will sustain them, and human generations will descend from them.",
+    "heard": "Liff and Liffthrasir will shelter in Hodmimeir's wood. Mourning dew will sustain them, and human generations will descend from them.",
+    "similarity": 0.81
+  },
+  "vafthrudnismal:11:3": {
+    "fingerprint": "efedceced11eed983d51d6db92859b4c5475d1e13a0cf20100832f8f91c375c9",
+    "expected": "He was made among the Vanir and given as a hostage to the gods. When the world reaches its end, he will return to his own people.",
+    "heard": "He was made among the Vanir and given as a hostage to the gods. When the world reaches its end, he will return to his own people.",
+    "similarity": 1.0
+  },
+  "vafthrudnismal:9:1": {
+    "fingerprint": "4fcd0fe708f111717b2f5a1e99c5393a4877ff5ba8c1a9419cd2695e5da36e0e",
+    "expected": "Venomous drops came from Élivágar and grew into the first great being. Beneath his arm a man and woman grew. One foot begot a six-headed son with the other.",
+    "heard": "Venomous drops came from Elevagar and grew into the first great being. Beneath his arm a man and woman grew. One foot begot a six-headed son with the other.",
+    "similarity": 0.967
+  },
+  "vafthrudnismal:7:1": {
+    "fingerprint": "6c7c07ef78226e35e2756bf6a4c999b49c4c125c58b760f599b9b55a24fbce4f",
+    "expected": "Mundilfari is the father of the heavenly lights. Dellingr belongs to the account of day, Nörvi to that of night. Vindsvalr is winter's father, and Svásuðr is summer's.",
+    "heard": "Mandalfari is the father of the heavenly lights. Dellingar belongs to the account of day. Norvy to that of night. Vinsvalar is winter's father, and Svassurd is summer's.",
+    "similarity": 0.833
+  }
+}

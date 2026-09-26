@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "description": "Persistent synthetic character casting. Character IDs are stable across stories; voice IDs identify immutable reference recordings. Recast by changing only a character voiceId, then regenerate affected English clips. Never overwrite a reference for an existing voice ID.",
+  "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-Base-4bit",
+  "characters": {
+    "narrator": {
+      "name": "Narrator",
+      "aliases": [],
+      "voiceId": "narrator-v1"
+    },
+    "odin": {
+      "name": "Odin",
+      "aliases": [
+        "Óðinn",
+        "High One",
+        "Gagnráðr",
+        "Grímnir",
+        "Hárbarðr"
+      ],
+      "voiceId": "odin-v1"
+    },
+    "seeress": {
+      "name": "The seeress",
+      "aliases": [
+        "Völva",
+        "The seeress"
+      ],
+      "voiceId": "seeress-v1"
+    },
+    "frigg": {
+      "name": "Frigg",
+      "aliases": [],
+      "voiceId": "frigg-v1"
+    },
+    "vafthrudnir": {
+      "name": "Vafþrúðnir",
+      "aliases": [
+        "Vafthrudnir"
+      ],
+      "voiceId": "vafthrudnir-v1"
+    }
+  },
+  "voices": {
+    "narrator-v1": {
+      "description": "Warm, measured storyteller",
+      "reference": "/audio/codex-regius/voices/narrator-v1.wav",
+      "referenceText": "Odin stood before the seeress, a woman whose memory reached beyond the beginnings of his rule. He had come seeking knowledge.",
+      "sha256": "2a420f90bbd185f89ae82a0c1a81c5b178f8f080d9a49a8312d0bc840a9681f7",
+      "design": {
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+        "instruction": "A male English-language audiobook narrator in his fifties. A warm, rounded mid-low baritone, smooth and intimate, with clear neutral British English pronunciation. Tell an ancient story at an unhurried but flowing pace. Quiet gravity, natural phrasing, restrained emotion. Keep the voice audibly distinct from a gravelly bass. Speak naturally, do not whisper, shout or sing. Read only the supplied text.",
+        "seed": 2026092701
+      },
+      "origin": "Approved Völuspá opening sample"
+    },
+    "odin-v1": {
+      "description": "Weathered, commanding bass",
+      "reference": "/audio/codex-regius/voices/odin-v1.wav",
+      "referenceText": "Tell me what you remember. Speak of the world's beginning, and what is yet to come.",
+      "sha256": "bca377cc79f56dab078f678421fe97d82acfc46989ca421d24102eabbc0e1471",
+      "design": {
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+        "instruction": "An elderly male voice, around seventy, speaking clear English. A very deep resonant bass with a restrained, naturally weathered rasp. An old king who has travelled far: commanding, intelligent and solemn, yet curious about what he does not know. Measured delivery with weight on important words. Natural audible speech, not a monster voice, not theatrical shouting, not a whisper. Read only the supplied text.",
+        "seed": 2026092702
+      },
+      "origin": "Approved Völuspá opening sample"
+    },
+    "seeress-v1": {
+      "description": "Older, low-voiced and quietly formidable",
+      "reference": "/audio/codex-regius/voices/seeress-v1.wav",
+      "referenceText": "Then listen, great and small, children of Heimdall.",
+      "sha256": "e550993b7d01abaf72ecf037640e34a67d467044dff23835d7c9b5bbda7e484d",
+      "design": {
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+        "instruction": "An elderly woman, around seventy-five, speaking clear fluent English. A low female contralto, textured with a little natural age and breath, but steady and fully audible. Wise, composed and quietly formidable. She speaks to a powerful god without fear. Unhurried prophetic storytelling with meaningful pauses, gently rising and falling intonation, restrained ominous warmth. A natural older woman's voice, not a cartoon witch, no cackling, no whispering, no singing. Read only the supplied text.",
+        "seed": 2026092703
+      },
+      "origin": "Approved Völuspá opening sample"
+    },
+    "frigg-v1": {
+      "description": "A mature woman speaking fluent clear English with a warm mid-low register, composed and regal. Protective concern under controlled delivery. Natural unhurried storytelling, clear consonants. Distinct from a frail older contralto. No whispering or singing. Read only the supplied text.",
+      "reference": "/audio/codex-regius/voices/frigg-v1.wav",
+      "referenceText": "Go safely, then, and return safely. May your mind be sharp in the exchange of words ahead.",
+      "sha256": "1d1dd55fda2e9f4f6b05476bb39d6fb4fed96ad369d22f896dc28bdbe3b53117",
+      "design": {
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+        "instruction": "A mature woman speaking fluent clear English with a warm mid-low register, composed and regal. Protective concern under controlled delivery. Natural unhurried storytelling, clear consonants. Distinct from a frail older contralto. No whispering or singing. Read only the supplied text.",
+        "seed": 2026092801
+      },
+      "origin": "Synthetic Qwen3-TTS VoiceDesign"
+    },
+    "vafthrudnir-v1": {
+      "description": "An elderly man speaking fluent clear English. A dark, rough-edged middle baritone, dry and resonant, proud and scholarly. A formidable ancient giant challenging a visitor, deliberate and articulate. A higher, harder voice than a deep bass. Natural storytelling, never monstrous or distorted. No whispering or singing. Read only the supplied text.",
+      "reference": "/audio/codex-regius/voices/vafthrudnir-v1.wav",
+      "referenceText": "You are learned, guest. Let us sit together and stake our heads on which of us is wiser.",
+      "sha256": "dc67b8b88b0f7ba60a4c9714a59d5df74f54e7379a6342fa4be6ab77049a38a9",
+      "design": {
+        "model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+        "instruction": "An elderly man speaking fluent clear English. A dark, rough-edged middle baritone, dry and resonant, proud and scholarly. A formidable ancient giant challenging a visitor, deliberate and articulate. A higher, harder voice than a deep bass. Natural storytelling, never monstrous or distorted. No whispering or singing. Read only the supplied text.",
+        "seed": 2026092802
+      },
+      "origin": "Synthetic Qwen3-TTS VoiceDesign"
+    }
+  }
+}

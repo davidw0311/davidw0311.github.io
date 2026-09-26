@@ -14,7 +14,7 @@ export default function AudioLabPage() {
    <div><p className={styles.eyebrow}>Völuspá · Audio draft</p><h1>The listening room</h1><p>Six chosen soundtracks. Ten storytelling voices. Find the combination that brings the story to life.</p></div>
    <Image src="/assets/codex-regius/voluspa.webp" alt="The seeress beneath visions of the Norse world" width={180} height={225} priority />
   </header>
-  <p className={styles.guide}><Link href="/projects/codex-regius/voice-scene/">New: hear the opening as a scene with three Qwen3-TTS character voices →</Link></p>
+  <p className={styles.guide}>Qwen3-TTS character readings: <Link href="/projects/codex-regius/voluspa/">Völuspá</Link> · <Link href="/projects/codex-regius/havamal/">Hávamál</Link> · <Link href="/projects/codex-regius/vafthrudnismal/">Odin’s Wisdom Contest</Link>. <Link href="/projects/codex-regius/voice-scene/">Hear the original opening sample →</Link></p>
   <AudioAuditions paragraph={voiceData.paragraph} voices={voiceData.voices} music={music} />
  </main>;
 }

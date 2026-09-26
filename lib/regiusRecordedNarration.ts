@@ -1,8 +1,8 @@
 import type { NarrationSection, NarrationState } from "./regiusNarration.ts";
 
-export type RecordedClip = { section: number; part: number; lang: "en" | "non"; src: string; duration: number; voice?: string; speaker?: "Narrator" | "Seeress" };
+export type RecordedClip = { section: number; part: number; lang: "en" | "non"; src: string; duration: number; voice?: string; speaker?: string; character?: string; voiceId?: string; referenceHash?: string };
 export type MusicChoice = { id: string; title: string; url: string; src: string };
-export type RegiusRecording = { voice: string; label: string; textHash: string; clips: RecordedClip[]; music?: { src: string; continuous: boolean; tracks: { title: string; url: string }[]; storyKey?: string; choices?: MusicChoice[] } };
+export type RegiusRecording = { format?: "drama"; cast?: Record<string, { name: string; voiceId: string; referenceHash: string }>; voice: string; label: string; textHash: string; clips: RecordedClip[]; music?: { src: string; continuous: boolean; tracks: { title: string; url: string }[]; storyKey?: string; choices?: MusicChoice[] } };
 type PlaybackClip = RecordedClip & { phase?: "opening" | "breath" };
 export type RecordedState = Omit<NarrationState, "status"> & { status: NarrationState["status"] | "loading"; phase?: "opening" | "breath" };
 export type MediaTransport = {
