@@ -16,6 +16,7 @@ type AudioSession = { type: string };
 const CUES = new Set(["night", "dawn", "discussion", "voting", "vote-result", "game-over", "paused", "reaction", "opening", "wolves", "silencer", "silenced-today", "nobody-silenced", "guard", "magician", "dreamweaver", "seer", "pureWhite", "wolfWitch", "gargoyle", "witch", "wolfBeauty", "raven", "gravekeeper", "demonHunter", "piper", "bloodMoonApostle", "role-sleep", "sheriff-voting", "cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
 for (let number = 1; number <= 24; number++) { CUES.add(`seat-${number}`); CUES.add(`last-words-${number}`); }
 for (const cue of ["day-deaths", "night-deaths", "peaceful-night", "sheriff-elected", "sheriff-none", "sheriff-nomination", "sheriff-discussion", "sheriff-speeches-start", "clockwise", "discussion-start", "sheriff-direction", "exiled", "badge-passed", "badge-destroyed"]) CUES.add(cue);
+for (const step of ["seer", "guard", "witch", "raven", "gravekeeper", "demonHunter"]) CUES.add(`mechanical-${step}`);
 for (const cue of Object.keys(victoryText)) CUES.add(cue);
 const TRACKS = new Set(["night-vigil", "dark-walk", "dark-fog", "long-note-one", "lightless-dawn"]);
 

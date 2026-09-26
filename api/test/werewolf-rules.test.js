@@ -3,7 +3,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const {createRoom,applyCommand,publicView,tickRoom}=require('../src/werewolf/engine');
 let time=1800000000000;
-function send(room, actor, type, data = {}) { return applyCommand(room, actor, { type, expectedPhaseId: room.phase.id, ...data }, ++time); }
+function send(room, actor, type, data = {}) { applyCommand(room, actor, { type, expectedPhaseId: room.phase.id, ...data }, ++time); if (type === 'nightAction' && publicView(room, actor, time).me?.action?.review) applyCommand(room, actor, { type: 'nightAction', confirmResult: true, expectedPhaseId: room.phase.id }, ++time); }
 function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunter', 'villager', 'villager', 'villager'], settings = {}) {
     const room = createRoom({ code: 'ABCDEF', hostId: 'actor0', hostName: 'A', now: ++time });
     for (let i = 1; i < roles.length; i++) {
@@ -38,7 +38,7 @@ function advanceTestNight(r) {
     const actors = r.seats.map(seat => ({ seat, action: publicView(r, seat.actorId, time).me?.action }))
         .filter(({ action }) => action && !action.alreadySubmitted);
     for (const { seat, action } of actors) {
-        const data = action.input === 'choice' ? { choice: action.options.includes('guard') ? 'guard' : action.options[0] } : { ability: 'skip' };
+        const data = action.review ? { confirmResult: true } : action.input === 'choice' ? { choice: action.options.includes('guard') ? 'guard' : action.options[0] } : { ability: 'skip' };
         send(r, seat.actorId, 'nightAction', data);
     }
     if (r.phase.nightStage === 'acting' && r.phase.step === 'wolves' && r.nightFlow.eligibleSeatIds.every(id => r.actions.wolves?.[id])) send(r,r.hostId,'hardSkip');

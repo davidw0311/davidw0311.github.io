@@ -359,8 +359,8 @@
       "zh": "梦狼"
     },
     "description": {
-      "en": "Wolf team. During the shared wolves turn, tap Continue without learning teammates or inspecting cards. Other wolves can recognize you.",
-      "zh": "狼人阵营。在狼人共同阶段点击继续，不会获知队友或查看身份牌；其他狼人可以认出你。"
+      "en": "Stay asleep during the wolves’ turn. You do not see teammates, inspect cards or tap Continue. Other wolves learn your identity on their screens. You win with the wolf team.",
+      "zh": "狼人回合保持闭眼，不看队友、不查牌，也无需点击继续。其他狼人会从屏幕获知你的身份。你属于狼人阵营。"
     },
     "icon": "💤",
     "team": "wolf",

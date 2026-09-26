@@ -157,34 +157,24 @@ for (const role of ['witch', 'voodooLou', 'detector', 'marksman', 'nostradamus']
             const projection = view(room, bot.actorId), before = JSON.stringify(projection), decision = chooseBotCommand(projection);
             assert.ok(decision); assert.equal(JSON.stringify(projection), before);
             assert.equal(ids.has(decision.actionId), false); ids.add(decision.actionId);
-            if (role === 'nostradamus') { assert.equal(decision.choice, 'inspect'); assert.equal(decision.targets.length, 1); }
+            if (role === 'nostradamus' && !projection.me.action.review) { assert.equal(decision.choice, 'inspect'); assert.equal(decision.targets.length, 1); }
             host(room, 'botStep');
         }
         assert.equal(room.phase.nightStage, 'closing');
-        assert.equal(ids.size, role === 'nostradamus' ? 3 : 2);
+        assert.equal(ids.size, role === 'nostradamus' ? 4 : ['detector','marksman'].includes(role) ? 3 : 2);
         if (['witch', 'voodooLou'].includes(role)) assert.equal(room.actionLog.filter(entry => entry.seatId === bot.id && entry.type === 'move').length, 1);
     });
 }
 
-test('Empath bot answers use only its own activity and original identity, leaving humans unanswered', () => {
-    for (const question of ['viewed', 'moved', 'evil']) {
-        const room = game(['empath', 'werewolf', 'villager', 'villager', 'villager'], ['seer', 'robber', 'tanner']);
-        room.expansion.empathQuestion = question;
-        begin(room); acting(room, 'empath');
-        const bot = bots(room)[0], other = bots(room)[1];
-        room.actionLog.push({ seatId: bot.id, type: 'view', targets: [other.id] }, { seatId: bot.id, type: 'move', targets: [bot.id, other.id] });
-        const projection = view(room, bot.actorId);
-        assert.deepEqual(projection.me.botActivity, { viewed: true, moved: true });
-        assert.equal(chooseBotCommand(projection).choice, 'yes');
-        assert.equal(chooseBotCommand(view(room, other.actorId)).choice, 'no');
-        assert.equal(view(room).me.botActivity, undefined);
-        for (let i = 0; i < 4; i++) host(room, 'botStep');
-        assert.equal(room.phase.nightStage, 'acting');
-        assert.equal(room.expansion.empathAnswers[room.seats[0].id], undefined);
-        assert.ok(view(room).me.knowledge.some(note => note.text.en.includes('Empath response')));
-        unchangedFailure(room, { type: 'botStep' }, 'BOT_IDLE');
-        host(room, 'act', { actionId: view(room).me.action.id, targets: [] });
-        assert.equal(room.phase.nightStage, 'closing');
+test('Empath receives recorded answers while every other human and bot stays asleep', () => {
+    for (const question of ['viewed','moved','evil']) {
+        const room=game(['empath','werewolf','villager','villager','villager'],['seer','robber','tanner']);
+        room.expansion.empathQuestion=question;const bot=bots(room)[0],other=bots(room)[1];
+        room.actionLog.push({seatId:bot.id,type:'view',targets:[other.id]},{seatId:bot.id,type:'move',targets:[bot.id,other.id]});
+        begin(room);acting(room,'empath');
+        for(const seat of room.seats.slice(1)) {assert.equal(view(room,seat.actorId).me.action,null);assert.equal(chooseBotCommand(view(room,seat.actorId)),null);}
+        assert.ok(view(room).me.knowledge.some(note=>note.text.en===`Empath response from #${bot.number}: yes.`));
+        host(room,'act',{actionId:view(room).me.action.id,targets:[]});assert.equal(room.phase.nightStage,'closing');
     }
 });
 
@@ -200,8 +190,8 @@ test('Empath counts actual own-card night inspections but excludes reading the i
         acting(room, 'empath');
         const projection = view(room, actor);
         assert.equal(projection.me.botActivity.viewed, true);
-        assert.equal(chooseBotCommand(projection).choice, 'yes');
-        assert.match(projection.me.action.prompt.en, /during a night action/);
+        assert.equal(chooseBotCommand(projection), null);
+        assert.ok(view(room).me.knowledge.some(note=>note.text.en===`Empath response from #${room.seats.find(s=>s.actorId===actor).number}: yes.`));
         assert.equal(view(room).me.botActivity, undefined);
     }
 });

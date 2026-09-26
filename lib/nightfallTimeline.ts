@@ -69,6 +69,7 @@ function classicTimeline(deck: string[]): NightTimelineStep[] {
       name: id === "wolves" ? text("Werewolves", "狼人") : classicRoles.get(id)!.name,
       description: text(classicDescriptions[id].en + suffix.en, classicDescriptions[id].zh + suffix.zh),
     });
+    if (configured.has("mechanicalWolf") && mechanicalCalls.includes(id)) output.push({ id: `mechanical:${id}`, roleId: "mechanicalWolf", name: text(`Mechanical Wolf · ${classicRoles.get(id)!.name.en}`, `机械狼 · ${classicRoles.get(id)!.name.zh}`), description: text("Only a Mechanical Wolf with this copied power wakes. The original role stays asleep. This reserved call occurs regardless of which power was copied.", "仅学会此技能的机械狼睁眼，原本的身份保持闭眼。无论实际复制哪项技能，都会保留此预留环节。") });
   }
   return output;
 }
@@ -102,7 +103,7 @@ function oneNightTimeline(deck: string[]): NightTimelineStep[] {
       description: text("A Doppelgänger who copied this ability acts here if eligible. The call is scheduled from the starting deck and does not disclose anyone’s copied identity.", "复制该技能的化身幽灵在符合条件时于此行动。此环节由初始牌组预先确定，不公开任何人的复制身份。"),
     };
     const description = role.id === "doppelganger" ? text("Copy another player’s starting card. Some copied actions happen immediately; recognition and reserved later abilities occur at their scheduled calls.", "复制另一位玩家的起始牌。部分技能立即执行，互认及需后续执行的技能在对应环节进行。")
-      : role.id === "werewolf" ? text("Awake wolves recognize the pack. Dream Wolf confirms this same stage without learning teammates or inspecting cards. A lone wolf may inspect a center card if the room permits it. There is no night kill.", "醒来的狼人确认狼队友；梦狼在同一阶段点击继续，不获知队友，也不查牌。若房间允许，独狼可查看一张中央牌。夜里不刀人。")
+      : role.id === "werewolf" ? text("Awake wolves recognize the pack. Dream Wolf stays asleep and never needs to tap. A lone wolf may inspect a center card if the room permits it. There is no night kill.", "醒来的狼人确认狼队友；梦狼保持闭眼，无需点击或操作。若房间允许，独狼可查看一张中央牌。夜里不刀人。")
       : role.id === "vampire" ? text("Vampire, Master and Count recognize one another and choose a non-vampire to receive the Vampire mark.", "吸血鬼、吸血鬼领主及伯爵互认，共同选择一名非吸血鬼玩家给予吸血鬼标记。")
       : role.description;
     return { id: turn.id, roleId: role.id, name: role.name, description };

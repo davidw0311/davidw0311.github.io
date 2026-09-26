@@ -65,7 +65,7 @@ test('Robber exchanges with a center card and learns only the received printed i
     assert.deepEqual(room.actionLog.map(entry => [entry.type, entry.targets]), [['move', [own, 'center:0']], ['view', [own]]]);
     assertHidden(room);
     const after = JSON.stringify(room);
-    assert.throws(() => applyCommand(room, 'a1', packet, ++now), { code: 'STALE_PHASE' });
+    assert.throws(() => applyCommand(room, 'a1', packet, ++now), { code: 'STALE_ACTION' });
     assert.equal(JSON.stringify(room), after, 'A stale action cannot reverse the exchange');
 });
 
@@ -144,7 +144,9 @@ test('bots legally use center-only Robber and Troublemaker targets', () => {
         assert.ok(decision.targets.every(id => id.startsWith('center:')));
         const before = inventory(room);
         applyCommand(room, bot.actorId, decision, ++now);
-        assert.deepEqual(inventory(room), before); assert.equal(room.phase.nightStage, 'closing');
+        assert.deepEqual(inventory(room), before);
+        if(view(room).me.action?.review) applyCommand(room,bot.actorId,chooseBotCommand(view(room)),++now);
+        assert.equal(room.phase.nightStage, 'closing');
     }
 });
 

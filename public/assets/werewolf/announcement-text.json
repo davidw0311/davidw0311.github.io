@@ -122,5 +122,29 @@
   "last-words-24": [
     "Player 24, please give your last words.",
     "请24号玩家留遗言。"
+  ],
+  "mechanical-seer": [
+    "Only the Mechanical Wolf with the Seer ability, open your eyes. The original Seer stays asleep. Follow your screen.",
+    "仅学会预言家技能的机械狼，请睁眼。原本的预言家请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "mechanical-witch": [
+    "Only the Mechanical Wolf with the Witch ability, open your eyes. The original Witch stays asleep. Follow your screen.",
+    "仅学会女巫技能的机械狼，请睁眼。原本的女巫请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "mechanical-guard": [
+    "Only the Mechanical Wolf with the Guard ability, open your eyes. The original Guard stays asleep. Follow your screen.",
+    "仅学会守卫技能的机械狼，请睁眼。原本的守卫请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "mechanical-gravekeeper": [
+    "Only the Mechanical Wolf with the Gravekeeper ability, open your eyes. The original Gravekeeper stays asleep. Follow your screen.",
+    "仅学会守墓人技能的机械狼，请睁眼。原本的守墓人请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "mechanical-raven": [
+    "Only the Mechanical Wolf with the Raven ability, open your eyes. The original Raven stays asleep. Follow your screen.",
+    "仅学会乌鸦技能的机械狼，请睁眼。原本的乌鸦请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "mechanical-demonHunter": [
+    "Only the Mechanical Wolf with the Demon Hunter ability, open your eyes. The original Demon Hunter stays asleep. Follow your screen.",
+    "仅学会猎魔人技能的机械狼，请睁眼。原本的猎魔人请保持闭眼。请根据屏幕提示行动。"
   ]
 }

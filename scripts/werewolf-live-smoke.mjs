@@ -7,7 +7,7 @@ if (!endpoint || !/^https?:\/\//.test(endpoint)) throw new Error('Pass --url=<we
 let code;
 async function call(token, op, fields = {}, expectedError) {
   const response = await fetch(endpoint, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', ...(new URL(endpoint).origin === new URL(backend.url).origin ? {apikey:backend.publishableKey,Authorization:`Bearer ${backend.publishableKey}`} : {}), 'Origin': 'https://davidw0311.github.io' },
+    method: 'POST', headers: { 'Content-Type': 'application/json', ...(new URL(endpoint).origin === new URL(backend.url).origin ? {apikey:backend.publishableKey,Authorization:`Bearer ${backend.publishableKey}`} : {}), 'Origin': process.env.WEREWOLF_ORIGIN || 'https://davidw0311.github.io' },
     body: JSON.stringify({ token, op, code, requestId: randomUUID(), ...fields }), signal: AbortSignal.timeout(45000),
   });
   const body = await response.json();
@@ -232,7 +232,11 @@ for(const token of currentMembers) if((await call(token,'sync')).view.me.roleId=
 const wolfSeat=initial.find(reply=>reply.view.me.roleId==='werewolf').view.me.seatId;
 const inspected=await call(seerToken,'command',{command:{type:'nightAction',targetId:wolfSeat,expectedPhaseId:view.phase.id}});
 assert.deepEqual(inspected.view.me.inspection,{night:2,targetId:wolfSeat,alignment:'wolf'});
+assert.equal(inspected.view.phase.nightStage,'acting');
+assert.equal(inspected.view.me.action.review,true);
 assert.equal((await call(currentMembers.find(token=>token!==seerToken),'sync')).view.me.inspection,null);
+const readResult=await call(seerToken,'command',{command:{type:'nightAction',confirmResult:true,expectedPhaseId:inspected.view.phase.id}});
+assert.equal(readResult.view.phase.nightStage,'closing');
 
 // Disband also verifies that all participants lose access.
 await call(host, 'command', {command:{type:'disbandRoom'}});

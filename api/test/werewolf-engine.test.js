@@ -15,7 +15,7 @@ test('pending applicants can cancel their request without occupying or changing 
     assert.equal(room.seats.length, seatCount);
     assert.throws(() => applyCommand(room, 'pending', { type: 'heartbeat' }, ++time), { code: 'NOT_SEATED' });
 });
-function send(room, actor, type, data = {}) { return applyCommand(room, actor, { type, expectedPhaseId: room.phase.id, ...data }, ++time); }
+function send(room, actor, type, data = {}) { applyCommand(room, actor, { type, expectedPhaseId: room.phase.id, ...data }, ++time); if (type === 'nightAction' && publicView(room, actor, time).me?.action?.review) applyCommand(room, actor, { type: 'nightAction', confirmResult: true, expectedPhaseId: room.phase.id }, ++time); }
 function setup(roles = ['werewolf', 'werewolf', 'seer', 'witch', 'guard', 'hunter', 'villager', 'villager', 'villager'], settings = {}) {
     const room = createRoom({ code: 'ABCDEF', hostId: 'actor0', hostName: 'A', now: ++time });
     for (let i = 1; i < roles.length; i++) {
@@ -50,7 +50,7 @@ function advanceTestNight(r) {
     const actors = r.seats.map(seat => ({ seat, action: publicView(r, seat.actorId, time).me?.action }))
         .filter(({ action }) => action && !action.alreadySubmitted);
     for (const { seat, action } of actors) {
-        const data = action.input === 'choice' ? { choice: action.options.includes('guard') ? 'guard' : action.options[0] } : { ability: 'skip' };
+        const data = action.review ? { confirmResult: true } : action.input === 'choice' ? { choice: action.options.includes('guard') ? 'guard' : action.options[0] } : { ability: 'skip' };
         send(r, seat.actorId, 'nightAction', data);
     }
     if (r.phase.nightStage === 'acting' && r.phase.step === 'wolves' && r.nightFlow.eligibleSeatIds.every(id => r.actions.wolves?.[id])) send(r,r.hostId,'hardSkip');
@@ -72,6 +72,7 @@ function nightAct(r, i, data) {
     const openingRole = ['cupid', 'wildChild', 'wolfHound', 'thief', 'mechanicalWolf'].includes(r.seats[i].roleId) && r.night === 1 && r.phase.step === 'opening' ? r.seats[i].roleId : null;
     if (openingRole) stepTo(r, 'opening', openingRole);
     else if (r.phase.nightStage === 'opening') send(r, r.hostId, 'nightNarrationDone');
+    if (r.seats[i].roleId === 'mechanicalWolf' && r.phase.step !== 'opening' && r.phase.step !== 'wolves') { let n=0; while((!r.phase.nightCopy || r.phase.nightStage !== 'acting') && n++<100) advanceTestNight(r); }
     send(r, `actor${i}`, 'nightAction', data);
 }
 function exile(r, index) { if (r.phase.kind === 'reaction')
@@ -114,7 +115,7 @@ test('Knight duel and White Wolf King explosion are server validated', () => { c
 test('Wolf Beauty charm kills the current target on death', () => { const r = setup(['werewolf', 'wolfBeauty', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfBeauty'); nightAct(r, 1, { targetId: id(r, 5) }); dawn(r); exile(r, 1); assert.equal(r.seats[5].alive, false); });
 test('Blood Moon self-destruction suppresses village powers on next night only', () => { const r = setup(['bloodMoonApostle', 'werewolf', 'seer', 'witch', 'guard', 'villager', 'villager', 'villager', 'villager']); dawn(r); send(r, 'actor0', 'wolfExplode'); nextNight(r); stepTo(r, 'seer'); assert.equal(publicView(r, 'actor2', time).me.action, null); dawn(r); nextNight(r); stepTo(r, 'seer'); assert.ok(publicView(r, 'actor2', time).me.action); });
 test('Pure White kills an inspected wolf only from the second night', () => { const r = setup(custom('pureWhite')); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, true); nextNight(r); stepTo(r, 'pureWhite'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
-test('Gargoyle and Wolf Witch inspect exact roles; Wolf Witch cannot use poison', () => { const r = setup(['werewolf', 'wolfWitch', 'gargoyle', 'seer', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfWitch'); assert.throws(() => nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }), e => e.code === 'INVALID_ACTION'); nightAct(r, 1, { ability: 'inspect', targetId: id(r, 4) }); stepTo(r, 'gargoyle'); nightAct(r, 2, { targetId: id(r, 3) }); dawn(r); assert.match(r.seats[1].privateLog.at(-1).text.en, /Guard/); assert.match(r.seats[2].privateLog.at(-1).text.en, /Seer/); nextNight(r); stepTo(r, 'wolfWitch'); assert.throws(() => nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }), {code:'INVALID_ACTION'}); dawn(r); assert.equal(r.seats[5].alive, true); });
+test('Gargoyle and Wolf Witch inspect exact roles; Wolf Witch cannot use poison', () => { const r = setup(['werewolf', 'wolfWitch', 'gargoyle', 'seer', 'guard', 'villager', 'villager', 'villager', 'villager']); stepTo(r, 'wolfWitch'); assert.throws(() => nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }), e => e.code === 'INVALID_ACTION'); nightAct(r, 1, { ability: 'inspect', targetId: id(r, 4) }); stepTo(r, 'gargoyle'); nightAct(r, 2, { targetId: id(r, 3) }); dawn(r); assert.match(r.seats[1].privateLog.map(x=>x.text.en).join(' '), /Guard/); assert.match(r.seats[2].privateLog.at(-1).text.en, /Seer/); nextNight(r); stepTo(r, 'wolfWitch'); assert.throws(() => nightAct(r, 1, { ability: 'poison', targetId: id(r, 5) }), {code:'INVALID_ACTION'}); dawn(r); assert.equal(r.seats[5].alive, true); });
 test('Demon Hunter is immune to poison and kills a wolf from night two', () => { const r = setup(custom('demonHunter')); stepTo(r, 'witch'); nightAct(r, 4, { ability: 'poison', targetId: id(r, 2) }); dawn(r); assert.equal(r.seats[2].alive, true); nextNight(r); stepTo(r, 'demonHunter'); nightAct(r, 2, { targetId: id(r, 0) }); dawn(r); assert.equal(r.seats[0].alive, false); });
 test('Piper wins when all other living players are charmed', () => { const r = setup(custom('piper')); r.seats.forEach(s => { if (s.id !== id(r, 2))
     s.state.charmed = true; }); stepTo(r, 'piper'); nightAct(r, 2, { ability: 'skip' }); dawn(r); assert.equal(r.winner.team, 'piper'); });
@@ -153,7 +154,7 @@ test('all-player randomized simulation keeps immutable seat identities and priva
     const roles = ['werewolf', 'wolfKing', 'wolfBeauty', 'wolfWitch', 'mechanicalWolf', 'hiddenWolf', 'seer', 'witch', 'guard', 'hunter', 'cupid', 'magician', 'dreamweaver', 'gravekeeper', 'raven', 'demonHunter', 'pureWhite', 'wildChild', 'wolfHound', 'thief', 'piper', 'elder', 'knight', 'villager'];
     const r = setup(roles), stableIds = r.seats.map(s => s.id);
     let commands = 0;
-    for (let turn = 0; turn < 700 && r.status === 'playing'; turn++) {
+    for (let turn = 0; turn < 1500 && r.status === 'playing'; turn++) {
         for (let i = 0; i < r.seats.length; i++) {
             const view = publicView(r, `actor${i}`, time), a = view.me.action;
             assert.deepEqual(view.seats.map(s => s.id), stableIds);
@@ -194,7 +195,7 @@ test('all-player randomized simulation keeps immutable seat identities and priva
         }
     }
     assert.ok(commands > 100);
-    assert.equal(r.status, 'finished');
+    assert.equal(r.status, 'finished',JSON.stringify({phase:r.phase,flow:r.nightFlow,actions:r.actions}));
     assert.ok(['village', 'wolf', 'lovers', 'piper', 'draw'].includes(r.winner.team));
 });
 test('heartbeat persistence is throttled without granting revoked clients access', () => { const r = setup(); const revision = r.revision; send(r, 'actor1', 'heartbeat'); assert.equal(r.revision, revision); time += 11000; send(r, 'actor1', 'heartbeat'); assert.equal(r.revision, revision + 1); send(r, 'pending', 'requestJoin', { name: 'Pending' }); const pendingRevision = r.revision; send(r, 'pending', 'heartbeat'); assert.equal(r.revision, pendingRevision); assert.throws(() => send(r, 'unknown', 'heartbeat'), e => e.code === 'NOT_SEATED'); });
@@ -458,6 +459,7 @@ test('Mechanical Wolf copying Witch obeys the same first-night-only self-save ru
         if (night === 2) { dawn(r); nextNight(r); }
         nightAct(r, 0, { targetId: id(r, 1) });
         stepTo(r, 'witch');
+        while(!r.phase.nightCopy || r.phase.nightStage !== 'acting') advanceTestNight(r);
         assert.equal(publicView(r, 'actor1', time).me.action.options.includes('save'), night === 1);
         if (night === 1) {
             nightAct(r, 1, { ability: 'save' }); dawn(r);
@@ -647,7 +649,7 @@ test('first-night setup roles take separate turns and choices resolve together b
         assert.equal(eligible[0].roleId, role);
         const action = publicView(r, eligible[0].actorId, time).me.action;
         send(r, eligible[0].actorId, 'nightAction', action.input === 'choice' ? { choice: role === 'thief' ? 'guard' : 'wolf' } : { ability: 'skip' });
-        if (role !== 'mechanicalWolf') assert.equal(r.seats[5].roleId, 'thief');
+        if (['cupid','wildChild','wolfHound'].includes(role)) assert.equal(r.seats[5].roleId, 'thief');
     }
     send(r, 'actor0', 'nightNarrationDone');
     assert.equal(r.phase.step, 'wolves');
@@ -1145,7 +1147,7 @@ test('new public announcements have male Kokoro recordings and preserve Brian fo
  const root=path.join(__dirname,'../../public/assets/werewolf');
  const manifest=JSON.parse(fs.readFileSync(path.join(root,'audio/manifest.json'),'utf8'));
  const texts=JSON.parse(fs.readFileSync(path.join(root,'announcement-text.json'),'utf8'));
- assert.equal(Object.keys(texts).length,31);
+ assert.equal(Object.keys(texts).length,37);
  for(const [cue,translations] of Object.entries(texts)) for(const [i,language] of ['en','zh'].entries()) {
   const clip=manifest.clips[`${language}:${cue}`];
   assert.equal(clip.provider,'Kokoro');assert.equal(clip.voice,language==='en'?'am_michael':'zm_010');assert.equal(clip.text,translations[i]);assert.ok(clip.duration>0&&clip.duration<45);

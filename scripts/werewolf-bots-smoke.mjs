@@ -61,8 +61,8 @@ try {
       const action=personal.me?.action;
       if(personal.phase.id!==view.phase.id) {await sync();break;}
       if(!action||action.alreadySubmitted)continue;
-      assert.ok(action.canSkip,'The default board supports explicit skipped human night actions');
-      await call(token,'command',{command:{type:'nightAction',expectedPhaseId:personal.phase.id,ability:'skip'}});
+      assert.ok(action.canSkip || action.review,'The default board supports explicit skipped human night actions');
+      await call(token,'command',{command:{type:'nightAction',expectedPhaseId:personal.phase.id,...(action.review?{confirmResult:true}:{ability:'skip'})}});
     }
     await wait(1600);await sync();
   }

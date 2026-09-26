@@ -27,6 +27,7 @@ function act(room, actor, targets = []) {
     const action = publicView(room, actor, now).me.action;
     assert.ok(action, `${actor} must have a usable action`);
     send(room, actor, 'act', { actionId: action.id, targets });
+    const review=publicView(room,actor,now).me.action; if(review?.review) send(room,actor,'act',{actionId:review.id,targets:[]});
 }
 function unchangedOnError(room, actor, type, fields, code) {
     const before = structuredClone(room);
@@ -91,44 +92,35 @@ test('restarting permits seating changes and a fresh deal; old readiness, action
     unchangedOnError(room, 'p0', 'act', { expectedPhaseId: oldPhase, actionId: oldAction }, 'STALE_PHASE');
     unchangedOnError(room, 'p0', 'narrationDone', { expectedPhaseId: oldPhase }, 'STALE_PHASE');
 });
-test('Dream Wolf confirms with normal wolves, sees no teammates/cards, and cannot be silently skipped', () => {
+test('Dream Wolf sleeps without a phone action or a hidden acknowledgment requirement', () => {
     const room = deal(['werewolf', 'dreamWolf', 'seer']); openNight(room);
     const dream = publicView(room, 'p1', now).me;
-    assert.equal(dream.action.roleId, 'dreamWolf'); assert.equal(dream.action.min, 0); assert.equal(dream.action.max, 0); assert.deepEqual(dream.action.targets, []); assert.deepEqual(dream.knowledge, []);
+    assert.equal(dream.action, null); assert.equal(dream.nightAwake, false); assert.deepEqual(dream.knowledge, []);
     assert.ok(room.seats[0].knowledge.some(entry => entry.text.en.includes('#2')));
     assert.equal(publicView(room, 'p0', now).me.action.targets.length, 0);
-    unchangedOnError(room, 'p1', 'act', { actionId: dream.action.id, targets: ['center:0'] }, 'INVALID_TARGET');
-    act(room, 'p0'); assert.equal(room.phase.nightStage, 'acting');
-    tickRoom(room, now + 60000); assert.equal(room.phase.nightStage, 'acting');
-    const offline = publicView(room, 'p1', now + 60000); assert.ok(offline.me.action);
-    act(room, 'p1'); assert.equal(room.phase.nightStage, 'closing'); assert.deepEqual(room.seats[1].knowledge, []);
+    act(room, 'p0'); assert.equal(room.phase.nightStage, 'closing');
 });
-test('Dream Wolf alone can confirm, and a bot gets the same zero-target legal action', () => {
+test('a table with only Dream Wolf uses the absent-actor pause and never wakes a sleeper', () => {
     const room = deal(['dreamWolf', 'seer', 'robber']); openNight(room);
-    assert.deepEqual(room.nightActors, [room.seats[0].id]);
-    room.seats[0].isBot = true;
-    const view = publicView(room, 'p0', now), command = chooseBotCommand(view);
-    assert.equal(command.type, 'act'); assert.deepEqual(command.targets, []);
-    applyCommand(room, 'p0', command, now); assert.equal(room.phase.nightStage, 'closing'); assert.deepEqual(room.seats[0].knowledge, []);
+    assert.deepEqual(room.nightActors, []); room.seats[0].isBot = true;
+    assert.equal(chooseBotCommand(publicView(room,'p0',now)),null);
+    assert.ok(room.phase.deadline >= now+7000 && room.phase.deadline <= now+15000);
+    tickRoom(room,room.phase.deadline);assert.equal(room.phase.nightStage,'closing');
 });
 test('Alpha and Mystic wolves close the pack turn before their separate abilities; unrelated roles cannot act', () => {
     const room = deal(['dreamWolf', 'werewolf', 'alphaWolf', 'mysticWolf', 'seer']); openNight(room);
-    assert.equal(room.phase.step, 'werewolf'); assert.equal(room.nightActors.length, 4);
+    assert.equal(room.phase.step, 'werewolf'); assert.equal(room.nightActors.length, 3);
     assert.equal(publicView(room, 'p4', now).me.action, null);
-    for (let index = 0; index < 4; index++) { act(room, `p${index}`); assert.equal(room.phase.nightStage, index === 3 ? 'closing' : 'acting'); }
+    for (let index = 1; index < 4; index++) { act(room, `p${index}`); assert.equal(room.phase.nightStage, index === 3 ? 'closing' : 'acting'); }
     send(room, 'p0', 'narrationDone'); assert.equal(room.phase.step, 'alphaWolf'); assert.equal(room.phase.nightStage, 'opening'); assert.ok(room.seats.every(seat => !publicView(room, seat.actorId, now).me.action));
     send(room, 'p0', 'narrationDone'); assert.deepEqual(room.nightActors, [room.seats[2].id]); act(room, 'p2', [room.seats[4].id]);
     send(room, 'p0', 'narrationDone'); assert.equal(room.phase.step, 'mysticWolf'); send(room, 'p0', 'narrationDone'); assert.deepEqual(room.nightActors, [room.seats[3].id]);
 });
-test('copied Dream Wolf joins only the shared confirmation; fear still suppresses its action', () => {
+test('copied Dream Wolf also sleeps through the shared wolf call', () => {
     const room = deal(['doppelganger', 'dreamWolf', 'seer']); openNight(room);
-    act(room, 'p0', [room.seats[1].id]);
-    const copyKnowledge = structuredClone(room.seats[0].knowledge);
-    send(room, 'p0', 'narrationDone'); assert.equal(room.phase.step, 'werewolf');
-    room.seats[1].duskMark = 'fear';
-    send(room, 'p0', 'narrationDone'); assert.deepEqual(room.nightActors, [room.seats[0].id]);
-    const copied = publicView(room, 'p0', now).me; assert.equal(copied.action.roleId, 'dreamWolf'); assert.deepEqual(copied.knowledge, copyKnowledge); // no new teammate knowledge
-    assert.equal(publicView(room, 'p1', now).me.action, null); act(room, 'p0'); assert.equal(room.phase.nightStage, 'closing');
+    act(room,'p0',[room.seats[1].id]);send(room,'p0','narrationDone');send(room,'p0','narrationDone');
+    assert.equal(room.phase.step,'werewolf');assert.deepEqual(room.nightActors,[]);
+    for(const actor of ['p0','p1']) assert.equal(publicView(room,actor,now).me.action,null);
 });
 
 test('uploaded JPEG photos follow seats through moves, reconnects and restarts and can be cleared', () => {

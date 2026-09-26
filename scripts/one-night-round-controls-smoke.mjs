@@ -43,16 +43,14 @@ try {
   assert.ok(players.some(player=>player.role==='dreamWolf'),'Dream Wolf must be dealt within 8 attempts');
   view=await send(host,'startNight');assert.equal(view.phase.step,'werewolf');
   view=await send(host,'narrationDone');assert.equal(view.phase.nightStage,'acting');
-  const wolves=players.filter(player=>['werewolf','dreamWolf','alphaWolf','mysticWolf'].includes(player.role));
-  assert.ok(wolves.length>=2);
-  // Normal wolves finish first, so Dream Wolf's own confirmation must close the call.
-  wolves.sort((a,b)=>Number(a.role==='dreamWolf')-Number(b.role==='dreamWolf'));
-  for(const player of wolves) {
-    const personal=await call(player,'sync'), action=personal.me.action;
-    assert.ok(action);assert.equal(action.roleId,player.role==='dreamWolf'?'dreamWolf':'werewolf');
-    if(player.role==='dreamWolf') {assert.deepEqual(action.targets,[]);assert.deepEqual(personal.me.knowledge,[]);assert.equal(personal.phase.nightStage,'acting');}
+  const dream=players.find(player=>player.role==='dreamWolf');
+  const sleeping=await call(dream,'sync');assert.equal(sleeping.me.action,null);assert.equal(sleeping.me.nightAwake,false);assert.deepEqual(sleeping.me.knowledge,[]);
+  const wolves=players.filter(player=>['werewolf','alphaWolf','mysticWolf'].includes(player.role));
+  assert.ok(wolves.length>=1);
+  for(const [index,player] of wolves.entries()) {
+    const personal=await call(player,'sync'),action=personal.me.action;assert.equal(action.roleId,'werewolf');
     view=await send(player,'act',{actionId:action.id,targets:[]});
-    assert.equal(view.phase.nightStage,player.role==='dreamWolf'?'closing':'acting');
+    assert.equal(view.phase.nightStage,index===wolves.length-1?'closing':'acting');
   }
   for(const role of ['alphaWolf','mysticWolf']) {
     view=await send(host,'narrationDone');assert.equal(view.phase.step,role);assert.equal(view.phase.nightStage,'opening');
@@ -62,6 +60,7 @@ try {
       const personal=await call(player,'sync');assert.equal(personal.me.action.roleId,role);
       const other=await call(players.find(p=>p.role==='dreamWolf'),'sync');assert.equal(other.me.action,null);
       view=await send(player,'act',{actionId:personal.me.action.id,targets:personal.me.action.targets.slice(0,personal.me.action.min).map(target=>target.id)});
+      if(view.me?.action?.review) view=await send(player,'act',{actionId:view.me.action.id,targets:[]});
     } else view=await send(host,'hardSkip');
     assert.equal(view.phase.nightStage,'closing');
   }

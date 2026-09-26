@@ -1406,6 +1406,126 @@
       "voice": "zm_010",
       "model": "hexgrad/Kokoro-82M-v1.1-zh",
       "speed": 1.0
+    },
+    "en:mechanical-seer": {
+      "src": "/assets/werewolf/audio/en/mechanical-seer.mp3",
+      "text": "Only the Mechanical Wolf with the Seer ability, open your eyes. The original Seer stays asleep. Follow your screen.",
+      "duration": 8.325,
+      "textHash": "2a7e964b61a5e08517a5df1105b729c1373f8fd0179df737da0452be30ac04c3",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:mechanical-witch": {
+      "src": "/assets/werewolf/audio/en/mechanical-witch.mp3",
+      "text": "Only the Mechanical Wolf with the Witch ability, open your eyes. The original Witch stays asleep. Follow your screen.",
+      "duration": 8.4,
+      "textHash": "169fa22c8bc493a14feb07de44cd441406c5a7d5c0d9524a720cafdecc2eae61",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:mechanical-guard": {
+      "src": "/assets/werewolf/audio/en/mechanical-guard.mp3",
+      "text": "Only the Mechanical Wolf with the Guard ability, open your eyes. The original Guard stays asleep. Follow your screen.",
+      "duration": 8.45,
+      "textHash": "5c3a3a20d9aecaeeae5fe6e5fe4bb66d6343a996b21720d73850c1eac7e012c1",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:mechanical-gravekeeper": {
+      "src": "/assets/werewolf/audio/en/mechanical-gravekeeper.mp3",
+      "text": "Only the Mechanical Wolf with the Gravekeeper ability, open your eyes. The original Gravekeeper stays asleep. Follow your screen.",
+      "duration": 9.325,
+      "textHash": "e4af740e99c479d46fce2426e6a20802e436ca1b172550246f02b31aa1affc08",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:mechanical-raven": {
+      "src": "/assets/werewolf/audio/en/mechanical-raven.mp3",
+      "text": "Only the Mechanical Wolf with the Raven ability, open your eyes. The original Raven stays asleep. Follow your screen.",
+      "duration": 8.775,
+      "textHash": "ff19f3da667790e72464a39108f97ae74527ae679462a053b8fe75d0096f3830",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "en:mechanical-demonHunter": {
+      "src": "/assets/werewolf/audio/en/mechanical-demonHunter.mp3",
+      "text": "Only the Mechanical Wolf with the Demon Hunter ability, open your eyes. The original Demon Hunter stays asleep. Follow your screen.",
+      "duration": 9.725,
+      "textHash": "dade0e24e4e9cc7791c8a159b81ca57bdec251702b89eeb6ca9d99409cbdc66a",
+      "provider": "Kokoro",
+      "voice": "am_michael",
+      "model": "hexgrad/Kokoro-82M",
+      "speed": 1.0
+    },
+    "zh:mechanical-seer": {
+      "src": "/assets/werewolf/audio/zh/mechanical-seer.mp3",
+      "text": "仅学会预言家技能的机械狼，请睁眼。原本的预言家请保持闭眼。请根据屏幕提示行动。",
+      "duration": 8.4,
+      "textHash": "47adf55863be24d1cdabb3a492424e083fef10f0d503166a49be6f0053f3ab84",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:mechanical-witch": {
+      "src": "/assets/werewolf/audio/zh/mechanical-witch.mp3",
+      "text": "仅学会女巫技能的机械狼，请睁眼。原本的女巫请保持闭眼。请根据屏幕提示行动。",
+      "duration": 7.875,
+      "textHash": "0263aa242c15fa52ab3236d975c5e0703c685435f0c484da8b4ef8cb584cc275",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:mechanical-guard": {
+      "src": "/assets/werewolf/audio/zh/mechanical-guard.mp3",
+      "text": "仅学会守卫技能的机械狼，请睁眼。原本的守卫请保持闭眼。请根据屏幕提示行动。",
+      "duration": 7.975,
+      "textHash": "d564d14dd9d2b49d45e60a01212d8fcf78942fdc6c59dd41fb6f72f28afd600c",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:mechanical-gravekeeper": {
+      "src": "/assets/werewolf/audio/zh/mechanical-gravekeeper.mp3",
+      "text": "仅学会守墓人技能的机械狼，请睁眼。原本的守墓人请保持闭眼。请根据屏幕提示行动。",
+      "duration": 8.65,
+      "textHash": "b8058fcfb16004871041e223cc0804bbd968bbbdf9e39ebf151a9a1c7359d344",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:mechanical-raven": {
+      "src": "/assets/werewolf/audio/zh/mechanical-raven.mp3",
+      "text": "仅学会乌鸦技能的机械狼，请睁眼。原本的乌鸦请保持闭眼。请根据屏幕提示行动。",
+      "duration": 7.825,
+      "textHash": "882eaf94e39395f53929ca00645dc5bdfdbd2c00eb5f45ee522e04edaa5fc8e7",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
+    },
+    "zh:mechanical-demonHunter": {
+      "src": "/assets/werewolf/audio/zh/mechanical-demonHunter.mp3",
+      "text": "仅学会猎魔人技能的机械狼，请睁眼。原本的猎魔人请保持闭眼。请根据屏幕提示行动。",
+      "duration": 8.625,
+      "textHash": "8c9e29b4eaf3f2c964494027fc37d7dad2eead50c57328c8f0e3462c43bde177",
+      "provider": "Kokoro",
+      "voice": "zm_010",
+      "model": "hexgrad/Kokoro-82M-v1.1-zh",
+      "speed": 1.0
     }
   },
   "additionalVoices": {

@@ -97,7 +97,7 @@ const guides: Record<string, RoleGuide> = {
     action: line("You learn an exact role. Each selected seat can be checked only once in the whole game.", "你能获知具体身份，每个所选座位整局只能查验一次。"),
   },
   mechanicalWolf: {
-    rules: [line("On night one, copy another player’s starting role. Supported copies are Seer, Guard, Witch, Raven, Gravekeeper, Demon Hunter and Hunter; other roles give a Seer ability.", "首夜复制另一名玩家的初始身份。支持预言家、守卫、女巫、乌鸦、守墓人、猎魔人和猎人；其他身份会获得预言家技能。"), line("You remain a wolf, join the pack attack, and use the copied ability in its own turn.", "你仍属狼人阵营，既参与狼队袭击，也在对应回合使用复制技能。")],
+    rules: [line("On night one, copy another player’s starting role. Supported copies are Seer, Guard, Witch, Raven, Gravekeeper, Demon Hunter and Hunter; other roles give a Seer ability.", "首夜复制另一名玩家的初始身份。支持预言家、守卫、女巫、乌鸦、守墓人、猎魔人和猎人；其他身份会获得预言家技能。"), line("You remain a wolf and join the pack attack. For a copied night power, wait for the separate Mechanical Wolf call; stay asleep during the original role’s call.", "你仍属狼人并参与狼队袭击。复制的夜间技能须等机械狼的独立口令；原身份睁眼时请保持闭眼。")],
     tips: [line("Choose the ability you want for the rest of the game. Copying does not change the other player.", "选择你希望整局使用的技能；复制不会改变被复制玩家。")],
     action: line("Choose another player whose starting ability you want to copy, or skip copying.", "选择另一名玩家复制其初始技能，或跳过复制。"),
   },
@@ -216,6 +216,7 @@ function turnGuidance(view: GameView, role: string, effectiveRole: string): Loca
   if (view.phase.kind === "announcement") return [line("Listen to the announcement. Any available follow-up action appears afterward.", "请听完播报，若有后续行动，会在播报后显示。")];
   if (view.phase.kind === "voting") {
     if (!action) return [line("You are not eligible to vote in this ballot. Wait for the eligible voters.", "本轮你没有投票资格，请等待有投票权的玩家。")];
+    if (action.review) return [line("Read your private result, then tap I’ve read the result. Keep your eyes open until the narrator gives the closing cue.", "请先读完私密结果，再点击我已读完结果。请等待旁白提示后再闭眼。")];
     if (action.alreadySubmitted) return [line("Your ballot is recorded. You may revise it while this ballot remains open.", "你的投票已记录，本轮投票结束前仍可修改。")];
     return [view.phase.step === "sheriff"
       ? line("Vote for an available Sheriff candidate or abstain. Candidates tied in the runoff cannot vote; other eligible players can.", "投给可选的警长候选人，或弃票。复投时平票候选人不能投票，其他有投票权的玩家可以。")
@@ -237,6 +238,7 @@ function turnGuidance(view: GameView, role: string, effectiveRole: string): Loca
       // Public views deliberately do not reveal why a power is unavailable.
       return [line("You have no action available in this step. Wait for your next prompt.", "这个阶段没有可执行的行动，请等待下一次提示。")];
     }
+    if (action.review) return [line("Read your private result, then tap I’ve read the result. Keep your eyes open until the narrator gives the closing cue.", "请先读完私密结果，再点击我已读完结果。请等待旁白提示后再闭眼。")];
     if (action.alreadySubmitted) return [action.step === "wolves"
       ? line("Your pack choice is recorded. You may revise until every wolf submits and more than half agree on a target, or everyone chooses no kill.", "你的狼队选择已记录；全员提交且目标获过半支持，或全员选择不刀后结束，此前可修改。")
       : line("Your action is submitted and cannot be changed. Wait for this turn to finish.", "行动已提交，不能再更改，请等待本回合结束。")];
@@ -275,7 +277,7 @@ export function getWerewolfGuidance(view: GameView, roleId?: string): WerewolfGu
   const rules = [...guide.rules], tips = [...guide.tips];
   if (copiedNames[copiedRole]) {
     const name = copiedNames[copiedRole];
-    rules.splice(0, rules.length, line(`Your copied ability: ${name.en}. You remain a wolf and still join the pack attack.`, `你复制的技能是${name.zh}，仍属狼人并参与狼队袭击。`), ...guides[copiedRole].rules);
+    rules.splice(0, rules.length, line(`Your copied ability: ${name.en}. You remain a wolf and still join the pack attack. For night actions, wait for your separate Mechanical Wolf call.`, `你复制的技能是${name.zh}，仍属狼人并参与狼队袭击。夜间行动请等待机械狼的独立口令。`), ...guides[copiedRole].rules);
     tips.splice(0, tips.length, ...guides[copiedRole].tips);
   }
   if (effectiveRole === "witch") rules.push(...witchRules(view).slice(0, copiedRole ? 2 : 3));

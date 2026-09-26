@@ -100,6 +100,7 @@ async function round(number) {
         if (otherView.revision > view.revision) view = otherView;
         for (const note of notes) assert.ok(!otherView.me.knowledge.some(entry => entry.id === note.id), 'Private inspection must not reach another session');
         performed.push({ role: action.roleId, seatId: player.seatId, targets, notes });
+        if(submitted.me.action?.review) view=await send(player,'act',{actionId:submitted.me.action.id,targets:[]});
       }
     }
     assert.equal(view.phase.kind, 'discussion', 'The complete night must finish within its bound');

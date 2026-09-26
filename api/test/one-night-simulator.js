@@ -70,6 +70,21 @@ function simulate(preset, seed, options = {}) {
       rejectsUnchanged(old, { type: 'ready', expectedPhaseId: room.phase.id });
       stats.replacements++; replaced = true;
     }
+    for (const seat of room.seats) {
+      const me=engine.publicView(room,seat.actorId,now).me;if(!me?.action)continue;
+      assert.equal(me.nightAwake,true,'An on-screen action requires an open-eyes window');
+      const step=room.phase.step,role=seat.nightRoleId;
+      const expected=step==='markReview'||step==='lovers'&&seat.duskMark==='love'
+        ||step.startsWith('doppel:')&&seat.copyMode==='doppel'&&role===step.slice(7)
+        ||['doppelganger','copycat','mirrorMan'].includes(step)&&['doppelganger','copycat','mirrorMan'].includes(seat.originalRoleId)
+        ||step==='werewolf'&&['werewolf','alphaWolf','mysticWolf'].includes(role)
+        ||step==='vampire'&&['vampire','master','count'].includes(role)
+        ||step==='alien'&&['alien','syntheticAlien','groob','zerb','bodySnatcher'].includes(role)
+        ||step===role;
+      assert.ok(expected,`${step} unexpectedly requires sleeping ${role} to act`);
+      if(step==='werewolf')assert.notEqual(role,'dreamWolf');
+      if(step==='empath')assert.equal(role,'empath');
+    }
     const active = actors.map(actor => ({ actor, action: engine.publicView(room, actor, now).me.action })).filter(row => row.action);
     if (!active.length) {
       assert.ok(room.phase.deadline != null, `${preset.id} ${seed}: no active player and no absent-role timer`);

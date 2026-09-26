@@ -16,10 +16,12 @@ export function stageText(view: GameView, lang: Language) {
   if (phase.paused) return t("Game paused", "游戏已暂停");
   if (phase.kind === "night") {
     const roleId = phase.nightRole || (phase.step === "wolves" ? "werewolf" : phase.step);
-    const role = catalogue.roles.find(role => role.id === roleId)?.name[lang] || t("First-night roles", "首夜角色");
+    const baseRole = catalogue.roles.find(role => role.id === roleId)?.name[lang] || t("First-night roles", "首夜角色");
+    const role = phase.nightCopy ? t(`Mechanical Wolf · ${baseRole}`, `机械狼 · ${baseRole}`) : baseRole;
     if (phase.nightStage === "closing") return t(`${role}: close your eyes`, `${role}：请闭眼`);
     if (phase.nightStage === "opening") return t(`${role}: open your eyes`, `${role}：请睁眼`);
     if (phase.step === "wolves") return t("Waiting for wolves to decide a kill", "等待狼人决定击杀目标");
+    if (phase.nightCopy) return t(`Waiting for ${role} to act`, `等待${role}行动`);
     if (phase.step === "seer") return t("Waiting for the Seer to check a player", "等待预言家查验玩家");
     if (phase.step === "witch") return t("Waiting for the Witch’s potion decision", "等待女巫决定是否用药");
     return t(`Waiting for ${role} to act`, `等待${role}行动`);
@@ -43,7 +45,7 @@ export function StageBanner({ view, lang, onCard, onProfile }: { view: GameView;
   const result = view.phase.kind !== "night" && view.phase.kind !== "ready" && view.phase.kind !== "sheriff" ? view.lastNight : null;
   const ready = view.phase.kind === "ready";
   return <>
-    {ownSeat && <PlayerIdentity player={ownSeat} number={ownIndex+1} lang={lang} eliminated={dead} onProfile={onProfile} onCard={view.me?.roleId ? onCard : undefined} status={victory ? personalVictory(victory,ownSeat.id,lang) : dead ? t("Eliminated · keep the game’s secrets", "已出局 · 请保守游戏秘密") : ready ? view.me?.ready ? t("Ready for the night", "已准备，等待入夜") : t("Read your card, then ready up", "查看身份，然后准备") : view.status === "lobby" ? t("Your seat at the table", "你在本桌的座位") : t("Alive", "存活")}/>}
+    {ownSeat && <PlayerIdentity player={ownSeat} number={ownIndex+1} lang={lang} eliminated={dead} onProfile={onProfile} onCard={view.me?.roleId && (view.phase.kind !== "night" || view.me.nightAwake) ? onCard : undefined} status={victory ? personalVictory(victory,ownSeat.id,lang) : dead ? t("Eliminated · keep the game’s secrets", "已出局 · 请保守游戏秘密") : ready ? view.me?.ready ? t("Ready for the night", "已准备，等待入夜") : t("Read your card, then ready up", "查看身份，然后准备") : view.status === "lobby" ? t("Your seat at the table", "你在本桌的座位") : t("Alive", "存活")}/>}
     <SharedStageBanner lang={lang} title={stageText(view,lang)} label={view.phase.kind === "night" ? t(`Night ${view.phase.number}`, `第${view.phase.number}夜`) : view.day ? t(`Day ${view.day}`, `第${view.day}天`) : t("Your table", "当前牌局")} decisions={pendingDecisions(view)}>
       {result && <div className={styles.daybreakSummary} role="status"><strong>{t(`Night ${result.night}: `, `第${result.night}夜：`)}</strong>{result.numbers.length ? t(`Eliminated — ${result.numbers.map((number,index) => `${number} · ${view.seats.find(seat => seat.id === result.eliminatedSeatIds[index])?.name || ""}`).join(", ")}`, `出局 — ${result.numbers.map((number,index) => `${number}号 ${view.seats.find(seat => seat.id === result.eliminatedSeatIds[index])?.name || ""}`).join("、")}`) : t("Nobody died", "平安夜")}</div>}
     </SharedStageBanner>

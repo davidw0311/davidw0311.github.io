@@ -41,7 +41,7 @@ test("classic timeline matches actual first-night and later schedules for every 
     const deck = ["werewolf", id, "villager", "villager", "villager", "villager"];
     const room = classicRoom(deck);
     const timeline = calls("werewolf", deck);
-    const actual = () => room.nightSchedule.map((turn: { step: string; role?: string }) => turn.role ? `opening:${turn.role}` : turn.step);
+    const actual = () => room.nightSchedule.map((turn: { step: string; role?: string; copy?: boolean }) => turn.role ? `opening:${turn.role}` : turn.copy ? `mechanical:${turn.step}` : turn.step);
     assert.deepEqual(timeline.map(step => step.id), actual(), id);
     room.phase = { id: `day-${++time}`, kind: "day", step: "discussion", paused: false };
     room.day = 1; room.voteDoneDay = 1;
@@ -55,7 +55,7 @@ test("first-night setup order and reserved transformations do not disclose copie
   const room = classicRoom(deck);
   const timeline = calls("werewolf", deck);
   assert.deepEqual(timeline.filter(step => step.firstNightOnly).map(step => step.roleId), ["cupid", "wildChild", "wolfHound", "thief", "mechanicalWolf"]);
-  assert.deepEqual(timeline.map(step => step.id), room.nightSchedule.map((turn: { step: string; role?: string }) => turn.role ? `opening:${turn.role}` : turn.step));
+  assert.deepEqual(timeline.map(step => step.id), room.nightSchedule.map((turn: { step: string; role?: string; copy?: boolean }) => turn.role ? `opening:${turn.role}` : turn.copy ? `mechanical:${turn.step}` : turn.step));
   for (const roleId of ["seer", "guard", "witch", "raven", "gravekeeper", "demonHunter"]) {
     assert.match(timeline.find(step => step.id === roleId)!.description.en, /does not confirm/);
   }

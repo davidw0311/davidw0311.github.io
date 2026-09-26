@@ -11,7 +11,7 @@ export type Preset = { id: string; name: Localized; description: Localized; role
 export type Catalogue = { roles: Role[]; presets: Preset[]; expansions?: { id: string; name: Localized; description?: Localized }[] };
 export type Seat = { id: string; name: string; isBot?: boolean; number: number; photo?: string | null; ready: boolean; connected: boolean; occupied: boolean; host?: boolean; isHost?: boolean; roleId?: string; originalRoleId?: string; finalRoleId?: string; mark?: string; shielded?: boolean; hasArtifact?: boolean; revealedRoleId?: string };
 export type Phase = { id: string; kind: string; step?: string; roleId?: string; cueIds: string[]; deadline?: number | null; nightStage?: "opening" | "acting" | "closing" };
-export type Action = { id: string; roleId: string; prompt: Localized; targets: { id: string; label: Localized }[]; min: number; max: number; canSkip: boolean; options?: { id: string; label: Localized }[] };
+export type Action = { review?: boolean; id: string; roleId: string; prompt: Localized; targets: { id: string; label: Localized }[]; min: number; max: number; canSkip: boolean; options?: { id: string; label: Localized }[] };
 export type Settings = { discussionSeconds?: number; [key: string]: unknown };
 export type GameView = {
   bots?: { mode: "automatic" | "manual"; count: number };
@@ -19,7 +19,7 @@ export type GameView = {
   code: string; revision: number; hostSeatId?: string; isHost: boolean; status: "lobby" | "playing" | "finished" | "disbanded";
   settings: Settings; roleDeck: string[]; seats: Seat[];
   requests: { id: string; name: string; createdAt: number }[];
-  me: { seatId: string; originalRoleId?: string | null; roleId?: string | null; ready: boolean; knowledge: {id: string; text: Localized}[]; action: Action | null; vote?: string | null } | null;
+  me: { nightAwake?: boolean; seatId: string; originalRoleId?: string | null; roleId?: string | null; ready: boolean; knowledge: {id: string; text: Localized}[]; action: Action | null; vote?: string | null } | null;
   phase: Phase; pendingVoterIds?: string[]; voteCount?: number; votes?: Record<string, string | null>;
   events?: {id: string; text: Localized; at?: number}[];
   result?: { deaths: string[]; winners: string[]; counts: Record<string, number>; votes: Record<string, string>; players: { seatId: string; roleId: string; originalRoleId?: string; team: string; mark?: string; artifact?: string | null; won: boolean; died: boolean }[]; center: {id: string; roleId: string}[]; timeline: {seatId: string; roleId: string; type: string; targets: string[]}[]; epic?: Localized | string } | null;

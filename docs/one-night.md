@@ -73,13 +73,13 @@ The **Night order / 夜间流程** switch in **Current roles / 本局角色** sh
 
 `node scripts/one-night-center-swaps-smoke.mjs --url=<endpoint>` checks both center swaps, private results, retry safety and final movement history through disposable public-API rooms, then disbands them.
 
-## Table controls and Dream Wolf confirmation
+## Table controls and face-to-face night play
 
-Before dealing, the host can move a seat by dragging its handle (mouse, touch or pen), entering its number, or using the arrows. Other seats shift in order; stable seat IDs stay attached to the same players. Seating stays locked after dealing. **Restart round / 重新开始本局** returns the same room to setup after confirmation, keeping players, profiles, bot settings and the deck while clearing cards, readiness, clues, votes, timers and expansion state. New cards are dealt from setup; the host must again wait for everyone to ready up.
+Before dealing, the host can move a seat by dragging its handle, entering its number, or using the arrows. Other seats shift in order; stable seat IDs stay attached to the same players. Seating stays locked after dealing. Restart round returns the same room to setup while preserving the table and deck.
 
-Dream Wolf now has a private **Continue / 继续** action in the shared wolves stage. It does not learn teammates or inspect a center card. This app confirmation is a digital adaptation of its usual sleeping role. Other wolves still recognize Dream Wolf, and their own actions and its confirmation must finish before the closing call. Alpha Wolf and Mystic Wolf then receive their separate ability calls. Fear, copied abilities, absent-role pauses and host hard skips keep their existing rules.
+Dream Wolf stays asleep during the shared wolves stage and has no Continue action. Empath wakes alone; its truthful responses are derived from recorded game activity. Group calls identify every role that should wake, and copied late abilities have separate calls. Inspection results wait for a private read acknowledgment before the closing announcement. See [the face-to-face audit](nightfall-face-to-face-audit.md) for findings, tests and migration behavior.
 
-`node scripts/one-night-round-controls-smoke.mjs --url=<endpoint>` verifies seating, shared Dream Wolf confirmation, separate Alpha/Mystic calls, restart retries, cleared secrets and redealing with 12 synthetic players through the public API. It disbands its room afterward.
+`node scripts/one-night-round-controls-smoke.mjs --url=<endpoint>` checks seating, sleeping Dream Wolf, separate Alpha/Mystic calls, restart retries, cleared secrets and redealing with 12 synthetic players, then disbands the room.
 
 ## End-of-round results
 

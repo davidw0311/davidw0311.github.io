@@ -195,3 +195,7 @@ The host can choose **Restart round / 重新开始本局**, including while paus
 The shared Nightfall result panel appears above the table, identifies winning sides and exact winning seat numbers/names/photos, and states each player's own outcome. Winners also receive a gold table highlight. Classic Werewolf includes eliminated members of the winning faction and uses explicit seat IDs for Lovers/Piper/Angel/Jester victories. One Night uses the resolved final cards, marks, artifacts and per-player win exceptions, so multiple sides may win or nobody may win.
 
 When narration is enabled/unlocked, local Kokoro announces every winning side first, then each winning seat in table order. Draw/no-winner rounds have dedicated announcements. The result panel's Announce winners button enables/replays sound; repeated synchronization does not replay it and restarting cancels it. Shared English (`am_michael`) and Mandarin (`zm_010`) recordings live in `public/assets/nightfall/audio/`; regenerate with `~/.local/share/kokoro/.venv/bin/python scripts/generate-nightfall-victory-kokoro.py`. Existing Brian/One Night recordings remain unchanged.
+
+## Face-to-face night play
+
+Private inspections now arrive during the acting role’s turn and wait for an explicit read acknowledgment before closing. Mechanical Wolf has separate reserved copied-power calls. See [the night-flow audit](nightfall-face-to-face-audit.md) for the physical wake contract, regressions and existing-room behavior.

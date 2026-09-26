@@ -24,20 +24,20 @@
     "投票结束。现在揭晓最终身份和胜负结果。"
   ],
   "role-markReview": [
-    "Everyone, secretly check your mark, then close your eyes.",
-    "请所有玩家秘密查看自己的印记，然后闭眼。"
+    "Everyone, open your eyes and privately read your mark on your phone. If you have Fear, stay asleep for the rest of the night. Confirm after reading, then wait for the closing announcement.",
+    "请所有玩家睁眼，私下查看手机上的印记。有恐惧标记的玩家，此后整夜请保持闭眼。读完后请确认，并等待闭眼播报。"
   ],
   "role-lovers": [
     "Players with the mark of love, open your eyes and find each other.",
     "拥有爱情印记的玩家，请睁眼，互相确认。"
   ],
   "role-doppelganger": [
-    "Doppelgänger, open your eyes. Follow the instructions on your screen.",
-    "化身幽灵，请睁眼。请根据屏幕提示完成行动。"
+    "Doppelgänger, open your eyes. Copy a role and finish any immediate action on your screen. Later, follow your copied role unless your screen directs you to a separate copied-role call.",
+    "化身幽灵，请睁眼。复制身份，并完成屏幕提示的即时行动。之后跟随复制身份行动；若屏幕提示另有复制身份专属环节，请等待该环节。"
   ],
   "role-werewolf": [
-    "Werewolf, open your eyes. Follow the instructions on your screen.",
-    "狼人，请睁眼。请根据屏幕提示完成行动。"
+    "Werewolves, including Alpha and Mystic Wolves, open your eyes. Dream Wolf, keep your eyes closed; you do not need to use your phone. Awake wolves, follow your screen.",
+    "狼人、狼王和秘术狼，请睁眼。梦狼请保持闭眼，无需操作手机。睁眼的狼人，请根据屏幕提示行动。"
   ],
   "role-minion": [
     "Minion, open your eyes. Follow the instructions on your screen.",
@@ -108,8 +108,8 @@
     "模仿者，请睁眼。请根据屏幕提示完成行动。"
   ],
   "role-vampire": [
-    "Vampire, open your eyes. Follow the instructions on your screen.",
-    "吸血鬼，请睁眼。请根据屏幕提示完成行动。"
+    "Vampire, Master and Count, open your eyes. Follow your screens to choose a mark together.",
+    "吸血鬼、吸血鬼领主和伯爵，请一起睁眼。请根据屏幕提示共同选择标记对象。"
   ],
   "role-master": [
     "The Master, open your eyes. Follow the instructions on your screen.",
@@ -164,8 +164,8 @@
     "神谕者，请睁眼。请根据屏幕提示完成行动。"
   ],
   "role-alien": [
-    "Alien, open your eyes. Follow the instructions on your screen.",
-    "外星人，请睁眼。请根据屏幕提示完成行动。"
+    "Aliens, including Synthetic Alien, Groob, Zerb and Body Snatcher, open your eyes. Follow your screens.",
+    "外星人、合成外星人、古鲁布、泽尔布和夺身者，请一起睁眼。请根据屏幕提示行动。"
   ],
   "role-syntheticAlien": [
     "Synthetic Alien, open your eyes. Follow the instructions on your screen.",
@@ -232,8 +232,8 @@
     "夺身者，请睁眼。请根据屏幕提示完成行动。"
   ],
   "role-empath": [
-    "Empath, open your eyes. Follow the instructions on your screen.",
-    "共情者，请睁眼。请根据屏幕提示完成行动。"
+    "Empath, open your eyes and read the answers on your screen. Everyone else, keep your eyes closed. The app has recorded the truthful answers; you do not need to respond.",
+    "共情者，请睁眼并查看屏幕上的回答。其他玩家请保持闭眼。应用已根据记录提供真实回答，无需操作。"
   ],
   "role-nostradamus": [
     "Nostradamus, open your eyes. Follow the instructions on your screen.",
@@ -298,5 +298,109 @@
   "role-flipper": [
     "Flipper, open your eyes. Follow the instructions on your screen.",
     "翻牌侠，请睁眼。请根据屏幕提示完成行动。"
+  ],
+  "copied-insomniac": [
+    "Only the Doppelgänger who copied Insomniac, open your eyes. The original Insomniac stays asleep. Follow your screen.",
+    "仅复制了失眠者的化身幽灵，请睁眼。原本的失眠者请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-revealer": [
+    "Only the Doppelgänger who copied Revealer, open your eyes. The original Revealer stays asleep. Follow your screen.",
+    "仅复制了揭示者的化身幽灵，请睁眼。原本的揭示者请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-curator": [
+    "Only the Doppelgänger who copied Curator, open your eyes. The original Curator stays asleep. Follow your screen.",
+    "仅复制了策展人的化身幽灵，请睁眼。原本的策展人请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-count": [
+    "Only the Doppelgänger who copied The Count, open your eyes. The original The Count stays asleep. Follow your screen.",
+    "仅复制了伯爵的化身幽灵，请睁眼。原本的伯爵请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-renfield": [
+    "Only the Doppelgänger who copied Renfield, open your eyes. The original Renfield stays asleep. Follow your screen.",
+    "仅复制了吸血鬼仆从的化身幽灵，请睁眼。原本的吸血鬼仆从请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-priest": [
+    "Only the Doppelgänger who copied Priest, open your eyes. The original Priest stays asleep. Follow your screen.",
+    "仅复制了牧师的化身幽灵，请睁眼。原本的牧师请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-assassin": [
+    "Only the Doppelgänger who copied Assassin, open your eyes. The original Assassin stays asleep. Follow your screen.",
+    "仅复制了刺客的化身幽灵，请睁眼。原本的刺客请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-apprenticeAssassin": [
+    "Only the Doppelgänger who copied Apprentice Assassin, open your eyes. The original Apprentice Assassin stays asleep. Follow your screen.",
+    "仅复制了见习刺客的化身幽灵，请睁眼。原本的见习刺客请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-marksman": [
+    "Only the Doppelgänger who copied Marksman, open your eyes. The original Marksman stays asleep. Follow your screen.",
+    "仅复制了神射手的化身幽灵，请睁眼。原本的神射手请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-pickpocket": [
+    "Only the Doppelgänger who copied Pickpocket, open your eyes. The original Pickpocket stays asleep. Follow your screen.",
+    "仅复制了扒手的化身幽灵，请睁眼。原本的扒手请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-gremlin": [
+    "Only the Doppelgänger who copied Gremlin, open your eyes. The original Gremlin stays asleep. Follow your screen.",
+    "仅复制了小妖精的化身幽灵，请睁眼。原本的小妖精请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-oracle": [
+    "Only the Doppelgänger who copied Oracle, open your eyes. The original Oracle stays asleep. Follow your screen.",
+    "仅复制了神谕者的化身幽灵，请睁眼。原本的神谕者请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-groob": [
+    "Only the Doppelgänger who copied Groob, open your eyes. The original Groob stays asleep. Follow your screen.",
+    "仅复制了古鲁布的化身幽灵，请睁眼。原本的古鲁布请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-zerb": [
+    "Only the Doppelgänger who copied Zerb, open your eyes. The original Zerb stays asleep. Follow your screen.",
+    "仅复制了泽尔布的化身幽灵，请睁眼。原本的泽尔布请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-leader": [
+    "Only the Doppelgänger who copied Leader, open your eyes. The original Leader stays asleep. Follow your screen.",
+    "仅复制了领袖的化身幽灵，请睁眼。原本的领袖请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-psychic": [
+    "Only the Doppelgänger who copied Psychic, open your eyes. The original Psychic stays asleep. Follow your screen.",
+    "仅复制了灵媒的化身幽灵，请睁眼。原本的灵媒请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-rascal": [
+    "Only the Doppelgänger who copied Rascal, open your eyes. The original Rascal stays asleep. Follow your screen.",
+    "仅复制了淘气鬼的化身幽灵，请睁眼。原本的淘气鬼请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-exposer": [
+    "Only the Doppelgänger who copied Exposer, open your eyes. The original Exposer stays asleep. Follow your screen.",
+    "仅复制了揭露者的化身幽灵，请睁眼。原本的揭露者请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-blob": [
+    "Only the Doppelgänger who copied Blob, open your eyes. The original Blob stays asleep. Follow your screen.",
+    "仅复制了黏液怪的化身幽灵，请睁眼。原本的黏液怪请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-mortician": [
+    "Only the Doppelgänger who copied Mortician, open your eyes. The original Mortician stays asleep. Follow your screen.",
+    "仅复制了殡葬师的化身幽灵，请睁眼。原本的殡葬师请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-auraSeer": [
+    "Only the Doppelgänger who copied Aura Seer, open your eyes. The original Aura Seer stays asleep. Follow your screen.",
+    "仅复制了灵气预言家的化身幽灵，请睁眼。原本的灵气预言家请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-apprenticeTanner": [
+    "Only the Doppelgänger who copied Apprentice Tanner, open your eyes. The original Apprentice Tanner stays asleep. Follow your screen.",
+    "仅复制了皮匠学徒的化身幽灵，请睁眼。原本的皮匠学徒请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-beholder": [
+    "Only the Doppelgänger who copied Beholder, open your eyes. The original Beholder stays asleep. Follow your screen.",
+    "仅复制了观察者的化身幽灵，请睁眼。原本的观察者请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-squire": [
+    "Only the Doppelgänger who copied Squire, open your eyes. The original Squire stays asleep. Follow your screen.",
+    "仅复制了狼人侍从的化身幽灵，请睁眼。原本的狼人侍从请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-empath": [
+    "Only the Doppelgänger who copied Empath, open your eyes. The original Empath stays asleep. Follow your screen.",
+    "仅复制了共情者的化身幽灵，请睁眼。原本的共情者请保持闭眼。请根据屏幕提示行动。"
+  ],
+  "copied-nostradamus": [
+    "Only the Doppelgänger who copied Nostradamus, open your eyes. The original Nostradamus stays asleep. Follow your screen.",
+    "仅复制了诺斯特拉达姆士的化身幽灵，请睁眼。原本的诺斯特拉达姆士请保持闭眼。请根据屏幕提示行动。"
   ]
 }

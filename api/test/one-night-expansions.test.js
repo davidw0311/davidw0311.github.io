@@ -194,10 +194,12 @@ test('Synthetic death defeats ordinary village and aliens but permits independen
   assert.equal(r.winners.has('p0'), true); assert.equal(r.winners.has('p1'), false); assert.equal(r.winners.has('p2'), false); assert.equal(r.winners.has('p3'), true);
 });
 
-test('Empath receives private responses without exposing the Empath to respondents', () => {
-  const ctx = fixture('empath'); const spy = ctx.room.seats[0]; ctx.seat = ctx.room.seats[1]; ctx.data = {};
-  assert.equal(expansion.getActors(ctx, 'empath').length, ctx.room.seats.length);
-  doAction(ctx, [], 'yes'); assert.match(spy.knowledge[0].text.en, /#2: yes/); assert.equal(ctx.seat.knowledge.length, 0);
+test('Empath is the only responder; private answers come from recorded actions', () => {
+  const ctx=fixture('empath');ctx.room.expansion.empathQuestion='viewed';
+  ctx.room.actionLog=[{seatId:ctx.room.seats[1].id,type:'view',targets:['center:0']}];
+  assert.deepEqual(expansion.getActors(ctx,'empath'),[ctx.seat.id]);
+  expansion.initialize(ctx);assert.match(ctx.seat.knowledge[0].text.en,/#2: yes/);
+  assert.equal(ctx.room.seats[1].knowledge.length,0);
 });
 
 test('Dagger of the Traitor requires a different teammate death', () => {

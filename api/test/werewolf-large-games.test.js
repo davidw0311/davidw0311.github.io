@@ -157,6 +157,7 @@ function simulation(board, seed) {
                     data = available.length ? { targetIds: choose(available) } : descriptor.minTargets === 1 && descriptor.targets.length ? { targetIds: [descriptor.targets[0]] } : { ability: 'skip' };
                 } else data = descriptor.input === 'none' ? {} : { targetId: choose(descriptor.targets) };
                 send(player.actorId, 'nightAction', data);
+                if(view(player.actorId).me?.action?.review) send(player.actorId,'nightAction',{confirmResult:true});
                 stats.actions[step] = (stats.actions[step] || 0) + 1;
             }
             assert.equal(room.phase.nightStage, 'closing', `${board.id} seed=${seed}: all legal night actions must complete`);

@@ -326,8 +326,8 @@
       "zh": "共情者"
     },
     "description": {
-      "en": "See the private yes-or-no responses of other players to this round’s question.",
-      "zh": "查看其他玩家对本局问题给出的秘密是非回答。"
+      "en": "Wake alone and read truthful answers to this round’s question. The app derives answers from starting roles or recorded night actions; other players stay asleep and do not respond.",
+      "zh": "独自睁眼，阅读本局问题的真实回答。应用根据初始身份或夜间行动记录生成答案，其他玩家保持闭眼，无需操作。"
     },
     "expansion": "bonus",
     "team": "village",

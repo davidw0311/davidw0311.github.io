@@ -56,14 +56,14 @@ function nightActorRole(room, seat, step) {
     if (step === 'lovers') return seat.duskMark === 'love' ? 'lovers' : null;
     if (seat.copyMode === 'copycatPassive') return null;
     if (seat.copyMode === 'doppel' && !['werewolf', 'vampire', 'mason', 'alien'].includes(step)) return step === 'doppelganger' ? (seat.doppelImmediate || null) : null;
-    if (step === 'werewolf') return WOLVES.has(seat.nightRoleId) ? (seat.nightRoleId === 'dreamWolf' ? 'dreamWolf' : 'werewolf') : null;
+    if (step === 'werewolf') return WOLVES.has(seat.nightRoleId) && seat.nightRoleId !== 'dreamWolf' ? 'werewolf' : null;
     if (step === 'vampire') return VAMPIRES.has(seat.nightRoleId) ? 'vampire' : null;
     if (seat.nightRoleId === step) return step;
     if (expansion.getActors || expansion.actors) { const ids = (expansion.getActors || expansion.actors)(makeCtx(room, seat, step), step); if (ids?.includes(seat.id)) return step; }
     return null;
 }
 function currentData(room, seat, role) { const key = `${room.phase.step}:${seat.id}`; return room.nightState[key] ||= { role, count: 0, seen: [] }; }
-function completed(room, seat) { return Boolean(room.actions[room.phase.step]?.[seat.id]); }
+function completed(room, seat) { return Boolean(room.actions[room.phase.step]?.[seat.id]) && !room.nightState[`${room.phase.step}:${seat.id}`]?.reviewPending; }
 function complete(room, seat) { (room.actions[room.phase.step] ||= {})[seat.id] = true; }
 function makeCtx(room, seat, role) {
     const players = (includeSelf = true) => room.seats.filter(s => includeSelf || s.id !== seat?.id).map(s => s.id);
@@ -91,7 +91,7 @@ function schedule(room) {
 function beginTurn(room, now) {
     const turn = room.schedule[room.nightIndex];
     if (!turn) return startDiscussion(room, now);
-    phase(room, 'night', turn.step, now); room.phase.roleId = turn.roleId; room.phase.nightStage = 'opening'; room.phase.cueIds = [...(room.nightIndex === 0 ? ['night'] : []), `role-${turn.roleId}`]; room.phase.deadline = now + 30000;
+    phase(room, 'night', turn.step, now); room.phase.roleId = turn.roleId; room.phase.nightStage = 'opening'; room.phase.cueIds = [...(room.nightIndex === 0 ? ['night'] : []), turn.step.startsWith('doppel:') ? `copied-${turn.roleId}` : `role-${turn.roleId}`]; room.phase.deadline = now + 30000;
 }
 function beginActing(room, now) {
     room.phase.id = randomUUID(); room.phase.nightStage = 'acting'; room.phase.cueIds = []; room.phase.deadline = null;
@@ -114,12 +114,14 @@ function initializeAction(room, seat) {
 }
 function descriptor(room, seat) {
     if (room.status !== 'playing' || room.phase.kind !== 'night' || room.phase.nightStage !== 'acting' || !room.nightActors?.includes(seat.id) || completed(room, seat)) return null;
-    const role = nightActorRole(room, seat, room.phase.step); const ctx = makeCtx(room, seat, role), data = ctx.data;
+    const actorRole = nightActorRole(room, seat, room.phase.step);
+    if (!actorRole && !room.nightState[`${room.phase.step}:${seat.id}`]?.reviewPending) return null;
+    const role = actorRole || room.phase.roleId; const ctx = makeCtx(room, seat, role), data = ctx.data;
     const others = ctx.players(false), all = ctx.players(), cards = ids => ids.filter(id => !room.shields.includes(id));
-    const base = (en, zh, ids = [], min = 0, max = min, canSkip = false, options) => ({ id: `${room.phase.id}:${seat.id}:${data.count}`, roleId: role, prompt: text(en, zh), targets: ctx.targets(ids), min, max, canSkip, ...(options ? { options } : {}) });
+    const base = (en, zh, ids = [], min = 0, max = min, canSkip = false, options) => ({ id: `${room.phase.id}:${seat.id}:${data.count}:${data.reviewPending ? 'review' : 'act'}`, roleId: role, prompt: text(en, zh), targets: ctx.targets(ids), min, max, canSkip, ...(options ? { options } : {}) });
     const choices = values => values.map(([id, en, zh]) => ({ id, label: text(en, zh) }));
+    if (data.reviewPending) return { ...base('Read your new private result below. Confirm when you have finished; keep your eyes open until the closing announcement.', '请阅读下方新的私密结果。读完后确认，并等待闭眼播报。'), review: true };
     if (['minion', 'mason', 'renfield', 'markReview', 'lovers'].includes(role)) return base('Read your private information, then continue.', '请阅读私密信息，然后继续。');
-    if (role === 'dreamWolf') return base('Confirm your part of the shared wolves turn. Dream Wolf does not learn teammates or inspect cards. Tap Continue, then close your eyes.', '与其他狼人同时确认本阶段。梦狼不会获知狼队友，也不能查牌。点击继续后请闭眼。');
     if (role === 'werewolf') { const awake = room.seats.filter(s => WOLVES.has(s.nightRoleId) && s.duskMark !== 'fear' && s.copyMode !== 'copycatPassive').length; return base(awake === 1 && room.settings.loneWolf ? 'You may inspect one center card, or continue without looking.' : 'Recognize your fellow wolves, then continue.', awake === 1 && room.settings.loneWolf ? '你可以查看一张中央牌，或直接继续。' : '确认狼队友后继续。', awake === 1 && room.settings.loneWolf ? ctx.centers() : [], 0, awake === 1 && room.settings.loneWolf ? 1 : 0, false); }
     if (['doppelganger', 'copycat'].includes(role)) return base('Choose a card to copy.', '选择要复制的身份牌。', role === 'copycat' ? ctx.centers() : cards(others), 1, 1);
     if (role === 'seer' && !data.mode) return base('Choose how to inspect cards.', '选择查验方式。', [], 0, 0, true, choices([['player', 'One other player', '一位其他玩家'], ['center', 'Two center cards', '两张中央牌']]));
@@ -161,6 +163,7 @@ function copyRole(room, seat, targetCard, mode) {
     if (mode === 'doppel' && looked === 'copycat') learn(room, seat, 'You inherit the Copycat’s chosen identity without learning it or taking its night action.', '你继承模仿者复制的身份，但不会得知该身份，也不执行其夜间行动。');
     else learn(room, seat, `Copied role: ${nameOf(copied)}.`, `复制的身份：${nameOf(copied, 'zh')}。`);
     if (mode === 'doppel') {
+        if (COPY_LATE.has(copied) && looked !== 'copycat') learn(room, seat, `Wait for the separate Doppelgänger copied ${nameOf(copied)} call; stay asleep during the original role’s turn.`, `请等待化身幽灵复制${nameOf(copied, 'zh')}的专属呼叫；原本身份行动时保持闭眼。`);
         if (looked === 'copycat') { seat.copyMode = 'copycatPassive'; complete(room, seat); return; }
         if (NO_ACTION.has(copied) || COPY_LATE.has(copied) || ['mason', ...VAMPIRES, 'werewolf', ...(expansion.ALIENS || []).filter(id => id !== 'bodySnatcher')].includes(copied)) { complete(room, seat); return; }
         seat.doppelImmediate = copied; const data = currentData(room, seat, copied); data.initialized = false; initializeAction(room, seat);
@@ -169,6 +172,7 @@ function copyRole(room, seat, targetCard, mode) {
 function perform(room, seat, command) {
     let action = descriptor(room, seat); if (!action) fail('NO_ACTION', 'You have no action in this phase.');
     if (command.actionId !== action.id) fail('STALE_ACTION', 'Your action changed; refresh and try again.');
+    if (action.review) { if (command.skip || command.targets?.length || command.choice) fail('INVALID_ACTION', 'Confirm the result without selecting a target.'); currentData(room, seat, action.roleId).reviewPending = false; return; }
     const targets = command.targets || []; if (!Array.isArray(targets) || new Set(targets).size !== targets.length) fail('INVALID_TARGET', 'Choose distinct targets.');
     // Accept an already-open pre-upgrade Gremlin form, while new clients choose
     // a mode first so its target list never offers shielded cards.
@@ -369,7 +373,7 @@ function execute(room, actor, command, now) {
         case 'ready': checkPhase(room, command, ['ready']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); seat.ready = true; return;
         case 'startNight': host(room, actor); checkPhase(room, command, ['ready']); if (!room.seats.every(s => s.ready)) fail('NOT_READY', 'Every player must read their card and ready up.'); beginTurn(room, now); return;
         case 'narrationDone': if (!(command.expectedPhaseId || command.phaseId)) fail('STALE_PHASE', 'A phase id is required.'); host(room, actor); checkPhase(room, command, ['night']); if (room.phase.nightStage === 'opening') beginActing(room, now); else if (room.phase.nightStage === 'closing') nextTurn(room, now); return;
-        case 'act': checkPhase(room, command, ['night']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); perform(room, seat, command); if (room.nightActors.length && room.nightActors.every(id => completed(room, getSeat(room, id)))) finishActing(room, now); return;
+        case 'act': checkPhase(room, command, ['night']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); { const before = seat.knowledge.length; perform(room, seat, command); if (seat.knowledge.length > before && room.actions[room.phase.step]?.[seat.id]) currentData(room, seat, nightActorRole(room, seat, room.phase.step)).reviewPending = true; } if (room.nightActors.length && room.nightActors.every(id => completed(room, getSeat(room, id)))) finishActing(room, now); return;
         case 'hardSkip': if (!(command.expectedPhaseId || command.phaseId)) fail('STALE_PHASE', 'A phase id is required.'); host(room, actor); checkPhase(room, command, ['night']); if (room.phase.nightStage === 'opening') beginActing(room, now); else if (room.phase.nightStage === 'closing') nextTurn(room, now); else { room.nightActors.forEach(id => complete(room, getSeat(room, id))); finishActing(room, now); event(room, 'The host skipped the current night action.', '房主已跳过当前夜间行动。', now); } return;
         case 'startVote': host(room, actor); checkPhase(room, command, ['discussion']); phase(room, 'voting', 'voting', now); room.phase.cueIds = ['voting']; room.votes = {}; return;
         case 'vote': checkPhase(room, command, ['voting']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); getSeat(room, command.targetId); if (command.targetId === seat.id) fail('SELF_VOTE', 'Vote for another player.'); room.votes[seat.id] = command.targetId; return;
@@ -403,6 +407,7 @@ function chooseBotCommand(view) {
     const action = me.action;
     if (phase.kind !== 'night' || phase.nightStage !== 'acting' || !action) return null;
     const act = { ...command, type: 'act', actionId: action.id, targets: [] };
+    if (action.review) return act;
     const targets = action.targets.map(target => target.id);
     if (targets.length < action.min) return action.canSkip ? { ...act, skip: true } : null;
     if (action.roleId === 'vampire' && targets.length) {
@@ -447,6 +452,20 @@ function performBotDecision(room, now) {
 function tickRoom(room, now) {
     now = nowMs(now);
     if (room.status !== 'playing' || room.phase.paused) return false;
+    // Upgrade already-open old Dream Wolf/Empath turns without asking sleepers to tap.
+    if (room.phase.kind === 'night' && room.phase.nightStage === 'acting') {
+        const allowed = (room.nightActors || []).filter(id => nightActorRole(room, getSeat(room, id), room.phase.step) || room.nightState[`${room.phase.step}:${id}`]?.reviewPending);
+        if (allowed.length !== room.nightActors.length) {
+            room.nightActors = allowed;
+            for (const id of allowed) {
+                const seat = getSeat(room, id), role = nightActorRole(room, seat, room.phase.step);
+                if (role === 'empath') { const data = currentData(room, seat, role); expansion.initialize(makeCtx(room, seat, role)); if (room.actions[room.phase.step]?.[id]) data.reviewPending = true; }
+            }
+            if (!allowed.length) room.phase.deadline = now + randomInt(7000, 15001);
+            else if (allowed.every(id => completed(room, getSeat(room, id)))) finishActing(room, now);
+            room.revision++; room.updatedAt = now; return true;
+        }
+    }
     if ((room.botState?.mode || 'automatic') === 'automatic' && now >= (room.botState?.nextActionAt || 0) && performBotDecision(room, now)) return true;
     if (room.phase.kind !== 'night' || room.phase.deadline == null || now < room.phase.deadline) return false;
     if (room.phase.nightStage === 'opening') beginActing(room, now);
@@ -460,6 +479,6 @@ function publicView(room, actor, now) {
     room = clone(room);
     now = nowMs(now); const seat = seatOf(room, actor), isHost = Boolean(room.hostId && actor === room.hostId), finished = room.status === 'finished';
     const publicTokens = finished || ['discussion', 'voting'].includes(room.phase.kind);
-    return { code: room.code, gameId: room.gameId || null, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, bots: { mode: room.botState?.mode === 'manual' ? 'manual' : 'automatic', count: room.seats.filter(s => s.isBot).length }, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map((s, i) => ({ id: s.id, number: i + 1, name: s.name, photo: s.photo, ready: s.ready, connected: connected(room, s, now), occupied: Boolean(s.actorId), isBot: Boolean(s.isBot), isHost: s.actorId === room.hostId, ...(publicTokens ? { shielded: room.shields.includes(s.id), hasArtifact: Boolean(room.artifacts[s.id]) } : {}), ...(room.revealed.includes(s.id) && room.cards[s.id] ? { revealedRoleId: room.cards[s.id].roleId } : {}), ...(finished ? { roleId: room.result?.players.find(p => p.seatId === s.id)?.roleId || effective(room, s.id).roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actor) ? { status: 'pending' } : null, me: seat ? { seatId: seat.id, roleId: seat.originalRoleId, originalRoleId: seat.originalRoleId, ready: seat.ready, ...(seat.isBot ? { botActivity: { viewed: room.actionLog.some(a => a.seatId === seat.id && a.type === 'view'), moved: room.actionLog.some(a => a.seatId === seat.id && a.type === 'move') } } : {}), knowledge: clone(seat.knowledge), action: descriptor(room, seat), vote: room.votes[seat.id] || null } : null, phase: { ...clone(room.phase), ...(room.phase.kind === 'night' && room.phase.nightStage === 'acting' ? { deadline: null } : {}) }, events: clone(room.events), result: finished ? clone(room.result) : null, pendingVoterIds: room.phase.kind === 'voting' ? room.seats.filter(s => !room.votes[s.id]).map(s => s.id) : [], publicRules: clone(room.expansion?.publicRules || []), centerCards: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, ...(finished || room.revealed.includes(id) ? { roleId: card.roleId } : {}) })), centerCount: Object.keys(room.cards).filter(id => id.startsWith('center:')).length || 3 };
+    return { code: room.code, gameId: room.gameId || null, revision: room.revision, status: room.status, isHost, hostSeatId: seatOf(room, room.hostId)?.id || null, bots: { mode: room.botState?.mode === 'manual' ? 'manual' : 'automatic', count: room.seats.filter(s => s.isBot).length }, settings: clone(room.settings), roleDeck: [...room.roleDeck], seats: room.seats.map((s, i) => ({ id: s.id, number: i + 1, name: s.name, photo: s.photo, ready: s.ready, connected: connected(room, s, now), occupied: Boolean(s.actorId), isBot: Boolean(s.isBot), isHost: s.actorId === room.hostId, ...(publicTokens ? { shielded: room.shields.includes(s.id), hasArtifact: Boolean(room.artifacts[s.id]) } : {}), ...(room.revealed.includes(s.id) && room.cards[s.id] ? { revealedRoleId: room.cards[s.id].roleId } : {}), ...(finished ? { roleId: room.result?.players.find(p => p.seatId === s.id)?.roleId || effective(room, s.id).roleId } : {}) })), requests: isHost ? room.requests.map(r => ({ id: r.id, name: r.name, createdAt: r.createdAt })) : [], myRequest: room.requests.some(r => r.actorId === actor) ? { status: 'pending' } : null, me: seat ? { nightAwake: room.phase.kind === 'night' && room.phase.nightStage === 'acting' && room.nightActors?.includes(seat.id), seatId: seat.id, roleId: seat.originalRoleId, originalRoleId: seat.originalRoleId, ready: seat.ready, ...(seat.isBot ? { botActivity: { viewed: room.actionLog.some(a => a.seatId === seat.id && a.type === 'view'), moved: room.actionLog.some(a => a.seatId === seat.id && a.type === 'move') } } : {}), knowledge: clone(seat.knowledge), action: descriptor(room, seat), vote: room.votes[seat.id] || null } : null, phase: { ...clone(room.phase), ...(room.phase.kind === 'night' && room.phase.nightStage === 'acting' ? { deadline: null } : {}) }, events: clone(room.events), result: finished ? clone(room.result) : null, pendingVoterIds: room.phase.kind === 'voting' ? room.seats.filter(s => !room.votes[s.id]).map(s => s.id) : [], publicRules: clone(room.expansion?.publicRules || []), centerCards: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, ...(finished || room.revealed.includes(id) ? { roleId: card.roleId } : {}) })), centerCount: Object.keys(room.cards).filter(id => id.startsWith('center:')).length || 3 };
 }
 export { createRoom, applyCommand, publicView, tickRoom, recoverHost, chooseBotCommand, DEFAULT_SETTINGS, catalogue, validateDeck, defaultDeck,effective as effectiveCard};

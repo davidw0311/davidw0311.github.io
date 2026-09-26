@@ -128,8 +128,8 @@ function prepare(ctx) {
 function getActors(ctx, role) {
   if (role === "alien") return idsFor(ctx, ALIENS);
   if (role === "villains") return idsFor(ctx, VILLAINS);
-  // Every player answers privately; neither the presence nor seat of Empath leaks.
-  if (role === "empath") return seats(ctx).map((s) => s.id);
+  // Sleeping players never need to check a phone to answer Empath.
+  if (role === "empath") return idsFor(ctx, ["empath"]);
   return null;
 }
 
@@ -184,9 +184,8 @@ function buildAction(ctx) {
       return descriptor(ctx, viewed.length ? `You viewed ${viewed.length} card(s). Finish with the last card’s team, or inspect another (${3 - viewed.length} remaining).` : "You may inspect up to three cards, one at a time. The last card sets your team; you also need to survive.", viewed.length ? `已查看${viewed.length}张牌。可结束并加入最后一张牌的阵营，或继续查看（剩余${3 - viewed.length}次）。` : "可依次查看最多三张牌；最后一张决定你的阵营，你也必须存活。", viewed.length < 3 ? peekTargets(ctx).filter((id) => !viewed.includes(id)) : [], 0, viewed.length < 3 ? 1 : 0, true, viewed.length < 3 ? [["inspect", "Inspect selected card", "查看选中的牌"], ["finish", "Finish with this team", "以此阵营结束"]] : [["finish", "Finish with this team", "以此阵营结束"]]);
     }
     case "empath": {
-      const q = { viewed: pair("Have you viewed a card during a night action?", "你是否在夜间行动中查看过身份牌？"), moved: pair("Have you moved any card tonight?", "你今晚移动过身份牌吗？"), evil: pair("Did you start as a werewolf, vampire, alien or villain?", "你最初是狼人、吸血鬼、外星人或反派吗？") }[st.empathQuestion];
-      if (idsFor(ctx, ["empath"]).includes(ctx.seat.id)) return descriptor(ctx, "Other players answer the Empath question privately. Their responses will appear in your notes.", "其他玩家正在秘密回答共情问题，回答将出现在你的笔记中。" );
-      return descriptor(ctx, `${q.en} Answer truthfully; only the Empath sees your response.`, `${q.zh} 请如实回答，只有共情者能看到。`, [], 0, 0, false, [["yes", "Yes", "是"], ["no", "No", "否"]]);
+      const question = { viewed: pair("Have you viewed a card during a night action?", "你是否在夜间行动中查看过身份牌？"), moved: pair("Have you moved any card tonight?", "你今晚移动过身份牌吗？"), evil: pair("Did you start as a werewolf, vampire, alien or villain?", "你最初是狼人、吸血鬼、外星人或反派吗？") }[st.empathQuestion];
+      return descriptor(ctx, `${question.en} Read the truthful answers in your private notes. Sleeping players do not need to respond.`, `${question.zh} 请阅读私人笔记中的真实回答。其他玩家保持闭眼，无需操作。`);
     }
     case "villains": return buildAction({ ...ctx, role: actorRole(ctx.seat) });
     case "temptress": return descriptor(ctx, "Meet the villains. You may exchange the extra villain reserve card with a non-villain player.", "与反派互认。可将额外反派备用牌与一位非反派玩家交换。", others.filter((id) => !idsFor(ctx, VILLAINS).includes(id)), 1, 1, true);
@@ -435,6 +434,16 @@ function augmentSchedule(ctx) {
 }
 function initialize(ctx) {
   const { role, data } = ctx;
+  if (role === "empath" && !data.recordedAnswers) {
+    data.recordedAnswers = true;
+    const question = state(ctx).empathQuestion;
+    for (const other of seats(ctx).filter(s => s.id !== ctx.seat.id)) {
+      const yes = question === "evil"
+        ? [...WOLVES, "vampire", "master", "count", ...ALIENS, ...VILLAINS].includes(other.originalRoleId)
+        : (ctx.room.actionLog || []).some(a => a.seatId === other.id && a.type === (question === "viewed" ? "view" : "move"));
+      ctx.learn(`Empath response from #${other.number}: ${yes ? "yes" : "no"}.`, `${other.number}号玩家的共情回答：${yes ? "是" : "否"}。`);
+    }
+  }
   if (data.expansionInitialized) return;
   data.expansionInitialized = true;
   if (ALIENS.includes(role) && !(role === "bodySnatcher" && ctx.seat.copyMode === "doppel" && ctx.step === "doppelganger")) { identity(ctx, ALIENS, "Original aliens", "最初的外星人"); data.identified = true; }
