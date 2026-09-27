@@ -1,0 +1,158 @@
+{
+  "female-new-10": [
+    {
+      "id": "F11",
+      "start_seconds": 0,
+      "name": "成熟御姐"
+    },
+    {
+      "id": "F12",
+      "start_seconds": 27.96,
+      "name": "烟嗓侦探"
+    },
+    {
+      "id": "F13",
+      "start_seconds": 54.24,
+      "name": "温厚长者"
+    },
+    {
+      "id": "F14",
+      "start_seconds": 73.24,
+      "name": "冷面女王"
+    },
+    {
+      "id": "F15",
+      "start_seconds": 99.04,
+      "name": "舞台讲述者"
+    },
+    {
+      "id": "F16",
+      "start_seconds": 135.24,
+      "name": "轻快邻家"
+    },
+    {
+      "id": "F17",
+      "start_seconds": 160.0,
+      "name": "午夜幽影"
+    },
+    {
+      "id": "F18",
+      "start_seconds": 184.52,
+      "name": "新闻主播"
+    },
+    {
+      "id": "F19",
+      "start_seconds": 202.32,
+      "name": "温柔大姐姐"
+    },
+    {
+      "id": "F20",
+      "start_seconds": 221.96,
+      "name": "飒爽女侠"
+    }
+  ],
+  "female-all-10": [
+    {
+      "id": "F01",
+      "start_seconds": 0,
+      "name": "清甜明亮"
+    },
+    {
+      "id": "F02",
+      "start_seconds": 22.6,
+      "name": "温柔月光"
+    },
+    {
+      "id": "F03",
+      "start_seconds": 44.0,
+      "name": "清冷仙气"
+    },
+    {
+      "id": "F04",
+      "start_seconds": 65.56,
+      "name": "俏皮灵动"
+    },
+    {
+      "id": "F05",
+      "start_seconds": 87.44,
+      "name": "知性学姐"
+    },
+    {
+      "id": "F06",
+      "start_seconds": 112.12,
+      "name": "软糯亲切"
+    },
+    {
+      "id": "F07",
+      "start_seconds": 134.4,
+      "name": "元气清新"
+    },
+    {
+      "id": "F08",
+      "start_seconds": 159.96,
+      "name": "微哑温甜"
+    },
+    {
+      "id": "F09",
+      "start_seconds": 181.44,
+      "name": "优雅甜润"
+    },
+    {
+      "id": "F10",
+      "start_seconds": 197.56,
+      "name": "神秘夜莺"
+    }
+  ],
+  "male-all-10": [
+    {
+      "id": "M01",
+      "start_seconds": 0,
+      "name": "温暖青年"
+    },
+    {
+      "id": "M02",
+      "start_seconds": 19.32,
+      "name": "低沉磁性"
+    },
+    {
+      "id": "M03",
+      "start_seconds": 46.0,
+      "name": "清朗公子"
+    },
+    {
+      "id": "M04",
+      "start_seconds": 70.44,
+      "name": "冷静侦探"
+    },
+    {
+      "id": "M05",
+      "start_seconds": 90.96,
+      "name": "阳光少年感"
+    },
+    {
+      "id": "M06",
+      "start_seconds": 111.72,
+      "name": "沙哑旅人"
+    },
+    {
+      "id": "M07",
+      "start_seconds": 134.56,
+      "name": "儒雅电台"
+    },
+    {
+      "id": "M08",
+      "start_seconds": 155.24,
+      "name": "威严守夜人"
+    },
+    {
+      "id": "M09",
+      "start_seconds": 179.04,
+      "name": "轻松狡黠"
+    },
+    {
+      "id": "M10",
+      "start_seconds": 200.84,
+      "name": "暗夜绅士"
+    }
+  ]
+}
