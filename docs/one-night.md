@@ -90,3 +90,7 @@ When narration is enabled/unlocked, local Kokoro announces every winning side fi
 ## Player photos
 
 Tap your portrait in the top panel or at the table to choose an icon, upload a photo, or return to your initial. One Night reuses the Werewolf photo picker: supported images up to 15 MB are center-cropped and resized locally to a 96×96 JPEG, capped at 12,000 encoded characters. Only the small JPEG is sent, and it is visible to everyone in that room. Profiles follow the stable seat through reordering, reconnects, host-approved replacement and round restarts.
+
+### End-of-round recap
+
+Finished rounds reveal the initial deal (including the extra Alpha Wolf center card), final identities, and an ordered night recap. The initial/final toggle updates the table, player cards, and center cards together; victory always uses final identities. Recaps group each action's swaps/checks, resulting role/mark/artifact/shield changes, and learned clues, with explicit voluntary and host skips. Initial cards and recaps are private room state until the final vote resolves and are cleared on restart/rematch. Older rounds without an initial center snapshot show it as unavailable. The discussion timer sits below the table so center cards remain visible.

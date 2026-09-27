@@ -97,7 +97,12 @@ function beginActing(room, now) {
     room.phase.id = randomUUID(); room.phase.nightStage = 'acting'; room.phase.cueIds = []; room.phase.deadline = null;
     room.nightActors = room.seats.filter(s => nightActorRole(room, s, room.phase.step) && !(room.phase.step !== 'markReview' && (room.schedule[room.nightIndex].order >= 0 || room.phase.step === 'lovers') && s.duskMark === 'fear')).map(s => s.id);
     if (!room.nightActors.length) room.phase.deadline = now + randomInt(7000, 15001);
-    for (const id of room.nightActors) initializeAction(room, getSeat(room, id), now);
+    for (const id of room.nightActors) {
+        const actor = getSeat(room, id), before = actor.knowledge.length;
+        initializeAction(room, actor, now);
+        const clues = actor.knowledge.slice(before).map(item => clone(item.text));
+        if (clues.length) (room.nightRecap ||= []).push({ seatId: id, roleId: nightActorRole(room, actor, room.phase.step), operations: [], changes: [], clues });
+    }
 }
 function finishActing(room, now) { room.phase.id = randomUUID(); room.phase.nightStage = 'closing'; room.phase.cueIds = ['close']; room.phase.deadline = now + 12000; }
 function nextTurn(room, now) { room.nightIndex++; beginTurn(room, now); }
@@ -169,7 +174,23 @@ function copyRole(room, seat, targetCard, mode) {
         seat.doppelImmediate = copied; const data = currentData(room, seat, copied); data.initialized = false; initializeAction(room, seat);
     } else complete(room, seat);
 }
+function recapState(room) {
+    return Object.fromEntries(Object.entries(room.cards).map(([id, card]) => [id, { roleId: cardRole(card), mark: room.marks[id] || null, artifact: room.artifacts[id] || null, shielded: room.shields.includes(id) }]));
+}
 function perform(room, seat, command) {
+    const action = descriptor(room, seat), before = recapState(room), logStart = room.actionLog.length, clueStart = seat.knowledge.length;
+    const doneBefore = completed(room, seat);
+    performAction(room, seat, command);
+    if (action?.review) return;
+    const after = recapState(room);
+    const changes = Object.keys(after).filter(id => JSON.stringify(before[id]) !== JSON.stringify(after[id])).map(id => ({ id, before: before[id] || null, after: after[id] }));
+    const operations = clone(room.actionLog.slice(logStart));
+    const clues = seat.knowledge.slice(clueStart).map(item => clone(item.text));
+    if (changes.length || operations.length || clues.length || command.skip || (!doneBefore && completed(room, seat))) {
+        (room.nightRecap ||= []).push({ seatId: seat.id, roleId: action.roleId, operations, changes, clues, skipped: !!command.skip });
+    }
+}
+function performAction(room, seat, command) {
     let action = descriptor(room, seat); if (!action) fail('NO_ACTION', 'You have no action in this phase.');
     if (command.actionId !== action.id) fail('STALE_ACTION', 'Your action changed; refresh and try again.');
     if (action.review) { if (command.skip || command.targets?.length || command.choice) fail('INVALID_ACTION', 'Confirm the result without selecting a target.'); currentData(room, seat, action.roleId).reviewPending = false; return; }
@@ -237,7 +258,7 @@ function startDiscussion(room, now) {
     event(room, 'The night is over. Discuss what changed, without viewing your current card.', '天亮了。讨论夜里发生的变化，但不能查看当前身份。', now);
 }
 function resetRound(room, now) {
-    room.status = 'lobby'; room.gameId = null; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {}; room.events = [];
+    room.status = 'lobby'; room.gameId = null; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.nightRecap = []; room.initialCards = null; room.votes = {}; room.result = null; room.expansion = {}; room.events = [];
     room.schedule = []; room.nightActors = []; room.nightIndex = 0;
     if (room.botState) room.botState.nextActionAt = now + BOT_ACTION_DELAY;
     room.seats.forEach(seat => { seat.ready = false; seat.originalRoleId = null; seat.nightRoleId = null; seat.originalCardId = null; seat.knowledge = []; delete seat.copyMode; delete seat.copySourceId; delete seat.doppelImmediate; delete seat.duskMark; });
@@ -245,10 +266,11 @@ function resetRound(room, now) {
 }
 function start(room, now) {
     const deck = room.roleDeck.length ? room.roleDeck : defaultDeck(room.seats.length); validateDeck(deck, room.seats.length); if (room.seats.some(s => !s.actorId)) fail('EMPTY_SEATS', 'Every seat must have a player before dealing.');
-    room.roleDeck = [...deck]; const shuffled = shuffle(deck); room.gameId = randomUUID(); room.status = 'playing'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.votes = {}; room.result = null; room.expansion = {};
+    room.roleDeck = [...deck]; const shuffled = shuffle(deck); room.gameId = randomUUID(); room.status = 'playing'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.nightRecap = []; room.initialCards = null; room.votes = {}; room.result = null; room.expansion = {};
     if (room.botState) room.botState.nextActionAt = now + BOT_ACTION_DELAY;
     room.seats.forEach((seat, i) => { const roleId = shuffled[i]; seat.number = i + 1; seat.originalRoleId = roleId; seat.nightRoleId = roleId; seat.originalCardId = null; seat.ready = false; seat.knowledge = []; delete seat.copyMode; delete seat.copySourceId; delete seat.doppelImmediate; delete seat.duskMark; room.cards[seat.id] = { id: randomUUID(), roleId }; seat.originalCardId = room.cards[seat.id].id; room.marks[seat.id] = 'clarity'; });
     shuffled.slice(room.seats.length).forEach((roleId, i) => { room.cards[`center:${i}`] = { id: randomUUID(), roleId }; }); if (deck.includes('alphaWolf')) room.cards['center:3'] = { id: randomUUID(), roleId: 'werewolf' };
+    room.initialCards = Object.fromEntries(Object.entries(room.cards).map(([id, card]) => [id, card.roleId]));
     phase(room, 'ready', 'ready', now); room.phase.cueIds = ['ready']; expansion.prepare?.(makeCtx(room, null, 'prepare')); room.schedule = schedule(room); room.nightIndex = 0; event(room, 'Read your role card and ready up.', '请查看身份牌并确认准备。', now);
 }
 function finishVotes(room, now) {
@@ -290,7 +312,7 @@ function finishVotes(room, now) {
         if (room.marks[id] === 'traitor') { const mates = ids.filter(other => other !== id && team(other) === team(id)); if (mates.length) { result.winners.delete(id); if (mates.some(other => dead.has(other))) result.winners.add(id); } }
         const target = result.votes[id]; if (target && (e[target].roleId === 'diseased' || room.marks[target] === 'disease')) result.winners.delete(id);
     }
-    room.result = { deaths: [...dead], winners: [...result.winners], counts: result.counts, votes: result.votes, epic, players: ids.map(seatId => ({ seatId, ...e[seatId], originalRoleId: getSeat(room, seatId).originalRoleId, mark: room.marks[seatId], artifact: room.artifacts[seatId] || null, won: result.winners.has(seatId), died: dead.has(seatId) })), center: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, roleId: cardRole(card) })), timeline: clone(room.actionLog) };
+    room.result = { initialCards: clone(room.initialCards || null), recap: clone(room.nightRecap || []), deaths: [...dead], winners: [...result.winners], counts: result.counts, votes: result.votes, epic, players: ids.map(seatId => ({ seatId, ...e[seatId], originalRoleId: getSeat(room, seatId).originalRoleId, mark: room.marks[seatId], artifact: room.artifacts[seatId] || null, won: result.winners.has(seatId), died: dead.has(seatId) })), center: Object.entries(room.cards).filter(([id]) => id.startsWith('center:')).map(([id, card]) => ({ id, roleId: cardRole(card) })), timeline: clone(room.actionLog) };
     room.status = 'finished'; phase(room, 'finished', 'finished', now); const winningTeams = [...new Set(room.result.players.filter(player => player.won).map(player => player.team))];
     room.phase.cueIds = [...(winningTeams.length ? winningTeams.map(team => `victory-${team}`) : ['victory-none']), ...room.seats.flatMap((seat, index) => result.winners.has(seat.id) ? [`winner-seat-${index + 1}`] : [])]; event(room, 'Reveal every card. The result uses your final card, mark and artifact.', '公布所有身份。胜负依据最终身份、标记和神器结算。', now);
 }
@@ -374,7 +396,7 @@ function execute(room, actor, command, now) {
         case 'startNight': host(room, actor); checkPhase(room, command, ['ready']); if (!room.seats.every(s => s.ready)) fail('NOT_READY', 'Every player must read their card and ready up.'); beginTurn(room, now); return;
         case 'narrationDone': if (!(command.expectedPhaseId || command.phaseId)) fail('STALE_PHASE', 'A phase id is required.'); host(room, actor); checkPhase(room, command, ['night']); if (room.phase.nightStage === 'opening') beginActing(room, now); else if (room.phase.nightStage === 'closing') nextTurn(room, now); return;
         case 'act': checkPhase(room, command, ['night']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); { const before = seat.knowledge.length; perform(room, seat, command); if (seat.knowledge.length > before && room.actions[room.phase.step]?.[seat.id]) currentData(room, seat, nightActorRole(room, seat, room.phase.step)).reviewPending = true; } if (room.nightActors.length && room.nightActors.every(id => completed(room, getSeat(room, id)))) finishActing(room, now); return;
-        case 'hardSkip': if (!(command.expectedPhaseId || command.phaseId)) fail('STALE_PHASE', 'A phase id is required.'); host(room, actor); checkPhase(room, command, ['night']); if (room.phase.nightStage === 'opening') beginActing(room, now); else if (room.phase.nightStage === 'closing') nextTurn(room, now); else { room.nightActors.forEach(id => complete(room, getSeat(room, id))); finishActing(room, now); event(room, 'The host skipped the current night action.', '房主已跳过当前夜间行动。', now); } return;
+        case 'hardSkip': if (!(command.expectedPhaseId || command.phaseId)) fail('STALE_PHASE', 'A phase id is required.'); host(room, actor); checkPhase(room, command, ['night']); if (room.phase.nightStage === 'opening') beginActing(room, now); else if (room.phase.nightStage === 'closing') nextTurn(room, now); else { for (const id of room.nightActors) if (!completed(room, getSeat(room, id))) (room.nightRecap ||= []).push({ seatId: id, roleId: nightActorRole(room, getSeat(room, id), room.phase.step), operations: [], changes: [], clues: [], skipped: true, hostSkipped: true }); room.nightActors.forEach(id => complete(room, getSeat(room, id))); finishActing(room, now); event(room, 'The host skipped the current night action.', '房主已跳过当前夜间行动。', now); } return;
         case 'startVote': host(room, actor); checkPhase(room, command, ['discussion']); phase(room, 'voting', 'voting', now); room.phase.cueIds = ['voting']; room.votes = {}; return;
         case 'vote': checkPhase(room, command, ['voting']); if (!seat) fail('NOT_SEATED', 'Join a seat first.'); getSeat(room, command.targetId); if (command.targetId === seat.id) fail('SELF_VOTE', 'Vote for another player.'); room.votes[seat.id] = command.targetId; return;
         case 'finishVote': host(room, actor); checkPhase(room, command, ['voting']); if (!room.seats.every(s => room.votes[s.id])) fail('PENDING_VOTES', 'Every player must vote before results.'); finishVotes(room, now); return;

@@ -13,6 +13,8 @@ export type Seat = { id: string; name: string; isBot?: boolean; number: number; 
 export type Phase = { id: string; kind: string; step?: string; roleId?: string; cueIds: string[]; deadline?: number | null; nightStage?: "opening" | "acting" | "closing" };
 export type Action = { review?: boolean; id: string; roleId: string; prompt: Localized; targets: { id: string; label: Localized }[]; min: number; max: number; canSkip: boolean; options?: { id: string; label: Localized }[] };
 export type Settings = { discussionSeconds?: number; [key: string]: unknown };
+export type RecapCard = { roleId: string; mark: string | null; artifact: string | null; shielded: boolean };
+export type NightRecap = { seatId: string; roleId: string; operations: { type: string; targets: string[]; direction?: string }[]; changes: { id: string; before: RecapCard | null; after: RecapCard }[]; clues: Localized[]; skipped?: boolean; hostSkipped?: boolean };
 export type GameView = {
   bots?: { mode: "automatic" | "manual"; count: number };
   serverTime?: number; clockOffset?: number; gameId?: string;
@@ -22,7 +24,7 @@ export type GameView = {
   me: { nightAwake?: boolean; seatId: string; originalRoleId?: string | null; roleId?: string | null; ready: boolean; knowledge: {id: string; text: Localized}[]; action: Action | null; vote?: string | null } | null;
   phase: Phase; pendingVoterIds?: string[]; voteCount?: number; votes?: Record<string, string | null>;
   events?: {id: string; text: Localized; at?: number}[];
-  result?: { deaths: string[]; winners: string[]; counts: Record<string, number>; votes: Record<string, string>; players: { seatId: string; roleId: string; originalRoleId?: string; team: string; mark?: string; artifact?: string | null; won: boolean; died: boolean }[]; center: {id: string; roleId: string}[]; timeline: {seatId: string; roleId: string; type: string; targets: string[]}[]; epic?: Localized | string } | null;
+  result?: { initialCards?: Record<string,string> | null; recap?: NightRecap[]; deaths: string[]; winners: string[]; counts: Record<string, number>; votes: Record<string, string>; players: { seatId: string; roleId: string; originalRoleId?: string; team: string; mark?: string; artifact?: string | null; won: boolean; died: boolean }[]; center: {id: string; roleId: string}[]; timeline: {seatId: string; roleId: string; type: string; targets: string[]; direction?: string}[]; epic?: Localized | string } | null;
   publicRules?: Localized[]; centerCount?: number;
   winner?: { text?: Localized; reason?: Localized } | null;
   centerCards?: {id: string; roleId?: string}[];

@@ -81,6 +81,9 @@ try {
   view=await command(players[0],'finishVote');
   assert.equal(view.status,'finished');assert.equal(view.result.players.length,players.length);
   assert.equal(Object.keys(view.result.votes).length,players.length);
+  assert.equal(Object.keys(view.result.initialCards).filter(id=>id.startsWith('center:')).length,view.centerCount);
+  assert.ok(view.result.recap.length>0);
+  assert.ok(view.result.recap.every(entry=>entry.seatId&&Array.isArray(entry.operations)&&Array.isArray(entry.changes)));
   view=await command(players[0],'rematch');assert.equal(view.status,'lobby');assert.equal(view.result,null);assert.equal(view.me.roleId,null);
   await command(players[0],'disbandRoom');cleaned=true;
   await assert.rejects(sync(players[1]),{code:'room-disbanded'});
