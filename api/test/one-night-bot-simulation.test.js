@@ -129,7 +129,7 @@ function simulate(board, seed) {
   host('finishVote');
   assert.equal(room.status, 'finished');
   assert.equal(room.result.players.length, board.players);
-  assert.equal(room.result.center.length, 3 + Number(board.roles.includes('alphaWolf')));
+  assert.equal(room.result.center.length, 3);
   assert.equal(Object.keys(room.votes).length, board.players);
   for (const player of room.result.players) {
     assert.equal(player.won, room.result.winners.includes(player.seatId));

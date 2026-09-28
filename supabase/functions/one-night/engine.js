@@ -36,6 +36,7 @@ function validateDeck(deck, n) {
     const masons = deck.filter(id => id === 'mason').length; if (masons === 1) fail('INVALID_DECK', 'Use both Mason cards or neither.');
     if (n < 3 || n > 16) fail('PLAYER_COUNT', 'One Night supports 3–16 players in this room.');
 }
+function centerWolf(room) { return ['center:0', 'center:1', 'center:2'].find(id => room.cards[id] && WOLVES.has(cardRole(room.cards[id])) && !room.shields.includes(id)); }
 function defaultDeck(n) { return ['werewolf', 'werewolf', 'seer', 'robber', 'troublemaker', ...['villager', 'villager', 'villager', 'drunk', 'insomniac', 'tanner', 'hunter', 'minion', 'sentinel', 'apprenticeSeer', 'witch', 'revealer', 'curator', 'bodyguard'].slice(0, n - 2)]; }
 function shuffle(list) { const out = [...list]; for (let i = out.length - 1; i > 0; i--) { const j = randomInt(i + 1); [out[i], out[j]] = [out[j], out[i]]; } return out; }
 function cardRole(card) { if (!card) return 'villager'; return card.transformedRoleId || card.copiedRoleId || card.roleId; }
@@ -136,10 +137,10 @@ function descriptor(room, seat) {
     if (role === 'drunk') return base(room.shields.includes(seat.id) ? 'Your card is shielded; continue without exchanging.' : 'Exchange with one center card without looking.', room.shields.includes(seat.id) ? '你的牌受到保护，无法交换，请继续。' : '与一张中央牌交换，不查看新牌。', room.shields.includes(seat.id) ? [] : ctx.centers(), room.shields.includes(seat.id) ? 0 : 1);
     if (role === 'insomniac') return base('Check your current card (unless shielded), then continue.', '查看自己的当前牌（受保护则不可查看），然后继续。');
     if (role === 'sentinel') return base('Shield one other player’s card.', '保护一位其他玩家的身份牌。', cards(others), 1, 1, true);
-    if (role === 'alphaWolf') { const ids = cards(others).filter(id => seat.copyMode === 'doppel' && room.phase.step === 'doppelganger' ? id !== seat.copySourceId : !WOLVES.has(getSeat(room, id).nightRoleId)); return base(ids.length ? 'Exchange the extra center wolf with a non-pack player.' : 'No unshielded non-pack target is available; continue.', ids.length ? '将额外中央狼人牌与一位非狼队友交换。' : '没有可交换的未受保护目标，请继续。', ids, ids.length ? 1 : 0); }
+    if (role === 'alphaWolf') { const source = centerWolf(room); const ids = source ? cards(others).filter(id => seat.copyMode === 'doppel' && room.phase.step === 'doppelganger' ? id !== seat.copySourceId : !WOLVES.has(getSeat(room, id).nightRoleId)) : []; return base(!source ? 'No wolf remains among the three center cards. Continue without converting anyone.' : ids.length ? 'Exchange a wolf from the three center cards with a non-pack player. No extra card is added.' : 'No unshielded non-pack target is available; continue.', !source ? '三张中央牌中已无狼人，不能转化其他玩家，请继续。' : ids.length ? '将三张中央牌中的一张狼人牌与非狼队友交换，不增加额外牌。' : '没有可交换的未受保护目标，请继续。', ids, ids.length ? 1 : 0); }
     if (role === 'witch') return data.center ? base('You must now give the inspected center card to a player.', '必须将刚查看的中央牌与一位玩家交换。', cards(all), 1, 1) : base('Inspect one center card; afterward you must exchange it.', '查看一张中央牌；查看后必须交换。', ctx.centers(), 1, 1, true);
     if (role === 'villageIdiot') return base('Rotate movable cards, skipping your card and shields.', '移动其他未受保护的玩家牌，跳过自己和受保护的牌。', [], 0, 0, true, choices([['clockwise', 'Clockwise', '顺时针'], ['counterclockwise', 'Counterclockwise', '逆时针']]));
-    if (role === 'revealer') return base('Inspect and reveal another card unless it is a wolf or Tanner.', '查看并公开另一位玩家的牌，狼人或皮匠除外。', cards(others).filter(id => !room.revealed.includes(id)), 1, 1, true);
+    if (role === 'revealer') return base('Choose any unshielded player, including a possible wolf. You privately inspect their card. Wolves and Tanner stay face down; other cards are revealed to everyone.', '可选择任何未被哨兵保护的玩家，包括可能是狼人的玩家。先私下查验：狼人和皮匠仅你可见，不公开翻牌；其他身份向全员公开。', cards(all), 1, 1, true);
     if (role === 'curator') return base('Give a random artifact to a player.', '给一位玩家随机神器。', cards(all).filter(id => !room.artifacts[id]), 1, 1, true);
     if (role === 'vampire') {
         const ids = all.filter(id => !VAMPIRES.has(getSeat(room, id).nightRoleId));
@@ -175,7 +176,7 @@ function copyRole(room, seat, targetCard, mode) {
     } else complete(room, seat);
 }
 function recapState(room) {
-    return Object.fromEntries(Object.entries(room.cards).map(([id, card]) => [id, { roleId: cardRole(card), mark: room.marks[id] || null, artifact: room.artifacts[id] || null, shielded: room.shields.includes(id) }]));
+    return Object.fromEntries(Object.entries(room.cards).map(([id, card]) => [id, { roleId: cardRole(card), mark: room.marks[id] || null, artifact: room.artifacts[id] || null, shielded: room.shields.includes(id), revealed: room.revealed.includes(id) }]));
 }
 function perform(room, seat, command) {
     const action = descriptor(room, seat), before = recapState(room), logStart = room.actionLog.length, clueStart = seat.knowledge.length;
@@ -213,10 +214,10 @@ function performAction(room, seat, command) {
     else if (role === 'drunk') { if (a) ctx.swapCards(seat.id, a); }
     else if (role === 'insomniac') { if (!room.shields.includes(seat.id)) ctx.inspectCard(seat.id); }
     else if (role === 'sentinel') room.shields.push(a);
-    else if (role === 'alphaWolf') { if (a) ctx.swapCards('center:3', a); }
+    else if (role === 'alphaWolf') { const source = centerWolf(room); if (a && source) ctx.swapCards(source, a); else ctx.learn('No conversion was performed; no extra wolf card was created.', '本次未转化玩家，也未增加狼人牌。'); }
     else if (role === 'witch') { if (!data.center) { ctx.inspectCard(a); data.center = a; return; } ctx.swapCards(data.center, a); }
     else if (role === 'villageIdiot') { const ids = ctx.players(false).filter(id => !room.shields.includes(id)); if (ids.length > 1) { const cards = ids.map(id => room.cards[id]); ids.forEach((id, i) => { const offset = command.choice === 'clockwise' ? ids.length - 1 : 1; room.cards[id] = cards[(i + offset) % ids.length]; }); room.actionLog.push({ seatId: seat.id, roleId: role, type: 'move', targets: ids, direction: command.choice }); room.nightState.viewedOrMoved ||= []; if (!room.nightState.viewedOrMoved.includes(seat.id)) room.nightState.viewedOrMoved.push(seat.id); } }
-    else if (role === 'revealer') { const card = ctx.inspectCard(a); if (!WOLVES.has(card.roleId) && card.roleId !== 'tanner') room.revealed.push(a); }
+    else if (role === 'revealer') { const card = ctx.inspectCard(a); if (!WOLVES.has(cardRole(card)) && cardRole(card) !== 'tanner') { if (!room.revealed.includes(a)) room.revealed.push(a); ctx.learn('This card was revealed to everyone.', '此身份牌已向所有玩家公开。'); } else ctx.learn('This card remains face down. Only you know the result.', '此身份牌保持背面朝上，只有你知道查验结果。'); }
     else if (role === 'curator') { const pool = room.settings.artifacts?.length ? room.settings.artifacts : ARTIFACTS; const available = pool.filter(x => !Object.values(room.artifacts).includes(x)); if (available.length) room.artifacts[a] = available[randomInt(available.length)]; }
     else if (role === 'vampire') { if (a) { data.target = a; const votes = room.nightActors.map(id => currentData(room, getSeat(room, id), role).target); if (!votes.every(v => v && v === a)) return; room.marks[a] = 'vampire'; } room.nightActors.forEach(id => complete(room, getSeat(room, id))); }
     else if (role === 'count') { if (a) room.marks[a] = 'fear'; }
@@ -269,7 +270,7 @@ function start(room, now) {
     room.roleDeck = [...deck]; const shuffled = shuffle(deck); room.gameId = randomUUID(); room.status = 'playing'; room.cards = {}; room.marks = {}; room.artifacts = {}; room.shields = []; room.revealed = []; room.actions = {}; room.nightState = {}; room.actionLog = []; room.nightRecap = []; room.initialCards = null; room.votes = {}; room.result = null; room.expansion = {};
     if (room.botState) room.botState.nextActionAt = now + BOT_ACTION_DELAY;
     room.seats.forEach((seat, i) => { const roleId = shuffled[i]; seat.number = i + 1; seat.originalRoleId = roleId; seat.nightRoleId = roleId; seat.originalCardId = null; seat.ready = false; seat.knowledge = []; delete seat.copyMode; delete seat.copySourceId; delete seat.doppelImmediate; delete seat.duskMark; room.cards[seat.id] = { id: randomUUID(), roleId }; seat.originalCardId = room.cards[seat.id].id; room.marks[seat.id] = 'clarity'; });
-    shuffled.slice(room.seats.length).forEach((roleId, i) => { room.cards[`center:${i}`] = { id: randomUUID(), roleId }; }); if (deck.includes('alphaWolf')) room.cards['center:3'] = { id: randomUUID(), roleId: 'werewolf' };
+    shuffled.slice(room.seats.length).forEach((roleId, i) => { room.cards[`center:${i}`] = { id: randomUUID(), roleId }; });
     room.initialCards = Object.fromEntries(Object.entries(room.cards).map(([id, card]) => [id, card.roleId]));
     phase(room, 'ready', 'ready', now); room.phase.cueIds = ['ready']; expansion.prepare?.(makeCtx(room, null, 'prepare')); room.schedule = schedule(room); room.nightIndex = 0; event(room, 'Read your role card and ready up.', '请查看身份牌并确认准备。', now);
 }

@@ -215,8 +215,8 @@
       "zh": "狼王"
     },
     "description": {
-      "en": "Recognize wolves, then exchange the extra center wolf with a non-pack player.",
-      "zh": "确认狼队友后，将额外中央狼人牌与非狼队友交换。"
+      "en": "House rule: exchange a wolf from the three existing center cards with a non-pack player. If none remains, do not convert anyone. Never add a fourth card.",
+      "zh": "房规：将现有三张中央牌中的狼人牌与非狼队友交换。中央无狼人则不转化；不会增加第四张牌。"
     },
     "icon": "🐺",
     "team": "wolf",
@@ -311,8 +311,8 @@
       "zh": "揭示者"
     },
     "description": {
-      "en": "Optionally reveal another card publicly unless it is a wolf or Tanner.",
-      "zh": "可公开另一位玩家的牌，但狼人或皮匠牌须重新盖回。"
+      "en": "Choose any player not protected by Sentinel. Inspect privately; reveal non-wolf, non-Tanner cards to everyone. Wolves and Tanner remain hidden.",
+      "zh": "可选择任意未被哨兵保护的玩家，先私下查验。若是狼人或皮匠，仅你知道且不公开；其他身份向全员翻牌。"
     },
     "icon": "☀️",
     "team": "village",

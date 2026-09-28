@@ -6,7 +6,7 @@ import type { Language, PlayerProfile } from "./RoomChrome";
 import { Portrait } from "./ProfilePhoto";
 import styles from "./shared.module.css";
 
-export type TableSeat = PlayerProfile & { id: string; number: number; status: string; mine?: boolean; offline?: boolean; dead?: boolean; winner?: boolean; speaking?: boolean; pending?: boolean; host?: boolean; sheriff?: boolean; isBot?: boolean; shielded?: boolean; hasArtifact?: boolean; detail?: string; silenced?: boolean };
+export type TableSeat = PlayerProfile & { id: string; number: number; status: string; mine?: boolean; dead?: boolean; winner?: boolean; speaking?: boolean; pending?: boolean; host?: boolean; sheriff?: boolean; isBot?: boolean; shielded?: boolean; hasArtifact?: boolean; detail?: string; silenced?: boolean };
 
 export function BotLabel({ lang, overlay = false }: { lang: Language; overlay?: boolean }) {
   const label = lang === "en" ? "Test bot" : "测试机器人";
@@ -29,7 +29,7 @@ export function PlayerTable({ seats, lang, center, onProfile }: { seats: TableSe
     {seats.map((seat, index) => {
       const angle = index * 2 * Math.PI / Math.max(1, seats.length) - Math.PI / 2;
       const position = large ? { gridColumn: index < rows ? 3 : 1, gridRow: index < rows ? index + 1 : seats.length - index } : { left: `${50 + 37 * Math.cos(angle)}%`, top: `${50 + 37 * Math.sin(angle)}%` };
-      return <div key={seat.id} style={position} className={[styles.seat,seat.mine && styles.mySeat,seat.dead && styles.deadSeat,seat.winner && styles.winnerSeat,seat.speaking && styles.speakingSeat,seat.offline && styles.offlineSeat,seat.pending && styles.pendingSeat].filter(Boolean).join(" ")}>
+      return <div key={seat.id} style={position} className={[styles.seat,seat.mine && styles.mySeat,seat.dead && styles.deadSeat,seat.winner && styles.winnerSeat,seat.speaking && styles.speakingSeat,seat.pending && styles.pendingSeat].filter(Boolean).join(" ")}>
         <div className={styles.portraitWrap}><button className={styles.avatar} disabled={!seat.mine} onClick={seat.mine ? onProfile : undefined} aria-label={t(`Seat ${seat.number}: ${seat.name}${seat.isBot ? ", test bot" : ""}${seat.mine ? ", change profile photo" : ""}`, `${seat.number}号：${seat.name}${seat.isBot ? "，测试机器人" : ""}${seat.mine ? "，更换头像" : ""}`)}><Portrait seat={seat}/>{seat.dead && <span className={styles.deadCross} aria-hidden="true">×</span>}{seat.host && <Crown size={15} className={styles.hostCrown} weight="fill"/>}</button>{seat.isBot && <BotLabel lang={lang} overlay/>}<span className={styles.seatNumber}>{seat.number}</span>{seat.sheriff && <Medal className={styles.sheriffBadge} size={20} weight="fill" aria-label={t("Sheriff badge", "警徽")}/>}{(seat.shielded || seat.hasArtifact) && <div className={styles.tokens}>{seat.shielded && <Shield size={15} weight="fill" aria-label={t("Shielded card", "身份牌有护盾")}/>} {seat.hasArtifact && <TreasureChest size={15} aria-label={t("Has a private artifact", "持有秘密神器")}/>}</div>}</div>
         <div className={styles.seatInfo}><strong title={seat.name}>{seat.name}</strong><span>{seat.status}</span>{seat.silenced && <small>{t("Silenced", "禁言中")}</small>}{seat.detail && <small>{seat.detail}</small>}</div>
       </div>;

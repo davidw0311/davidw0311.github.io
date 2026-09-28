@@ -13,7 +13,7 @@ export type Seat = { id: string; name: string; isBot?: boolean; number: number; 
 export type Phase = { id: string; kind: string; step?: string; roleId?: string; cueIds: string[]; deadline?: number | null; nightStage?: "opening" | "acting" | "closing" };
 export type Action = { review?: boolean; id: string; roleId: string; prompt: Localized; targets: { id: string; label: Localized }[]; min: number; max: number; canSkip: boolean; options?: { id: string; label: Localized }[] };
 export type Settings = { discussionSeconds?: number; [key: string]: unknown };
-export type RecapCard = { roleId: string; mark: string | null; artifact: string | null; shielded: boolean };
+export type RecapCard = { roleId: string; mark: string | null; artifact: string | null; shielded: boolean; revealed?: boolean };
 export type NightRecap = { seatId: string; roleId: string; operations: { type: string; targets: string[]; direction?: string }[]; changes: { id: string; before: RecapCard | null; after: RecapCard }[]; clues: Localized[]; skipped?: boolean; hostSkipped?: boolean };
 export type GameView = {
   bots?: { mode: "automatic" | "manual"; count: number };

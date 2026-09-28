@@ -19,7 +19,7 @@ test('initial deal includes every center card and stays private until finished',
  for(let i=1;i<3;i++)applyCommand(r,`a${i}`,{type:'requestJoin',name:`P${i}`},clock);
  applyCommand(r,'a0',{type:'configure',roleDeck:['alphaWolf','werewolf','seer','robber','troublemaker','villager']},clock);
  applyCommand(r,'a0',{type:'start'},clock);
- assert.equal(Object.keys(r.initialCards).length,7);assert.equal(r.initialCards['center:3'],'werewolf');
+ assert.equal(Object.keys(r.initialCards).length,6);assert.equal(r.initialCards['center:3'],undefined);
  const initial=structuredClone(r.initialCards);
  for(const actor of ['a0','a1']){const v=publicView(r,actor,clock);assert.equal(v.result,null);assert.equal(v.initialCards,undefined);assert.equal(v.nightRecap,undefined);assert.ok(v.centerCards.every(c=>!c.roleId));}
  const result=vote(r,[1,0,0]);assert.deepEqual(result.initialCards,initial);

@@ -8,7 +8,7 @@ import styles from "./shared.module.css";
 
 export type Language = "en" | "zh";
 export type PlayerProfile = { name: string; photo?: string | null };
-export type WaitingPlayer = { id: string; number: number; name: string; connected: boolean; isBot?: boolean };
+export type WaitingPlayer = { id: string; number: number; name: string; isBot?: boolean };
 
 export function Modal({ title, children, onClose, dismissOutside = true, className = "" }: { title: string; children: ReactNode; onClose: () => void; dismissOutside?: boolean; className?: string }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -36,7 +36,7 @@ export function StageBanner({ label, title, lang, decisions, children }: { label
   const ready = decisions?.kind === "ready";
   return <section className={styles.stageBanner}>
     <div className={styles.stageLine} role="status" aria-live="polite"><span>{label}</span><h1>{title}</h1>{decisions && <span className={styles.stageCount}>{Math.max(0, decisions.total - decisions.waiting.length)} / {decisions.total}<small>{ready ? t("ready", "已准备") : t("voted", "已投票")}</small></span>}</div>
-    {decisions && (decisions.waiting.length ? <details className={styles.pendingDisclosure}><summary><span>{ready ? t("Waiting for", "等待准备") : t("Still to vote", "等待投票")}</span><span className={styles.pendingSeatNumbers}>{decisions.waiting.map(seat => <b key={seat.id} title={seat.name}>{seat.number}</b>)}</span></summary><ul>{decisions.waiting.map(seat => <li key={seat.id}><b>{seat.number}</b><span>{seat.name}</span>{!seat.connected && !seat.isBot && <small>{t("offline", "离线")}</small>}</li>)}</ul></details> : <p className={styles.allDecisionsDone} role="status">{decisions.complete || (ready ? t("Everyone is ready · the host can begin", "全员已准备，房主可以开始") : t("Everyone has voted", "全员已投票"))}</p>)}
+    {decisions && (decisions.waiting.length ? <details className={styles.pendingDisclosure}><summary><span>{ready ? t("Waiting for", "等待准备") : t("Still to vote", "等待投票")}</span><span className={styles.pendingSeatNumbers}>{decisions.waiting.map(seat => <b key={seat.id} title={seat.name}>{seat.number}</b>)}</span></summary><ul>{decisions.waiting.map(seat => <li key={seat.id}><b>{seat.number}</b><span>{seat.name}</span></li>)}</ul></details> : <p className={styles.allDecisionsDone} role="status">{decisions.complete || (ready ? t("Everyone is ready · the host can begin", "全员已准备，房主可以开始") : t("Everyone has voted", "全员已投票"))}</p>)}
     {children && <div className={styles.stageDetails}>{children}</div>}
   </section>;
 }

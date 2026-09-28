@@ -113,7 +113,7 @@ test('Alpha and Mystic wolves close the pack turn before their separate abilitie
     assert.equal(publicView(room, 'p4', now).me.action, null);
     for (let index = 1; index < 4; index++) { act(room, `p${index}`); assert.equal(room.phase.nightStage, index === 3 ? 'closing' : 'acting'); }
     send(room, 'p0', 'narrationDone'); assert.equal(room.phase.step, 'alphaWolf'); assert.equal(room.phase.nightStage, 'opening'); assert.ok(room.seats.every(seat => !publicView(room, seat.actorId, now).me.action));
-    send(room, 'p0', 'narrationDone'); assert.deepEqual(room.nightActors, [room.seats[2].id]); act(room, 'p2', [room.seats[4].id]);
+    send(room, 'p0', 'narrationDone'); assert.deepEqual(room.nightActors, [room.seats[2].id]); assert.deepEqual(publicView(room,'p2',now).me.action.targets,[]); assert.equal(publicView(room,'p2',now).centerCount,3); act(room, 'p2');
     send(room, 'p0', 'narrationDone'); assert.equal(room.phase.step, 'mysticWolf'); send(room, 'p0', 'narrationDone'); assert.deepEqual(room.nightActors, [room.seats[3].id]);
 });
 test('copied Dream Wolf also sleeps through the shared wolf call', () => {

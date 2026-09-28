@@ -53,7 +53,7 @@ Game mechanics are implemented with original interface text and recordings. Publ
 
 One Night follows classic Werewolf’s seat strip, sticky stage banner, room tools, and clockwise table layout. Tables of up to six players use a circle; seven or more use an oval. On phones, the player’s current action appears before host controls and the table. The One Night center cards, public shields/artifacts, and private clue history remain available.
 
-**Current roles / 本局角色**, above the table in both games, opens the same public starting-deck viewer with quantities and expandable descriptions. It never shows player assignments or changes after swaps, transformations, or deaths. One Night includes three center cards in the configured deck; Alpha Wolf’s extra initial Werewolf center card and Temptress’s initial Henchman #7 reserve are explained separately. **My actions / 我的行动** opens the player’s private clues.
+**Current roles / 本局角色**, above the table in both games, opens the same public starting-deck viewer with quantities and expandable descriptions. It never shows player assignments or changes after swaps, transformations, or deaths. One Night includes three center cards in the configured deck; Alpha Wolf uses an existing wolf among those three center cards under the current house rule; Temptress’s initial Henchman #7 reserve is separate. **My actions / 我的行动** opens the player’s private clues.
 
 ## Test bots
 
@@ -67,7 +67,7 @@ Bots cannot become host. A host-approved human replacement keeps the seat and it
 
 ## Center swaps and night order
 
-This implementation uses an explicit center-swap house rule for Robber and Troublemaker. Robber may exchange their own unshielded card with another player or any center card, then see only the card received. Troublemaker may exchange any two different unshielded cards other than their own, including player/center or center/center, without viewing either. Alpha Wolf’s fourth center card is eligible; Temptress’s separate reserve is not. Copied abilities use the same legal targets, and either role can skip. Existing Kokoro role calls direct players to the screen and need no replacement.
+This implementation uses an explicit center-swap house rule for Robber and Troublemaker. Robber may exchange their own unshielded card with another player or any center card, then see only the card received. Troublemaker may exchange any two different unshielded cards other than their own, including player/center or center/center, without viewing either. Temptress’s separate reserve is not eligible. Copied abilities use the same legal targets, and either role can skip. Existing Kokoro role calls direct players to the screen and need no replacement.
 
 The **Night order / 夜间流程** switch in **Current roles / 本局角色** shows the public schedule and descriptions for the selected deck in both games. Classic first-night setup steps are labeled; copied-role calls and expansion steps remain public schedule entries regardless of who can act. No live actors, private decisions, deaths, or center-card identities are used to build this reference.
 
@@ -93,4 +93,12 @@ Tap your portrait in the top panel or at the table to choose an icon, upload a p
 
 ### End-of-round recap
 
-Finished rounds reveal the initial deal (including the extra Alpha Wolf center card), final identities, and an ordered night recap. The initial/final toggle updates the table, player cards, and center cards together; victory always uses final identities. Recaps group each action's swaps/checks, resulting role/mark/artifact/shield changes, and learned clues, with explicit voluntary and host skips. Initial cards and recaps are private room state until the final vote resolves and are cleared on restart/rematch. Older rounds without an initial center snapshot show it as unavailable. The discussion timer sits below the table so center cards remain visible.
+Finished rounds reveal the initial deal (including all three original center cards), final identities, and an ordered night recap. The initial/final toggle updates the table, player cards, and center cards together; victory always uses final identities. Recaps group each action's swaps/checks, resulting role/mark/artifact/shield changes, and learned clues, with explicit voluntary and host skips. Initial cards and recaps are private room state until the final vote resolves and are cleared on restart/rematch. Older rounds without an initial center snapshot show it as unavailable. The discussion timer sits below the table so center cards remain visible.
+
+### Revealer, Alpha Wolf and player-presence privacy
+
+Revealer may target any unshielded player, including itself and possible wolves. Target eligibility never depends on the hidden role. A wolf (including copied/transformed wolf identities) or Tanner stays face down, with the inspection visible only to the Revealer; other cards become public.
+
+Alpha Wolf now follows the requested three-center-card house rule: exchange an existing wolf card from center positions 1–3 with an eligible non-pack player. If no wolf remains in the center, acknowledge the turn without conversion. Dealing never creates a fourth center card. Older in-progress rounds retain their already-dealt cards, but Alpha Wolf only uses the original three center positions.
+
+Both games hide player online/offline labels, presence dimming, and connection hints in pending-player lists and host management. The device's own service-connection indicator remains for troubleshooting. Presence tracking still supports reconnects without exposing it in player UI. Final results show an expanded numbered recap and a persistent original-center-to-final comparison; starting snapshots unavailable in older rounds are labelled as such.

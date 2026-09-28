@@ -130,7 +130,7 @@ function simulate(preset, seed, options = {}) {
   assert.equal(room.status, 'finished'); assert.equal(room.result.players.length, count);
   const playerIds = new Set(room.seats.map(s => s.id));
   for (const list of [room.result.deaths, room.result.winners]) { assert.equal(new Set(list).size, list.length); assert.ok(list.every(id => playerIds.has(id))); }
-  assert.equal(room.result.center.length, 3 + Number(preset.roles.includes('alphaWolf')));
+  assert.equal(room.result.center.length, 3);
   room.result.players.forEach(p => { assert.equal(p.died, room.result.deaths.includes(p.seatId)); assert.equal(p.won, room.result.winners.includes(p.seatId)); });
   // Published large presets have no Bodyguard or artifact role-changing powers:
   // verify one real ballot per player, independently of winner implementation.
