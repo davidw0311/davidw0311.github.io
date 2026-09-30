@@ -1,5 +1,5 @@
 {
-  "audited": "2026-09-30",
+  "audited": "2026-10-01",
   "products": [
     {
       "id": "vicostone-bq6716",
@@ -115,7 +115,7 @@
       "id": "vicostone-bq6702",
       "company": "Vicostone",
       "code": "BQ6702",
-      "name": "\ufeffCosta Nova",
+      "name": "﻿Costa Nova",
       "family": "Quartz",
       "image": "https://vicostone.ca/-/media/map-da-t10-2024/bq6702-fullslab.jpg",
       "sourceUrl": "https://vicostone.ca/en/product/BQ6702",
@@ -155,7 +155,7 @@
       "id": "vicostone-bq8800",
       "company": "Vicostone",
       "code": "BQ8800",
-      "name": "\ufeffBettoglio",
+      "name": "﻿Bettoglio",
       "family": "Quartz",
       "image": "https://vicostone.ca/-/media/map-da-new-2025/bq8800-fullslab.jpg",
       "sourceUrl": "https://vicostone.ca/en/product/BQ8800",
@@ -335,7 +335,7 @@
       "id": "vicostone-bq8401",
       "company": "Vicostone",
       "code": "BQ8401",
-      "name": "\ufeffElbert",
+      "name": "﻿Elbert",
       "family": "Quartz",
       "image": "https://vicostone.ca/-/media/map-da-t10-2024/bq8401-fullslab.jpg",
       "sourceUrl": "https://vicostone.ca/en/product/BQ8401",
@@ -7479,6 +7479,720 @@
       "sourceUrl": "http://www.omniaquartz.com/eternal-full-body/terazio",
       "textureKind": "slab",
       "note": "Eternal Full Body collection"
+    },
+    {
+      "id": "rh-stones-rh5001",
+      "company": "RH Stones",
+      "code": "RH5001",
+      "name": "RH5001",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5001-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5002",
+      "company": "RH Stones",
+      "code": "RH5002",
+      "name": "RH5002",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5002-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5003",
+      "company": "RH Stones",
+      "code": "RH5003",
+      "name": "RH5003",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5003-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5006",
+      "company": "RH Stones",
+      "code": "RH5006",
+      "name": "RH5006",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5006-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5007",
+      "company": "RH Stones",
+      "code": "RH5007",
+      "name": "RH5007",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5007-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5008",
+      "company": "RH Stones",
+      "code": "RH5008",
+      "name": "RH5008",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5008-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5009",
+      "company": "RH Stones",
+      "code": "RH5009",
+      "name": "RH5009",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5009-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5010",
+      "company": "RH Stones",
+      "code": "RH5010",
+      "name": "RH5010",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5010-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5012",
+      "company": "RH Stones",
+      "code": "RH5012",
+      "name": "RH5012",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5012-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5015",
+      "company": "RH Stones",
+      "code": "RH5015",
+      "name": "RH5015",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5015-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5016",
+      "company": "RH Stones",
+      "code": "RH5016",
+      "name": "RH5016",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh5016-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5018",
+      "company": "RH Stones",
+      "code": "RH5018",
+      "name": "RH5018",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2025/01/5018-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5019",
+      "company": "RH Stones",
+      "code": "RH5019",
+      "name": "RH5019",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2025/01/5019-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5020",
+      "company": "RH Stones",
+      "code": "RH5020",
+      "name": "RH5020",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2025/01/5020-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5021",
+      "company": "RH Stones",
+      "code": "RH5021",
+      "name": "RH5021",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2025/01/5021-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5022",
+      "company": "RH Stones",
+      "code": "RH5022",
+      "name": "RH5022",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2025/01/5022-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh5025",
+      "company": "RH Stones",
+      "code": "RH5025",
+      "name": "RH5025",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2025/01/12345.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8001",
+      "company": "RH Stones",
+      "code": "RH8001",
+      "name": "RH8001",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8001-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8002",
+      "company": "RH Stones",
+      "code": "RH8002",
+      "name": "RH8002",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8002-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8005",
+      "company": "RH Stones",
+      "code": "RH8005",
+      "name": "RH8005",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8005.jpg",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "detail",
+      "note": "Official Stones collection · supplier photograph"
+    },
+    {
+      "id": "rh-stones-rh8010",
+      "company": "RH Stones",
+      "code": "RH8010",
+      "name": "RH8010",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8010-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8011",
+      "company": "RH Stones",
+      "code": "RH8011",
+      "name": "RH8011",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8011-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8012",
+      "company": "RH Stones",
+      "code": "RH8012",
+      "name": "RH8012",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8012-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8014",
+      "company": "RH Stones",
+      "code": "RH8014",
+      "name": "RH8014",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8014-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8021",
+      "company": "RH Stones",
+      "code": "RH8021",
+      "name": "RH8021",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8021-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8022",
+      "company": "RH Stones",
+      "code": "RH8022",
+      "name": "RH8022",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8022-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh8023",
+      "company": "RH Stones",
+      "code": "RH8023",
+      "name": "RH8023",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh8023-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh9001",
+      "company": "RH Stones",
+      "code": "RH9001",
+      "name": "RH9001",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh9001-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh9002",
+      "company": "RH Stones",
+      "code": "RH9002",
+      "name": "RH9002",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh9002-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh9003",
+      "company": "RH Stones",
+      "code": "RH9003",
+      "name": "RH9003",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh9003-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh9006",
+      "company": "RH Stones",
+      "code": "RH9006",
+      "name": "RH9006",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh9006-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh9008",
+      "company": "RH Stones",
+      "code": "RH9008",
+      "name": "RH9008",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh9008-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh9009",
+      "company": "RH Stones",
+      "code": "RH9009",
+      "name": "RH9009",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh9009-3.png",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "slab",
+      "note": "Official Stones collection · supplier photograph",
+      "crop": {
+        "left": 0.053,
+        "top": 0.152,
+        "width": 0.388,
+        "height": 0.274
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh1011",
+      "company": "RH Stones",
+      "code": "RH1011",
+      "name": "RH1011",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh1011.jpg",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "detail",
+      "note": "Official Stones collection · supplier photograph"
+    },
+    {
+      "id": "rh-stones-rh1012",
+      "company": "RH Stones",
+      "code": "RH1012",
+      "name": "RH1012",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh1012_cropped.jpg",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "detail",
+      "note": "Official Stones collection · supplier photograph"
+    },
+    {
+      "id": "rh-stones-rh1026",
+      "company": "RH Stones",
+      "code": "RH1026",
+      "name": "RH1026",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh1026.jpg",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "detail",
+      "note": "Official Stones collection · supplier photograph"
+    },
+    {
+      "id": "rh-stones-rh1029",
+      "company": "RH Stones",
+      "code": "RH1029",
+      "name": "RH1029",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh1029.jpg",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "detail",
+      "note": "Official Stones collection · supplier photograph"
+    },
+    {
+      "id": "rh-stones-rh2012",
+      "company": "RH Stones",
+      "code": "RH2012",
+      "name": "RH2012",
+      "family": "Stone",
+      "image": "https://rhstones.com/wp-content/uploads/2023/08/rh2012.jpg",
+      "sourceUrl": "https://rhstones.com/stones/",
+      "textureKind": "detail",
+      "note": "Official Stones collection · supplier photograph"
+    },
+    {
+      "id": "rh-stones-rh7001",
+      "company": "RH Stones",
+      "code": "RH7001",
+      "name": "RH7001",
+      "family": "Printed quartz",
+      "image": "https://rhstones.com/wp-content/uploads/2025/06/rh7001-3.png",
+      "sourceUrl": "https://rhstones.com/printed-quartz/",
+      "textureKind": "slab",
+      "note": "Full body printed quartz · official supplier photograph",
+      "crop": {
+        "left": 0.05,
+        "top": 0.589541547277937,
+        "width": 0.5866666666666667,
+        "height": 0.29011461318051573
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh7002",
+      "company": "RH Stones",
+      "code": "RH7002",
+      "name": "RH7002",
+      "family": "Printed quartz",
+      "image": "https://rhstones.com/wp-content/uploads/2025/06/rh7002-3.png",
+      "sourceUrl": "https://rhstones.com/printed-quartz/",
+      "textureKind": "slab",
+      "note": "Full body printed quartz · official supplier photograph",
+      "crop": {
+        "left": 0.05,
+        "top": 0.5892857142857143,
+        "width": 0.5866666666666667,
+        "height": 0.2892857142857143
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh7003",
+      "company": "RH Stones",
+      "code": "RH7003",
+      "name": "RH7003",
+      "family": "Printed quartz",
+      "image": "https://rhstones.com/wp-content/uploads/2025/06/rh7003-3.png",
+      "sourceUrl": "https://rhstones.com/printed-quartz/",
+      "textureKind": "slab",
+      "note": "Full body printed quartz · official supplier photograph",
+      "crop": {
+        "left": 0.05,
+        "top": 0.5906148867313916,
+        "width": 0.5866666666666667,
+        "height": 0.2872168284789644
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
+    },
+    {
+      "id": "rh-stones-rh7005",
+      "company": "RH Stones",
+      "code": "RH7005",
+      "name": "RH7005",
+      "family": "Printed quartz",
+      "image": "https://rhstones.com/wp-content/uploads/2025/06/rh7005-3.png",
+      "sourceUrl": "https://rhstones.com/printed-quartz/",
+      "textureKind": "slab",
+      "note": "Full body printed quartz · official supplier photograph",
+      "crop": {
+        "left": 0.05,
+        "top": 0.5946601941747572,
+        "width": 0.5866666666666667,
+        "height": 0.279126213592233
+      },
+      "processing": "Rectangular slab photograph extracted from the supplier brochure; room imagery, text and borders excluded."
     }
   ]
 }

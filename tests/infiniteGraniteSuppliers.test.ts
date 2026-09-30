@@ -14,7 +14,7 @@ test('each audited supplier design has its own optimized, verified local photogr
  assert.equal(new Set(MATERIALS.map(m=>m.id)).size,MATERIALS.length);
  assert.deepEqual(audit.failures,[]);
  assert.equal(audit.products.length,sources.length);
- for(const company of ['Vicostone','HanStone','Fir Stone','KASA Quartz','Omnia Quartz'])assert.ok(MATERIAL_COMPANIES.includes(company));
+ for(const company of ['Vicostone','HanStone','Fir Stone','KASA Quartz','Omnia Quartz','RH Stones'])assert.ok(MATERIAL_COMPANIES.includes(company));
  for(const source of sources){
   const material=MATERIALS.find(m=>m.id===source.id);assert.ok(material,source.id);
   const p=audit.products.find((p:{id:string})=>p.id===source.id);assert.ok(p);
@@ -49,4 +49,24 @@ test('retired finishes migrate saved rooms and colours without mutating imported
  assert.equal(restoreShowcase({...INITIAL,material:'absolute',lower:'#123456'})?.lower,'#123456');
  assert.equal(restoreShowcase({...INITIAL,material:'absolute'})?.material,DEFAULT_MATERIAL);
  assert.equal(resolveMaterialId('not-a-material'),null);assert.equal(parseDesign({...original,countertop:'not-a-material'}),null);
+});
+
+test('RH Stones includes every published slab code and excludes the ceramic sinks',()=>{
+ const expected=[1011,1012,1026,1029,2012,5001,5002,5003,5006,5007,5008,5009,5010,5012,5015,5016,5018,5019,5020,5021,5022,5025,7001,7002,7003,7005,8001,8002,8005,8010,8011,8012,8014,8021,8022,8023,9001,9002,9003,9006,9008,9009].map(n=>`RH${n}`);
+ const rh=filterMaterials('','RH Stones');assert.deepEqual(rh.map(m=>m.code),expected);
+ for(const query of ['RH7005','rh 7005','RH-7005'])assert.equal(filterMaterials(query,'RH Stones')[0]?.id,'rh-stones-rh7005');
+ assert.equal(rh.filter(m=>m.family==='Printed quartz').length,4);
+ assert.equal(rh.filter(m=>m.textureKind==='detail').length,6);
+ assert.ok(!rh.some(m=>['RH1611','RH1812','RH1813'].includes(m.code)));
+ const mapped=audit.products.find((p:{id:string})=>p.id==='rh-stones-rh5025');
+ assert.equal(mapped.originalImageUrl,'https://rhstones.com/wp-content/uploads/2025/01/12345.png');
+ for(const m of rh){
+  const p=audit.products.find((p:{id:string})=>p.id===m.id);
+  assert.match(m.sourceUrl!,/^https:\/\/rhstones\.com\/(stones|printed-quartz)\/$/);
+  if(m.textureKind==='slab'){
+   assert.ok(p.crop.left>0&&p.crop.top>0&&p.crop.width<p.sourceWidth&&p.crop.height<p.sourceHeight);
+   assert.ok(p.crop.left+p.crop.width<=p.sourceWidth&&p.crop.top+p.crop.height<=p.sourceHeight);
+   assert.match(p.processing,/slab photograph extracted/);
+  }
+ }
 });

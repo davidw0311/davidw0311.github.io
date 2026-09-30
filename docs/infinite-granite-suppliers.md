@@ -1,6 +1,6 @@
 # InfiniteGranite supplier catalogue
 
-Audit date: 30 September 2026. These are published designs, not an inventory feed.
+Audit dates: 30 September 2026; RH Stones added 1 October 2026. These are published designs, not an inventory feed.
 
 | Supplier | Designs | Public catalogue |
 | --- | ---: | --- |
@@ -9,9 +9,10 @@ Audit date: 30 September 2026. These are published designs, not an inventory fee
 | Fir Stone | 392 | https://www.fir-stone.com/ — quartz, granite, marble, quartzite, porcelain collection pages |
 | KASA Quartz | 145 | https://www.kasaquartzvan.ca/catalogue |
 | Omnia Quartz | 74 product pages | http://www.omniaquartz.com/ — all six collections |
+| RH Stones | 42 (38 stone, 4 printed quartz) | https://rhstones.com/stones/ and https://rhstones.com/printed-quartz/ |
 | TCE Stone | 97 retained | Existing audited TCE collection |
 
-RH Stones is **not imported yet**: its live catalogue requires a human verification check. Its publicly indexed stone/printed-quartz/ceramic listings were inspected, but without verifiable image access they are not presented as usable texture selections. Finish this import after the user completes the check or supplies the official catalogue assets. Do not substitute generated textures.
+RH Stones' complete published slab range is imported. Its Ceramics section was also inspected: RH1611, RH1812 and RH1813 are ceramic sinks, so they are excluded from countertop selections. The general Stones range retains the supplier's broad category rather than guessing its composition.
 
 The 68 Canadian Vicostone records replace the older 214-product global list. Some Canadian names differ for the same code. Retired global IDs and the eight removed Studio presets migrate to Vicostone BQ8788 while preserving room geometry and other finishes. Internal procedural wood, plaster, marble and slate **room** textures remain separate from the selectable slab catalogue.
 
@@ -21,6 +22,8 @@ The 68 Canadian Vicostone records replace the older 214-product global list. Som
 
 Run `node scripts/generate-supplier-catalogues.mjs` after updating the source audit. This generates optimized WebP textures and thumbnails, a provenance/hash manifest and `supplierMaterials.ts`. Downloads are cached outside the repo by source URL hash. Failed downloads are reported and cause a nonzero exit; they must not be silently replaced with invented patterns.
 
-Supplier photos can include presentation margins, printed labels or warehouse backgrounds. Fir images are trimmed and sampled from the stone field; explicit crop overrides handle near-white presentation boards. Omnia OQ277/OQ288/OQ381 use the clean slab photos from their product galleries. Pattern scale is approximate; detail images are labeled. The manifest records processing, source dimensions and final texture hashes. Product-source links and photographer attribution remain in the picker.
+Supplier photos can include presentation margins, printed labels or warehouse backgrounds. Fir images are trimmed and sampled from the stone field; explicit crop overrides handle near-white presentation boards. Omnia OQ277/OQ288/OQ381 use the clean slab photos from their product galleries. RH Stones brochure images use individually audited rectangular crops of the slab photograph, excluding logos, room scenes and labels. Its six standalone swatches are labeled detail photographs. Pattern scale is approximate; detail images are labeled. The manifest records processing, source dimensions and final texture hashes. Product-source links and photographer attribution remain in the picker.
 
 The shared picker supports company filtering and punctuation-insensitive code/name/family searches in Room Planner, Slab Studio and Kitchen Flyover. Only visible swatches load initially; full-resolution textures load when selected. New assets total approximately 66 MB on disk, not per page load.
+
+RH Stones requires a verified browser session for image downloads. After a user completes its human verification, open the public product galleries and use the browser asset export to download the linked photographs. Copy each downloaded original into `/tmp/infinite-granite-supplier-images/` using the SHA-256 of its exact original URL as the filename, then run the generator. Never copy browser cookies into the repository or bypass a fresh verification challenge. All 42 photos were downloaded this way on 1 October 2026.
