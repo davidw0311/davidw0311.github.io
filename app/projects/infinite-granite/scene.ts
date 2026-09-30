@@ -1,3 +1,4 @@
+import type { Lighting } from './flyover/model';
 import { FLOOR_FINISHES } from './roomFinishes';
 import { gridDirection } from './editActions';
 import type { Cell, CellTarget } from './cellLayout';
@@ -17,6 +18,8 @@ export interface KitchenScene {
   view: (mode: ViewMode) => void;
   zoom: (factor: number) => void;
   orbit: (angle: number) => void;
+  frame: (position: [number, number, number], target: [number, number, number]) => void;
+  lighting: (settings: Lighting) => void;
   shiftVector: (horizontal:number,vertical:number) => {x:number;z:number};
   screenshot: () => string;
   dispose: () => void;
@@ -59,13 +62,14 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   initializationCleanup.push(() => envMap.dispose());
   scene.environment = envMap.texture; scene.environmentIntensity = .7;
   environment.dispose(); pmrem.dispose();
-  scene.add(new THREE.HemisphereLight('#f5f8ff', '#807767', .8));
+  const ambient = new THREE.HemisphereLight('#f5f8ff', '#807767', .8); scene.add(ambient);
   const sun = new THREE.DirectionalLight('#fff6e9', 2.8); sun.position.set(-120, 300, 150); sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048); sun.shadow.camera.left = -250; sun.shadow.camera.right = 250; sun.shadow.camera.top = 250; sun.shadow.camera.bottom = -250;
   sun.shadow.camera.near = 1; sun.shadow.camera.far = 800; sun.shadow.normalBias = .09; sun.shadow.bias = -.00008; sun.shadow.radius = 3.5;
   scene.add(sun);
   initializationCleanup.push(() => sun.shadow.dispose());
   const fill = new THREE.DirectionalLight('#e5efff', .65); fill.position.set(220, 160, -130); scene.add(fill);
+  const taskLights: THREE.PointLight[] = [];
   const model = new THREE.Group(); scene.add(model);
   const textures = new Map<string, CachedTexture>();
   const activeTextureIds = new Set<string>();
@@ -412,7 +416,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       const tile=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1,cell.width-2),Math.max(1,cell.depth-2)),new THREE.MeshBasicMaterial({color:'#3aad87',transparent:true,opacity:.45,depthTest:false,depthWrite:false,side:THREE.DoubleSide}));
       tile.rotation.x=-Math.PI/2;tile.position.set(cell.x,1,cell.z);tile.renderOrder=10;tile.userData.cell={row:cell.row,column:cell.column};model.add(tile);cellPickables.push(tile);
     }
-    renderer.domElement.style.cursor=options.placementCells?'crosshair':'grab';
+    renderer.domElement.style.cursor=!controls.enabled?'default':options.placementCells?'crosshair':'grab';
     trimTextureCache(); textureStatus(); startTextureLoads();
     renderer.shadowMap.needsUpdate = true; render();
   }
@@ -432,18 +436,46 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   const pointerCancel=(event:PointerEvent)=>{pointers.delete(event.pointerId);down=null;};
   const pointerUp=(event:PointerEvent)=>{
     pointers.delete(event.pointerId);
+    if(!controls.enabled)return;
     if(!down||down.id!==event.pointerId||pointers.size>0||Math.hypot(event.clientX-down.x,event.clientY-down.y)>5){down=null;return;}down=null;
     const rect=renderer.domElement.getBoundingClientRect();pointer.set((event.clientX-rect.left)/rect.width*2-1,-(event.clientY-rect.top)/rect.height*2+1);
     raycaster.setFromCamera(pointer,camera);if(options.placementCells){const hit=raycaster.intersectObjects(cellPickables,false)[0];if(hit)onPlaceCell(hit.object.userData.cell);return;}const hit=raycaster.intersectObjects(pickables,false)[0];onSelect(hit?.object.userData.componentId??null);
   };
   const zoom=(factor:number)=>{if(disposed)return;const delta=camera.position.clone().sub(controls.target);delta.multiplyScalar(factor).clampLength(controls.minDistance,controls.maxDistance);camera.position.copy(controls.target).add(delta);controls.update();render();};
   const orbit=(angle:number)=>{if(disposed)return;const delta=camera.position.clone().sub(controls.target);delta.applyAxisAngle(new THREE.Vector3(0,1,0),angle);camera.position.copy(controls.target).add(delta);controls.update();render();};
-  const keyDown=(e:KeyboardEvent)=>{if(['ArrowLeft','ArrowRight','+','=','-','0'].includes(e.key)){e.preventDefault();if(e.key==='ArrowLeft')orbit(-.15);else if(e.key==='ArrowRight')orbit(.15);else if(e.key==='0')view(viewMode);else zoom(e.key==='-'?1.1:.9);}};
+  const keyDown=(e:KeyboardEvent)=>{if(!controls.enabled)return;if(['ArrowLeft','ArrowRight','+','=','-','0'].includes(e.key)){e.preventDefault();if(e.key==='ArrowLeft')orbit(-.15);else if(e.key==='ArrowRight')orbit(.15);else if(e.key==='0')view(viewMode);else zoom(e.key==='-'?1.1:.9);}};
   const lost=(e:Event)=>{e.preventDefault();onError('The 3D view was paused by your device. Reload the view to continue with your current design.');};
   renderer.domElement.addEventListener('pointercancel',pointerCancel);renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('pointerup',pointerUp);renderer.domElement.addEventListener('keydown',keyDown);renderer.domElement.addEventListener('webglcontextlost',lost);
   initializationCleanup.push(() => { disposed = true; });
   resize();view('perspective');
-  return {update,view,zoom,orbit,shiftVector:(horizontal,vertical)=>{const forward=controls.target.clone().sub(camera.position);forward.y=0;if(forward.length()<.01)forward.set(0,0,-1);forward.normalize();return gridDirection(forward.x,forward.z,horizontal,vertical);},screenshot:()=>{if(disposed)return '';render();return renderer.domElement.toDataURL('image/png');},dispose:()=>{
+  const frame = (position: [number, number, number], target: [number, number, number]) => {
+    if (disposed) return;
+    if (controls.enabled) {
+      controls.enabled = false;
+      renderer.domElement.style.cursor = 'default';
+      renderer.domElement.style.touchAction = 'auto';
+      renderer.domElement.setAttribute('aria-label', 'Kitchen Flyover. A live 3D kitchen with a looping camera. Use the pause and finish controls beside the view.');
+    }
+    controls.target.set(...target); camera.position.set(...position); camera.lookAt(controls.target); render();
+  };
+  const lighting = ({ mode, brightness, warmth }: Lighting) => {
+    if (disposed) return;
+    // Keep the planner's original light set; add task lights only for the flyover.
+    if (!taskLights.length) for (const x of [-75, 0, 75]) { const light = new THREE.PointLight('#ffcf8c', 0, 100, 2); light.position.set(x, 54, -78); scene.add(light); taskLights.push(light); }
+    const night = mode === 'night';
+    ambient.intensity = night ? .2 : .8;
+    ambient.color.set(night ? '#90a6cc' : '#f5f8ff');
+    sun.color.copy(new THREE.Color('#fff7ec').lerp(new THREE.Color('#ffc074'), warmth));
+    sun.intensity = night ? .6 : 2.8;
+    fill.color.set(night ? '#ffcc91' : '#e5efff'); fill.intensity = night ? .85 : .65;
+    scene.environmentIntensity = night ? .22 : .7;
+    scene.background = new THREE.Color(night ? '#171d28' : current?.backgroundColor ?? '#e9e5dc');
+    renderer.toneMappingExposure = (night ? .8 : .95) * brightness;
+    for (const light of taskLights) { light.intensity = night ? 220 : 25; light.color.copy(sun.color); }
+    model.traverse(object => { if (object instanceof THREE.Mesh && object.material instanceof THREE.MeshStandardMaterial && object.material.emissive.getHex() === 0xa2cbd3) { object.material.color.set(night ? '#27384b' : '#d6e8e8'); object.material.emissiveIntensity = night ? .01 : .15; } });
+    render();
+  };
+  return {update,view,zoom,orbit,frame,lighting,shiftVector:(horizontal,vertical)=>{const forward=controls.target.clone().sub(camera.position);forward.y=0;if(forward.length()<.01)forward.set(0,0,-1);forward.normalize();return gridDirection(forward.x,forward.z,horizontal,vertical);},screenshot:()=>{if(disposed)return '';render();return renderer.domElement.toDataURL('image/png');},dispose:()=>{
     if(disposed)return;
     disposed=true;observer.disconnect();controls.removeEventListener('change',render);controls.dispose();
     renderer.domElement.removeEventListener('pointercancel',pointerCancel);renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('keydown',keyDown);renderer.domElement.removeEventListener('webglcontextlost',lost);

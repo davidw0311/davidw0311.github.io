@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
+import ViewNavigation from '../ViewNavigation';
 import {ArrowLeft,DownloadSimple,ArrowClockwise,Sun,Moon,Check} from '@phosphor-icons/react';
 import MaterialPicker from '../MaterialPicker';
 import {ColorPicker} from '../FinishControls';
@@ -22,7 +23,7 @@ export default function Showcase(){
  const change=(patch:Partial<ShowcaseDesign>)=>{setBusy(true);setError('');setDesign(d=>({...d,...patch}));};
  async function download(){if(!canvas.current||busy||error)return;const blob=await new Promise<Blob|null>(resolve=>canvas.current!.toBlob(resolve,'image/png'));if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`InfiniteGranite-${selected.code.replace(/\s+/g,'-')}-${design.lighting}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  return <main className={`${shared.studio} ${styles.page}`}>
-  <header className={styles.header}><Link href="/projects/infinite-granite/" className={styles.back}><ArrowLeft size={18}/>InfiniteGranite</Link><div className={styles.title}><h1>Slab Studio</h1><span>A closer look at your countertop.</span></div><button className={styles.lightToggle} aria-label={design.lighting==='day'?'Switch to nighttime':'Switch to daytime'} aria-pressed={design.lighting==='night'} title={design.lighting==='day'?'Switch to nighttime':'Switch to daytime'} onClick={()=>change({lighting:design.lighting==='day'?'night':'day'})}>{design.lighting==='day'?<Sun size={20}/>:<Moon size={20}/>}<span>{design.lighting==='day'?'Day':'Night'}</span></button><Link className={styles.plannerLink} href="/projects/infinite-granite/">Open room planner ↗</Link></header>
+  <header className={styles.header}><Link href="/projects/infinite-granite/" className={styles.back}><ArrowLeft size={18}/>InfiniteGranite</Link><div className={styles.title}><h1>Slab Studio</h1><span>A closer look at your countertop.</span></div><button className={styles.lightToggle} aria-label={design.lighting==='day'?'Switch to nighttime':'Switch to daytime'} aria-pressed={design.lighting==='night'} title={design.lighting==='day'?'Switch to nighttime':'Switch to daytime'} onClick={()=>change({lighting:design.lighting==='day'?'night':'day'})}>{design.lighting==='day'?<Sun size={20}/>:<Moon size={20}/>}<span>{design.lighting==='day'?'Day':'Night'}</span></button></header><ViewNavigation current="showcase"/>
   <div className={styles.workspace}>
    <section className={styles.preview} aria-label="Fixed kitchen preview">
     <div className={styles.picture} aria-busy={busy}>
