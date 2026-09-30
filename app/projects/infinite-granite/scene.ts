@@ -1,3 +1,8 @@
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { addShowroomDetails, showroomTextures } from './flyover/showroom';
 import type { Lighting } from './flyover/model';
 import { FLOOR_FINISHES } from './roomFinishes';
 import { gridDirection } from './editActions';
@@ -12,7 +17,7 @@ import { defaultWalls, fitOpenings, WALL_SIDES, wallLength, cutOpenings, backspl
 import { countertopGeometry } from './sceneGeometry';
 
 export type ViewMode = 'perspective' | 'top' | 'front';
-export interface SceneOptions { selectedIds?:string[]; placementCells?: CellTarget[]; selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
+export interface SceneOptions { showroom?: boolean; selectedIds?:string[]; placementCells?: CellTarget[]; selected: string | null; walls: boolean; dimensions: boolean; hidden?: string[]; hideUppers?: boolean; hideAppliances?: boolean; hideBacksplash?: boolean; hideWindows?: boolean; }
 export interface KitchenScene {
   update: (design: KitchenDesign, options: SceneOptions) => void;
   view: (mode: ViewMode) => void;
@@ -70,6 +75,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   initializationCleanup.push(() => sun.shadow.dispose());
   const fill = new THREE.DirectionalLight('#e5efff', .65); fill.position.set(220, 160, -130); scene.add(fill);
   const taskLights: THREE.PointLight[] = [];
+  const pendantLights: THREE.SpotLight[] = [];
   const model = new THREE.Group(); scene.add(model);
   const textures = new Map<string, CachedTexture>();
   const activeTextureIds = new Set<string>();
@@ -80,7 +86,35 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   let lastTextureStatus: string | null = null;
   let current: KitchenDesign; let options: SceneOptions; let viewMode: ViewMode = 'perspective'; let disposed = false;
   let pickables: THREE.Object3D[] = []; let cellPickables: THREE.Object3D[] = [];
-  const render = () => { if (!disposed) renderer.render(scene, camera); };
+  let composer: EffectComposer | null = null;
+  let occlusion: SSAOPass | null = null;
+  let surfaces: ReturnType<typeof showroomTextures> | null = null;
+  const releaseShowroom = () => { composer?.passes.forEach(pass => pass.dispose()); composer?.dispose(); pendantLights.forEach(light => light.shadow.dispose()); occlusion?.ssaoMaterial.dispose(); occlusion?.noiseTexture?.dispose(); surfaces?.dispose(); };
+  initializationCleanup.push(releaseShowroom);
+  const render = () => { if (!disposed) { if (composer) composer.render(); else renderer.render(scene, camera); } };
+  function sizeComposer(width: number, height: number) {
+    composer?.setSize(width, height);
+    // AO uses CSS resolution rather than retina resolution to keep mobile playback light.
+    occlusion?.setSize(Math.round(width), Math.round(height));
+  }
+  function enableShowroom() {
+    if (composer) return;
+    surfaces = showroomTextures();
+    const island = current.components.find(c => c.kind === 'island');
+    if (island) for (const offset of [-25, 25]) {
+      const light = new THREE.SpotLight('#ffdcac', 80, 120, .9, .7, 2);
+      light.position.set(island.x + offset, 81, island.z); light.target.position.set(island.x + offset, 34, island.z);
+      light.castShadow = true; light.shadow.mapSize.set(512, 512); light.shadow.camera.near = 1; light.shadow.camera.far = 120; light.shadow.normalBias = .08;
+      scene.add(light, light.target); pendantLights.push(light);
+    }
+    composer = new EffectComposer(renderer);
+    composer.renderTarget1.samples = composer.renderTarget2.samples = Math.min(4, renderer.capabilities.maxSamples);
+    composer.addPass(new RenderPass(scene, camera));
+    occlusion = new SSAOPass(scene, camera, 512, 512, 24);
+    occlusion.kernelRadius = 2.5; occlusion.minDistance = .00025; occlusion.maxDistance = .012;
+    composer.addPass(occlusion); composer.addPass(new OutputPass());
+    sizeComposer(host.clientWidth, host.clientHeight);
+  }
   controls.addEventListener('change', render);
   let previousAspect: number | null = null;
   const resize = () => {
@@ -96,7 +130,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       camera.position.copy(controls.target).add(delta);
     }
     previousAspect = aspect;
-    renderer.setSize(width, height); camera.aspect = aspect; camera.updateProjectionMatrix(); controls.update(); render();
+    renderer.setSize(width, height); camera.aspect = aspect; camera.updateProjectionMatrix(); sizeComposer(width, height); controls.update(); render();
   };
   const observer = new ResizeObserver(resize);
   initializationCleanup.push(() => observer.disconnect()); observer.observe(host);
@@ -220,7 +254,8 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   function cupboard(parent: THREE.Object3D, c: KitchenComponent, color: string, yBase: number, height: number) {
     const { width: w, depth: d } = c;
     if(c.closedCorner){box(parent,w-.3,height,d-.3,0,yBase+height/2,0,mat(color,.48));return;}
-    const body = color === '#b78d60' ? stone('butcher') : mat(color, .48); const inner = mat(new THREE.Color(color).multiplyScalar(.8).getStyle(), .6);
+    const body = color === '#b78d60' ? stone('butcher') : mat(color, options.showroom ? .35 : .48); const inner = mat(new THREE.Color(color).multiplyScalar(options.showroom ? .94 : .8).getStyle(), options.showroom ? .48 : .6);
+    if (surfaces) { body.bumpMap = inner.bumpMap = surfaces.plaster; body.bumpScale = inner.bumpScale = .003; }
     const metal = mat(FINISHES.find(f => f.id === current.hardware)!.color, .28, current.hardware === 'black' ? .25 : .8);
     const toe = c.kind === 'upper' ? 0 : 4;
     // Hollow carcass leaves the sink bowl visible below its cutout.
@@ -299,7 +334,8 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   function appliance(parent: THREE.Object3D, c: KitchenComponent) {
     const {width:w,depth:d} = c;
     const h = c.kind === 'dishwasher' ? c.height - current.counterThickness : c.height;
-    const surface = mat(c.color ?? '#adb5b7', .3, .7), dark = mat('#202a2d', .23, .15), glass = mat('#162127', .12, .35);
+    const surface = mat(c.color ?? '#adb5b7', options.showroom ? .27 : .3, options.showroom ? .9 : .7), dark = mat('#202a2d', .23, .15), glass = mat('#162127', .12, .35);
+    if (surfaces) { surface.bumpMap = surfaces.steel; surface.bumpScale = .012; }
     box(parent, w - .2, h, d - 2.6, 0, h/2, -1.2, surface, .2);
     if (c.kind === 'fridge') {
       for (const sign of [-1,1]) {
@@ -311,6 +347,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       box(parent,w-.4,.8,d-.2,0,h+.3,0,dark,.12);
       for (const x of [-w*.24,w*.24]) for (const z of [-d*.24,d*.24]) {
         cylinder(parent,4.5,.3,x,h+.8,z,mat('#505b5e', .3,.8)); cylinder(parent,3.6,.35,x,h+1,z,dark);
+        if(options.showroom) { box(parent,11,.55,.5,x,h+1.65,z,dark,.1); box(parent,.5,.55,10,x,h+1.65,z,dark,.1); for(const edge of [-1,1])box(parent,.5,.55,10,x+edge*5.25,h+1.65,z,dark,.1); }
       }
       box(parent,w-4,h*.52,1,0,h*.4,d/2-1.6,glass,.3); box(parent,w-5,.8,1.2,0,h*.73,d/2-.7,dark,.12);
       for (let i=0;i<4;i++) { const knob=cylinder(parent,.9,.7,-w*.3+i*w*.2,h*.88,d/2-.8,surface); knob.rotation.x=Math.PI/2; }
@@ -330,9 +367,18 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       const alternate=current.floor==='checker'?mat(new THREE.Color(floorColor).multiplyScalar(.25).getStyle(),.65):material,grout=mat('#aeb3af'); box(model,w,.2,d,0,.01,0,grout);
       for(let x=-w/2;x<w/2;x+=24) for(let z=-d/2;z<d/2;z+=24) { const tw=Math.min(23.75,w/2-x),td=Math.min(23.75,d/2-z); box(model,tw,.22,td,x+tw/2,.2,z+td/2,current.floor==='checker'&&(Math.round((x+w/2)/24)+Math.round((z+d/2)/24))%2?alternate:material); }
     } else {
-      const wood=roomSurface('butcher',floorColor); wood.color.set(floorColor);
-      const seam=mat(new THREE.Color(floorColor).multiplyScalar(.75).getStyle()); box(model,w,.3,d,0,.1,0,seam);
-      for(let z=-d/2;z<d/2;z+=6) { const depth=Math.min(5.88,d/2-z); box(model,w-.15,.25,depth,0,.4,z+depth/2,wood); }
+      const seam=mat(new THREE.Color(floorColor).multiplyScalar(options.showroom?.58:.75).getStyle()); box(model,w,.3,d,0,.1,0,seam);
+      if(options.showroom && surfaces) {
+        const boards=Array.from({length:5},(_,i)=>new THREE.MeshStandardMaterial({color:new THREE.Color(floorColor).multiplyScalar(.84+i*.04),map:surfaces!.wood,bumpMap:surfaces!.wood,bumpScale:.002,roughness:.52}));
+        let row=0;
+        for(let z=-d/2;z<d/2;z+=7,row++)for(let x=-w/2-(row%3)*16;x<w/2;x+=48){
+          const left=Math.max(-w/2,x),right=Math.min(w/2,x+48),depth=Math.min(6.94,d/2-z);
+          if(right-left>.1)box(model,right-left-.06,.3,depth,(left+right)/2,.42,z+depth/2,boards[(row+Math.floor((x+w/2+48)/48))%5],.025);
+        }
+      } else {
+        const wood=roomSurface('butcher',floorColor); wood.color.set(floorColor);
+        for(let z=-d/2;z<d/2;z+=6) { const depth=Math.min(5.88,d/2-z); box(model,w-.15,.25,depth,0,.4,z+depth/2,wood); }
+      }
     }
     const walls=current.roomWalls??defaultWalls(),openings=fitOpenings(current);
     for(const side of WALL_SIDES){
@@ -346,6 +392,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       if(options.walls&&!options.hidden?.includes(`wall:${side}`)){
         const wallGroup=new THREE.Group();group.add(wallGroup);
         const wallMat=current.wallMaterial==='plaster'?roomSurface('concrete',current.wallColor,.95):mat(current.wallColor,current.wallMaterial==='tile'?.4:.9);
+        if(surfaces){wallMat.bumpMap=surfaces.plaster;wallMat.bumpScale=.07;}
         const rectangles=cutOpenings({left:-length/2,right:length/2,bottom:0,top:height},cuts);
         for(const r of rectangles)box(wallGroup,r.right-r.left,r.top-r.bottom,2,(r.left+r.right)/2,(r.bottom+r.top)/2,-inward,wallMat);
         if(current.wallMaterial==='tile'||current.wallMaterial==='panel'){
@@ -363,7 +410,8 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         if(options.hidden?.includes(o.id))continue;
         const opening=new THREE.Group();group.add(opening);
         const glass=new THREE.MeshStandardMaterial({color:o.kind==='window'?'#d6e8e8':'#c1b4a0',roughness:.35,emissive:'#a2cbd3',emissiveIntensity:o.kind==='window'?.15:0});
-        box(opening,o.width-1,o.height-1,.5,o.offset,o.bottom+o.height/2,0,glass);
+        const pane=box(opening,o.width-1,o.height-1,.5,o.offset,o.bottom+o.height/2,0,glass);
+        if(options.showroom&&o.kind==='window'){pane.castShadow=false;pane.receiveShadow=false;}
         for(const x of [o.offset-o.width/2,o.offset+o.width/2])box(opening,1.3,o.height,3,x,o.bottom+o.height/2,inward*.2,trim);
         for(const y of [o.bottom,o.bottom+o.height])box(opening,o.width,1.3,3,o.offset,y,inward*.2,trim);
         if(o.kind==='window')box(opening,1,o.height,1,o.offset,o.bottom+o.height/2,inward*.5,trim);
@@ -387,7 +435,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   }
   function update(design: KitchenDesign, nextOptions: SceneOptions) {
     if (disposed) return;
-    current=design;options=nextOptions;scene.background=design.backgroundColor?new THREE.Color(design.backgroundColor):null;disposeModel();
+    current=design;options=nextOptions;if(options.showroom)enableShowroom();scene.background=design.backgroundColor?new THREE.Color(design.backgroundColor):null;disposeModel();
     controls.maxDistance = Math.max(1100, Math.max(design.roomWidth, design.roomDepth) * 5);
     const shadowExtent = Math.max(design.roomWidth, design.roomDepth) * .8 + 60;
     sun.shadow.camera.left = -shadowExtent; sun.shadow.camera.right = shadowExtent;
@@ -412,6 +460,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         const outline=new THREE.Box3Helper(new THREE.Box3().setFromObject(group),new THREE.Color('#218966'));model.add(outline);
       }
     }
+    if(options.showroom)addShowroomDetails(model,design);
     for(const cell of options.placementCells??[]){
       const tile=new THREE.Mesh(new THREE.PlaneGeometry(Math.max(1,cell.width-2),Math.max(1,cell.depth-2)),new THREE.MeshBasicMaterial({color:'#3aad87',transparent:true,opacity:.45,depthTest:false,depthWrite:false,side:THREE.DoubleSide}));
       tile.rotation.x=-Math.PI/2;tile.position.set(cell.x,1,cell.z);tile.renderOrder=10;tile.userData.cell={row:cell.row,column:cell.column};model.add(tile);cellPickables.push(tile);
@@ -463,14 +512,16 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     // Keep the planner's original light set; add task lights only for the flyover.
     if (!taskLights.length) for (const x of [-75, 0, 75]) { const light = new THREE.PointLight('#ffcf8c', 0, 100, 2); light.position.set(x, 54, -78); scene.add(light); taskLights.push(light); }
     const night = mode === 'night';
-    ambient.intensity = night ? .2 : .8;
+    ambient.intensity = night ? .16 : .42;
     ambient.color.set(night ? '#90a6cc' : '#f5f8ff');
     sun.color.copy(new THREE.Color('#fff7ec').lerp(new THREE.Color('#ffc074'), warmth));
-    sun.intensity = night ? .6 : 2.8;
-    fill.color.set(night ? '#ffcc91' : '#e5efff'); fill.intensity = night ? .85 : .65;
-    scene.environmentIntensity = night ? .22 : .7;
+    sun.intensity = night ? .35 : 2.1;
+    sun.position.set(-180, 160, 40); sun.shadow.needsUpdate = true; renderer.shadowMap.needsUpdate = true;
+    fill.color.set(night ? '#ffcc91' : '#e5efff'); fill.intensity = night ? .7 : .38;
+    scene.environmentIntensity = night ? .24 : .5;
     scene.background = new THREE.Color(night ? '#171d28' : current?.backgroundColor ?? '#e9e5dc');
     renderer.toneMappingExposure = (night ? .8 : .95) * brightness;
+    for (const light of pendantLights) { light.intensity = night ? 1200 : 140; light.color.copy(sun.color); }
     for (const light of taskLights) { light.intensity = night ? 220 : 25; light.color.copy(sun.color); }
     model.traverse(object => { if (object instanceof THREE.Mesh && object.material instanceof THREE.MeshStandardMaterial && object.material.emissive.getHex() === 0xa2cbd3) { object.material.color.set(night ? '#27384b' : '#d6e8e8'); object.material.emissiveIntensity = night ? .01 : .15; } });
     render();
@@ -480,7 +531,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     disposed=true;observer.disconnect();controls.removeEventListener('change',render);controls.dispose();
     renderer.domElement.removeEventListener('pointercancel',pointerCancel);renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('keydown',keyDown);renderer.domElement.removeEventListener('webglcontextlost',lost);
     disposeModel();textures.forEach(record=>{record.texture.dispose();record.pending?.dispose();});textures.clear();
-    envMap.dispose();sun.shadow.dispose();renderer.dispose();renderer.domElement.remove();
+    releaseShowroom(); envMap.dispose();sun.shadow.dispose();renderer.dispose();renderer.domElement.remove();
   }};
   } catch (error) {
     for (const cleanup of initializationCleanup.reverse()) {

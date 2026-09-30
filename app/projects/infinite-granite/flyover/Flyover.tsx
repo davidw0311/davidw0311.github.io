@@ -13,7 +13,7 @@ import { DEFAULT_LIGHTING, flyoverDesign, flyoverPose, restoreFlyover, type Ligh
 import styles from './flyover.module.css';
 
 const STORAGE_KEY = 'infinite-granite-flyover-v1';
-const OPTIONS = { selected: null, walls: true, dimensions: false };
+const OPTIONS = { selected: null, walls: true, dimensions: false, showroom: true };
 const TABS = ['Countertops', 'Cupboards', 'Floor', 'Lighting'] as const;
 export default function Flyover() {
   const host = useRef<HTMLDivElement>(null), scene = useRef<KitchenScene | null>(null);

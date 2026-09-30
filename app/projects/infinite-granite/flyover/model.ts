@@ -7,7 +7,12 @@ export const LOOP_SECONDS = 5;
 export type Lighting = { mode: 'day' | 'night'; brightness: number; warmth: number };
 export const DEFAULT_LIGHTING: Lighting = { mode: 'day', brightness: 1, warmth: .35 };
 export function flyoverDesign(): KitchenDesign {
-  return { ...kitchenPresetDesign('single-island'), cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', backsplash: 'slab', wallColor: '#e5e1d9', backgroundColor: '#e9e5dc' };
+  const layout = kitchenPresetDesign('single-island');
+  // Deeper worktops and a generous island retain a 57-inch working aisle.
+  layout.components = layout.components.map(c => c.kind === 'island' ? { ...c, width: 96, depth: 48, x: -2, z: 15 } : ['base', 'sink', 'dishwasher', 'range'].includes(c.kind) ? { ...c, depth: 30, z: -81 } : c);
+  layout.roomWalls = { back: { enabled: true, height: 132 }, left: { enabled: true, height: 132 }, right: { enabled: true, height: 132 }, front: { enabled: false, height: 132 } };
+  layout.openings = [...layout.openings!, { id: 'flyover-daylight-window', kind: 'window', wall: 'left', offset: 22, bottom: 48, width: 66, height: 58 }];
+  return { ...layout, patternContrast: 1.4, waterfall: true, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', backsplash: 'slab', wallColor: '#e5e1d9', backgroundColor: '#e9e5dc' };
 }
 /** A small elliptical camera path: matching position AND velocity at the loop seam. */
 export function flyoverPose(seconds: number, aspect: number) {
@@ -15,7 +20,7 @@ export function flyoverPose(seconds: number, aspect: number) {
   const fit = Math.max(1, 1.35 / Math.max(.25, aspect));
   const angle = .25 + Math.sin(phase) * .085;
   const distance = 215 * fit;
-  return { position: [Math.sin(angle) * distance, 112 + (fit - 1) * 55 + Math.cos(phase) * 3, Math.cos(angle) * distance - 47] as [number, number, number], target: [0, 40, -47] as [number, number, number] };
+  return { position: [Math.sin(angle) * distance, 117 + (fit - 1) * 55 + Math.cos(phase) * 3, Math.cos(angle) * distance - 28] as [number, number, number], target: [0, 34, -28] as [number, number, number] };
 }
 export function restoreFlyover(raw: unknown): { design: KitchenDesign; lighting: Lighting } {
   const design = flyoverDesign(), lighting = { ...DEFAULT_LIGHTING };

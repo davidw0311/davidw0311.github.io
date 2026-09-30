@@ -41,3 +41,19 @@ test('saved finishes survive reload without accepting altered geometry or invali
   assert.deepEqual(invalid, { design: d, lighting: DEFAULT_LIGHTING });
   assert.deepEqual(restoreFlyover(null), invalid);
 });
+
+test('larger worktops keep a clear aisle and fit within the finished room', () => {
+  const d = flyoverDesign(), island = d.components.find(c => c.kind === 'island')!;
+  assert.ok(island.width * island.depth >= 2 * 60 * 36, 'Island surface more than doubles');
+  for (const c of d.components.filter(c => ['base', 'sink', 'dishwasher'].includes(c.kind))) {
+    assert.ok(c.depth >= 30, 'Rear countertop gains working depth');
+    assert.ok(island.z - island.depth / 2 - (c.z + c.depth / 2) >= 48, 'Keep at least a four-foot working aisle');
+    assert.equal(c.z - c.depth / 2, -d.roomDepth / 2, 'Rear worktop remains flush to its wall');
+  }
+  for (const c of d.components) {
+    assert.ok(Math.abs(c.x) + c.width / 2 <= d.roomWidth / 2);
+    assert.ok(Math.abs(c.z) + c.depth / 2 <= d.roomDepth / 2);
+  }
+  const restored = restoreFlyover({ design: { countertop: 'soapstone', components: [{ kind: 'island', width: 60, depth: 36 }] } });
+  assert.equal(restored.design.components.find(c => c.kind === 'island')!.width, 96, 'Existing saved looks receive the enlarged scene');
+});
