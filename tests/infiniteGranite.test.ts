@@ -33,7 +33,7 @@ test('all sink styles leave countertop margins at minimum and maximum sizes', ()
 });
 test('saved designs round-trip all materials, custom colors and component overrides', () => {
   for(const material of MATERIALS) {
-    const d=defaultDesign();d.countertop=material.id;d.cabinetColor='#12abef';d.components[1].material='butcher';d.components[1].color='#ab12ef';
+    const d=defaultDesign();d.countertop=material.id;d.cabinetColor='#12abef';d.components[1].material='tce-2049';d.components[1].color='#ab12ef';
     assert.deepEqual(parseDesign(JSON.parse(JSON.stringify(d))),d);
   }
 });

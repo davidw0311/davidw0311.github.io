@@ -33,7 +33,7 @@ export default function Showcase(){
      <canvas ref={canvas} aria-label={`Fixed kitchen render with ${selected.company} ${selected.code} ${selected.name}, ${design.floor} floor, ${design.lighting==='day'?'daytime':'nighttime'}` } role="img"/>
      {busy&&<span className={styles.renderStatus} role="status">Preparing your finish…</span>}
     </div>
-    <div className={styles.caption}><div><span className={styles.eyebrow}>{selected.company} / {selected.code}</span><h2>{selected.name}</h2></div><button onClick={download} disabled={busy||!!error||!ready}><DownloadSimple size={18}/><span>Save image</span></button></div>
+    <div className={styles.caption}><div><span className={styles.eyebrow}>{selected.company}{selected.code!==selected.name&&` / ${selected.code}`}</span><h2>{selected.name}</h2></div><button onClick={download} disabled={busy||!!error||!ready}><DownloadSimple size={18}/><span>Save image</span></button></div>
     <p className={styles.note}>{design.lighting==='day'?'Daylight · a fixed view for comparing finishes.':'Nighttime · warm interior lighting with a dimmed window.'}</p>
     {error&&<p className={styles.error} role="alert">{error} <button onClick={()=>{setReady(false);setBusy(true);setError('');setReload(n=>n+1);}}>Retry</button></p>}
    </section>

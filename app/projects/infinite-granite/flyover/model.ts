@@ -1,6 +1,6 @@
 import { type KitchenDesign } from '../kitchen.ts';
 import { kitchenPresetDesign } from '../kitchenPresets.ts';
-import { MATERIALS } from '../materials.ts';
+import { resolveMaterialId } from '../materials.ts';
 import { FLOOR_FINISHES } from '../roomFinishes.ts';
 
 export const LOOP_SECONDS = 5;
@@ -28,7 +28,8 @@ export function restoreFlyover(raw: unknown): { design: KitchenDesign; lighting:
   const saved = raw as Record<string, unknown>;
   const d = saved.design as Partial<KitchenDesign> | undefined;
   if (d && typeof d === 'object') {
-    if (MATERIALS.some(m => m.id === d.countertop)) design.countertop = d.countertop!;
+    const material = resolveMaterialId(d.countertop);
+    if (material) design.countertop = material;
     if (FLOOR_FINISHES.some(f => f.id === d.floor)) design.floor = d.floor!;
     for (const key of ['cabinetColor', 'upperColor', 'islandColor', 'floorColor'] as const) {
       if (typeof d[key] === 'string' && /^#[\da-f]{6}$/i.test(d[key]!)) design[key] = d[key]!;

@@ -26,9 +26,9 @@ test('all 97 official TCE codes retain their images, scale, sources and stock la
 test('supplier search accepts codes with punctuation and groups results in numeric code order',()=>{
   for(const query of ['TCE 2049','tce2049','2049','TCE-2049']){const matches=filterMaterials(query);assert.equal(matches.length,1);assert.equal(matches[0].id,'tce-2049');}
   assert.ok(filterMaterials('calacatta','TCE Stone').length>0);
-  assert.ok(filterMaterials('granite','Studio collection').every(m=>m.family==='Granite'));
+  assert.ok(filterMaterials('granite','Fir Stone').length>0);
   assert.equal(filterMaterials('not-a-real-finish').length,0);
   const codes=filterMaterials('','TCE Stone').map(m=>Number(m.code.replace('TCE ','')));
   assert.deepEqual(codes,[...codes].sort((a,b)=>a-b));
-  assert.ok(filterMaterials('','Studio collection').every(m=>m.company==='Studio collection'));
+  assert.equal(filterMaterials('','Studio collection').length,0);
 });

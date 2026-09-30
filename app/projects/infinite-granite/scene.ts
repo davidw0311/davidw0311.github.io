@@ -13,6 +13,8 @@ import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { FINISHES, MATERIALS, sinkOpening, type KitchenDesign, type KitchenComponent } from './kitchen';
 import { materialTexture } from './textures';
+import { DEFAULT_MATERIAL } from './materials';
+import { ROOM_TEXTURES } from './roomTextures';
 import { defaultWalls, fitOpenings, WALL_SIDES, wallLength, cutOpenings, backsplashRects } from './room';
 import { countertopGeometry } from './sceneGeometry';
 
@@ -197,7 +199,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     return record.texture;
   }
   function stone(id: string) {
-    const entry: SceneMaterial = MATERIALS.find(m => m.id === id) ?? MATERIALS[0];
+    const entry: SceneMaterial = ROOM_TEXTURES.find(m => m.id === id) ?? MATERIALS.find(m => m.id === id) ?? MATERIALS.find(m => m.id === DEFAULT_MATERIAL)!;
     const polished = entry.roughness < .45;
     const enhancePattern = entry.family !== 'Wood';
     const material = new THREE.MeshPhysicalMaterial({

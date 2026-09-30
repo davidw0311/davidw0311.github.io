@@ -2,7 +2,7 @@ import { FLOOR_FINISHES, WALL_FINISHES, type FloorFinish, type WallFinish } from
 import { bathroomDesign } from './bathrooms.ts';
 import { reflowCells } from './cellLayout.ts';
 import type { RoomWalls, RoomOpening } from './room.ts';
-import { MATERIALS } from './materials.ts';
+import { DEFAULT_MATERIAL, resolveMaterialId } from './materials.ts';
 export { MATERIALS } from './materials.ts';
 export const MAX_COMPONENTS = 200;
 export type LayoutId = 'single-island' | 'galley-pantry' | 'family-island' | 'bath-tub' | 'bath-ensuite' | 'bath-shared' | 'bath-powder' | 'bath-full' | 'bath-double' | 'custom' | 'island' | 'l-shape' | 'straight' | 'galley' | 'u-shape' | 'peninsula';
@@ -91,7 +91,7 @@ export function presetComponents(layout: LayoutId): KitchenComponent[] {
 }
 export function defaultDesign(layout: LayoutId = 'island'): KitchenDesign {
   if(layout.startsWith('bath-'))return bathroomDesign(layout,defaultDesign());
-  return { version: 1, layout, roomWidth: 216, roomDepth: 192, countertop: 'calacatta', patternContrast: 2, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', doorStyle: 'shaker', hardware: 'brass', sinkStyle: 'single', sinkFinish: 'steel', faucet: 'arc', wallColor: '#e5e7e3', floor: 'oak', backsplash: 'subway', counterThickness: 1.25, waterfall: false, components: presetComponents(layout) };
+  return { version: 1, layout, roomWidth: 216, roomDepth: 192, countertop: DEFAULT_MATERIAL, patternContrast: 2, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', doorStyle: 'shaker', hardware: 'brass', sinkStyle: 'single', sinkFinish: 'steel', faucet: 'arc', wallColor: '#e5e7e3', floor: 'oak', backsplash: 'subway', counterThickness: 1.25, waterfall: false, components: presetComponents(layout) };
 }
 export function footprint(c: KitchenComponent) {
   const rotated = Math.round(c.rotation / 90) % 2 !== 0;
@@ -130,12 +130,12 @@ const kinds = Object.keys(KIND_NAMES);
 // Stored designs are untrusted input, even when they come from this browser.
 export function parseDesign(input: unknown): KitchenDesign | null {
   if (!input || typeof input !== 'object') return null;
-  const d = input as KitchenDesign;
+  let d = input as KitchenDesign;
   if (d.version !== 1 || (d.layout !== 'custom' && ![...LAYOUTS,...BATHROOM_LAYOUTS].some(l => l.id === d.layout)) || !Array.isArray(d.components) || d.components.length > MAX_COMPONENTS) return null;
   if(d.roomType!==undefined&&!['kitchen','bathroom'].includes(d.roomType))return null;
   if(d.layout.startsWith('bath-')&&d.roomType!=='bathroom')return null;
   if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= (d.roomType==='bathroom'?72:144) && v <= 720)) return null;
-  if (!MATERIALS.some(m => m.id === d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
+  if (!resolveMaterialId(d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
   if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !FLOOR_FINISHES.some(f=>f.id===d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
   if(d.wallMaterial!==undefined&&!WALL_FINISHES.some(f=>f.id===d.wallMaterial))return null;
   if([d.floorColor,d.backgroundColor].some(v=>v!==undefined&&(typeof v!=='string'||!hex.test(v))))return null;
@@ -155,8 +155,9 @@ export function parseDesign(input: unknown): KitchenDesign | null {
     if (![c.x, c.z, c.rotation, c.width, c.depth, c.height].every(Number.isFinite)) return null;
     if(c.closedCorner!==undefined&&(typeof c.closedCorner!=='boolean'||c.kind!=='base'))return null;
     if (c.color !== undefined && (typeof c.color !== 'string' || !hex.test(c.color))) return null;
-    if (c.material !== undefined && !MATERIALS.some(m => m.id === c.material)) return null;
+    if (c.material !== undefined && !resolveMaterialId(c.material)) return null;
   }
+  d = { ...d, countertop: resolveMaterialId(d.countertop)!, components: d.components.map(c => c.material === undefined ? c : { ...c, material: resolveMaterialId(c.material)! }) };
   if(d.gridColumns!==undefined||d.gridRows!==undefined||d.components.some(c=>c.cell!==undefined)){
     const aligned=reflowCells(d);if(aligned)return aligned;
     // Older oversized layouts may not fit after changing their anchor. Keep them recoverable.

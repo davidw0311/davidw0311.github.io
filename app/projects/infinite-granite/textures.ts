@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import { MATERIALS } from './kitchen';
+import { MATERIALS, DEFAULT_MATERIAL } from './materials';
+import { ROOM_TEXTURES } from './roomTextures';
 
 export function materialTexture(id: string, neutral = false): THREE.CanvasTexture {
-  const entry = MATERIALS.find(m => m.id === id) ?? MATERIALS[0];
+  const entry = ROOM_TEXTURES.find(m => m.id === id) ?? MATERIALS.find(m => m.id === id) ?? MATERIALS.find(m => m.id === DEFAULT_MATERIAL)!;
   const canvas = document.createElement('canvas'); canvas.width = canvas.height = 512;
   const ctx = canvas.getContext('2d')!;
   let seed = 47;

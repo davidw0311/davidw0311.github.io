@@ -30,11 +30,11 @@ test('flyover has no collisions, real fixtures and separately coloured cupboards
 
 test('saved finishes survive reload without accepting altered geometry or invalid settings', () => {
   const d = flyoverDesign();
-  const saved = { design: { ...d, floor: 'slate', floorColor: '#123456', cabinetColor: '#abcdef', components: [], countertop: 'soapstone' }, lighting: { mode: 'night', brightness: .8, warmth: .7 } };
+  const saved = { design: { ...d, floor: 'slate', floorColor: '#123456', cabinetColor: '#abcdef', components: [], countertop: 'vicostone-bq8788' }, lighting: { mode: 'night', brightness: .8, warmth: .7 } };
   const restored = restoreFlyover(saved);
   assert.equal(restored.design.floor, 'slate');
   assert.equal(restored.design.floorColor, '#123456');
-  assert.equal(restored.design.countertop, 'soapstone');
+  assert.equal(restored.design.countertop, 'vicostone-bq8788');
   assert.deepEqual(restored.design.components, d.components);
   assert.deepEqual(restored.lighting, saved.lighting);
   const invalid = restoreFlyover({ design: { floor: 'wrong', cabinetColor: 'red', countertop: 'gone' }, lighting: { mode: 'wrong', brightness: Infinity, warmth: NaN } });
@@ -54,6 +54,6 @@ test('larger worktops keep a clear aisle and fit within the finished room', () =
     assert.ok(Math.abs(c.x) + c.width / 2 <= d.roomWidth / 2);
     assert.ok(Math.abs(c.z) + c.depth / 2 <= d.roomDepth / 2);
   }
-  const restored = restoreFlyover({ design: { countertop: 'soapstone', components: [{ kind: 'island', width: 60, depth: 36 }] } });
+  const restored = restoreFlyover({ design: { countertop: 'vicostone-bq8788', components: [{ kind: 'island', width: 60, depth: 36 }] } });
   assert.equal(restored.design.components.find(c => c.kind === 'island')!.width, 96, 'Existing saved looks receive the enlarged scene');
 });
