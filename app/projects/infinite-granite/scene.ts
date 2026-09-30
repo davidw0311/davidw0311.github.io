@@ -16,6 +16,7 @@ import { materialTexture } from './textures';
 import { DEFAULT_MATERIAL } from './materials';
 import { ROOM_TEXTURES } from './roomTextures';
 import { defaultWalls, fitOpenings, WALL_SIDES, wallLength, cutOpenings, backsplashRects } from './room';
+import { counterRunBounds, stoneProjection, STONE_UV_GLSL, type StoneBounds } from './stoneMapping';
 import { countertopGeometry } from './sceneGeometry';
 
 export type ViewMode = 'perspective' | 'top' | 'front';
@@ -190,7 +191,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         context.fillStyle = entry.color; context.fillRect(0, 0, 1, 1);
         texture = new THREE.CanvasTexture(canvas);
       } else texture = materialTexture(entry.id);
-      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      texture.wrapS = texture.wrapT = entry.textureUrl ? THREE.ClampToEdgeWrapping : THREE.RepeatWrapping;
       texture.colorSpace = THREE.SRGBColorSpace; texture.anisotropy = anisotropy;
       record = { texture, entry, state: entry.textureUrl ? 'queued' : 'ready', touched: ++textureClock };
       textures.set(entry.id, record);
@@ -198,8 +199,9 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     record.touched = ++textureClock;
     return record.texture;
   }
-  function stone(id: string) {
+  function stone(id: string, bounds?: StoneBounds) {
     const entry: SceneMaterial = ROOM_TEXTURES.find(m => m.id === id) ?? MATERIALS.find(m => m.id === id) ?? MATERIALS.find(m => m.id === DEFAULT_MATERIAL)!;
+    const projection = stoneProjection(bounds ?? { min: [-current.roomWidth / 2, 0, -current.roomDepth / 2], max: [current.roomWidth / 2, 132, current.roomDepth / 2] }, entry.textureWidth ?? 48, entry.textureHeight ?? 48);
     const polished = entry.roughness < .45;
     const enhancePattern = entry.family !== 'Wood';
     const material = new THREE.MeshPhysicalMaterial({
@@ -212,15 +214,17 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       shader.uniforms.stoneInset = {value:entry.company==='Vicostone'?new THREE.Vector2(.025,.09):new THREE.Vector2(0,0)};
       shader.uniforms.stonePatternContrast = { value: enhancePattern ? current.patternContrast??2 : 1 };
       shader.uniforms.stoneBaseColor = { value: new THREE.Color(entry.color) };
-      shader.uniforms.stonePhysicalSize = { value: new THREE.Vector2(entry.textureWidth ?? 48, entry.textureHeight ?? 48) };
+      shader.uniforms.stonePhysicalSize = { value: new THREE.Vector2(...(entry.textureUrl ? projection.size : [entry.textureWidth ?? 48, entry.textureHeight ?? 48] as [number, number])) };
+      shader.uniforms.stoneCenter = { value: new THREE.Vector3(...(entry.textureUrl ? projection.center : [0, 0, 0] as [number, number, number])) };
+      shader.uniforms.stoneSingleSlab = { value: !!entry.textureUrl };
       shader.vertexShader = shader.vertexShader
         .replace('#include <common>', '#include <common>\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
         .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvStonePosition = (modelMatrix * vec4(transformed, 1.0)).xyz;\nvStoneNormal = normalize(mat3(modelMatrix) * normal);');
       shader.fragmentShader = shader.fragmentShader
-        .replace('#include <common>', '#include <common>\nuniform vec2 stonePhysicalSize;\nuniform vec2 stoneInset;\nuniform float stonePatternContrast;\nuniform vec3 stoneBaseColor;\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;')
-        .replace('#include <map_fragment>', '#ifdef USE_MAP\nvec3 weights = pow(abs(normalize(vStoneNormal)), vec3(6.0));\nweights /= (weights.x + weights.y + weights.z);\nvec4 stoneSample = texture2D(map, fract(vStonePosition.zy / stonePhysicalSize) * (vec2(1.0) - 2.0 * stoneInset) + stoneInset) * weights.x + texture2D(map, fract(vStonePosition.xz / stonePhysicalSize) * (vec2(1.0) - 2.0 * stoneInset) + stoneInset) * weights.y + texture2D(map, fract(vStonePosition.xy / stonePhysicalSize) * (vec2(1.0) - 2.0 * stoneInset) + stoneInset) * weights.z;\nfloat stoneLuma = dot(stoneSample.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat baseLuma = dot(stoneBaseColor, vec3(0.2126, 0.7152, 0.0722));\nfloat visibleLuma = clamp(baseLuma + (stoneLuma - baseLuma) * stonePatternContrast, stoneLuma * 0.4, 1.0);\nstoneSample.rgb = clamp(stoneSample.rgb * (visibleLuma / max(stoneLuma, 0.00001)), 0.0, 1.0);\ndiffuseColor *= stoneSample;\n#endif');
+        .replace('#include <common>', '#include <common>\nuniform vec2 stonePhysicalSize;\nuniform vec3 stoneCenter;\nuniform bool stoneSingleSlab;\nuniform vec2 stoneInset;\nuniform float stonePatternContrast;\nuniform vec3 stoneBaseColor;\nvarying vec3 vStonePosition;\nvarying vec3 vStoneNormal;' + STONE_UV_GLSL)
+        .replace('#include <map_fragment>', '#ifdef USE_MAP\nvec3 stonePoint = vStonePosition - stoneCenter;\nvec3 weights = pow(abs(normalize(vStoneNormal)), vec3(6.0));\nweights /= (weights.x + weights.y + weights.z);\nvec4 stoneSample = texture2D(map, stoneUV(stonePoint.zy)) * weights.x + texture2D(map, stoneUV(stonePoint.xz)) * weights.y + texture2D(map, stoneUV(stonePoint.xy)) * weights.z;\nfloat stoneLuma = dot(stoneSample.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat baseLuma = dot(stoneBaseColor, vec3(0.2126, 0.7152, 0.0722));\nfloat visibleLuma = clamp(baseLuma + (stoneLuma - baseLuma) * stonePatternContrast, stoneLuma * 0.4, 1.0);\nstoneSample.rgb = clamp(stoneSample.rgb * (visibleLuma / max(stoneLuma, 0.00001)), 0.0, 1.0);\ndiffuseColor *= stoneSample;\n#endif');
     };
-    material.customProgramCacheKey = () => 'infinitegranite-world-stone-v5';
+    material.customProgramCacheKey = () => 'infinitegranite-single-slab-v6';
     return material;
   }
   function box(parent: THREE.Object3D, width: number, height: number, depth: number, x: number, y: number, z: number, material: THREE.Material, bevel = 0) {
@@ -336,8 +340,14 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   function appliance(parent: THREE.Object3D, c: KitchenComponent) {
     const {width:w,depth:d} = c;
     const h = c.kind === 'dishwasher' ? c.height - current.counterThickness : c.height;
-    const surface = mat(c.color ?? '#adb5b7', options.showroom ? .27 : .3, options.showroom ? .9 : .7), dark = mat('#202a2d', .23, .15), glass = mat('#162127', .12, .35);
-    if (surfaces) { surface.bumpMap = surfaces.steel; surface.bumpScale = .012; }
+    const finish = (color: string) => {
+      const metallic = color === '#adb5b7' || color === '#b7a06c';
+      const result = mat(color, metallic ? (options.showroom ? .27 : .3) : .36, metallic ? (options.showroom ? .9 : .7) : .08);
+      if (surfaces && metallic) { result.bumpMap = surfaces.steel; result.bumpScale = .012; }
+      return result;
+    };
+    const selected = ['range', 'dishwasher', 'fridge'].includes(c.kind) ? current.applianceColors?.[c.kind as 'range' | 'dishwasher' | 'fridge'] : undefined;
+    const surface = finish(c.color ?? selected ?? '#adb5b7'), dark = mat('#202a2d', .23, .15), glass = mat('#162127', .12, .35);
     box(parent, w - .2, h, d - 2.6, 0, h/2, -1.2, surface, .2);
     if (c.kind === 'fridge') {
       for (const sign of [-1,1]) {
@@ -353,7 +363,8 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       }
       box(parent,w-4,h*.52,1,0,h*.4,d/2-1.6,glass,.3); box(parent,w-5,.8,1.2,0,h*.73,d/2-.7,dark,.12);
       for (let i=0;i<4;i++) { const knob=cylinder(parent,.9,.7,-w*.3+i*w*.2,h*.88,d/2-.8,surface); knob.rotation.x=Math.PI/2; }
-      box(parent,w-.3,4,Math.min(19,d-2),0,h+32,-1,surface,.35); box(parent,w*.6,7,Math.min(13,d-4),0,h+37,-4,surface,.2); box(parent,w*.36,20,Math.min(10,d-6),0,h+50,-5,surface,.15);
+      const hood = options.showroom ? finish(current.applianceColors?.hood ?? '#adb5b7') : current.applianceColors?.hood ? finish(current.applianceColors.hood) : surface;
+      box(parent,w-.3,4,Math.min(19,d-2),0,h+32,-1,hood,.35); box(parent,w*.6,7,Math.min(13,d-4),0,h+37,-4,hood,.2); box(parent,w*.36,20,Math.min(10,d-6),0,h+50,-5,hood,.15);
     } else {
       box(parent,w-.5,h-5,1,0,(h-5)/2+3,d/2-1.8,surface,.15); box(parent,w*.7,.8,1.3,0,h-5,d/2-.7,dark,.12);
     }
@@ -420,7 +431,8 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
         mark(opening,o.id);
       }
       if(!options.hideBacksplash){
-        const tile=current.backsplash==='slab'?stone(current.countertop):mat('#f0f1ea',.3),grout=mat('#c3cbc4',.9);
+        const wallBounds: StoneBounds = { min: [side==='right'?w/2:-w/2, 30, side==='front'?d/2:-d/2], max: [side==='left'?-w/2:w/2, 60, side==='back'?-d/2:d/2] };
+        const tile=current.backsplash==='slab'?stone(current.countertop,wallBounds):mat('#f0f1ea',.3),grout=mat('#c3cbc4',.9);
         for(const r of backsplashRects(current,side)){
           box(group,r.right-r.left,r.top-r.bottom,.4,(r.left+r.right)/2,(r.top+r.bottom)/2,inward*.3,tile);
           if(current.backsplash==='subway')for(let y=r.bottom;y<r.top;y+=3){
@@ -449,11 +461,11 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       const group=new THREE.Group();group.position.set(c.x,0,c.z);group.rotation.y=c.rotation*Math.PI/180;group.userData.componentId=c.id;model.add(group);
       const color=c.color ?? (c.kind==='upper'?design.upperColor:c.kind==='island'?design.islandColor:design.cabinetColor);
       if(['toilet','tub','shower'].includes(c.kind)){bathroomFixture(group,c);}else if(['fridge','range','dishwasher'].includes(c.kind)) {
-        appliance(group,c);if(c.kind==='dishwasher')counter(group,c,stone(c.material??design.countertop));
+        appliance(group,c);if(c.kind==='dishwasher')counter(group,c,stone(c.material??design.countertop, counterRunBounds(design,c)));
       } else {
         const y=c.kind==='upper'?54:0;
         cupboard(group,c,color,y,c.kind==='upper'||c.kind==='pantry'?c.height:c.height-design.counterThickness);
-        if(!['upper','pantry'].includes(c.kind))counter(group,c,stone(c.material??design.countertop),c.kind==='sink'||c.kind==='vanity');
+        if(!['upper','pantry'].includes(c.kind))counter(group,c,stone(c.material??design.countertop, counterRunBounds(design,c)),c.kind==='sink'||c.kind==='vanity');
         if(c.kind==='sink'||c.kind==='vanity')sink(group,c);
         if(c.kind==='vanity'){const frame=mat(FINISHES.find(f=>f.id===design.hardware)!.color,.3,.7);box(group,c.width-3,32,1,0,c.height+34,-c.depth/2+1,frame,.4);box(group,c.width-5,30,.2,0,c.height+34,-c.depth/2+1.6,mat('#c3d5d2',.08,.92),.2);}
       }

@@ -15,7 +15,9 @@ export interface KitchenComponent {
   x: number; z: number; rotation: number; width: number; depth: number; height: number;
   closedCorner?:boolean; color?: string; material?: string; cellAlign?: {x:-1|0|1;z:-1|0|1}; cell?: { row:number; column:number };
 }
+export type AppliancePart = 'range' | 'hood' | 'dishwasher' | 'fridge';
 export interface KitchenDesign {
+  applianceColors?: Partial<Record<AppliancePart, string>>;
   version: 1; roomType?:'kitchen'|'bathroom'; layout: LayoutId; roomWidth: number; roomDepth: number;
   independentSizes?: boolean; gridSize?: number; gridCellSize?: number; gridColumns?:number[]; gridRows?:number[];
   patternContrast?: number;

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Minus, Moon, Pause, Play, Plus, Sun } from '@phosphor-icons/react';
+import { ArrowDown, ArrowsOut, Minus, Moon, Pause, Play, Plus, Sun, X } from '@phosphor-icons/react';
 import type { KitchenScene } from '../scene';
 import type { KitchenDesign } from '../kitchen';
 import { MATERIALS } from '../materials';
@@ -20,6 +20,8 @@ export default function Flyover() {
   const [tab, setTab] = useState<typeof TABS[number]>('Countertops');
   const [playing, setPlaying] = useState(true), [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null), [textureStatus, setTextureStatus] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const panel = useRef<HTMLElement>(null);
   const [attempt, setAttempt] = useState(0);
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
@@ -74,12 +76,12 @@ export default function Flyover() {
     };
     const visibility = () => {
       cancelAnimationFrame(raf); last = null;
-      if (playing && !document.hidden) raf = requestAnimationFrame(tick);
+      if (playing && !expanded && !document.hidden) raf = requestAnimationFrame(tick);
     };
     const observer = new ResizeObserver(frame); observer.observe(host.current);
     document.addEventListener('visibilitychange', visibility); visibility(); frame();
     return () => { cancelAnimationFrame(raf); observer.disconnect(); document.removeEventListener('visibilitychange', visibility); };
-  }, [ready, playing, error, attempt]);
+  }, [ready, playing, expanded, error, attempt]);
 
   useEffect(() => {
     zoomRef.current = zoom;
@@ -106,6 +108,23 @@ export default function Flyover() {
     return () => { element.removeEventListener('wheel', wheel); element.removeEventListener('touchstart', pinch); element.removeEventListener('touchmove', pinch); element.removeEventListener('touchend', pinch); element.removeEventListener('touchcancel', pinch); };
   }, []);
 
+  useEffect(() => {
+    if (!expanded) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const controls = () => Array.from(panel.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input, select, [tabindex="0"]') ?? []).filter(element => element.offsetParent !== null);
+    panel.current?.querySelector<HTMLButtonElement>('[aria-label="Close slab gallery"]')?.focus();
+    const keyboard = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { event.preventDefault(); setExpanded(false); }
+      if (event.key === 'Tab') {
+        const items = controls(), first = items[0], last = items.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    };
+    document.addEventListener('keydown', keyboard);
+    return () => { document.removeEventListener('keydown', keyboard); previous?.focus(); };
+  }, [expanded]);
+
   function change<K extends keyof KitchenDesign>(key: K, value: KitchenDesign[K]) { setDesign(d => ({ ...d, [key]: value })); }
   function light(patch: Partial<Lighting>) { setLighting(l => ({ ...l, ...patch })); }
   function saveFrame() {
@@ -114,12 +133,12 @@ export default function Flyover() {
   }
   const material = MATERIALS.find(m => m.id === design.countertop)!;
   return <main className={styles.page}>
-    <header className={styles.header}>
+    <header className={styles.header} inert={expanded}>
       <Link className={styles.brand} href="/projects/infinite-granite/">Infinite<span>Granite</span></Link>
       <nav aria-label="InfiniteGranite views" className={styles.nav}><Link href="/projects/infinite-granite/">Room Planner</Link><Link href="/projects/infinite-granite/showcase/">Slab Studio</Link><Link href="/projects/infinite-granite/flyover/" aria-current="page">Kitchen Flyover</Link></nav>
     </header>
     <div className={styles.workspace}>
-      <section className={styles.viewer} aria-label="Kitchen preview">
+      <section className={styles.viewer} aria-label="Kitchen preview" inert={expanded}>
         <div className={styles.stage} ref={host} />
         <div className={styles.viewTop}><h1>Kitchen Flyover</h1><button className={styles.iconButton} onClick={() => light({ mode: lighting.mode === 'day' ? 'night' : 'day' })} aria-label={lighting.mode === 'day' ? 'Switch to nighttime' : 'Switch to daytime'} title={lighting.mode === 'day' ? 'Switch to nighttime' : 'Switch to daytime'}>{lighting.mode === 'day' ? <Sun size={21} /> : <Moon size={21} />}</button></div>
         {(!ready || error) && <div className={styles.status} role="status">{error || 'Building your kitchen…'}{error && <button onClick={() => { setReady(false); setAttempt(a => a + 1); }}>Reload 3D view</button>}</div>}
@@ -128,14 +147,14 @@ export default function Flyover() {
           <button className={styles.iconButton} disabled={!ready || !!error} onClick={() => setPlaying(p => !p)} aria-label={playing ? 'Pause camera' : 'Play camera'} title={playing ? 'Pause camera' : 'Play camera'}>{playing ? <Pause size={18} weight="fill" /> : <Play size={18} weight="fill" />}</button><button className={styles.iconButton} onClick={saveFrame} disabled={!ready || !!error || !!textureStatus} aria-label="Save current frame" title="Save current frame"><ArrowDown size={18} /></button></div></div>
         {textureStatus && <p className={styles.textureStatus} role="status">{textureStatus}</p>}
       </section>
-      <aside className={styles.panel} aria-label="Kitchen finishes">
-        <div className={styles.tabs} role="group" aria-label="Finish category">{TABS.map(t => <button key={t} aria-pressed={tab === t} onClick={() => setTab(t)}>{t}</button>)}</div>
+      <aside ref={panel} className={`${styles.panel} ${expanded ? styles.expandedPanel : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label={expanded ? 'Slab gallery' : 'Kitchen finishes'}>
+        <div className={styles.panelToolbar}><div className={styles.tabs} role="group" aria-label="Finish category">{TABS.map(t => <button key={t} aria-pressed={tab === t} onClick={() => { setTab(t); if (t !== 'Countertops') setExpanded(false); }}>{t}</button>)}</div>{tab === 'Countertops' && <button className={styles.expandButton} aria-label={expanded ? 'Close slab gallery' : 'Expand slab gallery'} title={expanded ? 'Close slab gallery' : 'Expand slab gallery'} onClick={() => setExpanded(value => !value)}>{expanded ? <><X size={18} /><span>Done</span></> : <ArrowsOut size={18} />}</button>}</div>
         <div className={styles.panelBody}>
           <div className={styles.tabContent} hidden={tab !== 'Countertops'}><SlabCatalogue value={design.countertop} onChange={id => change('countertop', id)} /></div>
           {tab === 'Design' && <DesignControls design={design} lighting={lighting} change={patch => setDesign(d => ({ ...d, ...patch }))} light={light} />}
         </div>
       </aside>
     </div>
-    <p className={styles.footnote}>Supplier photographs. Slab scale and colours are approximate.</p>
+    <p className={styles.footnote} inert={expanded}>Supplier photographs. Slab scale and colours are approximate.</p>
   </main>;
 }

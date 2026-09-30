@@ -78,3 +78,15 @@ test('zoom changes the lens without moving the viewer into counters or walls', (
   }
   assert.equal(clampZoom(Infinity), 1);
 });
+
+
+test('backsplash and four independent appliance finishes survive reload', () => {
+  const applianceColors = { range: '#202a2d', hood: '#f1f1eb', fridge: '#44484a', dishwasher: '#b7a06c' };
+  const saved = restoreFlyover({ design: { applianceColors, backsplash: 'none' } });
+  assert.deepEqual(saved.design.applianceColors, applianceColors);
+  assert.equal(saved.design.backsplash, 'none');
+  assert.equal(restoreFlyover({ design: { backsplash: 'slab' } }).design.backsplash, 'slab');
+  const invalid = restoreFlyover({ design: { applianceColors: { range: 'red', hood: '#fff', fridge: 123, dishwasher: '#123456', other: '#abcdef' }, backsplash: 'invalid' } });
+  assert.deepEqual(invalid.design.applianceColors, { dishwasher: '#123456' });
+  assert.equal(invalid.design.backsplash, 'slab');
+});

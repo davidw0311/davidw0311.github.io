@@ -33,6 +33,13 @@ export function restoreFlyover(raw: unknown): { design: KitchenDesign; lighting:
   if (d && typeof d === 'object') {
     const material = resolveMaterialId(d.countertop);
     if (material) design.countertop = material;
+    if (d.backsplash === 'none' || d.backsplash === 'slab') design.backsplash = d.backsplash;
+    if (d.applianceColors && typeof d.applianceColors === 'object') {
+      for (const key of ['range', 'hood', 'dishwasher', 'fridge'] as const) {
+        const color = d.applianceColors[key];
+        if (typeof color === 'string' && /^#[\da-f]{6}$/i.test(color)) { design.applianceColors ??= {}; design.applianceColors[key] = color; }
+      }
+    }
     if (FLOOR_FINISHES.some(f => f.id === d.floor)) design.floor = d.floor!;
     for (const key of ['cabinetColor', 'upperColor', 'islandColor', 'floorColor', 'wallColor'] as const) {
       if (typeof d[key] === 'string' && /^#[\da-f]{6}$/i.test(d[key]!)) design[key] = d[key]!;
