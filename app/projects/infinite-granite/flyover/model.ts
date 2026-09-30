@@ -14,14 +14,17 @@ export function flyoverDesign(): KitchenDesign {
   layout.openings = [...layout.openings!, { id: 'flyover-daylight-window', kind: 'window', wall: 'left', offset: 22, bottom: 48, width: 66, height: 58 }];
   return { ...layout, patternContrast: 1.4, waterfall: true, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', backsplash: 'slab', wallColor: '#e5e1d9', backgroundColor: '#e9e5dc' };
 }
-/** A small elliptical camera path: matching position AND velocity at the loop seam. */
-export function flyoverPose(seconds: number, aspect: number) {
+/** Eye-level stroll along the open side of the island; position and velocity loop smoothly. */
+export function flyoverPose(seconds: number, aspect: number, zoom = 1) {
   const phase = (seconds % LOOP_SECONDS) / LOOP_SECONDS * Math.PI * 2;
-  const fit = Math.max(1, 1.35 / Math.max(.25, aspect));
-  const angle = .25 + Math.sin(phase) * .085;
-  const distance = 215 * fit;
-  return { position: [Math.sin(angle) * distance, 117 + (fit - 1) * 55 + Math.cos(phase) * 3, Math.cos(angle) * distance - 28] as [number, number, number], target: [0, 34, -28] as [number, number, number] };
+  const baseFov = aspect < 1 ? 78 : 58;
+  return {
+    position: [32 + Math.sin(phase) * 28, 65 + Math.sin(phase * 2) * .2, 112 + Math.cos(phase) * 8] as [number, number, number],
+    target: [-8, 40, -40] as [number, number, number],
+    fov: 2 * Math.atan(Math.tan(baseFov * Math.PI / 360) / clampZoom(zoom)) * 180 / Math.PI,
+  };
 }
+export function clampZoom(value: number) { return Number.isFinite(value) ? Math.max(.75, Math.min(1.8, value)) : 1; }
 export function restoreFlyover(raw: unknown): { design: KitchenDesign; lighting: Lighting } {
   const design = flyoverDesign(), lighting = { ...DEFAULT_LIGHTING };
   if (!raw || typeof raw !== 'object') return { design, lighting };
@@ -31,7 +34,7 @@ export function restoreFlyover(raw: unknown): { design: KitchenDesign; lighting:
     const material = resolveMaterialId(d.countertop);
     if (material) design.countertop = material;
     if (FLOOR_FINISHES.some(f => f.id === d.floor)) design.floor = d.floor!;
-    for (const key of ['cabinetColor', 'upperColor', 'islandColor', 'floorColor'] as const) {
+    for (const key of ['cabinetColor', 'upperColor', 'islandColor', 'floorColor', 'wallColor'] as const) {
       if (typeof d[key] === 'string' && /^#[\da-f]{6}$/i.test(d[key]!)) design[key] = d[key]!;
     }
   }

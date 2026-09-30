@@ -35,6 +35,9 @@ export function addShowroomDetails(parent: THREE.Group, design: KitchenDesign) {
   };
   const box = (w: number, h: number, d: number, x: number, y: number, z: number, surface: THREE.Material) => mesh(new THREE.BoxGeometry(w, h, d), surface, x, y, z);
   const brass = material('#b29965', .26, .85), ceramic = material('#ded5c5', .4), trim = material('#e8e5db', .55), black = material('#242728', .48);
+  // Eye-level wide views see the ceiling; keep the room enclosed above the picture rail.
+  const ceiling = box(design.roomWidth, 1, design.roomDepth, 0, 132.5, 0, material('#e8e5df', .85));
+  ceiling.castShadow = false; // Daylight is supplied by the existing architectural light rig.
   // Baseboards and high picture-rail moulding make the room feel continuous.
   for (const side of [-1, 1]) {
     box(.8, 5, design.roomDepth, side * (design.roomWidth / 2 - .4), 2.8, 0, trim);

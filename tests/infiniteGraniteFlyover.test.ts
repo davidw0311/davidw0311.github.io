@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { flyoverPose, flyoverDesign, restoreFlyover, LOOP_SECONDS, DEFAULT_LIGHTING } from '../app/projects/infinite-granite/flyover/model.ts';
+import { flyoverPose, flyoverDesign, restoreFlyover, clampZoom, LOOP_SECONDS, DEFAULT_LIGHTING } from '../app/projects/infinite-granite/flyover/model.ts';
 import { collisionPairs } from '../app/projects/infinite-granite/kitchen.ts';
 
 test('camera loop closes without a position or velocity jump on desktop and portrait', () => {
@@ -15,7 +15,10 @@ test('camera loop closes without a position or velocity jump on desktop and port
     for (let t = 0; t < LOOP_SECONDS; t += .1) {
       const { position, target } = flyoverPose(t, aspect);
       assert.ok(position.every(Number.isFinite));
-      assert.ok(position[1] > 100 && position[2] > 150, 'Camera clears the island and stays on the open side of the kitchen');
+      assert.ok(position[1] >= 64 && position[1] <= 66, 'Walkthrough stays at adult eye level in every aspect ratio');
+      const island = flyoverDesign().components.find(c => c.kind === 'island')!;
+      assert.ok(position[2] > island.z + island.depth / 2 + 48, 'Camera path clears the island with room to walk');
+      assert.ok(Math.abs(position[0]) < flyoverDesign().roomWidth / 2 - 12, 'Walkthrough stays away from the side walls');
       assert.ok(target[1] > 30 && target[1] < 54, 'Countertops remain the centre of the shot');
     }
   }
@@ -30,10 +33,11 @@ test('flyover has no collisions, real fixtures and separately coloured cupboards
 
 test('saved finishes survive reload without accepting altered geometry or invalid settings', () => {
   const d = flyoverDesign();
-  const saved = { design: { ...d, floor: 'slate', floorColor: '#123456', cabinetColor: '#abcdef', components: [], countertop: 'vicostone-bq8788' }, lighting: { mode: 'night', brightness: .8, warmth: .7 } };
+  const saved = { design: { ...d, floor: 'slate', floorColor: '#123456', wallColor: '#654321', cabinetColor: '#abcdef', components: [], countertop: 'vicostone-bq8788' }, lighting: { mode: 'night', brightness: .8, warmth: .7 } };
   const restored = restoreFlyover(saved);
   assert.equal(restored.design.floor, 'slate');
   assert.equal(restored.design.floorColor, '#123456');
+  assert.equal(restored.design.wallColor, '#654321');
   assert.equal(restored.design.countertop, 'vicostone-bq8788');
   assert.deepEqual(restored.design.components, d.components);
   assert.deepEqual(restored.lighting, saved.lighting);
@@ -56,4 +60,21 @@ test('larger worktops keep a clear aisle and fit within the finished room', () =
   }
   const restored = restoreFlyover({ design: { countertop: 'vicostone-bq8788', components: [{ kind: 'island', width: 60, depth: 36 }] } });
   assert.equal(restored.design.components.find(c => c.kind === 'island')!.width, 96, 'Existing saved looks receive the enlarged scene');
+});
+
+
+test('zoom changes the lens without moving the viewer into counters or walls', () => {
+  for (const aspect of [.5, 1, 1.8, 3]) {
+    const normal = flyoverPose(1, aspect);
+    const wide = flyoverPose(1, aspect, .75), close = flyoverPose(1, aspect, 1.8);
+    assert.deepEqual(wide.position, normal.position);
+    assert.deepEqual(close.position, normal.position);
+    assert.deepEqual(close.target, normal.target);
+    assert.ok(close.fov < normal.fov && normal.fov < wide.fov);
+    assert.ok(close.fov > 20 && wide.fov < 100);
+    assert.equal(flyoverPose(1, aspect, 99).fov, close.fov);
+    assert.equal(flyoverPose(1, aspect, -99).fov, wide.fov);
+    assert.equal(flyoverPose(1, aspect, NaN).fov, normal.fov);
+  }
+  assert.equal(clampZoom(Infinity), 1);
 });
