@@ -1,4 +1,4 @@
-import { type KitchenDesign } from '../kitchen.ts';
+import { COLORS, type KitchenDesign } from '../kitchen.ts';
 import { kitchenPresetDesign } from '../kitchenPresets.ts';
 import { resolveMaterialId } from '../materials.ts';
 import { FLOOR_FINISHES } from '../roomFinishes.ts';
@@ -12,7 +12,7 @@ export function flyoverDesign(): KitchenDesign {
   layout.components = layout.components.map(c => c.kind === 'island' ? { ...c, width: 96, depth: 48, x: -2, z: 15 } : ['base', 'sink', 'dishwasher', 'range'].includes(c.kind) ? { ...c, depth: 30, z: -81 } : c);
   layout.roomWalls = { back: { enabled: true, height: 132 }, left: { enabled: true, height: 132 }, right: { enabled: true, height: 132 }, front: { enabled: false, height: 132 } };
   layout.openings = [...layout.openings!, { id: 'flyover-daylight-window', kind: 'window', wall: 'left', offset: 22, bottom: 48, width: 66, height: 58 }];
-  return { ...layout, patternContrast: 1.4, waterfall: true, cabinetColor: '#8b9a88', upperColor: '#e8e7df', islandColor: '#314c43', backsplash: 'slab', wallColor: '#e5e1d9', backgroundColor: '#e9e5dc' };
+  return { ...layout, patternContrast: 1.4, waterfall: true, cabinetColor: COLORS[1].value, upperColor: COLORS[1].value, islandColor: COLORS[1].value, backsplash: 'slab', backsplashHeightRatio: .25, wallColor: '#e5e1d9', backgroundColor: '#e9e5dc' };
 }
 /** Eye-level stroll along the open side of the island; position and velocity loop smoothly. */
 export function flyoverPose(seconds: number, aspect: number, zoom = 1) {

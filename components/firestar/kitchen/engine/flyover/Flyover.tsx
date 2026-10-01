@@ -12,7 +12,8 @@ import { usePreviewFullscreen } from './usePreviewFullscreen';
 import styles from './flyover.module.css';
 import { KITCHEN_LOOKS, kitchenLook, surfaceDesign } from '../../looks';
 
-const STORAGE_KEY = 'firestar-kitchen-viewer-v1';
+// Start this revision with the requested Linen cupboards and quarter backsplash.
+const STORAGE_KEY = 'firestar-kitchen-viewer-v2';
 const OPTIONS = { selected: null, walls: true, dimensions: false, showroom: true };
 const TABS = ['Countertops', 'Design'] as const;
 export default function Flyover() {

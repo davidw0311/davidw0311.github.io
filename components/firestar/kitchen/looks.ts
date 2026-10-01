@@ -14,7 +14,7 @@ export const KITCHEN_LOOKS = [
 
 export function kitchenLook(index: number): KitchenDesign {
   const look = KITCHEN_LOOKS[((index % KITCHEN_LOOKS.length) + KITCHEN_LOOKS.length) % KITCHEN_LOOKS.length];
-  return { ...flyoverDesign(), countertop: look.material, cabinetColor: look.lower, upperColor: look.upper, islandColor: look.island, floor: look.floor, floorColor: look.floorColor };
+  return { ...flyoverDesign(), countertop: look.material, floor: look.floor, floorColor: look.floorColor };
 }
 
 // The opening composition stays fixed while finishes change, including after a resize.
