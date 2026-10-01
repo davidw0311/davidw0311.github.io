@@ -2,11 +2,12 @@
 
 This is an independently hosted copy of the InfiniteGranite Kitchen Flyover at commit `eb176435`. Runtime components and textures belong to Firestar: no iframe, calls into the original app, or remotely hosted texture assets. Three.js runs in the browser. Supplier source links remain for attribution and product information.
 
-- `KitchenHero.tsx` renders a stationary camera. Six coordinated looks in `looks.ts` rotate every six seconds after textures finish loading. Manual navigation pauses rotation; hover, keyboard focus, hidden tabs and offscreen previews suspend it. Reduced-motion visitors start paused. Zoom never animates the camera path.
+- The landing page opens with 64 slab designs, interleaved across all seven local supplier catalogues. `quartz/featuredSlabs.ts` selects the collection; the carousel advances every 4.5 seconds and supports seamless swiping in either direction. It pauses on manual interaction, hover/focus and hidden or offscreen views, and respects reduced motion.
+- `KitchenPreview.tsx` renders a compact, stationary kitchen below the slabs. Its worktops and backsplash follow the leading highlighted card when scrolling settles. The slab card, product detail and render use the exact same texture. Clicking any part of the preview passes the material ID with `?surface=` to the full viewer; validated surface selection takes precedence over saved finishes. The older `?look=` preset links remain supported.
 - `/projects/firestar/v1/kitchen-viewer/` opens the complete viewer with supplier search, finishes, lighting, backsplash height, fullscreen and image download. The camera starts paused; Play enables the original walking loop. The landing link carries its selected look to the viewer.
 - `engine/` owns the rendering engine, kitchen model and supplier catalogue. Its optional saved design uses the separate `firestar-kitchen-viewer-v1` storage key.
 - `public/assets/firestar/kitchen/` owns the catalogue images and provenance manifests. Only the selected full-size texture loads into the landing renderer. Thumbnails in the full viewer are lazy loaded.
-- The previous V1 slab carousel remains on Products. V2, V3 and the original InfiniteGranite app are unchanged.
+- The original 25-selection gallery remains on Products, including legacy Kasa room illustrations. V2, V3 and the original InfiniteGranite app are unchanged.
 
 ## Export to another host
 

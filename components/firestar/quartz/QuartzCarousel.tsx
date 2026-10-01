@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { ArrowLeft, ArrowRight, Pause, Play } from '@phosphor-icons/react';
 import s from './quartz.module.css';
+import { activeSlideIndex } from './carouselPosition';
 
 const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
 function subscribeToMotion(callback: () => void) {
@@ -11,7 +12,7 @@ function subscribeToMotion(callback: () => void) {
   return () => media.removeEventListener('change', callback);
 }
 
-export function QuartzCarousel({ children, count, paused }: { children: (duplicate: boolean) => ReactNode; count: number; paused: boolean }) {
+export function QuartzCarousel({ children, count, paused, onActiveIndexChange }: { children: (duplicate: boolean) => ReactNode; count: number; paused: boolean; onActiveIndexChange?: (index: number) => void }) {
   const track = useRef<HTMLDivElement>(null);
   const metrics = useRef({ cycle: 0, step: 0 });
   const [playing, setPlaying] = useState(true);
@@ -32,6 +33,7 @@ export function QuartzCarousel({ children, count, paused }: { children: (duplica
     const recenter = () => {
       const { cycle } = metrics.current;
       if (!cycle || pointerDown || touching) return;
+      onActiveIndexChange?.(activeSlideIndex(element.scrollLeft, cycle, metrics.current.step, count));
       if (element.scrollLeft >= cycle - 0.5 && element.scrollLeft < cycle * 2 - 0.5) return;
       // Equivalent images occupy the same viewport after moving to the middle copy.
       const offset = modulo(element.scrollLeft - cycle, cycle);
@@ -58,6 +60,7 @@ export function QuartzCarousel({ children, count, paused }: { children: (duplica
       const old = metrics.current;
       const position = old.step ? modulo((element.scrollLeft - old.cycle) / old.step, count) : 0;
       metrics.current = { cycle, step: cycle / count };
+      onActiveIndexChange?.(activeSlideIndex(cycle + position * metrics.current.step, cycle, metrics.current.step, count));
       if (Math.abs(old.cycle - cycle) > 0.1) element.scrollTo({ left: cycle + position * metrics.current.step, behavior: 'instant' });
     };
     const startPointer = () => { pointerDown = true; };
@@ -87,7 +90,7 @@ export function QuartzCarousel({ children, count, paused }: { children: (duplica
       window.removeEventListener('touchend', endTouch);
       window.removeEventListener('touchcancel', endTouch);
     };
-  }, [count]);
+  }, [count, onActiveIndexChange]);
 
   const advance = (direction: number) => {
     const element = track.current;

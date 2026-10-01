@@ -1,5 +1,6 @@
 import { flyoverDesign, flyoverPose } from './engine/flyover/model.ts';
 import type { KitchenDesign } from './engine/kitchen.ts';
+import { resolveMaterialId } from './engine/materials.ts';
 
 export const DESIGN_INTERVAL = 6000;
 export const KITCHEN_LOOKS = [
@@ -18,3 +19,8 @@ export function kitchenLook(index: number): KitchenDesign {
 
 // The opening composition stays fixed while finishes change, including after a resize.
 export function stationaryPose(aspect: number, zoom = 1) { return flyoverPose(0, aspect, zoom); }
+
+/** Consistent cabinetry keeps attention on the selected surface. */
+export function surfaceDesign(materialId: string): KitchenDesign {
+  return { ...flyoverDesign(), countertop: resolveMaterialId(materialId) ?? flyoverDesign().countertop };
+}

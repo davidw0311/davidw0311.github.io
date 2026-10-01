@@ -14,6 +14,7 @@
 .openImage img { width: 100%; height: clamp(280px, 43svh, 430px); object-fit: cover; display: block; transition: transform .4s; }
 .openImage:hover img { transform: scale(1.035); }
 .cardTitle { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 17px 0 16px; background: transparent; border: 0; border-bottom: 1px solid var(--line); color: var(--fg); width: 100%; text-align: left; }
+.card[data-active=true] .cardTitle { border-bottom-color:var(--accent); box-shadow:0 1px 0 var(--accent); }
 .cardTitle h2 { font-size: 29px; line-height: 1.15; }
 .cardTitle p { margin-top: 7px!important; font-size: 16px; }
 .cardTitle>svg { flex-shrink: 0; }
@@ -79,3 +80,6 @@
 
 .slideSet { display: contents; }
 .track::-webkit-scrollbar { display: none; }
+
+.withKitchen .openImage img { height:clamp(260px,32svh,340px); }
+@media(max-width:600px) { .withKitchen .openImage img { height:clamp(240px,34svh,300px); } }

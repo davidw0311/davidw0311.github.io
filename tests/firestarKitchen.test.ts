@@ -2,9 +2,37 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { KITCHEN_LOOKS, kitchenLook, stationaryPose } from '../components/firestar/kitchen/looks.ts';
+import { KITCHEN_LOOKS, kitchenLook, stationaryPose, surfaceDesign } from '../components/firestar/kitchen/looks.ts';
 import { MATERIALS } from '../components/firestar/kitchen/engine/materials.ts';
 import { collisionPairs } from '../components/firestar/kitchen/engine/kitchen.ts';
+import { featuredSlabs } from '../components/firestar/quartz/featuredSlabs.ts';
+import { activeSlideIndex } from '../components/firestar/quartz/carouselPosition.ts';
+
+test('featured slabs cover every supplier and match the kitchen texture exactly', () => {
+  assert.equal(featuredSlabs.length, 64);
+  assert.equal(new Set(featuredSlabs.map(l => l.id)).size, featuredSlabs.length);
+  assert.deepEqual([...new Set(featuredSlabs.map(l => l.supplier))].sort(), [...new Set(MATERIALS.map(m => m.company))].sort());
+  assert.equal(new Set(featuredSlabs.slice(0, 7).map(l => l.supplier)).size, 7);
+  for (const look of featuredSlabs) {
+    const design = surfaceDesign(look.materialId!);
+    const material = MATERIALS.find(m => m.id === design.countertop)!;
+    assert.equal(material.id, look.materialId);
+    assert.match(material.family, /quartz/i);
+    assert.equal(material.textureKind, 'slab');
+    assert.equal(material.textureUrl, `/assets/firestar/${look.image}.webp`);
+    for (const suffix of ['.webp', '-thumb.webp']) assert.ok(existsSync(resolve('public/assets/firestar', look.image + suffix)));
+    assert.deepEqual(design.components, surfaceDesign(featuredSlabs[0].materialId!).components);
+  }
+});
+
+test('the kitchen selection follows fractional slides and both seamless wrap boundaries', () => {
+  const count = featuredSlabs.length, step = 321.375, cycle = count * step;
+  for (const index of [-1, 0, 1, count - 1, count, count + 1]) {
+    const expected = ((index % count) + count) % count;
+    for (const rounding of [-.4, 0, .4]) assert.equal(activeSlideIndex(cycle + index * step + rounding, cycle, step, count), expected);
+  }
+  assert.equal(activeSlideIndex(0, 0, 0, count), 0);
+});
 
 test('landing finishes keep the same collision-free kitchen and valid supplier materials', () => {
   const initial = kitchenLook(0);

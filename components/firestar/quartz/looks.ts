@@ -7,7 +7,7 @@ export const tones: { key: Tone; label: string; color: string }[] = [
   { key: 'dark', label: 'Dark & dramatic', color: '#363b37' },
 ];
 export type Look = {
-  id: string; code: string; title: string; supplier: 'Kasa' | 'TCE Stone' | 'Vicostone'; series: string; tone: Exclude<Tone, 'all'>;
+  id: string; code: string; title: string; supplier: string; materialId?: string; series: string; tone?: Exclude<Tone, 'all'>;
   pattern: string; image: string; roomImage: string | null; imageKind: 'slab' | 'room'; description: string; source: string;
 };
 // Official catalogue names and codes. Image provenance is in each supplier's public/assets/firestar folder.

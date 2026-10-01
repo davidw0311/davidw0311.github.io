@@ -6,7 +6,6 @@ import { Header } from './Header';
 import { Gallery } from './Gallery';
 import { QuartzGallery } from './quartz/QuartzGallery';
 import { GoogleReviews } from './GoogleReviews';
-import KitchenHero from './kitchen/KitchenHero';
 import KitchenViewer from './kitchen/engine/flyover/Flyover';
 import styles from './firestar.module.css';
 
@@ -128,7 +127,7 @@ export function FirestarSite({ version, current }: { version: Version; current: 
   return <div className={`${styles.site} ${styles[version]}`}>
     <a href="#firestar-content" className={styles.skip}>Skip to content</a><Header key={`${version}-${current}`} version={version} current={current} />
     <main id="firestar-content">
-      {current === 'home' ? <>{version === 'v1' ? <KitchenHero /> : <Hero version={version} />}<Materials version={version} />{version === 'v2' ? <><GalleryPreview version={version} /><About version={version} /><ServiceContent version={version} /></> : version === 'v3' ? <><ServiceContent version={version} /><GalleryPreview version={version} /><About version={version} /></> : <><About version={version} /><GalleryPreview version={version} /><ServiceContent version={version} /></>}<Quote version={version} /><Showroom version={version} /></> : current === 'viewer' ? <KitchenViewer /> : <><PageHeading version={version} current={current} />
+      {current === 'home' ? <>{version === 'v1' ? <QuartzGallery kitchenPreview /> : <Hero version={version} />}<Materials version={version} />{version === 'v2' ? <><GalleryPreview version={version} /><About version={version} /><ServiceContent version={version} /></> : version === 'v3' ? <><ServiceContent version={version} /><GalleryPreview version={version} /><About version={version} /></> : <><About version={version} /><GalleryPreview version={version} /><ServiceContent version={version} /></>}<Quote version={version} /><Showroom version={version} /></> : current === 'viewer' ? <KitchenViewer /> : <><PageHeading version={version} current={current} />
         {current === 'services' && <><ServiceContent version={version} full /><Photo src={photos['1.jpg']} alt="A completed Firestar Granite kitchen" className={styles.serviceBanner} /><Quote version={version} /></>}
         {current === 'products' && <>{version === 'v1' && <QuartzGallery />}<Materials version={version} full /></>}
         {current === 'showroom' && <Showroom version={version} full />}

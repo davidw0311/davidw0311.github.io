@@ -10,7 +10,7 @@ import DesignControls from './DesignControls';
 import { clampZoom, DEFAULT_LIGHTING, flyoverDesign, flyoverPose, restoreFlyover, type Lighting } from './model';
 import { usePreviewFullscreen } from './usePreviewFullscreen';
 import styles from './flyover.module.css';
-import { KITCHEN_LOOKS, kitchenLook } from '../../looks';
+import { KITCHEN_LOOKS, kitchenLook, surfaceDesign } from '../../looks';
 
 const STORAGE_KEY = 'firestar-kitchen-viewer-v1';
 const OPTIONS = { selected: null, walls: true, dimensions: false, showroom: true };
@@ -40,8 +40,11 @@ export default function Flyover() {
         if (cancelled || !host.current) return;
         let restored = { design: designRef.current, lighting: lightRef.current };
         try { const saved = localStorage.getItem(STORAGE_KEY); if (saved) restored = restoreFlyover(JSON.parse(saved)); } catch { /* Storage is optional. */ }
-        const requested = new URLSearchParams(window.location.search).get('look');
+        const params = new URLSearchParams(window.location.search);
+        const requested = params.get('look');
         if (requested !== null && /^\d+$/.test(requested) && Number(requested) < KITCHEN_LOOKS.length) restored = { design: kitchenLook(Number(requested)), lighting: DEFAULT_LIGHTING };
+        const surface = params.get('surface');
+        if (surface && MATERIALS.some(material => material.id === surface)) restored = { design: surfaceDesign(surface), lighting: DEFAULT_LIGHTING };
         designRef.current = restored.design; lightRef.current = restored.lighting;
         setDesign(restored.design); setLighting(restored.lighting);
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) setPlaying(false);
