@@ -1,6 +1,5 @@
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { addShowroomDetails, showroomTextures } from './flyover/showroom';
 import { createWindowViews } from './flyover/windowViews';
@@ -91,16 +90,13 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   let current: KitchenDesign; let options: SceneOptions; let viewMode: ViewMode = 'perspective'; let disposed = false;
   let pickables: THREE.Object3D[] = []; let cellPickables: THREE.Object3D[] = [];
   let composer: EffectComposer | null = null;
-  let occlusion: SSAOPass | null = null;
   let surfaces: ReturnType<typeof showroomTextures> | null = null;
   let windowViews: ReturnType<typeof createWindowViews> | null = null;
-  const releaseShowroom = () => { composer?.passes.forEach(pass => pass.dispose()); composer?.dispose(); [...pendantLights, ...taskLights].forEach(light => light.shadow.dispose()); occlusion?.ssaoMaterial.dispose(); occlusion?.noiseTexture?.dispose(); surfaces?.dispose(); windowViews?.dispose(); };
+  const releaseShowroom = () => { composer?.passes.forEach(pass => pass.dispose()); composer?.dispose(); [...pendantLights, ...taskLights].forEach(light => light.shadow.dispose()); surfaces?.dispose(); windowViews?.dispose(); };
   initializationCleanup.push(releaseShowroom);
   const render = () => { if (!disposed) { if (composer) composer.render(); else renderer.render(scene, camera); } };
   function sizeComposer(width: number, height: number) {
     composer?.setSize(width, height);
-    // AO uses CSS resolution rather than retina resolution to keep mobile playback light.
-    occlusion?.setSize(Math.round(width), Math.round(height));
   }
   function enableShowroom() {
     if (composer) return;
@@ -116,9 +112,9 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     composer = new EffectComposer(renderer);
     composer.renderTarget1.samples = composer.renderTarget2.samples = Math.min(4, renderer.capabilities.maxSamples);
     composer.addPass(new RenderPass(scene, camera));
-    occlusion = new SSAOPass(scene, camera, 512, 512, 24);
-    occlusion.kernelRadius = 2.5; occlusion.minDistance = .00025; occlusion.maxDistance = .012;
-    composer.addPass(occlusion); composer.addPass(new OutputPass());
+    // Screen-space occlusion also darkens non-shadow-receiving slabs. Keep the
+    // room's physical light shadows without that patchy full-screen overlay.
+    composer.addPass(new OutputPass());
     sizeComposer(host.clientWidth, host.clientHeight);
   }
   controls.addEventListener('change', render);
@@ -294,8 +290,11 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     const h = current.counterThickness;
     const geometry = countertopGeometry(c, h, hole ? current.sinkStyle : undefined);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.castShadow = mesh.receiveShadow = true; parent.add(mesh);
-    if (c.kind === 'island' && current.waterfall) for (const sign of [-1, 1]) box(parent, h, c.height - h, c.depth, sign * (c.width - h) / 2, (c.height - h) / 2, 0, material, .1);
+    mesh.castShadow = true; mesh.receiveShadow = false; parent.add(mesh);
+    if (c.kind === 'island' && current.waterfall) for (const sign of [-1, 1]) {
+      const waterfall = box(parent, h, c.height - h, c.depth, sign * (c.width - h) / 2, (c.height - h) / 2, 0, material, .1);
+      waterfall.receiveShadow = false;
+    }
   }
   function sink(parent: THREE.Object3D, c: KitchenComponent) {
     const opening = sinkOpening(c, current.sinkStyle); const w = opening.width, d = opening.depth, y = c.height;

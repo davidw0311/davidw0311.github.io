@@ -8,6 +8,7 @@ This is an independently hosted copy of the InfiniteGranite Kitchen Flyover at c
 - `engine/` owns the rendering engine, kitchen model and supplier catalogue. Its optional saved design uses the separate `firestar-kitchen-viewer-v2` storage key. This revision starts with Linen (the second colour) for upper, lower and island cupboards and a quarter-height backsplash. The previous saved design remains untouched under the older storage key; subsequent edits save normally.
 - `public/assets/firestar/kitchen/` owns the catalogue images and provenance manifests. Only the selected full-size texture loads into the landing renderer. Thumbnails in the full viewer are lazy loaded.
 - Windows use locally hosted morning/night garden photographs generated with the built-in image tool, recessed behind the frames with subtle glass reflections. The existing Day/Night control changes the exterior and room lighting together. Both images, their exact prompts and generation provenance are in `public/assets/firestar/kitchen/exterior/`; the standalone export includes them. Each scene loads the pair once and releases them on disposal.
+- Countertops and waterfall edges do not receive cast shadows, keeping supplier patterns clear. The showroom omits screen-space ambient occlusion to prevent patchy shading on these surfaces; the rest of the room retains physical lighting and cast shadows.
 - The original 25-selection gallery remains on Products, including legacy Kasa room illustrations. V2, V3 and the original InfiniteGranite app are unchanged.
 
 ## Export to another host
