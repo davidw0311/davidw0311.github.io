@@ -1,0 +1,15 @@
+{
+  "purpose": "Illustrative outdoor scenery for Firestar V1 kitchen windows; not a photograph of the business or a customer property.",
+  "method": "Built-in image_gen; morning image generated, night image relit from the morning reference. Converted to WebP quality 85 without changing composition.",
+  "assets": [
+    {
+      "file": "garden-morning.webp",
+      "prompt": "Use case: photorealistic-natural. Create a landscape 1536x1024 photographic outdoor background texture for the view through a kitchen window in a 3D architectural renderer. Quiet residential garden on Vancouver Island, British Columbia: natural lawn foreground, a few ferns and low planting beds, a cedar privacy fence further back, layered western red cedar and Douglas fir trees beyond the fence, soft distant wooded hill. Fresh calm morning sunshine, pale blue sky with delicate clouds occupying upper third, believable natural colors, photographic detail and restrained contrast. Viewpoint standing at kitchen counter height looking horizontally outside, normal perspective, no wide-angle distortion. The image is ONLY the outdoor view: no window, no glass, no frame, no house interior, no kitchen, no people, no text, no borders, no watermark. Trees distributed across the image, no dominant huge close trunk; the middle portion must work as a tall narrow window crop. This will be paired with an exactly composition-matched night relighting later."
+    },
+    {
+      "file": "garden-night.webp",
+      "reference": "garden-morning.webp",
+      "prompt": "Use case: lighting-weather. Edit this outdoor garden background into a photorealistic nighttime version for a 3D kitchen window. Preserve EXACT camera, framing, tree shapes, fence, planting, distant hill, lawn, all objects and their positions. Change ONLY time of day and illumination. A believable deep blue night sky with a few barely visible stars and thin clouds, subtle cool moonlight defining the evergreen silhouettes and distant hill, dark natural lawn; two or three discreet warm garden ground lights illuminate small patches of ferns close to the fence. Keep nighttime recognizably dark, not bright blue daylight or a sunset; retain enough shadow detail to see the foliage when viewed from a warmly lit kitchen. No bright sun, no giant moon, no windows, no interior, no people, no text, no border. Same exact 1536x1024 landscape composition as the source. Output only the outdoor view."
+    }
+  ]
+}

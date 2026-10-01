@@ -3,6 +3,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { SSAOPass } from 'three/addons/postprocessing/SSAOPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { addShowroomDetails, showroomTextures } from './flyover/showroom';
+import { createWindowViews } from './flyover/windowViews';
 import type { Lighting } from './flyover/model';
 import { FLOOR_FINISHES } from './roomFinishes';
 import { gridDirection } from './editActions';
@@ -92,7 +93,8 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   let composer: EffectComposer | null = null;
   let occlusion: SSAOPass | null = null;
   let surfaces: ReturnType<typeof showroomTextures> | null = null;
-  const releaseShowroom = () => { composer?.passes.forEach(pass => pass.dispose()); composer?.dispose(); [...pendantLights, ...taskLights].forEach(light => light.shadow.dispose()); occlusion?.ssaoMaterial.dispose(); occlusion?.noiseTexture?.dispose(); surfaces?.dispose(); };
+  let windowViews: ReturnType<typeof createWindowViews> | null = null;
+  const releaseShowroom = () => { composer?.passes.forEach(pass => pass.dispose()); composer?.dispose(); [...pendantLights, ...taskLights].forEach(light => light.shadow.dispose()); occlusion?.ssaoMaterial.dispose(); occlusion?.noiseTexture?.dispose(); surfaces?.dispose(); windowViews?.dispose(); };
   initializationCleanup.push(releaseShowroom);
   const render = () => { if (!disposed) { if (composer) composer.render(); else renderer.render(scene, camera); } };
   function sizeComposer(width: number, height: number) {
@@ -103,6 +105,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
   function enableShowroom() {
     if (composer) return;
     surfaces = showroomTextures();
+    windowViews = createWindowViews(render, anisotropy);
     const island = current.components.find(c => c.kind === 'island');
     if (island) for (const offset of [-25, 25]) {
       const light = new THREE.SpotLight('#ffdcac', 80, 120, .9, .7, 2);
@@ -242,6 +245,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
     const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, 32, radius, 10, false), material); mesh.castShadow = true; parent.add(mesh);
   }
   function disposeModel() {
+    windowViews?.clear();
     const materials = new Set<THREE.Material>();
     const geometries = new Set<THREE.BufferGeometry>();
     model.traverse(o => {
@@ -422,9 +426,13 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       if(!options.hideWindows)for(const o of cuts){
         if(options.hidden?.includes(o.id))continue;
         const opening=new THREE.Group();group.add(opening);
-        const glass=new THREE.MeshStandardMaterial({color:o.kind==='window'?'#d6e8e8':'#c1b4a0',roughness:.35,emissive:'#a2cbd3',emissiveIntensity:o.kind==='window'?.15:0});
-        const pane=box(opening,o.width-1,o.height-1,.5,o.offset,o.bottom+o.height/2,0,glass);
-        if(options.showroom&&o.kind==='window'){pane.castShadow=false;pane.receiveShadow=false;}
+        if(options.showroom&&o.kind==='window'&&windowViews) {
+          windowViews.add(opening,o,inward);
+          box(opening,o.width+3,1.2,5,o.offset,o.bottom-.5,inward,trim);
+        } else {
+          const glass=new THREE.MeshStandardMaterial({color:o.kind==='window'?'#d6e8e8':'#c1b4a0',roughness:.35,emissive:'#a2cbd3',emissiveIntensity:o.kind==='window'?.15:0});
+          box(opening,o.width-1,o.height-1,.5,o.offset,o.bottom+o.height/2,0,glass);
+        }
         for(const x of [o.offset-o.width/2,o.offset+o.width/2])box(opening,1.3,o.height,3,x,o.bottom+o.height/2,inward*.2,trim);
         for(const y of [o.bottom,o.bottom+o.height])box(opening,o.width,1.3,3,o.offset,y,inward*.2,trim);
         if(o.kind==='window')box(opening,1,o.height,1,o.offset,o.bottom+o.height/2,inward*.5,trim);
@@ -535,6 +543,7 @@ export function createKitchenScene(host: HTMLElement, onSelect: (id: string | nu
       scene.add(light, light.target); taskLights.push(light);
     }
     const night = mode === 'night';
+    windowViews?.setMode(mode);
     ambient.intensity = night ? .22 : .42;
     ambient.color.set(night ? '#90a6cc' : '#f5f8ff');
     sun.color.copy(new THREE.Color('#fff7ec').lerp(new THREE.Color('#ffc074'), warmth));
