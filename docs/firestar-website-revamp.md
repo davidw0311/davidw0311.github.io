@@ -92,3 +92,9 @@ Each V1 review card now links to that individual Google review rather than the r
 ## User-supplied verbatim reviews
 
 Replaced all five summaries with the complete review text supplied by the user on 2026-09-12. Spelling, punctuation, capitalization, repeated spaces, and line breaks are preserved. Removed the summary labels, editorial card titles, and shortening notice. Each review is rendered as a readable blockquote with its existing author, five stars, and verified individual Google review link. No review photos are displayed.
+
+## V1 kitchen landing view
+
+The landing carousel is replaced by a live, stationary view of the Kitchen Flyover, with six coordinated surface/cabinet/floor designs changing every six seconds. Visitors can pause, change designs and zoom. The top navigation and preview link open `/projects/firestar/v1/kitchen-viewer/` for the full interactive finish controls, lighting, fullscreen and optional walking camera. The previous 25-selection slab carousel is now on Products.
+
+The viewer engine, catalogue and required texture assets are copied into Firestar-owned directories so V1 does not rely on the original InfiniteGranite application. `scripts/export-firestar-v1.mjs` packages the built V1 pages and assets for another static host. Export instructions and migration notes are in `components/firestar/kitchen/README.md`. Existing reviews, company content, V2 and V3 are retained.

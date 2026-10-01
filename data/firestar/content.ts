@@ -11,6 +11,7 @@ export const themes = {
   v3: { name: 'The neighbourhood studio', short: 'Neighbourhood studio', description: 'A welcoming home-design experience with a room picker, rounded navigation tiles, and a masonry gallery.' },
 };
 export const routes = {
+  viewer: { slug: 'kitchen-viewer', title: 'Kitchen viewer' },
   home: { slug: '', title: 'Home' }, services: { slug: 'Services.htm', title: 'Services' },
   products: { slug: 'products.htm', title: 'Products' }, showroom: { slug: 'showroom.htm', title: 'Showroom' },
   gallery: { slug: 'gallery.htm', title: 'Gallery' }, contact: { slug: 'contact.htm', title: 'Contact' },
@@ -22,6 +23,7 @@ export const routes = {
   other: { slug: 'Other.htm', title: 'Others' },
 } as const;
 export type PageKey = keyof typeof routes;
+export function pageKeys(version: Version): PageKey[] { return (Object.keys(routes) as PageKey[]).filter(key => key !== 'viewer' || version === 'v1'); }
 export const nav: PageKey[] = ['home', 'services', 'products', 'showroom', 'gallery', 'contact'];
 export function href(version: Version, key: PageKey = 'home') {
   return `/projects/firestar/${version}/${routes[key].slug ? routes[key].slug + '/' : ''}`;

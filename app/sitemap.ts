@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { href, routes, versions, type PageKey } from "@/data/firestar/content";
+import { href, pageKeys, versions } from "@/data/firestar/content";
 import { projects } from "@/data/projects";
 import { regiusStories } from "@/data/codexRegius";
 
@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     { url: `${baseUrl}/publications/accelerator-tuning-poster/`, changeFrequency: "yearly", priority: 0.6 },
-    ...versions.flatMap(version => (Object.keys(routes) as PageKey[]).map(key => ({ url: `${baseUrl}${href(version, key)}`, changeFrequency: "monthly" as const, priority: key === "home" ? 0.8 : 0.5 }))),
+    ...versions.flatMap(version => pageKeys(version).map(key => ({ url: `${baseUrl}${href(version, key)}`, changeFrequency: "monthly" as const, priority: key === "home" ? 0.8 : 0.5 }))),
     ...projects.map((project) => ({
       url: `${baseUrl}/projects/${project.slug}/`,
       changeFrequency: "yearly" as const,

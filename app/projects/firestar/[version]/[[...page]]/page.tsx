@@ -3,17 +3,17 @@ import { notFound } from 'next/navigation';
 import { CatalogueSite } from '@/components/firestar/catalogue/Site';
 import { HomesteadSite } from '@/components/firestar/homestead/Site';
 import { FirestarSite } from '@/components/firestar/Site';
-import { brandName, href, routes, themes, versions, type PageKey, type Version } from '@/data/firestar/content';
+import { brandName, href, pageKeys, routes, themes, versions, type PageKey, type Version } from '@/data/firestar/content';
 
 type Params = { version: string; page?: string[] };
 function resolve(params: Params) {
   const version = params.version as Version;
   const current = (Object.keys(routes) as PageKey[]).find(key => routes[key].slug === (params.page?.join('/') || ''));
-  if (!versions.includes(version) || !current) notFound();
+  if (!versions.includes(version) || !current || (current === 'viewer' && version !== 'v1')) notFound();
   return { version, current };
 }
 export function generateStaticParams() {
-  return versions.flatMap(version => Object.values(routes).map(route => ({ version, page: route.slug ? [route.slug] : [] })));
+  return versions.flatMap(version => pageKeys(version).map(key => ({ version, page: routes[key].slug ? [routes[key].slug] : [] })));
 }
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { version, current } = resolve(await params);
