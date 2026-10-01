@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowsOut, Minus, Moon, Pause, Play, Plus, Sun, X } from '@phosphor-icons/react';
+import { ArrowDown, ArrowsIn, ArrowsOut, Minus, Moon, Pause, Play, Plus, SlidersHorizontal, Sun, X } from '@phosphor-icons/react';
 import type { KitchenScene } from '../scene';
 import type { KitchenDesign } from '../kitchen';
 import { MATERIALS } from '../materials';
 import SlabCatalogue from './SlabCatalogue';
 import DesignControls from './DesignControls';
 import { clampZoom, DEFAULT_LIGHTING, flyoverDesign, flyoverPose, restoreFlyover, type Lighting } from './model';
+import { usePreviewFullscreen } from './usePreviewFullscreen';
 import styles from './flyover.module.css';
 
 const STORAGE_KEY = 'infinite-granite-flyover-v1';
@@ -22,6 +23,9 @@ export default function Flyover() {
   const [error, setError] = useState<string | null>(null), [textureStatus, setTextureStatus] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
   const panel = useRef<HTMLElement>(null);
+  const workspace = useRef<HTMLDivElement>(null);
+  const { fullscreen, toggle: toggleFullscreen } = usePreviewFullscreen(workspace, expanded);
+  const [showFinishes, setShowFinishes] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [zoom, setZoom] = useState(1);
   const zoomRef = useRef(1);
@@ -133,21 +137,21 @@ export default function Flyover() {
   }
   const material = MATERIALS.find(m => m.id === design.countertop)!;
   return <main className={styles.page}>
-    <header className={styles.header} inert={expanded}>
+    <header className={styles.header} inert={expanded || fullscreen}>
       <Link className={styles.brand} href="/projects/infinite-granite/">Infinite<span>Granite</span></Link>
       <nav aria-label="InfiniteGranite views" className={styles.nav}><Link href="/projects/infinite-granite/">Room Planner</Link><Link href="/projects/infinite-granite/showcase/">Slab Studio</Link><Link href="/projects/infinite-granite/flyover/" aria-current="page">Kitchen Flyover</Link></nav>
     </header>
-    <div className={styles.workspace}>
+    <div ref={workspace} className={`${styles.workspace} ${fullscreen ? styles.fullscreenWorkspace : ''}`} data-controls={fullscreen && showFinishes}>
       <section className={styles.viewer} aria-label="Kitchen preview" inert={expanded}>
         <div className={styles.stage} ref={host} />
-        <div className={styles.viewTop}><h1>Kitchen Flyover</h1><button className={styles.iconButton} onClick={() => light({ mode: lighting.mode === 'day' ? 'night' : 'day' })} aria-label={lighting.mode === 'day' ? 'Switch to nighttime' : 'Switch to daytime'} title={lighting.mode === 'day' ? 'Switch to nighttime' : 'Switch to daytime'}>{lighting.mode === 'day' ? <Sun size={21} /> : <Moon size={21} />}</button></div>
+        <div className={styles.viewTop}><h1>Kitchen Flyover</h1><div className={styles.actions}>{fullscreen && <button className={styles.iconButton} aria-label={showFinishes ? 'Hide finish controls' : 'Show finish controls'} aria-expanded={showFinishes} aria-controls="flyover-finish-controls" title="Finish controls" onClick={() => setShowFinishes(value => !value)}><SlidersHorizontal size={21} /></button>}<button className={styles.iconButton} aria-label={fullscreen ? 'Exit kitchen fullscreen' : 'Fullscreen kitchen'} title={fullscreen ? 'Exit kitchen fullscreen' : 'Fullscreen kitchen'} onClick={() => { if (!fullscreen) setShowFinishes(false); void toggleFullscreen(); }}>{fullscreen ? <ArrowsIn size={21} /> : <ArrowsOut size={21} />}</button><button className={styles.iconButton} onClick={() => light({ mode: lighting.mode === 'day' ? 'night' : 'day' })} aria-label={lighting.mode === 'day' ? 'Switch to nighttime' : 'Switch to daytime'} title={lighting.mode === 'day' ? 'Switch to nighttime' : 'Switch to daytime'}>{lighting.mode === 'day' ? <Sun size={21} /> : <Moon size={21} />}</button></div></div>
         {(!ready || error) && <div className={styles.status} role="status">{error || 'Building your kitchen…'}{error && <button onClick={() => { setReady(false); setAttempt(a => a + 1); }}>Reload 3D view</button>}</div>}
         <div className={styles.viewBottom}><div className={styles.selectedSlab}><small>{material.company}</small><strong>{material.code}{material.name !== material.code && ` · ${material.name}`}</strong></div><div className={styles.actions}>
           <div className={styles.zoomControls}><button disabled={!ready || !!error || zoom <= .75} onClick={() => setZoom(z => clampZoom(z - .15))} aria-label="Zoom out" title="Zoom out"><Minus size={18} /></button><button className={styles.zoomValue} onClick={() => setZoom(1)} aria-label="Reset zoom" title="Reset zoom">{Math.round(zoom * 100)}%</button><button disabled={!ready || !!error || zoom >= 1.8} onClick={() => setZoom(z => clampZoom(z + .15))} aria-label="Zoom in" title="Zoom in"><Plus size={18} /></button></div>
           <button className={styles.iconButton} disabled={!ready || !!error} onClick={() => setPlaying(p => !p)} aria-label={playing ? 'Pause camera' : 'Play camera'} title={playing ? 'Pause camera' : 'Play camera'}>{playing ? <Pause size={18} weight="fill" /> : <Play size={18} weight="fill" />}</button><button className={styles.iconButton} onClick={saveFrame} disabled={!ready || !!error || !!textureStatus} aria-label="Save current frame" title="Save current frame"><ArrowDown size={18} /></button></div></div>
         {textureStatus && <p className={styles.textureStatus} role="status">{textureStatus}</p>}
       </section>
-      <aside ref={panel} className={`${styles.panel} ${expanded ? styles.expandedPanel : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label={expanded ? 'Slab gallery' : 'Kitchen finishes'}>
+      <aside id="flyover-finish-controls" hidden={fullscreen && !showFinishes} ref={panel} className={`${styles.panel} ${expanded ? styles.expandedPanel : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label={expanded ? 'Slab gallery' : 'Kitchen finishes'}>
         <div className={styles.panelToolbar}><div className={styles.tabs} role="group" aria-label="Finish category">{TABS.map(t => <button key={t} aria-pressed={tab === t} onClick={() => { setTab(t); if (t !== 'Countertops') setExpanded(false); }}>{t}</button>)}</div>{tab === 'Countertops' && <button className={styles.expandButton} aria-label={expanded ? 'Close slab gallery' : 'Expand slab gallery'} title={expanded ? 'Close slab gallery' : 'Expand slab gallery'} onClick={() => setExpanded(value => !value)}>{expanded ? <><X size={18} /><span>Done</span></> : <ArrowsOut size={18} />}</button>}</div>
         <div className={styles.panelBody}>
           <div className={styles.tabContent} hidden={tab !== 'Countertops'}><SlabCatalogue value={design.countertop} onChange={id => change('countertop', id)} /></div>
@@ -155,6 +159,6 @@ export default function Flyover() {
         </div>
       </aside>
     </div>
-    <p className={styles.footnote} inert={expanded}>Supplier photographs. Slab scale and colours are approximate.</p>
+    <p className={styles.footnote} inert={expanded || fullscreen}>Supplier photographs. Slab scale and colours are approximate.</p>
   </main>;
 }

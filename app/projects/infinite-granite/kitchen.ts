@@ -25,6 +25,7 @@ export interface KitchenDesign {
   countertop: string; cabinetColor: string; upperColor: string; islandColor: string;
   doorStyle: DoorStyle; hardware: Finish; sinkStyle: SinkStyle; sinkFinish: Finish;
   faucet: 'arc' | 'square'; wallColor: string; floor: FloorFinish; floorColor?:string; wallMaterial?:WallFinish; backgroundColor?:string;
+  backsplashHeightRatio?: 1 | .5 | .25;
   backsplash: 'subway' | 'slab' | 'none'; counterThickness: number; waterfall: boolean;
   components: KitchenComponent[];
 }
@@ -139,6 +140,7 @@ export function parseDesign(input: unknown): KitchenDesign | null {
   if (![d.roomWidth, d.roomDepth].every(v => Number.isFinite(v) && v >= (d.roomType==='bathroom'?72:144) && v <= 720)) return null;
   if (!resolveMaterialId(d.countertop) || !['shaker', 'slab', 'inset'].includes(d.doorStyle) || !['single', 'double', 'apron'].includes(d.sinkStyle)) return null;
   if (![d.hardware, d.sinkFinish].every(v => FINISHES.some(f => f.id === v)) || !['arc', 'square'].includes(d.faucet) || !FLOOR_FINISHES.some(f=>f.id===d.floor) || !['subway', 'slab', 'none'].includes(d.backsplash)) return null;
+  if(d.backsplashHeightRatio!==undefined&&![1,.5,.25].includes(d.backsplashHeightRatio))return null;
   if(d.wallMaterial!==undefined&&!WALL_FINISHES.some(f=>f.id===d.wallMaterial))return null;
   if([d.floorColor,d.backgroundColor].some(v=>v!==undefined&&(typeof v!=='string'||!hex.test(v))))return null;
   if (![d.cabinetColor, d.upperColor, d.islandColor, d.wallColor].every(v => typeof v === 'string' && hex.test(v))) return null;

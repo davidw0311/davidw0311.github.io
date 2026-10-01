@@ -33,6 +33,7 @@ export function restoreFlyover(raw: unknown): { design: KitchenDesign; lighting:
   if (d && typeof d === 'object') {
     const material = resolveMaterialId(d.countertop);
     if (material) design.countertop = material;
+    if (d.backsplashHeightRatio === 1 || d.backsplashHeightRatio === .5 || d.backsplashHeightRatio === .25) design.backsplashHeightRatio = d.backsplashHeightRatio;
     if (d.backsplash === 'none' || d.backsplash === 'slab') design.backsplash = d.backsplash;
     if (d.applianceColors && typeof d.applianceColors === 'object') {
       for (const key of ['range', 'hood', 'dishwasher', 'fridge'] as const) {

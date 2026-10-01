@@ -90,3 +90,15 @@ test('backsplash and four independent appliance finishes survive reload', () => 
   assert.deepEqual(invalid.design.applianceColors, { dishwasher: '#123456' });
   assert.equal(invalid.design.backsplash, 'slab');
 });
+
+
+test('backsplash height is saved independently from its visibility', () => {
+  for (const ratio of [1, .5, .25]) {
+    const restored = restoreFlyover({ design: { backsplash: 'none', backsplashHeightRatio: ratio } });
+    assert.equal(restored.design.backsplashHeightRatio, ratio);
+    assert.equal(restored.design.backsplash, 'none');
+  }
+  for (const ratio of [0, -1, 2, '0.5', NaN]) {
+    assert.equal(restoreFlyover({ design: { backsplashHeightRatio: ratio } }).design.backsplashHeightRatio, undefined);
+  }
+});

@@ -26,7 +26,7 @@ export function backsplashRects(d:KitchenDesign,side:WallSide):WallRect[] {
     const f=footprint(c),along=side==='back'||side==='front'?c.x:c.z,span=side==='back'||side==='front'?f.width:f.depth;
     const gap=side==='back'?c.z-f.depth/2+d.roomDepth/2:side==='front'?d.roomDepth/2-c.z-f.depth/2:side==='left'?c.x-f.width/2+d.roomWidth/2:d.roomWidth/2-c.x-f.width/2;
     if(Math.abs(gap)>3)return [];
-    const rect={left:Math.max(-length/2,along-span/2),right:Math.min(length/2,along+span/2),bottom:c.height,top:Math.min(wall.height,c.height+18)};
+    const rect={left:Math.max(-length/2,along-span/2),right:Math.min(length/2,along+span/2),bottom:c.height,top:Math.min(wall.height,c.height+18*(d.backsplashHeightRatio??1))};
     return rect.top>rect.bottom?cutOpenings(rect,openings):[];
   });
 }

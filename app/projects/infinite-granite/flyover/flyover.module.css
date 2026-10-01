@@ -116,3 +116,18 @@
 .expandedPanel .slab > strong { font-size:12px; }
 .expandedPanel .slab > span:not(:first-child) { font-size:11px; }
 @media(max-width:760px) { .expandedPanel { inset:8px; } .expandedPanel .filters { grid-template-columns:minmax(0,1fr) 126px; padding:8px; gap:6px; } .expandedPanel .slabGrid { grid-template-columns:repeat(auto-fill,minmax(135px,1fr)); padding:12px; gap:16px 10px; } }
+
+.backsplashHeights { display:flex; gap:7px; margin-top:12px; }
+.backsplashHeights button { flex:1; display:flex; align-items:center; justify-content:center; gap:7px; padding:9px; border:1px solid var(--ig-line); border-radius:5px; background:transparent; font-size:12px; }
+.backsplashHeights button[aria-pressed=true] { background:var(--ig-active); border-color:var(--ig-accent); }
+.backsplashHeights small { font-size:10px; color:var(--ig-muted); }
+.panel[hidden] { display:none; }
+.fullscreenWorkspace { position:fixed; z-index:60; inset:var(--preview-top,0px) 0 auto; width:100%; height:var(--preview-height,100dvh); padding:0; gap:0; background:#f6f5f0; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr); }
+.fullscreenWorkspace:fullscreen { inset:0; width:100vw; height:100dvh; }
+.fullscreenWorkspace .viewer { border-radius:0; border:0; }
+.fullscreenWorkspace[data-controls=true] { grid-template-columns:minmax(0,2fr) minmax(340px,1fr); }
+.fullscreenWorkspace .panel { border-radius:0; }
+.fullscreenWorkspace .viewTop { top:max(14px,env(safe-area-inset-top)); right:max(14px,env(safe-area-inset-right)); left:max(14px,env(safe-area-inset-left)); }
+.fullscreenWorkspace .viewBottom { bottom:max(14px,env(safe-area-inset-bottom)); right:max(14px,env(safe-area-inset-right)); left:max(14px,env(safe-area-inset-left)); }
+@media(max-width:760px) { .fullscreenWorkspace[data-controls=true] { grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1.15fr) minmax(0,1fr); } }
+@media(max-height:520px) and (orientation:landscape) { .fullscreenWorkspace[data-controls=true] { grid-template-columns:minmax(0,1fr) 300px; grid-template-rows:minmax(0,1fr); } }
