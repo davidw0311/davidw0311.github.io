@@ -26,6 +26,7 @@ export function QuartzCarousel({ children, count, paused, onActiveIndexChange }:
     if (!element || count < 2) return;
     const slides = Array.from(element.querySelectorAll<HTMLElement>('[data-carousel-slide]'));
     let timer = 0;
+    let activeIndex = 0;
     let pointerDown = false;
     let touching = false;
     const modulo = (value: number, length: number) => ((value % length) + length) % length;
@@ -33,7 +34,12 @@ export function QuartzCarousel({ children, count, paused, onActiveIndexChange }:
     const recenter = () => {
       const { cycle } = metrics.current;
       if (!cycle || pointerDown || touching) return;
-      onActiveIndexChange?.(activeSlideIndex(element.scrollLeft, cycle, metrics.current.step, count));
+      // Ignore scrollend emitted by the browser's own resize snapping until
+      // the resize observer has remeasured and restored the chosen card.
+      const measuredCycle = slides[count].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
+      if (Math.abs(measuredCycle - cycle) > .1) return;
+      activeIndex = activeSlideIndex(element.scrollLeft, cycle, metrics.current.step, count);
+      onActiveIndexChange?.(activeIndex);
       if (element.scrollLeft >= cycle - 0.5 && element.scrollLeft < cycle * 2 - 0.5) return;
       // Equivalent images occupy the same viewport after moving to the middle copy.
       const offset = modulo(element.scrollLeft - cycle, cycle);
@@ -58,7 +64,9 @@ export function QuartzCarousel({ children, count, paused, onActiveIndexChange }:
       const cycle = slides[count].getBoundingClientRect().left - slides[0].getBoundingClientRect().left;
       if (cycle <= 0) return;
       const old = metrics.current;
-      const position = old.step ? modulo((element.scrollLeft - old.cycle) / old.step, count) : 0;
+      // Browsers may apply scroll snapping before ResizeObserver runs. Preserve
+      // the settled selection instead of interpreting the new offset with old widths.
+      const position = activeIndex;
       metrics.current = { cycle, step: cycle / count };
       onActiveIndexChange?.(activeSlideIndex(cycle + position * metrics.current.step, cycle, metrics.current.step, count));
       if (Math.abs(old.cycle - cycle) > 0.1) element.scrollTo({ left: cycle + position * metrics.current.step, behavior: 'instant' });
