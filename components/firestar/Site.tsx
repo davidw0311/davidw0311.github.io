@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Phone, MapPin, EnvelopeSimple } from '@phosphor-icons/react/dist/ssr';
-import { brandName, brandWordmark, href, routes, pages, photos, services, guideKeys, locations, quoteItems, quoteEmail, testimonials, type PageKey, type Version } from '@/data/firestar/content';
+import { brandName, brandWordmark, href, routes, pages, photos, gallery, services, guideKeys, locations, quoteItems, quoteEmail, testimonials, type PageKey, type Version } from '@/data/firestar/content';
 import { Header } from './Header';
 import { Gallery } from './Gallery';
+import { projectPhotos } from '@/data/firestar/projectPhotos';
 import { QuartzGallery } from './quartz/QuartzGallery';
 import { GoogleReviews } from './GoogleReviews';
 import KitchenViewer from './kitchen/engine/flyover/Flyover';
@@ -15,8 +16,8 @@ function Photo({ src, alt, className = '', priority = false }: { src: string; al
 function Action({ version, page, children, quiet = false }: { version: Version; page: PageKey; children: React.ReactNode; quiet?: boolean }) {
   return <Link className={quiet ? styles.textLink : styles.button} href={href(version, page)}>{children}<ArrowUpRight size={19} /></Link>;
 }
-function Locations() {
-  return <div className={styles.locations}>{locations.map(location => <article key={location.name}>
+function Locations({ id }: { id?: string }) {
+  return <div id={id} className={styles.locations}>{locations.map(location => <article key={location.name}>
     <MapPin size={25} weight="light" /><h3>{location.name}</h3><p className={styles.locationType}>{location.type}</p>
     <address>{location.address}<br />{location.city}</address>
     <dl>{location.hours.map(([day, time]) => <div key={day}><dt>{day}</dt><dd>{time}</dd></div>)}</dl>
@@ -81,7 +82,7 @@ function Showroom({ version, full = false }: { version: Version; full?: boolean 
   return <section className={`${styles.section} ${styles.showroom}`}>
     <div className={styles.showroomIntro}><Photo src={photos['SDC10182-s.JPG']} alt="Slabs of natural stone outside Firestar Granite's Nanaimo workshop" /><div><p className={styles.eyebrow}>Come visit our showroom</p><h2>See it. Feel it.<br />Make it yours.</h2><p>{pages.showroom[3]}</p>{!full && <Action version={version} page="showroom" quiet>Visit our showroom</Action>}{full && <p>{pages.showroom[4]}</p>}</div></div>
     {full && <div className={styles.shopStory}><div><h3>Our Showroom & Shop</h3><p>{pages.showroom[1]}</p></div><div><h3>Crafted in-house.</h3><p>{pages.showroom[2]}</p></div></div>}
-    <Locations />
+    <Locations id="showroom-info" />
   </section>;
 }
 function Quote({ version }: { version: Version }) {
@@ -132,8 +133,13 @@ export function FirestarSite({ version, current }: { version: Version; current: 
         {current === 'products' && <>{version === 'v1' && <QuartzGallery />}<Materials version={version} full /></>}
         {current === 'showroom' && <Showroom version={version} full />}
         {current === 'contact' && <Contact />}
-        {isGallery && <section className={styles.section}><Gallery key={current} initial={current === 'gallery' ? 'all' : current as 'kitchen' | 'bathroom' | 'other'} /></section>}
+        {isGallery && <section className={styles.section}><Gallery key={current} items={version === 'v1' ? [...projectPhotos, ...gallery] : gallery} initial={current === 'gallery' ? 'all' : current as 'kitchen' | 'bathroom' | 'other'} /></section>}
         {current === 'testimonials' && (version === 'v1' ? <GoogleReviews /> : <Testimonials />)}
+        {current === 'p1' && version === 'v1' && <section className={`${styles.section} ${styles.projectSection}`} aria-labelledby="quartz-projects-title">
+          <p className={styles.eyebrow}>Our quartz work</p><h2 id="quartz-projects-title">From slab to space.</h2>
+          <p>Kitchens, backsplashes, custom counters and a closer look at the installation process.</p>
+          <Gallery items={projectPhotos} scrolling />
+        </section>}
         {guideKeys.includes(current) && <Guide current={current} version={version} />}
       </>}
     </main><Footer version={version} />
