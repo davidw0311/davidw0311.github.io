@@ -9,11 +9,12 @@ import styles from './firestar.module.css';
 export function Header({ version, current }: { version: Version; current: PageKey }) {
   const [open, setOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
+  const showroomHref = `${href(version, 'showroom')}#showroom-info`;
   return <>
     {version === 'v1' && <div className={styles.contactBar} aria-label="Showroom contact details">
       <a className={styles.contactPhone} href="tel:+12506199968">250-619-9968</a>
-      <Link className={styles.contactAddress} href={`${href(version, 'showroom')}#showroom-info`}>2156 Akenhead Road, <span>Nanaimo</span></Link>
-      <Link className={styles.contactCta} href={`${href(version, 'showroom')}#showroom-info`}>Contact us <ArrowUpRight size={18} aria-hidden="true" /></Link>
+      <a className={styles.contactAddress} href={showroomHref}>2156 Akenhead Road, <span>Nanaimo</span></a>
+      <a className={styles.contactCta} href={showroomHref}>Visit Us <ArrowUpRight size={18} aria-hidden="true" /></a>
     </div>}
     <header className={styles.header}>
       <Link className={styles.wordmark} href={href(version)} aria-label={`${brandName} home`}>{brandWordmark}<span>granite</span></Link>

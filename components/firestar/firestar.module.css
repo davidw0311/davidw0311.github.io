@@ -112,3 +112,8 @@
   .projectRail .galleryPhoto img{height:260px}
 }
 @media(max-width:360px){.contactBar{padding-inline:4%;column-gap:8px}.contactBar .contactCta{padding:8px}.contactCta svg{display:none}}
+
+/* V1 has no fixed header: keep anchored showroom details near the viewport top. */
+:global(html):has(.v1) { scroll-padding-top: 24px; }
+/* Reserve scroll room on tall screens, accounting for the section padding and footer below. */
+.v1 .locations[id="showroom-info"] { min-height: calc(100svh - 24px - 300px); align-content: start; }
