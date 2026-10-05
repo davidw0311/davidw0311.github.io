@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowsIn, ArrowsOut, Minus, Moon, Pause, Play, Plus, SlidersHorizontal, Sun, X } from '@phosphor-icons/react';
+import { ArrowDown, ArrowsIn, ArrowsOut, Minus, Moon, Pause, Play, Plus, SlidersHorizontal, SquaresFour, Sun, X } from '@phosphor-icons/react';
 import type { KitchenScene } from '../scene';
 import type { KitchenDesign } from '../kitchen';
 import { MATERIALS } from '../materials';
@@ -154,7 +154,7 @@ export default function Flyover() {
         {textureStatus && <p className={styles.textureStatus} role="status">{textureStatus}</p>}
       </section>
       <aside id="flyover-finish-controls" hidden={fullscreen && !showFinishes} ref={panel} className={`${styles.panel} ${expanded ? styles.expandedPanel : ''}`} role={expanded ? 'dialog' : undefined} aria-modal={expanded || undefined} aria-label={expanded ? 'Slab gallery' : 'Kitchen finishes'}>
-        <div className={styles.panelToolbar}><div className={styles.tabs} role="group" aria-label="Finish category">{TABS.map(t => <button key={t} aria-pressed={tab === t} onClick={() => { setTab(t); if (t !== 'Countertops') setExpanded(false); }}>{t}</button>)}</div>{tab === 'Countertops' && <button className={styles.expandButton} aria-label={expanded ? 'Close slab gallery' : 'Expand slab gallery'} title={expanded ? 'Close slab gallery' : 'Expand slab gallery'} onClick={() => setExpanded(value => !value)}>{expanded ? <><X size={18} /><span>Done</span></> : <ArrowsOut size={18} />}</button>}</div>
+        <div className={styles.panelToolbar}><div className={styles.tabs} role="group" aria-label="Finish category">{TABS.map(t => <button key={t} aria-pressed={tab === t} onClick={() => { setTab(t); if (t !== 'Countertops') setExpanded(false); }}>{t}</button>)}</div>{tab === 'Countertops' && <button className={styles.expandButton} aria-label={expanded ? 'Close slab gallery' : 'Expand slab gallery'} title={expanded ? 'Close slab gallery' : 'Expand slab gallery'} onClick={() => setExpanded(value => !value)}>{expanded ? <><X size={18} /><span>Done</span></> : <><SquaresFour size={18} /><span>Slabs</span></>}</button>}</div>
         <div className={styles.panelBody}>
           <div className={styles.tabContent} hidden={tab !== 'Countertops'}><SlabCatalogue value={design.countertop} onChange={id => change('countertop', id)} /></div>
           {tab === 'Design' && <DesignControls design={design} lighting={lighting} change={patch => setDesign(d => ({ ...d, ...patch }))} light={light} />}

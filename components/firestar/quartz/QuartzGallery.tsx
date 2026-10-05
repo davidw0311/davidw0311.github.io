@@ -1,10 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Heart, X } from '@phosphor-icons/react';
-import { href } from '@/data/firestar/content';
 import { looks, tones, lookEmail, type Look } from './looks';
 import s from './quartz.module.css';
 import { QuartzCarousel } from './QuartzCarousel';
@@ -23,13 +21,18 @@ export function QuartzGallery({ kitchenPreview = false }: { kitchenPreview?: boo
   const openLook = (look: Look) => { setSelected(look); setRoomView(false); setDetailOpen(true); dialog.current?.showModal(); };
   const move = (direction: number) => { setRoomView(false); setSelected(collection[(collection.indexOf(selected) + direction + collection.length) % collection.length]); };
   return <section className={`${s.gallery} ${kitchenPreview ? s.withKitchen : ''}`} aria-labelledby="quartz-gallery-title">
-    <div className={s.intro}><p className={s.eyebrow}>Quartz collection</p><h1 id="quartz-gallery-title">Find your <em>surface.</em></h1></div>
+    <div className={s.intro}>
+      <div><p className={s.eyebrow}>{kitchenPreview ? 'Nanaimo · Vancouver Island' : 'Quartz collection'}</p>{kitchenPreview ? <h1 id="quartz-gallery-title">Quartz countertops,<br /><em>made for your home.</em></h1> : <h2 id="quartz-gallery-title">Explore quartz colours.</h2>}</div>
+      <p className={s.introDescription}>{kitchenPreview ? 'Custom fabrication and installation by our Nanaimo team. Browse colours, preview your kitchen and find your favourite surface.' : 'Select a surface to see its details, save your favourites or enquire about samples and pricing.'}</p>
+    </div>
     <QuartzCarousel paused={detailOpen} count={collection.length} onActiveIndexChange={setActiveIndex}>{duplicate => collection.map((look, i) => <article className={s.card} key={look.id} data-carousel-slide data-active={kitchenPreview && i === activeIndex ? true : undefined}>
-      <div className={s.imageWrap}><button className={s.openImage} tabIndex={duplicate ? -1 : undefined} onMouseDown={duplicate ? event => event.preventDefault() : undefined} onClick={() => openLook(look)} aria-label={`Explore ${look.title}`}><Image src={`/assets/firestar/${look.image}${kitchenPreview ? '' : '-thumb'}.webp`} alt={`${look.title} (${look.code}) — ${look.imageKind === 'slab' ? 'slab pattern' : 'room illustration'}`} width={800} height={600} sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw" loading={!duplicate && i < 3 ? 'eager' : 'lazy'} /></button></div>
-      <button className={s.cardTitle} tabIndex={duplicate ? -1 : undefined} onMouseDown={duplicate ? event => event.preventDefault() : undefined} onClick={() => openLook(look)} aria-label={`View details for ${look.title}`}><div><h2>{look.title}</h2><p>{look.supplier} · {look.code}</p></div><ArrowUpRight size={23} /></button>
+      <button className={s.surfaceButton} tabIndex={duplicate ? -1 : undefined} onMouseDown={duplicate ? event => event.preventDefault() : undefined} onClick={() => openLook(look)} aria-label={`Explore ${look.title}`}>
+        <span className={s.openImage}><Image src={`/assets/firestar/${look.image}${kitchenPreview ? '' : '-thumb'}.webp`} alt={`${look.title} (${look.code}) — ${look.imageKind === 'slab' ? 'slab pattern' : 'room illustration'}`} width={800} height={600} sizes="(max-width: 600px) 92vw, (max-width: 1000px) 45vw, 30vw" loading={!duplicate && i < 3 ? 'eager' : 'lazy'} /></span>
+        <span className={s.cardTitle}><span><span className={s.cardName}>{look.title}</span><span className={s.cardSupplier}>{look.supplier}{look.code !== look.title && ` · ${look.code}`}</span></span><ArrowUpRight size={23} aria-hidden="true" /></span>
+      </button>
     </article>)}</QuartzCarousel>
     {kitchenPreview && <KitchenPreview materialId={(detailOpen ? selected : collection[activeIndex]).materialId!} />}
-    <div className={s.afterGallery}><p>Supplier catalogue imagery. Colours may vary on screen; confirm your choice with a physical sample. Ask our team about availability and pricing.</p><Link href={href('v1', 'gallery')}>View the full project gallery <ArrowUpRight size={19} /></Link></div>
+    <div className={s.afterGallery}><p>Supplier catalogue imagery. Colours may vary on screen; confirm your choice with a physical sample. Ask our team about availability and pricing.</p></div>
     {saved.length > 0 && <aside className={s.shortlist} aria-label="Your shortlist"><div><Heart size={22} weight="fill" /><p><strong>{saved.length} {saved.length === 1 ? 'selection' : 'selections'} you love.</strong> Ask us about samples and pricing.</p></div><a href={lookEmail(collection.filter(look => saved.includes(look.id)))}>Ask about your favourites <ArrowUpRight size={20} /></a></aside>}
     <dialog ref={dialog} className={s.dialog} aria-label={`${selected.supplier} selection`} onClose={() => setDetailOpen(false)} onClick={e => { if (e.target === dialog.current) dialog.current.close(); }} onKeyDown={e => { if (e.key === 'ArrowRight') { e.preventDefault(); move(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); } }}>
       <button className={s.close} onClick={() => dialog.current?.close()} aria-label="Close selection" autoFocus><X size={25} /></button>

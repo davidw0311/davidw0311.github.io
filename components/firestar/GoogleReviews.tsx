@@ -17,6 +17,6 @@ export function GoogleReviews() {
         <div className={s.author}><strong>{review.author}</strong><a href={review.reviewUrl} target="_blank" rel="noopener noreferrer" aria-label={`View ${review.author}'s review on Google`}>Read on Google <ArrowUpRight size={16} aria-hidden="true" /></a></div>
       </div>
     </article>)}</div>
-    <div className={s.footer}><p>Five selected five-star reviews. Rating and reviews checked <time dateTime={googleReviews.checkedAt}>{googleReviews.checkedLabel}</time>.</p><a className={s.allReviews} href={googleReviews.url} target="_blank" rel="noopener noreferrer">Read all reviews on Google <ArrowUpRight size={20} aria-hidden="true" /></a></div>
+    <div className={s.footer}><p>Five selected five-star reviews. Rating and reviews checked <time dateTime={googleReviews.checkedAt}>{googleReviews.checkedLabel}</time>.</p></div>
   </section>;
 }

@@ -17,3 +17,6 @@
   .caption strong { font-size:18px; }
   .action { margin-top:7px; }
 }
+.caption>span:first-child,.caption small,.action { font-size:16px; }
+.caption strong { font-size:22px; }
+@media(max-width:600px) { .caption strong { font-size:20px; } }

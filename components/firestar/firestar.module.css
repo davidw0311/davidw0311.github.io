@@ -115,5 +115,137 @@
 
 /* V1 has no fixed header: keep anchored showroom details near the viewport top. */
 :global(html):has(.v1) { scroll-padding-top: 24px; }
-/* Reserve scroll room on tall screens, accounting for the section padding and footer below. */
-.v1 .locations[id="showroom-info"] { min-height: calc(100svh - 24px - 300px); align-content: start; }
+
+/* V1 reading scale and shared alignment. */
+.v1 { --muted:#50584f; --gutter:clamp(20px,4vw,56px); font-size:18px; line-height:1.65; }
+.v1 h1,.v1 h2 { text-wrap:balance; letter-spacing:-.035em; }
+.v1 h2 { font-size:clamp(32px,3.8vw,52px); line-height:1.12; }
+.v1 p { font-size:18px; }
+.v1 .section,.v1 .pageHeading { max-width:1440px; padding-inline:var(--gutter); }
+.v1 .section { padding-block:72px; }
+.v1 .sectionTitle { margin-bottom:32px; }
+.v1 .sectionTitle p:not(.eyebrow) { max-width:65ch; margin-top:16px; }
+.v1 .eyebrow { font-size:15px!important; letter-spacing:.11em; margin-bottom:16px!important; }
+.v1 .button,.v1 .textLink { font-size:18px; min-height:48px; }
+.v1 .contactBar { padding-inline:max(var(--gutter),calc((100% - 1328px)/2)); font-size:18px; column-gap:24px; }
+.v1 .contactPhone { font-size:20px; letter-spacing:.015em; min-height:44px; display:flex; align-items:center; }
+.v1 .contactAddress { font-size:17px; }
+.v1 .contactCta { min-width:104px; }
+.v1 .header { max-width:1440px; width:100%; margin:auto; padding-inline:var(--gutter); height:88px; gap:24px; }
+.v1 .header .wordmark { font-size:28px; letter-spacing:-1px; }
+.v1 .header .wordmark span { font-size:.65em; letter-spacing:.025em; }
+.v1 .navigation { gap:22px; font-size:17px; }
+.v1 .navigation a:last-child { background:var(--accent); border-color:var(--accent); color:#fff; padding:10px 16px; }
+.v1 .navigation a[aria-current] { font-weight:600; }
+.v1 .pageHeading { padding-block:38px 34px; }
+.v1 .pageHeading h1 { margin:0; font-size:clamp(40px,5vw,66px); line-height:1.08; max-width:1000px; }
+.v1 .pageHeading>p { max-width:68ch; margin-top:18px; font-size:19px; line-height:1.65; }
+.v1 .pageHeading+.section { padding-top:36px; }
+.v1 .about { gap:7%; margin-top:0; }
+.v1 .aboutCopy>p { font-size:18px; max-width:60ch; }
+.v1 .aboutCopy .lead { font-size:22px; line-height:1.5; }
+.v1 .materialGrid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; }
+.v1 .materialCard:nth-child(n) { padding-top:0; }
+.v1 .materialCard .photo { height:280px; }
+.v1 .materialCard h3 { font-size:30px; }
+.v1 .materialCard>div:last-child { grid-template-columns:minmax(0,1fr) auto; gap:10px; }
+.v1 .materialCard p { grid-column:1/-1; font-size:18px; }
+.v1 .materialNumber { display:none; }
+.v1 .materialCard.featuredQuartz>div:last-child { border-top:0; margin-top:0; }
+.v1 .serviceHeading>p:not(.eyebrow),.v1 .serviceList>p { font-size:18px; }
+.v1 .serviceList h3 { font-size:20px; }
+.v1 .serviceList>div>span { font-size:16px; }
+.v1 .serviceList>div { padding-block:20px; }
+.v1 .showroomIntro>div>p:not(.eyebrow) { font-size:18px; max-width:58ch; margin-top:20px; }
+.v1 .showroom>.locations { margin-top:0; margin-bottom:64px; }
+.v1 .locations { gap:48px; }
+.v1 .locations h3 { font-size:32px; padding-right:35px; line-height:1.2; }
+.v1 .locations address,.v1 .locations dl,.v1 .locationType { font-size:18px; }
+.v1 .locations dl div { max-width:410px; }
+.v1 .locations address { color:var(--fg); }
+.v1 .shopStory { margin-top:48px; gap:7%; }
+.v1 .shopStory p { font-size:18px; }
+.v1 .productResources { margin-top:64px; }
+.v1 .resourceGrid { margin-top:24px; }
+.v1 .guide { grid-template-columns:220px minmax(0,1fr); gap:7%; }
+.v1 .guide aside { font-size:18px; }
+.v1 .guide aside>p { font-size:15px; }
+.v1 .guide article>p,.v1 .faqs details p { font-size:19px; line-height:1.75; max-width:68ch; }
+.v1 .faqs summary { font-size:20px; line-height:1.45; padding-right:4px; }
+.v1 .faqs summary span { flex-shrink:0; }
+.v1 .contact { gap:48px 7%; }
+.v1 .contactDetails>p { font-size:18px; }
+.v1 .phone { font-size:clamp(26px,3vw,38px); gap:16px; }
+.v1 .email { font-size:18px; flex-wrap:wrap; gap:12px; }
+.v1 .quoteChecklist { padding:30px; }
+.v1 .quoteChecklist>p,.v1 .quoteChecklist li { font-size:18px; }
+.v1 .quoteChecklist .emailHelp { font-size:16px; }
+.v1 .quoteChecklist h2,.v1 .contact h2 { font-size:34px; }
+.v1 .galleryGrid { gap:26px; }
+.v1 .filters button { font-size:17px; min-height:48px; }
+.v1 .resultCount { font-size:16px; margin-block:20px!important; }
+.v1 .galleryPhoto>span { font-size:17px; }
+.v1 .projectSection h2 { font-size:32px; margin-bottom:20px; }
+.v1 .projectRailControls { margin-top:0; }
+.v1 .projectRail .galleryPhoto img { height:320px; }
+.v1 .lightboxControls button { flex-shrink:0; }
+.v1 .footer { padding-inline:max(var(--gutter),calc((100% - 1328px)/2)); }
+.v1 .footerTop { grid-template-columns:1.2fr 1fr 1.3fr 1fr; gap:24px; }
+.v1 .footerTop p,.v1 .footerTop a:not(.wordmark),.v1 .footerTop address { font-size:17px; }
+.v1 .footerTop>div { gap:14px; }
+.v1 .footerBottom { font-size:15px; gap:24px; }
+@media(max-width:1150px) {
+  .v1 .header .wordmark { font-size:25px; }
+  .v1 .menuButton { display:grid; place-items:center; width:48px; height:48px; flex-shrink:0; border:1px solid var(--line); background:transparent; color:var(--fg); }
+  .v1 .navigation { display:none; position:absolute; top:100%; left:0; right:0; padding:18px var(--gutter); background:var(--bg); border-bottom:1px solid var(--line); box-shadow:0 14px 20px #292e2910; }
+  .v1 .navigationOpen { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 20px; }
+  .v1 .navigation a { padding:12px; font-size:18px; }
+  .v1 .footerTop { grid-template-columns:1fr 1fr; gap:30px; }
+}
+@media(max-width:700px) {
+  .v1 .contactBar { gap:2px 16px; padding-block:8px 12px; }
+  .v1 .contactPhone { font-size:20px; min-height:36px; }
+  .v1 .contactCta { font-size:18px; min-width:96px; padding:10px 12px; }
+  .v1 .contactAddress { font-size:16px; line-height:1.45; }
+  .v1 .header { height:78px; gap:12px; }
+  .v1 .header .wordmark { font-size:clamp(20px,5.6vw,24px); }
+  .v1 .section { padding-block:48px; }
+  .v1 .pageHeading { padding-block:28px; }
+  .v1 .pageHeading h1 { font-size:clamp(38px,10.4vw,48px); }
+  .v1 .pageHeading>p { font-size:18px; margin-top:14px; }
+  .v1 .pageHeading+.section { padding-top:28px; }
+  .v1 .sectionTitle { margin-bottom:24px; }
+  .v1 .about,.v1 .services,.v1 .materialGrid,.v1 .contact,.v1 .shopStory,.v1 .showroomIntro { grid-template-columns:1fr; gap:28px; }
+  .v1 .materialCard .photo { height:260px; }
+  .v1 .materialCard h3 { font-size:28px; }
+  .v1 .aboutCopy .lead { font-size:21px; }
+  .v1 .locations { grid-template-columns:1fr; gap:32px; }
+  .v1 .showroom>.locations { margin-bottom:48px; }
+  .v1 .showroomIntro>.photo { height:260px; }
+  .v1 .locations h3 { font-size:30px; }
+  .v1 .locations dl div { column-gap:16px; }
+  .v1 .guide { grid-template-columns:1fr; gap:36px; }
+  .v1 .guide article { grid-row:1; }
+  .v1 .guide aside { position:static; display:grid; grid-template-columns:1fr 1fr; gap:0 20px; border-top:1px solid var(--line); padding-top:24px; }
+  .v1 .guide aside>p { grid-column:1/-1; margin-bottom:10px; }
+  .v1 .guide aside a { font-size:17px; }
+  .v1 .guide article>p,.v1 .faqs details p { font-size:18px; }
+  .v1 .faqs summary { font-size:19px; }
+  .v1 .quoteChecklist { padding:24px; }
+  .v1 .filters { gap:8px; }
+  .v1 .filters button { padding:10px 14px; gap:10px; }
+  .v1 .galleryGrid { gap:24px; }
+  .v1 .projectSection h2 { font-size:28px; }
+  .v1 .projectRail .galleryPhoto img { height:220px; }
+  .v1 .projectRailControls { gap:12px; }
+  .v1 .footerTop { grid-template-columns:1fr; gap:26px; }
+  .v1 .footerBottom { flex-direction:column; gap:14px; margin-top:30px; }
+}
+@media(max-width:360px) {
+  .v1 .header .wordmark { font-size:19px; }
+  .v1 .contactBar { column-gap:10px; }
+  .v1 .contactCta { min-width:84px; padding-inline:8px; }
+  .v1 .contactAddress { font-size:16px; }
+  .v1 .resourceGrid { grid-template-columns:1fr; }
+}
+@media(max-width:1150px) { .v1 .navigation a:last-child { padding:12px; } }

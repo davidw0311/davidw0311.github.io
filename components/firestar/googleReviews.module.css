@@ -23,3 +23,6 @@
   .heading, .footer { align-items: start; flex-direction: column; gap: 25px; }
   .cards { grid-template-columns: 1fr; gap: 5px; }
 }
+.section { max-width:1440px; padding-inline:var(--gutter,4%); }
+.heading { align-items:start; }
+.footer p { max-width:80ch; }

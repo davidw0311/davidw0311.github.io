@@ -161,3 +161,16 @@
   .page .viewBottom { flex-wrap:wrap; }
   .page .viewBottom>.actions { margin-left:auto; }
 }
+/* Distinguish the slab browser from the kitchen fullscreen action. */
+.page .expandButton { min-height:44px; font-size:16px!important; gap:7px; }
+.page .tabs button,.page .search input,.page .filters select,.page .modes button,.page .floorSelect,.page .backsplashHeights button { font-size:16px!important; }
+.page .viewTop h1 { font-size:20px; }
+.page .companyHeading strong,.page .colorRow>span,.page .slider,.page .backsplashToggle { font-size:16px; }
+@media(max-width:360px) { .page .expandButton span { display:none; } }
+@media(max-width:760px) {
+  .page .filters { grid-template-columns:minmax(0,1fr); gap:8px; }
+  .page .filters select,.page .search input { height:42px; }
+  .page .workspace { grid-template-rows:440px 440px; }
+  .page .fullscreenWorkspace { grid-template-rows:minmax(0,1fr); }
+  .page .fullscreenWorkspace[data-controls=true] { grid-template-rows:minmax(0,1.15fr) minmax(0,1fr); }
+}

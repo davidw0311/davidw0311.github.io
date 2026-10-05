@@ -40,10 +40,10 @@ function Hero({ version }: { version: Version }) {
     {version === 'v3' && <div className={styles.studioNote}><p>YOUR HOME.<br />YOUR QUARTZ.<br />YOUR POSSIBILITIES.</p><span>Custom fabrication<br />& installation</span></div>}
   </section>;
 }
-function About({ version }: { version: Version }) {
+function About() {
   return <section className={`${styles.section} ${styles.about}`}>
-    <div className={styles.aboutTitle}><p className={styles.eyebrow}>The Firestar approach</p><h2>A natural choice<br />for your home.</h2><Action version={version} page="services" quiet>Discover our services</Action></div>
-    <div className={styles.aboutCopy}><p className={styles.lead}>{pages.home[0]}</p>{pages.home.slice(1, 5).map(p => <p key={p}>{p}</p>)}<small>{pages.home[5]}</small></div>
+    <div className={styles.aboutTitle}><p className={styles.eyebrow}>The Firestar approach</p><h2>Stonework, made<br />in Nanaimo.</h2></div>
+    <div className={styles.aboutCopy}><p className={styles.lead}>Custom quartz, granite, marble and onyx, crafted for homes across Vancouver Island.</p><p>Our Nanaimo team handles fabrication and installation, with individual service and close attention to the details of your space.</p><p>Visit our showroom to compare full slabs and samples. We’ll help you choose a surface that suits your home.</p></div>
   </section>;
 }
 const materialCards = [
@@ -53,12 +53,12 @@ const materialCards = [
 ];
 function Materials({ version, full = false }: { version: Version; full?: boolean }) {
   return <section className={`${styles.section} ${styles.materials}`}>
-    <div className={styles.sectionTitle}><p className={styles.eyebrow}>Our materials</p><h2>Choose your material.</h2><p>Start with our quartz collection for kitchens and bathrooms, or explore granite, marble and onyx.</p><Action version={version} page="p1" quiet>View the guide</Action></div>
+    <div className={styles.sectionTitle}><p className={styles.eyebrow}>Our materials</p><h2>Choose your material.</h2><p>Start with our quartz collection for kitchens and bathrooms, or explore granite, marble and onyx.</p></div>
     <div className={styles.materialGrid}>{materialCards.map((material, index) => <Link className={`${styles.materialCard} ${index === 0 ? styles.featuredQuartz : ''}`} href={href(version, material.key)} key={material.title}>
       <Photo src={material.src} alt="Stone surface from the original Firestar Granite project gallery" />
       <div><span className={styles.materialNumber}>0{index + 1}</span><h3>{material.title}</h3><ArrowUpRight size={25} /><p>{material.sub}</p></div>
     </Link>)}</div>
-    {full && <div className={styles.productResources}><h2>Know your surface.</h2><p>Find out information about our products, finishes, and care.</p><div className={styles.resourceGrid}>{guideKeys.map(key => <Link key={key} href={href(version, key)}>{routes[key].title}<ArrowUpRight size={22} /></Link>)}</div></div>}
+    {full && <div className={styles.productResources}><h2>Know your surface.</h2><p>Find out information about our products, finishes, and care.</p><div className={styles.resourceGrid}>{guideKeys.filter(key => key !== 'p1' && key !== 'p2').map(key => <Link key={key} href={href(version, key)}>{routes[key].title}<ArrowUpRight size={22} /></Link>)}</div></div>}
   </section>;
 }
 function ServiceContent({ version, full = false }: { version: Version; full?: boolean }) {
@@ -80,9 +80,9 @@ function GalleryPreview({ version }: { version: Version }) {
 }
 function Showroom({ version, full = false }: { version: Version; full?: boolean }) {
   return <section className={`${styles.section} ${styles.showroom}`}>
+    {full && <Locations id="showroom-info" />}
     <div className={styles.showroomIntro}><Photo src={photos['SDC10182-s.JPG']} alt="Slabs of natural stone outside Firestar Granite's Nanaimo workshop" /><div><p className={styles.eyebrow}>Come visit our showroom</p><h2>See it. Feel it.<br />Make it yours.</h2><p>{pages.showroom[3]}</p>{!full && <Action version={version} page="showroom" quiet>Visit our showroom</Action>}{full && <p>{pages.showroom[4]}</p>}</div></div>
     {full && <div className={styles.shopStory}><div><h3>Our Showroom & Shop</h3><p>{pages.showroom[1]}</p></div><div><h3>Crafted in-house.</h3><p>{pages.showroom[2]}</p></div></div>}
-    <Locations id="showroom-info" />
   </section>;
 }
 function Quote({ version }: { version: Version }) {
@@ -111,14 +111,31 @@ function Guide({ current, version }: { current: PageKey; version: Version }) {
     }
     content = <>{paragraphs.slice(1, introEnd).map(p => <p key={p}>{p}</p>)}<div className={styles.faqs}>{faqs.map(faq => <details key={faq.question}><summary>{faq.question}<span aria-hidden="true">+</span></summary>{faq.answer.map(p => <p key={p}>{p}</p>)}</details>)}</div>{tail.map(p => <p key={p}>{p}</p>)}</>;
   } else content = paragraphs.slice(current === 'p6' ? 0 : 1).map(p => <p key={p}>{p.startsWith('250-734') ? <a href="tel:+12507342681">{p}</a> : p.startsWith('www.sealtech') ? <a href="http://www.sealtechspecialties.com" target="_blank" rel="noopener noreferrer">{p}</a> : p}</p>);
-  return <section className={`${styles.section} ${styles.guide}`}><aside><p>Product library</p>{guideKeys.map(key => <Link key={key} href={href(version, key)} aria-current={key === current ? 'page' : undefined}>{routes[key].title}<ArrowUpRight size={17} /></Link>)}</aside><article>{content}</article></section>;
+  return <section className={`${styles.section} ${styles.guide}`}><aside><p>Product library</p>{guideKeys.map(key => <Link key={key} href={href(version, key)} aria-current={key === current ? 'page' : undefined}>{routes[key].title}</Link>)}</aside><article>{content}</article></section>;
 }
 function Testimonials() {
   return <section className={`${styles.section} ${styles.testimonials}`}>{testimonials.map((item, index) => <article key={item.author}><span className={styles.quoteMark} aria-hidden="true">“</span><blockquote><p>{item.quote}</p><cite>{item.author}</cite></blockquote><span className={styles.testimonialIndex}>{String(index + 1).padStart(2, '0')}</span></article>)}</section>;
 }
-function PageHeading({ current, version }: { current: PageKey; version: Version }) {
-  const titles: Partial<Record<PageKey, string>> = { services: 'Made for the way you live.', products: 'Explore the possibilities.', showroom: 'Get closer to your stone.', gallery: 'The work speaks for itself.', contact: 'Your next project starts here.', testimonials: 'In our customers’ words.' };
-  return <section className={styles.pageHeading}><Link href={href(version)}>Home</Link><span>/ {routes[current].title}</span><h1>{titles[current] || routes[current].title}</h1></section>;
+const pageIntroductions: Partial<Record<PageKey, { title: string; description: string }>> = {
+  services: { title: 'Custom stonework.', description: 'Countertops, fireplaces, surrounds and repairs. Fabricated in Nanaimo and installed with care across Vancouver Island.' },
+  products: { title: 'Find your stone.', description: 'Explore quartz colours, natural stone and edge profiles. Compare your favourites, then see a sample in our showroom.' },
+  showroom: { title: 'Visit our showrooms.', description: 'Find our Nanaimo locations, opening hours and directions. Compare full slabs and samples with help from our team.' },
+  gallery: { title: 'Explore our work.', description: 'Real kitchens, bathrooms and custom stone projects. Choose a category and tap a photo for a closer look.' },
+  contact: { title: 'Let’s plan your project.', description: 'Call or email our Nanaimo team. For a quote, send your plans, measurements and the details of your space.' },
+  testimonials: { title: 'Customer reviews.', description: 'Read what customers say about our selection, service and installation.' },
+  p1: { title: 'Quartz countertops.', description: 'Explore quartz in real homes, from counters and backsplashes to waterfall edges. Find answers to common questions below.' },
+  p2: { title: 'Granite countertops.', description: 'Natural stone with its own colour and character. Learn about granite, its care and what to expect in your home.' },
+  p3: { title: 'Choose your edge.', description: 'Compare countertop edge profiles to find the finish that suits your space.' },
+  p4: { title: 'Seams & joints.', description: 'Understand how stone pieces meet and what to consider when planning your countertop layout.' },
+  p5: { title: 'Sealing your stone.', description: 'Learn how sealing helps protect natural stone and when your surface may need attention.' },
+  p6: { title: 'Caring for your surface.', description: 'Practical guidance for cleaning and maintaining your stone countertops.' },
+  kitchen: { title: 'Kitchen countertops.', description: 'Explore kitchen installations, islands and backsplashes. Tap a photo to see the full project image.' },
+  bathroom: { title: 'Bathroom stonework.', description: 'Vanities and stone surfaces for the bathroom. Tap a photo for a closer look.' },
+  other: { title: 'Beyond the countertop.', description: 'Fireplaces, tables, bars and other custom stonework. Explore the possibilities for your space.' },
+};
+function PageHeading({ current }: { current: PageKey; version: Version }) {
+  const intro = pageIntroductions[current];
+  return <section className={styles.pageHeading}><h1>{intro?.title || routes[current].title}</h1>{intro && <p>{intro.description}</p>}</section>;
 }
 function Footer({ version }: { version: Version }) {
   return <footer className={styles.footer}><div className={styles.footerTop}><Link className={styles.wordmark} href={href(version)} aria-label={brandName}>{brandWordmark}<span>granite</span></Link><p>Individual service.<br />Superior craftsmanship.<br />Attention to detail.</p><div><a href="tel:+12506199968">250-619-9968</a><a href="mailto:sales@infinitegranite.ca">sales@infinitegranite.ca</a></div><address>2156 Akenhead Road<br />Nanaimo, BC V9X 1T9</address></div><div className={styles.footerBottom}><span>Copyright 2023 Infinitegranite.ca</span><span>Firestar Enterprises Ltd., formerly Infinite Granite Ltd.</span><Link href="/#projects">Back to projects <ArrowUpRight size={15} /></Link></div></footer>;
@@ -128,7 +145,7 @@ export function FirestarSite({ version, current }: { version: Version; current: 
   return <div className={`${styles.site} ${styles[version]}`}>
     <a href="#firestar-content" className={styles.skip}>Skip to content</a><Header key={`${version}-${current}`} version={version} current={current} />
     <main id="firestar-content">
-      {current === 'home' ? <>{version === 'v1' ? <QuartzGallery kitchenPreview /> : <Hero version={version} />}<Materials version={version} />{version === 'v2' ? <><GalleryPreview version={version} /><About version={version} /><ServiceContent version={version} /></> : version === 'v3' ? <><ServiceContent version={version} /><GalleryPreview version={version} /><About version={version} /></> : <><About version={version} /><GalleryPreview version={version} /><ServiceContent version={version} /></>}<Quote version={version} /><Showroom version={version} /></> : current === 'viewer' ? <KitchenViewer /> : <><PageHeading version={version} current={current} />
+      {current === 'home' ? <>{version === 'v1' ? <QuartzGallery kitchenPreview /> : <Hero version={version} />}<Materials version={version} />{version === 'v2' ? <><GalleryPreview version={version} /><About /><ServiceContent version={version} /></> : version === 'v3' ? <><ServiceContent version={version} /><GalleryPreview version={version} /><About /></> : <><About /><GalleryPreview version={version} /><ServiceContent version={version} /></>}<Quote version={version} /><Showroom version={version} /></> : current === 'viewer' ? <KitchenViewer /> : <><PageHeading version={version} current={current} />
         {current === 'services' && <><ServiceContent version={version} full /><Photo src={photos['1.jpg']} alt="A completed Firestar Granite kitchen" className={styles.serviceBanner} /><Quote version={version} /></>}
         {current === 'products' && <>{version === 'v1' && <QuartzGallery />}<Materials version={version} full /></>}
         {current === 'showroom' && <Showroom version={version} full />}
@@ -136,8 +153,7 @@ export function FirestarSite({ version, current }: { version: Version; current: 
         {isGallery && <section className={styles.section}><Gallery key={current} items={version === 'v1' ? [...projectPhotos, ...gallery] : gallery} initial={current === 'gallery' ? 'all' : current as 'kitchen' | 'bathroom' | 'other'} /></section>}
         {current === 'testimonials' && (version === 'v1' ? <GoogleReviews /> : <Testimonials />)}
         {current === 'p1' && version === 'v1' && <section className={`${styles.section} ${styles.projectSection}`} aria-labelledby="quartz-projects-title">
-          <p className={styles.eyebrow}>Our quartz work</p><h2 id="quartz-projects-title">From slab to space.</h2>
-          <p>Kitchens, backsplashes, custom counters and a closer look at the installation process.</p>
+          <h2 id="quartz-projects-title">Quartz in real spaces.</h2>
           <Gallery items={projectPhotos} scrolling />
         </section>}
         {guideKeys.includes(current) && <Guide current={current} version={version} />}

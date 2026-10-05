@@ -83,3 +83,33 @@
 
 .withKitchen .openImage img { height:clamp(260px,32svh,340px); }
 @media(max-width:600px) { .withKitchen .openImage img { height:clamp(240px,34svh,300px); } }
+
+/* Clear first-visit introduction and one action for each surface. */
+.gallery { max-width:1440px; padding:38px var(--gutter,4%) 48px; }
+.gallery .intro { display:grid; grid-template-columns:1.35fr 1fr; gap:40px; align-items:end; text-align:left; padding-bottom:30px; }
+.gallery .intro h1 { font-size:clamp(40px,4.5vw,62px); line-height:1.08; }
+.gallery .intro h2 { font-size:clamp(32px,3.5vw,48px); line-height:1.12; }
+.gallery .introDescription { max-width:48ch; font-size:19px; line-height:1.65; padding-bottom:3px; }
+.gallery .eyebrow { font-size:15px; letter-spacing:.09em; }
+.surfaceButton { display:block; width:100%; padding:0; border:0; background:transparent; color:var(--fg); text-align:left; }
+.surfaceButton:hover img { transform:scale(1.025); }
+.surfaceButton:focus-visible { outline-offset:2px; }
+.cardName { display:block; font-family:var(--heading); font-size:28px; line-height:1.15; letter-spacing:-.02em; overflow-wrap:anywhere; }
+.cardSupplier { display:block; margin-top:8px; font-size:17px; color:var(--muted); }
+.gallery .afterGallery { margin-top:24px; font-size:16px; }
+.gallery .afterGallery>p { max-width:80ch; font-size:16px; }
+.gallery .details>p:not(.eyebrow) { font-size:18px; }
+.gallery .details .note { font-size:16px!important; }
+.gallery .source { font-size:16px; }
+.gallery .imageNavigation p { font-size:16px; }
+.gallery .viewToggle button { font-size:17px; }
+.gallery .enquire { font-size:18px; }
+@media(max-width:700px) {
+  .gallery { padding-top:26px; }
+  .gallery .intro { grid-template-columns:1fr; gap:18px; padding-bottom:24px; }
+  .gallery .intro h1 { font-size:clamp(36px,9.5vw,48px); }
+  .gallery .introDescription { font-size:18px; }
+  .withKitchen .openImage img { height:240px; }
+  .cardName { font-size:27px; }
+  .gallery .details { padding:24px; }
+}
