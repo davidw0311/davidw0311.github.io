@@ -133,7 +133,7 @@
 .v1 .contactCta { min-width:104px; }
 .v1 .header { max-width:1440px; width:100%; margin:auto; padding-inline:var(--gutter); height:88px; gap:24px; }
 .v1 .header .wordmark { font-size:28px; letter-spacing:-1px; }
-.v1 .header .wordmark span { font-size:.65em; letter-spacing:.025em; }
+.v1 .wordmark span,.v1 .header .wordmark span { font:inherit; letter-spacing:inherit; }
 .v1 .navigation { gap:22px; font-size:17px; }
 .v1 .navigation a:last-child { background:var(--accent); border-color:var(--accent); color:#fff; padding:10px 16px; }
 .v1 .navigation a[aria-current] { font-weight:600; }
@@ -242,7 +242,8 @@
   .v1 .footerBottom { flex-direction:column; gap:14px; margin-top:30px; }
 }
 @media(max-width:360px) {
-  .v1 .header .wordmark { font-size:19px; }
+  .v1 .header { gap:6px; }
+  .v1 .header .wordmark { font-size:18px; }
   .v1 .contactBar { column-gap:10px; }
   .v1 .contactCta { min-width:84px; padding-inline:8px; }
   .v1 .contactAddress { font-size:16px; }
