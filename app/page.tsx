@@ -2,6 +2,7 @@ import {
   ArrowUpRight,
   BookOpen,
   CardsThree,
+  Horse,
   Cube,
   EnvelopeSimple,
   FacebookLogo,
@@ -69,6 +70,10 @@ export default function Home() {
               <Link href="/nightfall/">
                 <Moon size={34} weight="thin" />
                 <span>Nightfall / 天黑请闭眼</span>
+              </Link>
+              <Link href="/projects/chess-practice/">
+                <Horse size={34} weight="thin" />
+                <span>Chess Practice</span>
               </Link>
               <Link href="/projects/blackjack-trainer/">
                 <CardsThree size={34} weight="thin" />

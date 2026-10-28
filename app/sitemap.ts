@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...regiusStories.map(story => ({ url: `${baseUrl}/projects/codex-regius/${story.slug}/`, changeFrequency: "yearly" as const, priority: 0.6 })),
     ...regiusStories.map(story => ({ url: `${baseUrl}/projects/codex-regius/${story.slug}/original/`, changeFrequency: "yearly" as const, priority: 0.5 })),
     { url: `${baseUrl}/my-carnivorous-garden/`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/projects/chess-practice/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/blackjack-trainer/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/language-lab/`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/projects/piano-party/`, changeFrequency: "monthly", priority: 0.8 },
