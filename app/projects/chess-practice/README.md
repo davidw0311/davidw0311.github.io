@@ -6,7 +6,7 @@ Public route: `/projects/chess-practice/`, linked from the homepage Space sectio
 
 The immutable v1 bank contains 11,193 legal puzzles from the Lichess CC0 database, grouped into 100-point bands. The manifest assigns each bucket a stable offset. The app downloads the manifest and only the bands it needs; it has no dependency on a runtime Lichess API or a chess engine. Source: https://database.lichess.org/ . Chessnut SVG pieces by Alexis Luengas use Apache 2.0; the license is distributed with the assets.
 
-`chess.js` validates moves, promotions, and checkmate. The first dataset move is the opponent's setup move, applied before presenting the position. The solver must complete the entire line. Alternate immediate checkmates are accepted. Illegal moves do not count as failures.
+`chess.js` uses BSD-2-Clause; its distribution notice is included at `/assets/chess/CHESS_JS_LICENSE.txt`. It validates moves, promotions, and checkmate. The first dataset move is the opponent's setup move, applied before presenting the position. The solver must complete the entire line. Alternate immediate checkmates are accepted. Illegal moves do not count as failures.
 
 The initial puzzle rating is 800. Elo updates use the puzzle's imported rating with K=64 for the first 10 rated attempts, then K=32. Ratings are bounded to 400–3200. Adaptive selection targets a band roughly 150 points below the player's rating 70% of the time, at the rating 20%, and 150 above it 10%; band rounding is downward. Gentle and stretch settings change the next selection. First mistakes, hints, reveals, and skips record one loss. Reviews are unrated. Skill labels are app-specific milestones, not official chess ratings.
 
