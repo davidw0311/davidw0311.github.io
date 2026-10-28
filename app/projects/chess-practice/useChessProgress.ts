@@ -95,7 +95,9 @@ export function useChessProgress() {
   }, [persist, sync]);
   function record(attempt: Attempt) {
     if (!readyRef.current) return;
-    current.current = recordAttempt(current.current, attempt);
+    const next = recordAttempt(current.current, attempt);
+    if (next === current.current) return;
+    current.current = next;
     pending.current.push(attempt); setProgress(current.current);
     if (persist()) setSyncStatus(owner.current ? 'Saving progress…' : 'Saved on this device');
     if (owner.current) void sync();

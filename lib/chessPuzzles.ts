@@ -33,7 +33,7 @@ export function recordAttempt(progress: Progress, attempt: Attempt): Progress {
   if (!Number.isInteger(attempt.index) || attempt.index < 0 || attempt.index >= 20000 || !Number.isFinite(attempt.rating) || !Number.isFinite(Date.parse(attempt.at))) return progress;
   if (hasSeen(progress, attempt.index)) {
     // Review can clear a mistake, but cannot farm rating points or inflate statistics.
-    return attempt.won ? { ...progress, missed: progress.missed.filter(i => i !== attempt.index) } : progress;
+    return attempt.won && progress.missed.includes(attempt.index) ? { ...progress, missed: progress.missed.filter(i => i !== attempt.index) } : progress;
   }
   const expected = 1 / (1 + 10 ** ((attempt.rating - progress.rating) / 400));
   const k = progress.attempts < 10 ? 64 : 32;

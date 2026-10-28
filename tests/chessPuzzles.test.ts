@@ -76,6 +76,7 @@ test('each puzzle is rated once, even after retries and device sync replay', () 
   const reviewed = recordAttempt(missed, { ...attempt, won: true });
   assert.equal(reviewed.rating, missed.rating); assert.equal(reviewed.attempts, 1);
   assert.equal(reviewed.solved, 0); assert.deepEqual(reviewed.missed, []);
+  assert.equal(recordAttempt(reviewed, { ...attempt, won: true }), reviewed, 'repeated completed reviews must not queue more state');
 });
 test('seen bitmap round trips at byte boundaries and largest allowed index', () => {
   let progress = initialProgress();
