@@ -4,13 +4,19 @@ Public route: `/projects/chess-practice/`, linked from the homepage Space sectio
 
 ## Puzzles and rating
 
-The immutable v1 bank contains 11,193 legal puzzles from the Lichess CC0 database, grouped into 100-point bands. The manifest assigns each bucket a stable offset. The app downloads the manifest and only the bands it needs; it has no dependency on a runtime Lichess API or a chess engine. Source: https://database.lichess.org/ . Chessnut SVG pieces by Alexis Luengas use Apache 2.0; the license is distributed with the assets.
+The immutable v1 bank contains 11,193 legal puzzles from the Lichess CC0 database, grouped into 100-point bands. The manifest assigns each bucket a stable offset. The app downloads the manifest and only the bands it needs; it has no dependency on a runtime Lichess API or a chess engine. Source: https://database.lichess.org/ . The play board uses classic Cburnett SVG pieces by Colin M. L. Burnett (GPL 2.0 or later). Unmodified SVG sources and the license are distributed at `/assets/chess/pieces/classic/`. Legacy Chessnut assets retain their Apache 2.0 license.
 
 `chess.js` uses BSD-2-Clause; its distribution notice is included at `/assets/chess/CHESS_JS_LICENSE.txt`. It validates moves, promotions, and checkmate. The first dataset move is the opponent's setup move, applied before presenting the position. The solver must complete the entire line. Alternate immediate checkmates are accepted. Illegal moves do not count as failures.
 
 The initial puzzle rating is 800. Elo updates use the puzzle's imported rating with K=64 for the first 10 rated attempts, then K=32. Ratings are bounded to 400–3200. Adaptive selection targets a band roughly 150 points below the player's rating 70% of the time, at the rating 20%, and 150 above it 10%; band rounding is downward. Gentle and stretch settings change the next selection. First mistakes, hints, reveals, and skips record one loss. Reviews are unrated. Skill labels are app-specific milestones, not official chess ratings.
 
 A compact bitmap records every attempted puzzle, so repeats never earn rating points. **Do not reorder or regenerate the released v1 bank or its offsets.** Introduce an explicit data/progress migration for future puzzle bank versions. The importer requires a local Lichess CSV.zst and the `zstd` CLI. It can use a byte-range prefix; only complete records that pass the feedback, sample-size, uncertainty, and legal-move filters are imported.
+
+## Play screen and motion
+
+The play workspace uses the dynamic viewport height and a size container for the board. Feedback and actions occupy a fixed-height panel; introductory content, account banners, detailed statistics, and help are kept in Progress or Practice settings. The solving screen has no page scrolling. Browser QA verified board/result/Next button bounds at 390×844, 375×667, 320×568, phone landscape 844×390, tablet 768×1024, and desktop 1280×800.
+
+`AnimatedBoard` maintains piece identities with `reconcilePieces` so Motion can animate the same DOM piece between squares, including castling, captures, en passant, promotions, board flips, and solution playback. Default movement is 650 ms with a 180 ms pause before the opponent replies. Input is locked through both moves and final results are shown afterward. Incorrect moves animate forward, then return. Pending sequences use AbortController and are cancelled on puzzle/account changes and unmount. Settings also offer standard/instant movement; the device reduced-motion preference overrides the selected speed.
 
 ## Accounts and persistence
 

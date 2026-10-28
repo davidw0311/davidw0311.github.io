@@ -96,11 +96,12 @@ export function useChessProgress() {
   function record(attempt: Attempt) {
     if (!readyRef.current) return;
     const next = recordAttempt(current.current, attempt);
-    if (next === current.current) return;
+    if (next === current.current) return current.current;
     current.current = next;
     pending.current.push(attempt); setProgress(current.current);
     if (persist()) setSyncStatus(owner.current ? 'Saving progress…' : 'Saved on this device');
     if (owner.current) void sync();
+    return next;
   }
   function importGuest() {
     const guest = readCache(null);
