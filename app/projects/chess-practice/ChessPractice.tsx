@@ -262,7 +262,7 @@ export default function ChessPractice() {
   <section className={styles.boardSection} aria-label="Chess puzzle"><div className={styles.boardGroup}>
     <div className={styles.boardCaption}>
       <span className={styles.turn}><i className={activeColor === 'b' ? styles.blackDisc : styles.whiteDisc} />{round ? `${activeColor === 'w' ? 'White' : 'Black'} to move` : 'Preparing puzzle'}</span>
-      <span className={styles.puzzleBadge}>{round?.analysis ? 'Explore' : round?.review ? 'Review' : round?.failed ? 'Practice' : 'Rated puzzle'}</span>
+      <span className={styles.puzzleBadge} aria-live="polite">{round && !loading && (completed || round.failed) ? `Puzzle rating: ${round.puzzle.rating}` : round?.review ? 'Review' : 'Rated puzzle'}</span>
     </div>
     <div className={styles.boardViewport}>
       <div id="puzzle-board" className={styles.boardFrame} data-animating={isAnimating}>

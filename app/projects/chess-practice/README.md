@@ -14,6 +14,8 @@ A compact bitmap records every attempted puzzle, so repeats never earn rating po
 
 ## Play screen and motion
 
+The board caption reveals the puzzle’s imported difficulty rating after a solve, first incorrect legal move, hint, or solution reveal. It remains visible while retrying or exploring that position and is hidden again for a fresh attempt. The player’s rating and earned points stay separately labelled.
+
 The play workspace uses the dynamic viewport height and a size container for the board. Feedback and actions occupy a fixed-height panel; introductory content, account banners, detailed statistics, and help are kept in Progress or Practice settings. The solving screen has no page scrolling. Browser QA verified board/result/Next button bounds at 390×844, 375×667, 320×568, phone landscape 844×390, tablet 768×1024, and desktop 1280×800.
 
 `AnimatedBoard` maintains piece identities with `reconcilePieces` so Motion can animate the same DOM piece between squares, including castling, captures, en passant, promotions, board flips, and solution playback. Default movement is 650 ms with a 180 ms pause before the opponent replies. Input is locked through both moves and final results are shown afterward. Incorrect moves animate forward, then return. Pending sequences use AbortController and are cancelled on puzzle/account changes and unmount. Settings also offer standard/instant movement; the device reduced-motion preference overrides the selected speed.
