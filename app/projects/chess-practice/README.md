@@ -18,6 +18,14 @@ The play workspace uses the dynamic viewport height and a size container for the
 
 `AnimatedBoard` maintains piece identities with `reconcilePieces` so Motion can animate the same DOM piece between squares, including castling, captures, en passant, promotions, board flips, and solution playback. Default movement is 650 ms with a 180 ms pause before the opponent replies. Input is locked through both moves and final results are shown afterward. Incorrect moves animate forward, then return. Pending sequences use AbortController and are cancelled on puzzle/account changes and unmount. Settings also offer standard/instant movement; the device reduced-motion preference overrides the selected speed.
 
+## Exploring and saving puzzles
+
+After solving or revealing a puzzle, Explore unlocks legal moves for both sides in turn. The existing previous/next controls become undo/redo. A new move from an earlier position replaces the redo branch; Solution restores the original replay. Checkmate and stalemate positions prompt the player to rewind. Exploration never records attempts or changes the rating, and keeps the slow animations and fixed phone controls. Solved replays retain the accepted moves, including alternate immediate mates.
+
+Save below the board adds or removes the current puzzle from a personal collection. The Saved tab loads up to 12 positions per page with ratings and themes, provides replay and removal, and downloads only the needed rating buckets. Saves use the immutable puzzle indexes. Guest collections remain on the device; account collections sync using the same retry queue and auth isolation as progress. Guest import explicitly includes currently saved puzzles.
+
+`user_metadata.chess_collection_v1` stores a validated bitmap (under 1.9 KB for the entire current bank), separately from the existing bounded progress schema. Pending save/remove operations are merged onto the latest cloud collection and changes made during a save are replayed afterward. There is no small favorites cap. No schema migration or new database table is required.
+
 ## Accounts and persistence
 
 The app reuses the existing Supabase browser singleton from Piano Party, including the same account/session and public project credentials. No service-role key is exposed. Signup, email confirmation, login, password recovery, and logout use Supabase Auth. Password recovery currently returns to the existing Piano Party profile password form.

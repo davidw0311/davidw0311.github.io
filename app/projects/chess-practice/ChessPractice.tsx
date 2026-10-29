@@ -1,9 +1,9 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Chess, type Square } from 'chess.js';
-import { ArrowLeft, ArrowRight, ArrowsClockwise, ChartLineUp, Check, Horse, CaretLeft, CaretRight, Fire, Lightbulb, SignOut, Target, UserCircle, GearSix, Eye, SkipForward, ArrowCounterClockwise } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, ArrowsClockwise, ChartLineUp, Check, Horse, CaretLeft, CaretRight, Fire, Lightbulb, SignOut, Target, UserCircle, GearSix, Eye, SkipForward, ArrowCounterClockwise, BookmarkSimple } from '@phosphor-icons/react';
 import { getSupabase } from '../piano-party/account/supabase';
 import { hasSeen, playPuzzleMove, skillLevel, solutionFrames, startPuzzle, targetRating, themeLabel, type Puzzle, type PuzzleManifest } from '@/lib/chessPuzzles';
 import { useChessProgress } from './useChessProgress';
@@ -11,12 +11,16 @@ import AccountDialog from './AccountDialog';
 import AnimatedBoard, { pieceNames, pieceRoot } from './AnimatedBoard';
 import PracticeDialog from './PracticeDialog';
 import { REPLY_PAUSE_MS, SLOW_MOVE_MS, waitForMove } from '@/lib/chessMotion';
+import { analysisMessage, createAnalysis, moveAnalysis, stepAnalysis, type AnalysisLine } from '@/lib/chessAnalysis';
+import { collectionIndexes } from '@/lib/chessCollection';
+import SavedPuzzles from './SavedPuzzles';
 import styles from './chess.module.css';
 
 const assetRoot = '/assets/chess/puzzles';
-type Round = { puzzle: Puzzle; fen: string; cursor: number; color: 'w' | 'b'; status: 'playing' | 'solved' | 'revealed'; message: string; failed: boolean; review: boolean; san: string[]; hint: string; frame: number; lastMove?: string; startingRating: number };
+type Round = { puzzle: Puzzle; fen: string; cursor: number; color: 'w' | 'b'; status: 'playing' | 'solved' | 'revealed'; message: string; failed: boolean; review: boolean; san: string[]; hint: string; frame: number; lastMove?: string; startingRating: number; analysis?: AnalysisLine };
 export default function ChessPractice() {
-  const { progress, user, ready, syncStatus, record, retrySync, guestAvailable, importGuest } = useChessProgress();
+  const { progress, collection, savePuzzle, user, ready, syncStatus, record, retrySync, guestAvailable, importGuest } = useChessProgress();
+  const savedIndexes = useMemo(() => collectionIndexes(collection), [collection]);
   const [manifest, setManifest] = useState<PuzzleManifest | null>(null);
   const [round, setRound] = useState<Round | null>(null);
   const roundRef = useRef<Round | null>(null);
@@ -24,7 +28,7 @@ export default function ChessPractice() {
   const [promotion, setPromotion] = useState<{ from: string; to: string } | null>(null);
   const [flipped, setFlipped] = useState(false);
   const [difficulty, setDifficulty] = useState('adaptive');
-  const [tab, setTab] = useState<'practice' | 'progress'>('practice');
+  const [tab, setTab] = useState<'practice' | 'progress' | 'saved'>('practice');
   const [authOpen, setAuthOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [moveDuration, setMoveDuration] = useState(SLOW_MOVE_MS);
@@ -116,11 +120,17 @@ export default function ChessPractice() {
   }
   async function attemptMove(from: string, to: string, promote?: string) {
     const r = roundRef.current;
-    if (!r || !ready || loading || animationBusy.current || r.status !== 'playing') return;
-    const game = new Chess(r.fen);
+    if (!r || !ready || loading || animationBusy.current || (r.status !== 'playing' && !r.analysis)) return;
+    const game = new Chess(r.analysis ? r.analysis.frames[r.analysis.cursor].fen : r.fen);
     const moves = game.moves({ verbose: true }).filter(m => m.from === from && m.to === to);
     if (!promote && moves.some(m => m.promotion)) { setPromotion({ from, to }); return; }
     const uci = `${from}${to}${promote || ''}`;
+    if (r.analysis) {
+      setPromotion(null); setSelected(null);
+      const next = moveAnalysis(r.analysis, uci);
+      if (next !== r.analysis) await animatePosition({ ...r, analysis: next });
+      return;
+    }
     const result = playPuzzleMove(r.puzzle, r.fen, r.cursor, uci);
     setPromotion(null); setSelected(null);
     if (result.status === 'illegal') { updateRound({ ...r, message: 'That move isn’t legal. Try another square.' }); return; }
@@ -154,10 +164,37 @@ export default function ChessPractice() {
     }
   }
   function selectSquare(square: Square) {
-    if (!round || round.status !== 'playing' || loading || !ready || animationBusy.current) return;
-    const game = new Chess(round.fen); const piece = game.get(square);
-    if (selected && square !== selected && piece?.color !== round.color) { void attemptMove(selected, square); return; }
-    setSelected(piece?.color === round.color && selected !== square ? square : null);
+    if (!round || (round.status !== 'playing' && !round.analysis) || loading || !ready || animationBusy.current) return;
+    const game = new Chess(round.analysis ? round.analysis.frames[round.analysis.cursor].fen : round.fen); const piece = game.get(square);
+    const color = game.turn();
+    if (selected && square !== selected && piece?.color !== color) { void attemptMove(selected, square); return; }
+    setSelected(piece?.color === color && selected !== square ? square : null);
+  }
+  async function animatePosition(next: Round) {
+    const controller = new AbortController(); animation.current = controller; animationBusy.current = true;
+    setSelected(null); setPromotion(null); setPhase('player'); updateRound(next);
+    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : moveDuration;
+    try { await waitForMove(duration, controller.signal); }
+    finally { if (animation.current === controller) { animation.current = null; animationBusy.current = false; setPhase('idle'); } }
+  }
+  function explore() {
+    const r = roundRef.current;
+    if (!r || r.status === 'playing' || animationBusy.current || loading) return;
+    setSelected(null); setPromotion(null);
+    if (r.analysis) { void animatePosition({ ...r, analysis: undefined }); return; }
+    updateRound({ ...r, analysis: createAnalysis(r.puzzle, r.frame, r.status === 'solved' ? r.san : undefined) });
+  }
+  function step(direction: -1 | 1) {
+    const r = roundRef.current;
+    if (!r || r.status === 'playing' || animationBusy.current || loading) return;
+    if (r.analysis) {
+      const next = stepAnalysis(r.analysis, direction);
+      if (next !== r.analysis) void animatePosition({ ...r, analysis: next });
+    } else {
+      const count = createAnalysis(r.puzzle, r.frame, r.status === 'solved' ? r.san : undefined).frames.length;
+      const frame = Math.max(0, Math.min(count - 1, r.frame + direction));
+      if (frame !== r.frame) void animatePosition({ ...r, frame });
+    }
   }
   function hint() {
     const r = roundRef.current; if (!r || r.status !== 'playing' || animationBusy.current || loading || !ready) return;
@@ -188,15 +225,19 @@ export default function ChessPractice() {
     const { error } = await getSupabase().auth.signOut();
     if (error) setAccountError('Could not log out. Please reconnect and try again.');
   }
-  const frames = round && round.status !== 'playing' ? solutionFrames(round.puzzle) : [];
-  const displayFen = frames.length ? frames[round!.frame].fen : round?.fen;
+  const timeline = round && round.status !== 'playing' ? round.analysis ?? createAnalysis(round.puzzle, round.frame, round.status === 'solved' ? round.san : undefined) : null;
+  const frames = timeline?.frames ?? [];
+  const frame = timeline?.cursor ?? 0;
+  const displayFen = frames.length ? frames[frame].fen : round?.fen;
+  const activeColor = displayFen ? new Chess(displayFen).turn() : 'w';
+  const puzzleSaved = Boolean(round && savedIndexes.includes(round.puzzle.index));
   const whiteBottom = round ? (round.color === 'w') !== flipped : true;
   const accuracy = progress.attempts ? Math.round(progress.solved / progress.attempts * 100) : 0;
   const points = [...(progress.attempts < 30 ? [800] : []), ...progress.history.map(h => h[0])];
   const low = Math.min(...points) - 35, high = Math.max(...points) + 35;
   const line = points.map((rating, i) => `${20 + i / Math.max(1, points.length - 1) * 560},${150 - (rating - low) / (high - low) * 120}`).join(' ');
   const isAnimating = phase !== 'idle';
-  const canPlay = Boolean(ready && round && !loading && !error && !isAnimating && round.status === 'playing');
+  const canPlay = Boolean(ready && round && !loading && !error && !isAnimating && (round.status === 'playing' || round.analysis));
   const completed = Boolean(round && round.status !== 'playing');
   const ratingChange = round ? progress.rating - round.startingRating : 0;
   return <main className={styles.app} data-view={tab}>
@@ -214,36 +255,37 @@ export default function ChessPractice() {
       <nav className={styles.tabs} aria-label="Chess practice sections">
         <button aria-current={tab === 'practice' ? 'page' : undefined} onClick={() => setTab('practice')}><Horse size={18} />Practice</button>
         <button aria-current={tab === 'progress' ? 'page' : undefined} onClick={() => setTab('progress')}><ChartLineUp size={18} />Progress</button>
+        <button aria-current={tab === 'saved' ? 'page' : undefined} onClick={() => setTab('saved')}><BookmarkSimple size={18} />Saved</button>
         <span className={styles.ratingPill} title={`${level.name}${progress.attempts < 10 ? ' · provisional rating' : ''}`}><Target size={15} /><strong>{progress.rating}</strong><small>rating</small></span>
       </nav>
       {tab === 'practice' ? <div className={styles.practice}>
   <section className={styles.boardSection} aria-label="Chess puzzle"><div className={styles.boardGroup}>
     <div className={styles.boardCaption}>
-      <span className={styles.turn}><i className={round?.color === 'b' ? styles.blackDisc : styles.whiteDisc} />{round ? `${round.color === 'w' ? 'White' : 'Black'} to move` : 'Preparing puzzle'}</span>
-      <span className={styles.puzzleBadge}>{round?.review ? 'Review' : round?.failed ? 'Practice' : 'Rated puzzle'}</span>
+      <span className={styles.turn}><i className={activeColor === 'b' ? styles.blackDisc : styles.whiteDisc} />{round ? `${activeColor === 'w' ? 'White' : 'Black'} to move` : 'Preparing puzzle'}</span>
+      <span className={styles.puzzleBadge}>{round?.analysis ? 'Explore' : round?.review ? 'Review' : round?.failed ? 'Practice' : 'Rated puzzle'}</span>
     </div>
     <div className={styles.boardViewport}>
       <div id="puzzle-board" className={styles.boardFrame} data-animating={isAnimating}>
-        {round && displayFen ? <AnimatedBoard key={round.puzzle.id} fen={displayFen} whiteBottom={whiteBottom} selected={selected} hint={round.hint} lastMove={round.status === 'playing' ? round.lastMove : round.puzzle.moves[round.frame]} canPlay={canPlay} playerColor={round.color} duration={moveDuration} onSelect={selectSquare} onMove={(from, to) => { void attemptMove(from, to); }} /> : <div className={styles.boardPlaceholder} />}
+        {round && displayFen ? <AnimatedBoard key={round.puzzle.id} fen={displayFen} whiteBottom={whiteBottom} selected={selected} hint={round.hint} lastMove={round.status === 'playing' ? round.lastMove : frames[frame]?.move} canPlay={canPlay} playerColor={activeColor} duration={moveDuration} onSelect={selectSquare} onMove={(from, to) => { void attemptMove(from, to); }} /> : <div className={styles.boardPlaceholder} />}
         {(loading || !ready) && !error && <div className={styles.boardLoading} role="status"><Image src={`${pieceRoot}/wN.svg`} width={48} height={48} alt="" /><span>{ready ? 'Finding your next puzzle…' : 'Loading your practice…'}</span></div>}
         {error && <div className={styles.boardLoading} role="alert"><p>{error}</p><button className={styles.primary} onClick={() => manifest ? void nextPuzzle(difficulty) : void fetchManifest()}>Try again</button></div>}
-        {promotion && <div className={styles.promotion} role="dialog" aria-label="Choose promotion piece"><p>Promote your pawn</p><div>{['q', 'r', 'b', 'n'].map(piece => <button key={piece} aria-label={`Promote to ${pieceNames[piece]}`} onClick={() => { void attemptMove(promotion.from, promotion.to, piece); }}><Image alt={pieceNames[piece]} src={`${pieceRoot}/${round?.color}${piece.toUpperCase()}.svg`} width={60} height={60} /></button>)}</div><button className={styles.textButton} onClick={() => setPromotion(null)}>Cancel</button></div>}
+        {promotion && <div className={styles.promotion} role="dialog" aria-label="Choose promotion piece"><p>Promote your pawn</p><div>{['q', 'r', 'b', 'n'].map(piece => <button key={piece} aria-label={`Promote to ${pieceNames[piece]}`} onClick={() => { void attemptMove(promotion.from, promotion.to, piece); }}><Image alt={pieceNames[piece]} src={`${pieceRoot}/${activeColor}${piece.toUpperCase()}.svg`} width={60} height={60} /></button>)}</div><button className={styles.textButton} onClick={() => setPromotion(null)}>Cancel</button></div>}
       </div>
     </div>
-    <div className={styles.boardFooter}><span>{round ? `Puzzle #${round.puzzle.id}` : 'Unlimited chess puzzles'}</span><button disabled={!round || loading || isAnimating} onClick={() => setFlipped(v => !v)} aria-label="Flip board"><ArrowsClockwise size={15} /><span>Flip board</span></button></div>
+    <div className={styles.boardFooter}><span>{round ? `#${round.puzzle.id}` : 'Unlimited puzzles'}</span><div><button disabled={!round || !ready || loading} aria-label={puzzleSaved ? 'Remove puzzle from collection' : 'Save puzzle to collection'} aria-pressed={puzzleSaved} onClick={() => round && savePuzzle(round.puzzle.index, !puzzleSaved)}><BookmarkSimple size={15} weight={puzzleSaved ? 'fill' : 'regular'} /><span>{puzzleSaved ? 'Saved' : 'Save'}</span></button><button disabled={!round || loading || isAnimating} onClick={() => setFlipped(v => !v)} aria-label="Flip board"><ArrowsClockwise size={15} /><span>Flip</span></button></div></div>
   </div></section>
   <aside className={styles.sidebar}>
     <section className={styles.challenge} data-result={round?.status} aria-label="Puzzle feedback">
       <div className={styles.resultHeading}>
-        <h2>{round?.status === 'solved' ? <><Check size={20} weight="bold" />Puzzle solved</> : round?.status === 'revealed' ? <><Eye size={20} />The solution</> : phase === 'reply' ? <><ArrowsClockwise size={19} />Opponent’s reply</> : phase === 'return' ? <><ArrowCounterClockwise size={19} />Keep looking</> : <><Target size={20} />Find the best move</>}</h2>
-        <span className={styles.resultMeta}>{completed ? round?.review ? 'Unrated review' : round?.status === 'solved' && !round.failed ? `${ratingChange >= 0 ? '+' : '−'}${Math.abs(ratingChange)} rating` : 'Practice complete' : 'No timer'}</span>
+        <h2>{round?.analysis ? <><Horse size={20} />Explore position</> : round?.status === 'solved' ? <><Check size={20} weight="bold" />Puzzle solved</> : round?.status === 'revealed' ? <><Eye size={20} />The solution</> : phase === 'reply' ? <><ArrowsClockwise size={19} />Opponent’s reply</> : phase === 'return' ? <><ArrowCounterClockwise size={19} />Keep looking</> : <><Target size={20} />Find the best move</>}</h2>
+        <span className={styles.resultMeta}>{round?.analysis ? 'Unrated' : completed ? round?.review ? 'Unrated review' : round?.status === 'solved' && !round.failed ? `${ratingChange >= 0 ? '+' : '−'}${Math.abs(ratingChange)} rating` : 'Practice complete' : 'No timer'}</span>
       </div>
-      <p className={styles.feedback} role="status" aria-live="polite">{phase === 'reply' ? 'Watch their response, then find your next move.' : phase === 'player' ? 'Following your move…' : round?.message || 'Look for checks, captures, and threats.'}</p>
+      <p className={styles.feedback} role="status" aria-live="polite">{round?.analysis && displayFen ? analysisMessage(displayFen) : phase === 'reply' ? 'Watch their response, then find your next move.' : phase === 'player' ? 'Following your move…' : round?.message || 'Look for checks, captures, and threats.'}</p>
       <div className={styles.lineSlot}>
-        {completed && round ? <div className={styles.playback}><button aria-label="Previous solution move" disabled={round.frame === 0 || isAnimating} onClick={() => updateRound({ ...round, frame: round.frame - 1 })}><CaretLeft size={19} /></button><span>{round.frame === 0 ? 'Starting position' : `${round.frame} / ${frames.length - 1} · ${frames[round.frame]?.san}`}</span><button aria-label="Next solution move" disabled={round.frame >= frames.length - 1 || isAnimating} onClick={() => updateRound({ ...round, frame: round.frame + 1 })}><CaretRight size={19} /></button></div> : <p className={styles.moveLine}>{round?.san.length ? round.san.join('  ') : 'Your move. Take your time.'}</p>}
+        {completed && round ? <div className={styles.playback}><button aria-label={round.analysis ? 'Undo analysis move' : 'Previous solution move'} disabled={frame === 0 || isAnimating || loading} onClick={() => step(-1)}><CaretLeft size={19} /></button><span>{frame === 0 ? 'Starting position' : `${frame} / ${frames.length - 1} · ${frames[frame]?.san}`}</span><button aria-label={round.analysis ? 'Redo analysis move' : 'Next solution move'} disabled={frame >= frames.length - 1 || isAnimating || loading} onClick={() => step(1)}><CaretRight size={19} /></button></div> : <p className={styles.moveLine}>{round?.san.length ? round.san.join('  ') : 'Your move. Take your time.'}</p>}
       </div>
-      <div className={styles.actions}>
-        {completed ? <button className={styles.primary} disabled={loading || !ready || isAnimating} onClick={() => void nextPuzzle(difficulty)}>Next puzzle <ArrowRight size={19} /></button> : <><button className={styles.secondary} disabled={!canPlay} onClick={hint}><Lightbulb size={18} />{round?.hint ? 'Show move' : 'Hint'}</button><button className={styles.secondary} disabled={!canPlay} onClick={reveal}><Eye size={18} />Solution</button><button className={styles.secondary} disabled={!canPlay} onClick={skip} aria-label="Skip puzzle"><SkipForward size={18} /><span>Skip</span></button></>}
+      <div className={`${styles.actions} ${completed ? styles.completedActions : ''}`}>
+        {completed ? <><button className={styles.secondary} disabled={loading || !ready || isAnimating} onClick={explore}>{round?.analysis ? <><ArrowCounterClockwise size={17} />Solution</> : <><Horse size={18} />Explore</>}</button><button className={styles.primary} disabled={loading || !ready || isAnimating} onClick={() => void nextPuzzle(difficulty)}>Next puzzle <ArrowRight size={19} /></button></> : <><button className={styles.secondary} disabled={!canPlay} onClick={hint}><Lightbulb size={18} />{round?.hint ? 'Show move' : 'Hint'}</button><button className={styles.secondary} disabled={!canPlay} onClick={reveal}><Eye size={18} />Solution</button><button className={styles.secondary} disabled={!canPlay} onClick={skip} aria-label="Skip puzzle"><SkipForward size={18} /><span>Skip</span></button></>}
       </div>
     </section>
     <div className={styles.desktopSummary}>
@@ -255,9 +297,9 @@ export default function ChessPractice() {
     </div>
   </aside>
 </div>
- : <div className={styles.progressScroll}>
+ : tab === 'saved' ? <SavedPuzzles indexes={savedIndexes} manifest={manifest} loadBucket={loadBucket} onOpen={review} onRemove={index => savePuzzle(index, false)} ready={ready && !loading && !isAnimating} user={Boolean(user)} syncStatus={syncStatus} onLogin={() => setAuthOpen(true)} /> : <div className={styles.progressScroll}>
         {accountError && <p role="alert" className={styles.error}>{accountError}</p>}
-        {guestAvailable && <div className={styles.importNotice}><p>Your guest practice is saved separately on this device.</p><button onClick={importGuest}>Add it to my account <ArrowRight size={16} /></button></div>}
+        {guestAvailable && <div className={styles.importNotice}><p>Your guest practice and collection are saved separately on this device.</p><button onClick={importGuest}>Add them to my account <ArrowRight size={16} /></button></div>}
 <section className={styles.progressPage} aria-labelledby="progress-title">
         <div className={styles.progressHeading}><div><p className={styles.eyebrow}>Every position adds up</p><h2 id="progress-title">Your game is growing.</h2></div><button className={styles.primary} onClick={() => setTab('practice')}>Keep practising <ArrowRight size={17} /></button></div>
         <div className={styles.stats}><div><small>Puzzle rating</small><strong>{progress.rating}</strong><span>{level.name}</span></div><div><small>Puzzles solved</small><strong>{progress.solved}</strong><span>of {progress.attempts} first attempts</span></div><div><small>Accuracy</small><strong>{accuracy}%</strong><span>First attempt, without hints</span></div><div><small>Personal best</small><strong>{progress.best}</strong><span>Longest solve streak: {progress.longest}</span></div></div>
@@ -276,7 +318,7 @@ export default function ChessPractice() {
         <label htmlFor="move-speed">Piece movement<select id="move-speed" value={moveDuration} onChange={e => setMoveDuration(Number(e.target.value))}><option value={SLOW_MOVE_MS}>Relaxed · slow and smooth</option><option value={300}>Standard</option><option value={0}>Instant</option></select><small>Your device’s reduced-motion preference takes priority.</small></label>
       </div>
       <div className={styles.sync}><span className={user ? styles.syncDot : styles.localDot} />{ready ? syncStatus : 'Loading your progress…'}{user && <button aria-label="Retry saving progress" onClick={() => void retrySync()}><ArrowsClockwise size={16} /></button>}</div>
-      {guestAvailable && <button className={styles.secondary} onClick={importGuest}>Add guest progress to my account</button>}
+      {guestAvailable && <button className={styles.secondary} onClick={importGuest}>Add guest progress and collection</button>}
       <details className={styles.how}><summary>How puzzles and ratings work</summary><p>Complete the full line without a mistake or hint to earn rating points. A wrong legal move, hint, reveal, or skip records one failed attempt. Illegal moves are free to retry. Reviews don’t change your rating.</p><p>Adaptive puzzles become harder as your rating improves. Your first 10 puzzles calibrate the starting rating. There’s no daily limit.</p></details>
       {completed && round && <div className={styles.puzzleDetails}><h3>About this position</h3><div className={styles.themes}>{round.puzzle.themes.filter(t => !['short', 'long', 'veryLong', 'oneMove', 'master', 'masterVsMaster'].includes(t)).map(t => <span key={t}>{themeLabel(t)}</span>)}</div><p>Puzzle rating: {round.puzzle.rating}</p><a href={round.puzzle.gameUrl} target="_blank" rel="noreferrer">View original game ↗</a></div>}
       <p className={styles.privacy}>Puzzles from Lichess (CC0). Classic pieces by Colin M. L. Burnett (GPL 2.0+). Your progress is private.</p>

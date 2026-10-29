@@ -86,3 +86,20 @@
 @media (prefers-reduced-motion: reduce) { .app *, .dialog * { transition: none !important; }.piece { will-change: auto; } }
 
 .square[draggable='true'] { cursor: grab; }.square[draggable='true']:active { cursor: grabbing; }
+.boardFooter > div { display: flex; align-items: center; gap: 10px; }
+.boardFooter button[aria-pressed='true'] { color: #b1efd8; }
+.actions.completedActions { grid-template-columns: 1fr 1.5fr; }
+.completedActions > .primary { grid-column: auto; }
+.collectionCount { margin: 10px 0 0; color: #a7c3cb; font-size: 11px; }
+.collectionNote { color: #aac2ca; font-size: 12px; margin: 0 0 24px; max-width: 620px; }
+.collectionNote button { border: 0; background: transparent; padding: 0; color: #b1efd8; text-decoration: underline; text-underline-offset: 3px; }
+.collectionEmpty { margin: 60px auto; max-width: 300px; color: #9eb9c2; text-align: center; }
+.collectionEmpty > svg { color: #9edcc7; }.collectionEmpty h3 { color: #e4eeeb; font-size: 19px; font-weight: 550; }.collectionEmpty p { font-size: 13px; line-height: 1.8; }
+.collectionGrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 15px; }
+.savedPuzzle { display: flex; flex-direction: column; padding: 20px; border: 1px solid #3b555e; border-radius: 12px; background: #1c2e37; }
+.savedPuzzle > div { display: flex; align-items: center; gap: 9px; font-size: 12px; }.savedPuzzle > div > svg { color: #9fe2ca; flex-shrink: 0; }.savedPuzzle strong { margin-left: auto; color: #b1d7d3; font-size: 11px; }
+.savedPuzzle p { color: #9db8c2; font-size: 11px; margin: 18px 0 22px; flex: 1; }.savedPuzzle footer { display: flex; gap: 10px; justify-content: space-between; }.savedPuzzle footer .secondary { flex: 1; }
+.collectionPages { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 25px 0 10px; }.collectionPages > span { color: #afc8cf; font-size: 11px; }
+@media (max-width: 900px) { .collectionGrid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 760px) { .tabs { gap: 14px; }.tabs > button { gap: 5px; }.ratingPill small { display: none; }.collectionGrid { grid-template-columns: 1fr; }.savedPuzzle { padding: 18px; }.boardFooter > div { gap: 4px; } }
+@media (max-width: 350px) { .brand { font-size: 14px; }.login { white-space: nowrap; }.tabs { gap: 10px; }.tabs > button { font-size: 10px; }.tabs > button svg { width: 15px; }.ratingPill { gap: 4px; padding: 3px 5px; }.ratingPill > svg { display: none; } }
