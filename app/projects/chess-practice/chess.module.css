@@ -103,3 +103,7 @@
 @media (max-width: 900px) { .collectionGrid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 @media (max-width: 760px) { .tabs { gap: 14px; }.tabs > button { gap: 5px; }.ratingPill small { display: none; }.collectionGrid { grid-template-columns: 1fr; }.savedPuzzle { padding: 18px; }.boardFooter > div { gap: 4px; } }
 @media (max-width: 350px) { .brand { font-size: 14px; }.login { white-space: nowrap; }.tabs { gap: 10px; }.tabs > button { font-size: 10px; }.tabs > button svg { width: 15px; }.ratingPill { gap: 4px; padding: 3px 5px; }.ratingPill > svg { display: none; } }
+
+.roomsLink { display: inline-flex; gap: 7px; align-items: center; justify-content: center; min-width: 28px; color: #b2d9d0; font-size: 12px; text-decoration: none; align-self: stretch; }
+@media (max-width: 760px) { .roomsLink > span { display: none; }.tabs { gap: 10px; }.roomsLink { margin-left: auto; }.ratingPill { margin-left: 0; } }
+@media (max-width: 350px) { .tabs { gap: 7px; }.roomsLink > svg { width: 16px; } }

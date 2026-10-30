@@ -1,0 +1,136 @@
+'use strict';
+const { Chess } = require('chess.js');
+
+function fail(code, message, status = 400) {
+  const error = new Error(message); Object.assign(error, { code, status, clientSafe: true }); throw error;
+}
+function nameOf(value) {
+  if (typeof value !== 'string' || !value.trim() || value.trim().length > 24 || /[\u0000-\u001f\u007f]/.test(value)) fail('invalid-name', 'Enter a name with 1–24 characters.');
+  return value.trim();
+}
+function handicapFen(removed = []) {
+  if (!Array.isArray(removed) || removed.length > 30 || new Set(removed).size !== removed.length) fail('invalid-handicap', 'Choose the starting pieces to remove.');
+  const game = new Chess();
+  for (const square of removed) {
+    if (typeof square !== 'string' || !/^[a-h][1278]$/.test(square)) fail('invalid-handicap', 'Only starting pieces can be removed.');
+    const piece = game.get(square);
+    if (!piece || piece.type === 'k') fail('invalid-handicap', 'Both kings must stay on the board.');
+    game.remove(square);
+  }
+  if (game.isGameOver()) fail('invalid-handicap', 'Keep enough pieces for a playable starting position.');
+  return game.fen();
+}
+function createRoom(code, actor, name, color, removed, now) {
+  if (!['w', 'b'].includes(color)) fail('invalid-color', 'Choose White or Black.');
+  return { code, revision: 1, setupRevision: 1, status: 'lobby', host: actor,
+    players: [{ id: actor, name: nameOf(name), color, ready: false, lastSeen: now }],
+    removed: [...(removed || [])].sort(), initialFen: handicapFen(removed), moves: [], pending: null, result: null,
+    _lastActive: now, _requests: {}, _commandLimits: {} };
+}
+function gameOf(room) {
+  const game = new Chess(room.initialFen);
+  for (const move of room.moves) game.move(move);
+  return game;
+}
+function resultOf(game) {
+  if (game.isCheckmate()) return { winner: game.turn() === 'w' ? 'b' : 'w', reason: 'checkmate' };
+  if (game.isStalemate()) return { winner: null, reason: 'stalemate' };
+  if (game.isThreefoldRepetition()) return { winner: null, reason: 'repetition' };
+  if (game.isInsufficientMaterial()) return { winner: null, reason: 'insufficient-material' };
+  if (game.isDrawByFiftyMoves()) return { winner: null, reason: 'fifty-move-rule' };
+  return null;
+}
+function playerOf(room, actor) {
+  const player = room.players.find(p => p.id === actor);
+  if (!player) fail('invalid-session', 'This browser does not have a seat in this room.', 403);
+  return player;
+}
+function tick(room, now) {
+  if (room.pending && room.pending.expiresAt <= now) { room.pending = null; room.revision++; return true; }
+  return false;
+}
+function joinRoom(room, actor, name, now) {
+  if (room.players.some(p => p.id === actor)) return;
+  if (room.status !== 'lobby' || room.players.length >= 2) fail('room-full', 'Both seats are taken. Ask your friend to create a new room.', 409);
+  room.players.push({ id: actor, name: nameOf(name), color: room.players[0].color === 'w' ? 'b' : 'w', ready: false, lastSeen: now });
+  room.players.forEach(p => { p.ready = false; }); room.setupRevision = (room.setupRevision || 1) + 1; room.revision++;
+}
+function applyCommand(room, actor, command, now) {
+  const player = playerOf(room, actor);
+  if (!command || typeof command !== 'object' || Array.isArray(command)) fail('invalid-command', 'Choose a game action.');
+  const sameSetupReady = command.type === 'ready' && Number.isInteger(command.setupRevision) && command.setupRevision === (room.setupRevision || 1) && typeof command.ready === 'boolean';
+  if (!Number.isInteger(command.revision) || (command.revision !== room.revision && !sameSetupReady)) fail('stale-room', 'The room changed. Check the updated board and try again.', 409);
+  if (room.status === 'closed') fail('room-closed', 'The host closed this room.', 410);
+  const type = command.type;
+  if (['color', 'handicap', 'ready', 'leave'].includes(type)) {
+    if (room.status !== 'lobby') fail('game-started', 'The game has started; the setup is locked.', 409);
+    if (type === 'color') {
+      if (!['w', 'b'].includes(command.color)) fail('invalid-color', 'Choose White or Black.');
+      for (const p of room.players) { p.color = p.id === actor ? command.color : command.color === 'w' ? 'b' : 'w'; p.ready = false; }
+      room.setupRevision = (room.setupRevision || 1) + 1;
+    } else if (type === 'handicap') {
+      if (actor !== room.host) fail('host-only', 'The host chooses the starting handicap.', 403);
+      if (!Array.isArray(command.removed)) fail('invalid-handicap', 'Choose the starting pieces to remove.');
+      const fen = handicapFen(command.removed);
+      room.initialFen = fen; room.removed = [...command.removed].sort(); room.players.forEach(p => { p.ready = false; });
+      room.setupRevision = (room.setupRevision || 1) + 1;
+    } else if (type === 'leave') {
+      if (actor === room.host) room.status = 'closed';
+      else { room.players = room.players.filter(p => p.id !== actor); room.players.forEach(p => { p.ready = false; }); }
+      room.setupRevision = (room.setupRevision || 1) + 1;
+    } else {
+      if (room.players.length !== 2) fail('waiting-for-player', 'Your friend needs to join before you can get ready.', 409);
+      if (!sameSetupReady) fail('stale-setup', 'Confirm the current colors and handicap before getting ready.', 409);
+      player.ready = command.ready;
+      if (room.players.every(p => p.ready)) room.status = 'playing';
+    }
+  } else if (type === 'move') {
+    if (room.status !== 'playing') fail('game-not-playing', 'This game is not accepting moves.', 409);
+    if (room.pending) fail('request-pending', 'Respond to or cancel the pending request first.', 409);
+    const game = gameOf(room);
+    if (game.turn() !== player.color) fail('not-your-turn', 'Wait for your opponent’s move.', 409);
+    if (typeof command.move !== 'string' || !/^[a-h][1-8][a-h][1-8][qrbn]?$/.test(command.move)) fail('illegal-move', 'Choose a legal move.');
+    let move;
+    try { move = game.move(command.move); } catch { fail('illegal-move', 'That move is not legal.'); }
+    room.moves.push(`${move.from}${move.to}${move.promotion || ''}`);
+    room.result = resultOf(game);
+    if (room.result) room.status = 'finished';
+  } else if (['takeback', 'draw'].includes(type)) {
+    if (room.pending) fail('request-pending', 'There is already a request waiting for a response.', 409);
+    if (room.status !== 'playing' && !(type === 'takeback' && room.status === 'finished' && room.result?.reason !== 'resignation' && room.result?.reason !== 'agreement')) fail('game-not-playing', 'This game is not accepting requests.', 409);
+    const plies = type === 'takeback' ? command.plies ?? 1 : 0;
+    if (type === 'takeback' && (![1, 2].includes(plies) || room.moves.length < plies)) fail('invalid-takeback', 'Choose one or two available half-moves to take back.');
+    room.pending = { type, requester: actor, plies, moveCount: room.moves.length, expiresAt: now + 120000 };
+  } else if (type === 'respond') {
+    const pending = room.pending;
+    if (!pending) fail('no-request', 'There is no pending request.', 409);
+    if (pending.requester === actor) fail('opponent-only', 'Only your opponent can approve or decline this request.', 403);
+    if (typeof command.accept !== 'boolean') fail('invalid-response', 'Choose Accept or Decline.');
+    if (command.accept) {
+      if (pending.moveCount !== room.moves.length) fail('stale-request', 'The position changed. Request a new takeback.', 409);
+      if (pending.type === 'takeback') {
+        room.moves.splice(-pending.plies); room.result = resultOf(gameOf(room)); room.status = room.result ? 'finished' : 'playing';
+      } else { room.result = { winner: null, reason: 'agreement' }; room.status = 'finished'; }
+    }
+    room.pending = null;
+  } else if (type === 'cancel') {
+    if (!room.pending || room.pending.requester !== actor) fail('requester-only', 'Only the requester can cancel this request.', 403);
+    room.pending = null;
+  } else if (type === 'resign') {
+    if (room.status !== 'playing') fail('game-not-playing', 'This game has already ended.', 409);
+    room.result = { winner: player.color === 'w' ? 'b' : 'w', reason: 'resignation' }; room.status = 'finished'; room.pending = null;
+  } else fail('invalid-command', 'Unknown game action.');
+  player.lastSeen = now; room._lastActive = now; room.revision++;
+}
+function publicView(room, actor, now) {
+  const me = playerOf(room, actor);
+  const game = gameOf(room);
+  return { code: room.code, revision: room.revision, setupRevision: room.setupRevision || 1, status: room.status, isHost: room.host === actor,
+    me: { color: me.color, name: me.name },
+    players: room.players.map(p => ({ name: p.name, color: p.color, ready: p.ready, connected: now - p.lastSeen < 35000, isMe: p.id === actor, isHost: p.id === room.host })),
+    removed: room.removed, initialFen: room.initialFen, fen: game.fen(), turn: game.turn(), check: game.isCheck(),
+    moves: game.history({ verbose: true }).map(m => ({ uci: `${m.from}${m.to}${m.promotion || ''}`, san: m.san, fen: m.after })),
+    result: room.result, pending: room.pending ? { type: room.pending.type, plies: room.pending.plies, mine: room.pending.requester === actor, name: room.players.find(p => p.id === room.pending.requester)?.name, expiresAt: room.pending.expiresAt } : null,
+    serverTime: now, expiresAt: room._lastActive + 86400000 };
+}
+module.exports = { fail, nameOf, handicapFen, createRoom, gameOf, joinRoom, playerOf, tick, applyCommand, publicView };

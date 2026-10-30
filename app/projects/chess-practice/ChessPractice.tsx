@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Chess, type Square } from 'chess.js';
-import { ArrowLeft, ArrowRight, ArrowsClockwise, ChartLineUp, Check, Horse, CaretLeft, CaretRight, Fire, Lightbulb, SignOut, Target, UserCircle, GearSix, Eye, SkipForward, ArrowCounterClockwise, BookmarkSimple } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, ArrowsClockwise, ChartLineUp, Check, Horse, CaretLeft, CaretRight, Fire, Lightbulb, SignOut, Target, UserCircle, GearSix, Eye, SkipForward, ArrowCounterClockwise, BookmarkSimple, Users } from '@phosphor-icons/react';
 import { getSupabase } from '../piano-party/account/supabase';
 import { hasSeen, playPuzzleMove, skillLevel, solutionFrames, startPuzzle, targetRating, themeLabel, type Puzzle, type PuzzleManifest } from '@/lib/chessPuzzles';
 import { useChessProgress } from './useChessProgress';
@@ -256,6 +256,7 @@ export default function ChessPractice() {
         <button aria-current={tab === 'practice' ? 'page' : undefined} onClick={() => setTab('practice')}><Horse size={18} />Practice</button>
         <button aria-current={tab === 'progress' ? 'page' : undefined} onClick={() => setTab('progress')}><ChartLineUp size={18} />Progress</button>
         <button aria-current={tab === 'saved' ? 'page' : undefined} onClick={() => setTab('saved')}><BookmarkSimple size={18} />Saved</button>
+        <Link href="/projects/chess-practice/rooms/" className={styles.roomsLink} aria-label="Play chess with a friend" title="Play chess with a friend"><Users size={18} /><span>Play a friend</span></Link>
         <span className={styles.ratingPill} title={`${level.name}${progress.attempts < 10 ? ' · provisional rating' : ''}`}><Target size={15} /><strong>{progress.rating}</strong><small>rating</small></span>
       </nav>
       {tab === 'practice' ? <div className={styles.practice}>

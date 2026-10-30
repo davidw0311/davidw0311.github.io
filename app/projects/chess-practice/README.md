@@ -28,7 +28,21 @@ Save below the board adds or removes the current puzzle from a personal collecti
 
 `user_metadata.chess_collection_v1` stores a validated bitmap (under 1.9 KB for the entire current bank), separately from the existing bounded progress schema. Pending save/remove operations are merged onto the latest cloud collection and changes made during a save are replayed afterward. There is no small favorites cap. No schema migration or new database table is required.
 
-## Accounts and persistence
+## Two-player chess rooms
+
+`/projects/chess-practice/rooms/` is reached through **Play a friend** in the puzzle navigation. Create a room, share its six-character code/link, choose opposite colors, and confirm the setup from both seats. Either player can choose their own color; the other seat gets the opposite. Only the host edits handicaps. Any color, participant, or handicap change clears both ready confirmations. Ready actions include the setup revision so simultaneous confirmations are safe while stale setup approvals are rejected.
+
+Handicaps remove any starting pieces except kings, with common presets for either army. The preview matches the server-generated starting FEN; missing rooks lose their castling rights. Both sides must approve that exact setup before playing. Games are untimed and never affect puzzle ratings. `chess.js` validates all moves server-side, including checks, castling, en passant, promotions, checkmate and draws. Repetition uses the complete move history.
+
+Takebacks request one or two half-moves. The game pauses until the **other** player explicitly accepts or declines; the requester can cancel, and requests expire after two minutes without changing any moves. Accepted takebacks rewind the stored move list and rebuild the position. A checkmating move can be taken back by agreement; resignations and agreed draws cannot. Draw offers also require agreement. Final results and move history remain available for reconnecting players.
+
+Rooms use a separate Supabase Edge Function (`chess`) and private `chess_state` table with service-role-only RPCs, compare-and-swap writes, durable idempotency receipts, rate limits, and expiry cleanup. No existing account or game table is modified. Rooms expire after 24 hours without a game action. The share URL contains only the room code. Browser-generated seat tokens stay in scoped local storage and are hashed server-side; they are never returned in a room view. Keeping the browser allows refresh/rejoin without an account. Clearing its storage loses the seat. Polling reconnects automatically, ignores old revisions, and uncertain actions retain their request ID for safe retries.
+
+Source: `api/src/chess/`. After changes, run `node scripts/build-chess-edge.mjs` to regenerate the deployable ESM under `supabase/functions/chess/`. Apply the isolated migration `supabase/migrations/202610300001_chess.sql`, then deploy only the `chess` function with JWT gateway verification retained. The browser uses the existing public Supabase project key; service-role credentials stay inside the function. For dashboard deployment, `node scripts/build-chess-edge.mjs --dashboard` also emits a single-file copy at `/tmp/chess-room-deploy.ts` from the same tested sources.
+
+Verify with `node --test api/test/chess-room.test.js` and `node scripts/chess-room-smoke.mjs` (the latter creates disposable live rooms). Browser QA uses two independent browser stores and verifies shared moves, color selection, custom handicaps, declined/accepted takebacks, seat recovery, and compact phone controls.
+
+## Puzzle account storage
 
 The app reuses the existing Supabase browser singleton from Piano Party, including the same account/session and public project credentials. No service-role key is exposed. Signup, email confirmation, login, password recovery, and logout use Supabase Auth. Password recovery currently returns to the existing Piano Party profile password form.
 

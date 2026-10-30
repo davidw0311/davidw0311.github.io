@@ -9,3 +9,7 @@ entrypoint = "./functions/werewolf/index.js"
 # Independent service and private room table. The original game is untouched.
 verify_jwt = true
 entrypoint = "./functions/one-night/index.js"
+
+[functions.chess]
+verify_jwt = true
+entrypoint = "./functions/chess/index.js"
