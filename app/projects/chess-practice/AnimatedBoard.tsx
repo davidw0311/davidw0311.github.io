@@ -32,7 +32,7 @@ export default function AnimatedBoard({ fen, whiteBottom, selected, hint, lastMo
       <div className={styles.board} role="group" aria-label="Chessboard. Select a piece, then its destination. Arrow keys move focus.">
         {squares.map((square, i) => {
           const piece = game.get(square);
-          const dark = (square.charCodeAt(0) - 97 + Number(square[1])) % 2 === 0;
+          const dark = game.squareColor(square) === 'dark';
           const hinted = hint.slice(0, 2) === square || hint.slice(2, 4) === square;
           const moved = lastMove?.slice(0, 2) === square || lastMove?.slice(2, 4) === square;
           return <button key={square} id={`chess-square-${i}`} type="button" data-square={square}
