@@ -3,6 +3,7 @@ export type Cocktail = {
   glass: string; method: string; ingredients: [string, string][]; steps: string[]; tip: string;
   source?: { name: string; url: string; adaptation?: boolean };
   image?: string;
+  imagePosition?: string;
 };
 
 export const cocktailSource = "https://www.jiggerandpony.com/bloom-menu";
@@ -11,6 +12,8 @@ export function cocktailPhoto(drink: Cocktail) {
 }
 export const mamaDiamSource = "https://www.mamadiamsg.com/s/MMD_Oct2026Menu_Digital.pdf";
 const mamaDiam = { name: "Mama Diam", url: mamaDiamSource, adaptation: true };
+export const moBarSource = "https://www.mandarinoriental.com/en/singapore/marina-bay/dine/mo-bar";
+const moBar = { name: "MO BAR Singapore", url: moBarSource, adaptation: true };
 export const cocktails: Cocktail[] = [
   {
     id: "yuzu-whisky-sour", name: "Yuzu Whisky Sour", spirit: "Bourbon", mood: "Citrusy · Floral · Silky",
@@ -305,6 +308,112 @@ export const cocktails: Cocktail[] = [
     ingredients: [["40 ml", "Blended whisky"], ["1 tsp", "Dried chrysanthemum flowers"], ["20 ml", "Lychee syrup from a can"], ["15 ml", "Noilly Prat dry vermouth"], ["90 ml", "Soda water"], ["1", "Lychee, to garnish"]],
     steps: ["Steep food-grade dried chrysanthemum in the whisky for 15 minutes, then fine strain.", "Pour the infused whisky, lychee syrup and vermouth over ice in a highball glass.", "Top with chilled soda, stir gently, and add a lychee."],
     tip: "Taste the chrysanthemum infusion early and strain sooner if it becomes bitter. The lychee syrup provides the sweetness in this home version.",
+  },
+
+  {
+    id: "sifr-fizz", name: "Sifr Fizz", spirit: "Vodka", source: moBar, image: "/assets/cocktails/sifr-fizz.jpg", imagePosition: "right center",
+    mood: "Floral · Saffron · Sparkling", description: "Vodka and elderflower with a fragrant saffron lift.", glass: "Highball", method: "Build",
+    ingredients: [["40 ml", "Vodka"], ["15 ml", "St-Germain"], ["15 ml", "Saffron syrup"], ["5 ml", "Food-grade orange blossom water"], ["90 ml", "Soda water"]],
+    steps: ["Fill a highball glass with ice and add vodka, St-Germain and saffron syrup.", "Add the orange blossom water and stir briefly.", "Top with chilled soda and lift gently once to combine."],
+    tip: "For syrup, steep 2 saffron threads in 30 ml hot water, dissolve 30 g sugar, then cool. Food-grade blossom water substitutes for Sifr’s bespoke hydrosol; no perfume.",
+  },
+  {
+    id: "forest-fire", name: "Forest Fire", spirit: "Scotch", source: moBar, image: "/assets/cocktails/forest-fire.jpg", imagePosition: "right center",
+    mood: "Smoky · Spiced · Deep", description: "Blended Scotch and mezcal with smoky tea and warming spice.", glass: "Rocks", method: "Stir",
+    ingredients: [["35 ml", "Blended Scotch"], ["10 ml", "Mezcal"], ["15 ml", "Amaro"], ["10 ml", "Strong lapsang souchong, cooled"], ["5 ml", "Clove-nutmeg syrup"]],
+    steps: ["Add all ingredients to a mixing glass filled with ice.", "Stir for 20–30 seconds until cold and lightly diluted.", "Strain over a large ice cube in a rocks glass."],
+    tip: "Steep 1 clove and a pinch of nutmeg in 30 ml hot water; strain, add 30 g sugar and cool. Amaro plus this syrup replaces the bar’s Pala & Cengkeh Amaro.",
+  },
+  {
+    id: "velour-kiss", name: "Velour Kiss", spirit: "Gin", source: moBar, image: "/assets/cocktails/velour-kiss.jpg", imagePosition: "right center",
+    mood: "Chamomile · Citrus · Silky", description: "Gin and chamomile with lemon and a delicate olive-oil texture.", glass: "Highball", method: "Shake",
+    ingredients: [["45 ml", "Gin"], ["30 ml", "Chamomile tea, cooled"], ["20 ml", "Lemon juice"], ["15 ml", "Honey syrup (1:1)"], ["3 drops", "Extra-virgin olive oil"], ["Optional", "Food-grade bee pollen"]],
+    steps: ["Add gin, cooled chamomile tea, lemon, honey syrup and olive oil to a shaker with ice.", "Shake hard for 15 seconds to disperse the oil.", "Strain over fresh ice in a highball glass. Add a small pinch of bee pollen if desired."],
+    tip: "Honey syrup replaces the menu’s bee-pollen preparation. Bee pollen is optional; omit it if sensitive to bee products.",
+  },
+  {
+    id: "the-artis", name: "The Artis", spirit: "Non-alcoholic", source: moBar, image: "/assets/cocktails/the-artis.jpg", imagePosition: "right center",
+    mood: "Banana · Pandan · Tangy", description: "Banana and pandan with rice tea, coconut and a little tang.", glass: "Wine glass", method: "Shake & top",
+    ingredients: [["25 ml", "Banana purée"], ["15 ml", "Pandan syrup"], ["30 ml", "Roasted rice tea, cooled"], ["10 ml", "Lime juice"], ["60 ml", "Soda water"], ["1 pinch", "Coconut salt"]],
+    steps: ["Shake banana purée, pandan syrup, rice tea, lime and coconut salt with ice.", "Double strain over fresh ice in a wine glass.", "Top with soda and stir gently once."],
+    tip: "A non-fermented shortcut to the menu’s banana tibicos and umami bitter. The menu also offers a vodka version; optionally add 30 ml vodka at home.",
+  },
+  {
+    id: "bukit-kemas", name: "Bukit Kemas", spirit: "Baijiu", source: moBar, image: "/assets/cocktails/bukit-kemas.jpg", imagePosition: "right center",
+    mood: "Corn · Floral · Aromatic", description: "Baijiu and Lillet Blanc with lotus tea and roasted corn.", glass: "Coupe", method: "Stir",
+    ingredients: [["30 ml", "Baijiu"], ["25 ml", "Lillet Blanc"], ["15 ml", "Food-grade lotus tea, cooled"], ["10 ml", "Roasted corn syrup"]],
+    steps: ["Add baijiu, Lillet Blanc, lotus tea and corn syrup to a mixing glass with ice.", "Stir until well chilled and lightly diluted.", "Strain into a chilled coupe. Garnish with a few roasted corn kernels on a pick."],
+    tip: "For corn syrup, steep 20 g roasted corn in 40 ml hot water; strain, dissolve in 40 g sugar and cool. Lotus tea substitutes for the bar’s infused Lillet.",
+  },
+  {
+    id: "kopi-pumptini", name: "Kopi Pumptini", spirit: "Bourbon", source: moBar, image: "/assets/cocktails/kopi-pumptini.jpg", imagePosition: "right center",
+    mood: "Coffee · Pumpkin · Toasted", description: "Bourbon, kopi-o and pumpkin with a toasted-barley note.", glass: "Coupe", method: "Shake",
+    ingredients: [["40 ml", "Bourbon"], ["30 ml", "Strong kopi-o, cooled"], ["15 ml", "Plain cooked pumpkin purée"], ["15 ml", "Roasted barley syrup"]],
+    steps: ["Add bourbon, cooled kopi-o, pumpkin purée and barley syrup to a shaker with ice.", "Shake hard for 20 seconds to combine the pumpkin and coffee.", "Double strain into a chilled coupe."],
+    tip: "Make equal-weight sugar syrup using brewed roasted barley tea instead of water. It replaces the bar’s roasted-barley bourbon preparation.",
+  },
+  {
+    id: "bean-to-bar", name: "B.T.B (Bean to Bar)", spirit: "Bourbon", source: moBar, image: "/assets/cocktails/bean-to-bar.jpg", imagePosition: "right center",
+    mood: "Cacao · Tangy · Bright", description: "Bourbon and kombucha with wolfberry and a dark-chocolate finish.", glass: "Wine glass", method: "Build",
+    ingredients: [["40 ml", "Bourbon"], ["90 ml", "Plain kombucha, chilled"], ["15 ml", "Wolfberry syrup"], ["2 dashes", "Chocolate bitters"], ["1 piece", "Dark chocolate, to garnish"]],
+    steps: ["Add bourbon, wolfberry syrup and chocolate bitters to an ice-filled wine glass.", "Top with chilled kombucha and stir gently.", "Serve with a small piece of dark chocolate on the side."],
+    tip: "Steep 10 g dried goji berries in 30 ml hot water; strain, dissolve 30 g sugar and cool. Plain kombucha and bitters replace the bar’s cacao-nib kombucha.",
+  },
+  {
+    id: "dopa-dopa", name: "Dopa? Dopa!", spirit: "Cognac", source: moBar, image: "/assets/cocktails/dopa-dopa.jpg", imagePosition: "right center",
+    mood: "Pistachio · Tea · Creamy", description: "Cognac and Darjeeling with a rich pistachio-cream finish.", glass: "Coupe", method: "Shake",
+    ingredients: [["40 ml", "Cognac VSOP"], ["25 ml", "Darjeeling tea, cooled"], ["20 ml", "Cream"], ["15 ml", "Pistachio syrup"], ["1 pinch", "Salt"]],
+    steps: ["Add cognac, cooled tea, cream, pistachio syrup and salt to a shaker with ice.", "Shake hard for 15 seconds until cold and smooth.", "Double strain into a chilled coupe. Serve with a small piece of kunafa if available."],
+    tip: "This shortcut omits butter washing and the bar’s cheese tuile. Pistachio syrup stands in for the kunafa preparation. Contains nuts and dairy.",
+  },
+  {
+    id: "reclaimed-sling-3", name: "Reclaimed Sling 3.0", spirit: "Gin", source: moBar, image: "/assets/cocktails/reclaimed-sling-3.jpg", imagePosition: "right center",
+    mood: "Pineapple · Cherry · Citrus", description: "A home-style Singapore Sling inspired by MO BAR’s reclaimed version.", glass: "Coupe", method: "Shake",
+    ingredients: [["30 ml", "Gin"], ["15 ml", "Cherry liqueur"], ["7.5 ml", "Cointreau"], ["7.5 ml", "Bénédictine"], ["60 ml", "Pineapple juice"], ["15 ml", "Lime juice"], ["5 ml", "Grenadine"], ["1 dash", "Angostura bitters"]],
+    steps: ["Add all ingredients to a shaker filled with ice.", "Shake hard for 15 seconds, then double strain into a large chilled coupe.", "Serve with a small fruit lollipop on the side, if desired."],
+    tip: "The menu lists gin, Singapore Sling and lollipop. This is a conventional Sling-based home interpretation, without the bar’s reclaimed preparation.",
+  },
+  {
+    id: "jo-hwa", name: "Jo-Hwa (和谐)", spirit: "Gin", source: moBar, image: "/assets/cocktails/jo-hwa.jpg", imagePosition: "right center",
+    mood: "Pear · Savoury · Delicate", description: "Gin, fino sherry and pear with a subtle savoury mushroom note.", glass: "Coupe", method: "Stir",
+    ingredients: [["35 ml", "Gin"], ["15 ml", "Fino sherry"], ["15 ml", "Verjuice"], ["20 ml", "Pear juice"], ["5 ml", "Cooled mushroom tea"]],
+    steps: ["Prepare mushroom tea as described in the bar note and cool it completely.", "Stir gin, sherry, verjuice, pear juice and mushroom tea with ice until cold.", "Strain into a chilled coupe. Garnish with a thin pear slice."],
+    tip: "Steep 1 g food-grade dried shiitake in 50 ml boiling water for 10 minutes; strain and cool. This substitutes for the menu’s matsutake preparation.",
+  },
+  {
+    id: "jukuleles", name: "Jukuleles", spirit: "Mezcal", source: moBar, image: "/assets/cocktails/jukuleles.jpg", imagePosition: "right center",
+    mood: "Smoky · Yuzu · Herbal", description: "Mezcal and yuzu marmalade with tulsi and aromatic bitters.", glass: "Rocks", method: "Shake",
+    ingredients: [["40 ml", "Mezcal"], ["20 g", "Yuzu marmalade"], ["20 ml", "Tulsi tea, cooled"], ["15 ml", "Lime juice"], ["2 dashes", "Angostura bitters"]],
+    steps: ["Stir the marmalade and cooled tulsi tea together in a shaker to loosen the preserve.", "Add mezcal, lime, bitters and ice. Shake hard for 15 seconds.", "Double strain over fresh ice in a rocks glass. Garnish with a basil leaf."],
+    tip: "Tulsi is holy basil; brewed tulsi tea makes a simple substitute for the bar’s herbal preparation. Lime is added for balance in this home recipe.",
+  },
+  {
+    id: "pine-dustry", name: "Pine-Dustry", spirit: "Tequila", source: moBar, image: "/assets/cocktails/pine-dustry.jpg", imagePosition: "right center",
+    mood: "Pineapple · Coconut · Smooth", description: "Silver tequila with pineapple, white wine and coconut.", glass: "Coupe", method: "Shake",
+    ingredients: [["40 ml", "Silver tequila"], ["30 ml", "Pineapple juice"], ["15 ml", "Dry white wine"], ["15 ml", "Coconut cream"], ["5 ml", "Simple syrup (1:1)"]],
+    steps: ["Add all ingredients to a shaker with plenty of ice.", "Shake hard for 15 seconds until the coconut cream is fully combined.", "Double strain into a chilled coupe."],
+    tip: "Fresh juice and wine are accessible substitutes for the bar’s cold-distilled pineapple and white-wine reduction. Adjust syrup to your pineapple’s sweetness.",
+  },
+  {
+    id: "mandarin-martini", name: "Mandarin Martini", spirit: "Gin", source: moBar, image: "/assets/cocktails/mo-bar-house-signatures.jpg", imagePosition: "left center",
+    mood: "Mandarin · Dry · Botanical", description: "A citrus-led martini with dry vermouth and a caper berry.", glass: "Martini", method: "Stir",
+    ingredients: [["50 ml", "Citrus-forward gin"], ["15 ml", "Noilly Prat dry vermouth"], ["2 dashes", "Mandarin bitters"], ["1", "Caper berry"]],
+    steps: ["Add gin, vermouth and mandarin bitters to a mixing glass filled with ice.", "Stir for 20–30 seconds until well chilled.", "Strain into a chilled martini glass and garnish with a caper berry."],
+    tip: "MO BAR Edition No.1 Gin is the menu’s base. A citrus-forward gin is the home substitute; orange bitters can stand in for mandarin bitters.",
+  },
+  {
+    id: "mo-whiskey-sour", name: "M.O. Whiskey Sour", spirit: "Bourbon", source: moBar, image: "/assets/cocktails/mo-bar-house-signatures.jpg", imagePosition: "right top",
+    mood: "Tea · Lemon · Silky", description: "Bourbon and fragrant tea in a lemon sour with a soft foam.", glass: "Coupe", method: "Shake",
+    ingredients: [["45 ml", "Bourbon"], ["20 ml", "Fragrant black tea, cooled"], ["20 ml", "Lemon juice"], ["15 ml", "Simple syrup (1:1)"], ["20 ml", "Pasteurised egg white"]],
+    steps: ["Shake all ingredients without ice for 15 seconds to build the foam.", "Add ice and shake hard for another 15 seconds.", "Double strain into a chilled coupe and let the foam settle."],
+    tip: "Fragrant tea replaces the hotel’s Exceptionally Singapore blend, and egg-white foam stands in for its meringue. Use aquafaba if preferred.",
+  },
+  {
+    id: "oriental-heritage", name: "Oriental Heritage", spirit: "Scotch / Cognac", source: moBar, image: "/assets/cocktails/mo-bar-house-signatures.jpg", imagePosition: "right bottom",
+    mood: "Floral · Spiced · Rich", description: "Single malt and cognac with osmanthus and allspice warmth.", glass: "Rocks", method: "Stir",
+    ingredients: [["30 ml", "Single malt Scotch"], ["20 ml", "Cognac"], ["10 ml", "Osmanthus syrup"], ["5 ml", "Pimento dram"]],
+    steps: ["Combine all ingredients in a mixing glass filled with ice.", "Stir for 20–30 seconds until cold and lightly diluted.", "Strain over a large ice cube in a rocks glass."],
+    tip: "For syrup, steep 1 tsp food-grade osmanthus in 30 ml hot water; strain, add 30 g sugar and cool. This replaces the bar’s osmanthus/devilwood preparation.",
   },
 ];
 

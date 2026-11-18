@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type SetStateAction } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
-import { cocktails, cocktailSource, mamaDiamSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
+import { cocktails, cocktailSource, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
 import s from "./cocktails.module.css";
 
 const panels = ["The cocktail", "Ingredients", "Method"];
@@ -82,10 +82,10 @@ export default function CocktailCards() {
         <div className={s.libraryTitle}><h1>Full menu</h1><span className={s.eyebrow}>SIGNATURES + CLASSICS</span></div>
         <label className={s.search}><MagnifyingGlass size={20} /><input ref={searchInput} value={query} onChange={e => setQuery(e.target.value)} placeholder="A cocktail, spirit or ingredient…" aria-label="Search cocktails" />{query && <button onClick={() => { setQuery(""); searchInput.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</label>
         <div className={s.sort}><span aria-live="polite">{matches.length} cocktails</span><label>Sort by <select aria-label="Sort cocktails" value={sort} onChange={e => setSort(e.target.value as CocktailSort)}><option value="name">Name A–Z</option><option value="spirit">Alcohol type</option><option value="bar">Bar / source</option><option value="menu">Menu order</option></select></label></div>
-        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { updateCocktailUrl(cocktails.findIndex(c => c.id === d.id), 0); closeLibrary(); }}><Image src={cocktailPhoto(d)} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "bar" ? cocktailBar(d) : sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
-        <footer className={s.libraryFooter}>Menus &amp; images: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony ↗</a> · <a href={mamaDiamSource} target="_blank" rel="noreferrer">Mama Diam ↗</a> · <a href="https://iba-world.com/cocktails/" target="_blank" rel="noreferrer">IBA ↗</a><br />Bar signatures are home adaptations. Classics cite their IBA reference.</footer>
+        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { updateCocktailUrl(cocktails.findIndex(c => c.id === d.id), 0); closeLibrary(); }}><Image src={cocktailPhoto(d)} style={{ objectPosition: d.imagePosition }} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "bar" ? cocktailBar(d) : sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
+        <footer className={s.libraryFooter}>Menus &amp; images: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony ↗</a> · <a href={mamaDiamSource} target="_blank" rel="noreferrer">Mama Diam ↗</a> · <a href={moBarSource} target="_blank" rel="noreferrer">MO BAR ↗</a> · <a href="https://iba-world.com/cocktails/" target="_blank" rel="noreferrer">IBA ↗</a><br />Bar signatures are home adaptations. Classics cite their IBA reference.</footer>
       </section> : <>
-        <div className={s.collection}><span>{drink.source?.adaptation ? "MAMA DIAM / SIGNATURES" : drink.source ? "WORLD CLASSICS / IBA" : "JIGGER & PONY / BLOOM"}</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>
+        <div className={s.collection}><span>{drink.source?.adaptation ? `${drink.source.name.toUpperCase()} / SIGNATURES` : drink.source ? "WORLD CLASSICS / IBA" : "JIGGER & PONY / BLOOM"}</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>
         <div className={s.cardViewport}>
         <AnimatePresence initial={false} custom={direction}>
         <motion.article key={drink.id} custom={direction}
@@ -97,7 +97,7 @@ export default function CocktailCards() {
           onTouchCancel={() => { touch.current = null; }}
           onTouchEnd={e => { if (!touch.current) return; const action = swipeAction(e.changedTouches[0].clientX - touch.current.x, e.changedTouches[0].clientY - touch.current.y); touch.current = null; if (action === "next") move(1); if (action === "previous") move(-1); if (action === "forward") setPanel(p => Math.min(2, p + 1)); if (action === "back") setPanel(p => Math.max(0, p - 1)); }}>
           {panel === 0 ? <>
-            <Image key={drink.id} className={s.photo} src={cocktailPhoto(drink)} alt={`${drink.name}, ${drink.source?.adaptation ? "menu illustration" : "photograph"} from ${drink.source?.name ?? "Jigger & Pony’s BLOOM menu"}`} fill sizes="(max-width: 600px) 100vw, 480px" priority />
+            <Image key={drink.id} className={s.photo} style={{ objectPosition: drink.imagePosition }} src={cocktailPhoto(drink)} alt={`${drink.name}, ${drink.source?.adaptation ? "menu illustration" : "photograph"} from ${drink.source?.name ?? "Jigger & Pony’s BLOOM menu"}`} fill sizes="(max-width: 600px) 100vw, 480px" priority />
             <div className={s.photoShade} />
             <span className={s.photoLabel}>{drink.spirit} / {drink.glass}</span>
             <div className={s.photoCaption}><span className={s.eyebrow}>{drink.mood}</span><h1>{drink.name}</h1><p>{drink.description}</p><button className={s.recipeButton} onClick={() => setPanel(1)}>Make this cocktail <ArrowRight size={18} /></button></div>

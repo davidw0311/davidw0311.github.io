@@ -42,3 +42,21 @@ photographs of the finished cocktails. Copyright remains with Mama Diam and
 its artists. Each card credits the menu and identifies the recipe as a home
 adaptation: measurements, preparation methods and shortcuts are our own,
 not published recipes from the bar.
+
+## MO BAR Singapore — Vol. 7, The City of Art
+
+All 15 menu entries (12 feature drinks, including the non-alcoholic Artis, plus
+three house signatures) are referenced from the official Signature Cocktail Menu
+linked at https://www.mandarinoriental.com/en/singapore/marina-bay/dine/mo-bar,
+checked 18 November 2026. PDF downloaded from:
+https://cdn-assets-dynamic.frontify.com/4001946/eyJhc3NldF9pZCI6NTg3OTEsInNjb3BlIjoiYXNzZXQ6dmlldyJ9:mandarin-oriental-hotel-group:YT1dIEpw_S_eooOLNc0A3EopPsnamL0A-kgQRNjzZDk
+
+The JPGs are original menu artwork extracted from the PDF; image positioning
+focuses the feature drinks on their illustrated glassware. The three house
+signatures share the original blue menu artwork. Copyright remains with
+Mandarin Oriental / MO BAR and the original artists and contributors.
+
+The official menu lists flavour components, not measurements or methods.
+All quantities, preparation steps, and accessible substitutions are independent
+home adaptations, labelled in the UI. The Artis uses a non-fermented home recipe;
+the menu also offers an alcoholic version with SEAra vodka.
