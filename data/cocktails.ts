@@ -310,6 +310,21 @@ export const cocktails: Cocktail[] = [
 
 export type CocktailSort = "name" | "spirit" | "menu";
 
+const cocktailPages = ["cocktail", "ingredients", "method"];
+
+export function cocktailHash(index: number, panel: number) {
+  const drink = cocktails[index] ?? cocktails[0];
+  const page = cocktailPages[panel];
+  return `#${drink.id}${page && panel > 0 ? `/${page}` : ""}`;
+}
+
+export function parseCocktailHash(hash: string) {
+  const [id, page] = hash.replace(/^#/, "").split("/");
+  const index = cocktails.findIndex(drink => drink.id === id);
+  if (index < 0) return { index: 0, panel: 0 };
+  return { index, panel: Math.max(0, cocktailPages.indexOf(page)) };
+}
+
 export function cocktailAlcoholType(drink: Pick<Cocktail, "spirit">) {
   return /whisk(?:e)?y|bourbon|scotch/i.test(drink.spirit) ? "Whisky" : drink.spirit;
 }

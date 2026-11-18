@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cocktails, mamaDiamSource, cocktailPhoto, cocktailAlcoholType, findCocktails, swipeAction } from "../data/cocktails.ts";
+import { cocktails, mamaDiamSource, cocktailPhoto, cocktailAlcoholType, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
 
 test("search finds ingredients and spirits regardless of case or surrounding spaces", () => {
   assert.deepEqual(findCocktails("  CAMPARI  ", "menu").map(d => d.id), ["negroni", "peranakan-negroni"]);
@@ -57,4 +57,24 @@ test("Mama Diam signatures retain menu attribution and use their own illustratio
     assert.equal(cocktailPhoto(drink), `/assets/cocktails/${drink.id}.png`);
   }
   assert.equal(findCocktails("kaya")[0].id, "peranakan-negroni");
+});
+
+test("every cocktail and recipe page round-trips through a shareable URL hash", () => {
+  for (let index = 0; index < cocktails.length; index++) {
+    for (let panel = 0; panel < 3; panel++) {
+      assert.deepEqual(parseCocktailHash(cocktailHash(index, panel)), { index, panel });
+    }
+  }
+  const mojito = cocktails.findIndex(d => d.id === "mojito");
+  assert.equal(cocktailHash(mojito, 0), "#mojito");
+  assert.equal(cocktailHash(mojito, 1), "#mojito/ingredients");
+  assert.equal(cocktailHash(mojito, 2), "#mojito/method");
+});
+
+test("empty and invalid shared links fall back safely", () => {
+  for (const hash of ["", "#unknown", "#unknown/ingredients", "#%invalid"]) {
+    assert.deepEqual(parseCocktailHash(hash), { index: 0, panel: 0 });
+  }
+  const mojito = cocktails.findIndex(d => d.id === "mojito");
+  assert.deepEqual(parseCocktailHash("#mojito/unknown"), { index: mojito, panel: 0 });
 });
