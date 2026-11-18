@@ -11,6 +11,7 @@ import {
   InstagramLogo,
   LinkedinLogo,
   MapTrifold,
+  Martini,
   Moon,
   PianoKeys,
   Translate,
@@ -67,6 +68,10 @@ export default function Home() {
             <h2 id="space-title">Future missions begin here.</h2>
             <p>A reserved launch deck for experiments and project worlds still taking shape.</p>
             <div className={styles.missionIcons} aria-label="Interactive projects and future project placeholders">
+              <Link href="/projects/cocktail-cards/">
+                <Martini size={34} weight="thin" />
+                <span>After Hours · Cocktail Cards</span>
+              </Link>
               <Link href="/nightfall/">
                 <Moon size={34} weight="thin" />
                 <span>Nightfall / 天黑请闭眼</span>
