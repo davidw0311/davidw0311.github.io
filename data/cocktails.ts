@@ -4,6 +4,7 @@ export type Cocktail = {
   source?: { name: string; url: string; adaptation?: boolean };
   image?: string;
   imagePosition?: string;
+  illustration?: boolean;
 };
 
 export const cocktailSource = "https://www.jiggerandpony.com/bloom-menu";
@@ -14,6 +15,8 @@ export const mamaDiamSource = "https://www.mamadiamsg.com/s/MMD_Oct2026Menu_Digi
 const mamaDiam = { name: "Mama Diam", url: mamaDiamSource, adaptation: true };
 export const moBarSource = "https://www.mandarinoriental.com/en/singapore/marina-bay/dine/mo-bar";
 const moBar = { name: "MO BAR Singapore", url: moBarSource, adaptation: true };
+export const catBiteSource = "https://www.opentable.sg/r/cat-bite-club-reservations-singapore";
+const catBite = { name: "Cat Bite Club", url: catBiteSource, adaptation: true };
 export const cocktails: Cocktail[] = [
   {
     id: "yuzu-whisky-sour", name: "Yuzu Whisky Sour", spirit: "Bourbon", mood: "Citrusy · Floral · Silky",
@@ -416,6 +419,139 @@ export const cocktails: Cocktail[] = [
     tip: "For syrup, steep 1 tsp food-grade osmanthus in 30 ml hot water; strain, add 30 g sugar and cool. This replaces the bar’s osmanthus/devilwood preparation.",
   },
 ];
+
+// Fixed selections from Cat Bite Club's published 2026 menu. Measurements and
+// methods below are home adaptations; the rotating Milk Punch has no fixed spec.
+const catBiteCocktails: Cocktail[] = [
+  {
+    id: "puss-in-boot", name: "Puss in Boot", spirit: "Tequila", mood: "Guava · Maple · Soft", description: "Guava and cinnamon soften a blend of blanco and añejo tequila.", glass: "Rocks", method: "Shake",
+    ingredients: [["25 ml", "Blanco tequila"], ["20 ml", "Añejo tequila"], ["40 ml", "Guava nectar"], ["10 ml", "Maple syrup"], ["1 pinch", "Ground cinnamon"], ["15 ml", "Whole milk"]],
+    steps: ["Shake both tequilas, guava, maple and cinnamon with ice.", "Strain over fresh ice in a rocks glass.", "Gently pour in the milk and stir once. Garnish with a cinnamon stick."],
+    tip: "This creamy shortcut replaces the bar’s milk-washed clarification. Use sweetened guava nectar and adjust maple to taste.",
+  },
+  {
+    id: "cat-bite-margarita", name: "Cat Bite Margarita", spirit: "Tequila", mood: "Citrus · Agave · Smoky", description: "A tequila-and-mezcal margarita rounded with a small splash of sherry.", glass: "Rocks", method: "Shake",
+    ingredients: [["30 ml", "Blanco tequila"], ["15 ml", "Espadín mezcal"], ["15 ml", "Cointreau"], ["20 ml", "Lime juice"], ["10 ml", "Lemon juice"], ["7.5 ml", "Agave nectar"], ["10 ml", "Dry sherry"]],
+    steps: ["Add all ingredients to a shaker with ice.", "Shake hard for 15 seconds until cold.", "Strain over fresh ice into a rocks glass with an optional half-salt rim."],
+    tip: "Lime and lemon stand in for the bar’s citrus blend. Start with less agave if you prefer a sharper margarita.",
+  },
+  {
+    id: "thug-passion", name: "Thug Passion", spirit: "Tequila", mood: "Passionfruit · Plum · Tangy", description: "Passionfruit and salted plum meet tequila, gin and bitter herbs.", glass: "Coupe", method: "Shake",
+    ingredients: [["30 ml", "Blanco tequila"], ["15 ml", "Gin"], ["10 ml", "Amaro"], ["25 ml", "Passionfruit purée"], ["20 ml", "Lime-lemon juice (equal parts)"], ["10 ml", "Simple syrup (1:1)"], ["½", "Salted dried plum, pitted"], ["3", "Pink peppercorns"]],
+    steps: ["Gently muddle the salted plum and peppercorns with the syrup in a shaker.", "Add the remaining ingredients and ice. Shake hard for 15 seconds.", "Double strain into a chilled coupe."],
+    tip: "Use a small piece of hua mei; its salt and sweetness vary. The simple syrup is a home adjustment for tart passionfruit.",
+  },
+  {
+    id: "get-the-msg", name: "Get the MSG?", spirit: "Mezcal", mood: "Tomato · Chilli · Savoury", description: "Smoky mezcal, tomato and peach with peppery heat and a beer cap.", glass: "Highball", method: "Shake / top",
+    ingredients: [["40 ml", "Cupreata mezcal"], ["30 ml", "Tomato juice"], ["15 ml", "Peach nectar"], ["15 ml", "Lime-lemon juice (equal parts)"], ["10 ml", "Amaro"], ["2 drops", "Peanut chilli oil"], ["1 small pinch each", "Crushed Sichuan pepper & MSG"], ["30 ml", "Lager"]],
+    steps: ["Shake everything except the lager with ice for 15 seconds.", "Double strain into an ice-filled highball glass.", "Slowly top with lager and garnish with a cherry tomato."],
+    tip: "A trace of chilli oil and tomato juice replace the bar’s oil wash and cordial. Contains peanut; use peanut-free chilli oil if needed.",
+  },
+  {
+    id: "dill-wit-it", name: "Dill Wit It", spirit: "Tequila", mood: "Dill · Pear · Botanical", description: "Reposado tequila and sotol with fresh garden herbs and pear.", glass: "Coupe", method: "Stir",
+    ingredients: [["30 ml", "Reposado tequila"], ["15 ml", "Sotol"], ["15 ml", "Dry vermouth"], ["10 ml", "Pear juice"], ["1 small sprig", "Dill"], ["1 thin slice", "Celery"], ["1 strip", "Bergamot or lemon peel"]],
+    steps: ["Gently press the dill, celery and peel in a mixing glass.", "Add the liquids and ice. Stir for 20 seconds.", "Fine strain into a chilled coupe and garnish with dill."],
+    tip: "Fresh herbs and juice replace the bar’s botanical preparations. Lemon peel is an accessible substitute for bergamot.",
+  },
+  {
+    id: "smoking-apple", name: "Smoking Apple", spirit: "Mezcal", mood: "Apple · Smoke · Rich", description: "Two mezcals and apple brandy in a rich, spiced stirred drink.", glass: "Rocks", method: "Stir",
+    ingredients: [["20 ml", "Tobalá mezcal"], ["20 ml", "Espadín mezcal"], ["15 ml", "Calvados"], ["15 ml", "Sweet vermouth"], ["1 tsp", "Apple butter"], ["2 dashes", "Peychaud’s bitters"]],
+    steps: ["Stir the apple butter with the spirits until loosened.", "Add vermouth, bitters and ice. Stir until cold.", "Fine strain over a large ice cube in a rocks glass."],
+    tip: "This home version is unclarified. Smooth apple purée with a pinch of cinnamon can replace apple butter.",
+  },
+  {
+    id: "gourdy-fizz", name: "Gourdy Fizz", spirit: "Sake", mood: "Papaya · Orange · Fizzy", description: "A light sake fizz with papaya, bitter herbs and salted orange.", glass: "Highball", method: "Build",
+    ingredients: [["60 ml", "Ginjo sake"], ["20 ml", "Papaya shrub"], ["10 ml", "Amaro"], ["15 ml", "Lime-lemon juice (equal parts)"], ["10 ml", "Orange juice"], ["1 small pinch", "Salt"], ["60 ml", "Soda water"]],
+    steps: ["Stir everything except soda in a highball glass.", "Fill with ice and slowly add the soda.", "Lift gently with a bar spoon and garnish with orange peel."],
+    tip: "For a quick shrub, blend 20 g papaya with 10 g sugar and 10 ml apple cider vinegar; strain. Soda replaces forced carbonation.",
+  },
+  {
+    id: "soju-sprint", name: "Soju Sprint", spirit: "Soju", mood: "Peach · Honey · Crisp", description: "A peach-and-honey soju highball with sherry and a hint of anise.", glass: "Highball", method: "Build",
+    ingredients: [["45 ml", "Distilled soju, about 40% ABV"], ["15 ml", "Amontillado sherry"], ["20 ml", "Peach nectar"], ["10 ml", "Honey syrup (1:1)"], ["20 ml", "Lime-lemon juice (equal parts)"], ["2 drops", "Absinthe"], ["60 ml", "Soda water"]],
+    steps: ["Stir all ingredients except soda in a chilled highball glass.", "Add ice and top with soda.", "Stir gently once and garnish with a peach slice."],
+    tip: "The menu uses Tokki Black, a distilled soju. Lower-strength flavoured soju produces a much lighter drink.",
+  },
+  {
+    id: "velvet-bloom", name: "Velvet Bloom", spirit: "Shochu", mood: "Goji · Chestnut · Floral", description: "Barley shochu and sherry with dried fruit, chestnut and osmanthus.", glass: "Coupe", method: "Stir",
+    ingredients: [["40 ml", "Barley shochu"], ["15 ml", "Palo Cortado sherry"], ["10 ml", "Sweet vermouth"], ["7.5 ml", "Osmanthus syrup"], ["½ tsp", "Sweet chestnut purée"], ["3", "Goji berries"], ["2 dashes", "Plum bitters"]],
+    steps: ["Soak the goji berries in the shochu for 10 minutes, then strain.", "Stir the infused shochu with chestnut purée, remaining ingredients and ice.", "Fine strain into a chilled coupe."],
+    tip: "For syrup, steep food-grade osmanthus in hot water, strain and dissolve an equal weight of sugar. This home version is unclarified.",
+  },
+  {
+    id: "ube-noir", name: "Ube Noir", spirit: "Baijiu", mood: "Ube · Sesame · Floral", description: "Baijiu and aged rum beneath a creamy purple layer of ube and coconut.", glass: "Rocks", method: "Shake",
+    ingredients: [["20 ml", "Luzhou Laojiao baijiu"], ["25 ml", "Aged rum"], ["25 ml", "Coconut cream"], ["15 g", "Ube jam"], ["½ tsp", "Black sesame paste"], ["10 ml", "Amontillado sherry"], ["10 ml", "Aperol"], ["1 drop", "Rose water"]],
+    steps: ["Whisk ube jam, sesame paste and coconut cream together in a shaker.", "Add the remaining ingredients and ice. Shake hard for 15 seconds.", "Strain over fresh ice in a rocks glass."],
+    tip: "Ube jam and coconut cream are home substitutes for the bar’s cream. Contains sesame; add rose water sparingly.",
+  },
+  {
+    id: "snow-bunny", name: "Snow Bunny", spirit: "Shochu", mood: "Snow pea · Nutty · Crisp", description: "Shochu and Scotch with sweet sherry, sunflower and a tonic finish.", glass: "Highball", method: "Shake / top",
+    ingredients: [["35 ml", "Cask-aged shochu"], ["15 ml", "Blended Scotch"], ["10 ml", "PX sherry"], ["15 ml", "Sunflower seed syrup"], ["20 ml", "Lime-lemon juice (equal parts)"], ["2", "Snow peas, chopped"], ["2 dashes", "Chocolate bitters"], ["45 ml", "Tonic water"]],
+    steps: ["Gently muddle the snow peas in a shaker. Add everything except tonic.", "Shake with ice for 15 seconds and double strain into an ice-filled highball.", "Top with tonic and stir gently."],
+    tip: "Blend 10 g toasted sunflower seeds with 20 ml simple syrup and strain for a quick nut syrup. Use barley or sweet-potato shochu.",
+  },
+  {
+    id: "straight-outta-scallion", name: "Straight Outta Scallion", spirit: "Koji spirit", mood: "Garlic · Scallion · Umami", description: "Koji spirit in a savoury stirred cocktail with walnut and herbal liqueur.", glass: "Rocks", method: "Stir",
+    ingredients: [["45 ml", "Tumugi koji spirit"], ["10 ml", "Green walnut liqueur (nocino)"], ["7.5 ml", "Drambuie"], ["¼ clove", "Black garlic"], ["2 drops", "Scallion oil"], ["2 dashes", "Lime bitters"]],
+    steps: ["Mash the black garlic with the liqueurs in a mixing glass.", "Add koji spirit, scallion oil, bitters and ice. Stir for 20 seconds.", "Fine strain over a large ice cube in a rocks glass."],
+    tip: "Small amounts of garlic and oil give a home shortcut to the bar’s savoury preparations. Nocino contains walnut.",
+  },
+  {
+    id: "cat-bite-new-york-sour", name: "New York Sour", spirit: "Bourbon", mood: "Cherry · Lemon · Silky", description: "A bourbon sour with a floating layer of cherry wine.", glass: "Rocks", method: "Shake / float",
+    ingredients: [["45 ml", "Bourbon"], ["25 ml", "Lemon juice"], ["15 ml", "Simple syrup (1:1)"], ["15 ml", "Aquafaba"], ["15 ml", "Ratafia Rossi cherry wine"]],
+    steps: ["Shake bourbon, lemon, syrup and aquafaba without ice for 15 seconds.", "Add ice, shake again and strain over fresh ice in a rocks glass.", "Slowly pour the cherry wine over the back of a spoon to float it."],
+    tip: "Lemon and syrup replace lemon cordial and citrus blend; aquafaba replaces Wonderfoam. Red wine can replace cherry wine.",
+  },
+  {
+    id: "cat-bite-zombie", name: "Zombie", spirit: "Rum", mood: "Tropical · Herbal · Spiced", description: "Three rums, plum wine and citrus in a tropical long drink.", glass: "Highball", method: "Shake",
+    ingredients: [["20 ml each", "Aged rum, overproof Jamaican rum & white rum"], ["15 ml", "Umeshu"], ["10 ml", "Falernum"], ["5 ml", "Grenadine"], ["20 ml", "Lime-lemon juice (equal parts)"], ["20 ml", "Grapefruit juice"], ["2 drops", "Absinthe"]],
+    steps: ["Add all ingredients to a shaker with crushed ice.", "Shake briefly for 5 seconds and pour into a tall glass.", "Top up with crushed ice and garnish with mint."],
+    tip: "This is Cat Bite Club’s plum-wine variation, adapted for home. Measure the overproof rum carefully; no flame garnish is needed.",
+  },
+  {
+    id: "cat-bite-gin-gin-mule", name: "Gin Gin Mule", spirit: "Gin", mood: "Ginger · Mint · Citrus", description: "Gin and fresh mint with bright citrus and a ginger fizz.", glass: "Highball", method: "Shake / top",
+    ingredients: [["45 ml", "Gin"], ["20 ml", "Lime-lemon juice (equal parts)"], ["10 ml", "Simple syrup (1:1)"], ["8 leaves", "Mint"], ["2 dashes", "Aromatic bitters"], ["75 ml", "Ginger beer"]],
+    steps: ["Gently press mint with citrus and syrup in a shaker.", "Add gin, bitters and ice. Shake briefly and fine strain into an ice-filled highball.", "Top with ginger beer and garnish with mint."],
+    tip: "Ginger beer is the home shortcut for the menu’s ginger preparation. Reduce syrup if your ginger beer is sweet.",
+  },
+  {
+    id: "cat-bite-alaska", name: "Alaska", spirit: "Gin", mood: "Melon · Herbs · Dry", description: "Melon-infused gin and Italian herbs with two vermouths and fino sherry.", glass: "Coupe", method: "Stir",
+    ingredients: [["40 ml", "Gin"], ["20 g", "Ripe melon, diced"], ["10 ml", "Bianco vermouth"], ["10 ml", "Strega"], ["10 ml", "Fino sherry"], ["5 ml", "Dry vermouth"], ["2 dashes", "Orange bitters"]],
+    steps: ["Infuse the melon in gin for 30 minutes in the fridge, then fine strain.", "Stir the infused gin and remaining ingredients with ice for 20 seconds.", "Strain into a chilled coupe and garnish with lemon peel."],
+    tip: "This is the bar’s melon-and-sherry variation rather than the classic Alaska formula. Use ripe melon for a short home infusion.",
+  },
+  {
+    id: "cat-bite-espresso-martini", name: "Espresso Martini", spirit: "Vodka", mood: "Coffee · Bitter · Smooth", description: "A dry coffee martini sharpened with aromatic bitters and salt.", glass: "Coupe", method: "Shake",
+    ingredients: [["40 ml", "Vodka"], ["25 ml", "Mr Black coffee liqueur"], ["25 ml", "Espresso, cooled"], ["2 dashes", "Aromatic bitters"], ["1 tiny pinch", "Salt"], ["5 ml", "Simple syrup, optional"]],
+    steps: ["Add all ingredients to a shaker with plenty of ice.", "Shake hard for 15 seconds to build a coffee foam.", "Double strain into a chilled coupe and garnish with coffee beans."],
+    tip: "Fresh espresso is a home addition for foam; the menu lists coffee liqueur. Add syrup only if needed for balance.",
+  },
+  {
+    id: "ghosteen", name: "Ghosteen", spirit: "Mezcal", mood: "Mangosteen · Smoke · Heat", description: "A smoky mangosteen sour with a small flash of chilli.", glass: "Rocks", method: "Shake",
+    ingredients: [["30 ml", "Espadín mezcal"], ["15 ml", "Salmiana mezcal"], ["30 g", "Mangosteen flesh, seeds removed"], ["10 ml", "Amaro"], ["20 ml", "Lime-lemon juice (equal parts)"], ["10 ml", "Simple syrup (1:1)"], ["1 thin slice", "Fresh chilli"]],
+    steps: ["Muddle the mangosteen and chilli with syrup in a shaker.", "Add the remaining ingredients and ice. Shake hard for 15 seconds.", "Double strain over fresh ice into a rocks glass."],
+    tip: "Fresh chilli replaces the bar’s tincture. Start with a tiny slice and adjust; canned mangosteen should be drained first.",
+  },
+  {
+    id: "grape-escape", name: "Grape Escape", spirit: "Soju", mood: "Grape · Floral · Sparkling", description: "Soju, gin and grape shrub with elderflower and sparkling sake.", glass: "Highball", method: "Build",
+    ingredients: [["30 ml", "Distilled soju"], ["15 ml", "Gin"], ["20 ml", "Grape shrub"], ["10 ml", "Elderflower liqueur"], ["5 ml", "Gentian liqueur"], ["5 ml", "Amaro"], ["15 ml", "Lime-lemon juice (equal parts)"], ["60 ml", "Sparkling sake"]],
+    steps: ["Stir everything except sparkling sake in a highball glass.", "Add ice and slowly top with the sake.", "Stir gently once and garnish with grapes."],
+    tip: "For a quick shrub, mix 15 ml grape juice, 5 ml apple cider vinegar and 5 g sugar. Chill the sparkling sake before pouring.",
+  },
+  {
+    id: "meow-now-brown-cow", name: "Meow Now Brown Cow", spirit: "Tequila", mood: "Coffee · Banana · Cream", description: "Añejo tequila and coffee with banana, sherry and vanilla cream.", glass: "Rocks", method: "Shake",
+    ingredients: [["35 ml", "Añejo tequila"], ["20 ml", "Mr Black coffee liqueur"], ["15 ml", "Banana syrup"], ["10 ml", "Dry sherry"], ["25 ml", "Single cream"], ["2 drops", "Vanilla extract"], ["2 dashes", "Aromatic bitters"], ["1 tiny pinch", "Salt"]],
+    steps: ["Add all ingredients to a shaker with ice.", "Shake hard for 15 seconds to combine the cream.", "Strain over a large ice cube into a rocks glass."],
+    tip: "Banana syrup replaces the bar’s cordial; vanilla extract flavours the cream. For a quick syrup, mash banana into simple syrup and strain.",
+  },
+  {
+    id: "24karrot", name: "24Karrot", spirit: "Soju", mood: "Carrot · Pecan · Bright", description: "Golden soju and baijiu with carrot, nuts and bitter orange.", glass: "Coupe", method: "Shake",
+    ingredients: [["30 ml", "Tokki Gold soju"], ["10 ml", "Moutai Yingbin baijiu"], ["5 ml", "Kirsch"], ["15 ml", "Pecan syrup"], ["30 ml", "Carrot juice"], ["10 ml", "Bitter orange liqueur"], ["20 ml", "Lime-lemon juice (equal parts)"], ["5 ml", "Apple cider vinegar"]],
+    steps: ["Add all ingredients to a shaker with plenty of ice.", "Shake hard for 15 seconds until cold.", "Double strain into a chilled coupe and garnish with a carrot ribbon."],
+    tip: "For pecan syrup, blend 10 g toasted pecans with 20 ml simple syrup and strain. Bitter orange liqueur is a home substitute for the bar’s preparation.",
+  },
+];
+
+cocktails.push(...catBiteCocktails.map(drink => ({ ...drink, source: catBite, image: `/assets/cocktails/${drink.id}.svg`, illustration: true })));
 
 export type CocktailSort = "name" | "spirit" | "bar" | "menu";
 

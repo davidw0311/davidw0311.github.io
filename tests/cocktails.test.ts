@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cocktails, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategory, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
+import { existsSync } from "node:fs";
+import { cocktails, mamaDiamSource, moBarSource, catBiteSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategory, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
 
 test("each sort offers every available category from the full catalogue", () => {
   for (const sort of ["name", "spirit", "bar", "menu"] as const) {
@@ -34,7 +35,7 @@ test("multiple categories combine inclusively while search narrows their results
 
 test("search finds ingredients and spirits regardless of case or surrounding spaces", () => {
   assert.deepEqual(findCocktails("  CAMPARI  ", "menu").map(d => d.id), ["negroni", "peranakan-negroni"]);
-  assert.equal(findCocktails("bourbon", "menu").length, 6);
+  assert.equal(findCocktails("bourbon", "menu").length, 7);
   assert.equal(findCocktails("no-such-drink", "name").length, 0);
   const sorted = findCocktails("", "name").map(d => d.name);
   assert.deepEqual(sorted, [...sorted].sort((a,b) => a.localeCompare(b)));
@@ -113,7 +114,7 @@ test("empty and invalid shared links fall back safely", () => {
 test("bar sorting groups sources and alphabetizes cocktails within each group", () => {
   const sorted = findCocktails("", "bar");
   const groups = sorted.map(cocktailBar);
-  assert.deepEqual([...new Set(groups)], ["Classics (IBA)", "Jigger & Pony", "Mama Diam", "MO BAR Singapore"]);
+  assert.deepEqual([...new Set(groups)], ["Cat Bite Club", "Classics (IBA)", "Jigger & Pony", "Mama Diam", "MO BAR Singapore"]);
   assert.deepEqual(groups, [...groups].sort((a, b) => a.localeCompare(b)));
   for (const bar of new Set(groups)) {
     const names = sorted.filter(d => cocktailBar(d) === bar).map(d => d.name);
@@ -138,4 +139,29 @@ test("MO BAR menu includes all 15 drinks with credited home adaptations", () => 
   }
   assert.equal(drinks.find(d => d.id === "the-artis")?.spirit, "Non-alcoholic");
   assert.equal(parseCocktailHash("#sifr-fizz/ingredients").panel, 1);
+});
+
+
+test("Cat Bite Club fixed menu has credited adaptations, illustrations and working filters", () => {
+  const drinks = findCocktails("", "bar", ["Cat Bite Club"]);
+  assert.equal(drinks.length, 21);
+  assert.equal(findCocktails("cat bite club").length, 21);
+  assert.ok(!drinks.some(d => /milk punch/i.test(d.name)));
+  assert.equal(new Set(cocktails.map(d => d.id)).size, cocktails.length);
+  for (const drink of drinks) {
+    assert.equal(drink.source?.url, catBiteSource);
+    assert.equal(drink.source?.adaptation, true);
+    assert.equal(drink.illustration, true);
+    assert.ok(existsSync(new URL(`../public${cocktailPhoto(drink)}`, import.meta.url)));
+    assert.ok(drink.ingredients.length > 0 && drink.ingredients.length <= 8);
+    assert.equal(drink.steps.length, 3);
+    const index = cocktails.indexOf(drink);
+    assert.deepEqual(parseCocktailHash(cocktailHash(index, 1)), { index, panel: 1 });
+  }
+  assert.ok(cocktailCategories("spirit").includes("Shochu"));
+  assert.ok(cocktailCategories("spirit").includes("Sake"));
+  assert.ok(cocktailCategories("spirit").includes("Koji spirit"));
+  assert.equal(findCocktails("", "bar", ["Cat Bite Club", "Mama Diam"]).length, 33);
+  assert.equal(drinks.find(d => d.id === "cat-bite-espresso-martini")?.source?.name, "Cat Bite Club");
+  assert.equal(cocktailBar(cocktails.find(d => d.id === "espresso-martini")!), "Jigger & Pony");
 });

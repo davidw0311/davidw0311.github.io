@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type SetStateAction } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, Copy, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
-import { cocktails, cocktailSource, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type Cocktail, type CocktailSort } from "@/data/cocktails";
+import { cocktails, cocktailSource, mamaDiamSource, moBarSource, catBiteSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type Cocktail, type CocktailSort } from "@/data/cocktails";
 import s from "./cocktails.module.css";
 
 const panels = ["The cocktail", "Ingredients", "Method"];
@@ -118,7 +118,7 @@ export default function CocktailCards() {
           </div>
         </div>
         <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { updateCocktailUrl(cocktails.findIndex(c => c.id === d.id), 0); closeLibrary(); }}><Image src={cocktailPhoto(d)} style={{ objectPosition: d.imagePosition }} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "bar" ? cocktailBar(d) : sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try another search or select All {categoryLabel.toLocaleLowerCase()}.</p>}</div>
-        <footer className={s.libraryFooter}>Menus &amp; images: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony ↗</a> · <a href={mamaDiamSource} target="_blank" rel="noreferrer">Mama Diam ↗</a> · <a href={moBarSource} target="_blank" rel="noreferrer">MO BAR ↗</a> · <a href="https://iba-world.com/cocktails/" target="_blank" rel="noreferrer">IBA ↗</a><br />Bar signatures are home adaptations. Classics cite their IBA reference.</footer>
+        <footer className={s.libraryFooter}>Menu sources: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony ↗</a> · <a href={mamaDiamSource} target="_blank" rel="noreferrer">Mama Diam ↗</a> · <a href={moBarSource} target="_blank" rel="noreferrer">MO BAR ↗</a> · <a href={catBiteSource} target="_blank" rel="noreferrer">Cat Bite Club ↗</a> · <a href="https://iba-world.com/cocktails/" target="_blank" rel="noreferrer">IBA ↗</a><br />Bar signatures are home adaptations. Classics cite their IBA reference.</footer>
       </section> : <>
         <div className={s.collection}><span>{drink.source?.adaptation ? `${drink.source.name.toUpperCase()} / SIGNATURES` : drink.source ? "WORLD CLASSICS / IBA" : "JIGGER & PONY / BLOOM"}</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>
         <div className={s.cardViewport}>
@@ -132,9 +132,9 @@ export default function CocktailCards() {
           onTouchCancel={() => { touch.current = null; }}
           onTouchEnd={e => { if (!touch.current) return; const action = swipeAction(e.changedTouches[0].clientX - touch.current.x, e.changedTouches[0].clientY - touch.current.y); touch.current = null; if (action === "next") move(1); if (action === "previous") move(-1); if (action === "forward") setPanel(p => Math.min(2, p + 1)); if (action === "back") setPanel(p => Math.max(0, p - 1)); }}>
           {panel === 0 ? <>
-            <Image key={drink.id} className={s.photo} style={{ objectPosition: drink.imagePosition }} src={cocktailPhoto(drink)} alt={`${drink.name}, ${drink.source?.adaptation ? "menu illustration" : "photograph"} from ${drink.source?.name ?? "Jigger & Pony’s BLOOM menu"}`} fill sizes="(max-width: 600px) 100vw, 480px" priority />
+            <Image key={drink.id} className={s.photo} style={{ objectPosition: drink.imagePosition }} src={cocktailPhoto(drink)} alt={drink.illustration ? `${drink.name}, cocktail illustration` : `${drink.name}, ${drink.source?.adaptation ? "menu illustration" : "photograph"} from ${drink.source?.name ?? "Jigger & Pony’s BLOOM menu"}`} fill sizes="(max-width: 600px) 100vw, 480px" priority />
             <div className={s.photoShade} />
-            <span className={s.photoLabel}>{drink.spirit} / {drink.glass}</span>
+            <span className={s.photoLabel}>{drink.spirit} / {drink.glass}{drink.illustration && " / Illustration"}</span>
             <div className={s.photoCaption}><span className={s.eyebrow}>{drink.mood}</span><h1>{drink.name}</h1><p>{drink.description}</p><button className={s.recipeButton} onClick={() => setPanel(1)}>Make this cocktail <ArrowRight size={18} /></button></div>
           </> : <div className={`${s.recipe} ${drink.ingredients.length >= 7 || drink.name.length > 24 ? s.denseRecipe : ""}`} key={`${drink.id}-${panel}`}>
             <span className={s.eyebrow}>HOME BAR EDITION / {panel === 1 ? "WHAT YOU NEED" : "HOW TO MAKE IT"}</span>
@@ -143,7 +143,7 @@ export default function CocktailCards() {
             {panel === 1 ? <div className={s.ingredientsHeading}><h2>Ingredients</h2><CopyIngredients drink={drink} /></div> : <h2>The ritual</h2>}
             {panel === 1 ? <ul className={s.ingredients}>{drink.ingredients.map(([amount, item]) => <li key={item}><span>{item}</span><strong>{amount}</strong></li>)}</ul> : <ol className={s.steps}>{drink.steps.map((step, i) => <li key={step}><span>0{i + 1}</span><p>{step}</p></li>)}</ol>}
             <aside className={s.tip}><span>BAR NOTE</span><p>{drink.tip}</p></aside>
-            <p className={s.adaptation}>{drink.source ? <>{drink.source.adaptation ? "Home adaptation · menu & illustration: " : "Recipe & photo: "}<a href={drink.source.url} target="_blank" rel="noreferrer">{drink.source.name} ↗</a></> : "Inspired by BLOOM. Home adaptation, not an official recipe."}</p>
+            <p className={s.adaptation}>{drink.source ? <>{drink.source.adaptation ? (drink.illustration ? "Home adaptation · menu: " : "Home adaptation · menu & illustration: ") : "Recipe & photo: "}<a href={drink.source.url} target="_blank" rel="noreferrer">{drink.source.name} ↗</a></> : "Inspired by BLOOM. Home adaptation, not an official recipe."}</p>
           </div>}
         </motion.article>
         </AnimatePresence>
