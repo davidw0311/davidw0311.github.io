@@ -17,3 +17,15 @@ Free Spirited drinks, punch bowls, and the spirit list.
 Manhattan and Champagne Ramos Gin Fizz share the menu’s photograph of both drinks.
 Singa Sling is pictured beside Yuzu Whisky Sour in the original menu photograph.
 Measurements and methods are independent home adaptations, labelled in the UI.
+
+## World classics
+
+Twelve additional classic recipes and photographs are referenced from the
+International Bartenders Association (IBA), checked 18 November 2026. Each card
+links directly to its recipe page at `https://iba-world.com/iba-cocktail/<id>/`.
+The classic images are the `.webp` files named mojito, margarita, daiquiri,
+cosmopolitan, mai-tai, paloma, moscow-mule, spritz, french-75, pina-colada,
+whiskey-sour, and dry-martini. They were downloaded from the corresponding
+recipe pages on iba-world.com; copyright remains with the respective owners.
+Recipe instructions are paraphrased for the card format. The Spritz card uses
+the display name Aperol Spritz, matching the Aperol specification on IBA’s page.

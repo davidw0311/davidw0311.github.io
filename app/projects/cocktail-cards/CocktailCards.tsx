@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
-import { cocktails, cocktailSource, cocktailAlcoholType, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
+import { cocktails, cocktailSource, cocktailPhoto, cocktailAlcoholType, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
 import s from "./cocktails.module.css";
 
 const panels = ["The cocktail", "Ingredients", "Method"];
@@ -45,19 +45,19 @@ export default function CocktailCards() {
       </header>
 
       {library ? <section className={s.library} aria-label="Cocktail library">
-        <div className={s.libraryTitle}><h1>Full menu</h1><span className={s.eyebrow}>JIGGER &amp; PONY / BLOOM</span></div>
+        <div className={s.libraryTitle}><h1>Full menu</h1><span className={s.eyebrow}>BLOOM + WORLD CLASSICS</span></div>
         <label className={s.search}><MagnifyingGlass size={20} /><input ref={searchInput} value={query} onChange={e => setQuery(e.target.value)} placeholder="A cocktail, spirit or ingredient…" aria-label="Search cocktails" />{query && <button onClick={() => { setQuery(""); searchInput.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</label>
         <div className={s.sort}><span aria-live="polite">{matches.length} cocktails</span><label>Sort by <select aria-label="Sort cocktails" value={sort} onChange={e => setSort(e.target.value as CocktailSort)}><option value="name">Name A–Z</option><option value="spirit">Alcohol type</option><option value="menu">Menu order</option></select></label></div>
-        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { setIndex(cocktails.findIndex(c => c.id === d.id)); setPanel(0); closeLibrary(); }}><Image src={`/assets/cocktails/${d.id}.jpg`} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
-        <footer className={s.libraryFooter}>Menu &amp; photos: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony / BLOOM ↗</a><br />Independent home recipes; not the bar’s official recipes.</footer>
+        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { setIndex(cocktails.findIndex(c => c.id === d.id)); setPanel(0); closeLibrary(); }}><Image src={cocktailPhoto(d)} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
+        <footer className={s.libraryFooter}>Menu &amp; photos: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony ↗</a> · <a href="https://iba-world.com/cocktails/" target="_blank" rel="noreferrer">IBA classics ↗</a><br />BLOOM recipes are home adaptations. Classics cite their IBA reference.</footer>
       </section> : <>
-        <div className={s.collection}><span>JIGGER &amp; PONY / BLOOM</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>
+        <div className={s.collection}><span>{drink.source ? "WORLD CLASSICS / IBA" : "JIGGER & PONY / BLOOM"}</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>
         <article className={`${s.card} ${panel === 0 ? s.photoCard : s.recipeCard}`} aria-label={`${drink.name}: ${panels[panel]}`}
           onTouchStart={e => { touch.current = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }}
           onTouchCancel={() => { touch.current = null; }}
           onTouchEnd={e => { if (!touch.current) return; const action = swipeAction(e.changedTouches[0].clientX - touch.current.x, e.changedTouches[0].clientY - touch.current.y); touch.current = null; if (action === "next") move(1); if (action === "previous") move(-1); if (action === "forward") setPanel(p => Math.min(2, p + 1)); if (action === "back") setPanel(p => Math.max(0, p - 1)); }}>
           {panel === 0 ? <>
-            <Image key={drink.id} className={s.photo} src={`/assets/cocktails/${drink.id}.jpg`} alt={`${drink.name}, photographed for Jigger & Pony’s BLOOM menu`} fill sizes="(max-width: 600px) 100vw, 480px" priority />
+            <Image key={drink.id} className={s.photo} src={cocktailPhoto(drink)} alt={`${drink.name}, photograph from ${drink.source?.name ?? "Jigger & Pony’s BLOOM menu"}`} fill sizes="(max-width: 600px) 100vw, 480px" priority />
             <div className={s.photoShade} />
             <span className={s.photoLabel}>{drink.spirit} / {drink.glass}</span>
             <div className={s.photoCaption}><span className={s.eyebrow}>{drink.mood}</span><h1>{drink.name}</h1><p>{drink.description}</p><button className={s.recipeButton} onClick={() => setPanel(1)}>Make this cocktail <ArrowRight size={18} /></button></div>
@@ -68,7 +68,7 @@ export default function CocktailCards() {
             <h2>{panel === 1 ? "Ingredients" : "The ritual"}</h2>
             {panel === 1 ? <ul className={s.ingredients}>{drink.ingredients.map(([amount, item]) => <li key={item}><span>{item}</span><strong>{amount}</strong></li>)}</ul> : <ol className={s.steps}>{drink.steps.map((step, i) => <li key={step}><span>0{i + 1}</span><p>{step}</p></li>)}</ol>}
             <aside className={s.tip}><span>BAR NOTE</span><p>{drink.tip}</p></aside>
-            <p className={s.adaptation}>Inspired by BLOOM. Home adaptation, not an official recipe.</p>
+            <p className={s.adaptation}>{drink.source ? <>Recipe &amp; photo: <a href={drink.source.url} target="_blank" rel="noreferrer">International Bartenders Association ↗</a></> : "Inspired by BLOOM. Home adaptation, not an official recipe."}</p>
           </div>}
         </article>
         <nav className={s.panels} aria-label="Cocktail pages"><button className={s.iconButton} onClick={() => setPanel(p => Math.max(0, p - 1))} disabled={panel === 0} aria-label="Previous recipe page"><ArrowLeft size={20} /></button><div>{panels.map((label, i) => <button key={label} onClick={() => setPanel(i)} aria-current={panel === i ? "step" : undefined}><span />{label.replace("The cocktail", "Cocktail")}</button>)}</div><button className={s.iconButton} onClick={() => setPanel(p => Math.min(2, p + 1))} disabled={panel === 2} aria-label="Next recipe page"><ArrowRight size={20} /></button></nav>

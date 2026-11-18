@@ -1,9 +1,13 @@
 export type Cocktail = {
   id: string; name: string; spirit: string; mood: string; description: string;
   glass: string; method: string; ingredients: [string, string][]; steps: string[]; tip: string;
+  source?: { name: string; url: string };
 };
 
 export const cocktailSource = "https://www.jiggerandpony.com/bloom-menu";
+export function cocktailPhoto(drink: Cocktail) {
+  return `/assets/cocktails/${drink.id}.${drink.source ? "webp" : "jpg"}`;
+}
 export const cocktails: Cocktail[] = [
   {
     id: "yuzu-whisky-sour", name: "Yuzu Whisky Sour", spirit: "Bourbon", mood: "Citrusy · Floral · Silky",
@@ -131,12 +135,96 @@ export const cocktails: Cocktail[] = [
     ingredients: [["35 ml", "Single malt Scotch"], ["15 ml", "Apple brandy"], ["15 ml", "Fino sherry"], ["15 ml", "Lemon juice"], ["15 ml", "Cinnamon-clove syrup"], ["1 slice", "Apple, to garnish"]],
     steps: ["Add whisky, apple brandy, sherry, lemon and spice syrup to a shaker with ice.", "Shake for 12 seconds until well chilled.", "Strain over a large ice cube in a rocks glass. Garnish with a thin apple slice."],
   },
+  {
+    id: "mojito", name: "Mojito", spirit: "Rum", mood: "Minty · Lime · Refreshing",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/mojito/" },
+    description: "White rum, fresh mint and lime, lengthened with lively soda.", glass: "Highball", method: "Build", tip: "Press the mint gently to release its aroma. Tearing or grinding the leaves can add bitterness.",
+    ingredients: [["45 ml", "White Cuban rum"], ["20 ml", "Fresh lime juice"], ["6 sprigs", "Mint"], ["2 tsp", "White cane sugar"], ["To top", "Soda water"]],
+    steps: ["Gently press the mint with sugar and lime juice in a highball glass.", "Add a splash of soda and fill the glass with ice. Pour in the rum.", "Top with soda and stir gently. Finish with a mint sprig and a lime slice."],
+  },
+  {
+    id: "margarita", name: "Margarita", spirit: "Tequila", mood: "Tart · Orange · Crisp",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/margarita/" },
+    description: "The classic meeting of agave, orange liqueur and fresh lime.", glass: "Coupe", method: "Shake", tip: "Salt just half the rim if desired, so each sip can be taken with or without salt.",
+    ingredients: [["50 ml", "100% agave tequila"], ["20 ml", "Triple sec"], ["15 ml", "Fresh lime juice"], ["Optional", "Salt for half the rim"]],
+    steps: ["Chill a coupe and optionally salt half its rim.", "Add tequila, triple sec and lime juice to a shaker with ice. Shake until cold.", "Strain into the chilled glass and serve straight away."],
+  },
+  {
+    id: "daiquiri", name: "Daiquiri", spirit: "Rum", mood: "Clean · Lime · Balanced",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/daiquiri/" },
+    description: "A spare, bright rum sour with just lime and a little sugar.", glass: "Coupe", method: "Shake", tip: "Dissolve the sugar before adding ice to avoid a gritty finish. Use freshly squeezed lime.",
+    ingredients: [["60 ml", "White Cuban rum"], ["20 ml", "Fresh lime juice"], ["2 bar spoons", "Superfine sugar"]],
+    steps: ["Combine rum, lime juice and sugar in a shaker. Stir until the sugar dissolves.", "Fill the shaker with ice and shake until well chilled.", "Strain into a chilled coupe. No garnish is needed."],
+  },
+  {
+    id: "cosmopolitan", name: "Cosmopolitan", spirit: "Vodka", mood: "Cranberry · Citrus · Bright",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/cosmopolitan/" },
+    description: "Citrus vodka and cranberry in a sharp, rosy-pink classic.", glass: "Coupe", method: "Shake", tip: "Use citrus-flavoured vodka for the IBA specification and express a lemon twist over the finished drink.",
+    ingredients: [["40 ml", "Citron vodka"], ["15 ml", "Cointreau"], ["15 ml", "Fresh lime juice"], ["30 ml", "Cranberry juice"]],
+    steps: ["Pour all ingredients into a shaker filled with ice.", "Shake until cold, then strain into a large chilled cocktail glass.", "Express a lemon twist over the surface and use it as a garnish."],
+  },
+  {
+    id: "mai-tai", name: "Mai Tai", spirit: "Rum", mood: "Nutty · Citrus · Rich rum",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/mai-tai/" },
+    description: "Two rums, almond orgeat and orange curaçao with a bright lime edge.", glass: "Double rocks", method: "Shake", tip: "Orgeat contains almonds. The IBA calls for a molasses-based Martinique rum rather than an agricole rum.",
+    ingredients: [["30 ml", "Amber Jamaican rum"], ["30 ml", "Martinique molasses rum"], ["15 ml", "Orange curaçao"], ["15 ml", "Orgeat syrup"], ["30 ml", "Fresh lime juice"], ["7.5 ml", "Simple syrup"]],
+    steps: ["Add both rums, curaçao, orgeat, lime and syrup to a shaker with ice.", "Shake, then pour the drink and ice into a double rocks glass.", "Finish with a pineapple spear, mint and lime peel."],
+  },
+  {
+    id: "paloma", name: "Paloma", spirit: "Tequila", mood: "Grapefruit · Salty · Sparkling",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/paloma/" },
+    description: "Tequila and pink grapefruit soda, sharpened with lime and salt.", glass: "Highball", method: "Build", tip: "Chill the grapefruit soda first and stir gently to preserve its bubbles.",
+    ingredients: [["50 ml", "100% agave tequila"], ["5 ml", "Fresh lime juice"], ["1 pinch", "Salt"], ["100 ml", "Pink grapefruit soda"]],
+    steps: ["Pour tequila and lime juice into a highball glass.", "Add ice and a pinch of salt, then pour in the grapefruit soda.", "Stir gently and garnish with a lime slice."],
+  },
+  {
+    id: "moscow-mule", name: "Moscow Mule", spirit: "Vodka", mood: "Ginger · Lime · Refreshing",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/moscow-mule/" },
+    description: "Vodka, punchy ginger beer and lime over plenty of ice.", glass: "Mule mug / rocks", method: "Build", tip: "Ginger beer provides a stronger ginger flavour than ginger ale. A rocks glass works as well as a mule mug.",
+    ingredients: [["45 ml", "Vodka"], ["120 ml", "Ginger beer"], ["10 ml", "Fresh lime juice"]],
+    steps: ["Fill a mule mug or rocks glass with ice.", "Add vodka and ginger beer, then pour in the lime juice.", "Stir gently to combine and finish with a lime slice."],
+  },
+  {
+    id: "spritz", name: "Aperol Spritz", spirit: "Aperol / Prosecco", mood: "Bittersweet · Orange · Bubbly",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/spritz/" },
+    description: "A bright orange aperitivo with Prosecco and a splash of soda.", glass: "Wine glass", method: "Build", tip: "The IBA also notes variations using Campari, Cynar or Select in place of Aperol.",
+    ingredients: [["90 ml", "Prosecco"], ["60 ml", "Aperol"], ["1 splash", "Soda water"], ["1 slice", "Orange, to garnish"]],
+    steps: ["Fill a large wine glass with ice.", "Pour in Prosecco, Aperol and a splash of soda.", "Give it a gentle stir and add an orange slice."],
+  },
+  {
+    id: "french-75", name: "French 75", spirit: "Gin", mood: "Lemon · Dry · Sparkling",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/french-75/" },
+    description: "A brisk gin-and-lemon sour lifted with dry Champagne.", glass: "Flute", method: "Shake & top", tip: "Keep the Champagne chilled and add it only after shaking the other ingredients.",
+    ingredients: [["30 ml", "Gin"], ["15 ml", "Fresh lemon juice"], ["15 ml", "Sugar syrup"], ["60 ml", "Champagne"]],
+    steps: ["Shake gin, lemon juice and sugar syrup with ice.", "Strain into a chilled Champagne flute.", "Top with Champagne and stir very gently. Never shake the sparkling wine."],
+  },
+  {
+    id: "pina-colada", name: "Piña Colada", spirit: "Rum", mood: "Pineapple · Coconut · Creamy",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/pina-colada/" },
+    description: "White rum, pineapple and coconut blended into a tropical classic.", glass: "Hurricane", method: "Blend", tip: "Start with a small scoop of ice and blend in more until smooth and pourable. A few drops of lime can add brightness.",
+    ingredients: [["50 ml", "White rum"], ["30 ml", "Coconut cream"], ["50 ml", "Fresh pineapple juice"]],
+    steps: ["Pour rum, coconut cream and pineapple juice into a blender with ice.", "Blend until smooth and pour into a large glass.", "Garnish with a pineapple slice and a cocktail cherry. Serve with a straw."],
+  },
+  {
+    id: "whiskey-sour", name: "Whiskey Sour", spirit: "Bourbon", mood: "Lemon · Balanced · Smooth",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/whiskey-sour/" },
+    description: "Bourbon and lemon balanced with syrup in a timeless sour.", glass: "Rocks", method: "Shake", tip: "Egg white is optional; use pasteurised egg white if including it. Shake harder to build a light foam.",
+    ingredients: [["45 ml", "Bourbon whiskey"], ["25 ml", "Fresh lemon juice"], ["20 ml", "Sugar syrup"], ["A few drops", "Pasteurised egg white, optional"]],
+    steps: ["Pour bourbon, lemon, syrup and optional egg white into a shaker with ice.", "Shake well, working a little harder if using egg white.", "Strain over ice in a rocks glass. Garnish with half an orange slice and a cocktail cherry."],
+  },
+  {
+    id: "dry-martini", name: "Dry Martini", spirit: "Gin", mood: "Dry · Botanical · Crisp",
+    source: { name: "IBA", url: "https://iba-world.com/iba-cocktail/dry-martini/" },
+    description: "Gin and dry vermouth, stirred cold and served with quiet precision.", glass: "Martini", method: "Stir", tip: "Chill the glass first. Choose lemon oils for a citrus finish, or a green olive for a savoury one.",
+    ingredients: [["60 ml", "Gin"], ["10 ml", "Dry vermouth"], ["To garnish", "Lemon peel or green olive"]],
+    steps: ["Combine gin and dry vermouth in a mixing glass with ice.", "Stir until thoroughly chilled, then strain into a cold martini glass.", "Express lemon peel over the surface, or garnish with a green olive."],
+  },
 ];
 
 export type CocktailSort = "name" | "spirit" | "menu";
 
 export function cocktailAlcoholType(drink: Pick<Cocktail, "spirit">) {
-  return /whisky|bourbon|scotch/i.test(drink.spirit) ? "Whisky" : drink.spirit;
+  return /whisk(?:e)?y|bourbon|scotch/i.test(drink.spirit) ? "Whisky" : drink.spirit;
 }
 
 export function findCocktails(query: string, sort: CocktailSort = "name") {
