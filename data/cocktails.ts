@@ -133,10 +133,17 @@ export const cocktails: Cocktail[] = [
   },
 ];
 
-export function findCocktails(query: string, alphabetical: boolean) {
+export type CocktailSort = "name" | "spirit" | "menu";
+
+export function cocktailAlcoholType(drink: Pick<Cocktail, "spirit">) {
+  return /whisky|bourbon|scotch/i.test(drink.spirit) ? "Whisky" : drink.spirit;
+}
+
+export function findCocktails(query: string, sort: CocktailSort = "name") {
   const term = query.trim().toLocaleLowerCase();
   const result = cocktails.filter(d => `${d.name} ${d.spirit} ${d.mood} ${d.ingredients.map(i => i[1]).join(" ")}`.toLocaleLowerCase().includes(term));
-  return alphabetical ? result.sort((a, b) => a.name.localeCompare(b.name)) : result;
+  if (sort === "menu") return result;
+  return result.sort((a, b) => (sort === "spirit" ? cocktailAlcoholType(a).localeCompare(cocktailAlcoholType(b)) : 0) || a.name.localeCompare(b.name));
 }
 
 export function swipeAction(dx: number, dy: number): "next" | "previous" | "forward" | "back" | null {

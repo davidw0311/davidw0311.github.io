@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
-import { cocktails, cocktailSource, findCocktails, swipeAction } from "@/data/cocktails";
+import { cocktails, cocktailSource, cocktailAlcoholType, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
 import s from "./cocktails.module.css";
 
 const panels = ["The cocktail", "Ingredients", "Method"];
@@ -14,18 +14,14 @@ export default function CocktailCards() {
   const [panel, setPanel] = useState(0);
   const [library, setLibrary] = useState(false);
   const [query, setQuery] = useState("");
-  const [alphabetical, setAlphabetical] = useState(true);
+  const [sort, setSort] = useState<CocktailSort>("name");
   const touch = useRef<{ x: number; y: number } | null>(null);
   const listButton = useRef<HTMLButtonElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
   const drink = cocktails[index];
-  const matches = findCocktails(query, alphabetical);
+  const matches = findCocktails(query, sort);
   const move = (delta: number) => { setIndex(i => (i + delta + cocktails.length) % cocktails.length); setPanel(0); };
   const closeLibrary = () => { setLibrary(false); requestAnimationFrame(() => listButton.current?.focus()); };
-
-  useEffect(() => {
-    if (library) searchInput.current?.focus({ preventScroll: true });
-  }, [library]);
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -49,11 +45,11 @@ export default function CocktailCards() {
       </header>
 
       {library ? <section className={s.library} aria-label="Cocktail library">
-        <div className={s.libraryTitle}><span className={s.eyebrow}>THE COLLECTION / 01</span><h1>Find your<br /><em>next pour.</em></h1><p>{cocktails.length} cocktails from Jigger &amp; Pony’s BLOOM menu. Adapted for your home bar.</p></div>
+        <div className={s.libraryTitle}><h1>Full menu</h1><span className={s.eyebrow}>JIGGER &amp; PONY / BLOOM</span></div>
         <label className={s.search}><MagnifyingGlass size={20} /><input ref={searchInput} value={query} onChange={e => setQuery(e.target.value)} placeholder="A cocktail, spirit or ingredient…" aria-label="Search cocktails" />{query && <button onClick={() => { setQuery(""); searchInput.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</label>
-        <div className={s.sort}><span aria-live="polite">{matches.length} cocktails</span><button onClick={() => setAlphabetical(v => !v)}>Order: {alphabetical ? "A–Z" : "Menu"} ⇅</button></div>
-        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { setIndex(cocktails.findIndex(c => c.id === d.id)); setPanel(0); closeLibrary(); }}><Image src={`/assets/cocktails/${d.id}.jpg`} alt="" width={66} height={76} /><span><strong>{d.name}</strong><small>{d.spirit} · {d.method}</small></span><ArrowRight size={20} /></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
-        <footer className={s.libraryFooter}>Menu &amp; photography: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony / BLOOM ↗</a><br />Checked 18 Nov 2026. Independent home adaptations; measurements and methods are ours, not the bar’s official recipes.<br /><Link href="/#space">← Back to Space</Link></footer>
+        <div className={s.sort}><span aria-live="polite">{matches.length} cocktails</span><label>Sort by <select aria-label="Sort cocktails" value={sort} onChange={e => setSort(e.target.value as CocktailSort)}><option value="name">Name A–Z</option><option value="spirit">Alcohol type</option><option value="menu">Menu order</option></select></label></div>
+        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { setIndex(cocktails.findIndex(c => c.id === d.id)); setPanel(0); closeLibrary(); }}><Image src={`/assets/cocktails/${d.id}.jpg`} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
+        <footer className={s.libraryFooter}>Menu &amp; photos: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony / BLOOM ↗</a><br />Independent home recipes; not the bar’s official recipes.</footer>
       </section> : <>
         <div className={s.collection}><span>JIGGER &amp; PONY / BLOOM</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>
         <article className={`${s.card} ${panel === 0 ? s.photoCard : s.recipeCard}`} aria-label={`${drink.name}: ${panels[panel]}`}
