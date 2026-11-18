@@ -49,7 +49,7 @@ export default function CocktailCards() {
       </header>
 
       {library ? <section className={s.library} aria-label="Cocktail library">
-        <div className={s.libraryTitle}><span className={s.eyebrow}>THE COLLECTION / 01</span><h1>Find your<br /><em>next pour.</em></h1><p>Eight favourites from Jigger &amp; Pony’s BLOOM menu. Adapted for your home bar.</p></div>
+        <div className={s.libraryTitle}><span className={s.eyebrow}>THE COLLECTION / 01</span><h1>Find your<br /><em>next pour.</em></h1><p>{cocktails.length} cocktails from Jigger &amp; Pony’s BLOOM menu. Adapted for your home bar.</p></div>
         <label className={s.search}><MagnifyingGlass size={20} /><input ref={searchInput} value={query} onChange={e => setQuery(e.target.value)} placeholder="A cocktail, spirit or ingredient…" aria-label="Search cocktails" />{query && <button onClick={() => { setQuery(""); searchInput.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</label>
         <div className={s.sort}><span aria-live="polite">{matches.length} cocktails</span><button onClick={() => setAlphabetical(v => !v)}>Order: {alphabetical ? "A–Z" : "Menu"} ⇅</button></div>
         <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { setIndex(cocktails.findIndex(c => c.id === d.id)); setPanel(0); closeLibrary(); }}><Image src={`/assets/cocktails/${d.id}.jpg`} alt="" width={66} height={76} /><span><strong>{d.name}</strong><small>{d.spirit} · {d.method}</small></span><ArrowRight size={20} /></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
@@ -65,7 +65,7 @@ export default function CocktailCards() {
             <div className={s.photoShade} />
             <span className={s.photoLabel}>{drink.spirit} / {drink.glass}</span>
             <div className={s.photoCaption}><span className={s.eyebrow}>{drink.mood}</span><h1>{drink.name}</h1><p>{drink.description}</p><button className={s.recipeButton} onClick={() => setPanel(1)}>Make this cocktail <ArrowRight size={18} /></button></div>
-          </> : <div className={s.recipe} key={`${drink.id}-${panel}`}>
+          </> : <div className={`${s.recipe} ${drink.ingredients.length >= 7 || drink.name.length > 24 ? s.denseRecipe : ""}`} key={`${drink.id}-${panel}`}>
             <span className={s.eyebrow}>HOME BAR EDITION / {panel === 1 ? "WHAT YOU NEED" : "HOW TO MAKE IT"}</span>
             <h1>{drink.name}</h1>
             <div className={s.specs}><span>{drink.glass}</span><span>{drink.method}</span><span>1 serving</span></div>
