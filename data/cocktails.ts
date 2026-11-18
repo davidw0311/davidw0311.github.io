@@ -308,7 +308,12 @@ export const cocktails: Cocktail[] = [
   },
 ];
 
-export type CocktailSort = "name" | "spirit" | "menu";
+export type CocktailSort = "name" | "spirit" | "bar" | "menu";
+
+export function cocktailBar(drink: Pick<Cocktail, "source">) {
+  if (drink.source?.name === "IBA") return "Classics (IBA)";
+  return drink.source?.name ?? "Jigger & Pony";
+}
 
 const cocktailPages = ["cocktail", "ingredients", "method"];
 
@@ -331,9 +336,9 @@ export function cocktailAlcoholType(drink: Pick<Cocktail, "spirit">) {
 
 export function findCocktails(query: string, sort: CocktailSort = "name") {
   const term = query.trim().toLocaleLowerCase();
-  const result = cocktails.filter(d => `${d.name} ${d.spirit} ${d.mood} ${d.ingredients.map(i => i[1]).join(" ")}`.toLocaleLowerCase().includes(term));
+  const result = cocktails.filter(d => `${d.name} ${d.spirit} ${d.mood} ${cocktailBar(d)} ${d.ingredients.map(i => i[1]).join(" ")}`.toLocaleLowerCase().includes(term));
   if (sort === "menu") return result;
-  return result.sort((a, b) => (sort === "spirit" ? cocktailAlcoholType(a).localeCompare(cocktailAlcoholType(b)) : 0) || a.name.localeCompare(b.name));
+  return result.sort((a, b) => (sort === "spirit" ? cocktailAlcoholType(a).localeCompare(cocktailAlcoholType(b)) : sort === "bar" ? cocktailBar(a).localeCompare(cocktailBar(b)) : 0) || a.name.localeCompare(b.name));
 }
 
 export function swipeAction(dx: number, dy: number): "next" | "previous" | "forward" | "back" | null {

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cocktails, mamaDiamSource, cocktailPhoto, cocktailAlcoholType, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
+import { cocktails, mamaDiamSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
 
 test("search finds ingredients and spirits regardless of case or surrounding spaces", () => {
   assert.deepEqual(findCocktails("  CAMPARI  ", "menu").map(d => d.id), ["negroni", "peranakan-negroni"]);
@@ -77,4 +77,19 @@ test("empty and invalid shared links fall back safely", () => {
   }
   const mojito = cocktails.findIndex(d => d.id === "mojito");
   assert.deepEqual(parseCocktailHash("#mojito/unknown"), { index: mojito, panel: 0 });
+});
+
+
+test("bar sorting groups sources and alphabetizes cocktails within each group", () => {
+  const sorted = findCocktails("", "bar");
+  const groups = sorted.map(cocktailBar);
+  assert.deepEqual([...new Set(groups)], ["Classics (IBA)", "Jigger & Pony", "Mama Diam"]);
+  assert.deepEqual(groups, [...groups].sort((a, b) => a.localeCompare(b)));
+  for (const bar of new Set(groups)) {
+    const names = sorted.filter(d => cocktailBar(d) === bar).map(d => d.name);
+    assert.deepEqual(names, [...names].sort((a, b) => a.localeCompare(b)));
+  }
+  assert.equal(findCocktails("mama diam", "bar").length, 12);
+  assert.equal(findCocktails("jigger & pony", "bar").length, 21);
+  assert.equal(findCocktails("classics (iba)", "bar").length, 12);
 });
