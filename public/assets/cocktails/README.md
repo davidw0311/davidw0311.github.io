@@ -29,3 +29,16 @@ whiskey-sour, and dry-martini. They were downloaded from the corresponding
 recipe pages on iba-world.com; copyright remains with the respective owners.
 Recipe instructions are paraphrased for the card format. The Spritz card uses
 the display name Aperol Spritz, matching the Aperol specification on IBA’s page.
+
+## Mama Diam — October 2026
+
+Twelve signatures are drawn from the October 2026 menu linked by the official
+site, https://www.mamadiamsg.com/menu, checked 18 November 2026:
+https://www.mamadiamsg.com/s/MMD_Oct2026Menu_Digital.pdf
+
+The twelve corresponding PNGs are the original menu illustrations extracted
+from pages 11–13. They illustrate the memories behind each drink and are not
+photographs of the finished cocktails. Copyright remains with Mama Diam and
+its artists. Each card credits the menu and identifies the recipe as a home
+adaptation: measurements, preparation methods and shortcuts are our own,
+not published recipes from the bar.

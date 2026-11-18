@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cocktails, cocktailPhoto, cocktailAlcoholType, findCocktails, swipeAction } from "../data/cocktails.ts";
+import { cocktails, mamaDiamSource, cocktailPhoto, cocktailAlcoholType, findCocktails, swipeAction } from "../data/cocktails.ts";
 
 test("search finds ingredients and spirits regardless of case or surrounding spaces", () => {
-  assert.deepEqual(findCocktails("  CAMPARI  ", "menu").map(d => d.id), ["negroni"]);
+  assert.deepEqual(findCocktails("  CAMPARI  ", "menu").map(d => d.id), ["negroni", "peranakan-negroni"]);
   assert.equal(findCocktails("bourbon", "menu").length, 3);
   assert.equal(findCocktails("no-such-drink", "name").length, 0);
   const sorted = findCocktails("", "name").map(d => d.name);
@@ -36,7 +36,7 @@ test("swipes use the dominant axis and ignore taps", () => {
 
 
 test("classic recipes link to their own reference and use their own photographs", () => {
-  const classics = cocktails.filter(d => d.source);
+  const classics = cocktails.filter(d => d.source?.name === "IBA");
   assert.equal(classics.length, 12);
   assert.equal(new Set(cocktails.map(d => d.id)).size, cocktails.length);
   for (const drink of classics) {
@@ -45,4 +45,16 @@ test("classic recipes link to their own reference and use their own photographs"
   }
   assert.equal(cocktailPhoto(cocktails[0]), "/assets/cocktails/yuzu-whisky-sour.jpg");
   assert.equal(findCocktails("grapefruit", "name")[0].id, "paloma");
+});
+
+
+test("Mama Diam signatures retain menu attribution and use their own illustrations", () => {
+  const drinks = cocktails.filter(d => d.source?.name === "Mama Diam");
+  assert.equal(drinks.length, 12);
+  for (const drink of drinks) {
+    assert.equal(drink.source?.url, mamaDiamSource);
+    assert.equal(drink.source?.adaptation, true);
+    assert.equal(cocktailPhoto(drink), `/assets/cocktails/${drink.id}.png`);
+  }
+  assert.equal(findCocktails("kaya")[0].id, "peranakan-negroni");
 });

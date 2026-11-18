@@ -1,13 +1,16 @@
 export type Cocktail = {
   id: string; name: string; spirit: string; mood: string; description: string;
   glass: string; method: string; ingredients: [string, string][]; steps: string[]; tip: string;
-  source?: { name: string; url: string };
+  source?: { name: string; url: string; adaptation?: boolean };
+  image?: string;
 };
 
 export const cocktailSource = "https://www.jiggerandpony.com/bloom-menu";
 export function cocktailPhoto(drink: Cocktail) {
-  return `/assets/cocktails/${drink.id}.${drink.source ? "webp" : "jpg"}`;
+  return drink.image ?? `/assets/cocktails/${drink.id}.${drink.source ? "webp" : "jpg"}`;
 }
+export const mamaDiamSource = "https://www.mamadiamsg.com/s/MMD_Oct2026Menu_Digital.pdf";
+const mamaDiam = { name: "Mama Diam", url: mamaDiamSource, adaptation: true };
 export const cocktails: Cocktail[] = [
   {
     id: "yuzu-whisky-sour", name: "Yuzu Whisky Sour", spirit: "Bourbon", mood: "Citrusy · Floral · Silky",
@@ -218,6 +221,90 @@ export const cocktails: Cocktail[] = [
     description: "Gin and dry vermouth, stirred cold and served with quiet precision.", glass: "Martini", method: "Stir", tip: "Chill the glass first. Choose lemon oils for a citrus finish, or a green olive for a savoury one.",
     ingredients: [["60 ml", "Gin"], ["10 ml", "Dry vermouth"], ["To garnish", "Lemon peel or green olive"]],
     steps: ["Combine gin and dry vermouth in a mixing glass with ice.", "Stir until thoroughly chilled, then strain into a cold martini glass.", "Express lemon peel over the surface, or garnish with a green olive."],
+  },
+  {
+    id: "ten-thirty-am", name: "10:30AM", spirit: "Soju", source: mamaDiam, image: "/assets/cocktails/ten-thirty-am.png",
+    mood: "Grape · Tea · Citrus", description: "Grape soju and jasmine tea with a bright yuzu-and-lime lift.", glass: "Rocks", method: "Shake",
+    ingredients: [["60 ml", "Chuga grape soju"], ["40 ml", "Jasmine tea, cooled"], ["10 ml", "Fresh lime juice"], ["15 ml", "Yuzu cordial"]],
+    steps: ["Brew jasmine tea and let it cool completely.", "Add the tea, grape soju, lime and yuzu cordial to a shaker with ice.", "Shake briefly and strain over fresh ice in a rocks glass."],
+    tip: "Yuzu cordial is a home substitute for the menu’s citron yuzu component. Adjust it to the sweetness of your soju.",
+  },
+  {
+    id: "after-school-slushie", name: "After School Slushie", spirit: "Tequila", source: mamaDiam, image: "/assets/cocktails/after-school-slushie.png",
+    mood: "Blackcurrant · Peach · Icy", description: "A frozen tequila drink with Ribena, peach and lemon.", glass: "Tall glass", method: "Blend",
+    ingredients: [["40 ml", "Blanco tequila"], ["15 ml", "Cointreau"], ["15 ml", "Ribena concentrate"], ["30 ml", "Peach purée"], ["20 ml", "Lemon juice"], ["1 small cup", "Ice"]],
+    steps: ["Add all ingredients and the ice to a blender.", "Blend until smooth, adding a little more ice if needed for a slushie texture.", "Pour into a chilled tall glass and serve with a straw."],
+    tip: "Use Ribena concentrate rather than ready-to-drink juice; reduce the amount if your peach purée is already sweetened.",
+  },
+  {
+    id: "the-milo-truck", name: "The Milo Truck", spirit: "Rum", source: mamaDiam, image: "/assets/cocktails/the-milo-truck.png",
+    mood: "Malt · Chocolate · Rose", description: "Spiced rum, hazelnut and Milo beneath a rose-milk cream cap.", glass: "Rocks", method: "Shake & float",
+    ingredients: [["40 ml", "Spiced rum"], ["15 ml", "Frangelico"], ["25 ml", "Milo syrup (see bar note)"], ["5 g", "Dark chocolate, melted and cooled"], ["20 ml", "Cream"], ["5 ml", "Rose syrup"]],
+    steps: ["Whisk the cream and rose syrup until thick but pourable; set aside.", "Shake rum, Frangelico, Milo syrup and melted chocolate with ice until well chilled.", "Double strain over fresh ice. Float the rose cream over a spoon."],
+    tip: "For Milo syrup, stir 20 g Milo and 10 g sugar into 30 ml hot water; cool. Rose cream replaces the menu’s Bandung foam. Contains hazelnuts and dairy.",
+  },
+  {
+    id: "mum-said-youre-heaty", name: "Mum Said You’re Heaty", spirit: "Gin", source: mamaDiam, image: "/assets/cocktails/mum-said-youre-heaty.png",
+    mood: "Herbal · Plum · Bittersweet", description: "Salted plum gin and cooling herbal tea, lifted with tonic.", glass: "Highball", method: "Build",
+    ingredients: [["30 ml", "Peddlers Salted Plum gin liqueur"], ["15 ml", "Noilly Prat dry vermouth"], ["10 ml", "Cynar"], ["5 ml", "Luxardo Maraschino"], ["45 ml", "Jia Jia herbal tea, chilled"], ["60 ml", "Tonic water"]],
+    steps: ["Fill a highball glass with ice. Add the gin liqueur, vermouth, Cynar and maraschino.", "Pour in the chilled herbal tea and stir gently.", "Top with tonic and give the drink one gentle lift with a spoon."],
+    tip: "The salted plum gin is a liqueur, so start without extra sugar. Chill the tea and tonic before building the drink.",
+  },
+  {
+    id: "ah-gongs-kopi", name: "Ah Gong’s Kopi", spirit: "Scotch", source: mamaDiam, image: "/assets/cocktails/ah-gongs-kopi.png",
+    mood: "Coffee · Coconut · Rich", description: "Whisky and strong kopi softened with coconut and milk.", glass: "Rocks", method: "Shake",
+    ingredients: [["40 ml", "Blended Scotch"], ["25 ml", "Strong kopi, cooled"], ["15 ml", "Demerara syrup (1:1)"], ["20 ml", "Milk"], ["10 ml", "Coconut cream"], ["2 dashes", "Chocolate bitters"]],
+    steps: ["Combine the cooled kopi, syrup, milk and coconut cream in a shaker.", "Add whisky, bitters and ice. Shake hard until cold.", "Double strain over a large cube in a rocks glass."],
+    tip: "This simple home version uses coffee and coconut cream instead of the menu’s kopi reduction, butter-washed whisky and coconut-washed milk.",
+  },
+  {
+    id: "last-teh-tarik", name: "Last Teh Tarik", spirit: "Japanese whisky", source: mamaDiam, image: "/assets/cocktails/last-teh-tarik.png",
+    mood: "Chai · Caramel · Toasted", description: "Whisky-spiked chai milk tea with caramel and a popcorn finish.", glass: "Rocks", method: "Shake",
+    ingredients: [["40 ml", "Japanese whisky"], ["60 ml", "Chai milk tea, cooled"], ["10 ml", "Caramel syrup"], ["2 dashes", "Chocolate bitters"], ["A few pieces", "Plain popcorn, to garnish"]],
+    steps: ["Brew strong chai, add milk to taste, and cool completely.", "Shake the chai milk tea, whisky, caramel syrup and bitters with ice.", "Strain over fresh ice. Serve with a little popcorn on the side."],
+    tip: "Popcorn is a garnish in this home version; the menu doesn’t publish its popcorn preparation. Reduce caramel if using sweetened milk tea.",
+  },
+  {
+    id: "sng-bao", name: "Sng Bao", spirit: "Aperol / Prosecco", source: mamaDiam, image: "/assets/cocktails/sng-bao.png",
+    mood: "Watermelon · Guava · Sparkling", description: "A fruity Aperol spritz with watermelon and pink guava.", glass: "Wine glass", method: "Build",
+    ingredients: [["30 ml", "Aperol"], ["30 ml", "Watermelon juice"], ["30 ml", "Pink guava juice"], ["10 ml", "Fresh lime juice"], ["60 ml", "Prosecco"], ["30 ml", "Soda water"]],
+    steps: ["Fill a wine glass with ice. Add Aperol and the watermelon, guava and lime juices.", "Pour in chilled Prosecco and soda water.", "Stir gently once and garnish with a small watermelon wedge."],
+    tip: "Use fresh strained watermelon juice for a lighter texture. Add Prosecco last and never shake it.",
+  },
+  {
+    id: "lepak-lepak", name: "Lepak Lepak", spirit: "Brandy", source: mamaDiam, image: "/assets/cocktails/lepak-lepak.png",
+    mood: "Almond · Tea · Mellow", description: "Brandy, wintermelon and almond liqueur in a relaxed tea highball.", glass: "Highball", method: "Build",
+    ingredients: [["30 ml", "St-Rémy brandy"], ["10 ml", "Disaronno"], ["15 ml", "Punt e Mes"], ["15 ml", "Wintermelon syrup"], ["45 ml", "Jasmine tea, cooled"], ["2 dashes", "Chocolate bitters"], ["60 ml", "Soda water"]],
+    steps: ["Fill a highball glass with ice and add brandy, Disaronno, Punt e Mes and wintermelon syrup.", "Pour in the cooled tea and bitters. Stir briefly.", "Top with chilled soda and lift gently once to combine."],
+    tip: "Wintermelon syrup is sold for bubble tea. Start with less if your brand is very concentrated.",
+  },
+  {
+    id: "laksa-ritual", name: "Laksa Ritual", spirit: "Vodka", source: mamaDiam, image: "/assets/cocktails/laksa-ritual.png",
+    mood: "Savoury · Coconut · Spiced", description: "Laksa-spiced vodka with tomato and a soft coconut finish.", glass: "Rocks", method: "Shake",
+    ingredients: [["40 ml", "Vodka"], ["¼ tsp", "Dry laksa spice mix"], ["50 ml", "Tomato juice"], ["20 ml", "Milk"], ["10 ml", "Coconut cream"], ["2 drops", "Fish sauce"]],
+    steps: ["Steep the dry laksa spices in vodka for 15 minutes, then strain through a coffee filter.", "Shake the infused vodka, tomato juice, milk, coconut cream and fish sauce with ice.", "Double strain over fresh ice in a rocks glass."],
+    tip: "An unclarified home version, without the bar’s coconut washing. Use dry spices, not oily laksa paste. Contains fish and dairy; spice mixes may contain shellfish.",
+  },
+  {
+    id: "peranakan-negroni", name: "Peranakan Negroni", spirit: "Gin", source: mamaDiam, image: "/assets/cocktails/peranakan-negroni.png",
+    mood: "Bitter · Kaya · Creamy", description: "Gin and Campari with a kaya-inspired creamy finish.", glass: "Rocks", method: "Shake",
+    ingredients: [["30 ml", "Gin"], ["25 ml", "Campari"], ["20 ml", "Noilly Prat dry vermouth"], ["1 tsp", "Kaya"], ["20 ml", "Milk"]],
+    steps: ["Stir the kaya and milk together in a shaker until smooth.", "Add gin, Campari, vermouth and ice. Shake until cold.", "Double strain over a large ice cube in a rocks glass."],
+    tip: "This creamy shortcut replaces the menu’s clarified kaya milk punch, so its appearance differs. Kaya commonly contains egg and coconut.",
+  },
+  {
+    id: "green-mango-highball", name: "Green Mango Highball", spirit: "Gin", source: mamaDiam, image: "/assets/cocktails/green-mango-highball.png",
+    mood: "Green mango · Dry · Bubbly", description: "A crisp gin highball with tart green mango and soda.", glass: "Highball", method: "Build",
+    ingredients: [["45 ml", "Gin"], ["30 ml", "Fresh green mango juice"], ["90 ml", "Soda water"]],
+    steps: ["Press grated peeled green mango through a fine sieve to collect the juice.", "Fill a highball glass with ice. Add gin and the strained mango juice.", "Top with chilled soda and stir gently once."],
+    tip: "Fresh strained juice replaces the bar’s clarified mango water. It will look cloudier; add a little simple syrup if the fruit is very tart.",
+  },
+  {
+    id: "cheng-tng", name: "Cheng Tng", spirit: "Whisky", source: mamaDiam, image: "/assets/cocktails/cheng-tng.png",
+    mood: "Chrysanthemum · Lychee · Light", description: "Floral whisky and lychee in a sparkling dessert-inspired highball.", glass: "Highball", method: "Build",
+    ingredients: [["40 ml", "Blended whisky"], ["1 tsp", "Dried chrysanthemum flowers"], ["20 ml", "Lychee syrup from a can"], ["15 ml", "Noilly Prat dry vermouth"], ["90 ml", "Soda water"], ["1", "Lychee, to garnish"]],
+    steps: ["Steep food-grade dried chrysanthemum in the whisky for 15 minutes, then fine strain.", "Pour the infused whisky, lychee syrup and vermouth over ice in a highball glass.", "Top with chilled soda, stir gently, and add a lychee."],
+    tip: "Taste the chrysanthemum infusion early and strain sooner if it becomes bitter. The lychee syrup provides the sweetness in this home version.",
   },
 ];
 
