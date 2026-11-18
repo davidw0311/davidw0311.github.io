@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type SetStateAction } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
-import { cocktails, cocktailSource, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
+import { cocktails, cocktailSource, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
 import s from "./cocktails.module.css";
 
 const panels = ["The cocktail", "Ingredients", "Method"];
@@ -38,13 +38,21 @@ export default function CocktailCards() {
   const [library, setLibrary] = useState(false);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<CocktailSort>("name");
+  const [selections, setSelections] = useState<Record<CocktailSort, string[]>>({ name: [], spirit: [], bar: [], menu: [] });
   const [direction, setDirection] = useState(0);
   const reducedMotion = useReducedMotion();
   const touch = useRef<{ x: number; y: number } | null>(null);
   const listButton = useRef<HTMLButtonElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
   const drink = cocktails[index];
-  const matches = findCocktails(query, sort);
+  const selectedCategories = selections[sort];
+  const categories = cocktailCategories(sort);
+  const categoryLabel = sort === "spirit" ? "Alcohol types" : sort === "bar" ? "Bars / sources" : sort === "menu" ? "Collections" : "Starting letters";
+  const matches = findCocktails(query, sort, selectedCategories);
+  const toggleCategory = (category: string) => setSelections(current => ({
+    ...current,
+    [sort]: current[sort].includes(category) ? current[sort].filter(value => value !== category) : [...current[sort], category],
+  }));
   const setPanel = useCallback((update: SetStateAction<number>) => {
     const current = parseCocktailHash(window.location.hash);
     const next = typeof update === "function" ? update(current.panel) : update;
@@ -82,7 +90,14 @@ export default function CocktailCards() {
         <div className={s.libraryTitle}><h1>Full menu</h1><span className={s.eyebrow}>SIGNATURES + CLASSICS</span></div>
         <label className={s.search}><MagnifyingGlass size={20} /><input ref={searchInput} value={query} onChange={e => setQuery(e.target.value)} placeholder="A cocktail, spirit or ingredient…" aria-label="Search cocktails" />{query && <button onClick={() => { setQuery(""); searchInput.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</label>
         <div className={s.sort}><span aria-live="polite">{matches.length} cocktails</span><label>Sort by <select aria-label="Sort cocktails" value={sort} onChange={e => setSort(e.target.value as CocktailSort)}><option value="name">Name A–Z</option><option value="spirit">Alcohol type</option><option value="bar">Bar / source</option><option value="menu">Menu order</option></select></label></div>
-        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { updateCocktailUrl(cocktails.findIndex(c => c.id === d.id), 0); closeLibrary(); }}><Image src={cocktailPhoto(d)} style={{ objectPosition: d.imagePosition }} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "bar" ? cocktailBar(d) : sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try “gin”, “citrus” or “mango”.</p>}</div>
+        <div className={s.filters}>
+          <div className={s.filterHeading}><span>{categoryLabel}</span><span>{selectedCategories.length ? `${selectedCategories.length} selected · Choose more` : "Choose one or more"}</span></div>
+          <div key={sort} className={s.categoryOptions} role="group" aria-label={categoryLabel} tabIndex={0}>
+            <button aria-pressed={!selectedCategories.length} onClick={() => setSelections(current => ({ ...current, [sort]: [] }))}>All</button>
+            {categories.map(category => <button key={category} aria-pressed={selectedCategories.includes(category)} onClick={() => toggleCategory(category)}>{category}</button>)}
+          </div>
+        </div>
+        <div className={s.results}>{matches.map(d => <button key={d.id} className={s.result} onClick={() => { updateCocktailUrl(cocktails.findIndex(c => c.id === d.id), 0); closeLibrary(); }}><Image src={cocktailPhoto(d)} style={{ objectPosition: d.imagePosition }} alt="" fill sizes="(max-width: 520px) 45vw, 235px" /><span><strong>{d.name}</strong><small>{sort === "bar" ? cocktailBar(d) : sort === "spirit" ? cocktailAlcoholType(d) : d.spirit}</small></span></button>)}{!matches.length && <p className={s.empty}>No matching pours. Try another search or select All {categoryLabel.toLocaleLowerCase()}.</p>}</div>
         <footer className={s.libraryFooter}>Menus &amp; images: <a href={cocktailSource} target="_blank" rel="noreferrer">Jigger &amp; Pony ↗</a> · <a href={mamaDiamSource} target="_blank" rel="noreferrer">Mama Diam ↗</a> · <a href={moBarSource} target="_blank" rel="noreferrer">MO BAR ↗</a> · <a href="https://iba-world.com/cocktails/" target="_blank" rel="noreferrer">IBA ↗</a><br />Bar signatures are home adaptations. Classics cite their IBA reference.</footer>
       </section> : <>
         <div className={s.collection}><span>{drink.source?.adaptation ? `${drink.source.name.toUpperCase()} / SIGNATURES` : drink.source ? "WORLD CLASSICS / IBA" : "JIGGER & PONY / BLOOM"}</span><span>{String(index + 1).padStart(2, "0")} <b>/ {String(cocktails.length).padStart(2, "0")}</b></span></div>

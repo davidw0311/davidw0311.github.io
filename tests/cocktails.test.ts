@@ -1,6 +1,36 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { cocktails, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
+import { cocktails, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategory, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction } from "../data/cocktails.ts";
+
+test("each sort offers every available category from the full catalogue", () => {
+  for (const sort of ["name", "spirit", "bar", "menu"] as const) {
+    const categories = cocktailCategories(sort);
+    assert.deepEqual(categories, [...new Set(cocktails.map(d => cocktailCategory(d, sort)))].sort((a, b) => a.localeCompare(b)));
+    for (const category of categories) {
+      const matches = findCocktails("", sort, [category]);
+      assert.ok(matches.length > 0);
+      assert.ok(matches.every(d => cocktailCategory(d, sort) === category));
+    }
+    assert.deepEqual(findCocktails("", sort, []), findCocktails("", sort));
+  }
+  assert.ok(cocktailCategories("name").includes("0–9"));
+  assert.ok(cocktailCategories("spirit").includes("Whisky"));
+  assert.ok(!cocktailCategories("spirit").includes("Bourbon"));
+});
+
+test("multiple categories combine inclusively while search narrows their results", () => {
+  const types = ["Whisky", "Gin"];
+  const spirits = findCocktails("", "spirit", types);
+  assert.deepEqual(spirits, findCocktails("", "spirit").filter(d => types.includes(cocktailAlcoholType(d))));
+  assert.ok(spirits.some(d => cocktailAlcoholType(d) === "Gin"));
+  assert.ok(spirits.some(d => cocktailAlcoholType(d) === "Whisky"));
+  const bars = ["Mama Diam", "MO BAR Singapore"];
+  assert.equal(findCocktails("", "bar", bars).length, 27);
+  assert.deepEqual(findCocktails("lemon", "bar", bars), findCocktails("lemon", "bar").filter(d => bars.includes(cocktailBar(d))));
+  assert.deepEqual(findCocktails("", "menu", bars), cocktails.filter(d => bars.includes(cocktailBar(d))));
+  assert.deepEqual(findCocktails("", "name", ["M", "N"]), findCocktails("", "name").filter(d => /^[MN]/.test(d.name)));
+  assert.equal(findCocktails("nonexistent", "bar", bars).length, 0);
+});
 
 test("search finds ingredients and spirits regardless of case or surrounding spaces", () => {
   assert.deepEqual(findCocktails("  CAMPARI  ", "menu").map(d => d.id), ["negroni", "peranakan-negroni"]);
