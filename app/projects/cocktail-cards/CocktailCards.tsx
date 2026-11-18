@@ -4,11 +4,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type SetStateAction } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
-import { cocktails, cocktailSource, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type CocktailSort } from "@/data/cocktails";
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Check, Copy, List, MagnifyingGlass, Martini, X } from "@phosphor-icons/react";
+import { cocktails, cocktailSource, mamaDiamSource, moBarSource, cocktailPhoto, cocktailAlcoholType, cocktailBar, cocktailCategories, cocktailHash, parseCocktailHash, findCocktails, swipeAction, type Cocktail, type CocktailSort } from "@/data/cocktails";
 import s from "./cocktails.module.css";
 
 const panels = ["The cocktail", "Ingredients", "Method"];
+
+function CopyIngredients({ drink }: { drink: Cocktail }) {
+  const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle");
+  const copy = async () => {
+    const text = `${drink.name}\nIngredients · 1 serving\n\n${drink.ingredients.map(([amount, item]) => `${amount} ${item}`).join("\n")}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setStatus("copied");
+    } catch {
+      setStatus("failed");
+    }
+  };
+  return <>
+    <button className={s.copyIngredients} onClick={copy} aria-label="Copy ingredients" title={status === "failed" ? "Copy unavailable. Select the ingredient text to copy manually, or try again." : "Copy cocktail name and ingredient amounts as plain text"}>
+      {status === "copied" ? <Check size={15} /> : <Copy size={15} />}
+      {status === "copied" ? "Copied!" : status === "failed" ? "Retry copy" : "Copy ingredients"}
+    </button>
+    <span className={s.srOnly} role="status">{status === "copied" ? `${drink.name} ingredients copied.` : status === "failed" ? "Could not copy. Select the ingredient text to copy manually, or try again." : ""}</span>
+  </>;
+}
 
 function subscribeToCocktailUrl(onChange: () => void) {
   window.addEventListener("hashchange", onChange);
@@ -120,7 +140,7 @@ export default function CocktailCards() {
             <span className={s.eyebrow}>HOME BAR EDITION / {panel === 1 ? "WHAT YOU NEED" : "HOW TO MAKE IT"}</span>
             <h1>{drink.name}</h1>
             <div className={s.specs}><span>{drink.glass}</span><span>{drink.method}</span><span>1 serving</span></div>
-            <h2>{panel === 1 ? "Ingredients" : "The ritual"}</h2>
+            {panel === 1 ? <div className={s.ingredientsHeading}><h2>Ingredients</h2><CopyIngredients drink={drink} /></div> : <h2>The ritual</h2>}
             {panel === 1 ? <ul className={s.ingredients}>{drink.ingredients.map(([amount, item]) => <li key={item}><span>{item}</span><strong>{amount}</strong></li>)}</ul> : <ol className={s.steps}>{drink.steps.map((step, i) => <li key={step}><span>0{i + 1}</span><p>{step}</p></li>)}</ol>}
             <aside className={s.tip}><span>BAR NOTE</span><p>{drink.tip}</p></aside>
             <p className={s.adaptation}>{drink.source ? <>{drink.source.adaptation ? "Home adaptation · menu & illustration: " : "Recipe & photo: "}<a href={drink.source.url} target="_blank" rel="noreferrer">{drink.source.name} ↗</a></> : "Inspired by BLOOM. Home adaptation, not an official recipe."}</p>
